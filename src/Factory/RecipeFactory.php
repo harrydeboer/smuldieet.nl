@@ -25,6 +25,7 @@ class RecipeFactory extends AbstractFactory
         }
         $recipe = new Recipe();
         $recipe->setTitle(uniqid('recipe'));
+        $recipe->setNiceStory(uniqid('story'));
         $recipe->setUser($paramsParent['user']);
         $recipe->setTimestamp(time());
         $recipe->setPreparationMethod('test');
@@ -38,6 +39,7 @@ class RecipeFactory extends AbstractFactory
             $recipe->setVotes(0);
         }
         $recipe->setTimesSaved(rand(0,10000));
+        $recipe->setIsSelfInvented(rand(0, 1) === 1);
         $recipe->setPending(rand(0, 1) === 1);
         $recipe->setCookingTime(Recipe::COOKING_TIMES[array_rand(Recipe::COOKING_TIMES)]);
         $recipe->setKitchen(Recipe::KITCHEN[array_rand(Recipe::KITCHEN)]);

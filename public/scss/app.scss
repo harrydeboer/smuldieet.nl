@@ -74,17 +74,8 @@ body {
   display: none;
 }
 
-#recipe_isSelfInvented_placeholder {
-  display: none;
-}
-
-label[for=recipe_isSelfInvented_placeholder]
-{
-  display: none;
-}
-
-#recipeSource {
-  display: none;
+#recipe_isSelfInvented {
+  display: inline-block;
 }
 
 @media (max-width: 576px) {

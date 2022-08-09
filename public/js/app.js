@@ -7,6 +7,10 @@ $(function() {
         window.location.href = '/voedingsmiddel/letter/' + $(this).val();
     });
 
+    $('input[name="recipe[isSelfInvented]"]').on('change', function () {
+        $('#recipeSource').toggle();
+    });
+
     $('#recipeFilterIcon').on('click', function() {
         let form = $('#filter-sort-form');
         if (form.hasClass('d-none')) {

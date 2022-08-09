@@ -19,13 +19,13 @@
     <tr><td>Url video</td><td colspan="2">{{ form_widget(form.url) }}</td></tr>
     <tr><td>Ingrediënten</td><td colspan="2">{{ form_widget(form.ingredients) }}</td></tr>
     <tr><td>Bereidingswijze *</td><td colspan="2">{{ form_widget(form.preparationMethod) }}</td></tr>
-    <tr><td>Vertel iets leuks over dit recept</td><td colspan="2">{{ form_widget(form.niceStory) }}</td></tr>
+    <tr><td>Vertel iets leuks over dit recept *</td><td colspan="2">{{ form_widget(form.niceStory) }}</td></tr>
     <tr><td>Leuke tips</td><td colspan="2">{{ form_widget(form.niceTips) }}</td></tr>
     <tr><td>Hulpmiddelen en keukengerei</td><td colspan="2">{{ form_widget(form.toolsAndKitchenware) }}</td></tr>
     <tr><td>Aantal personen *</td><td colspan="2">{{ form_widget(form.numberOfPersons) }}</td></tr>
     <tr><td>Aantal stuks</td><td colspan="2">{{ form_widget(form.numberOfPieces) }}</td></tr>
-    <tr><td><td colspan="3">{{ form_widget(form.isSelfInvented) }}</td></tr>
-    <tr id="recipeSource"><td><td>Bron</td><td colspan="2">{{ form_widget(form.source) }}</td></tr>
+    <tr><td></td><td colspan="2">{{ form_widget(form.isSelfInvented) }} *</td></tr>
+    <tr id="recipeSource"><td>Bron</td><td colspan="2">{{ form_widget(form.source) }}</td></tr>
     <tr><td>Bereidingstijd *</td><td colspan="2">{{ form_widget(form.cookingTime) }}</td></tr>
     <tr><td>Keuken *</td><td colspan="2">{{ form_widget(form.kitchen) }}</td></tr>
     <tr><td>Type gerecht *</td><td colspan="2">{{ form_widget(form.typeOfDish) }}</td></tr>

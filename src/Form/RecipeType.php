@@ -45,7 +45,7 @@ class RecipeType extends AbstractType
             ->add('url', TextType::class, ['required' => false])
             ->add('ingredients', TextareaType::class, ['required' => false])
             ->add('preparationMethod', TextareaType::class)
-            ->add('niceStory', TextareaType::class, ['required' => false])
+            ->add('niceStory', TextareaType::class)
             ->add('niceTips', TextareaType::class, ['required' => false])
             ->add('toolsAndKitchenware', TextareaType::class, ['required' => false])
             ->add('numberOfPersons', IntegerType::class)
@@ -54,7 +54,6 @@ class RecipeType extends AbstractType
             ->add('isSelfInvented', ChoiceType::class, [
                 'choices' => ['zelf bedacht' => true, 'niet zelf bedacht' => false],
                 'expanded' => true,
-                'required' => false,
             ])
             ->add('cookingTime', ChoiceType::class, [
                 'placeholder' => 'selecteer bereidingstijd',

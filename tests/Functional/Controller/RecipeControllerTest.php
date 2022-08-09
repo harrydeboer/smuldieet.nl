@@ -27,6 +27,7 @@ class RecipeControllerTest extends AuthAdminWebTestCase
         $form['recipe[title]'] = 'test';
         $form['recipe[preparationMethod]'] = 'test';
         $form['recipe[niceStory]'] = 'test';
+        $form['recipe[isSelfInvented]'] = 0;
         $form['recipe[numberOfPersons]'] = 1;
         $form['recipe[cookingTime]'] = '0-10 min.';
         $form['recipe[kitchen]'] = 'Afrikaans';

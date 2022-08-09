@@ -175,10 +175,10 @@ class Recipe
     private string $preparationMethod;
 
     #[
-        ORM\Column(type: "text", nullable: true),
+        ORM\Column(type: "text"),
         Assert\Length(max: 65535, maxMessage: 'De leuke verhaal mag niet meer dan 65535 tekens hebben.'),
     ]
-    private ?string $niceStory;
+    private string $niceStory;
 
     #[
         ORM\Column(type: "text", nullable: true),
@@ -260,8 +260,8 @@ class Recipe
     ]
     private string $typeOfDish;
 
-    #[ORM\Column(type: "boolean", nullable: true)]
-    private ?bool $isSelfInvented = null;
+    #[ORM\Column(type: "boolean")]
+    private bool $isSelfInvented;
 
     #[ORM\Column(type: "string", nullable: true)]
     private ?string $source = null;
@@ -711,28 +711,24 @@ class Recipe
         $this->pending = $pending;
     }
 
-    public function getIsSelfInvented(): ?bool
+    public function getIsSelfInvented(): bool
     {
         return $this->isSelfInvented;
     }
 
-    public function setIsSelfInvented(?bool $isSelfInvented): void
+    public function setIsSelfInvented(bool $isSelfInvented): void
     {
         $this->isSelfInvented = $isSelfInvented;
     }
 
-    public function getNiceStory(): ?string
+    public function getNiceStory(): string
     {
         return $this->niceStory;
     }
 
-    public function setNiceStory(?string $niceStory): void
+    public function setNiceStory(string $niceStory): void
     {
-        if (is_null($niceStory)) {
-            $this->niceStory = null;
-        } else {
-            $this->niceStory = strip_tags($niceStory);
-        }
+        $this->niceStory = strip_tags($niceStory);
     }
 
     public function getNumberOfPieces(): ?int
