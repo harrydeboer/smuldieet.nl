@@ -71,6 +71,7 @@ class RecipeType extends AbstractType
             ->add('occasion', ChoiceType::class, [
                 'placeholder' => 'selecteer gelegenheid',
                 'choices' => array_combine(Recipe::OCCASION,Recipe::OCCASION),
+                'required' => false,
             ]);
         foreach (Recipe::DIET_CHOICES as $choice) {
             $builder->add($choice, CheckboxType::class, ['required' => false]);
