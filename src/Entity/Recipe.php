@@ -230,6 +230,14 @@ class Recipe
     private int $timesSaved = 0;
 
     #[
+        ORM\Column(type: "integer"),
+        Assert\GreaterThanOrEqual(0, message: 'Het aantal reacties moet groter of gelijk zijn aan 0.'),
+        Assert\LessThanOrEqual(2147483647,
+            message: 'Het aantal reacties moet kleiner of gelijk zijn aan 2147483647.'),
+    ]
+    private int $timesReacted = 0;
+
+    #[
         ORM\Column(type: "string"),
         Assert\Choice([], self::COOKING_TIMES, message: 'De bereidingstijd is niet een geldige optie.'),
     ]
@@ -410,6 +418,16 @@ class Recipe
     public function setTimesSaved(int $timesSaved): void
     {
         $this->timesSaved = $timesSaved;
+    }
+
+    public function getTimesReacted(): int
+    {
+        return $this->timesReacted;
+    }
+
+    public function setTimesReacted(int $timesReacted): void
+    {
+        $this->timesReacted = $timesReacted;
     }
 
     public function getOccasion(): ?string
@@ -774,6 +792,16 @@ class Recipe
         } else {
             $this->niceTips = strip_tags($niceTips);
         }
+    }
+
+    public function getTags(): ArrayCollection|Collection
+    {
+        return $this->tags;
+    }
+
+    public function setTags(ArrayCollection|Collection $tags): void
+    {
+        $this->tags = $tags;
     }
 
     public function addTag(Tag $tag): void
