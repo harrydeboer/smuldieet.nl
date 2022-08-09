@@ -162,11 +162,6 @@ class Recipe
     private ?string $url = null;
 
     #[
-        ORM\Column(type: "string", unique: true, nullable: true),
-    ]
-    private ?string $tags = null;
-
-    #[
         ORM\Column(type: "text", nullable: true),
         Assert\Length(max: 65535, maxMessage: 'De ingrediënten mogen niet meer dan 65535 tekens hebben.'),
     ]
@@ -261,6 +256,9 @@ class Recipe
     #[ORM\Column(type: "boolean", nullable: true)]
     private ?bool $isSelfInvented = null;
 
+    #[ORM\Column(type: "string", nullable: true)]
+    private ?string $source = null;
+
     #[ORM\Column(type: "boolean")]
     private bool $vegetarian = false;
 
@@ -311,6 +309,9 @@ class Recipe
     #[ORM\ManyToMany(targetEntity: "Cookbook", mappedBy: "recipes")]
     private Collection $cookbooks;
 
+    #[ORM\ManyToMany(targetEntity: "Tag", mappedBy: "recipes")]
+    private Collection $tags;
+
     #[ORM\Column(type: "string")]
     private string $foodstuffWeights = 'a:0:{}';
 
@@ -324,6 +325,7 @@ class Recipe
         $this->ratings = new ArrayCollection();
         $this->cookbooks = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->tags = new ArrayCollection();
     }
 
     public function getTimestamp(): int
@@ -722,20 +724,6 @@ class Recipe
         $this->numberOfPieces = $numberOfPieces;
     }
 
-    public function getTags(): ?string
-    {
-        return $this->tags;
-    }
-
-    public function setTags(?string $tags): void
-    {
-        if (is_null($tags)) {
-            $this->tags = null;
-        } else {
-            $this->tags = strip_tags($tags);
-        }
-    }
-
     public function getToolsAndKitchenware(): ?string
     {
         return $this->toolsAndKitchenware;
@@ -764,6 +752,16 @@ class Recipe
         }
     }
 
+    public function getSource(): ?string
+    {
+        return $this->source;
+    }
+
+    public function setSource(?string $source): void
+    {
+        $this->source = $source;
+    }
+
     public function getNiceTips(): ?string
     {
         return $this->niceTips;
@@ -776,5 +774,25 @@ class Recipe
         } else {
             $this->niceTips = strip_tags($niceTips);
         }
+    }
+
+    public function addTag(Tag $tag): void
+    {
+        if ($this->tags->contains($tag)) {
+            return;
+        }
+
+        $this->tags->add($tag);
+        $tag->addRecipe($this);
+    }
+
+    public function removeTag(Tag $tag): void
+    {
+        if (!$this->tags->contains($tag)) {
+            return;
+        }
+
+        $this->tags->removeElement($tag);
+        $tag->removeRecipe($this);
     }
 }

@@ -8,5 +8,5 @@ fi
 if [[ ${OSTYPE} == 'msys' ]]; then
   php ./vendor/bin/paratest -p$PROCESSES --configuration phpunit.xml
 else
-  docker exec -it --user=www-data nutrition php ./vendor/bin/paratest -p$PROCESSES --configuration phpunit.xml
+  docker exec -it --user=www-data smuldieet php ./vendor/bin/paratest -p$PROCESSES --configuration phpunit.xml
 fi

@@ -42,10 +42,20 @@ class RecipeType extends AbstractType
                 'required' => false,
             ])
             ->add('title', TextType::class)
+            ->add('url', TextType::class, ['required' => false])
             ->add('ingredients', TextareaType::class, ['required' => false])
             ->add('preparationMethod', TextareaType::class)
             ->add('niceStory', TextareaType::class)
+            ->add('niceTips', TextareaType::class, ['required' => false])
+            ->add('toolsAndKitchenware', TextareaType::class, ['required' => false])
             ->add('numberOfPersons', IntegerType::class)
+            ->add('numberOfPieces', IntegerType::class, ['required' => false])
+            ->add('source', TextType::class, ['required' => false])
+            ->add('isSelfInvented', ChoiceType::class, [
+                'choices' => ['zelf bedacht' => true, 'niet zelf bedacht' => false],
+                'expanded' => true,
+                'required' => false,
+            ])
             ->add('cookingTime', ChoiceType::class, [
                 'placeholder' => 'selecteer bereidingstijd',
                 'choices' => array_combine(Recipe::COOKING_TIMES,Recipe::COOKING_TIMES),
@@ -57,6 +67,10 @@ class RecipeType extends AbstractType
             ->add('typeOfDish', ChoiceType::class, [
                 'placeholder' => 'selecteer gerecht',
                 'choices' => array_combine(Recipe::TYPE_OF_DISH,Recipe::TYPE_OF_DISH),
+            ])
+            ->add('occasion', ChoiceType::class, [
+                'placeholder' => 'selecteer gelegenheid',
+                'choices' => array_combine(Recipe::OCCASION,Recipe::OCCASION),
             ]);
         foreach (Recipe::DIET_CHOICES as $choice) {
             $builder->add($choice, CheckboxType::class, ['required' => false]);

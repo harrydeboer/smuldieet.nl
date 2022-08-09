@@ -74,6 +74,19 @@ body {
   display: none;
 }
 
+#recipe_isSelfInvented_placeholder {
+  display: none;
+}
+
+label[for=recipe_isSelfInvented_placeholder]
+{
+  display: none;
+}
+
+#recipeSource {
+  display: none;
+}
+
 @media (max-width: 576px) {
   #abcSelect {
     display: block;
