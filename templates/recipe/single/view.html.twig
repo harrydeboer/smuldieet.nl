@@ -26,6 +26,7 @@
         <tr><td>Titel</td><td>{{ recipe.title }}</td></tr>
         <tr><td>Ingrediënten</td><td>{{ recipe.ingredients }}</td></tr>
         <tr><td>Bereidingswijze</td><td>{{ recipe.preparationMethod }}</td></tr>
+        <tr><td>Vertel iets leuks over dit recept</td><td>{{ recipe.niceStory }}</td></tr>
         <tr><td>Aantal personen</td><td>{{ recipe.numberOfPersons }}</td></tr>
         {% if recipe.rating is null %}
             <tr><td>Beoordeling</td><td>N/B</td></tr>

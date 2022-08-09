@@ -44,6 +44,7 @@ class RecipeType extends AbstractType
             ->add('title', TextType::class)
             ->add('ingredients', TextareaType::class, ['required' => false])
             ->add('preparationMethod', TextareaType::class)
+            ->add('niceStory', TextareaType::class)
             ->add('numberOfPersons', IntegerType::class)
             ->add('cookingTime', ChoiceType::class, [
                 'placeholder' => 'selecteer bereidingstijd',

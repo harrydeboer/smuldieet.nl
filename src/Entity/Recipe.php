@@ -25,6 +25,23 @@ class Recipe
 
     public const COOKING_TIMES = ['0-10 min.', '10-20 min.', '20-30 min.', '30-60 min.', '> 1 uur', '> 2 uur'];
 
+    public const OCCASION = [
+        'Familiediner',
+        'Halloween',
+        'Kerstmis',
+        'Kinderfeestje',
+        'Moederdag',
+        'Nieuwjaar',
+        'Oudjaar',
+        'Pasen',
+        'Receptie',
+        'Sinterklaas',
+        'Suikerfeest',
+        'Vakantie',
+        'Valentijn',
+        'Verjaardag',
+    ];
+
     public const KITCHEN = [
         'Afrikaans',
         'Amerikaans',
@@ -90,6 +107,7 @@ class Recipe
         'Wereld',
         'Zwitsers',
     ];
+
     public const TYPE_OF_DISH = [
         'Alcoholische dranken',
         'Amuse',
@@ -139,6 +157,16 @@ class Recipe
     private string $title;
 
     #[
+        ORM\Column(type: "string", unique: true, nullable: true),
+    ]
+    private ?string $url = null;
+
+    #[
+        ORM\Column(type: "string", unique: true, nullable: true),
+    ]
+    private ?string $tags = null;
+
+    #[
         ORM\Column(type: "text", nullable: true),
         Assert\Length(max: 65535, maxMessage: 'De ingrediënten mogen niet meer dan 65535 tekens hebben.'),
     ]
@@ -152,11 +180,37 @@ class Recipe
     private string $preparationMethod;
 
     #[
+        ORM\Column(type: "text"),
+        Assert\Length(min: 1, max: 65535, minMessage: 'Het leuke verhaal mag niet leeg zijn.',
+            maxMessage: 'De leuke verhaal mag niet meer dan 65535 tekens hebben.'),
+    ]
+    private string $niceStory;
+
+    #[
+        ORM\Column(type: "text", nullable: true),
+        Assert\Length(max: 65535, maxMessage: 'De leuke tips mogen niet meer dan 65535 tekens hebben.'),
+    ]
+    private ?string $niceTips = null;
+
+    #[
+        ORM\Column(type: "text", nullable: true),
+        Assert\Length(max: 65535, maxMessage: 'De hulpmiddelen/keukengerei mogen niet meer dan 65535 tekens hebben.'),
+    ]
+    private ?string $toolsAndKitchenware = null;
+
+    #[
         ORM\Column(type: "integer"),
         Assert\GreaterThanOrEqual(1, message: 'Het aantal personen moet groter of gelijk zijn aan 1.'),
         Assert\LessThanOrEqual(2147483647, message: 'Het aantal personen moet kleiner of gelijk zijn aan 2147483647.'),
     ]
     private int $numberOfPersons;
+
+    #[
+        ORM\Column(type: "integer", nullable: true),
+        Assert\GreaterThanOrEqual(1, message: 'Het aantal stuks moet groter of gelijk zijn aan 1.'),
+        Assert\LessThanOrEqual(2147483647, message: 'Het aantal stuks moet kleiner of gelijk zijn aan 2147483647.'),
+    ]
+    private ?int $numberOfPieces = null;
 
     #[
         ORM\Column(type: "float", nullable: true),
@@ -193,10 +247,19 @@ class Recipe
     private string $kitchen;
 
     #[
+        ORM\Column(type: "string", nullable: true),
+        Assert\Choice([], self::OCCASION, message: 'De gelegenheid is niet een geldige optie.'),
+    ]
+    private ?string $occasion = null;
+
+    #[
         ORM\Column(type: "string"),
         Assert\Choice([], self::TYPE_OF_DISH, message: 'Het type gerecht is niet een geldige optie.'),
     ]
     private string $typeOfDish;
+
+    #[ORM\Column(type: "boolean", nullable: true)]
+    private ?bool $isSelfInvented = null;
 
     #[ORM\Column(type: "boolean")]
     private bool $vegetarian = false;
@@ -345,6 +408,19 @@ class Recipe
     public function setTimesSaved(int $timesSaved): void
     {
         $this->timesSaved = $timesSaved;
+    }
+
+    public function getOccasion(): ?string
+    {
+        return $this->occasion;
+    }
+
+    public function setOccasion(?string $occasion): void
+    {
+        if (!in_array($occasion, self::OCCASION)) {
+            throw new InvalidArgumentException("Invalid occasion.");
+        }
+        $this->occasion = $occasion;
     }
 
     public function getCookingTime(): string
@@ -614,5 +690,91 @@ class Recipe
     public function setPending(bool $pending): void
     {
         $this->pending = $pending;
+    }
+
+    public function getIsSelfInvented(): ?bool
+    {
+        return $this->isSelfInvented;
+    }
+
+    public function setIsSelfInvented(?bool $isSelfInvented): void
+    {
+        $this->isSelfInvented = $isSelfInvented;
+    }
+
+    public function getNiceStory(): string
+    {
+        return $this->niceStory;
+    }
+
+    public function setNiceStory(string $niceStory): void
+    {
+        $this->niceStory = strip_tags($niceStory);
+    }
+
+    public function getNumberOfPieces(): ?int
+    {
+        return $this->numberOfPieces;
+    }
+
+    public function setNumberOfPieces(?int $numberOfPieces): void
+    {
+        $this->numberOfPieces = $numberOfPieces;
+    }
+
+    public function getTags(): ?string
+    {
+        return $this->tags;
+    }
+
+    public function setTags(?string $tags): void
+    {
+        if (is_null($tags)) {
+            $this->tags = null;
+        } else {
+            $this->tags = strip_tags($tags);
+        }
+    }
+
+    public function getToolsAndKitchenware(): ?string
+    {
+        return $this->toolsAndKitchenware;
+    }
+
+    public function setToolsAndKitchenware(?string $toolsAndKitchenware): void
+    {
+        if (is_null($toolsAndKitchenware)) {
+            $this->toolsAndKitchenware = null;
+        } else {
+            $this->toolsAndKitchenware = strip_tags($toolsAndKitchenware);
+        }
+    }
+
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
+    public function setUrl(?string $url): void
+    {
+        if (is_null($url)) {
+            $this->url = null;
+        } else {
+            $this->url = strip_tags($url);
+        }
+    }
+
+    public function getNiceTips(): ?string
+    {
+        return $this->niceTips;
+    }
+
+    public function setNiceTips(?string $niceTips): void
+    {
+        if (is_null($niceTips)) {
+            $this->niceTips = null;
+        } else {
+            $this->niceTips = strip_tags($niceTips);
+        }
     }
 }
