@@ -45,7 +45,7 @@ class RecipeType extends AbstractType
             ->add('url', TextType::class, ['required' => false])
             ->add('ingredients', TextareaType::class, ['required' => false])
             ->add('preparationMethod', TextareaType::class)
-            ->add('niceStory', TextareaType::class)
+            ->add('niceStory', TextareaType::class, ['required' => false])
             ->add('niceTips', TextareaType::class, ['required' => false])
             ->add('toolsAndKitchenware', TextareaType::class, ['required' => false])
             ->add('numberOfPersons', IntegerType::class)
