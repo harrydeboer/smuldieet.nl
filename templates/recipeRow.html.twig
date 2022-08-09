@@ -1,0 +1,25 @@
+{% if rowNumber is not defined %}
+    {% set rowNumber = 'ROW_IDR' %}
+    {% set id = '' %}
+    {% set title = '' %}
+    {% set weight = '1' %}
+{% endif %}
+<tr id="row{{ rowNumber }}">
+    <td><input type="hidden" name="{{ formName }}[recipeIds][]" id="recipeValue{{ rowNumber }}"
+               value="{{ id }}" required>
+        <div class="dropdown">
+            <input type="text" class="recipeName dropdown-toggle" maxlength="255"
+                   id="recipeName{{ rowNumber }}" value="{{ title }}"
+                   data-bs-toggle="dropdown" placeholder="recept" aria-expanded="false" required>
+            <div id="searchResult{{ rowNumber }}" class="dropdown-menu dropdown-menu-recipe"
+                 aria-labelledby="recipeName{{ rowNumber}}">
+            </div>
+        </div></td>
+    {% if formName == 'cookbook' %}
+        <td></td>
+    {% else %}
+        <td><input type="text" name="{{ formName }}[recipeWeights][]"
+                   placeholder="aantal keer" value="{{ weight }}" required></td>
+    {% endif %}
+    <td><i class="removeRow fa fa-minus" id="removeRow{{ rowNumber }}"></i></td>
+</tr>

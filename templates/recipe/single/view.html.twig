@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Recept{% endblock %}
+
+{% block body %}
+    {% if isLoggedIn %}
+        <div id="formErrors"></div>
+        {{ form_start(form) }}
+        {{ form_errors(form) }}
+        {{ form_errors(form.rating) }}
+        {{ form_errors(form.content) }}
+        <table>
+            <tr><td>Beoordeling</td><td>{{ form_widget(form.rating) }}</td>
+            <tr><td>Review</td><td>{{ form_widget(form.content) }}</td>
+            <tr><td colspan="2">{{ form_widget(form.submit, { 'label': 'Beoordeel' }) }}</td>
+        </tr>
+        </table>
+        {{ form_end(form) }}
+    {% endif %}
+    <table class="table">
+        <tr><td colspan="2">
+                {% if recipe.imageExtension is not null %}
+                    <img src="{{  asset(recipe.getImagePath(appEnv)) }}" id="recipe-image" alt="recipe">
+                {% endif %}
+            </td></tr>
+        <tr><td>Titel</td><td>{{ recipe.title }}</td></tr>
+        <tr><td>Ingrediënten</td><td>{{ recipe.ingredients }}</td></tr>
+        <tr><td>Bereidingswijze</td><td>{{ recipe.preparationMethod }}</td></tr>
+        <tr><td>Aantal personen</td><td>{{ recipe.numberOfPersons }}</td></tr>
+        {% if recipe.rating is null %}
+            <tr><td>Beoordeling</td><td>N/B</td></tr>
+        {% else %}
+            <tr><td>Beoordeling</td><td>{{ recipe.rating|number_format(1) }} <i class="fas fa-star"></i></td></tr>
+        {% endif %}
+        <tr><td>Aantal stemmen</td><td>{{ recipe.votes }}</td></tr>
+        <tr><td>Aantal keer bewaard</td><td>{{ recipe.timesSaved }}</td></tr>
+        <tr><td>Bereidingstijd</td><td>{{ recipe.cookingTime }}</td></tr>
+        <tr><td>Keuken</td><td>{{ recipe.kitchen }}</td></tr>
+        <tr><td>Type gerecht</td><td>{{ recipe.typeOfDish }}</td></tr>
+        {% for key,choice in constant('DIET_CHOICES', recipe)  %}
+            <tr><td>{{ key }}</td><td>{{ attribute(recipe, choice) }}</td></tr>
+        {% endfor %}
+        {% for rowNumber, foodstuff in recipe.foodstuffs %}
+            <tr id="row{{ rowNumber + 1 }}">
+                <td>{{ foodstuff.name }}</td>
+                <td>{{ recipe.foodstuffWeights[foodstuff.id]|number_format }}</td>
+            </tr>
+        {% endfor %}
+        {% if currentUserId == recipe.user.id %}
+            <tr><td colspan="2"><a href="{{ path('recipeEdit', {'id': recipe.id}) }}">wijzig</a></td></tr>
+        {% endif %}
+    </table>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Recepten{% endblock %}
+
+{% block body %}
+    <h1>Recepten</h1>
+    <a href="{{ path('recipeCreate') }}">Maak een recept</a>
+    <table class="table table-striped">
+        {% for recipe in paginator.results %}
+            <tr>
+                <td>
+                    {% if recipe.imageExtension is not null %}
+                        <img src="{{ asset(recipe.getImagePath(appEnv)) }}"
+                             alt="label"
+                             class="recipe-image">
+                    {% endif %}
+                </td>
+                <td><a href="{{ path('recipeSingle', {'id': recipe.id}) }}">{{ recipe.title }}</a></td>
+                <td>{{ recipe.rating }} <i class="fas fa-star"></i></td>
+                <td><a href="{{ path('recipeEdit', {'id': recipe.id }) }}">wijzig</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+    {{ include('pagination/view.html.twig', {route: 'recipeIndexPaginated'}) }}
+{% endblock %}

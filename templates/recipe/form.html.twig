@@ -1,0 +1,43 @@
+<div id="formErrorsClient"></div>
+<div id="formErrorsServer">
+    {{ form_errors(form) }}
+    {{ form_errors(form.title) }}
+    {{ form_errors(form.ingredients) }}
+    {{ form_errors(form.preparationMethod) }}
+    {{ form_errors(form.numberOfPersons) }}
+    {{ form_errors(form.cookingTime) }}
+    {{ form_errors(form.kitchen) }}
+    {{ form_errors(form.typeOfDish) }}
+    {% for key,choice in constant('DIET_CHOICES', recipe) %}
+        {{ form_errors(attribute(form, choice)) }}
+    {% endfor %}
+</div>
+{{ form_start(form) }}
+<table class="createUpdateTable">
+    <tr><td>Afbeelding</td><td colspan="2">{{ form_widget(form.image) }}</td></tr>
+    <tr><td>Titel</td><td colspan="2">{{ form_widget(form.title) }}</td></tr>
+    <tr><td>Ingrediënten</td><td colspan="2">{{ form_widget(form.ingredients) }}</td></tr>
+    <tr><td>Bereidingswijze</td><td colspan="2">{{ form_widget(form.preparationMethod) }}</td></tr>
+    <tr><td>Aantal personen</td><td colspan="2">{{ form_widget(form.numberOfPersons) }}</td></tr>
+    <tr><td>Bereidingstijd</td><td colspan="2">{{ form_widget(form.cookingTime) }}</td></tr>
+    <tr><td>Keuken</td><td colspan="2">{{ form_widget(form.kitchen) }}</td></tr>
+    <tr><td>Type gerecht</td><td colspan="2">{{ form_widget(form.typeOfDish) }}</td></tr>
+    {% for key,choice in constant('DIET_CHOICES', recipe) %}
+        <tr><td>{{ key }}</td><td colspan="2">{{ form_widget(attribute(form, choice)) }}</td></tr>
+    {% endfor %}
+    {% for rowNumber, foodstuff in recipe.foodstuffs %}
+        {{ include('foodstuffRow.html.twig', {'rowNumber': rowNumber + 1, 'formName': 'recipe',
+            'entity': recipe, 'id': foodstuff.id, 'name': foodstuff.name,
+            'weight': recipe.foodstuffWeights[foodstuff.id]}) }}
+    {% endfor %}
+    <tr><td colspan="3">{{ form_widget(form.submit, { 'label': submitLabel }) }}</td></tr>
+</table>
+<div class="d-none">
+    {{ form_widget(form.foodstuffs) }}
+    {{ form_widget(form.foodstuffWeights) }}
+</div>
+{{ form_end(form) }}
+<table class="d-none">
+    {{ include('foodstuffRow.html.twig', {'formName': 'recipe'}) }}
+</table>
+<button class="btn btn-primary" id="addFoodstuff">Voeg voedingsmiddel toe</button>

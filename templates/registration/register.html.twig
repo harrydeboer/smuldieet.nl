@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Registreer{% endblock %}
+
+{% block body %}
+    <h1>Registreer</h1>
+
+    {{ include('registration/form.html.twig', {form: form, submitLabel: 'Registreer'}) }}
+{% endblock %}

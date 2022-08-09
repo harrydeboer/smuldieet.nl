@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang=”nl”>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="recept, voedingsmiddel"/>
+    <meta name="description" content="Op deze site kun je alles invoeren qua eten en drinken en
+        zien welke voedingswaarden je binnen krijgt."/>
+    <meta name="author" content="Harry" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="theme-color" content="#336699">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('/img/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('/img/favicon-32x32.png') }}" sizes="32x32">
+    <link rel="icon" type="image/png" href="{{ asset('/img/favicon-16x16.png') }}" sizes="16x16">
+    <link rel="manifest" href="{{ asset('/img/site.webmanifest') }}">
+    <link rel="mask-icon" href="{{ asset('/img/safari-pinned-tab.svg') }}">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" >
+    <link rel="stylesheet" href="{{ asset('/css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('/fontawesome/css/fontawesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('/fontawesome/css/brands.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('/fontawesome/css/solid.min.css') }}">
+    <title>{% block title %}{% endblock %}</title>
+    {% block stylesheets %}
+    {% endblock %}
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbar-supported-content"
+                aria-controls="navbar-supported-content"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar-supported-content">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li><a href="{{ path('homepage') }}">Home</a></li>
+                <li><a href="{{ path('appLogin') }}"><i class="fas fa-user"></i></a></li>
+                <li><a href="{{ path('foodstuff') }}">Voedingsmiddel</a></li>
+                <li><a href="{{ path('day') }}">Dag</a></li>
+                <li><a href="{{ path('recipe') }}">Recept</a></li>
+                <li><a href="{{ path('cookbook') }}">Kookboek</a></li>
+                <li><a href="{{ path('overview') }}">Overzicht</a></li>
+            </ul>
+            <div id="navigation-border"></div>
+            {% block navlist %}{% endblock %}
+        </div>
+    </div>
+</nav>
+{% block body %}
+{% endblock %}
+</body>
+<script src="{{ asset('js/jquery.min.js') }}"></script>
+<script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('/js/app.min.js') }}"></script>
+{% block javascripts %}
+{% endblock %}
+</html>

@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Voedingsmiddel{% endblock %}
+
+{% block body %}
+    <table class="table">
+        <tr><td>Naam</td><td>{{ foodstuff.name }}</td></tr>
+        {% if isLoggedIn %}
+            {% for key, property in foodstuff.aDH() %}
+                <tr><td>{{ property[3]}} {{ property[2] }}</td>
+                {% if attribute(foodstuff, key) is null %}
+                    <td>N/B</td></tr>
+                {% else %}
+                    <td>{{ attribute(foodstuff, key)|number_format(property[4]) }}</td></tr>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <tr><td colspan="2"><a href="{{ path('appLogin') }}">Log in om alle waarden te zien.</a></td></tr>
+        {% endif %}
+        <tr><td colspan="2">
+                {% if foodstuff.user is not null %}
+                    <a href="{{ path('foodstuffEdit', {'id': foodstuff.id}) }}">wijzig</a>
+                {% elseif isAdmin %}
+                    <a href="{{ path('foodstuffEdit', {'id': foodstuff.id}) }}">wijzig</a>
+                {% endif %}
+            </td></tr>
+    </table>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Voedingsmiddelen{% endblock %}
+
+{% block body %}
+    <h1>Voedingsmiddelen</h1>
+    <a href="{{ path('foodstuffCreate') }}">Maak een voedingsmiddel</a><br>
+    <a href="{{ path('foodstuffFromFoodstuffsCreate') }}">Maak een voedingsmiddel van voedingsmiddelen</a><br>
+    <select id="abcSelect">
+        {% for char in 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z'|split(',') %}
+            {% if char == charSelected %}
+                <option value="{{ char }}" selected>{{ char }}</option>
+            {% else %}
+                <option value="{{ char }}">{{ char }}</option>
+            {% endif %}
+        {% endfor %}
+    </select>
+    <div id="abcChars">
+        {% for char in 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z'|split(',') %}
+            <a href="{{ path('foodstuffChar', {'char': char}) }}">{{ char }}</a>
+        {% endfor %}
+    </div>
+    <table class="table table-striped">
+        {% for foodstuff in foodstuffs %}
+            <tr>
+                <td><a href="{{ path('foodstuffSingle', {'id': foodstuff.id}) }}">{{ foodstuff.name }}</a></td>
+                <td><a href="{{ path('foodstuffEdit', {'id': foodstuff.id }) }}">wijzig</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

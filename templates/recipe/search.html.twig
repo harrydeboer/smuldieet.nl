@@ -1,0 +1,3 @@
+{% for recipe in recipes %}
+    <div id="recipeDiv{{ recipe.id }}" data-row="{{ rowId }}" class="recipeDiv">{{ recipe.title }}</div>
+{% endfor %}

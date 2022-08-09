@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Overzicht{% endblock %}
+
+{% block body %}
+    <h1>Overzicht</h1>
+    <div id="formErrorsClient"></div>
+    <div id="formErrorsServer">
+        {{ form_errors(form) }}
+        {{ form_errors(form.start) }}
+        {{ form_errors(form.end) }}
+    </div>
+    {{ form_start(form, {'attr': {'id': 'overview-form'}}) }}
+    {{ form_widget(form.start) }}
+    {{ form_widget(form.end) }}
+    {{ form_widget(form.submit, { 'label': 'Bekijk' }) }}
+    {{ form_end(form) }}
+    {% if stats is not empty %}
+        <table>
+            <tr id="overviewLegend"><td>Voedingswaarde</td><td>Min</td><td>Max</td><td>Gerealiseerd</td></tr>
+            {% for key,property in stats %}
+                <tr><td>{{ property[3] }} {{ property[2] }}</td><td>{{ property[0] }}</td><td>{{ property[1] }}</td>
+                    <td>{{ property[5]|number_format(property[4]) }}</td></tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+{% endblock %}

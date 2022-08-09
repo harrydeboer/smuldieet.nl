@@ -1,0 +1,27 @@
+<div id="formErrorsClient"></div>
+<div id="formErrorsServer">
+    {{ form_errors(form) }}
+    {{ form_errors(form.username) }}
+    {{ form_errors(form.email) }}
+    {{ form_errors(form.birthday) }}
+    {{ form_errors(form.gender) }}
+    {{ form_errors(form.weight) }}
+    {{ form_errors(form.plainPassword) }}
+    {{ form_errors(form.plainPassword.children.first) }}
+    {{ form_errors(form.plainPassword.children.second) }}
+</div>
+{{ form_start(form) }}
+<table id="registerTable">
+    <tr><td>Foto</td><td>{{ form_widget(form.image) }}</td></tr>
+    <tr><td>Gebruikersnaam</td><td>{{ form_widget(form.username) }}</td></tr>
+    <tr><td>Email</td><td>{{ form_widget(form.email) }}</td></tr>
+    <tr><td>Verjaardag (dd-mm-jjjj)</td><td>{{ form_widget(form.birthday) }}</td></tr>
+    <tr><td>Geslacht</td><td>{{ form_widget(form.gender) }}</td></tr>
+    <tr><td>Gewicht</td><td>{{ form_widget(form.weight) }}</td></tr>
+    <tr><td>Wachtwoord</td>
+        <td>{{ form_widget(form.plainPassword.children.first) }}</td></tr>
+    <tr><td>Herhaal wachtwoord</td>
+        <td>{{ form_widget(form.plainPassword.children.second) }}</td></tr>
+    <tr><td colspan="2">{{ form_widget(form.register, { 'label': submitLabel }) }}</td></tr>
+</table>
+{{ form_end(form) }}

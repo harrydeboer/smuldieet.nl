@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Maak standaard dag{% endblock %}
+
+{% block body %}
+    {{ include('day/form.html.twig', {form: form, submitLabel: 'Standaard dag opslaan'}) }}
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('js/foodstuffsRecipesForm.min.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Wijzig{% endblock %}
+
+{% block body %}
+    {{ include('cookbook/form.html.twig', {form: formUpdate, submitLabel: 'Wijzig kookboek', cookbook: cookbook}) }}
+    <br>
+    {{ include('deleteModal.html.twig', {
+        entityName: 'kookboek',
+        warning: 'Weet je zeker dat je dit kookboek wil verwijderen?'
+    }) }}
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('js/foodstuffsRecipesForm.min.js') }}"></script>
+{% endblock %}

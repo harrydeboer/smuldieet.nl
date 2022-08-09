@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Maak voedingsmiddel van voedingsmiddelen{% endblock %}
+
+{% block body %}
+    <div id="formErrorsClient"></div>
+    <div id="formErrorsServer">
+        {{ form_errors(form) }}
+        {{ form_errors(form.name) }}
+        {{ form_errors(form.noUser) }}
+    </div>
+    {{ form_start(form) }}
+    <table class="createUpdateTable">
+        <tr><td>Naam</td><td colspan="2">{{ form_widget(form.name) }}</td></tr>
+        {% if isAdmin %}
+            <tr><td>Geen Gebruiker</td><td colspan="2">{{ form_widget(form.noUser) }}</td></tr>
+        {% else %}
+            <tr class="d-none"><td>Geen Gebruiker</td><td colspan="2">{{ form_widget(form.noUser) }}</td></tr>
+        {% endif %}
+        <tr><td colspan="3">{{ form_widget(form.submit, { 'label': 'Voedingsmiddel opslaan' }) }}</td></tr>
+    </table>
+    <div class="d-none">
+        {{ form_widget(form.foodstuffs) }}
+        {{ form_widget(form.foodstuffWeights) }}
+    </div>
+    {{ form_end(form) }}
+    <table class="d-none">
+        {{ include('foodstuffRow.html.twig', {'formName': 'foodstuff_from_foodstuffs'}) }}
+    </table>
+    <button class="btn btn-primary" id="addFoodstuff">Voeg voedingsmiddel toe</button>
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('js/foodstuffsRecipesForm.min.js') }}"></script>
+{% endblock %}

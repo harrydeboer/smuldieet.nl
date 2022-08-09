@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Kookboeken{% endblock %}
+
+{% block body %}
+    <h1>Kookboeken</h1>
+    <a href="{{ path('cookbookCreate') }}">Maak een kookboek</a>
+    <table class="table table-striped">
+        {% for cookbook in cookbooks %}
+            <tr>
+                <td><a href="{{ path('cookbookSingle', {'id': cookbook.id}) }}">{{ cookbook.title }}</a></td>
+                <td><a href="{{ path('cookbookEdit', {'id': cookbook.id }) }}">wijzig</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

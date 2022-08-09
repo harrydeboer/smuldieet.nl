@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      dockerfile: docker/web/Dockerfile
+      context: .
+    working_dir: /var/www/html
+    container_name: smuldieet
+    ports:
+      - "80:80"
+    networks:
+      smuldieet:
+    depends_on:
+      - database
+  database:
+    image: mysql:8.0
+    container_name: smuldieetDb
+    env_file: .env.local
+    volumes:
+      - mysqldata:/var/lib/mysql
+    networks:
+      smuldieet:
+
+volumes:
+  mysqldata:
+    driver: local
+
+networks:
+  smuldieet:
+    ipam:
+      driver: default

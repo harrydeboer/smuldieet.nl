@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dagen{% endblock %}
+
+{% block body %}
+    <h1>Dagen</h1>
+    <a href="{{ path('dayCreate') }}">Maak een dag</a>
+    {% if standardDay is not null %}
+        <a href="{{ path('dayEdit', {'id': standardDay.id}) }}">Wijzig de standaard dag</a>
+    {% else %}
+        <a href="{{ path('dayCreateStandard') }}">Maak de standaard dag</a>
+    {% endif %}
+    <table class="table table-striped">
+        <tr><td>Datum</td><td>Wijzig</td></tr>
+        {% for day in paginator.results %}
+            <tr>
+                <td><a href="{{ path('daySingle', {'id': day.id}) }}">{{ day.date }}</a></td>
+                <td><a href="{{ path('dayEdit', {'id': day.id }) }}">wijzig</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+    {{ include('pagination/view.html.twig', {route: 'dayIndexPaginated'}) }}
+{% endblock %}

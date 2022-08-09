@@ -1,0 +1,39 @@
+<div id="formErrorsClient"></div>
+<div id="formErrorsServer">
+    {{ form_errors(form) }}
+</div>
+{{ form_start(form) }}
+{% if form.date is defined %}
+    {{ form_errors(form.date) }}
+{% endif %}
+<table class="createUpdateTable">
+    {% if form.date is defined %}
+        <tr><td>Datum (dd-mm-jjjj)</td><td colspan="2">{{ form_widget(form.date) }}</td></tr>
+        {% set formName = 'day' %}
+    {% else %}
+        {% set formName = 'standard_day' %}
+    {% endif %}
+    {% for rowNumber, foodstuff in day.foodstuffs %}
+        {{ include('foodstuffRow.html.twig', {'rowNumber': rowNumber + 1, 'formName': formName,
+            'id': foodstuff.id, 'name': foodstuff.name, 'weight': day.foodstuffWeights[foodstuff.id]}) }}
+    {% endfor %}
+    {% for rowNumber, recipe in day.recipes %}
+        {% set rowNumberRecipe = rowNumber + day.foodstuffs.count + 1 %}
+        {{ include('recipeRow.html.twig', {'rowNumber': rowNumberRecipe, 'formName': formName,
+            'id': recipe.id, 'title': recipe.title, 'weight': day.recipeWeights[recipe.id]}) }}
+    {% endfor %}
+    <tr><td colspan="3">{{ form_widget(form.submit, { 'label': submitLabel }) }}</td></tr>
+</table>
+<div class="d-none">
+    {{ form_widget(form.foodstuffs) }}
+    {{ form_widget(form.foodstuffWeights) }}
+    {{ form_widget(form.recipeIds) }}
+    {{ form_widget(form.recipeWeights) }}
+</div>
+{{ form_end(form) }}
+<table class="d-none">
+    {{ include('foodstuffRow.html.twig', {'formName': formName}) }}
+    {{ include('recipeRow.html.twig', {'formName': formName}) }}
+</table>
+<button class="btn btn-primary" id="addFoodstuff">Voeg voedingsmiddel toe</button>
+<button class="btn btn-primary" id="addRecipe">Voeg recept toe</button>

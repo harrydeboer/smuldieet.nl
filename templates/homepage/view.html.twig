@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+    <div>
+        <i id="recipeFilterIcon" class="fas fa-sliders-h"></i>
+    </div>
+
+    <div id="formErrorsClient"></div>
+    <div id="formErrorsServer">
+        {{ form_errors(form) }}
+        {{ form_errors(form.title) }}
+        {{ form_errors(form.numberOfPersons) }}
+        {{ form_errors(form.votes) }}
+        {{ form_errors(form.cookingTime) }}
+        {{ form_errors(form.kitchen) }}
+        {{ form_errors(form.typeOfDish) }}
+        {% for key,choice in dietChoices %}
+            {{ form_errors(attribute(form, choice)) }}
+        {% endfor %}
+        {{ form_errors(form.sort) }}
+    </div>
+    {% if isFiltered %}
+        {{ form_start(form, {'attr': {'id': 'filter-sort-form'}}) }}
+    {% else %}
+        {{ form_start(form, {'attr': {'id': 'filter-sort-form', 'class': 'd-none'}}) }}
+    {% endif %}
+    {{ form_widget(form.title) }}
+    {{ form_widget(form.numberOfPersons) }}
+    {{ form_widget(form.votes) }}
+    {{ form_widget(form.cookingTime) }}
+    {{ form_widget(form.kitchen) }}
+    {{ form_widget(form.typeOfDish) }}
+    {% for key,choice in dietChoices %}
+        {{ key }} {{ form_widget(attribute(form, choice)) }}
+    {% endfor %}
+    {{ form_widget(form.sort) }}
+    {{ form_widget(form.show, { 'label': 'Toon' }) }}
+    {{ form_end(form) }}
+    <table class="table table-striped">
+        {% for recipe in paginator.results %}
+            <tr>
+                <td class="d-none d-lg-table-cell">
+                    {% if recipe.imageExtension is not null %}
+                        <img src="{{ asset(recipe.getImagePath(appEnv)) }}"
+                             alt="label" class="recipe-image">
+                    {% endif %}
+                </td>
+                <td><a href="{{ path('recipeSingle', {'id': recipe.id}) }}">{{ recipe.title }}</a></td>
+                {% if recipe.rating is null %}
+                    <td><span class="nowrap">N/B</span></td>
+                {% else %}
+                    <td>
+                        <span class="nowrap">{{ recipe.rating|number_format(1) }} <i class="fas fa-star"></i></span>
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </table>
+    {{ include('pagination/view.html.twig', {route: 'homepageIndexPaginated'}) }}
+{% endblock %}

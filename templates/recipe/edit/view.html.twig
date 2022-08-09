@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Wijzig{% endblock %}
+
+{% block body %}
+    {{ include('recipe/form.html.twig', {form: formUpdate, submitLabel: 'Wijzig recept', recipe: recipe}) }}
+    <br>
+    {{ include('deleteModal.html.twig', {
+        entityName: 'recept',
+        warning: 'Weet je zeker dat je dit recept wil verwijderen?'
+    }) }}
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('js/foodstuffsRecipesForm.min.js') }}"></script>
+{% endblock %}

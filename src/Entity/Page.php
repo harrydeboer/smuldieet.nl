@@ -1,0 +1,165 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Entity;
+
+use App\Repository\PageRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\Pure;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+
+#[
+    ORM\Entity(repositoryClass: PageRepository::class),
+    ORM\Table(name: "page"),
+    ORM\UniqueConstraint(name: "title_unique", fields: ["title"]),
+    ORM\UniqueConstraint(name: "slug_unique", fields: ["slug"]),
+    UniqueEntity(fields: ["title"], message: "Er is al een pagina met deze titel."),
+    UniqueEntity(fields: ["slug"], message: "Er is al een pagina met deze slug."),
+]
+class Page
+{
+    #[
+        ORM\Id,
+        ORM\Column(type: "integer"),
+        ORM\GeneratedValue(strategy: "IDENTITY"),
+    ]
+    private int $id;
+
+    #[
+        ORM\Column(type: "string"),
+        Assert\Length(min: 1, max: 255, minMessage: 'De titel mag niet leeg zijn.',
+            maxMessage: 'De titel mag niet meer dan 255 tekens hebben.'),
+        Assert\Regex(pattern: "/^[A-zÀ-ÿ0-9_\s\-'\",\.\*&^%$#!@:;\\/<>{}\[\]|?`\+~=\(\)]+$/",
+            message: "Toegestane tekens zijn letters, cijfers en { _-'\",.*&^%$#!@:;/<>{}[]?`\\+~=()}."),
+    ]
+    private string $title;
+
+    #[
+        ORM\Column(type: "string"),
+        Assert\Length(min: 1, max: 255, minMessage: 'De slug mag niet leeg zijn.',
+            maxMessage: 'De slug mag niet meer dan 255 tekens hebben.'),
+        Assert\Regex(pattern: "/^[A-zÀ-ÿ0-9_\s\-'\",\.\*&^%$#!@:;\\/<>{}\[\]|?`\+~=\(\)]+$/",
+            message: "Toegestane tekens zijn letters, cijfers en { _-'\",.*&^%$#!@:;/<>{}[]?`\\+~=()}."),
+    ]
+    private string $slug;
+
+    #[
+        ORM\Column(type: "string", nullable: true),
+        Assert\Length(max: 255, maxMessage: 'De samenvatting mag niet langer zijn dan 255 tekens.'),
+    ]
+    private ?string $summary = null;
+
+    #[
+        ORM\Column(type: "bigint"),
+    ]
+    private int $timestamp;
+
+    #[
+        ORM\Column(type: "text"),
+        Assert\Length(min: 1, max: 65535, minMessage: 'De pagina mag niet leeg zijn.',
+            maxMessage: 'De pagina mag niet meer dan 65535 tekens hebben.'),
+    ]
+    private string $content;
+
+    #[
+        ORM\ManyToOne(targetEntity: "User", inversedBy: "pages"),
+        ORM\JoinColumn(name: "user_id", referencedColumnName: "id", nullable: false),
+    ]
+    private User $user;
+
+    #[ORM\OneToMany(mappedBy: "page", targetEntity: "Comment", cascade: ["remove"])]
+    private Collection $comments;
+
+    #[Pure] public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    public function getTimestamp(): int
+    {
+        return $this->timestamp;
+    }
+
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): void
+    {
+        $this->title = strip_tags($title);
+    }
+
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): void
+    {
+        $this->slug = strtolower(strip_tags($slug));
+    }
+
+    public function getSummary(): ?string
+    {
+        return $this->summary;
+    }
+
+    public function setSummary(?string $summary): void
+    {
+        if (is_null($summary)) {
+            $this->summary = null;
+        } else {
+            $this->summary = strip_tags($summary);
+        }
+    }
+
+    public function setTimestamp(int $timestamp): void
+    {
+        $this->timestamp = $timestamp;
+    }
+
+    public function getContent(): string
+    {
+        return $this->content;
+    }
+
+    public function setContent(string $content): void
+    {
+        $this->content = strip_tags($content);
+    }
+
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): void
+    {
+        $this->user = $user;
+    }
+
+    public function getComments(): ArrayCollection|Collection
+    {
+        return $this->comments;
+    }
+
+    public function setComments(ArrayCollection|Collection $comments): void
+    {
+        $this->comments = $comments;
+    }
+}

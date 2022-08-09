@@ -1,0 +1,26 @@
+{% if rowNumber is not defined %}
+    {% set rowNumber = 'ROW_IDF' %}
+    {% set id = '' %}
+    {% set name = '' %}
+    {% set weight = '' %}
+{% endif %}
+<tr id="row{{ rowNumber }}">
+    <td><input type="hidden" name="{{ formName }}[foodstuffs][]" id="foodstuffValue{{ rowNumber }}"
+               value="{{ id }}" required>
+        <div class="dropdown">
+            <input type="text" class="foodstuffName dropdown-toggle" maxlength="255" id="foodstuffName{{ rowNumber }}"
+                   value="{{ name }}" placeholder="voedingsmiddel"
+                   data-bs-toggle="dropdown" aria-expanded="false" required>
+            <div id="searchResult{{ rowNumber }}" class="dropdown-menu dropdown-menu-foodstuff"
+                 aria-labelledby="foodstuffName{{ rowNumber }}">
+            </div>
+        </div></td>
+    {% if formName == 'foodstuff_from_foodstuffs' %}
+        {% set placeholder = 'procent' %}
+    {% else %}
+        {% set placeholder = 'gram/ml' %}
+    {% endif %}
+    <td><input id="weight{{ rowNumber }}" type="text" name="{{ formName }}[foodstuffWeights][]"
+               placeholder="{{ placeholder }}" value="{{ weight }}" required></td>
+    <td><i class="removeRow fa fa-minus" id="removeRow{{ rowNumber }}"></i></td>
+</tr>
