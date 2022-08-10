@@ -2,12 +2,20 @@
 <div id="formErrorsServer">
     {{ form_errors(form) }}
     {{ form_errors(form.title) }}
+    {{ form_errors(form.url) }}
     {{ form_errors(form.ingredients) }}
+    {{ form_errors(form.niceStory) }}
+    {{ form_errors(form.niceTips) }}
+    {{ form_errors(form.toolsAndKitchenware) }}
     {{ form_errors(form.preparationMethod) }}
     {{ form_errors(form.numberOfPersons) }}
+    {{ form_errors(form.numberOfPieces) }}
+    {{ form_errors(form.isSelfInvented) }}
+    {{ form_errors(form.source) }}
     {{ form_errors(form.cookingTime) }}
     {{ form_errors(form.kitchen) }}
     {{ form_errors(form.typeOfDish) }}
+    {{ form_errors(form.occasion) }}
     {% for key,choice in constant('DIET_CHOICES', recipe) %}
         {{ form_errors(attribute(form, choice)) }}
     {% endfor %}
@@ -28,7 +36,7 @@
     <tr id="recipeSource"><td>Bron</td><td colspan="2">{{ form_widget(form.source) }}</td></tr>
     <tr><td>Bereidingstijd *</td><td colspan="2">{{ form_widget(form.cookingTime) }}</td></tr>
     <tr><td>Keuken *</td><td colspan="2">{{ form_widget(form.kitchen) }}</td></tr>
-    <tr><td>Type gerecht *</td><td colspan="2">{{ form_widget(form.typeOfDish) }}</td></tr>
+    <tr><td>Soort gerecht *</td><td colspan="2">{{ form_widget(form.typeOfDish) }}</td></tr>
     <tr><td>Gelegenheid</td><td colspan="2">{{ form_widget(form.occasion) }}</td></tr>
     {% for key,choice in constant('DIET_CHOICES', recipe) %}
         <tr><td>{{ key }}</td><td colspan="2">{{ form_widget(attribute(form, choice)) }}</td></tr>

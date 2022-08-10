@@ -277,8 +277,6 @@ class Foodstuff
     #[ORM\ManyToMany(targetEntity: "Recipe", mappedBy: "foodstuffs")]
     private Collection $recipes;
 
-    private bool $noUser = false;
-
     #[Pure] public function __construct()
     {
         $this->days = new ArrayCollection();
@@ -753,16 +751,6 @@ class Foodstuff
     public function setCaffeine(?float $caffeine): void
     {
         $this->caffeine = $caffeine;
-    }
-
-    public function getNoUser(): bool
-    {
-        return $this->noUser;
-    }
-
-    public function setNoUser(bool $noUser): void
-    {
-        $this->noUser = $noUser;
     }
 
     public function getEnergyKJ(): ?float

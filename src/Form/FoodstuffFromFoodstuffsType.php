@@ -8,7 +8,6 @@ use App\Entity\Foodstuff;
 use App\Repository\FoodstuffRepositoryInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -30,7 +29,6 @@ class FoodstuffFromFoodstuffsType extends AbstractType
                         'maxlength' => 255,
                     ],
             ])
-            ->add('noUser', CheckboxType::class, ['required' => false])
             ->add('foodstuffs', EntityType::class, [
                 'class' => Foodstuff::class,
                 'multiple' => true,

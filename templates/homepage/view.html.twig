@@ -12,10 +12,13 @@
         {{ form_errors(form) }}
         {{ form_errors(form.title) }}
         {{ form_errors(form.numberOfPersons) }}
+        {{ form_errors(form.numberOfPieces) }}
         {{ form_errors(form.votes) }}
         {{ form_errors(form.cookingTime) }}
         {{ form_errors(form.kitchen) }}
         {{ form_errors(form.typeOfDish) }}
+        {{ form_errors(form.occasion) }}
+        {{ form_errors(form.isSelfInvented) }}
         {% for key,choice in dietChoices %}
             {{ form_errors(attribute(form, choice)) }}
         {% endfor %}
@@ -28,10 +31,13 @@
     {% endif %}
     {{ form_widget(form.title) }}
     {{ form_widget(form.numberOfPersons) }}
+    {{ form_widget(form.numberOfPieces) }}
     {{ form_widget(form.votes) }}
     {{ form_widget(form.cookingTime) }}
     {{ form_widget(form.kitchen) }}
     {{ form_widget(form.typeOfDish) }}
+    {{ form_widget(form.occasion) }}
+    {{ form_widget(form.isSelfInvented) }}
     {% for key,choice in dietChoices %}
         {{ key }} {{ form_widget(attribute(form, choice)) }}
     {% endfor %}

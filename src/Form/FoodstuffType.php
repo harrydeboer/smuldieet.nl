@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -17,7 +16,6 @@ class FoodstuffType extends AbstractType
     {
         $builder
             ->add('name', TextType::class)
-            ->add('noUser', CheckboxType::class, ['required' => false])
             ->add('energyKcal', NumberType::class, ['required' => false])
             ->add('water', NumberType::class, ['required' => false])
             ->add('protein', NumberType::class, ['required' => false])

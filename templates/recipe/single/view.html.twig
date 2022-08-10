@@ -43,7 +43,7 @@
         <tr><td>Aantal reacties</td><td>{{ recipe.timesReacted }}</td></tr>
         <tr><td>Bereidingstijd</td><td>{{ recipe.cookingTime }}</td></tr>
         <tr><td>Keuken</td><td>{{ recipe.kitchen }}</td></tr>
-        <tr><td>Type gerecht</td><td>{{ recipe.typeOfDish }}</td></tr>
+        <tr><td>Soort gerecht</td><td>{{ recipe.typeOfDish }}</td></tr>
         <tr><td>Gelegenheid</td><td>{{ recipe.occasion }}</td></tr>
         {% for key,choice in constant('DIET_CHOICES', recipe)  %}
             <tr><td>{{ key }}</td><td>{{ attribute(recipe, choice) }}</td></tr>

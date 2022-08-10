@@ -44,13 +44,6 @@
 {{ form_start(form) }}
 <table class="createUpdateTable">
     <tr><td>Naam</td><td>{{ form_widget(form.name) }}</td></tr>
-    {% if isAdmin and foodstuff.user is null %}
-        <tr><td>Geen Gebruiker</td><td>{{ form_widget(form.noUser, {'checked': true}) }}</td></tr>
-    {% elseif isAdmin and foodstuff.user is not null %}
-        <tr><td>Geen Gebruiker</td><td>{{ form_widget(form.noUser, {'checked': false}) }}</td></tr>
-    {% else %}
-        <tr class="d-none"><td>Geen Gebruiker</td><td>{{ form_widget(form.noUser) }}</td></tr>
-    {% endif %}
     {% for key,property in foodstuff.aDH() %}
         <tr><td>{{ property[3] }}</td><td>{{ form_widget(attribute(form, key)) }}</td></tr>
     {% endfor %}

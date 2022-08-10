@@ -28,20 +28,22 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
 
     public function getFromUser(int $id, int $userId): Recipe
     {
-        $recipe = $this->findOneBy(["id" => $id, "user" => $userId]);
+        $recipe = $this->findOneBy(['id' => $id, 'user' => $userId]);
 
         if (is_null($recipe)) {
-            throw new NotFoundHttpException("Dit recept bestaat niet of hoort niet bij jou.");
+            throw new NotFoundHttpException('Dit recept bestaat niet of hoort niet bij jou.');
         }
 
         return $recipe;
     }
 
-    public function search(string $title): array
+    public function search(string $title, int $userId): array
     {
-        $qb = $this->createQueryBuilder("r");
-        $qb->where("r.title like :title")
-            ->setParameter("title", "%" . $title . "%")
+        $qb = $this->createQueryBuilder('r');
+        $qb->where('r.title like :title')
+            ->setParameter('title', '%' . $title . '%')
+            ->andWhere('r.pending = 0 or r.pending = 1 and r.user = :userId')
+            ->setParameter('userId', $userId)
             ->setMaxResults(20);
 
         $query = $qb->getQuery();
@@ -51,10 +53,10 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
 
     public function get(int $id): Recipe
     {
-        $recipe = $this->findOneBy(["id" => $id]);
+        $recipe = $this->findOneBy(['id' => $id]);
 
         if (is_null($recipe)) {
-            throw new NotFoundHttpException("Dit recept bestaat niet.");
+            throw new NotFoundHttpException('Dit recept bestaat niet.');
         }
 
         return $recipe;
@@ -86,52 +88,64 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
 
     public function getRecipesFromUser(int $userId, int $page): Paginator|array
     {
-        $qb = $this->createQueryBuilder("r")
-            ->where("r.user = :userId")
-            ->setParameter("userId", $userId)
-            ->orderBy("r.timestamp", "DESC");
+        $qb = $this->createQueryBuilder('r')
+            ->where('r.user = :userId')
+            ->setParameter('userId', $userId)
+            ->orderBy('r.timestamp', 'DESC');
 
         return (new Paginator($qb))->paginate($page);
     }
 
     public function findBySortAndFilter(int $page, array $formData = null): Paginator|array
     {
-        $qb = $this->createQueryBuilder("r");
-        $qb->orderBy("r.timestamp", "DESC");
-        $qb->where("r.pending = 0");
+        $qb = $this->createQueryBuilder('r');
+        $qb->orderBy('r.timestamp', 'DESC');
+        $qb->where('r.pending = 0');
 
         if (!is_null($formData)) {
-            if (!is_null($formData["cookingTime"])) {
-                $qb->andWhere("r.cookingTime = :cookingTime")
-                    ->setParameter("cookingTime", $formData["cookingTime"]);
+            if (!is_null($formData['cookingTime'])) {
+                $qb->andWhere('r.cookingTime = :cookingTime')
+                    ->setParameter('cookingTime', $formData['cookingTime']);
             }
-            if (!is_null($formData["kitchen"])) {
-                $qb->andWhere("r.kitchen = :kitchen")
-                    ->setParameter("kitchen", $formData["kitchen"]);
+            if (!is_null($formData['kitchen'])) {
+                $qb->andWhere('r.kitchen = :kitchen')
+                    ->setParameter('kitchen', $formData['kitchen']);
             }
-            if (!is_null($formData["typeOfDish"])) {
-                $qb->andWhere("r.typeOfDish = :typeOfDish")
-                    ->setParameter("typeOfDish", $formData["typeOfDish"]);
+            if (!is_null($formData['typeOfDish'])) {
+                $qb->andWhere('r.typeOfDish = :typeOfDish')
+                    ->setParameter('typeOfDish', $formData['typeOfDish']);
             }
-            if (!is_null($formData["votes"])) {
-                $qb->andWhere("r.votes >= :votes")
-                    ->setParameter("votes", $formData["votes"]);
+            if (!is_null($formData['occasion'])) {
+                $qb->andWhere('r.occasion = :occasion')
+                    ->setParameter('occasion', $formData['occasion']);
             }
-            if (!is_null($formData["numberOfPersons"])) {
-                $qb->andWhere("r.numberOfPersons = :numberOfPersons")
-                    ->setParameter("numberOfPersons", $formData["numberOfPersons"]);
+            if (!is_null($formData['votes'])) {
+                $qb->andWhere('r.votes >= :votes')
+                    ->setParameter('votes', $formData['votes']);
+            }
+            if (!is_null($formData['isSelfInvented'])) {
+                $qb->andWhere('r.isSelfInvented = :isSelfInvented')
+                    ->setParameter('isSelfInvented', $formData['isSelfInvented']);
+            }
+            if (!is_null($formData['numberOfPersons'])) {
+                $qb->andWhere('r.numberOfPersons = :numberOfPersons')
+                    ->setParameter('numberOfPersons', $formData['numberOfPersons']);
+            }
+            if (!is_null($formData['numberOfPieces'])) {
+                $qb->andWhere('r.numberOfPieces = :numberOfPieces')
+                    ->setParameter('numberOfPieces', $formData['numberOfPieces']);
             }
             foreach (Recipe::DIET_CHOICES as $choice) {
                 if ($formData[$choice]) {
-                    $qb->andWhere("r." . $choice . " = 1");
+                    $qb->andWhere('r.' . $choice . ' = 1');
                 }
             }
-            if (!is_null($formData["title"])) {
-                $qb->andWhere("Lower(r.title) like :title")
-                    ->setParameter("title", "%" . $formData["title"] . "%");
+            if (!is_null($formData['title'])) {
+                $qb->andWhere('Lower(r.title) like :title')
+                    ->setParameter('title', '%' . $formData['title'] . '%');
             }
-            $filterArray = explode("_", $formData["sort"]);
-            $qb->orderBy("r." . $filterArray[0], $filterArray[1]);
+            $filterArray = explode('_', $formData['sort']);
+            $qb->orderBy('r.' . $filterArray[0], $filterArray[1]);
         }
 
         return (new Paginator($qb))->paginate($page);

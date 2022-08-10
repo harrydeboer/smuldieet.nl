@@ -33,26 +33,43 @@ class RecipeFilterAndSortType extends AbstractType
             ->add('cookingTime', ChoiceType::class, [
                 'choices' => array_combine(Recipe::COOKING_TIMES, Recipe::COOKING_TIMES),
                 'required' => false,
-                'placeholder' => 'selecteer bereidingstijd',
+                'placeholder' => 'bereidingstijd',
                 'invalid_message' => 'Geen geldige bereidingstijd.',
             ])
             ->add('kitchen', ChoiceType::class, [
                 'choices' => array_combine(Recipe::KITCHEN, Recipe::KITCHEN),
                 'required' => false,
-                'placeholder' => 'selecteer keuken',
+                'placeholder' => 'keuken',
                 'invalid_message' => 'Geen geldige keuken.',
             ])
             ->add('typeOfDish', ChoiceType::class, [
                 'choices' => array_combine(Recipe::TYPE_OF_DISH, Recipe::TYPE_OF_DISH),
                 'required' => false,
-                'placeholder' => 'selecteer type gerecht',
+                'placeholder' => 'soort gerecht',
                 'invalid_message' => 'Geen geldig type gerecht.',
+            ])
+            ->add('occasion', ChoiceType::class, [
+                'placeholder' => 'gelegenheid',
+                'choices' => array_combine(Recipe::OCCASION,Recipe::OCCASION),
+                'invalid_message' => 'Geen geldige gelegenheid.',
+                'required' => false,
             ])
             ->add('numberOfPersons', IntegerType::class, [
                 'required' => false,
                 'attr' => [
                     'placeholder' => 'aantal personen',
                 ],
+            ])
+            ->add('numberOfPieces', IntegerType::class, [
+                'required' => false,
+                'attr' => [
+                    'placeholder' => 'aantal stuks',
+                ],
+            ])
+            ->add('isSelfInvented', ChoiceType::class, [
+                'choices' => ['zelf bedacht' => true, 'niet zelf bedacht' => false],
+                'expanded' => true,
+                'required' => false,
             ])
             ->add('votes', IntegerType::class, [
                 'attr' => [

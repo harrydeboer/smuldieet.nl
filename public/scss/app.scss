@@ -78,6 +78,10 @@ body {
   display: inline-block;
 }
 
+#isSelfInvented_placeholder, label[for=isSelfInvented_placeholder] {
+  display: none;
+}
+
 @media (max-width: 576px) {
   #abcSelect {
     display: block;

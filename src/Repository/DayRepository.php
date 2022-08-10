@@ -31,10 +31,10 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
 
     public function getFromUser(int $id, int $userId): Day
     {
-        $day = $this->findOneBy(["id" => $id, "user" => $userId]);
+        $day = $this->findOneBy(['id' => $id, 'user' => $userId]);
 
         if (is_null($day)) {
-            throw new NotFoundHttpException("Deze dag bestaat niet of hoort niet bij jou.");
+            throw new NotFoundHttpException('Deze dag bestaat niet of hoort niet bij jou.');
         }
 
         return $day;
@@ -65,16 +65,16 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
 
     public function findBetween(string $start, string $end, int $userId): Collection|array
     {
-        $qb = $this->createQueryBuilder("d");
+        $qb = $this->createQueryBuilder('d');
         if (DateCheckService::checkDate($start) && DateCheckService::checkDate($end)) {
-            $qb->where("d.timestamp >= :timestampStart")
-                ->andWhere("d.timestamp <= :timestampEnd")
-                ->andWhere("d.user = :userId")
-                ->setParameter("timestampStart", strtotime($start))
-                ->setParameter("timestampEnd", strtotime($end))
-                ->setParameter("userId", $userId);
+            $qb->where('d.timestamp >= :timestampStart')
+                ->andWhere('d.timestamp <= :timestampEnd')
+                ->andWhere('d.user = :userId')
+                ->setParameter('timestampStart', strtotime($start))
+                ->setParameter('timestampEnd', strtotime($end))
+                ->setParameter('userId', $userId);
         } else {
-            throw new InvalidArgumentException("Date not in right format.");
+            throw new InvalidArgumentException('Date not in right format.');
         }
 
         return $qb->getQuery()->execute();
@@ -82,11 +82,11 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
 
     public function findFromUserSorted(int $userId, int $page): Paginator|array
     {
-        $qb = $this->createQueryBuilder("d");
-        $qb->where("d.user = :userId")
-            ->andWhere("d.timestamp IS NOT NULL")
-            ->setParameter("userId", $userId)
-            ->orderBy("d.timestamp", "DESC");
+        $qb = $this->createQueryBuilder('d');
+        $qb->where('d.user = :userId')
+            ->andWhere('d.timestamp IS NOT NULL')
+            ->setParameter('userId', $userId)
+            ->orderBy('d.timestamp', 'DESC');
 
         return (new Paginator($qb))->paginate($page);
     }

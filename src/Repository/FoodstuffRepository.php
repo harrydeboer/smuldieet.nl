@@ -27,14 +27,14 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
 
     public function findAllStartingWith(string $char, ?int $userId): array
     {
-        $qb = $this->createQueryBuilder("f")
-            ->where("Lower(f.name) like :name")
-            ->setParameter("name", strtolower($char) . "%");
+        $qb = $this->createQueryBuilder('f')
+            ->where('Lower(f.name) like :name')
+            ->setParameter('name', strtolower($char) . '%');
 
         if (!is_null($userId)) {
-            $qb->andWhere("f.user = " . $userId . " or f.user IS NULL");
+            $qb->andWhere('f.user = ' . $userId . ' or f.user IS NULL');
         }
-        $qb->orderBy("f.name", "ASC");
+        $qb->orderBy('f.name', 'ASC');
 
         $query = $qb->getQuery();
 
@@ -43,14 +43,14 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
 
     public function findAllFromUser(?int $userId): array
     {
-        $qb = $this->createQueryBuilder("f");
+        $qb = $this->createQueryBuilder('f');
         if (is_null($userId)) {
-            $qb->where("f.user IS NULL");
+            $qb->where('f.user IS NULL');
         } else {
-            $qb->where("f.user = :userId or f.user IS NULL")
-                ->setParameter("userId", $userId);
+            $qb->where('f.user = :userId or f.user IS NULL')
+                ->setParameter('userId', $userId);
         }
-        $qb->orderBy("f.name", "ASC");
+        $qb->orderBy('f.name', 'ASC');
 
         $query = $qb->getQuery();
 
@@ -59,10 +59,10 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
 
     public function get(int $id): Foodstuff
     {
-        $foodstuff = $this->findOneBy(["id" => $id]);
+        $foodstuff = $this->findOneBy(['id' => $id]);
 
         if (is_null($foodstuff)) {
-            throw new NotFoundHttpException("Dit voedingsmiddel bestaat niet.");
+            throw new NotFoundHttpException('Dit voedingsmiddel bestaat niet.');
         }
 
         return $foodstuff;
@@ -70,10 +70,10 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
 
     public function getByName(string $name): Foodstuff
     {
-        $foodstuff = $this->findOneBy(["name" => $name]);
+        $foodstuff = $this->findOneBy(['name' => $name]);
 
         if (is_null($foodstuff)) {
-            throw new NotFoundHttpException("Dit voedingsmiddel bestaat niet of hoort niet bij jou.");
+            throw new NotFoundHttpException('Dit voedingsmiddel bestaat niet of hoort niet bij jou.');
         }
 
         return $foodstuff;

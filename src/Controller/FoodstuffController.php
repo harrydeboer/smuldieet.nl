@@ -56,11 +56,6 @@ class FoodstuffController extends Controller
 
         if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
             if (is_null($message = $this->checkWeightsAndEnergy($foodstuff))) {
-                if ($foodstuff->getNoUser()) {
-                    $foodstuff->setUser(null);
-                } else {
-                    $foodstuff->setUser($this->getUser());
-                }
                 if ($this->checkCanEdit($foodstuff)) {
                     $this->foodstuffRepository->update();
                 }
@@ -73,7 +68,6 @@ class FoodstuffController extends Controller
 
         return $this->render('foodstuff/edit/view.html.twig', [
             'foodstuff' => $foodstuff,
-            'isAdmin' => $this->isAdmin(),
             'formUpdate' => $formUpdate->createView(),
             'formDelete' => $formDelete->createView(),
         ]);
@@ -88,9 +82,8 @@ class FoodstuffController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             if (is_null($message = $this->checkWeightsAndEnergy($foodstuff))) {
-                if (!$foodstuff->getNoUser()) {
-                    $foodstuff->setUser($this->getUser());
-                }
+                $foodstuff->setUser($this->getUser());
+
                 $this->foodstuffRepository->create($foodstuff);
 
                 return $this->redirectToRoute('foodstuff');
@@ -101,7 +94,6 @@ class FoodstuffController extends Controller
 
         return $this->render('foodstuff/new/view.html.twig', [
             'foodstuff' => $foodstuff,
-            'isAdmin' => $this->isAdmin(),
             'form' => $form->createView(),
         ]);
     }
@@ -116,9 +108,7 @@ class FoodstuffController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $foodstuff = CombineFoodstuffsService::combine($form->getData(), $this->getUser());
             if (is_null($message = $this->checkWeightsAndEnergy($foodstuff))) {
-                if (!$form->get('noUser')->getData()) {
-                    $foodstuff->setUser($this->getUser());
-                }
+                $foodstuff->setUser($this->getUser());
                 $this->foodstuffRepository->create($foodstuff);
 
                 return $this->redirectToRoute('foodstuff');
@@ -130,7 +120,6 @@ class FoodstuffController extends Controller
 
         return $this->render('foodstuff/new/fromFoodstuffs.html.twig', [
             'foodstuff' => $foodstuff,
-            'isAdmin' => $this->isAdmin(),
             'form' => $form->createView(),
         ]);
     }
@@ -155,12 +144,10 @@ class FoodstuffController extends Controller
     public function single(int $id): Response
     {
         $foodstuff = $this->getFoodstuff($id);
-        if ($this->isAdmin() || is_null($foodstuff->getUser()) ||
-            $foodstuff->getUser()?->getId() === $this->getUser()?->getId()) {
+        if (is_null($foodstuff->getUser()) || $foodstuff->getUser()->getId() === $this->getUser()?->getId()) {
             return $this->render('foodstuff/single/view.html.twig', [
                 'foodstuff' => $foodstuff,
                 'isLoggedIn' => !is_null($this->getUser()),
-                'isAdmin' => $this->isAdmin(),
             ]);
         }
 
@@ -215,17 +202,8 @@ class FoodstuffController extends Controller
     {
         if ($foodstuff->getUser() === $this->getUser()) {
             return true;
-        } elseif (is_null($foodstuff->getUser()) && $this->isAdmin()) {
-            return true;
         }
 
         throw new NotFoundHttpException('Dit voedingsmiddel hoort niet bij jou.');
-    }
-
-    private function isAdmin(): bool
-    {
-        $roles = $this->getUser()?->getRoles() ?? [];
-
-        return in_array('ROLE_ADMIN', $roles);
     }
 }

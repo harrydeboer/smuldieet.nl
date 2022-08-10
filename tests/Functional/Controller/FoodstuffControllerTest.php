@@ -21,7 +21,7 @@ class FoodstuffControllerTest extends AuthAdminWebTestCase
 
         $form = $buttonCrawlerNode->form();
 
-        $form['foodstuff[name]'] = 'test';
+        $form['foodstuff[name]'] = 'test1';
         $form['foodstuff[energyKcal]'] = 80;
         $form['foodstuff[carbohydrates]'] = 20;
         $form['foodstuff[water]'] = 80;
@@ -47,7 +47,7 @@ class FoodstuffControllerTest extends AuthAdminWebTestCase
 
         $foodstuffRepository = $this->getContainer()->get(FoodstuffRepositoryInterface::class);
 
-        $foodstuff = $foodstuffRepository->findOneBy(['name' => 'test']);
+        $foodstuff = $foodstuffRepository->findOneBy(['name' => 'test1']);
         $id = $foodstuff->getId();
 
         $this->client->request('GET', '/voedingsmiddel/enkel/' . $id);
@@ -60,7 +60,7 @@ class FoodstuffControllerTest extends AuthAdminWebTestCase
 
         $form = $buttonCrawlerNode->form();
 
-        $updatedName = 'test2';
+        $updatedName = 'testUpdate';
         $form['foodstuff[name]'] = $updatedName;
 
         $this->client->submit($form);

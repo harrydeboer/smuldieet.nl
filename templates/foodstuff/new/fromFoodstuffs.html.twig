@@ -7,16 +7,10 @@
     <div id="formErrorsServer">
         {{ form_errors(form) }}
         {{ form_errors(form.name) }}
-        {{ form_errors(form.noUser) }}
     </div>
     {{ form_start(form) }}
     <table class="createUpdateTable">
         <tr><td>Naam</td><td colspan="2">{{ form_widget(form.name) }}</td></tr>
-        {% if isAdmin %}
-            <tr><td>Geen Gebruiker</td><td colspan="2">{{ form_widget(form.noUser) }}</td></tr>
-        {% else %}
-            <tr class="d-none"><td>Geen Gebruiker</td><td colspan="2">{{ form_widget(form.noUser) }}</td></tr>
-        {% endif %}
         <tr><td colspan="3">{{ form_widget(form.submit, { 'label': 'Voedingsmiddel opslaan' }) }}</td></tr>
     </table>
     <div class="d-none">
