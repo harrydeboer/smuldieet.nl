@@ -45,7 +45,7 @@ class SitemapController extends AbstractController
 
         $update = '2022-08-09';
 
-        $pageSlugs = ['/', '/voedingsmiddel', '/inloggen', '/registeren'];
+        $pageSlugs = ['/', '/voedingsmiddel', '/inloggen', '/registreren'];
 
         foreach ($this->pageRepository->findAll() as $page) {
             if ($page->getSlug() === 'home') {
