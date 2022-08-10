@@ -15,6 +15,7 @@ services:
       smuldieet:
         ipv4_address: 172.20.0.7
 
+volumes:
   uploadsPublic:
     driver: local
 
