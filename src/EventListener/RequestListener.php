@@ -14,7 +14,7 @@ class RequestListener
 
         // Set multiple headers simultaneously
         $response->headers->set(
-            'Content-Security-Policy', "default-src 'self'; style-src 'self' 'unsafe-inline' " .
+            'Content-Security-Policy', "default-src 'self'; style-src 'self' " .
             "https://fonts.googleapis.com/css2 " .
             "https://www.gstatic.com; " .
             "font-src 'self' https://fonts.gstatic.com; " .
