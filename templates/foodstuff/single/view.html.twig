@@ -9,10 +9,11 @@
             {% for key, property in foodstuff.aDH() %}
                 <tr><td>{{ property[3]}} {{ property[2] }}</td>
                 {% if attribute(foodstuff, key) is null %}
-                    <td>N/B</td></tr>
+                    <td>N/B</td>
                 {% else %}
-                    <td>{{ attribute(foodstuff, key)|number_format(property[4]) }}</td></tr>
+                    <td>{{ attribute(foodstuff, key)|number_format(property[4]) }}</td>
                 {% endif %}
+                </tr>
             {% endfor %}
         {% else %}
             <tr><td colspan="2"><a href="{{ path('appLogin') }}">Log in om alle waarden te zien.</a></td></tr>
