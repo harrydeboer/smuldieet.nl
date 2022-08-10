@@ -10,9 +10,9 @@
         <div class="errorMessage">{{ error }}</div>
     {% endif %}
     {% if success is null %}
-        <div>Your email is not verified. Check your inbox or
+        <div>Je e-mail is niet geverifieerd. Check je inbox of
             {{ form_start(form) }}
-            {{ form_widget(form.sendEmailAgain) }}
+            {{ form_widget(form.sendEmailAgain, {'label': 'Verstuur opnieuw'}) }}
             {{ form_end(form) }}</div>
     {% endif %}
 {% endblock %}

@@ -69,7 +69,7 @@ class RegistrationController extends Controller
         return parent::getUser();
     }
 
-    #[Route('/verify', name: 'registration_confirmation_route')]
+    #[Route('/verifieer', name: 'registration_confirmation_route')]
     public function verifyUserEmail(Request $request): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -104,7 +104,7 @@ class RegistrationController extends Controller
     /**
      * @throws TransportExceptionInterface
      */
-    #[Route('/send-verification-email-again', name: 'sendVerificationEmailAgain')]
+    #[Route('/verstuur-verificatie-e-mail-opnieuw', name: 'sendVerificationEmailAgain')]
     public function sendVerificationEmailAgain(Request $request): Response
     {
         $success = null;
@@ -114,16 +114,16 @@ class RegistrationController extends Controller
         $form->handleRequest($request);
 
         if ($this->getUser()->isVerified()) {
-            $success = 'Your email is already verified.';
+            $success = 'Je e-mail is al geverifieerd.';
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             $result = $this->sendVerificationMail($this->getUser());
             if ($result) {
-                $success = 'Successfully send a verification mail.';
+                $success = 'Er is een verificatie mail verstuurd.';
             } else {
-                $error = 'Could not send mail.';
+                $error = 'Kon geen mail versturen.';
             }
         }
 
@@ -150,7 +150,7 @@ class RegistrationController extends Controller
             $email = new TemplatedEmail();
             $email->from(new Address('noreply@smuldieet.nl', 'Smuldieet'));
             $email->to($user->getEmail());
-            $email->subject('Verify your email on smuldieet.nl');
+            $email->subject('Verifieer je e-mail op smuldieet.nl');
             $email->htmlTemplate('registration/confirmation_email.html.twig');
             $email->context(['signedUrl' => $signatureComponents->getSignedUrl()]);
 

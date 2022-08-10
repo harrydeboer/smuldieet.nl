@@ -33,7 +33,7 @@ security:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/send-verification-email-again, roles: ROLE_USER }
+        - { path: ^/verstuur-verificatie-e-mail-opnieuw, roles: ROLE_USER }
         - { path: ^/verander-wachtwoord, roles: ROLE_USER }
         - { path: ^/dag, roles: ROLE_VERIFIED }
         - { path: ^/recept/verwijder, roles: ROLE_VERIFIED }
