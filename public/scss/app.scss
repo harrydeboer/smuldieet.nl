@@ -82,6 +82,10 @@ body {
   display: none;
 }
 
+#recipeSource {
+  display: none;
+}
+
 @media (max-width: 576px) {
   #abcSelect {
     display: block;

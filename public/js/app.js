@@ -8,7 +8,11 @@ $(function() {
     });
 
     $('input[name="recipe[isSelfInvented]"]').on('change', function () {
-        $('#recipeSource').toggle();
+        if ($(this).val() === '1') {
+            $('#recipeSource').hide();
+        } else {
+            $('#recipeSource').show();
+        }
     });
 
     $('#recipeFilterIcon').on('click', function() {
