@@ -3,7 +3,7 @@
 {% block title %}Contact{% endblock %}
 
 {% block body %}
-    <h1>Contact us</h1>
+    <h1>Neem contact op</h1>
     {% if success is null and error is null %}
     {% elseif success %}
         <div class="successMessage">{{ success }}</div>
@@ -12,11 +12,11 @@
     {% endif %}
     {{ form_start(form) }}
     <table id="contact-table">
-        <tr><td>{{ form_label(form.name) }}</td><td>{{ form_widget(form.name) }}</td></tr>
-        <tr><td>{{ form_label(form.subject) }}</td><td>{{ form_widget(form.subject) }}</td></tr>
-        <tr><td>{{ form_label(form.email) }}</td><td>{{ form_widget(form.email) }}</td></tr>
-        <tr><td>{{ form_label(form.message) }}</td><td>{{ form_widget(form.message) }}</td></tr>
-        <tr><td colspan="2">{{ form_widget(form.send) }}</td></tr>
+        <tr><td>Naam</td><td>{{ form_widget(form.name) }}</td></tr>
+        <tr><td>Onderwerp</td><td>{{ form_widget(form.subject) }}</td></tr>
+        <tr><td>Email</td><td>{{ form_widget(form.email) }}</td></tr>
+        <tr><td>Bericht</td><td>{{ form_widget(form.message) }}</td></tr>
+        <tr><td colspan="2">{{ form_widget(form.send, { 'label': 'Verzenden' }) }}</td></tr>
     </table>
     {{ form_end(form) }}
 {% endblock %}

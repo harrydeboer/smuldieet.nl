@@ -12,7 +12,7 @@ class ContactControllerTest extends WebTestCase
     {
         $crawler = $this->client->request('GET', '/contact');
 
-        $buttonCrawlerNode = $crawler->selectButton('Send');
+        $buttonCrawlerNode = $crawler->selectButton('Verzenden');
 
         $form = $buttonCrawlerNode->form();
 
