@@ -1,4 +1,4 @@
 User-agent: *
 Disallow:
 
-Sitemap: https://voeding.nl/sitemap
+Sitemap: https://smuldieet.nl/sitemap
