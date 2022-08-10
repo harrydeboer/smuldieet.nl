@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\User;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Twig\Environment;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +26,10 @@ class ErrorController extends AbstractController
         if (method_exists($exception, 'getStatusCode')) {
             $statusCodeString = (string) $exception->getStatusCode();
 
+            if ($statusCodeString === '403' && !$this->getUser()->isVerified()) {
+                return $this->redirectToRoute('sendVerificationEmailAgain');
+            }
+
             $templatePath = 'error/' . $statusCodeString . '.html.twig';
             if ($this->environment->getLoader()->exists($templatePath)) {
                 return $this->render($templatePath, [
@@ -35,5 +41,13 @@ class ErrorController extends AbstractController
         return $this->render('error/500.html.twig', [
             'message' => 'Er ging iets fout.'
         ], new Response('', 500));
+    }
+
+    /**
+     * @return ?User
+     */
+    protected function getUser(): ?UserInterface
+    {
+        return parent::getUser();
     }
 }

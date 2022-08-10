@@ -23,6 +23,7 @@ class UserFactory extends AbstractFactory
         $user->setBirthday($this->randomDate(true));
         $user->setGender(User::GENDER[array_rand(User::GENDER)]);
         $user->setWeight(rand(1,100));
+        $user->setIsVerified(true);
 
         $this->setParams($params, $user);
 

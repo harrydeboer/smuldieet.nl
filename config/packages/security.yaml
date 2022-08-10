@@ -33,16 +33,18 @@ security:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/dag, roles: ROLE_USER }
+        - { path: ^/send-verification-email-again, roles: ROLE_USER }
         - { path: ^/verander-wachtwoord, roles: ROLE_USER }
-        - { path: ^/recept/verwijder, roles: ROLE_USER }
-        - { path: ^/recept/toevoegen, roles: ROLE_USER }
-        - { path: ^/recept/wijzig, roles: ROLE_USER }
-        - { path: ^/kookboek, roles: ROLE_USER }
-        - { path: ^/overzicht, roles: ROLE_USER }
-        - { path: ^/voedingsmiddel/toevoegen, roles: ROLE_USER }
-        - { path: ^/voedingsmiddel/wijzig, roles: ROLE_USER }
-        - { path: ^/voedingsmiddel/verwijder, roles: ROLE_USER }
+        - { path: ^/dag, roles: ROLE_VERIFIED }
+        - { path: ^/recept/verwijder, roles: ROLE_VERIFIED }
+        - { path: ^/recept/toevoegen, roles: ROLE_VERIFIED }
+        - { path: ^/recept/wijzig, roles: ROLE_VERIFIED }
+        - { path: ^/kookboek, roles: ROLE_VERIFIED }
+        - { path: ^/overzicht, roles: ROLE_VERIFIED }
+        - { path: ^/voedingsmiddel/toevoegen, roles: ROLE_VERIFIED }
+        - { path: ^/voedingsmiddel/wijzig, roles: ROLE_VERIFIED }
+        - { path: ^/voedingsmiddel/verwijder, roles: ROLE_VERIFIED }
+
 
 when@test:
     security:

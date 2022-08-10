@@ -3,6 +3,11 @@
 {% block title %}Registreer{% endblock %}
 
 {% block body %}
+    {% for message in app.flashes('verify_email_error') %}
+        <div class="flash-notice">
+            {{ message }}
+        </div>
+    {% endfor %}
     <h1>Registreer</h1>
 
     {{ include('registration/form.html.twig', {form: form, submitLabel: 'Registreer'}) }}

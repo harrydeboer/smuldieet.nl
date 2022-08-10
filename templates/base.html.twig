@@ -38,6 +38,7 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li><a href="{{ path('homepage') }}">Home</a></li>
                 <li><a href="{{ path('appLogin') }}"><i class="fas fa-user"></i></a></li>
+                <li><a href="{{ path('contact') }}">Contact</a></li>
                 <li><a href="{{ path('foodstuff') }}">Voedingsmiddel</a></li>
                 <li><a href="{{ path('day') }}">Dag</a></li>
                 <li><a href="{{ path('recipe') }}">Recept</a></li>
@@ -51,6 +52,10 @@
 </nav>
 {% block body %}
 {% endblock %}
+{% if reCaptchaKey is defined %}
+    <script src="https://www.google.com/recaptcha/api.js?render={{ reCaptchaKey }}"></script>
+    <div id="reCaptchaKey" data-key="{{ reCaptchaKey }}"></div>
+{% endif %}
 <script src="{{ asset('js/jquery.min.js') }}"></script>
 <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('/js/app.min.js') }}"></script>

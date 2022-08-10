@@ -7,6 +7,20 @@ $(function() {
         window.location.href = '/voedingsmiddel/letter/' + $(this).val();
     });
 
+    $('form[name="contact"]').on('submit', function (event) {
+        if ($('#contact_reCaptchaToken').val() === '') {
+            // noinspection JSUnresolvedVariable
+            grecaptcha.ready(function () {
+                // noinspection JSUnresolvedVariable,JSUnresolvedFunction
+                grecaptcha.execute($('#reCaptchaKey').data('key'), {action: 'contact'}).then(function (token) {
+                    $('#contact_reCaptchaToken').val(token);
+                    $('[name="contact"]').trigger('submit');
+                });
+            });
+            event.preventDefault();
+        }
+    });
+
     $('input[name="recipe[isSelfInvented]"]').on('change', function () {
         if ($(this).val() === '1') {
             $('#recipeSource').hide();

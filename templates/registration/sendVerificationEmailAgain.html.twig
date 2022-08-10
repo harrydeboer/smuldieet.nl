@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Verify{% endblock %}
+
+{% block body %}
+    {% if success is not null %}
+        <div class="successMessage">{{ success }}</div>
+    {% endif %}
+    {% if error is not null %}
+        <div class="errorMessage">{{ error }}</div>
+    {% endif %}
+    {% if success is null %}
+        <div>Your email is not verified. Check your inbox or
+            {{ form_start(form) }}
+            {{ form_widget(form.sendEmailAgain) }}
+            {{ form_end(form) }}</div>
+    {% endif %}
+{% endblock %}
