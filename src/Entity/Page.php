@@ -121,11 +121,7 @@ class Page
 
     public function setSummary(?string $summary): void
     {
-        if (is_null($summary)) {
-            $this->summary = null;
-        } else {
-            $this->summary = strip_tags($summary);
-        }
+        $this->summary = $summary;
     }
 
     public function setTimestamp(int $timestamp): void
@@ -140,7 +136,7 @@ class Page
 
     public function setContent(string $content): void
     {
-        $this->content = strip_tags($content);
+        $this->content = $content;
     }
 
     public function getUser(): User

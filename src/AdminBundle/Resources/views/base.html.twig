@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('/css/admin.css') }}">
+{% endblock %}
+{% block navlist %}
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li><a href="{{ path('adminPage') }}">Pagina's</a></li>
+        <li><a href="{{ path('adminUser') }}">Gebruikers</a></li>
+    </ul>
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('/js/admin.min.js') }}"></script>
+{% endblock %}

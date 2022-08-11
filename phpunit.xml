@@ -19,6 +19,7 @@
         <testsuite name="Functional">
             <directory>tests/Unit</directory>
             <directory>tests/Functional</directory>
+            <directory>tests/AdminBundle</directory>
         </testsuite>
     </testsuites>
 

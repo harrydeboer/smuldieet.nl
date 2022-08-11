@@ -1,0 +1,16 @@
+{% extends '@AdminBundle/base.html.twig' %}
+
+{% block title %}Gebruiker{% endblock %}
+
+{% block body %}
+    <a href="{{ path('adminUserCreate') }}">Maak een gebruiker</a>
+    <table class="table table-striped" id="userTable">
+        {% for user in users %}
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td><a href="{{ path('adminUserEdit', {'id': user.id}) }}">wijzig</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

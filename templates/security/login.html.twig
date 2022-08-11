@@ -7,6 +7,10 @@
         <h1 class="h3 mb-3 font-weight-normal">Je bent ingelogd als {{ username }},
             <a href="{{ path('appLogout') }}">klik hier om uit te loggen</a></h1>
         <h3>Verander <a href="{{ path('changePassword') }}">hier</a> je wachtwoord.</h3>
+
+        {% if 'ROLE_ADMIN' in roles  %}
+            Ga naar het <a href="{{ path('adminHomepage') }}">Admin Panel</a>.
+        {% endif %}
     {% else %}
         <h1 class="h3 mb-3 font-weight-normal">Inloggen</h1>
         <div id="formErrorsClient"></div>

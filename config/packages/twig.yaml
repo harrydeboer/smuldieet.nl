@@ -1,5 +1,9 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
+
+    paths:
+        'src/AdminBundle/Resources/views': 'AdminBundle'
+
     number_format:
         decimals: 0
         decimal_point: ','
