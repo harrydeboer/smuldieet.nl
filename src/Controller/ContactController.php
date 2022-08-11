@@ -48,12 +48,12 @@ class ContactController extends AbstractController
             if ($this->kernel->getEnvironment() === 'prod' && is_null($error)) {
                 try {
                     $this->mailer->send($email);
-                    $success = "Successfully send email.";
+                    $success = "Bericht verzonden.";
                 } catch (TransportExceptionInterface) {
-                    $error = "Could not deliver mail.";
+                    $error = "Kon e-mail niet verzenden.";
                 }
             } else {
-                $error = "Could not deliver mail.";
+                $error = "Kon e-mail niet verzenden.";
             }
         }
 
