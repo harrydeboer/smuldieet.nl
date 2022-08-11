@@ -1,0 +1,7 @@
+{% extends '@AdminBundle/base.html.twig' %}
+
+{% block title %}Maak voedingsmiddel{% endblock %}
+
+{% block body %}
+    {{ include('@AdminBundle/foodstuff/form.html.twig', {form: form, submitLabel: 'Voedingsmiddel opslaan'}) }}
+{% endblock %}

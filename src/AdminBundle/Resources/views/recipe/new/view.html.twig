@@ -1,0 +1,7 @@
+{% extends '@AdminBundle/base.html.twig' %}
+
+{% block title %}Maak recept{% endblock %}
+
+{% block body %}
+    {{ include('@AdminBundle/recipe/form.html.twig', {form: form, submitLabel: 'Recept opslaan'}) }}
+{% endblock %}

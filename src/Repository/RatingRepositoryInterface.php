@@ -9,6 +9,8 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface;
 
 interface RatingRepositoryInterface extends ServiceEntityRepositoryInterface
 {
+    public function findAllReviews(): array;
+
     public function create(Rating $rating): Rating;
 
     public function update(): void;

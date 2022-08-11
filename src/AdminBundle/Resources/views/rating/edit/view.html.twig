@@ -1,0 +1,12 @@
+{% extends '@AdminBundle/base.html.twig' %}
+
+{% block title %}Wijzig{% endblock %}
+
+{% block body %}
+    {{ include('@AdminBundle/rating/form.html.twig', {form: formUpdate, submitLabel: 'Wijzig'}) }}
+    <br>
+    {{ include('deleteModal.html.twig', {
+        entityName: 'rating',
+        warning: 'Weet je zeker dat je deze waardering wilt verwijderen?'
+    }) }}
+{% endblock %}

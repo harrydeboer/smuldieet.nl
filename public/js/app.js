@@ -42,7 +42,7 @@ $(function() {
         let rating = $('#rating_rating');
         rating.text('')
         if (rating.val() < 1 || rating.val() > 10) {
-            $('#formErrorsClient').text('The beoordeling moet tussen 1 en 10 zijn.')
+            $('#formErrorsClient').text('The waardering moet tussen 1 en 10 zijn.')
             event.preventDefault();
         }
     });

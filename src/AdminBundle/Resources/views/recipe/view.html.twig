@@ -1,0 +1,15 @@
+{% extends '@AdminBundle/base.html.twig' %}
+
+{% block title %}Recept{% endblock %}
+
+{% block body %}
+    <a href="{{ path('adminRecipeCreate') }}">Maak een recept</a>
+    <table class="table table-striped" id="pageTable">
+        {% for recipe in recipes %}
+            <tr>
+                <td>{{ recipe.title }}</td>
+                <td><a href="{{ path('adminRecipeEdit', {'id': recipe.id}) }}">wijzig</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

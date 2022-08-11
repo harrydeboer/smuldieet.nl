@@ -51,9 +51,9 @@ class PageController extends AuthController
             return $this->redirectToRoute('adminPage');
         }
 
-        return $this->renderForm('@AdminBundle/page/edit/view.html.twig', [
-            'formUpdate' => $formUpdate,
-            'formDelete' => $formDelete,
+        return $this->render('@AdminBundle/page/edit/view.html.twig', [
+            'formUpdate' => $formUpdate->createView(),
+            'formDelete' => $formDelete->createView(),
         ]);
     }
 
@@ -72,8 +72,8 @@ class PageController extends AuthController
             return $this->redirectToRoute('adminPage');
         }
 
-        return $this->renderForm('@AdminBundle/page/new/view.html.twig', [
-            'form' => $form,
+        return $this->render('@AdminBundle/page/new/view.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 
