@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Entity\Recipe;
 use App\Form\RecipeFilterAndSortType;
+use App\Repository\PageRepositoryInterface;
 use App\Repository\RecipeRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -20,6 +21,7 @@ class HomepageController extends AbstractController
         private readonly RecipeRepositoryInterface $recipeRepository,
         private readonly FormFactoryInterface $formFactory,
         private readonly KernelInterface $kernel,
+        private readonly PageRepositoryInterface $pageRepository,
     ) {
     }
 
@@ -45,6 +47,7 @@ class HomepageController extends AbstractController
         }
 
         return $this->render('homepage/view.html.twig', [
+            'page' => $this->pageRepository->getByTitle('Home'),
             'isFiltered' => $isFiltered,
             'paginator' => $recipes,
             'dietChoices' => Recipe::DIET_CHOICES,

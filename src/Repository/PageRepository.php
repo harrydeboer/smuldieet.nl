@@ -8,6 +8,7 @@ use App\Entity\Page;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @method Page|null find($id, $lockMode = null, $lockVersion = null)
@@ -24,6 +25,27 @@ class PageRepository extends ServiceEntityRepository implements PageRepositoryIn
         parent::__construct($registry, Page::class);
     }
 
+    public function getByTitle(string $title): Page
+    {
+        $page = $this->findOneBy(['title' => $title]);
+
+        if (is_null($page)) {
+            throw new NotFoundHttpException('Deze pagina bestaat niet of hoort niet bij jou.');
+        }
+
+        return $page;
+    }
+
+    public function getBySlug(string $slug): Page
+    {
+        $page = $this->findOneBy(['slug' => $slug]);
+
+        if (is_null($page)) {
+            throw new NotFoundHttpException('Deze pagina bestaat niet of hoort niet bij jou.');
+        }
+
+        return $page;
+    }
 
     public function create(Page $page): Page
     {

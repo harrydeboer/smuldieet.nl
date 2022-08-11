@@ -58,6 +58,22 @@ body {
   color: gold;
 }
 
+.successMessage {
+  color: green;
+}
+
+.errorMessage {
+  color: red;
+}
+
+.flash-notice-success {
+  color: green;
+}
+
+.flash-notice-must-verify {
+  color: red;
+}
+
 #recipe-image {
   width: 800px;
 }

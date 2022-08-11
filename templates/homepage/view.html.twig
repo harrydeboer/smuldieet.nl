@@ -3,6 +3,16 @@
 {% block title %}Home{% endblock %}
 
 {% block body %}
+    {% for message in app.flashes('success') %}
+        <div class="flash-notice-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('mustVerify') %}
+        <div class="flash-notice-must-verify">
+            {{ message }}
+        </div>
+    {% endfor %}
     <div>
         <i id="recipeFilterIcon" class="fas fa-sliders-h"></i>
     </div>
@@ -44,6 +54,7 @@
     {{ form_widget(form.sort) }}
     {{ form_widget(form.show, { 'label': 'Toon' }) }}
     {{ form_end(form) }}
+    {{ page.content|raw }}
     <table class="table table-striped">
         {% for recipe in paginator.results %}
             <tr>
