@@ -6,6 +6,7 @@ namespace App\Asset\VersionStrategy;
 
 use Symfony\Component\Asset\VersionStrategy\VersionStrategyInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Exception;
 
 class FileMTime implements VersionStrategyInterface
 {
@@ -16,7 +17,13 @@ class FileMTime implements VersionStrategyInterface
 
     public function getVersion(string $path): string
     {
-        return (string) filemtime($this->kernel->getProjectDir() . '/public/' . $path);
+        try {
+            $version = (string) filemtime($this->kernel->getProjectDir() . '/public/' . $path);
+        } catch (Exception) {
+            return '';
+        }
+
+        return $version;
     }
 
     public function applyVersion(string $path): string

@@ -75,7 +75,6 @@ class RegistrationController extends Controller
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
 
-        // Do not get the User's id or Email Address from the Request object
         try {
             $this->verifyEmailHelper->validateEmailConfirmation(
                 $request->getUri(),
@@ -87,9 +86,7 @@ class RegistrationController extends Controller
             return $this->redirectToRoute('appRegister');
         }
 
-        // Mark your user as verified. e.g. switch a User::verified property to true
-
-        $this->addFlash('success', 'Your email address has been verified.');
+        $this->addFlash('success', 'Je e-mail adres is geverifieerd.');
 
         $this->getUser()->setIsVerified(true);
         $this->userRepository->update();

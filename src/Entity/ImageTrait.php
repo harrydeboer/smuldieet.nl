@@ -71,9 +71,13 @@ trait ImageTrait
         }
     }
 
-    public function getImagePath(string $appEnv): ?string
+    public function getImagePath(string $appEnv, int $width = null): ?string
     {
         $idString = (string) $this->getId();
+        if (!is_null($width)) {
+            $widthString = (string) $width;
+            $idString = $idString . '_' . $widthString;
+        }
         $extraPath = '';
         if ($appEnv === 'test') {
             $extraPath = 'test/';
