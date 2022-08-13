@@ -58,6 +58,12 @@ body {
   color: gold;
 }
 
+.hidden-input {
+  opacity: 0;
+  width: 0;
+  float: left;
+}
+
 .successMessage {
   color: green;
 }

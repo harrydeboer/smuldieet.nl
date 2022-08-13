@@ -5,8 +5,8 @@
     {% set weight = '1' %}
 {% endif %}
 <tr id="row{{ rowNumber }}">
-    <td><input type="hidden" name="{{ formName }}[recipeIds][]" id="recipeValue{{ rowNumber }}"
-               value="{{ id }}" required>
+    <td><input type="text" name="{{ formName }}[recipeIds][]" id="recipeValue{{ rowNumber }}"
+               value="{{ id }}" class="hidden-input" required>
         <div class="dropdown">
             <input type="text" class="recipeName dropdown-toggle" maxlength="255"
                    id="recipeName{{ rowNumber }}" value="{{ title }}"
