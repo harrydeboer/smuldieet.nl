@@ -26,6 +26,7 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
         private readonly RecipeRepositoryInterface $recipeRepository,
         private readonly RatingRepositoryInterface $ratingRepository,
         private readonly CommentRepositoryInterface $commentRepository,
+        private readonly CookbookRepositoryInterface $cookbookRepository,
         ManagerRegistry $registry,
     ) {
         parent::__construct($registry, User::class);
@@ -65,10 +66,7 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
     public function delete(User $user): void
     {
         foreach ($user->getCookbooks() as $cookbook) {
-            foreach ($cookbook->getRecipes() as $recipe) {
-                $recipe->setTimesSaved($recipe->getTimesSaved() - 1);
-                $this->recipeRepository->update($recipe);
-            }
+            $this->cookbookRepository->delete($cookbook);
         }
         foreach ($user->getRatings() as $rating) {
             $this->ratingRepository->delete($rating);

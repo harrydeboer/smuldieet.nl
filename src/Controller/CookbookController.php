@@ -8,7 +8,6 @@ use App\Entity\Cookbook;
 use App\Form\CookbookType;
 use App\Form\DeleteCookbookType;
 use App\Repository\CookbookRepositoryInterface;
-use App\Repository\RecipeRepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,7 +19,6 @@ class CookbookController extends AuthController
 {
     public function __construct(
         private readonly CookbookRepositoryInterface $cookbookRepository,
-        private readonly RecipeRepositoryInterface $recipeRepository,
     ) {
     }
 
@@ -54,12 +52,7 @@ class CookbookController extends AuthController
         $formUpdate->handleRequest($request);
 
         if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
-            foreach ($recipesOld as $recipe) {
-                $timesSaved = $recipe->getTimesSaved();
-                $recipe->setTimesSaved($timesSaved - 1);
-                $this->recipeRepository->update($recipe);
-            }
-            $this->addRecipesFromIds($cookbook, $recipesOld);
+            $this->cookbookRepository->update($cookbook, $recipesOld);
 
             return $this->redirectToRoute('cookbook');
         }
@@ -82,7 +75,6 @@ class CookbookController extends AuthController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->cookbookRepository->create($cookbook);
-            $this->addRecipesFromIds($cookbook);
 
             return $this->redirectToRoute('cookbook');
         }
@@ -103,11 +95,6 @@ class CookbookController extends AuthController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            foreach ($cookbook->getRecipes()->toArray() as $recipe) {
-                $timesSaved = $recipe->getTimesSaved();
-                $recipe->setTimesSaved($timesSaved - 1);
-                $this->recipeRepository->update($recipe);
-            }
             $this->cookbookRepository->delete($cookbook);
         }
 
@@ -122,26 +109,6 @@ class CookbookController extends AuthController
         return $this->render('cookbook/single/view.html.twig', [
             'cookbook' => $cookbook,
         ]);
-    }
-
-    private function addRecipesFromIds(Cookbook $cookbook, array $recipesOld = []): void
-    {
-        if ($cookbook->getRecipeIds() === [null]) {
-            return;
-        }
-
-        foreach($recipesOld as $recipe) {
-            $cookbook->removeRecipe($recipe);
-        }
-
-        foreach ($cookbook->getRecipeIds() as $id) {
-            $recipe = $this->recipeRepository->get($id);
-            $timesSaved = $recipe->getTimesSaved();
-            $recipe->setTimesSaved($timesSaved + 1);
-            $this->recipeRepository->update($recipe);
-            $cookbook->addRecipe($recipe);
-        }
-        $this->cookbookRepository->update();
     }
 
     private function getCookbook(int $id): Cookbook

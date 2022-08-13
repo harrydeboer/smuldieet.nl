@@ -21,7 +21,7 @@ class CookbookRepositoryTest extends KernelTestCase
         $updatedTitle = 'Test';
         $cookbook->setTitle($updatedTitle);
 
-        $cookbookRepository->update();
+        $cookbookRepository->update($cookbook, $cookbook->getRecipes()->toArray());
 
         $this->assertSame($updatedTitle, $cookbookRepository->findOneBy(['title' => $updatedTitle])->getTitle());
 

@@ -20,6 +20,7 @@ class CookbookRepository extends ServiceEntityRepository implements CookbookRepo
 {
     public function __construct(
         private readonly EntityManagerInterface $em,
+        private readonly RecipeRepositoryInterface $recipeRepository,
         ManagerRegistry $registry,
     ) {
         parent::__construct($registry, Cookbook::class);
@@ -40,18 +41,51 @@ class CookbookRepository extends ServiceEntityRepository implements CookbookRepo
     {
         $this->em->persist($cookbook);
         $this->em->flush();
+        $this->addRecipesFromIds($cookbook);
+        $this->em->flush();
 
         return $cookbook;
     }
 
-    public function update(): void
+    public function update(Cookbook $cookbook, array $recipesOld): void
     {
+        foreach ($recipesOld as $recipe) {
+            $timesSaved = $recipe->getTimesSaved();
+            $recipe->setTimesSaved($timesSaved - 1);
+            $this->recipeRepository->update($recipe);
+        }
+        $this->addRecipesFromIds($cookbook, $recipesOld);
         $this->em->flush();
     }
 
     public function delete(Cookbook $cookbook): void
     {
+        foreach ($cookbook->getRecipes()->toArray() as $recipe) {
+            $timesSaved = $recipe->getTimesSaved();
+            $recipe->setTimesSaved($timesSaved - 1);
+            $this->recipeRepository->update($recipe);
+        }
+
         $this->em->remove($cookbook);
         $this->em->flush();
+    }
+
+    private function addRecipesFromIds(Cookbook $cookbook, array $recipesOld = []): void
+    {
+        if ($cookbook->getRecipeIds() === [null]) {
+            return;
+        }
+
+        foreach ($recipesOld as $recipe) {
+            $cookbook->removeRecipe($recipe);
+        }
+
+        foreach ($cookbook->getRecipeIds() as $id) {
+            $recipe = $this->recipeRepository->get($id);
+            $timesSaved = $recipe->getTimesSaved();
+            $recipe->setTimesSaved($timesSaved + 1);
+            $this->recipeRepository->update($recipe);
+            $cookbook->addRecipe($recipe);
+        }
     }
 }
