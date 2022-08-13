@@ -95,7 +95,9 @@ trait ImageTrait
     public function unlinkImage(string $appEnv, string $projectDir): void
     {
         if (!is_null($this->getImagePath($appEnv))) {
-            unlink($projectDir . '/public/' . $this->getImagePath($appEnv));
+            @unlink($projectDir . '/public/' . $this->getImagePath($appEnv));
+            @unlink($projectDir . '/public/' . $this->getImagePath($appEnv, 100));
+            @unlink($projectDir . '/public/' . $this->getImagePath($appEnv, 600));
         }
     }
 }

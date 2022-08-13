@@ -822,7 +822,7 @@ class Foodstuff
             'molybdenum' => [65,600, 'μg', 'Molybdeen', 2],
             'chromium' => [30,250, 'μg', 'Chroom', 2],
             'fluoride' => [0,7, 'mg', 'Fluoride', 2],
-            'alcohol' => [0,15, 'g', 'Alcohol', 0],
+            'alcohol' => [0,10, 'g', 'Alcohol', 0],
             'caffeine' => [0,400, 'mg', 'Caffeïne', 0],
         ];
 

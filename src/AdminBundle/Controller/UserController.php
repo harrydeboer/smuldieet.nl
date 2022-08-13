@@ -87,6 +87,8 @@ class UserController extends AuthController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user->unlinkImage($this->getParameter('kernel.environment'),
+                $this->getParameter('kernel.project_dir'));
             $this->userRepository->delete($user);
         }
 
