@@ -1,6 +1,10 @@
 <div id="formErrorsClient"></div>
 <div id="formErrorsServer">
-    {% include 'foodstuff/error.html.twig' %}
+    {{ form_errors(form) }}
+    {{ form_errors(form.name) }}
+    {% for key,property in foodstuff.aDH() %}
+        {{ form_errors(attribute(form, key)) }}
+    {% endfor %}
 </div>
 {{ form_start(form) }}
 <table class="createUpdateTable">
