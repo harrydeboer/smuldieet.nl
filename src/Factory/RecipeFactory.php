@@ -6,12 +6,14 @@ namespace App\Factory;
 
 use App\Entity\Recipe;
 use App\Repository\RecipeRepositoryInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class RecipeFactory extends AbstractFactory
 {
     public function __construct(
         private readonly RecipeRepositoryInterface $recipeRepository,
         private readonly UserFactory $userFactory,
+        private readonly FoodstuffFactory $foodstuffFactory,
     ) {
     }
 
@@ -23,6 +25,13 @@ class RecipeFactory extends AbstractFactory
         } else {
             $paramsParent['user'] = $this->userFactory->create();
         }
+        if (isset($params['foodstuffs'])) {
+            $paramsParent['foodstuffs'] = $params['foodstuffs'];
+        } else {
+            $arrayCollection = new ArrayCollection();
+            $arrayCollection->add($this->foodstuffFactory->create());
+            $paramsParent['foodstuffs'] = $arrayCollection;
+        }
         $recipe = new Recipe();
         $recipe->setTitle(uniqid('recipe'));
         $recipe->setNiceStory(uniqid('story'));
@@ -30,6 +39,12 @@ class RecipeFactory extends AbstractFactory
         $recipe->setTimestamp(time());
         $recipe->setPreparationMethod('test');
         $recipe->setNumberOfPersons(rand(1,100));
+        $recipe->setFoodstuffs($paramsParent['foodstuffs']);
+        $weights = [];
+        foreach ($paramsParent['foodstuffs'] as $foodstuff) {
+            $weights[$foodstuff->getId()] = rand(1,10);
+        }
+        $recipe->setFoodstuffWeights($weights);
         $rand = rand(0, 1);
         if ($rand === 1) {
             $recipe->setRating(rand(10,100) / 10);

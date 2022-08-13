@@ -34,7 +34,7 @@ class CommentFactory extends AbstractFactory
         if (isset($params['recipe'])) {
             $paramsParent['recipe'] = $params['recipe'];
         } else {
-            $paramsParent['recipe'] = $this->recipeFactory->create();
+            $paramsParent['recipe'] = $this->recipeFactory->create(['timesReacted' => 1]);
         }
         $comment = new Comment();
         $comment->setUser($paramsParent['user']);

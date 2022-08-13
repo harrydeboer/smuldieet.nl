@@ -27,10 +27,10 @@ class RatingFactory extends AbstractFactory
         if (isset($params['recipe'])) {
             $paramsParent['recipe'] = $params['recipe'];
         } else {
-            $paramsParent['recipe'] = $this->recipeFactory->create();
+            $paramsParent['recipe'] = $this->recipeFactory->create(['votes' => 1, 'rating' => rand(10, 100) / 100]);
         }
         $rating = new Rating();
-        $rating->setRating(rand(10, 100) / 10);
+        $rating->setRating((int) ($paramsParent['recipe']->getRating() * 10));
         $rating->setTimestamp(time());
         $rating->setPending(rand(0, 1) === 1);
         $rating->setUser($paramsParent['user']);
