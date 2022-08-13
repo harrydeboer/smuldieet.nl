@@ -12,6 +12,8 @@ use App\Form\DeleteRecipeType;
 use App\Repository\RatingRepositoryInterface;
 use App\Repository\RecipeRepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -60,7 +62,8 @@ class RecipeController extends Controller
 
         $formUpdate->handleRequest($request);
 
-        if ($formUpdate->isSubmitted() && $formUpdate->isValid() && $this->checkImage($formUpdate)) {
+        if ($formUpdate->isSubmitted() && $formUpdate->isValid() && $this->checkImage($formUpdate)
+            && $this->checkCount($recipe, $formUpdate)) {
             $this->recipeRepository->update($recipe);
             $this->moveImage($recipe, $formUpdate->get('image')->getData());
 
@@ -84,7 +87,7 @@ class RecipeController extends Controller
         $recipe->setUser($this->getUser());
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid() && $this->checkImage($form)) {
+        if ($form->isSubmitted() && $form->isValid() && $this->checkImage($form) && $this->checkCount($recipe, $form)) {
             $this->recipeRepository->create($recipe);
             $this->moveImage($recipe, $form->get('image')->getData());
 
@@ -193,6 +196,17 @@ class RecipeController extends Controller
         }
 
         return $this->recipeRepository->getFromUser($id, $this->getUser()->getId());
+    }
+
+    private function checkCount(Recipe $recipe, FormInterface $form): bool
+    {
+        if (count($recipe->getFoodstuffWeights()) === count($recipe->getFoodstuffs())) {
+            return true;
+        }
+
+        $form->addError(new FormError('Het aantal gewichten is niet gelijk aan het ' .
+            'aantal elementen.'));
+        return false;
     }
 
     private function moveImage(Recipe $recipe, ?UploadedFile $image)

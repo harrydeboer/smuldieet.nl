@@ -19,6 +19,7 @@ class CommentRepository extends ServiceEntityRepository implements CommentReposi
 {
     public function __construct(
         private readonly EntityManagerInterface $em,
+        private readonly RecipeRepositoryInterface $recipeRepository,
         ManagerRegistry $registry,
     ) {
         parent::__construct($registry, Comment::class);
@@ -27,6 +28,10 @@ class CommentRepository extends ServiceEntityRepository implements CommentReposi
 
     public function create(Comment $comment): Comment
     {
+        if (!is_null($recipe = $comment->getRecipe())) {
+            $recipe->setTimesReacted($recipe->getTimesReacted() + 1);
+            $this->recipeRepository->update($recipe);
+        }
         $this->em->persist($comment);
         $this->em->flush();
 
@@ -40,6 +45,11 @@ class CommentRepository extends ServiceEntityRepository implements CommentReposi
 
     public function delete(Comment $comment): void
     {
+        if (!is_null($recipe = $comment->getRecipe())) {
+            $recipe->setTimesReacted($recipe->getTimesReacted() - 1);
+            $this->recipeRepository->update($recipe);
+        }
+
         $this->em->remove($comment);
         $this->em->flush();
     }

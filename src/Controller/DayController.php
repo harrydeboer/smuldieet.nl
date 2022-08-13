@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Day;
+use App\Entity\Recipe;
 use App\Form\DayType;
 use App\Form\DeleteDayType;
 use App\Form\StandardDayType;
 use App\Repository\DayRepositoryInterface;
 use App\Repository\RecipeRepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -63,7 +66,7 @@ class DayController extends AuthController
 
         $formUpdate->handleRequest($request);
 
-        if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
+        if ($formUpdate->isSubmitted() && $formUpdate->isValid() && $this->checkCount($day, $formUpdate)) {
             $this->addRecipesFromIds($day);
 
             return $this->redirectToRoute('day');
@@ -86,7 +89,7 @@ class DayController extends AuthController
         $day->setUser($this->getUser());
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid() && $this->checkCount($day, $form)) {
             if (is_null($day->getTimestamp())) {
                 throw new BadRequestException('De dag moet een datum hebben.');
             }
@@ -113,7 +116,7 @@ class DayController extends AuthController
         $day->setUser($this->getUser());
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid() && $this->checkCount($day, $form)) {
             $dayStandard = $this->dayRepository->findOneBy(['user' => $this->getUser()->getId(), 'timestamp' => null]);
             if (!is_null($dayStandard)) {
                 throw new BadRequestException('Er kan maar 1 standaard dag zijn.');
@@ -178,6 +181,18 @@ class DayController extends AuthController
         $day->setFoodstuffWeights([]);
         $day->setRecipes(new ArrayCollection());
         $day->setRecipeWeights([]);
+    }
+
+    private function checkCount(Day $day, FormInterface $form): bool
+    {
+        if (count($day->getFoodstuffWeights()) === count($day->getFoodstuffs())
+            && count($day->getRecipeWeights()) === count($day->getRecipes())) {
+            return true;
+        }
+
+        $form->addError(new FormError('Het aantal gewichten is niet gelijk aan het ' .
+            'aantal elementen.'));
+        return false;
     }
 
     private function getDay(int $id): Day
