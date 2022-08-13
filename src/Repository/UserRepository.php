@@ -24,6 +24,8 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
         private readonly EntityManagerInterface $em,
         private readonly UserPasswordHasherInterface $passwordEncoder,
         private readonly RecipeRepositoryInterface $recipeRepository,
+        private readonly RatingRepositoryInterface $ratingRepository,
+        private readonly CommentRepositoryInterface $commentRepository,
         ManagerRegistry $registry,
     ) {
         parent::__construct($registry, User::class);
@@ -69,20 +71,10 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
             }
         }
         foreach ($user->getRatings() as $rating) {
-            $recipe = $rating->getRecipe();
-            $votes = $recipe->getVotes();
-            if ($votes === 1) {
-                $recipe->setRating(null);
-            } else {
-                $recipe->setRating(($recipe->getRating() * $votes - $rating->getRating()) / ($votes - 1));
-            }
-            $recipe->setVotes($votes - 1);
-            $this->recipeRepository->update($recipe);
+            $this->ratingRepository->delete($rating);
         }
         foreach ($user->getComments() as $comment) {
-            $recipe = $comment->getRecipe();
-            $recipe->setTimesReacted($recipe->getTimesReacted() - 1);
-            $this->recipeRepository->update($recipe);
+            $this->commentRepository->delete($comment);
         }
 
         $this->em->remove($user);
