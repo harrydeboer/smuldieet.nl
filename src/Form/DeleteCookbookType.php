@@ -15,7 +15,6 @@ class DeleteCookbookType extends AbstractType
         $builder
             ->add('delete', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-danger'],
-            ])
-        ;
+            ]);
     }
 }

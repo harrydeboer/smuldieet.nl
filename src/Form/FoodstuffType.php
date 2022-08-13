@@ -56,7 +56,6 @@ class FoodstuffType extends AbstractType
             ->add('caffeine', NumberType::class, ['required' => false])
             ->add('submit', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-primary'],
-            ])
-        ;
+            ]);
     }
 }

@@ -27,7 +27,7 @@ class FoodstuffController extends AuthController
     ]
     public function view($char = 'A'): Response
     {
-        $foodstuffs = $this->foodstuffRepository->findAllStartingWith($char, null);
+        $foodstuffs = $this->foodstuffRepository->findAllStartingWith($char, $this->getUser()->getId());
 
         return $this->render('@AdminBundle/foodstuff/view.html.twig', [
             'charSelected' => $char,
@@ -59,26 +59,6 @@ class FoodstuffController extends AuthController
             'foodstuff' => $foodstuff,
             'formUpdate' => $formUpdate->createView(),
             'formDelete' => $formDelete->createView(),
-        ]);
-    }
-
-    #[Route('/voedingsmiddel/toevoegen', name: 'adminFoodstuffCreate')]
-    public function new(Request $request): Response
-    {
-        $foodstuff = new Foodstuff();
-        $form = $this->createForm(FoodstuffType::class, $foodstuff);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $foodstuff->setUser($this->getUser());
-            $this->foodstuffRepository->create($foodstuff);
-
-            return $this->redirectToRoute('adminFoodstuff');
-        }
-
-        return $this->render('@AdminBundle/foodstuff/new/view.html.twig', [
-            'foodstuff' => $foodstuff,
-            'form' => $form->createView(),
         ]);
     }
 

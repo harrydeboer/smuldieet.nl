@@ -11,7 +11,7 @@ class CookbookFactory extends AbstractFactory
 {
     public function __construct(
         private readonly CookbookRepositoryInterface $cookbookRepository,
-        private readonly UserFactory $userFactory
+        private readonly UserFactory $userFactory,
     ) {
     }
 

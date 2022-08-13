@@ -11,7 +11,7 @@ class PageFactory extends AbstractFactory
 {
     public function __construct(
         private readonly PageRepositoryInterface $pageRepository,
-        private readonly UserFactory $userFactory
+        private readonly UserFactory $userFactory,
     ) {
     }
 

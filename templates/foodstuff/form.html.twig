@@ -1,45 +1,6 @@
 <div id="formErrorsClient"></div>
 <div id="formErrorsServer">
-    {{ form_errors(form) }}
-    {{ form_errors(form.name) }}
-    {{ form_errors(form.energyKcal) }}
-    {{ form_errors(form.water) }}
-    {{ form_errors(form.protein) }}
-    {{ form_errors(form.carbohydrates) }}
-    {{ form_errors(form.sucre) }}
-    {{ form_errors(form.fat) }}
-    {{ form_errors(form.saturatedFat) }}
-    {{ form_errors(form.monounsaturatedFat) }}
-    {{ form_errors(form.polyunsaturatedFat) }}
-    {{ form_errors(form.cholesterol) }}
-    {{ form_errors(form.dietaryFiber) }}
-    {{ form_errors(form.salt) }}
-    {{ form_errors(form.vitaminA) }}
-    {{ form_errors(form.vitaminB1) }}
-    {{ form_errors(form.vitaminB2) }}
-    {{ form_errors(form.vitaminB3) }}
-    {{ form_errors(form.vitaminB6) }}
-    {{ form_errors(form.vitaminB11) }}
-    {{ form_errors(form.vitaminB12) }}
-    {{ form_errors(form.vitaminC) }}
-    {{ form_errors(form.vitaminD) }}
-    {{ form_errors(form.vitaminE) }}
-    {{ form_errors(form.vitaminK) }}
-    {{ form_errors(form.potassium) }}
-    {{ form_errors(form.calcium) }}
-    {{ form_errors(form.phosphorus) }}
-    {{ form_errors(form.iron) }}
-    {{ form_errors(form.copper) }}
-    {{ form_errors(form.magnesium) }}
-    {{ form_errors(form.zinc) }}
-    {{ form_errors(form.selenium) }}
-    {{ form_errors(form.iodine) }}
-    {{ form_errors(form.manganese) }}
-    {{ form_errors(form.molybdenum) }}
-    {{ form_errors(form.chromium) }}
-    {{ form_errors(form.fluoride) }}
-    {{ form_errors(form.alcohol) }}
-    {{ form_errors(form.caffeine) }}
+    {% include 'foodstuff/error.html.twig' %}
 </div>
 {{ form_start(form) }}
 <table class="createUpdateTable">

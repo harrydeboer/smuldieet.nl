@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace App\AdminBundle\Form;
 
 use App\Entity\User;
-use App\Repository\UserRepositoryInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class FoodstuffType extends \App\Form\FoodstuffType
 {
     public function __construct(
-        private readonly UserRepositoryInterface $userRepository,
+        private readonly TokenStorageInterface $token,
     ) {
     }
 
@@ -21,7 +21,7 @@ class FoodstuffType extends \App\Form\FoodstuffType
         $builder
             ->add('user', EntityType::class, [
                 'class' => User::class,
-                'choices' => $this->userRepository->findAll(),
+                'choices' => [$this->token->getToken()->getUser()],
                 'choice_value' => 'id',
                 'choice_label' => function(?User $user) {
                     return $user ? $user->getUsername() : '';
