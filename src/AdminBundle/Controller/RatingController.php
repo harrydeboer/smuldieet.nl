@@ -52,28 +52,9 @@ class RatingController extends AuthController
         }
 
         return $this->render('@AdminBundle/rating/edit/view.html.twig', [
+            'rating' => $rating,
             'formUpdate' => $formUpdate->createView(),
             'formDelete' => $formDelete->createView(),
-        ]);
-    }
-
-    #[Route('/waardering/toevoegen', name: 'adminRatingCreate')]
-    public function new(Request $request): Response
-    {
-        $rating = new Rating();
-        $form = $this->createForm(ReviewType::class, $rating);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $rating->setUser($this->getUser());
-            $rating->setTimestamp(time());
-            $this->ratingRepository->create($rating);
-
-            return $this->redirectToRoute('adminRating');
-        }
-
-        return $this->render('@AdminBundle/rating/new/view.html.twig', [
-            'form' => $form->createView(),
         ]);
     }
 

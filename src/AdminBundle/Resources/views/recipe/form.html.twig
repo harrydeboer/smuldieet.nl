@@ -1,13 +1,15 @@
 <div id="formErrorsClient"></div>
 <div id="formErrorsServer">
     {{ form_errors(form) }}
-    {{ form_errors(form.title) }}
     {{ form_errors(form.pending) }}
 </div>
 {{ form_start(form) }}
 <table id="recipeTable">
-    <tr><td>Titel</td><td>{{ form_widget(form.title) }}</td></tr>
-    <tr><td>Gebruiker</td><td>{{ form_widget(form.user) }}</td></tr>
+    <tr><td>Ingredients</td><td>{{ recipe.ingredients }}</td></tr>
+    <tr><td>Bereidingswijze</td><td>{{ recipe.preparationMethod }}</td></tr>
+    <tr><td>Leuk verhaal</td><td>{{ recipe.niceStory }}</td></tr>
+    <tr><td>Leuke tips</td><td>{{ recipe.niceTips }}</td></tr>
+    <tr><td>Hulpmiddelen en keukengerei</td><td>{{ recipe.toolsAndKitchenware }}</td></tr>
     <tr><td>Pending</td><td>{{ form_widget(form.pending) }}</td></tr>
     <tr><td colspan="2">{{ form_widget(form.submit, { 'label': submitLabel }) }}</td></tr>
 </table>

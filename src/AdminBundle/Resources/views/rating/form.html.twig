@@ -1,11 +1,11 @@
 <div id="formErrorsClient"></div>
 <div id="formErrorsServer">
     {{ form_errors(form) }}
+    {{ form_errors(form.pending) }}
 </div>
 {{ form_start(form) }}
 <table id="ratingTable">
-    <tr><td>Waardering</td><td>{{ form_widget(form.rating) }}</td></tr>
-    <tr><td>Content</td><td>{{ form_widget(form.content) }}</td></tr>
+    <tr><td>Content</td><td>{{ rating.content }}</td></tr>
     <tr><td>Pending</td><td>{{ form_widget(form.pending) }}</td></tr>
     <tr><td colspan="2">{{ form_widget(form.submit, { 'label': submitLabel }) }}</td></tr>
 </table>

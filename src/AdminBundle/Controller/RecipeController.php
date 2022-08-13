@@ -52,28 +52,9 @@ class RecipeController extends AuthController
         }
 
         return $this->render('@AdminBundle/recipe/edit/view.html.twig', [
+            'recipe' => $recipe,
             'formUpdate' => $formUpdate->createView(),
             'formDelete' => $formDelete->createView(),
-        ]);
-    }
-
-    #[Route('/recept/toevoegen', name: 'adminRecipeCreate')]
-    public function new(Request $request): Response
-    {
-        $recipe = new Recipe();
-        $form = $this->createForm(RecipeType::class, $recipe);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $recipe->setUser($this->getUser());
-            $recipe->setTimestamp(time());
-            $this->recipeRepository->create($recipe);
-
-            return $this->redirectToRoute('adminRecipe');
-        }
-
-        return $this->renderForm('@AdminBundle/recipe/new/view.html.twig', [
-            'form' => $form,
         ]);
     }
 

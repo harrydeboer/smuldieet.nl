@@ -3,7 +3,6 @@
 {% block title %}Recept{% endblock %}
 
 {% block body %}
-    <a href="{{ path('adminRecipeCreate') }}">Maak een recept</a>
     <table class="table table-striped" id="pageTable">
         {% for recipe in recipes %}
             <tr>

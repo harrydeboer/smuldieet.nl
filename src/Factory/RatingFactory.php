@@ -11,7 +11,8 @@ class RatingFactory extends AbstractFactory
 {
     public function __construct(
         private readonly RatingRepositoryInterface $ratingRepository,
-        private readonly UserFactory $userFactory
+        private readonly UserFactory $userFactory,
+        private readonly RecipeFactory $recipeFactory,
     ) {
     }
 
@@ -23,11 +24,17 @@ class RatingFactory extends AbstractFactory
         } else {
             $paramsParent['user'] = $this->userFactory->create();
         }
+        if (isset($params['recipe'])) {
+            $paramsParent['recipe'] = $params['recipe'];
+        } else {
+            $paramsParent['recipe'] = $this->recipeFactory->create();
+        }
         $rating = new Rating();
         $rating->setRating(rand(10, 100) / 10);
         $rating->setTimestamp(time());
         $rating->setPending(rand(0, 1) === 1);
         $rating->setUser($paramsParent['user']);
+        $rating->setRecipe($paramsParent['recipe']);
 
         $this->setParams($params, $rating);
 

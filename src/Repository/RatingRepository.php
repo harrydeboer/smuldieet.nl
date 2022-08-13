@@ -19,6 +19,7 @@ class RatingRepository extends ServiceEntityRepository implements RatingReposito
 {
     public function __construct(
         private readonly EntityManagerInterface $em,
+        private readonly RecipeRepositoryInterface $recipeRepository,
         ManagerRegistry $registry,
     ) {
         parent::__construct($registry, Rating::class);
@@ -49,6 +50,15 @@ class RatingRepository extends ServiceEntityRepository implements RatingReposito
 
     public function delete(Rating $rating): void
     {
+        $recipe = $rating->getRecipe();
+        $votes = $recipe->getVotes();
+        $recipe->setVotes($votes - 1);
+        if ($votes === 1) {
+            $recipe->setRating(null);
+        } else {
+            $recipe->setRating(($recipe->getRating() * $votes - $rating->getRating()) / ($votes - 1));
+        }
+        $this->recipeRepository->update($recipe);
         $this->em->remove($rating);
         $this->em->flush();
     }

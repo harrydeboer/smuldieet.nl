@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\AdminBundle\Functional\Controller;
 
+use App\Factory\RatingFactory;
 use App\Repository\RatingRepositoryInterface;
 use App\Tests\Functional\AuthAdminWebTestCase;
 
@@ -15,23 +16,10 @@ class RatingControllerTest extends AuthAdminWebTestCase
 
         $this->assertResponseIsSuccessful();
 
-        $crawler = $this->client->request('GET', '/admin/waardering/toevoegen');
-
-        $buttonCrawlerNode = $crawler->selectButton('Rating opslaan');
-
-        $form = $buttonCrawlerNode->form();
-
-        $form['review[rating]'] = 8;
-        $form['review[content]'] = 'testContent';
-        $form['review[pending]'] = false;
-
-        $this->client->submit($form);
-
-        $this->assertResponseRedirects('/admin/waardering');
+        $rating = static::getContainer()->get(RatingFactory::class)->create(['pending' => true]);
 
         $ratingRepository = $this->getContainer()->get(RatingRepositoryInterface::class);
 
-        $rating = $ratingRepository->findOneBy(['content' => 'testContent']);
         $id = $rating->getId();
 
         $crawler = $this->client->request('GET', '/admin/waardering/wijzig/' . $id);
@@ -40,16 +28,15 @@ class RatingControllerTest extends AuthAdminWebTestCase
 
         $form = $buttonCrawlerNode->form();
 
-        $updatedContent = 'testContent2';
-        $form['review[content]'] = $updatedContent;
+        $form['review[pending]'] = false;
 
         $this->client->submit($form);
 
         $this->assertResponseRedirects('/admin/waardering');
 
-        $rating = $ratingRepository->findOneBy(['content' => $updatedContent]);
+        $rating = $ratingRepository->findOneBy(['pending' => false]);
 
-        $this->assertEquals($updatedContent, $rating->getContent());
+        $this->assertEquals(false, $rating->getPending());
 
         $crawler = $this->client->request('GET', '/admin/waardering/wijzig/' . $id);
 
