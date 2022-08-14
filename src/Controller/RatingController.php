@@ -21,12 +21,12 @@ class RatingController extends AuthController
     ) {
     }
 
-    #[Route('/waardering/{id}', name: 'recipeRatingNew')]
-    public function new(Request $request, int $id): RedirectResponse
+    #[Route('/waardering/{recipeId}', name: 'recipeRatingNew')]
+    public function new(Request $request, int $recipeId): RedirectResponse
     {
         $rating = new Rating();
         $form = $this->createForm(RatingType::class, $rating);
-        $recipe = $this->recipeRepository->get($id);
+        $recipe = $this->recipeRepository->get($recipeId);
         $this->checkPending($recipe);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -37,36 +37,30 @@ class RatingController extends AuthController
             $this->ratingRepository->create($rating);
         }
 
-        return $this->redirectToRoute('recipeSingle', ['id' => $id]);
+        return $this->redirectToRoute('recipeSingle', ['id' => $recipeId]);
     }
 
     #[Route('/waardering/verwijder/{id}', name: 'recipeRatingDelete')]
     public function delete(Request $request, int $id): RedirectResponse
     {
-        $recipe = $this->recipeRepository->get($id);
+        $rating = $this->ratingRepository->findOneBy(['id' => $id, 'user' => $this->getUser()->getId()]);
+        $recipe = $rating->getRecipe();
         $this->checkPending($recipe);
-        $rating = $this->ratingRepository->findOneBy([
-            'recipe' => $id,
-            'user' => $this->getUser()->getId(),
-        ]);
         $formDelete = $this->createForm(DeleteRatingType::class);
         $formDelete->handleRequest($request);
         if ($formDelete->isSubmitted() && $formDelete->isValid()) {
             $this->ratingRepository->delete($rating);
         }
 
-        return $this->redirectToRoute('recipeSingle', ['id' => $id]);
+        return $this->redirectToRoute('recipeSingle', ['id' => $recipe->getId()]);
     }
 
     #[Route('/waardering/wijzig/{id}', name: 'recipeRatingUpdate')]
     public function update(Request $request, int $id): RedirectResponse
     {
-        $recipe = $this->recipeRepository->get($id);
+        $rating = $this->ratingRepository->findOneBy(['id' => $id, 'user' => $this->getUser()->getId()]);
+        $recipe = $rating->getRecipe();
         $this->checkPending($recipe);
-        $rating = $this->ratingRepository->findOneBy([
-            'recipe' => $id,
-            'user' => $this->getUser()->getId(),
-        ]);
         $oldRating = $rating->getRating();
         $form = $this->createForm(RatingType::class, $rating);
         $form->handleRequest($request);
@@ -74,6 +68,6 @@ class RatingController extends AuthController
             $this->ratingRepository->update($oldRating, $rating);
         }
 
-        return $this->redirectToRoute('recipeSingle', ['id' => $id]);
+        return $this->redirectToRoute('recipeSingle', ['id' => $recipe->getId()]);
     }
 }

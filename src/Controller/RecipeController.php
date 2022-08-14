@@ -141,14 +141,14 @@ class RecipeController extends Controller
 
         if (is_null($rating)) {
             $form = $this->createForm(RatingType::class, null, [
-                'action' => $this->generateUrl('recipeRatingNew', ['id' => $id]),
+                'action' => $this->generateUrl('recipeRatingNew', ['recipeId' => $id]),
             ]);
         } else {
             $form = $this->createForm(RatingType::class, $rating, [
-                'action' => $this->generateUrl('recipeRatingUpdate', ['id' => $id]),
+                'action' => $this->generateUrl('recipeRatingUpdate', ['id' => $rating->getId()]),
             ]);
             $formDelete = $this->createForm(DeleteRatingType::class, null, [
-                'action' => $this->generateUrl('recipeRatingDelete', ['id' => $id]),
+                'action' => $this->generateUrl('recipeRatingDelete', ['id' => $rating->getId()]),
             ]);
         }
 
