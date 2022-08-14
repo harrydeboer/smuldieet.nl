@@ -13,7 +13,7 @@ interface RatingRepositoryInterface extends ServiceEntityRepositoryInterface
 
     public function create(Rating $rating): void;
 
-    public function update(float $ratingOldRating, Rating $rating): void;
+    public function update(float $oldRating, Rating $rating): void;
 
     public function delete(Rating $rating): void;
 }

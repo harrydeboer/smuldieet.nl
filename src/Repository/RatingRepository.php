@@ -48,13 +48,12 @@ class RatingRepository extends ServiceEntityRepository implements RatingReposito
         $this->em->flush();
     }
 
-    public function update(float $ratingOldRating, Rating $rating): void
+    public function update(float $oldRating, Rating $rating): void
     {
         $recipe = $rating->getRecipe();
         $recipeRating = $recipe->getRating();
         $votes = $recipe->getVotes();
-        $recipe->setRating(($recipeRating * $votes + $rating->getRating() -
-                $ratingOldRating) / $votes);
+        $recipe->setRating(($recipeRating * $votes + $rating->getRating() - $oldRating) / $votes);
         $this->em->flush();
         $this->recipeRepository->update($recipe);
     }

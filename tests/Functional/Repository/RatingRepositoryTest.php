@@ -13,7 +13,7 @@ class RatingRepositoryTest extends KernelTestCase
     public function testCreateUpdateDelete(): void
     {
         $rating = static::getContainer()->get(RatingFactory::class)->create();
-        $ratingOldRating = $rating->getRating();
+        $oldRating = $rating->getRating();
 
         $ratingRepository = static::getContainer()->get(RatingRepositoryInterface::class);
 
@@ -22,7 +22,7 @@ class RatingRepositoryTest extends KernelTestCase
         $updatedRating = 9.0;
         $rating->setRating($updatedRating);
 
-        $ratingRepository->update($ratingOldRating, $rating);
+        $ratingRepository->update($oldRating, $rating);
 
         $this->assertSame($updatedRating, $ratingRepository->findOneBy(['rating' => $updatedRating * 10])->getRating());
 

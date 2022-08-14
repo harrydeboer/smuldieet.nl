@@ -186,14 +186,14 @@ class RecipeController extends Controller
     {
         $recipe = $this->recipeRepository->get($id);
         $this->checkPending($recipe);
-        $ratingOld = $this->ratingRepository->findOneBy([
-            'recipe' => $recipe->getId(),
+        $rating = $this->ratingRepository->findOneBy([
+            'recipe' => $id,
             'user' => $this->getUser()->getId(),
         ]);
         $formDelete = $this->createForm(DeleteRatingType::class);
         $formDelete->handleRequest($request);
         if ($formDelete->isSubmitted() && $formDelete->isValid()) {
-            $this->ratingRepository->delete($ratingOld);
+            $this->ratingRepository->delete($rating);
         }
 
         return $this->redirectToRoute('recipeSingle', ['id' => $id]);
@@ -204,15 +204,15 @@ class RecipeController extends Controller
     {
         $recipe = $this->recipeRepository->get($id);
         $this->checkPending($recipe);
-        $ratingOld = $this->ratingRepository->findOneBy([
-            'recipe' => $recipe->getId(),
+        $rating = $this->ratingRepository->findOneBy([
+            'recipe' => $id,
             'user' => $this->getUser()->getId(),
         ]);
-        $ratingOldRating = $ratingOld->getRating();
-        $form = $this->createForm(RatingType::class, $ratingOld);
+        $oldRating = $rating->getRating();
+        $form = $this->createForm(RatingType::class, $rating);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->ratingRepository->update($ratingOldRating, $ratingOld);
+            $this->ratingRepository->update($oldRating, $rating);
         }
 
         return $this->redirectToRoute('recipeSingle', ['id' => $id]);
