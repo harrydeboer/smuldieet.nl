@@ -54,15 +54,12 @@ class FoodstuffController extends Controller
 
         $formUpdate->handleRequest($request);
 
-        if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
-            if (is_null($message = $this->checkWeightsAndEnergy($foodstuff))) {
-                if ($this->checkCanEdit($foodstuff)) {
-                    $this->foodstuffRepository->update();
-                }
+        if ($formUpdate->isSubmitted() && $formUpdate->isValid() && $this->checkCanEdit($foodstuff)) {
+            if (is_null($error = $this->foodstuffRepository->update($foodstuff))) {
 
                 return $this->redirectToRoute('foodstuff');
             } else {
-                $formUpdate->addError(new FormError($message));
+                $formUpdate->addError(new FormError($error));
             }
         }
 
@@ -81,14 +78,12 @@ class FoodstuffController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if (is_null($message = $this->checkWeightsAndEnergy($foodstuff))) {
-                $foodstuff->setUser($this->getUser());
-
-                $this->foodstuffRepository->create($foodstuff);
+            $foodstuff->setUser($this->getUser());
+            if (is_null($error = $this->foodstuffRepository->create($foodstuff))) {
 
                 return $this->redirectToRoute('foodstuff');
             } else {
-                $form->addError(new FormError($message));
+                $form->addError(new FormError($error));
             }
         }
 
@@ -107,14 +102,13 @@ class FoodstuffController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $foodstuff = CombineFoodstuffsService::combine($form->getData(), $this->getUser());
-            if (is_null($message = $this->checkWeightsAndEnergy($foodstuff))) {
-                $foodstuff->setUser($this->getUser());
-                $this->foodstuffRepository->create($foodstuff);
+            $foodstuff->setUser($this->getUser());
+            if (is_null($error = $this->foodstuffRepository->create($foodstuff))) {
 
                 return $this->redirectToRoute('foodstuff');
 
             } else {
-                $form->addError(new FormError($message));
+                $form->addError(new FormError($error));
             }
         }
 
@@ -152,41 +146,6 @@ class FoodstuffController extends Controller
         }
 
         throw new NotFoundHttpException('Dit voedingsmiddel bestaat niet of hoort niet bij jou.');
-    }
-
-    private function checkWeightsAndEnergy(Foodstuff $foodstuff): ?string
-    {
-        $sum = 0;
-        foreach (Foodstuff::getADH() as $key => $property) {
-            if ($key === 'energyKcal' || $key === 'saturatedFat' || $key === 'monounsaturatedFat'
-                || $key === 'polyunsaturatedFat'|| $key === 'sucre') {
-                continue;
-            }
-            $factor = 1;
-            if ($property[2] === 'mg') {
-                $factor = 0.001;
-            } elseif ($property[2] === 'μg') {
-                $factor = 0.000001;
-            }
-            $sum = $sum + $foodstuff->{'get' . ucfirst($key)}() * $factor;
-        }
-
-        if ($sum < 85 || $sum > 115) {
-            return 'De gewichten van het voedingsmiddel moeten samen gelijk aan 100g zijn.';
-        }
-
-        if ($foodstuff->getSucre() > $foodstuff->getCarbohydrates()) {
-            return 'Suiker mag niet zwaarder zijn dan koolhydraten.';
-        }
-
-        $energy = $foodstuff->getCarbohydrates() * 4 + $foodstuff->getProtein() * 4 +
-            $foodstuff->getFat() * 9 + $foodstuff->getAlcohol() * 7 + $foodstuff->getDietaryFiber() * 2;
-        $allowed = $energy * 0.12;
-        if (abs($foodstuff->getEnergyKcal() - $energy) > $allowed) {
-            return 'De totale energy klopt niet met de energieën uit koolhydraten, eiwit, vet, alcohol  en vezels.';
-        }
-
-        return null;
     }
 
     private function getFoodstuff(int $id): Foodstuff

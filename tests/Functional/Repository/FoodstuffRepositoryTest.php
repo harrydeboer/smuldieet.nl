@@ -24,7 +24,7 @@ class FoodstuffRepositoryTest extends KernelTestCase
         $updatedName = 'Test2';
         $foodstuff->setName($updatedName);
 
-        $foodstuffRepository->update();
+        $foodstuffRepository->update($foodstuff);
         $userId = $foodstuff->getUser()->getId();
 
         $this->assertSame($updatedName, $foodstuffRepository->getByName($updatedName)->getName());

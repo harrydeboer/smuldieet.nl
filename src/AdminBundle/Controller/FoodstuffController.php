@@ -9,6 +9,7 @@ use App\AdminBundle\Form\FoodstuffType;
 use App\Controller\AuthController;
 use App\Entity\Foodstuff;
 use App\Repository\FoodstuffRepositoryInterface;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -50,9 +51,11 @@ class FoodstuffController extends AuthController
         $formUpdate->handleRequest($request);
 
         if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
-            $this->foodstuffRepository->update();
+            if (is_null($error = $this->foodstuffRepository->update($foodstuff))) {
+                return $this->redirectToRoute('adminFoodstuff');
+            }
 
-            return $this->redirectToRoute('adminFoodstuff');
+            $formUpdate->addError(new FormError($error));
         }
 
         return $this->render('@AdminBundle/foodstuff/edit/view.html.twig', [

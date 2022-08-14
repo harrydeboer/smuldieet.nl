@@ -24,11 +24,11 @@ class StatsServiceTest extends KernelTestCase
         $arrayCollection2->add($foodstuff2);
         $day1 = static::getContainer()->get(DayFactory::class)->create([
             'foodstuffs' => $arrayCollection1,
-            'foodstuffWeights' => [1],
+            'foodstuffWeights' => [100],
         ]);
         $day2 = static::getContainer()->get(DayFactory::class)->create([
             'foodstuffs' => $arrayCollection2,
-            'foodstuffWeights' => [1],
+            'foodstuffWeights' => [100],
             ]);
         $stats = StatsService::daysStats([$day1, $day2], $user);
 

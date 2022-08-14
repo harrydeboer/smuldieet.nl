@@ -24,7 +24,7 @@
             <div>{{ error.messageKey|trans(error.messageData, 'security', 'nl') }}</div>
         {% endif %}
         <table id="loginTable">
-            <tr><td>Email</td><td>{{ form_widget(form.email,
+            <tr><td>E-mail</td><td>{{ form_widget(form.email,
                         {'value' : last_username}) }}</td></tr>
             <tr><td>Wachtwoord</td><td>{{ form_widget(form.password) }}</td></tr>
             <tr><td colspan="2">{{ form_widget(form.login, {'label': 'Inloggen'}) }}</td></tr>
