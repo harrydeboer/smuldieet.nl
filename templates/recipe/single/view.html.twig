@@ -16,7 +16,7 @@
             </tr>
         </table>
         {{ form_end(form) }}
-        {% if hasRating %}
+        {% if rating is not null %}
             {{ form_start(formDelete) }}
             {{ form_widget(formDelete.delete, { 'label': 'Verwijder' }) }}
             {{ form_end(formDelete) }}

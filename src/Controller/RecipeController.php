@@ -134,23 +134,21 @@ class RecipeController extends Controller
     {
         $recipe = $this->recipeRepository->get($id);
         $this->checkPending($recipe);
-        $ratingOld = $this->ratingRepository->findOneBy([
+        $rating = $this->ratingRepository->findOneBy([
             'recipe' => $recipe->getId(),
             'user' => $this->getUser()->getId(),
         ]);
         $formDelete = $this->createForm(DeleteRatingType::class, null, [
             'action' => $this->generateUrl('recipeRatingDelete', ['id' => $id]),
         ]);
-        if (is_null($ratingOld)) {
+        if (is_null($rating)) {
             $form = $this->createForm(RatingType::class, null, [
                 'action' => $this->generateUrl('recipeRatingNew', ['id' => $id]),
             ]);
-            $hasRating = false;
         } else {
-            $form = $this->createForm(RatingType::class, $ratingOld, [
+            $form = $this->createForm(RatingType::class, $rating, [
                 'action' => $this->generateUrl('recipeRatingUpdate', ['id' => $id]),
             ]);
-            $hasRating = true;
         }
 
         return $this->render('recipe/single/view.html.twig', [
@@ -160,7 +158,7 @@ class RecipeController extends Controller
             'appEnv' => $this->getParameter('kernel.environment'),
             'form' => $form->createView(),
             'formDelete' => $formDelete->createView(),
-            'hasRating' => $hasRating,
+            'rating' => $rating,
         ]);
     }
 
