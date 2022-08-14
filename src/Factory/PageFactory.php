@@ -6,6 +6,7 @@ namespace App\Factory;
 
 use App\Entity\Page;
 use App\Repository\PageRepositoryInterface;
+use InvalidArgumentException;
 
 class PageFactory extends AbstractFactory
 {
@@ -29,6 +30,10 @@ class PageFactory extends AbstractFactory
         $page->setSlug(uniqid('slug'));
         $page->setTimestamp(time());
         $page->setContent(uniqid('content'));
+
+        if (isset($params['comments'])) {
+            throw new InvalidArgumentException('Cannot add comments to page. Assign page in comment creation.');
+        }
 
         $this->setParams($params, $page);
 

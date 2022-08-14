@@ -64,6 +64,15 @@ class RecipeFactory extends AbstractFactory
         $recipe->setNutFree(rand(0, 1) === 1);
         $recipe->setWithoutPackagesAndBags(rand(0, 1) === 1);
 
+        if (isset($params['ratings'])) {
+            throw new InvalidArgumentException('Cannot add ratings to recipe. ' .
+                'Assign recipe in rating creation.');
+        }
+        if (isset($params['comments'])) {
+            throw new InvalidArgumentException('Cannot add comments to recipe. ' .
+                'Assign recipe in comment creation.');
+        }
+
         $this->setParams($params, $recipe);
 
         $this->recipeRepository->create($recipe);
