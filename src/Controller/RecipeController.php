@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\Rating;
 use App\Entity\Recipe;
 use App\Form\RatingType;
 use App\Form\RecipeType;
@@ -162,62 +161,6 @@ class RecipeController extends Controller
         ]);
     }
 
-    #[Route('/recept/waardering/{id}', name: 'recipeRatingNew')]
-    public function newRating(Request $request, int $id): RedirectResponse
-    {
-        $rating = new Rating();
-        $form = $this->createForm(RatingType::class, $rating);
-        $recipe = $this->recipeRepository->get($id);
-        $this->checkPending($recipe);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $rating->setUser($this->getUser());
-            $rating->setTimestamp(time());
-            $rating->setPending(false);
-            $rating->setRecipe($recipe);
-            $this->ratingRepository->create($rating);
-        }
-
-        return $this->redirectToRoute('recipeSingle', ['id' => $id]);
-    }
-
-    #[Route('/recept/waardering/verwijder/{id}', name: 'recipeRatingDelete')]
-    public function deleteRating(Request $request, int $id): RedirectResponse
-    {
-        $recipe = $this->recipeRepository->get($id);
-        $this->checkPending($recipe);
-        $rating = $this->ratingRepository->findOneBy([
-            'recipe' => $id,
-            'user' => $this->getUser()->getId(),
-        ]);
-        $formDelete = $this->createForm(DeleteRatingType::class);
-        $formDelete->handleRequest($request);
-        if ($formDelete->isSubmitted() && $formDelete->isValid()) {
-            $this->ratingRepository->delete($rating);
-        }
-
-        return $this->redirectToRoute('recipeSingle', ['id' => $id]);
-    }
-
-    #[Route('/recept/waardering/wijzig/{id}', name: 'recipeRatingUpdate')]
-    public function updateRating(Request $request, int $id): RedirectResponse
-    {
-        $recipe = $this->recipeRepository->get($id);
-        $this->checkPending($recipe);
-        $rating = $this->ratingRepository->findOneBy([
-            'recipe' => $id,
-            'user' => $this->getUser()->getId(),
-        ]);
-        $oldRating = $rating->getRating();
-        $form = $this->createForm(RatingType::class, $rating);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->ratingRepository->update($oldRating, $rating);
-        }
-
-        return $this->redirectToRoute('recipeSingle', ['id' => $id]);
-    }
-
     #[Route('/recept/zoeken/{rowId}/{title}', name: 'recipeSearch')]
     public function search(string $rowId, string $title): Response
     {
@@ -232,13 +175,6 @@ class RecipeController extends Controller
             'rowId' => $rowId,
             'recipes' => $recipes,
         ]);
-    }
-
-    private function checkPending(Recipe $recipe): void
-    {
-        if ($recipe->getPending() && $recipe->getUser()->getId() !== $this->getUser()->getId()) {
-            throw new NotFoundHttpException('Dit recept can niet worden getoond.');
-        }
     }
 
     private function getRecipe(int $id): Recipe

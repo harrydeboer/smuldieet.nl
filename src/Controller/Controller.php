@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\Recipe;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class Controller extends AbstractController
@@ -43,5 +45,12 @@ class Controller extends AbstractController
         }
 
         return true;
+    }
+
+    protected function checkPending(Recipe $recipe): void
+    {
+        if ($recipe->getPending() && $recipe->getUser()->getId() !== $this->getUser()->getId()) {
+            throw new NotFoundHttpException('Dit recept can niet worden getoond.');
+        }
     }
 }
