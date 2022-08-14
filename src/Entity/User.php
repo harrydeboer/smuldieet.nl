@@ -281,62 +281,62 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->days = $days;
     }
 
-    public function getFoodstuffs(): ArrayCollection|Collection
+    public function getFoodstuffs(): Collection
     {
         return $this->foodstuffs;
     }
 
-    public function setFoodstuffs(ArrayCollection|Collection $foodstuffs): void
+    public function setFoodstuffs(Collection $foodstuffs): void
     {
         $this->foodstuffs = $foodstuffs;
     }
 
-    public function getRecipes(): ArrayCollection|Collection
+    public function getRecipes(): Collection
     {
         return $this->recipes;
     }
 
-    public function setRecipes(ArrayCollection|Collection $recipes): void
+    public function setRecipes(Collection $recipes): void
     {
         $this->recipes = $recipes;
     }
 
-    public function getCookbooks(): ArrayCollection|Collection
+    public function getCookbooks(): Collection
     {
         return $this->cookbooks;
     }
 
-    public function setCookbooks(ArrayCollection|Collection $cookbooks): void
+    public function setCookbooks(Collection $cookbooks): void
     {
         $this->cookbooks = $cookbooks;
     }
 
-    public function getRatings(): ArrayCollection|Collection
+    public function getRatings(): Collection
     {
         return $this->ratings;
     }
 
-    public function setRatings(ArrayCollection|Collection $ratings): void
+    public function setRatings(Collection $ratings): void
     {
         $this->ratings = $ratings;
     }
 
-    public function getComments(): ArrayCollection|Collection
+    public function getComments(): Collection
     {
         return $this->comments;
     }
 
-    public function setComments(ArrayCollection|Collection $comments): void
+    public function setComments(Collection $comments): void
     {
         $this->comments = $comments;
     }
 
-    public function getPages(): ArrayCollection|Collection
+    public function getPages(): Collection
     {
         return $this->pages;
     }
 
-    public function setPages(ArrayCollection|Collection $pages): void
+    public function setPages(Collection $pages): void
     {
         $this->pages = $pages;
     }

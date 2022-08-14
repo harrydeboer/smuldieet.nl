@@ -149,12 +149,12 @@ class Page
         $this->user = $user;
     }
 
-    public function getComments(): ArrayCollection|Collection
+    public function getComments(): Collection
     {
         return $this->comments;
     }
 
-    public function setComments(ArrayCollection|Collection $comments): void
+    public function setComments(Collection $comments): void
     {
         $this->comments = $comments;
     }

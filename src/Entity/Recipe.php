@@ -611,12 +611,12 @@ class Recipe
         $foodstuff->removeRecipe($this);
     }
 
-    public function getDays(): ArrayCollection|Collection
+    public function getDays(): Collection
     {
         return $this->days;
     }
 
-    public function setDays(ArrayCollection|Collection $days): void
+    public function setDays(Collection $days): void
     {
         $this->days = $days;
     }
@@ -681,22 +681,22 @@ class Recipe
         $this->foodstuffWeights = WeightsCorrectionService::correctArray($values);
     }
 
-    public function getComments(): ArrayCollection|Collection
+    public function getComments(): Collection
     {
         return $this->comments;
     }
 
-    public function setComments(ArrayCollection|Collection $comments): void
+    public function setComments(Collection $comments): void
     {
         $this->comments = $comments;
     }
 
-    public function getCookbooks(): ArrayCollection|Collection
+    public function getCookbooks(): Collection
     {
         return $this->cookbooks;
     }
 
-    public function setCookbooks(ArrayCollection|Collection $cookbooks): void
+    public function setCookbooks(Collection $cookbooks): void
     {
         $this->cookbooks = $cookbooks;
     }
@@ -793,12 +793,12 @@ class Recipe
         }
     }
 
-    public function getTags(): ArrayCollection|Collection
+    public function getTags(): Collection
     {
         return $this->tags;
     }
 
-    public function setTags(ArrayCollection|Collection $tags): void
+    public function setTags(Collection $tags): void
     {
         $this->tags = $tags;
     }

@@ -62,22 +62,32 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
         return $recipe;
     }
 
-    public function create(Recipe $recipe): Recipe
+    public function create(Recipe $recipe): ?string
     {
-        $recipe->setTimestamp(time());
-        $this->em->persist($recipe);
-        $this->em->flush();
-        $this->makeWeights($recipe);
-        $this->em->persist($recipe);
-        $this->em->flush();
+        if (is_null($error = $this->checkCount($recipe))) {
+            $recipe->setTimestamp(time());
+            $this->em->persist($recipe);
+            $this->em->flush();
+            $this->makeWeights($recipe);
+            $this->em->persist($recipe);
+            $this->em->flush();
 
-        return $recipe;
+            return null;
+        }
+
+        return $error;
     }
 
-    public function update(Recipe $recipe): void
+    public function update(Recipe $recipe): ?string
     {
-        $this->makeWeights($recipe);
-        $this->em->flush();
+        if (is_null($error = $this->checkCount($recipe))) {
+            $this->makeWeights($recipe);
+            $this->em->flush();
+
+            return null;
+        }
+
+        return $error;
     }
 
     public function delete(Recipe $recipe): void
@@ -149,6 +159,15 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
         }
 
         return (new Paginator($qb))->paginate($page);
+    }
+
+    private function checkCount(Recipe $recipe): ?string
+    {
+        if (count($recipe->getFoodstuffWeights()) === count($recipe->getFoodstuffs())) {
+            return null;
+        }
+
+        return 'Het aantal gewichten is niet gelijk aan het aantal elementen.';
     }
 
     private function makeWeights(Recipe $recipe): void

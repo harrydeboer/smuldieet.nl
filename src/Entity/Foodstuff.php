@@ -313,12 +313,12 @@ class Foodstuff
         $day->removeFoodstuff($this);
     }
 
-    public function getRecipes(): ArrayCollection|Collection
+    public function getRecipes(): Collection
     {
         return $this->recipes;
     }
 
-    public function setRecipes(ArrayCollection|Collection $recipes): void
+    public function setRecipes(Collection $recipes): void
     {
         $this->recipes = $recipes;
     }

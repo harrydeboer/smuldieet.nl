@@ -125,7 +125,7 @@ class Day
         return $this->foodstuffs;
     }
 
-    public function setFoodstuffs(ArrayCollection $foodstuffs): void
+    public function setFoodstuffs(Collection $foodstuffs): void
     {
         $this->foodstuffs = $foodstuffs;
     }
@@ -150,12 +150,12 @@ class Day
         $foodstuff->removeDay($this);
     }
 
-    public function getRecipes(): ArrayCollection|Collection
+    public function getRecipes(): Collection
     {
         return $this->recipes;
     }
 
-    public function setRecipes(ArrayCollection|Collection $recipes): void
+    public function setRecipes(Collection $recipes): void
     {
         $this->recipes = $recipes;
     }

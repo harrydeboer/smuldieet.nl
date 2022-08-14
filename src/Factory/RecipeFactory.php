@@ -7,6 +7,7 @@ namespace App\Factory;
 use App\Entity\Recipe;
 use App\Repository\RecipeRepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use InvalidArgumentException;
 
 class RecipeFactory extends AbstractFactory
 {
@@ -65,6 +66,10 @@ class RecipeFactory extends AbstractFactory
 
         $this->setParams($params, $recipe);
 
-        return $this->recipeRepository->create($recipe);
+        if (is_null($error = $this->recipeRepository->create($recipe))) {
+            return $recipe;
+        }
+
+        throw new InvalidArgumentException($error);
     }
 }
