@@ -22,7 +22,7 @@ class RatingController extends AuthController
     }
 
     #[Route('/waardering/{id}', name: 'recipeRatingNew')]
-    public function newRating(Request $request, int $id): RedirectResponse
+    public function new(Request $request, int $id): RedirectResponse
     {
         $rating = new Rating();
         $form = $this->createForm(RatingType::class, $rating);
@@ -41,7 +41,7 @@ class RatingController extends AuthController
     }
 
     #[Route('/waardering/verwijder/{id}', name: 'recipeRatingDelete')]
-    public function deleteRating(Request $request, int $id): RedirectResponse
+    public function delete(Request $request, int $id): RedirectResponse
     {
         $recipe = $this->recipeRepository->get($id);
         $this->checkPending($recipe);
@@ -59,7 +59,7 @@ class RatingController extends AuthController
     }
 
     #[Route('/waardering/wijzig/{id}', name: 'recipeRatingUpdate')]
-    public function updateRating(Request $request, int $id): RedirectResponse
+    public function update(Request $request, int $id): RedirectResponse
     {
         $recipe = $this->recipeRepository->get($id);
         $this->checkPending($recipe);
