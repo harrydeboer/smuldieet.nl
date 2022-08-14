@@ -13,9 +13,14 @@
             <tr><td>Waardering</td><td>{{ form_widget(form.rating) }}</td>
             <tr><td>Review</td><td>{{ form_widget(form.content) }}</td>
             <tr><td colspan="2">{{ form_widget(form.submit, { 'label': 'Beoordeel' }) }}</td>
-        </tr>
+            </tr>
         </table>
         {{ form_end(form) }}
+        {% if hasRating %}
+            {{ form_start(formDelete) }}
+            {{ form_widget(formDelete.delete, { 'label': 'Verwijder' }) }}
+            {{ form_end(formDelete) }}
+        {% endif %}
     {% endif %}
     <table class="table">
         <tr><td colspan="2">

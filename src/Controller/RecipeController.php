@@ -9,6 +9,7 @@ use App\Entity\Recipe;
 use App\Form\RatingType;
 use App\Form\RecipeType;
 use App\Form\DeleteRecipeType;
+use App\Form\DeleteRatingType;
 use App\Repository\RatingRepositoryInterface;
 use App\Repository\RecipeRepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -127,6 +128,8 @@ class RecipeController extends Controller
         if ($recipe->getPending() && $recipe->getUser()->getId() !== $this->getUser()->getId()) {
             throw new NotFoundHttpException('Dit recept can niet worden getoond.');
         }
+        $formDelete = $this->createForm(DeleteRatingType::class);
+        $hasRating = false;
 
         if (!is_null($this->getUser())) {
             $ratingOld = $this->ratingRepository->findOneBy([
@@ -134,25 +137,30 @@ class RecipeController extends Controller
                 'user' => $this->getUser()->getId(),
             ]);
             $rating = new Rating();
-            $form = $this->createForm(RatingType::class, $rating);
-            $form->handleRequest($request);
-
-            if ($form->isSubmitted() && $form->isValid()) {
-                if (is_null($ratingOld)) {
+            if (is_null($ratingOld)) {
+                $form = $this->createForm(RatingType::class, $rating);
+                $form->handleRequest($request);
+                if ($form->isSubmitted() && $form->isValid()) {
                     $rating->setUser($this->getUser());
                     $rating->setTimestamp(time());
                     $rating->setPending(false);
                     $rating->setRecipe($recipe);
                     $this->ratingRepository->create($rating);
-                } else {
-                    $ratingOldRating = $ratingOld->getRating();
-                    $ratingOld->setRating($rating->getRating());
-                    $ratingOld->setContent($rating->getContent());
-                    $rating->setRecipe($ratingOld->getRecipe());
-                    $this->ratingRepository->update($ratingOldRating, $rating);
+                    $hasRating = true;
                 }
             } else {
+                $ratingOldRating = $ratingOld->getRating();
                 $form = $this->createForm(RatingType::class, $ratingOld);
+                $form->handleRequest($request);
+                $formDelete->handleRequest($request);
+                if ($formDelete->isSubmitted() && $formDelete->isValid()) {
+                    $this->ratingRepository->delete($ratingOld);
+                    $form = $this->createForm(RatingType::class);
+                }
+                if ($form->isSubmitted() && $form->isValid()) {
+                    $this->ratingRepository->update($ratingOldRating, $ratingOld);
+                    $hasRating = true;
+                }
             }
         } else {
             $form = $this->createForm(RatingType::class);
@@ -164,6 +172,8 @@ class RecipeController extends Controller
             'currentUserId' => $this->getUser()?->getId(),
             'appEnv' => $this->getParameter('kernel.environment'),
             'form' => $form->createView(),
+            'formDelete' => $formDelete->createView(),
+            'hasRating' => $hasRating,
         ]);
     }
 
