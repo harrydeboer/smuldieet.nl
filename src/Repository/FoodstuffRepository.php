@@ -9,6 +9,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use InvalidArgumentException;
 
 /**
  * @method Foodstuff|null find($id, $lockMode = null, $lockVersion = null)
@@ -79,23 +80,23 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
         return $foodstuff;
     }
 
-    public function create(Foodstuff $foodstuff): ?string
+    /**
+     * @throws InvalidArgumentException
+     */
+    public function create(Foodstuff $foodstuff): void
     {
-        if (is_null($error = $this->checkWeightsAndEnergy($foodstuff))) {
-            $this->em->persist($foodstuff);
-            $this->em->flush();
-        }
-
-        return $error;
+        $this->checkWeightsAndEnergy($foodstuff);
+        $this->em->persist($foodstuff);
+        $this->em->flush();
     }
 
-    public function update(Foodstuff $foodstuff): ?string
+    /**
+     * @throws InvalidArgumentException
+     */
+    public function update(Foodstuff $foodstuff): void
     {
-        if (is_null($error = $this->checkWeightsAndEnergy($foodstuff))) {
-            $this->em->flush();
-        }
-
-        return $error;
+        $this->checkWeightsAndEnergy($foodstuff);
+        $this->em->flush();
     }
 
     public function delete(Foodstuff $foodstuff): void
@@ -104,7 +105,10 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
         $this->em->flush();
     }
 
-    private function checkWeightsAndEnergy(Foodstuff $foodstuff): ?string
+    /**
+     * @throws InvalidArgumentException
+     */
+    private function checkWeightsAndEnergy(Foodstuff $foodstuff): void
     {
         $sum = 0;
         foreach (Foodstuff::getADH() as $key => $property) {
@@ -122,20 +126,20 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
         }
 
         if ($sum < 85 || $sum > 115) {
-            return 'De gewichten van het voedingsmiddel moeten samen gelijk aan 100g zijn.';
+            throw new InvalidArgumentException('De gewichten van het voedingsmiddel moeten samen gelijk ' .
+                'aan 100g zijn.');
         }
 
         if ($foodstuff->getSucre() > $foodstuff->getCarbohydrates()) {
-            return 'Suiker mag niet zwaarder zijn dan koolhydraten.';
+            throw new InvalidArgumentException('Suiker mag niet zwaarder zijn dan koolhydraten.');
         }
 
         $energy = $foodstuff->getCarbohydrates() * 4 + $foodstuff->getProtein() * 4 +
             $foodstuff->getFat() * 9 + $foodstuff->getAlcohol() * 7 + $foodstuff->getDietaryFiber() * 2;
         $allowed = $energy * 0.12;
         if (abs($foodstuff->getEnergyKcal() - $energy) > $allowed) {
-            return 'De totale energy klopt niet met de energieën uit koolhydraten, eiwit, vet, alcohol  en vezels.';
+            throw new InvalidArgumentException('De totale energy klopt niet met de energieën uit ' .
+                ' koolhydraten, eiwit, vet, alcohol  en vezels.');
         }
-
-        return null;
     }
 }

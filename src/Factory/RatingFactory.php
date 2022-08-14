@@ -38,6 +38,8 @@ class RatingFactory extends AbstractFactory
 
         $this->setParams($params, $rating);
 
-        return $this->ratingRepository->create($rating);
+        $this->ratingRepository->create($rating);
+
+        return $rating;
     }
 }

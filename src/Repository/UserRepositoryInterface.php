@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 interface UserRepositoryInterface extends ServiceEntityRepositoryInterface
 {
-    public function create(User $user, string $plainPassword): User;
+    public function create(User $user, string $plainPassword): void;
 
     public function update(): void;
 

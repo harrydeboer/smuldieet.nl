@@ -40,6 +40,8 @@ class CookbookFactory extends AbstractFactory
 
         $this->setParams($params, $cookbook);
 
-        return $this->cookbookRepository->create($cookbook);
+        $this->cookbookRepository->create($cookbook);
+
+        return $cookbook;
     }
 }

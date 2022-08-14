@@ -34,11 +34,9 @@ class FoodstuffFactory extends AbstractFactory
 
         $this->setParams($params, $foodstuff);
 
-        if (is_null($error = $this->foodstuffRepository->create($foodstuff))) {
-            return $foodstuff;
-        }
+        $this->foodstuffRepository->create($foodstuff);
 
-        throw new InvalidArgumentException($error);
+        return $foodstuff;
     }
 
     private function randomNutritionalValue(): ?float

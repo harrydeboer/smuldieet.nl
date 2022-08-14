@@ -40,31 +40,27 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
         return $day;
     }
 
-    public function create(Day $day): ?string
+    /**
+     * @throws InvalidArgumentException
+     */
+    public function create(Day $day): void
     {
-        if (is_null($error = $this->checkCount($day))) {
-            $this->em->persist($day);
-            $this->em->flush();
-            $this->makeWeights($day);
-            $this->em->persist($day);
-            $this->em->flush();
-
-            return null;
-        }
-
-        return $error;
+        $this->checkCount($day);
+        $this->em->persist($day);
+        $this->em->flush();
+        $this->makeWeights($day);
+        $this->em->persist($day);
+        $this->em->flush();
     }
 
-    public function update(Day $day): ?string
+    /**
+     * @throws InvalidArgumentException
+     */
+    public function update(Day $day): void
     {
-        if (is_null($error = $this->checkCount($day))) {
-            $this->makeWeights($day);
-            $this->em->flush();
-
-            return null;
-        }
-
-        return $error;
+        $this->checkCount($day);
+        $this->makeWeights($day);
+        $this->em->flush();
     }
 
     public function delete(Day $day): void
@@ -101,14 +97,17 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
         return (new Paginator($qb))->paginate($page);
     }
 
-    private function checkCount(Day $day): ?string
+    /**
+     * @throws InvalidArgumentException
+     */
+    private function checkCount(Day $day): void
     {
         if (count($day->getFoodstuffWeights()) === count($day->getFoodstuffs())
             && count($day->getRecipeWeights()) === count($day->getRecipes())) {
-            return null;
+            return;
         }
 
-        return 'Het aantal gewichten is niet gelijk aan het aantal elementen.';
+        throw new InvalidArgumentException('Het aantal gewichten is niet gelijk aan het aantal elementen.');
     }
 
     private function makeWeights(Day $day): void

@@ -17,9 +17,9 @@ interface FoodstuffRepositoryInterface extends ServiceEntityRepositoryInterface
 
     public function getByName(string $name): Foodstuff;
 
-    public function create(Foodstuff $foodstuff): ?string;
+    public function create(Foodstuff $foodstuff): void;
 
-    public function update(Foodstuff $foodstuff): ?string;
+    public function update(Foodstuff $foodstuff): void;
 
     public function delete(Foodstuff $foodstuff): void;
 }

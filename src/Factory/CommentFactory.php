@@ -53,6 +53,8 @@ class CommentFactory extends AbstractFactory
 
         $this->setParams($params, $comment);
 
-        return $this->commentRepository->create($comment);
+        $this->commentRepository->create($comment);
+
+        return $comment;
     }
 }

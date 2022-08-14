@@ -14,13 +14,13 @@ use App\Repository\RatingRepositoryInterface;
 use App\Repository\RecipeRepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\FormError;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use InvalidArgumentException;
 
 class RecipeController extends Controller
 {
@@ -64,12 +64,15 @@ class RecipeController extends Controller
         $formUpdate->handleRequest($request);
 
         if ($formUpdate->isSubmitted() && $formUpdate->isValid() && $this->checkImage($formUpdate)) {
-            if (is_null($error = $this->recipeRepository->update($recipe))) {
+            try {
+                $this->recipeRepository->update($recipe);
+
                 $this->moveImage($recipe, $formUpdate->get('image')->getData());
 
                 return $this->redirectToRoute('recipe');
+            } catch (InvalidArgumentException $exception) {
+                $formUpdate->addError(new FormError($exception->getMessage()));
             }
-            $formUpdate->addError(new FormError($error));
         } else {
             $recipe = $this->getRecipe($id);
         }
@@ -90,13 +93,14 @@ class RecipeController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid() && $this->checkImage($form)) {
-            if (is_null($error = $this->recipeRepository->create($recipe))) {
+            try {
+                $this->recipeRepository->create($recipe);
                 $this->moveImage($recipe, $form->get('image')->getData());
-            } else {
-                $form->addError(new FormError($error));
-            }
 
-            return $this->redirectToRoute('recipe');
+                return $this->redirectToRoute('recipe');
+            } catch (InvalidArgumentException $exception) {
+                $form->addError(new FormError($exception->getMessage()));
+            }
         }
 
         $recipe->setFoodstuffs(new ArrayCollection());

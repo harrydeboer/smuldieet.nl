@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use InvalidArgumentException;
 
 class FoodstuffController extends Controller
 {
@@ -55,11 +56,12 @@ class FoodstuffController extends Controller
         $formUpdate->handleRequest($request);
 
         if ($formUpdate->isSubmitted() && $formUpdate->isValid() && $this->checkCanEdit($foodstuff)) {
-            if (is_null($error = $this->foodstuffRepository->update($foodstuff))) {
+            try {
+                $this->foodstuffRepository->update($foodstuff);
 
                 return $this->redirectToRoute('foodstuff');
-            } else {
-                $formUpdate->addError(new FormError($error));
+            } catch(InvalidArgumentException $exception) {
+                $formUpdate->addError(new FormError($exception->getMessage()));
             }
         }
 
@@ -79,11 +81,12 @@ class FoodstuffController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $foodstuff->setUser($this->getUser());
-            if (is_null($error = $this->foodstuffRepository->create($foodstuff))) {
+            try {
+                $this->foodstuffRepository->create($foodstuff);
 
                 return $this->redirectToRoute('foodstuff');
-            } else {
-                $form->addError(new FormError($error));
+            } catch(InvalidArgumentException $exception) {
+                $form->addError(new FormError($exception->getMessage()));
             }
         }
 
@@ -103,12 +106,12 @@ class FoodstuffController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $foodstuff = CombineFoodstuffsService::combine($form->getData(), $this->getUser());
             $foodstuff->setUser($this->getUser());
-            if (is_null($error = $this->foodstuffRepository->create($foodstuff))) {
+            try {
+                $this->foodstuffRepository->create($foodstuff);
 
                 return $this->redirectToRoute('foodstuff');
-
-            } else {
-                $form->addError(new FormError($error));
+            } catch(InvalidArgumentException $exception) {
+                $form->addError(new FormError($exception->getMessage()));
             }
         }
 

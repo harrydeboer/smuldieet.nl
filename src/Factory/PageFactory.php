@@ -32,6 +32,8 @@ class PageFactory extends AbstractFactory
 
         $this->setParams($params, $page);
 
-        return $this->pageRepository->create($page);
+        $this->pageRepository->create($page);
+
+        return $page;
     }
 }

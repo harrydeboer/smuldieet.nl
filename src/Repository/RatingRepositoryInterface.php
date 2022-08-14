@@ -11,7 +11,7 @@ interface RatingRepositoryInterface extends ServiceEntityRepositoryInterface
 {
     public function findAllReviews(): array;
 
-    public function create(Rating $rating): Rating;
+    public function create(Rating $rating): void;
 
     public function update(float $ratingOldRating, Rating $rating): void;
 

@@ -49,7 +49,7 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
         $this->em->flush();
     }
 
-    public function create(User $user, string $plainPassword): User
+    public function create(User $user, string $plainPassword): void
     {
         $user->setPassword(
             $this->passwordEncoder->hashPassword($user, $plainPassword)
@@ -57,8 +57,6 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
 
         $this->em->persist($user);
         $this->em->flush();
-
-        return $user;
     }
 
     public function update(): void

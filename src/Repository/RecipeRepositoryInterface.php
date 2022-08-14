@@ -16,9 +16,9 @@ interface RecipeRepositoryInterface extends ServiceEntityRepositoryInterface
 
     public function get(int $id): Recipe;
 
-    public function create(Recipe $recipe): ?string;
+    public function create(Recipe $recipe): void;
 
-    public function update(Recipe $recipe): ?string;
+    public function update(Recipe $recipe): void;
 
     public function delete(Recipe $recipe): void;
 

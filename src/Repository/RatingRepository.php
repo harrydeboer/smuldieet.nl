@@ -35,7 +35,7 @@ class RatingRepository extends ServiceEntityRepository implements RatingReposito
         return $query->execute();
     }
 
-    public function create(Rating $rating): Rating
+    public function create(Rating $rating): void
     {
         $recipe = $rating->getRecipe();
         $recipeRating = $recipe->getRating();
@@ -46,8 +46,6 @@ class RatingRepository extends ServiceEntityRepository implements RatingReposito
 
         $this->em->persist($rating);
         $this->em->flush();
-
-        return $rating;
     }
 
     public function update(float $ratingOldRating, Rating $rating): void

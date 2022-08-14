@@ -37,14 +37,12 @@ class CookbookRepository extends ServiceEntityRepository implements CookbookRepo
         return $cookbook;
     }
 
-    public function create(Cookbook $cookbook): Cookbook
+    public function create(Cookbook $cookbook): void
     {
         $this->em->persist($cookbook);
         $this->em->flush();
         $this->addRecipesFromIds($cookbook);
         $this->em->flush();
-
-        return $cookbook;
     }
 
     public function update(Cookbook $cookbook, array $recipesOld): void

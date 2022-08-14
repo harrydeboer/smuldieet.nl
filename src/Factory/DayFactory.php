@@ -60,10 +60,8 @@ class DayFactory extends AbstractFactory
 
         $this->setParams($params, $day);
 
-        if (is_null($error = $this->dayRepository->create($day))) {
-            return $day;
-        }
+        $this->dayRepository->create($day);
 
-        throw new InvalidArgumentException($error);
+        return $day;
     }
 }

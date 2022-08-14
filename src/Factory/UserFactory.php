@@ -27,6 +27,8 @@ class UserFactory extends AbstractFactory
 
         $this->setParams($params, $user);
 
-        return $this->userRepository->create($user, 'secret');
+        $this->userRepository->create($user, 'secret');
+
+        return $user;
     }
 }

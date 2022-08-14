@@ -10,6 +10,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use InvalidArgumentException;
 
 /**
  * @method Recipe|null find($id, $lockMode = null, $lockVersion = null)
@@ -62,32 +63,28 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
         return $recipe;
     }
 
-    public function create(Recipe $recipe): ?string
+    /**
+     * @throws InvalidArgumentException
+     */
+    public function create(Recipe $recipe): void
     {
-        if (is_null($error = $this->checkCount($recipe))) {
-            $recipe->setTimestamp(time());
-            $this->em->persist($recipe);
-            $this->em->flush();
-            $this->makeWeights($recipe);
-            $this->em->persist($recipe);
-            $this->em->flush();
-
-            return null;
-        }
-
-        return $error;
+        $this->checkCount($recipe);
+        $recipe->setTimestamp(time());
+        $this->em->persist($recipe);
+        $this->em->flush();
+        $this->makeWeights($recipe);
+        $this->em->persist($recipe);
+        $this->em->flush();
     }
 
-    public function update(Recipe $recipe): ?string
+    /**
+     * @throws InvalidArgumentException
+     */
+    public function update(Recipe $recipe): void
     {
-        if (is_null($error = $this->checkCount($recipe))) {
-            $this->makeWeights($recipe);
-            $this->em->flush();
-
-            return null;
-        }
-
-        return $error;
+        $this->checkCount($recipe);
+        $this->makeWeights($recipe);
+        $this->em->flush();
     }
 
     public function delete(Recipe $recipe): void
@@ -161,13 +158,16 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
         return (new Paginator($qb))->paginate($page);
     }
 
-    private function checkCount(Recipe $recipe): ?string
+    /**
+     * @throws InvalidArgumentException
+     */
+    private function checkCount(Recipe $recipe): void
     {
         if (count($recipe->getFoodstuffWeights()) === count($recipe->getFoodstuffs())) {
-            return null;
+            return;
         }
 
-        return 'Het aantal gewichten is niet gelijk aan het aantal elementen.';
+        throw new InvalidArgumentException('Het aantal gewichten is niet gelijk aan het aantal elementen.');
     }
 
     private function makeWeights(Recipe $recipe): void

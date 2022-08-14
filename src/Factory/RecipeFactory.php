@@ -66,10 +66,8 @@ class RecipeFactory extends AbstractFactory
 
         $this->setParams($params, $recipe);
 
-        if (is_null($error = $this->recipeRepository->create($recipe))) {
-            return $recipe;
-        }
+        $this->recipeRepository->create($recipe);
 
-        throw new InvalidArgumentException($error);
+        return $recipe;
     }
 }

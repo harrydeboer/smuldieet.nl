@@ -27,7 +27,7 @@ class CommentRepository extends ServiceEntityRepository implements CommentReposi
     }
 
 
-    public function create(Comment $comment): Comment
+    public function create(Comment $comment): void
     {
         if (!is_null($comment->getPage()) && !is_null($comment->getRecipe())) {
             throw new InvalidArgumentException('A comment cannot have both a page and a recipe.');
@@ -39,8 +39,6 @@ class CommentRepository extends ServiceEntityRepository implements CommentReposi
         }
         $this->em->persist($comment);
         $this->em->flush();
-
-        return $comment;
     }
 
     public function update(): void
