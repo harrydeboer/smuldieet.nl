@@ -40,21 +40,31 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
         return $day;
     }
 
-    public function create(Day $day): Day
+    public function create(Day $day): ?string
     {
-        $this->em->persist($day);
-        $this->em->flush();
-        $this->makeWeights($day);
-        $this->em->persist($day);
-        $this->em->flush();
+        if (is_null($error = $this->checkCount($day))) {
+            $this->em->persist($day);
+            $this->em->flush();
+            $this->makeWeights($day);
+            $this->em->persist($day);
+            $this->em->flush();
 
-        return $day;
+            return null;
+        }
+
+        return $error;
     }
 
-    public function update(Day $day): void
+    public function update(Day $day): ?string
     {
-        $this->makeWeights($day);
-        $this->em->flush();
+        if (is_null($error = $this->checkCount($day))) {
+            $this->makeWeights($day);
+            $this->em->flush();
+
+            return null;
+        }
+
+        return $error;
     }
 
     public function delete(Day $day): void
@@ -89,6 +99,16 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
             ->orderBy('d.timestamp', 'DESC');
 
         return (new Paginator($qb))->paginate($page);
+    }
+
+    private function checkCount(Day $day): ?string
+    {
+        if (count($day->getFoodstuffWeights()) === count($day->getFoodstuffs())
+            && count($day->getRecipeWeights()) === count($day->getRecipes())) {
+            return null;
+        }
+
+        return 'Het aantal gewichten is niet gelijk aan het aantal elementen.';
     }
 
     private function makeWeights(Day $day): void

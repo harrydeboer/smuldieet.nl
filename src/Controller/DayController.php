@@ -66,10 +66,13 @@ class DayController extends AuthController
 
         $formUpdate->handleRequest($request);
 
-        if ($formUpdate->isSubmitted() && $formUpdate->isValid() && $this->checkCount($day, $formUpdate)) {
-            $this->addRecipesFromIds($day);
+        if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
+            if (is_null($error = $this->dayRepository->update($day))) {
+                $this->addRecipesFromIds($day);
 
-            return $this->redirectToRoute('day');
+                return $this->redirectToRoute('day');
+            }
+            $formUpdate->addError(new FormError($error));
         } else {
             $day = $this->getDay($id);
         }
@@ -89,14 +92,16 @@ class DayController extends AuthController
         $day->setUser($this->getUser());
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid() && $this->checkCount($day, $form)) {
+        if ($form->isSubmitted() && $form->isValid()) {
             if (is_null($day->getTimestamp())) {
                 throw new BadRequestException('De dag moet een datum hebben.');
             }
-            $this->dayRepository->create($day);
-            $this->addRecipesFromIds($day);
+            if (is_null($error = $this->dayRepository->create($day))) {
+                $this->addRecipesFromIds($day);
 
-            return $this->redirectToRoute('day');
+                return $this->redirectToRoute('day');
+            }
+            $form->addError(new FormError($error));
         }
         $this->makeRecipesAndFoodstuffsEmpty($day);
 
@@ -116,15 +121,17 @@ class DayController extends AuthController
         $day->setUser($this->getUser());
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid() && $this->checkCount($day, $form)) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $dayStandard = $this->dayRepository->findOneBy(['user' => $this->getUser()->getId(), 'timestamp' => null]);
             if (!is_null($dayStandard)) {
                 throw new BadRequestException('Er kan maar 1 standaard dag zijn.');
             }
-            $this->dayRepository->create($day);
-            $this->addRecipesFromIds($day);
+            if (is_null($error = $this->dayRepository->create($day))) {
+                $this->addRecipesFromIds($day);
 
-            return $this->redirectToRoute('day');
+                return $this->redirectToRoute('day');
+            }
+            $form->addError(new FormError($error));
         }
         $this->makeRecipesAndFoodstuffsEmpty($day);
 
@@ -172,7 +179,6 @@ class DayController extends AuthController
             $this->recipeRepository->update($recipe);
             $day->addRecipe($recipe);
         }
-        $this->dayRepository->update($day);
     }
 
     private function makeRecipesAndFoodstuffsEmpty(Day $day)
@@ -181,18 +187,6 @@ class DayController extends AuthController
         $day->setFoodstuffWeights([]);
         $day->setRecipes(new ArrayCollection());
         $day->setRecipeWeights([]);
-    }
-
-    private function checkCount(Day $day, FormInterface $form): bool
-    {
-        if (count($day->getFoodstuffWeights()) === count($day->getFoodstuffs())
-            && count($day->getRecipeWeights()) === count($day->getRecipes())) {
-            return true;
-        }
-
-        $form->addError(new FormError('Het aantal gewichten is niet gelijk aan het ' .
-            'aantal elementen.'));
-        return false;
     }
 
     private function getDay(int $id): Day

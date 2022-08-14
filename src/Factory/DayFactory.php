@@ -7,6 +7,7 @@ namespace App\Factory;
 use App\Entity\Day;
 use App\Repository\DayRepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use InvalidArgumentException;
 
 class DayFactory extends AbstractFactory
 {
@@ -59,6 +60,10 @@ class DayFactory extends AbstractFactory
 
         $this->setParams($params, $day);
 
-        return $this->dayRepository->create($day);
+        if (is_null($error = $this->dayRepository->create($day))) {
+            return $day;
+        }
+
+        throw new InvalidArgumentException($error);
     }
 }
