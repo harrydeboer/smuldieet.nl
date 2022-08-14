@@ -24,6 +24,9 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
         private readonly EntityManagerInterface $em,
         private readonly UserPasswordHasherInterface $passwordEncoder,
         private readonly RecipeRepositoryInterface $recipeRepository,
+        private readonly PageRepositoryInterface $pageRepository,
+        private readonly FoodstuffRepositoryInterface $foodstuffRepository,
+        private readonly DayRepositoryInterface $dayRepository,
         private readonly RatingRepositoryInterface $ratingRepository,
         private readonly CommentRepositoryInterface $commentRepository,
         private readonly CookbookRepositoryInterface $cookbookRepository,
@@ -65,14 +68,26 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
 
     public function delete(User $user): void
     {
+        foreach ($user->getPages() as $page) {
+            $this->pageRepository->delete($page);
+        }
+        foreach ($user->getDays() as $day) {
+            $this->dayRepository->delete($day);
+        }
         foreach ($user->getCookbooks() as $cookbook) {
             $this->cookbookRepository->delete($cookbook);
+        }
+        foreach ($user->getRecipes() as $recipe) {
+            $this->recipeRepository->delete($recipe);
         }
         foreach ($user->getRatings() as $rating) {
             $this->ratingRepository->delete($rating);
         }
         foreach ($user->getComments() as $comment) {
             $this->commentRepository->delete($comment);
+        }
+        foreach ($user->getFoodstuffs() as $foodstuff) {
+            $this->foodstuffRepository->delete($foodstuff);
         }
 
         $this->em->remove($user);

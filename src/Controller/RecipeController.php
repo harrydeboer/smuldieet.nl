@@ -144,21 +144,15 @@ class RecipeController extends Controller
                     $rating->setPending(false);
                     $rating->setRecipe($recipe);
                     $this->ratingRepository->create($rating);
-                    $recipeRating = $recipe->getRating();
-                    $votes = $recipe->getVotes();
-                    $recipe->setRating(($recipeRating * $votes + $rating->getRating()) / ($votes + 1));
-                    $recipe->setVotes($votes + 1);
                 } else {
                     $ratingOldRating = $ratingOld->getRating();
                     $ratingOld->setRating($rating->getRating());
                     $ratingOld->setContent($rating->getContent());
-                    $this->ratingRepository->update();
-                    $recipeRating = $recipe->getRating();
-                    $votes = $recipe->getVotes();
-                    $recipe->setRating(($recipeRating * $votes + $rating->getRating() -
-                            $ratingOldRating) / $votes);
+                    $rating->setRecipe($ratingOld->getRecipe());
+                    $this->ratingRepository->update($ratingOldRating, $rating);
                 }
-                $this->recipeRepository->update($recipe);
+            } else {
+                $form = $this->createForm(RatingType::class, $ratingOld);
             }
         } else {
             $form = $this->createForm(RatingType::class);

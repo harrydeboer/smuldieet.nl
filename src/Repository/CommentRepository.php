@@ -8,6 +8,7 @@ use App\Entity\Comment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use InvalidArgumentException;
 
 /**
  * @method Comment|null find($id, $lockMode = null, $lockVersion = null)
@@ -28,6 +29,10 @@ class CommentRepository extends ServiceEntityRepository implements CommentReposi
 
     public function create(Comment $comment): Comment
     {
+        if (!is_null($comment->getPage()) && !is_null($comment->getRecipe())) {
+            throw new InvalidArgumentException('A comment cannot have both a page and a recipe.');
+        }
+
         if (!is_null($recipe = $comment->getRecipe())) {
             $recipe->setTimesReacted($recipe->getTimesReacted() + 1);
             $this->recipeRepository->update($recipe);

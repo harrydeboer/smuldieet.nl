@@ -37,15 +37,28 @@ class RatingRepository extends ServiceEntityRepository implements RatingReposito
 
     public function create(Rating $rating): Rating
     {
+        $recipe = $rating->getRecipe();
+        $recipeRating = $recipe->getRating();
+        $votes = $recipe->getVotes();
+        $recipe->setRating(($recipeRating * $votes + $rating->getRating()) / ($votes + 1));
+        $recipe->setVotes($votes + 1);
+        $this->recipeRepository->update($recipe);
+
         $this->em->persist($rating);
         $this->em->flush();
 
         return $rating;
     }
 
-    public function update(): void
+    public function update(float $ratingOldRating, Rating $rating): void
     {
+        $recipe = $rating->getRecipe();
+        $recipeRating = $recipe->getRating();
+        $votes = $recipe->getVotes();
+        $recipe->setRating(($recipeRating * $votes + $rating->getRating() -
+                $ratingOldRating) / $votes);
         $this->em->flush();
+        $this->recipeRepository->update($recipe);
     }
 
     public function delete(Rating $rating): void

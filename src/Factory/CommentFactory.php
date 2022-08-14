@@ -34,16 +34,13 @@ class CommentFactory extends AbstractFactory
         if (isset($params['recipe'])) {
             $paramsParent['recipe'] = $params['recipe'];
         } else {
-            $paramsParent['recipe'] = $this->recipeFactory->create(['timesReacted' => 1]);
+            $paramsParent['recipe'] = $this->recipeFactory->create();
         }
         $comment = new Comment();
         $comment->setUser($paramsParent['user']);
         $comment->setContent(uniqid('content'));
         $comment->setTimestamp(time());
         $isOnPage = rand(0,1);
-        if (isset($params['page']) && isset($params['recipe'])) {
-            throw new InvalidArgumentException('A comment cannot both belong to a page and a recipe.');
-        }
         if (isset($params['page'])) {
             $comment->setPage($paramsParent['page']);
         } elseif (isset($params['recipe'])) {

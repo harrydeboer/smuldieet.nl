@@ -29,7 +29,7 @@ class CookbookFactory extends AbstractFactory
             $paramsParent['recipes'] = $params['recipes'];
         } else {
             $arrayCollection = new ArrayCollection();
-            $arrayCollection->add($this->recipeFactory->create(['timesSaved' => 1]));
+            $arrayCollection->add($this->recipeFactory->create());
             $paramsParent['recipes'] = $arrayCollection;
         }
         $cookbook = new Cookbook();

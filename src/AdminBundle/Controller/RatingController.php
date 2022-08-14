@@ -37,6 +37,7 @@ class RatingController extends AuthController
         $formUpdate = $this->createForm(ReviewType::class, $rating, [
             'method' => 'POST',
         ]);
+        $ratingOldRating = $rating->getRating();
 
         $formDelete = $this->createForm(DeleteRatingType::class, $rating, [
             'action' => $this->generateUrl('adminRatingDelete', ['id' => $rating->getId()]),
@@ -46,7 +47,7 @@ class RatingController extends AuthController
         $formUpdate->handleRequest($request);
 
         if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
-            $this->ratingRepository->update();
+            $this->ratingRepository->update($ratingOldRating, $rating);
 
             return $this->redirectToRoute('adminRating');
         }

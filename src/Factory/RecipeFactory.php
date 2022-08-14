@@ -45,15 +45,10 @@ class RecipeFactory extends AbstractFactory
             $weights[$foodstuff->getId()] = rand(1,10);
         }
         $recipe->setFoodstuffWeights($weights);
-        $rand = rand(0, 1);
-        if ($rand === 1) {
-            $recipe->setRating(rand(10,100) / 10);
-            $recipe->setVotes(rand(0,10000));
-        } else {
-            $recipe->setRating(null);
-            $recipe->setVotes(0);
-        }
-        $recipe->setTimesSaved(rand(0,10000));
+        $recipe->setRating(null);
+        $recipe->setVotes(0);
+        $recipe->setTimesSaved(0);
+        $recipe->setTimesReacted(0);
         $recipe->setIsSelfInvented(rand(0, 1) === 1);
         $recipe->setPending(rand(0, 1) === 1);
         $recipe->setCookingTime(Recipe::COOKING_TIMES[array_rand(Recipe::COOKING_TIMES)]);

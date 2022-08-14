@@ -30,7 +30,7 @@ class CombineFoodstuffsServiceTest extends KernelTestCase
         $foodstuff = CombineFoodstuffsService::combine($formData, $user);
 
         $this->assertEquals($formData['name'], $foodstuff->getName());
-        $this->assertSame($foodstuff->getPotassium(), $foodstuff1->getPotassium() * 0.3 +
-            $foodstuff2->getPotassium() * 0.3 + $foodstuff3->getPotassium() * 0.4);
+        $this->assertSame(round(1000 * $foodstuff->getPotassium()), round(1000 * ($foodstuff1->getPotassium() * 0.3 +
+            $foodstuff2->getPotassium() * 0.3 + $foodstuff3->getPotassium() * 0.4)));
     }
 }

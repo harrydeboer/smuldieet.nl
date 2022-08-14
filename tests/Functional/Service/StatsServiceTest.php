@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Service;
 
+use App\Entity\Day;
 use App\Factory\DayFactory;
 use App\Factory\FoodstuffFactory;
 use App\Factory\UserFactory;
@@ -29,9 +30,27 @@ class StatsServiceTest extends KernelTestCase
         $day2 = static::getContainer()->get(DayFactory::class)->create([
             'foodstuffs' => $arrayCollection2,
             'foodstuffWeights' => [100],
-            ]);
+        ]);
         $stats = StatsService::daysStats([$day1, $day2], $user);
+        $foodstuffsTotal = ($foodstuff1->getCalcium() + $foodstuff2->getCalcium()) / 2;
+        $recipesTotal = 0;
+        $recipesTotal += $this->recipesTotal($day1);
+        $recipesTotal += $this->recipesTotal($day2);
 
-        $this->assertEquals(($foodstuff1->getCalcium() + $foodstuff2->getCalcium()) / 2, $stats['calcium'][5]);
+        $this->assertEquals($foodstuffsTotal + $recipesTotal, $stats['calcium'][5]);
+    }
+
+    private function recipesTotal(Day $day): float
+    {
+        $total = 0;
+        foreach ($day->getRecipes() as $recipe) {
+            foreach ($recipe->getFoodstuffs() as $foodstuff) {
+                $total += $foodstuff->getCalcium() / 2 *
+                    $day->getRecipeWeights()[$recipe->getId()] / 100 *
+                    $recipe->getFoodstuffWeights()[$foodstuff->getId()];
+            }
+        }
+
+        return $total;
     }
 }
