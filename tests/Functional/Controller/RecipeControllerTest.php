@@ -85,9 +85,11 @@ class RecipeControllerTest extends AuthAdminWebTestCase
         $rating = 9;
         $form['rating[rating]'] = $rating;
 
-        $crawler = $this->client->submit($form);
+        $this->client->submit($form);
 
-        $this->assertResponseIsSuccessful();
+        $this->assertResponseRedirects('/recept/enkel/' . $recipe->getId());
+
+        $crawler = $this->client->request('GET', '/recept/enkel/' . $recipe->getId());
 
         $recipeRepository = $this->getContainer()->get(RecipeRepositoryInterface::class);
         $recipe = $recipeRepository->findOneBy(['title' => $updatedTitle]);
@@ -106,7 +108,7 @@ class RecipeControllerTest extends AuthAdminWebTestCase
 
         $this->client->submit($form);
 
-        $this->assertResponseIsSuccessful();
+        $this->assertResponseRedirects('/recept/enkel/' . $recipe->getId());
 
         $recipeRepository = $this->getContainer()->get(RecipeRepositoryInterface::class);
         $recipeUpdate = $recipeRepository->findOneBy(['title' => $updatedTitle]);
