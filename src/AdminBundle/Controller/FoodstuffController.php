@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use InvalidArgumentException;
 
 class FoodstuffController extends AuthController
 {
@@ -51,11 +52,13 @@ class FoodstuffController extends AuthController
         $formUpdate->handleRequest($request);
 
         if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
-            if (is_null($error = $this->foodstuffRepository->update($foodstuff))) {
-                return $this->redirectToRoute('adminFoodstuff');
-            }
+            try {
+                $this->foodstuffRepository->update($foodstuff);
 
-            $formUpdate->addError(new FormError($error));
+                return $this->redirectToRoute('adminFoodstuff');
+            } catch (InvalidArgumentException $exception) {
+                $formUpdate->addError(new FormError($exception->getMessage()));
+            }
         }
 
         return $this->render('@AdminBundle/foodstuff/edit/view.html.twig', [
