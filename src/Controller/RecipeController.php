@@ -135,11 +135,10 @@ class RecipeController extends Controller
         $this->checkPending($recipe);
         $rating = $this->ratingRepository->findOneBy([
             'recipe' => $recipe->getId(),
-            'user' => $this->getUser()->getId(),
+            'user' => $this->getUser()?->getId(),
         ]);
-        $formDelete = $this->createForm(DeleteRatingType::class, null, [
-            'action' => $this->generateUrl('recipeRatingDelete', ['id' => $id]),
-        ]);
+        $formDelete = null;
+
         if (is_null($rating)) {
             $form = $this->createForm(RatingType::class, null, [
                 'action' => $this->generateUrl('recipeRatingNew', ['id' => $id]),
@@ -147,6 +146,9 @@ class RecipeController extends Controller
         } else {
             $form = $this->createForm(RatingType::class, $rating, [
                 'action' => $this->generateUrl('recipeRatingUpdate', ['id' => $id]),
+            ]);
+            $formDelete = $this->createForm(DeleteRatingType::class, null, [
+                'action' => $this->generateUrl('recipeRatingDelete', ['id' => $id]),
             ]);
         }
 
@@ -156,8 +158,7 @@ class RecipeController extends Controller
             'currentUserId' => $this->getUser()?->getId(),
             'appEnv' => $this->getParameter('kernel.environment'),
             'form' => $form->createView(),
-            'formDelete' => $formDelete->createView(),
-            'rating' => $rating,
+            'formDelete' => $formDelete?->createView(),
         ]);
     }
 

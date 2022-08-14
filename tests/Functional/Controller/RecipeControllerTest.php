@@ -78,7 +78,7 @@ class RecipeControllerTest extends AuthAdminWebTestCase
 
         $this->assertResponseIsSuccessful();
 
-        $buttonCrawlerNode = $crawler->selectButton('Beoordeel');
+        $buttonCrawlerNode = $crawler->selectButton('Waardeer');
 
         $form = $buttonCrawlerNode->form();
 
@@ -98,7 +98,7 @@ class RecipeControllerTest extends AuthAdminWebTestCase
         $this->assertEquals(($rating + $votesOld * $ratingOld) / ($votesOld + 1), $recipeRating);
         $this->assertEquals($votesOld + 1, $recipe->getVotes());
 
-        $buttonCrawlerNode = $crawler->selectButton('Beoordeel');
+        $buttonCrawlerNode = $crawler->selectButton('Waardeer');
 
         $form = $buttonCrawlerNode->form();
 

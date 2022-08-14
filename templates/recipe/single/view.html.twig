@@ -12,11 +12,11 @@
         <table>
             <tr><td>Waardering</td><td>{{ form_widget(form.rating) }}</td>
             <tr><td>Review</td><td>{{ form_widget(form.content) }}</td>
-            <tr><td colspan="2">{{ form_widget(form.submit, { 'label': 'Beoordeel' }) }}</td>
+            <tr><td colspan="2">{{ form_widget(form.submit, { 'label': 'Waardeer' }) }}</td>
             </tr>
         </table>
         {{ form_end(form) }}
-        {% if rating is not null %}
+        {% if formDelete is not null %}
             {{ form_start(formDelete) }}
             {{ form_widget(formDelete.delete, { 'label': 'Verwijder' }) }}
             {{ form_end(formDelete) }}
