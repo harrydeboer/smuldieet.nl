@@ -27,7 +27,8 @@
     <table class="table">
         <tr><td colspan="2">
                 {% if recipe.imageExtension is not null %}
-                    <img src="{{  asset(recipe.getImagePath(appEnv, 600)) }}" id="recipe-image" alt="recipe">
+                    <img src="{{  asset(recipe.getImagePath(appEnv, 600)) }}" id="recipe-image" class="img-fluid"
+                         alt="recipe">
                 {% endif %}
             </td></tr>
         <tr><td>Titel</td><td>{{ recipe.title }}</td></tr>

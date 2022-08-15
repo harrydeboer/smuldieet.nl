@@ -13,7 +13,7 @@ class DayType extends StandardDayType
     {
         $builder
             ->add('date', TextType::class, [
-                'attr' => ['class' => 'form-control date-field'],
+                'attr' => ['class' => 'form-control date-field', 'placeholder' => 'dd-mm-jjjj'],
             ]);
         parent::buildForm($builder, $options);
     }

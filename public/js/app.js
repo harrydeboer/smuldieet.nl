@@ -3,6 +3,10 @@ $(function() {
         $('.delete-modal').modal('show');
     });
 
+    $(".dropdown-diet").on('click', function(e) {
+        e.stopPropagation();
+    })
+
     $('#abcSelect').on('change', function () {
         window.location.href = '/voedingsmiddel/letter/' + $(this).val();
     });

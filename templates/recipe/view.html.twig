@@ -11,8 +11,7 @@
                 <td>
                     {% if recipe.imageExtension is not null %}
                         <img src="{{ asset(recipe.getImagePath(appEnv, 100)) }}"
-                             alt="label"
-                             class="recipe-image">
+                             alt="label" class="img-fluid recipe-image">
                     {% endif %}
                 </td>
                 <td><a href="{{ path('recipeSingle', {'id': recipe.id}) }}">{{ recipe.title }}</a></td>

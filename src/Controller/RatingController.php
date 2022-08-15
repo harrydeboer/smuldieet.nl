@@ -43,7 +43,7 @@ class RatingController extends AuthController
     #[Route('/waardering/verwijder/{id}', name: 'recipeRatingDelete')]
     public function delete(Request $request, int $id): RedirectResponse
     {
-        $rating = $this->ratingRepository->findOneBy(['id' => $id, 'user' => $this->getUser()->getId()]);
+        $rating = $this->ratingRepository->getFromUser($id, $this->getUser()->getId());
         $recipe = $rating->getRecipe();
         $this->checkPending($recipe);
         $formDelete = $this->createForm(DeleteRatingType::class);
@@ -58,7 +58,7 @@ class RatingController extends AuthController
     #[Route('/waardering/wijzig/{id}', name: 'recipeRatingUpdate')]
     public function update(Request $request, int $id): RedirectResponse
     {
-        $rating = $this->ratingRepository->findOneBy(['id' => $id, 'user' => $this->getUser()->getId()]);
+        $rating = $this->ratingRepository->getFromUser($id, $this->getUser()->getId());
         $recipe = $rating->getRecipe();
         $this->checkPending($recipe);
         $oldRating = $rating->getRating();

@@ -16,7 +16,6 @@
     <div>
         <i id="recipeFilterIcon" class="fas fa-sliders-h"></i>
     </div>
-
     <div id="formErrorsClient"></div>
     <div id="formErrorsServer">
         {{ form_errors(form) }}
@@ -48,9 +47,16 @@
     {{ form_widget(form.typeOfDish) }}
     {{ form_widget(form.occasion) }}
     {{ form_widget(form.isSelfInvented) }}
-    {% for key,choice in dietChoices %}
-        {{ key }} {{ form_widget(attribute(form, choice)) }}
-    {% endfor %}
+    <div class="dropdown">
+        <button type="text" class="dropdown-toggle form-control" id="dieetFilter"
+               value="test" data-bs-toggle="dropdown" aria-expanded="false">Selecteer dieet</button>
+        <table class="dropdown-menu dropdown-diet" aria-labelledby="dieetFilter">
+            {% for key,choice in dietChoices %}
+                <tr><td><label class="form-check-label dietLabel" for="diet{{ key }}">{{ key }}</label></td>
+                    <td>{{ form_widget(attribute(form, choice), {'id': 'diet'~key}) }}</td></tr>
+            {% endfor %}
+        </table>
+    </div>
     {{ form_widget(form.sort) }}
     {{ form_widget(form.show, { 'label': 'Toon' }) }}
     {{ form_end(form) }}
@@ -61,7 +67,7 @@
                 <td class="d-none d-lg-table-cell">
                     {% if recipe.imageExtension is not null %}
                         <img src="{{ asset(recipe.getImagePath(appEnv, 100)) }}"
-                             alt="label" class="recipe-image">
+                             alt="label" class="img-fluid recipe-image">
                     {% endif %}
                 </td>
                 <td><a href="{{ path('recipeSingle', {'id': recipe.id}) }}">{{ recipe.title }}</a></td>

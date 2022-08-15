@@ -100,7 +100,7 @@ class RecipeType extends AbstractType
             ]);
         foreach (Recipe::DIET_CHOICES as $choice) {
             $builder->add($choice, CheckboxType::class, ['required' => false,
-                'attr' => ['class' => 'form-control']]);
+                'attr' => ['class' => 'form-check-input']]);
         }
         $builder->add('foodstuffs', EntityType::class, [
             'class' => Foodstuff::class,

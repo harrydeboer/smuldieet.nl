@@ -11,18 +11,25 @@
         {{ form_errors(form.end) }}
     </div>
     {{ form_start(form, {'attr': {'id': 'overview-form'}}) }}
-    {{ form_widget(form.start) }}
-    {{ form_widget(form.end) }}
-    {{ form_widget(form.submit, { 'label': 'Bekijk' }) }}
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Begin datum</th>
+            <th scope="col">Eind datum</th>
+        </tr>
+        </thead>
+        <tr><td>{{ form_widget(form.start) }}</td><td>{{ form_widget(form.end) }}</td></tr>
+        <tr><td colspan="2">{{ form_widget(form.submit, { 'label': 'Bekijk' }) }}</td></tr>
+    </table>
     {{ form_end(form) }}
     {% if stats is not empty %}
         <table class="table">
             <thead>
             <tr>
-                <th scope="col">Voedingswaarde</th>
+                <th scope="col">Waarde</th>
                 <th scope="col">Min</th>
                 <th scope="col">Max</th>
-                <th scope="col">Gerealiseerd</th>
+                <th scope="col">Feitelijk</th>
             </tr>
             </thead>
             <tbody>

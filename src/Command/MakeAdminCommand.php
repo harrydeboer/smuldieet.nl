@@ -30,22 +30,25 @@ class MakeAdminCommand extends Command
         $this->addArgument('id', InputArgument::REQUIRED, 'Who do you want to make admin?');
     }
 
-    /**
-     * User number one becomes administrator.
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $id = $input->getArgument('id');
 
         $user = $this->userRepository->find((int) $id);
-        if (!in_array('ROLE_ADMIN', $user->getRoles())) {
-            $user->setRoles(['ROLE_ADMIN']);
-            $this->userRepository->update();
-            $output->writeln('Added ROLE_ADMIN to user number ' . $id . '.');
-        } else {
-            $output->writeln('User is already admin.');
-        }
+        if (is_null($user)) {
+            $output->writeln('User does not exist.');
 
-        return Command::SUCCESS;
+            return Command::FAILURE;
+        } else {
+            if (!in_array('ROLE_ADMIN', $user->getRoles())) {
+                $user->setRoles(['ROLE_ADMIN']);
+                $this->userRepository->update();
+                $output->writeln('Added ROLE_ADMIN to user number ' . $id . '.');
+            } else {
+                $output->writeln('User is already admin.');
+            }
+
+            return Command::SUCCESS;
+        }
     }
 }

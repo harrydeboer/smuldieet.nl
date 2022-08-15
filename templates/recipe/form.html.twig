@@ -39,9 +39,16 @@
     <tr><td>Keuken *</td><td colspan="2">{{ form_widget(form.kitchen) }}</td></tr>
     <tr><td>Soort gerecht *</td><td colspan="2">{{ form_widget(form.typeOfDish) }}</td></tr>
     <tr><td>Gelegenheid</td><td colspan="2">{{ form_widget(form.occasion) }}</td></tr>
-    {% for key,choice in constant('DIET_CHOICES', recipe) %}
-        <tr><td>{{ key }}</td><td colspan="2">{{ form_widget(attribute(form, choice)) }}</td></tr>
-    {% endfor %}
+    <tr class="dropdown"><td colspan="3">
+        <button type="text" class="dropdown-toggle form-control" id="dieetFilter"
+                value="test" data-bs-toggle="dropdown" aria-expanded="false">Selecteer dieet</button>
+        <table class="dropdown-menu dropdown-diet" aria-labelledby="dieetFilter">
+            {% for key,choice in constant('DIET_CHOICES', recipe) %}
+                <tr><td><label class="form-check-label dietLabel" for="diet{{ key }}">{{ key }}</label></td>
+                    <td>{{ form_widget(attribute(form, choice), {'id': 'diet'~key}) }}</td></tr>
+            {% endfor %}
+        </table></td>
+    </tr>
     {% for rowNumber, foodstuff in recipe.foodstuffs %}
         {{ include('foodstuffRow.html.twig', {'rowNumber': rowNumber + 1, 'formName': 'recipe',
             'entity': recipe, 'id': foodstuff.id, 'name': foodstuff.name,

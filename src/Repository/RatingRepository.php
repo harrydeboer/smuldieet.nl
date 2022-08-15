@@ -8,6 +8,7 @@ use App\Entity\Rating;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @method Rating|null find($id, $lockMode = null, $lockVersion = null)
@@ -33,6 +34,17 @@ class RatingRepository extends ServiceEntityRepository implements RatingReposito
         $query = $qb->getQuery();
 
         return $query->execute();
+    }
+
+    public function getFromUser(int $id, int $userId): Rating
+    {
+        $day = $this->findOneBy(['id' => $id, 'user' => $userId]);
+
+        if (is_null($day)) {
+            throw new NotFoundHttpException('Deze waardering bestaat niet of hoort niet bij jou.');
+        }
+
+        return $day;
     }
 
     public function create(Rating $rating): void
