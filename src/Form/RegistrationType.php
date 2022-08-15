@@ -16,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Length;
 
 class RegistrationType extends AbstractType
@@ -25,8 +26,23 @@ class RegistrationType extends AbstractType
         $builder
             ->add('image', FileType::class, [
                 'attr' => [
-                    'accept' => 'image/*',
+                    'accept' => 'image/png, image/jpg, image/jpeg, image/gif, image/bmp, image/wbmp, image/webp',
                     'class' => 'btn-primary'
+                ],
+                'constraints' => [
+                    new File([
+                        'maxSize' => '4096k',
+                        'mimeTypes' => [
+                            'image/png',
+                            'image/jpg',
+                            'image/jpeg',
+                            'image/gif',
+                            'image/bmp',
+                            'image/wbmp',
+                            'image/webp',
+                        ],
+                        'mimeTypesMessage' => 'Geef alstublieft een geldig plaatje.',
+                    ])
                 ],
                 'required' => false,
             ])

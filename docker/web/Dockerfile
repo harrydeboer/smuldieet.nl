@@ -20,7 +20,7 @@ RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
 
 RUN a2enmod headers rewrite ssl
 
-RUN docker-php-ext-install bcmath curl mbstring xml intl zip pdo_mysql opcache
+RUN docker-php-ext-install bcmath curl mbstring gd xml intl zip pdo_mysql opcache
 
 RUN if [ "$APP_ENV" = "dev" ] ; then pecl install xdebug && docker-php-ext-enable xdebug; fi
 

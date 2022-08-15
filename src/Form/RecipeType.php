@@ -22,6 +22,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints\File;
 
 class RecipeType extends AbstractType
 {
@@ -36,8 +37,23 @@ class RecipeType extends AbstractType
         $builder
             ->add('image', FileType::class, [
                 'attr' => [
-                    'accept' => 'image/*',
+                    'accept' => 'image/png, image/jpg, image/jpeg, image/gif, image/bmp, image/wbmp, image/webp',
                     'class' => 'btn-primary'
+                ],
+                'constraints' => [
+                    new File([
+                        'maxSize' => '4096k',
+                        'mimeTypes' => [
+                            'image/png',
+                            'image/jpg',
+                            'image/jpeg',
+                            'image/gif',
+                            'image/bmp',
+                            'image/wbmp',
+                            'image/webp',
+                        ],
+                        'mimeTypesMessage' => 'Geef alstublieft een geldig plaatje.',
+                    ])
                 ],
                 'required' => false,
             ])

@@ -9,7 +9,6 @@ use App\Form\RegistrationType;
 use App\Form\VerifyType;
 use App\Repository\UserRepositoryInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -157,11 +156,5 @@ class RegistrationController extends Controller
         }
 
         return false;
-    }
-
-    private function moveImage(User $user, ?UploadedFile $image)
-    {
-        $user->moveImage($image, $this->getParameter('kernel.environment'),
-            $this->getParameter('kernel.project_dir'));
     }
 }

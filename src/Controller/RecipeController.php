@@ -13,7 +13,6 @@ use App\Repository\RatingRepositoryInterface;
 use App\Repository\RecipeRepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\FormError;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -185,11 +184,5 @@ class RecipeController extends Controller
         }
 
         return $this->recipeRepository->getFromUser($id, $this->getUser()->getId());
-    }
-
-    private function moveImage(Recipe $recipe, ?UploadedFile $image)
-    {
-        $recipe->moveImage($image, $this->getParameter('kernel.environment'),
-            $this->getParameter('kernel.project_dir'));
     }
 }

@@ -9,6 +9,7 @@
         "ext-iconv": "*",
         "ext-simplexml": "*",
         "ext-curl": "*",
+        "ext-gd": "*",
         "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.7",
         "doctrine/doctrine-migrations-bundle": "^3.2",

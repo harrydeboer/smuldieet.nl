@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Doctrine\ORM\Mapping as ORM;
+use InvalidArgumentException;
 
 trait ImageTrait
 {
@@ -75,6 +76,9 @@ trait ImageTrait
     {
         $idString = (string) $this->getId();
         if (!is_null($width)) {
+            if (!in_array($width, self::IMAGE_WIDTHS)) {
+                throw new InvalidArgumentException('Specified width is not in entity constant.');
+            }
             $widthString = (string) $width;
             $idString = $idString . '_' . $widthString;
         }
@@ -96,8 +100,9 @@ trait ImageTrait
     {
         if (!is_null($this->getImagePath($appEnv))) {
             @unlink($projectDir . '/public/' . $this->getImagePath($appEnv));
-            @unlink($projectDir . '/public/' . $this->getImagePath($appEnv, 100));
-            @unlink($projectDir . '/public/' . $this->getImagePath($appEnv, 600));
+            foreach (self::IMAGE_WIDTHS as $width) {
+                @unlink($projectDir . '/public/' . $this->getImagePath($appEnv, $width));
+            }
         }
     }
 }

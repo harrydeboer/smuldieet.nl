@@ -144,6 +144,11 @@ class Recipe
         'Zonder pakjes en zakjes' => 'withoutPackagesAndBags',
     ];
 
+    public const IMAGE_WIDTHS = [
+        100,
+        600,
+    ];
+
     #[ORM\Column(type: "bigint")]
     private int $timestamp;
 

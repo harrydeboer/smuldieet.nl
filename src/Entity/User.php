@@ -30,6 +30,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public const GENDER = ['man', 'vrouw'];
 
+    public const IMAGE_WIDTHS = [
+        100,
+        600,
+    ];
+
     #[
         ORM\Column(type: "string", length: 180, nullable: true),
         Assert\Length(max: 180, maxMessage: 'De voornaam mag niet meer dan 180 tekens hebben.'),

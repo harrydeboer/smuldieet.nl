@@ -9,8 +9,10 @@ use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\User\UserInterface;
+use InvalidArgumentException;
 
 class Controller extends AbstractController
 {
@@ -45,6 +47,58 @@ class Controller extends AbstractController
         }
 
         return true;
+    }
+
+    protected function moveImage(object $entity, ?UploadedFile $image)
+    {
+        if (!is_null($image)) {
+            $entity->moveImage($image, $this->getParameter('kernel.environment'),
+                $this->getParameter('kernel.project_dir'));
+            $extension = $image->getClientOriginalExtension();
+            $path = $this->getParameter('kernel.project_dir') . '/public/' .
+                $entity->getImagePath($this->getParameter('kernel.environment'));
+            if ($extension === 'png') {
+                $image = imagecreatefrompng($path);
+            } elseif ($extension === 'jpg' || $extension === 'jpeg') {
+                $image = imagecreatefromjpeg($path);
+            } elseif ($extension === 'gif') {
+                $image = imagecreatefromgif($path);
+            } elseif ($extension === 'bmp') {
+                $image = imagecreatefrombmp($path);
+            } elseif ($extension === 'wbmp') {
+                $image = imagecreatefromwbmp($path);
+            } elseif ($extension === 'webp') {
+                $image = imagecreatefromwebp($path);
+            } else {
+                throw new InvalidArgumentException('Uploaded file is not an image.');
+            }
+            $x = imagesx($image);
+            $y = imagesy($image);
+            foreach ($entity::IMAGE_WIDTHS as $width) {
+                $dst = imagecreatetruecolor($width, (int)($y * $width / $x));
+                imagecopyresampled($dst, $image, 0, 0, 0, 0,
+                    $width, (int)($y * $width / $x), $x, $y);
+                $path = $this->getParameter('kernel.project_dir') . '/public/' .
+                    $entity->getImagePath($this->getParameter('kernel.environment'), $width);
+                if ($extension === 'png') {
+                    imagepng($dst, $path);
+                } elseif ($extension === 'jpg' || $extension === 'jpeg') {
+                    imagejpeg($dst, $path);
+                } elseif ($extension === 'gif') {
+                    imagegif($dst, $path);
+                } elseif ($extension === 'bmp') {
+                    imagebmp($dst, $path);
+                } elseif ($extension === 'wbmp') {
+                    imagewbmp($dst, $path);
+                } elseif ($extension === 'webp') {
+                    imagewebp($dst, $path);
+                } else {
+                    throw new InvalidArgumentException('Uploaded file is not an image.');
+                }
+                imagedestroy($dst);
+            }
+            imagedestroy($image);
+        }
     }
 
     protected function checkPending(Recipe $recipe): void
