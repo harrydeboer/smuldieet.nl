@@ -6,13 +6,12 @@ namespace App\Controller;
 
 use App\Repository\PageRepositoryInterface;
 use SimpleXMLElement;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Exception;
 
-class SitemapController extends AbstractController
+class SitemapController extends Controller
 {
     public function __construct(
         private readonly KernelInterface $kernel,

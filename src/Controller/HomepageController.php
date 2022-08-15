@@ -8,14 +8,13 @@ use App\Entity\Recipe;
 use App\Form\RecipeFilterAndSortType;
 use App\Repository\PageRepositoryInterface;
 use App\Repository\RecipeRepositoryInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
-class HomepageController extends AbstractController
+class HomepageController extends Controller
 {
     public function __construct(
         private readonly RecipeRepositoryInterface $recipeRepository,

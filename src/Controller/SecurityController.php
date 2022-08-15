@@ -6,14 +6,13 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\LoginType;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use LogicException;
 
-class SecurityController extends AbstractController
+class SecurityController extends Controller
 {
     #[Route('/inloggen', name: 'appLogin')]
     public function login(AuthenticationUtils $authenticationUtils): Response

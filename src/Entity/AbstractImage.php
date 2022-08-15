@@ -1,0 +1,158 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Entity;
+
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use InvalidArgumentException;
+use Doctrine\ORM\Mapping as ORM;
+
+abstract class AbstractImage
+{
+    #[
+        ORM\Id,
+        ORM\Column(type: "integer"),
+        ORM\GeneratedValue(strategy: "IDENTITY"),
+    ]
+    protected int $id;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[ORM\Column(type: "string", nullable: true)]
+    protected ?string $imageExtension = null;
+
+    public function getImageExtension(): ?string
+    {
+        return $this->imageExtension;
+    }
+
+    public function setImageExtension(?string $imageExtension): void
+    {
+        $this->imageExtension = $imageExtension;
+    }
+
+    /**
+     * The image getter and setter have to exist for the wine form to work,
+     * but the value of getLabel is never used because a html input of type file cannot be prefilled.
+     * The setter only sets the imageExtension, because it does not save the image.
+     * The function moveLabel saves the image.
+     */
+    public function getImage(): void
+    {
+    }
+    public function setImage(?UploadedFile $image): void
+    {
+        if (!is_null($image)) {
+            $this->setImageExtension($image->getClientOriginalExtension());
+        }
+    }
+
+    public function getImagePath(string $appEnv, int $width = null): ?string
+    {
+        $idString = (string) $this->getId();
+        if (!is_null($width)) {
+            if (!in_array($width, $this::IMAGE_WIDTHS)) {
+                throw new InvalidArgumentException('Specified width is not in entity constant.');
+            }
+            $widthString = (string) $width;
+            $idString = $idString . '_' . $widthString;
+        }
+        $extraPath = '';
+        if ($appEnv === 'test') {
+            $extraPath = 'test/';
+        }
+        $classNameArray = explode('\\', get_class($this));
+
+        if (is_null($this->getImageExtension())) {
+            return null;
+        }
+
+        return 'uploads/' . strtolower($classNameArray[2]) . '/images/' . $extraPath .
+            $idString . '.' . $this->getImageExtension();
+    }
+
+    public function unlinkImage(string $appEnv, string $projectDir): void
+    {
+        if (!is_null($this->getImagePath($appEnv))) {
+            @unlink($projectDir . '/public/' . $this->getImagePath($appEnv));
+            foreach ($this::IMAGE_WIDTHS as $width) {
+                @unlink($projectDir . '/public/' . $this->getImagePath($appEnv, $width));
+            }
+        }
+    }
+
+    public function moveImage(string $appEnv, string $projectDir, ?UploadedFile $image): void
+    {
+        if (!is_null($image)) {
+
+            if(!str_starts_with($image->getMimeType(), 'image/')) {
+                throw new InvalidArgumentException('Het bestand is geen plaatje.');
+            }
+
+            $id = (string) $this->getId();
+            $extraPath = '';
+            if ($appEnv === 'test') {
+                $extraPath = 'test/';
+            }
+            $classNameArray = explode('\\', get_class($this));
+            $image->move(
+                $projectDir . '/public/uploads/' . strtolower($classNameArray[2]) . '/images/' . $extraPath,
+                $id . '.' . $image->getClientOriginalExtension()
+            );
+
+            $extension = $image->getClientOriginalExtension();
+            $path = $projectDir . '/public/' .
+                $this->getImagePath($appEnv);
+            if ($extension === 'png') {
+                $image = imagecreatefrompng($path);
+            } elseif ($extension === 'jpg' || $extension === 'jpeg') {
+                $image = imagecreatefromjpeg($path);
+            } elseif ($extension === 'gif') {
+                $image = imagecreatefromgif($path);
+            } elseif ($extension === 'bmp') {
+                $image = imagecreatefrombmp($path);
+            } elseif ($extension === 'wbmp') {
+                $image = imagecreatefromwbmp($path);
+            } elseif ($extension === 'webp') {
+                $image = imagecreatefromwebp($path);
+            } else {
+                throw new InvalidArgumentException('Uploaded file is not an image.');
+            }
+            $x = imagesx($image);
+            $y = imagesy($image);
+            foreach ($this::IMAGE_WIDTHS as $width) {
+                $dst = imagecreatetruecolor($width, (int)($y * $width / $x));
+                imagecopyresampled($dst, $image, 0, 0, 0, 0,
+                    $width, (int)($y * $width / $x), $x, $y);
+                $path = $projectDir . '/public/' .
+                    $this->getImagePath($appEnv, $width);
+                if ($extension === 'png') {
+                    imagepng($dst, $path);
+                } elseif ($extension === 'jpg' || $extension === 'jpeg') {
+                    imagejpeg($dst, $path);
+                } elseif ($extension === 'gif') {
+                    imagegif($dst, $path);
+                } elseif ($extension === 'bmp') {
+                    imagebmp($dst, $path);
+                } elseif ($extension === 'wbmp') {
+                    imagewbmp($dst, $path);
+                } elseif ($extension === 'webp') {
+                    imagewebp($dst, $path);
+                } else {
+                    throw new InvalidArgumentException('Uploaded file is not an image.');
+                }
+                imagedestroy($dst);
+            }
+            imagedestroy($image);
+        }
+    }
+}

@@ -7,11 +7,10 @@ namespace App\Controller;
 use App\Entity\User;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Twig\Environment;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
-class ErrorController extends AbstractController
+class ErrorController extends Controller
 {
     public function __construct(
         private readonly Environment $environment,

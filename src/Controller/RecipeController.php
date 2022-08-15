@@ -61,11 +61,11 @@ class RecipeController extends Controller
 
         $formUpdate->handleRequest($request);
 
-        if ($formUpdate->isSubmitted() && $formUpdate->isValid() && $this->checkImage($formUpdate)) {
+        if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
             try {
                 $this->recipeRepository->update($recipe);
-
-                $this->moveImage($recipe, $formUpdate->get('image')->getData());
+                $recipe->moveImage($this->getParameter('kernel.environment'),
+                    $this->getParameter('kernel.project_dir'), $formUpdate->get('image')->getData());
 
                 return $this->redirectToRoute('recipe');
             } catch (InvalidArgumentException $exception) {
@@ -90,10 +90,11 @@ class RecipeController extends Controller
         $recipe->setUser($this->getUser());
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid() && $this->checkImage($form)) {
+        if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $this->recipeRepository->create($recipe);
-                $this->moveImage($recipe, $form->get('image')->getData());
+                $recipe->moveImage($this->getParameter('kernel.environment'),
+                    $this->getParameter('kernel.project_dir'), $form->get('image')->getData());
 
                 return $this->redirectToRoute('recipe');
             } catch (InvalidArgumentException $exception) {
