@@ -8,6 +8,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -y install \
     libxml2-dev \
     libcurl4-openssl-dev \
     libonig-dev \
+    libpng-dev \
     libzip-dev \
     zip \
     unzip \
