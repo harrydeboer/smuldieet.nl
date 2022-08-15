@@ -19,8 +19,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
     ORM\Table(name: "recipe"),
     UniqueEntity(fields: ["title"], message: "Er is al een recept met deze titel."),
 ]
-class Recipe extends AbstractImage
+class Recipe
 {
+    use ImageTrait;
+
     public const COOKING_TIMES = ['0-10 min.', '10-20 min.', '20-30 min.', '30-60 min.', '> 1 uur', '> 2 uur'];
 
     public const OCCASION = [

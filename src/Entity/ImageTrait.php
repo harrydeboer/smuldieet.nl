@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use InvalidArgumentException;
 use Doctrine\ORM\Mapping as ORM;
 
-abstract class AbstractImage
+trait ImageTrait
 {
     #[
         ORM\Id,

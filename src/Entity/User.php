@@ -24,8 +24,10 @@ use Symfony\Component\Validator\Constraints as Assert;
     UniqueEntity(fields: ["username"], message: "Er is al een gebruiker met deze gebruikersnaam."),
     UniqueEntity(fields: ["email"], message: "Er is al een gebruiker met dit e-mailadres."),
 ]
-class User extends AbstractImage implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    use ImageTrait;
+
     public const GENDER = ['man', 'vrouw'];
 
     public const IMAGE_WIDTHS = [
