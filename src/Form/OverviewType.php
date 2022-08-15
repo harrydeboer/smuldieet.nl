@@ -15,10 +15,10 @@ class OverviewType extends AbstractType
     {
         $builder
             ->add('start', TextType::class, [
-                'attr' => ['placeholder' => 'begin (dd-mm-jjjj)', 'class' => 'date-field'],
+                'attr' => ['placeholder' => 'begin (dd-mm-jjjj)', 'class' => 'form-control date-field'],
             ])
             ->add('end', TextType::class, [
-                'attr' => ['placeholder' => 'einde (dd-mm-jjjj)', 'class' => 'date-field'],
+                'attr' => ['placeholder' => 'einde (dd-mm-jjjj)', 'class' => 'form-control date-field'],
             ])
             ->add('submit', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-primary'],

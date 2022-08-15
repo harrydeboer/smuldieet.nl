@@ -16,12 +16,21 @@
     {{ form_widget(form.submit, { 'label': 'Bekijk' }) }}
     {{ form_end(form) }}
     {% if stats is not empty %}
-        <table>
-            <tr id="overviewLegend"><td>Voedingswaarde</td><td>Min</td><td>Max</td><td>Gerealiseerd</td></tr>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Voedingswaarde</th>
+                <th scope="col">Min</th>
+                <th scope="col">Max</th>
+                <th scope="col">Gerealiseerd</th>
+            </tr>
+            </thead>
+            <tbody>
             {% for key,property in stats %}
                 <tr><td>{{ property[3] }} {{ property[2] }}</td><td>{{ property[0] }}</td><td>{{ property[1] }}</td>
                     <td>{{ property[5]|number_format(property[4]) }}</td></tr>
             {% endfor %}
+            </tbody>
         </table>
     {% endif %}
 {% endblock %}

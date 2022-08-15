@@ -38,7 +38,7 @@ class RecipeType extends AbstractType
             ->add('image', FileType::class, [
                 'attr' => [
                     'accept' => 'image/png, image/jpg, image/jpeg, image/gif, image/bmp, image/wbmp, image/webp',
-                    'class' => 'btn-primary'
+                    'class' => 'form-control btn-primary'
                 ],
                 'constraints' => [
                     new File([
@@ -57,39 +57,50 @@ class RecipeType extends AbstractType
                 ],
                 'required' => false,
             ])
-            ->add('title', TextType::class)
-            ->add('url', TextType::class, ['required' => false])
-            ->add('ingredients', TextareaType::class, ['required' => false])
-            ->add('preparationMethod', TextareaType::class)
-            ->add('niceStory', TextareaType::class)
-            ->add('niceTips', TextareaType::class, ['required' => false])
-            ->add('toolsAndKitchenware', TextareaType::class, ['required' => false])
-            ->add('numberOfPersons', IntegerType::class)
-            ->add('numberOfPieces', IntegerType::class, ['required' => false])
-            ->add('source', TextType::class, ['required' => false])
+            ->add('title', TextType::class, ['attr' => ['class' => 'form-control']])
+            ->add('url', TextType::class, ['required' => false, 'attr' => ['class' => 'form-control']])
+            ->add('ingredients', TextareaType::class, ['required' => false,
+                'attr' => ['class' => 'form-control']])
+            ->add('preparationMethod', TextareaType::class, ['attr' => ['class' => 'form-control']])
+            ->add('niceStory', TextareaType::class, ['attr' => ['class' => 'form-control']])
+            ->add('niceTips', TextareaType::class, ['required' => false,
+                'attr' => ['class' => 'form-control']])
+            ->add('toolsAndKitchenware', TextareaType::class, ['required' => false,
+                'attr' => ['class' => 'form-control']])
+            ->add('numberOfPersons', IntegerType::class, ['attr' => ['class' => 'form-control']])
+            ->add('numberOfPieces', IntegerType::class, ['required' => false,
+                'attr' => ['class' => 'form-control']])
+            ->add('source', TextType::class, ['required' => false,
+                'attr' => ['class' => 'form-control']])
             ->add('isSelfInvented', ChoiceType::class, [
                 'choices' => ['zelf bedacht' => true, 'niet zelf bedacht' => false],
                 'expanded' => true,
+                'attr' => ['class' => 'form-control'],
             ])
             ->add('cookingTime', ChoiceType::class, [
                 'placeholder' => 'selecteer bereidingstijd',
+                'attr' => ['class' => 'form-control'],
                 'choices' => array_combine(Recipe::COOKING_TIMES,Recipe::COOKING_TIMES),
             ])
             ->add('kitchen', ChoiceType::class, [
                 'placeholder' => 'selecteer keuken',
+                'attr' => ['class' => 'form-control'],
                 'choices' => array_combine(Recipe::KITCHEN,Recipe::KITCHEN),
             ])
             ->add('typeOfDish', ChoiceType::class, [
                 'placeholder' => 'selecteer gerecht',
+                'attr' => ['class' => 'form-control'],
                 'choices' => array_combine(Recipe::TYPE_OF_DISH,Recipe::TYPE_OF_DISH),
             ])
             ->add('occasion', ChoiceType::class, [
                 'placeholder' => 'selecteer gelegenheid',
+                'attr' => ['class' => 'form-control'],
                 'choices' => array_combine(Recipe::OCCASION,Recipe::OCCASION),
                 'required' => false,
             ]);
         foreach (Recipe::DIET_CHOICES as $choice) {
-            $builder->add($choice, CheckboxType::class, ['required' => false]);
+            $builder->add($choice, CheckboxType::class, ['required' => false,
+                'attr' => ['class' => 'form-control']]);
         }
         $builder->add('foodstuffs', EntityType::class, [
             'class' => Foodstuff::class,

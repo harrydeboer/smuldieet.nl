@@ -4,7 +4,7 @@
     {{ form_errors(form.title) }}
 </div>
 {{ form_start(form) }}
-<table class="createUpdateTable">
+<table class="createUpdateTable table">
     <tr><td>Titel</td><td colspan="2">{{ form_widget(form.title) }}</td></tr>
     {% for rowNumber, recipe in cookbook.recipes %}
         {{ include('recipeRow.html.twig', {'rowNumber': rowNumber + 1, 'formName': 'cookbook',

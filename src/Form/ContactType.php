@@ -18,13 +18,13 @@ class ContactType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'attr' => ['class' => 'no-html-tags'],
+                'attr' => ['class' => 'form-control'],
             ])
             ->add('subject', TextType::class, [
-                'attr' => ['class' => 'no-html-tags'],
+                'attr' => ['class' => 'form-control'],
             ])
-            ->add('email', EmailType::class)
-            ->add('message', TextareaType::class)
+            ->add('email', EmailType::class, ['attr' => ['class' => 'form-control']])
+            ->add('message', TextareaType::class, ['attr' => ['class' => 'form-control']])
             ->add('reCaptchaToken', HiddenType::class)
             ->add('send', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-primary'],

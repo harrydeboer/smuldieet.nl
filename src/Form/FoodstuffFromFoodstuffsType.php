@@ -26,6 +26,7 @@ class FoodstuffFromFoodstuffsType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                     'attr' => [
+                        'class' => 'form-control',
                         'maxlength' => 255,
                     ],
             ])

@@ -6,7 +6,7 @@
 {% if form.date is defined %}
     {{ form_errors(form.date) }}
 {% endif %}
-<table class="createUpdateTable">
+<table class="createUpdateTable table">
     {% if form.date is defined %}
         <tr><td>Datum (dd-mm-jjjj)</td><td colspan="2">{{ form_widget(form.date) }}</td></tr>
         {% set formName = 'day' %}

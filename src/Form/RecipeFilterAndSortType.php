@@ -28,40 +28,57 @@ class RecipeFilterAndSortType extends AbstractType
                     'aantal keer bewaard oplopend' => 'timesSaved_ASC' ,
                 ],
                 'invalid_message' => 'Geen geldige sortering.',
+                'attr' => [
+                    'class' => 'form-control',
+                ],
             ])
             ->add('cookingTime', ChoiceType::class, [
                 'choices' => array_combine(Recipe::COOKING_TIMES, Recipe::COOKING_TIMES),
                 'required' => false,
                 'placeholder' => 'bereidingstijd',
                 'invalid_message' => 'Geen geldige bereidingstijd.',
+                'attr' => [
+                    'class' => 'form-control',
+                ],
             ])
             ->add('kitchen', ChoiceType::class, [
                 'choices' => array_combine(Recipe::KITCHEN, Recipe::KITCHEN),
                 'required' => false,
                 'placeholder' => 'keuken',
                 'invalid_message' => 'Geen geldige keuken.',
+                'attr' => [
+                    'class' => 'form-control',
+                ],
             ])
             ->add('typeOfDish', ChoiceType::class, [
                 'choices' => array_combine(Recipe::TYPE_OF_DISH, Recipe::TYPE_OF_DISH),
                 'required' => false,
                 'placeholder' => 'soort gerecht',
                 'invalid_message' => 'Geen geldig type gerecht.',
+                'attr' => [
+                    'class' => 'form-control',
+                ],
             ])
             ->add('occasion', ChoiceType::class, [
                 'placeholder' => 'gelegenheid',
                 'choices' => array_combine(Recipe::OCCASION,Recipe::OCCASION),
                 'invalid_message' => 'Geen geldige gelegenheid.',
                 'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
             ])
             ->add('numberOfPersons', IntegerType::class, [
                 'required' => false,
                 'attr' => [
+                    'class' => 'form-control',
                     'placeholder' => 'aantal personen',
                 ],
             ])
             ->add('numberOfPieces', IntegerType::class, [
                 'required' => false,
                 'attr' => [
+                    'class' => 'form-control',
                     'placeholder' => 'aantal stuks',
                 ],
             ])
@@ -69,21 +86,27 @@ class RecipeFilterAndSortType extends AbstractType
                 'choices' => ['zelf bedacht' => true, 'niet zelf bedacht' => false],
                 'expanded' => true,
                 'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
             ])
             ->add('votes', IntegerType::class, [
                 'attr' => [
                     'min' => 0,
                     'step' => 1,
+                    'class' => 'form-control',
                     'placeholder' => 'aantal stemmen',
                 ],
                 'required' => false,
             ]);
         foreach (Recipe::DIET_CHOICES as $choice) {
-            $builder->add($choice, CheckboxType::class, ['required' => false]);
+            $builder->add($choice, CheckboxType::class, ['required' => false,
+                'attr' => ['class' => 'form-control']]);
         }
         $builder->add('title', TextType::class, [
             'required' => false,
             'attr' => [
+                'class' => 'form-control',
                 'placeholder' => 'titel',
                 'maxlength' => 255,
             ],

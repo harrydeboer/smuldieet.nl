@@ -27,7 +27,7 @@ class RegistrationType extends AbstractType
             ->add('image', FileType::class, [
                 'attr' => [
                     'accept' => 'image/png, image/jpg, image/jpeg, image/gif, image/bmp, image/wbmp, image/webp',
-                    'class' => 'btn-primary'
+                    'class' => 'btn-primary form-control'
                 ],
                 'constraints' => [
                     new File([
@@ -46,20 +46,24 @@ class RegistrationType extends AbstractType
                 ],
                 'required' => false,
             ])
-            ->add('username', TextType::class)
-            ->add('email', EmailType::class)
+            ->add('username', TextType::class, ['attr' => ['class' => 'form-control']])
+            ->add('email', EmailType::class, ['attr' => ['class' => 'form-control']])
             ->add('birthday', TextType::class, [
-                'attr' => ['class' => 'form-control date-field no-future'],
+                'attr' => [
+                    'class' => 'form-control date-field no-future',
+                    'placeholder' => 'dd-mm-jjjj'
+                ],
             ])
             ->add('gender', ChoiceType::class, [
                 'choices' => array_combine(User::GENDER, User::GENDER),
                 'expanded' => true,
+                'attr' => ['class' => 'form-control']
             ])
-            ->add('weight', NumberType::class)
+            ->add('weight', NumberType::class, ['attr' => ['class' => 'form-control']])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'first_options' => array('label' => 'Password'),
-                'second_options' => array('label' => 'Repeat Password'),
+                'first_options' => ['label' => 'Password', 'attr' => ['class' => 'form-control']],
+                'second_options' => ['label' => 'Repeat Password', 'attr' => ['class' => 'form-control']],
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [

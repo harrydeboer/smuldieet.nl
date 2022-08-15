@@ -16,11 +16,11 @@ class PageType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, [
-                'attr' => ['class' => 'form-control no-html-tags'],
+                'attr' => ['class' => 'form-control'],
             ])
             ->add('slug', TextType::class, [
                 'required' => false,
-                'attr' => ['class' => 'form-control no-html-tags'],
+                'attr' => ['class' => 'form-control'],
             ])
             ->add('summary', TextareaType::class, [
                 'required' => false,

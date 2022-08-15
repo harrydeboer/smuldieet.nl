@@ -4,12 +4,14 @@
 
 {% block body %}
     {% if isLoggedIn %}
-        <div id="formErrors"></div>
+        <div id="formErrorsClient"></div>
+        <div id="formErrors">
+            {{ form_errors(form) }}
+            {{ form_errors(form.rating) }}
+            {{ form_errors(form.content) }}
+        </div>
         {{ form_start(form) }}
-        {{ form_errors(form) }}
-        {{ form_errors(form.rating) }}
-        {{ form_errors(form.content) }}
-        <table>
+        <table class="table">
             <tr><td>Waardering</td><td>{{ form_widget(form.rating) }}</td>
             <tr><td>Review</td><td>{{ form_widget(form.content) }}</td>
             <tr><td colspan="2">{{ form_widget(form.submit, { 'label': 'Waardeer' }) }}</td>

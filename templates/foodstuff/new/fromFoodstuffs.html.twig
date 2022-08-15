@@ -9,7 +9,7 @@
         {{ form_errors(form.name) }}
     </div>
     {{ form_start(form) }}
-    <table class="createUpdateTable">
+    <table class="createUpdateTable table">
         <tr><td>Naam</td><td colspan="2">{{ form_widget(form.name) }}</td></tr>
         <tr><td colspan="3">{{ form_widget(form.submit, { 'label': 'Voedingsmiddel opslaan' }) }}</td></tr>
     </table>

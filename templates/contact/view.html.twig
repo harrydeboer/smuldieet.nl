@@ -11,7 +11,7 @@
         <div class="errorMessage">{{ error }}</div>
     {% endif %}
     {{ form_start(form) }}
-    <table id="contact-table">
+    <table id="contact-table" class="table">
         <tr><td>Naam</td><td>{{ form_widget(form.name) }}</td></tr>
         <tr><td>Onderwerp</td><td>{{ form_widget(form.subject) }}</td></tr>
         <tr><td>E-mail</td><td>{{ form_widget(form.email) }}</td></tr>
