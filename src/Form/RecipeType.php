@@ -59,14 +59,26 @@ class RecipeType extends AbstractType
             ])
             ->add('title', TextType::class, ['attr' => ['class' => 'form-control']])
             ->add('url', TextType::class, ['required' => false, 'attr' => ['class' => 'form-control']])
-            ->add('ingredients', TextareaType::class, ['required' => false,
-                'attr' => ['class' => 'form-control']])
-            ->add('preparationMethod', TextareaType::class, ['attr' => ['class' => 'form-control']])
-            ->add('niceStory', TextareaType::class, ['attr' => ['class' => 'form-control']])
-            ->add('niceTips', TextareaType::class, ['required' => false,
-                'attr' => ['class' => 'form-control']])
-            ->add('toolsAndKitchenware', TextareaType::class, ['required' => false,
-                'attr' => ['class' => 'form-control']])
+            ->add('ingredients', TextareaType::class, ['required' => false, 'attr' => [
+                'class' => 'form-control',
+                'rows' => 10,
+            ]])
+            ->add('preparationMethod', TextareaType::class, ['attr' => [
+                'class' => 'form-control',
+                'rows' => 10,
+            ]])
+            ->add('niceStory', TextareaType::class, ['attr' => [
+                'class' => 'form-control',
+                'rows' => 10,
+            ]])
+            ->add('niceTips', TextareaType::class, ['required' => false, 'attr' => [
+                'class' => 'form-control',
+                'rows' => 10,
+            ]])
+            ->add('toolsAndKitchenware', TextareaType::class, ['required' => false, 'attr' => [
+                'class' => 'form-control',
+                'rows' => 10,
+            ]])
             ->add('numberOfPersons', IntegerType::class, ['attr' => ['class' => 'form-control']])
             ->add('numberOfPieces', IntegerType::class, ['required' => false,
                 'attr' => ['class' => 'form-control']])

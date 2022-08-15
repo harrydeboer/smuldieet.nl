@@ -4,7 +4,7 @@
     {{ form_errors(form.pending) }}
 </div>
 {{ form_start(form) }}
-<table id="ratingTable">
+<table id="ratingTable" class="table tableSmall">
     <tr><td>Content</td><td>{{ rating.content }}</td></tr>
     <tr><td>Pending</td><td>{{ form_widget(form.pending) }}</td></tr>
     <tr><td colspan="2">{{ form_widget(form.submit, { 'label': submitLabel }) }}</td></tr>

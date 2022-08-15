@@ -7,7 +7,7 @@
     {% endfor %}
 </div>
 {{ form_start(form) }}
-<table class="createUpdateTable class">
+<table class="createUpdateTable table tableSmall">
     <tr><td>Naam</td><td>{{ form_widget(form.name) }}</td></tr>
     {% for key,property in foodstuff.aDH() %}
         <tr><td>{{ property[3] }}</td><td>{{ form_widget(attribute(form, key)) }}</td></tr>

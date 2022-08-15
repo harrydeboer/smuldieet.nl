@@ -17,7 +17,7 @@ class FoodstuffType extends AbstractType
         $numberOptions = ['required' => false, 'attr' => ['class' => 'form-control']];
         $builder
             ->add('name', TextType::class, ['attr' => ['class' => 'form-control']])
-            ->add('energyKcal', NumberType::class, )
+            ->add('energyKcal', NumberType::class, $numberOptions)
             ->add('water', NumberType::class, $numberOptions)
             ->add('protein', NumberType::class, $numberOptions)
             ->add('carbohydrates', NumberType::class, $numberOptions)

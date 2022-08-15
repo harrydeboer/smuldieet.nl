@@ -24,7 +24,7 @@ class PageType extends AbstractType
             ])
             ->add('summary', TextareaType::class, [
                 'required' => false,
-                'attr' => ['class' => 'form-control', 'rows' => 20],
+                'attr' => ['class' => 'form-control', 'rows' => 10],
             ])
             ->add('content', TextareaType::class, [
                 'required' => false,

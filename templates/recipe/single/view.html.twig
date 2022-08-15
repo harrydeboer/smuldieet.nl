@@ -11,7 +11,7 @@
             {{ form_errors(form.content) }}
         </div>
         {{ form_start(form) }}
-        <table class="table">
+        <table class="table tableSmall">
             <tr><td>Waardering</td><td>{{ form_widget(form.rating) }}</td>
             <tr><td>Review</td><td>{{ form_widget(form.content) }}</td>
             <tr><td colspan="2">{{ form_widget(form.submit, { 'label': 'Waardeer' }) }}</td>
@@ -24,7 +24,7 @@
             {{ form_end(formDelete) }}
         {% endif %}
     {% endif %}
-    <table class="table">
+    <table class="table tableSmall">
         <tr><td colspan="2">
                 {% if recipe.imageExtension is not null %}
                     <img src="{{  asset(recipe.getImagePath(appEnv, 600)) }}" id="recipe-image" class="img-fluid"

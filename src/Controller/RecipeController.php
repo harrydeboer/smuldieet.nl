@@ -132,7 +132,9 @@ class RecipeController extends Controller
     public function single(int $id): Response
     {
         $recipe = $this->recipeRepository->get($id);
-        $this->checkPending($recipe);
+        if ($recipe->getPending() && $recipe->getUser()->getId() !== $this->getUser()->getId()) {
+            throw new NotFoundHttpException('Dit recept can niet worden getoond.');
+        }
         $rating = $this->ratingRepository->findOneBy([
             'recipe' => $recipe->getId(),
             'user' => $this->getUser()?->getId(),

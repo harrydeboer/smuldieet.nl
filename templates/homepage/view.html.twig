@@ -38,27 +38,29 @@
     {% else %}
         {{ form_start(form, {'attr': {'id': 'filter-sort-form', 'class': 'd-none'}}) }}
     {% endif %}
-    {{ form_widget(form.title) }}
-    {{ form_widget(form.numberOfPersons) }}
-    {{ form_widget(form.numberOfPieces) }}
-    {{ form_widget(form.votes) }}
-    {{ form_widget(form.cookingTime) }}
-    {{ form_widget(form.kitchen) }}
-    {{ form_widget(form.typeOfDish) }}
-    {{ form_widget(form.occasion) }}
-    {{ form_widget(form.isSelfInvented) }}
-    <div class="dropdown">
-        <button type="text" class="dropdown-toggle form-control" id="dieetFilter"
-               value="test" data-bs-toggle="dropdown" aria-expanded="false">Selecteer dieet</button>
-        <table class="dropdown-menu dropdown-diet" aria-labelledby="dieetFilter">
-            {% for key,choice in dietChoices %}
-                <tr><td><label class="form-check-label dietLabel" for="diet{{ key }}">{{ key }}</label></td>
-                    <td>{{ form_widget(attribute(form, choice), {'id': 'diet'~key}) }}</td></tr>
-            {% endfor %}
-        </table>
-    </div>
-    {{ form_widget(form.sort) }}
-    {{ form_widget(form.show, { 'label': 'Toon' }) }}
+    <table class="table tableSmall">
+        <tr><td>{{ form_widget(form.title) }}</td></tr>
+        <tr><td>{{ form_widget(form.numberOfPersons) }}</td></tr>
+        <tr><td>{{ form_widget(form.numberOfPieces) }}</td></tr>
+        <tr><td>{{ form_widget(form.votes) }}</td></tr>
+        <tr><td>{{ form_widget(form.cookingTime) }}</td></tr>
+        <tr><td>{{ form_widget(form.kitchen) }}</td></tr>
+        <tr><td>{{ form_widget(form.typeOfDish) }}</td></tr>
+        <tr><td>{{ form_widget(form.occasion) }}</td></tr>
+        <tr><td>{{ form_widget(form.isSelfInvented) }}</td></tr>
+        <tr><td><div class="dropdown">
+                    <button type="text" class="dropdown-toggle form-control" id="dieetFilter"
+                            value="test" data-bs-toggle="dropdown" aria-expanded="false">Selecteer dieet</button>
+                    <table class="dropdown-menu dropdown-diet" aria-labelledby="dieetFilter">
+                        {% for key,choice in dietChoices %}
+                            <tr><td><label class="form-check-label dietLabel" for="diet{{ key }}">{{ key }}</label></td>
+                                <td>{{ form_widget(attribute(form, choice), {'id': 'diet'~key}) }}</td></tr>
+                        {% endfor %}
+                    </table>
+                </div></td></tr>
+        <tr><td> {{ form_widget(form.sort) }}</td></tr>
+        <tr><td>{{ form_widget(form.show, { 'label': 'Toon' }) }}</td></tr>
+    </table>
     {{ form_end(form) }}
     {{ page.content|raw }}
     <table class="table table-striped">

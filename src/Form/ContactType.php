@@ -24,7 +24,7 @@ class ContactType extends AbstractType
                 'attr' => ['class' => 'form-control'],
             ])
             ->add('email', EmailType::class, ['attr' => ['class' => 'form-control']])
-            ->add('message', TextareaType::class, ['attr' => ['class' => 'form-control']])
+            ->add('message', TextareaType::class, ['attr' => ['class' => 'form-control', 'rows' => 10]])
             ->add('reCaptchaToken', HiddenType::class)
             ->add('send', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-primary'],

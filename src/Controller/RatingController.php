@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Rating;
+use App\Entity\Recipe;
 use App\Form\DeleteRatingType;
 use App\Form\RatingType;
 use App\Repository\RatingRepositoryInterface;
 use App\Repository\RecipeRepositoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class RatingController extends AuthController
@@ -69,5 +71,12 @@ class RatingController extends AuthController
         }
 
         return $this->redirectToRoute('recipeSingle', ['id' => $recipe->getId()]);
+    }
+
+    private function checkPending(Recipe $recipe): void
+    {
+        if ($recipe->getPending() && $recipe->getUser()->getId() !== $this->getUser()->getId()) {
+            throw new NotFoundHttpException('Dit recept can niet worden getoond.');
+        }
     }
 }

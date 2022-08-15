@@ -8,7 +8,7 @@
     {% endfor %}
 </div>
 {{ form_start(form) }}
-<table class="createUpdateTable">
+<table class="createUpdateTable table tableSmall">
     <tr><td>Gebruiker</td><td>{{ form_widget(form.user) }}</td></tr>
     <tr><td>Naam</td><td>{{ form_widget(form.name) }}</td></tr>
     {% for key,property in foodstuff.aDH() %}

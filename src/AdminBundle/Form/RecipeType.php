@@ -14,7 +14,8 @@ class RecipeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('pending', CheckboxType::class, ['required' => false])
+            ->add('pending', CheckboxType::class, ['required' => false,
+                'attr' => ['class' => 'form-check-input']])
             ->add('submit', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-primary'],
             ]);

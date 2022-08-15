@@ -4,12 +4,12 @@
 
 {% block body %}
     {% if isLoggedIn %}
-        <h1 class="h3 mb-3 font-weight-normal">Je bent ingelogd als {{ username }},
-            <a href="{{ path('appLogout') }}">klik hier om uit te loggen</a></h1>
-        <h3>Verander <a href="{{ path('changePassword') }}">hier</a> je wachtwoord.</h3>
+        <span class="no-wrap">Je bent ingelogd als {{ username }},
+            <a href="{{ path('appLogout') }}">klik hier</a> om uit te loggen.</span>
+        <span class="no-wrap">Verander <a href="{{ path('changePassword') }}">hier</a> je wachtwoord.</span>
 
         {% if 'ROLE_ADMIN' in roles  %}
-            Ga naar het <a href="{{ path('adminHomepage') }}">Admin Panel</a>.
+            <span class="no-wrap">Ga naar het <a href="{{ path('adminHomepage') }}">Admin Panel</a>.</span>
         {% endif %}
     {% else %}
         <h1 class="h3 mb-3 font-weight-normal">Inloggen</h1>
@@ -23,13 +23,13 @@
         {% if error %}
             <div>{{ error.messageKey|trans(error.messageData, 'security', 'nl') }}</div>
         {% endif %}
-        <table id="loginTable" class="table">
+        <table id="loginTable" class="table tableSmall">
             <tr><td>E-mail</td><td>{{ form_widget(form.email,
                         {'value' : last_username}) }}</td></tr>
             <tr><td>Wachtwoord</td><td>{{ form_widget(form.password) }}</td></tr>
             <tr><td colspan="2">{{ form_widget(form.login, {'label': 'Inloggen'}) }}</td></tr>
         </table>
         {{ form_end(form) }}
-        Niet geregistreerd? Ga naar <a href="{{ path('appRegister') }}">deze</a> link.
+        <span class="no-wrap">Niet geregistreerd? Ga naar <a href="{{ path('appRegister') }}">deze</a> link.</span>
     {% endif %}
 {% endblock %}
