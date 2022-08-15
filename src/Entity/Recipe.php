@@ -149,6 +149,13 @@ class Recipe
         600,
     ];
 
+    #[
+        ORM\Id,
+        ORM\Column(type: "integer"),
+        ORM\GeneratedValue(strategy: "IDENTITY"),
+    ]
+    protected int $id;
+
     #[ORM\Column(type: "bigint")]
     private int $timestamp;
 
@@ -338,6 +345,16 @@ class Recipe
         $this->cookbooks = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->tags = new ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function setId(int $id): void
+    {
+        $this->id = $id;
     }
 
     public function getTimestamp(): int

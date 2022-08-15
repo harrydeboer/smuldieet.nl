@@ -10,23 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 trait ImageTrait
 {
-    #[
-        ORM\Id,
-        ORM\Column(type: "integer"),
-        ORM\GeneratedValue(strategy: "IDENTITY"),
-    ]
-    protected int $id;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function setId(int $id): void
-    {
-        $this->id = $id;
-    }
-
     #[ORM\Column(type: "string", nullable: true)]
     protected ?string $imageExtension = null;
 
