@@ -3,13 +3,13 @@
 {% block title %}Maak voedingsmiddel van voedingsmiddelen{% endblock %}
 
 {% block body %}
-    <div id="formErrorsClient"></div>
-    <div id="formErrorsServer">
+    <div id="form-errors-client"></div>
+    <div id="form-errors-server">
         {{ form_errors(form) }}
         {{ form_errors(form.name) }}
     </div>
     {{ form_start(form) }}
-    <table class="createUpdateTable table tableSmall">
+    <table class="foodstuff-recipe-table table table-small">
         <tr><td>Naam</td><td colspan="2">{{ form_widget(form.name) }}</td></tr>
         <tr><td colspan="3">{{ form_widget(form.submit, { 'label': 'Voedingsmiddel opslaan' }) }}</td></tr>
     </table>
@@ -21,7 +21,7 @@
     <table class="d-none">
         {{ include('foodstuffRow.html.twig', {'formName': 'foodstuff_from_foodstuffs'}) }}
     </table>
-    <button class="btn btn-primary" id="addFoodstuff">Voeg voedingsmiddel toe</button>
+    <button class="btn btn-primary" id="add-foodstuff">Voeg voedingsmiddel toe</button>
 {% endblock %}
 {% block javascripts %}
     <script src="{{ asset('js/foodstuffsRecipesForm.min.js') }}"></script>

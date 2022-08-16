@@ -1,1 +1,1 @@
-{"version":3,"sourceRoot":"","sources":[],"names":[],"mappings":"","file":"admin.css"}
+{"version":3,"sourceRoot":"","sources":["../scss/admin.scss"],"names":[],"mappings":"AAAA,kBACE,aAGF,yBACE,kBACE,cAGF,iBACE","file":"admin.css"}

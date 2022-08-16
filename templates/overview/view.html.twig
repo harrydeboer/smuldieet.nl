@@ -4,14 +4,14 @@
 
 {% block body %}
     <h1>Overzicht</h1>
-    <div id="formErrorsClient"></div>
-    <div id="formErrorsServer">
+    <div id="form-errors-client"></div>
+    <div id="form-errors-server">
         {{ form_errors(form) }}
         {{ form_errors(form.start) }}
         {{ form_errors(form.end) }}
     </div>
     {{ form_start(form, {'attr': {'id': 'overview-form'}}) }}
-    <table class="table tableSmall">
+    <table class="table table-small">
         <thead>
         <tr>
             <th scope="col">Begin datum</th>
@@ -26,7 +26,7 @@
         <table class="table">
             <thead>
             <tr>
-                <th scope="col">Waarde</th>
+                <th scope="col"></th>
                 <th scope="col">Min</th>
                 <th scope="col">Max</th>
                 <th scope="col">Feitelijk</th>

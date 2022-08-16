@@ -7,17 +7,17 @@ $(function() {
         e.stopPropagation();
     })
 
-    $('#abcSelect').on('change', function () {
+    $('#abc-select').on('change', function () {
         window.location.href = '/voedingsmiddel/letter/' + $(this).val();
     });
 
     $('form[name="contact"]').on('submit', function (event) {
-        if ($('#contact_reCaptchaToken').val() === '') {
+        if ($('#contact-re-captcha-token').val() === '') {
             // noinspection JSUnresolvedVariable
             grecaptcha.ready(function () {
                 // noinspection JSUnresolvedVariable,JSUnresolvedFunction
-                grecaptcha.execute($('#reCaptchaKey').data('key'), {action: 'contact'}).then(function (token) {
-                    $('#contact_reCaptchaToken').val(token);
+                grecaptcha.execute($('#re-captcha-key').data('key'), {action: 'contact'}).then(function (token) {
+                    $('#contact-re-captcha-token').val(token);
                     $('[name="contact"]').trigger('submit');
                 });
             });
@@ -25,15 +25,18 @@ $(function() {
         }
     });
 
+    if ($('input[name="recipe[isSelfInvented]"]:checked').val() === '0') {
+        $('#recipe-source').show();
+    }
     $('input[name="recipe[isSelfInvented]"]').on('change', function () {
         if ($(this).val() === '1') {
-            $('#recipeSource').hide();
+            $('#recipe-source').hide();
         } else {
-            $('#recipeSource').show();
+            $('#recipe-source').show();
         }
     });
 
-    $('#recipeFilterIcon').on('click', function() {
+    $('#recipe-filter-icon').on('click', function() {
         let form = $('#filter-sort-form');
         if (form.hasClass('d-none')) {
             form.removeClass('d-none');
@@ -43,10 +46,10 @@ $(function() {
     });
 
     $('form[name="rating"]').on('submit', function (event) {
-        let rating = $('#rating_rating');
+        let rating = $('#rating-rating');
         rating.text('')
         if (rating.val() < 1 || rating.val() > 10) {
-            $('#formErrorsClient').text('The waardering moet tussen 1 en 10 zijn.')
+            $('#form-errors-client').text('The waardering moet tussen 1 en 10 zijn.')
             event.preventDefault();
         }
     });
@@ -61,9 +64,9 @@ $(function() {
 
                 if (dateStr.match(regex) === null) {
                     if (dateFields.length === 1) {
-                        $('#formErrorsClient').text('De datum moet in het formaat dd-mm-jjjj.');
+                        $('#form-errors-client').text('De datum moet in het formaat dd-mm-jjjj.');
                     } else {
-                        $('#formErrorsClient').text('De datums moeten in het formaat dd-mm-jjjj.');
+                        $('#form-errors-client').text('De datums moeten in het formaat dd-mm-jjjj.');
                     }
                     event.preventDefault();
                 } else {
@@ -76,29 +79,29 @@ $(function() {
                     let day = parseInt(dateArray[0]);
 
                     if (year % 4 !== 0 && month === 2 && day === 29) {
-                        $('#formErrorsClient').text('Ongeldige datum.');
+                        $('#form-errors-client').text('Ongeldige datum.');
                         event.preventDefault();
                     }
 
                     if (month > 12 || month < 1) {
-                        $('#formErrorsClient').text('Ongeldige datum.');
+                        $('#form-errors-client').text('Ongeldige datum.');
                         event.preventDefault();
                     }
 
                     if (day > daysPerMonth[month - 1] || day < 1) {
-                        $('#formErrorsClient').text('Ongeldige datum.');
+                        $('#form-errors-client').text('Ongeldige datum.');
                         event.preventDefault();
                     }
 
                     if (year < 1900) {
-                        $('#formErrorsClient').text('Het jaar mag niet voor 1900 liggen.');
+                        $('#form-errors-client').text('Het jaar mag niet voor 1900 liggen.');
                         event.preventDefault();
                     }
 
                     if ($(this).hasClass('no-future')) {
                         let time = new Date(year + '-' + month + '-' + day);
                         if (time.getTime() > Date.now()) {
-                            $('#formErrorsClient').text('De datum mag niet in de toekomst liggen.');
+                            $('#form-errors-client').text('De datum mag niet in de toekomst liggen.');
                             event.preventDefault();
                         }
                     }

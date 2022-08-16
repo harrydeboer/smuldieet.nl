@@ -1,10 +1,10 @@
-<div id="formErrorsClient"></div>
-<div id="formErrorsServer">
+<div id="form-errors-client"></div>
+<div id="form-errors-server">
     {{ form_errors(form) }}
     {{ form_errors(form.title) }}
 </div>
 {{ form_start(form) }}
-<table class="createUpdateTable table tableSmall">
+<table class="foodstuff-recipe-table table table-small">
     <tr><td>Titel</td><td colspan="2">{{ form_widget(form.title) }}</td></tr>
     {% for rowNumber, recipe in cookbook.recipes %}
         {{ include('recipeRow.html.twig', {'rowNumber': rowNumber + 1, 'formName': 'cookbook',
@@ -19,4 +19,4 @@
 <table class="d-none">
     {{ include('recipeRow.html.twig', {'formName': 'cookbook'}) }}
 </table>
-<button class="btn btn-primary" id="addRecipe">Voeg recept toe</button>
+<button class="btn btn-primary" id="add-recipe">Voeg recept toe</button>

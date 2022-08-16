@@ -6,7 +6,7 @@
     <h1>Voedingsmiddelen</h1>
     <a href="{{ path('foodstuffCreate') }}">Maak een voedingsmiddel</a><br>
     <a href="{{ path('foodstuffFromFoodstuffsCreate') }}">Maak een voedingsmiddel van voedingsmiddelen</a><br>
-    <select id="abcSelect">
+    <select id="abc-select">
         {% for char in 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z'|split(',') %}
             {% if char == charSelected %}
                 <option value="{{ char }}" selected>{{ char }}</option>
@@ -15,7 +15,7 @@
             {% endif %}
         {% endfor %}
     </select>
-    <div id="abcChars">
+    <div id="abc-chars">
         {% for char in 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z'|split(',') %}
             <a href="{{ path('foodstuffChar', {'char': char}) }}">{{ char }}</a>
         {% endfor %}

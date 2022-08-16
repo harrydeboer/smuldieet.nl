@@ -3,7 +3,7 @@
 {% block title %}Voedingsmiddel{% endblock %}
 
 {% block body %}
-    <select id="abcSelect">
+    <select id="abc-select-admin">
         {% for char in 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z'|split(',') %}
             {% if char == charSelected %}
                 <option value="{{ char }}" selected>{{ char }}</option>
@@ -12,12 +12,12 @@
             {% endif %}
         {% endfor %}
     </select>
-    <div id="abcChars">
+    <div id="abc-chars-admin">
         {% for char in 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z'|split(',') %}
             <a href="{{ path('adminFoodstuffChar', {'char': char}) }}">{{ char }}</a>
         {% endfor %}
     </div>
-    <table class="table table-striped" id="foodstuffTable">
+    <table class="table table-striped">
         {% for foodstuff in foodstuffs %}
             <tr>
                 <td>{{ foodstuff.name }}</td>

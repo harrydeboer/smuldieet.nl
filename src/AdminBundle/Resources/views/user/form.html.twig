@@ -1,5 +1,5 @@
-<div id="formErrorsClient"></div>
-<div id="formErrorsServer">
+<div id="form-errors-client"></div>
+<div id="form-errors-server">
     {{ form_errors(form) }}
     {{ form_errors(form.image) }}
     {{ form_errors(form.username) }}
@@ -14,7 +14,7 @@
     {{ form_errors(form.plainPassword) }}
 </div>
 {{ form_start(form) }}
-<table id="newUserTable" class="table tableSmall">
+<table class="table table-small">
     <tr><td>Foto</td><td>{{ form_widget(form.image) }}</td></tr>
     <tr><td>Gebruikersnaam</td><td>{{ form_widget(form.username) }}</td></tr>
     <tr><td>Voornaam</td><td>{{ form_widget(form.firstName) }}</td></tr>

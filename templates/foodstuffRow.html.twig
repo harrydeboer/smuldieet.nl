@@ -1,18 +1,19 @@
 {% if rowNumber is not defined %}
-    {% set rowNumber = 'ROW_IDF' %}
+    {% set rowNumber = '-row-idf' %}
     {% set id = '' %}
     {% set name = '' %}
     {% set weight = '' %}
 {% endif %}
 <tr id="row{{ rowNumber }}">
-    <td><input type="text" name="{{ formName }}[foodstuffs][]" id="foodstuffValue{{ rowNumber }}"
+    <td><input type="text" name="{{ formName }}[foodstuffs][]" id="foodstuff-value{{ rowNumber }}"
                value="{{ id }}" class="hidden-input" required>
         <div class="dropdown">
-            <input type="text" class="foodstuffName dropdown-toggle form-control" maxlength="255" id="foodstuffName{{ rowNumber }}"
+            <input type="text" class="foodstuff-name dropdown-toggle form-control" maxlength="255"
+                   id="foodstuff-name{{ rowNumber }}"
                    value="{{ name }}" placeholder="voedingsmiddel"
                    data-bs-toggle="dropdown" aria-expanded="false" required>
-            <div id="searchResult{{ rowNumber }}" class="dropdown-menu dropdown-menu-foodstuff"
-                 aria-labelledby="foodstuffName{{ rowNumber }}">
+            <div id="search-result{{ rowNumber }}" class="dropdown-menu dropdown-menu-foodstuff"
+                 aria-labelledby="foodstuff-name{{ rowNumber }}">
             </div>
         </div></td>
     {% if formName == 'foodstuff_from_foodstuffs' %}
@@ -20,8 +21,8 @@
     {% else %}
         {% set placeholder = 'gram/ml' %}
     {% endif %}
-    <td><input id="weight{{ rowNumber }}" class="form-control foodstuffWeight" type="text"
+    <td><input id="weight{{ rowNumber }}" class="form-control foodstuff-weight" type="text"
                name="{{ formName }}[foodstuffWeights][]" placeholder="{{ placeholder }}" value="{{ weight }}" required>
     </td>
-    <td><i class="removeRow fa fa-minus" id="removeRow{{ rowNumber }}"></i></td>
+    <td><i class="remove-row fa fa-minus" id="remove-row{{ rowNumber }}"></i></td>
 </tr>

@@ -1,5 +1,5 @@
-<div id="formErrorsClient"></div>
-<div id="formErrorsServer">
+<div id="form-errors-client"></div>
+<div id="form-errors-server">
     {{ form_errors(form) }}
     {{ form_errors(form.name) }}
     {% for key,property in foodstuff.aDH() %}
@@ -7,7 +7,7 @@
     {% endfor %}
 </div>
 {{ form_start(form) }}
-<table class="createUpdateTable table tableSmall">
+<table class="table table-small">
     <tr><td>Naam</td><td>{{ form_widget(form.name) }}</td></tr>
     {% for key,property in foodstuff.aDH() %}
         <tr><td>{{ property[3] }}</td><td>{{ form_widget(attribute(form, key)) }}</td></tr>

@@ -29,7 +29,9 @@ class RatingController extends AuthController
         $rating = new Rating();
         $form = $this->createForm(RatingType::class, $rating);
         $recipe = $this->recipeRepository->get($recipeId);
-        $this->checkPending($recipe);
+        if ($recipe->getPending() && $recipe->getUser()->getId() !== $this->getUser()->getId()) {
+            throw new NotFoundHttpException('Dit recept can niet worden getoond.');
+        }
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $rating->setUser($this->getUser());
@@ -47,7 +49,6 @@ class RatingController extends AuthController
     {
         $rating = $this->ratingRepository->getFromUser($id, $this->getUser()->getId());
         $recipe = $rating->getRecipe();
-        $this->checkPending($recipe);
         $formDelete = $this->createForm(DeleteRatingType::class);
         $formDelete->handleRequest($request);
         if ($formDelete->isSubmitted() && $formDelete->isValid()) {
@@ -62,7 +63,6 @@ class RatingController extends AuthController
     {
         $rating = $this->ratingRepository->getFromUser($id, $this->getUser()->getId());
         $recipe = $rating->getRecipe();
-        $this->checkPending($recipe);
         $oldRating = $rating->getRating();
         $form = $this->createForm(RatingType::class, $rating);
         $form->handleRequest($request);
@@ -71,12 +71,5 @@ class RatingController extends AuthController
         }
 
         return $this->redirectToRoute('recipeSingle', ['id' => $recipe->getId()]);
-    }
-
-    private function checkPending(Recipe $recipe): void
-    {
-        if ($recipe->getPending() && $recipe->getUser()->getId() !== $this->getUser()->getId()) {
-            throw new NotFoundHttpException('Dit recept can niet worden getoond.');
-        }
     }
 }

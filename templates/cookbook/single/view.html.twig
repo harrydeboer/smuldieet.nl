@@ -3,7 +3,7 @@
 {% block title %}Kookboek{% endblock %}
 
 {% block body %}
-    <table class="table tableSmall">
+    <table class="table table-small">
         <tr><td>Titel</td><td>{{ cookbook.title }}</td></tr>
         {% for rowNumber, recipe in cookbook.recipes %}
             <tr id="row{{ rowNumber + 1 }}">

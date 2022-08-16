@@ -1,5 +1,5 @@
-<div id="formErrorsClient"></div>
-<div id="formErrorsServer">
+<div id="form-errors-client"></div>
+<div id="form-errors-server">
     {{ form_errors(form) }}
     {{ form_errors(form.title) }}
     {{ form_errors(form.slug) }}
@@ -7,7 +7,7 @@
     {{ form_errors(form.content) }}
 </div>
 {{ form_start(form) }}
-<table id="pageTable" class="table tableSmall">
+<table class="table table-small">
     <tr><td>{{ form_label(form.title) }}</td><td>{{ form_widget(form.title) }}</td></tr>
     <tr><td>{{ form_label(form.slug) }}</td><td>{{ form_widget(form.slug) }}</td></tr>
     <tr><td>{{ form_label(form.summary) }}</td><td>{{ form_widget(form.summary) }}</td></tr>

@@ -4,7 +4,7 @@
 
 {% block body %}
     <a href="{{ path('adminUserCreate') }}">Maak een gebruiker</a>
-    <table class="table table-striped" id="userTable">
+    <table class="table table-striped">
         {% for user in users %}
             <tr>
                 <td>{{ user.username }}</td>

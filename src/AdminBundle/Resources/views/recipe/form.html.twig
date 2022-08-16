@@ -1,10 +1,10 @@
-<div id="formErrorsClient"></div>
-<div id="formErrorsServer">
+<div id="form-errors-client"></div>
+<div id="form-errors-server">
     {{ form_errors(form) }}
     {{ form_errors(form.pending) }}
 </div>
 {{ form_start(form) }}
-<table id="recipeTable" class="table tableSmall">
+<table class="table table-small">
     <tr><td>Ingredients</td><td>{{ recipe.ingredients }}</td></tr>
     <tr><td>Bereidingswijze</td><td>{{ recipe.preparationMethod }}</td></tr>
     <tr><td>Leuk verhaal</td><td>{{ recipe.niceStory }}</td></tr>

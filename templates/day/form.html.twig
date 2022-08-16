@@ -1,12 +1,12 @@
-<div id="formErrorsClient"></div>
-<div id="formErrorsServer">
+<div id="form-errors-client"></div>
+<div id="form-errors-server">
     {{ form_errors(form) }}
 </div>
 {{ form_start(form) }}
 {% if form.date is defined %}
     {{ form_errors(form.date) }}
 {% endif %}
-<table class="createUpdateTable table tableSmall">
+<table class="foodstuff-recipe-table table table-small">
     {% if form.date is defined %}
         <tr><td>Datum</td><td colspan="2">{{ form_widget(form.date) }}</td></tr>
         {% set formName = 'day' %}
@@ -35,5 +35,5 @@
     {{ include('foodstuffRow.html.twig', {'formName': formName}) }}
     {{ include('recipeRow.html.twig', {'formName': formName}) }}
 </table>
-<button class="btn btn-primary" id="addFoodstuff">Voeg voedingsmiddel toe</button>
-<button class="btn btn-primary" id="addRecipe">Voeg recept toe</button>
+<button class="btn btn-primary" id="add-foodstuff">Voeg voedingsmiddel toe</button>
+<button class="btn btn-primary" id="add-recipe">Voeg recept toe</button>

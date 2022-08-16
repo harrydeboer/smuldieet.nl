@@ -1,17 +1,17 @@
 {% if rowNumber is not defined %}
-    {% set rowNumber = 'ROW_IDR' %}
+    {% set rowNumber = '-row-idr' %}
     {% set id = '' %}
     {% set title = '' %}
     {% set weight = '1' %}
 {% endif %}
 <tr id="row{{ rowNumber }}">
-    <td><input type="text" name="{{ formName }}[recipeIds][]" id="recipeValue{{ rowNumber }}"
+    <td><input type="text" name="{{ formName }}[recipeIds][]" id="recipe-value{{ rowNumber }}"
                value="{{ id }}" class="hidden-input" required>
         <div class="dropdown">
-            <input type="text" class="recipeName form-control dropdown-toggle" maxlength="255"
-                   id="recipeName{{ rowNumber }}" value="{{ title }}"
+            <input type="text" class="recipe-name form-control dropdown-toggle" maxlength="255"
+                   id="recipe-name{{ rowNumber }}" value="{{ title }}"
                    data-bs-toggle="dropdown" placeholder="recept" aria-expanded="false" required>
-            <div id="searchResult{{ rowNumber }}" class="dropdown-menu dropdown-menu-recipe"
+            <div id="search-result{{ rowNumber }}" class="dropdown-menu dropdown-menu-recipe"
                  aria-labelledby="recipeName{{ rowNumber}}">
             </div>
         </div></td>
@@ -19,7 +19,7 @@
         <td></td>
     {% else %}
         <td><input type="text" name="{{ formName }}[recipeWeights][]"
-                   placeholder="aantal keer" class="form-control recipeWeight" value="{{ weight }}" required></td>
+                   placeholder="aantal keer" class="form-control recipe-weight" value="{{ weight }}" required></td>
     {% endif %}
-    <td><i class="removeRow fa fa-minus" id="removeRow{{ rowNumber }}"></i></td>
+    <td><i class="remove-row fa fa-minus" id="remove-row{{ rowNumber }}"></i></td>
 </tr>

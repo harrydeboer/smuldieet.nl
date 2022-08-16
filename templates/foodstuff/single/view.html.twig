@@ -3,7 +3,7 @@
 {% block title %}Voedingsmiddel{% endblock %}
 
 {% block body %}
-    <table class="table tableSmall">
+    <table class="table table-small">
         <tr><td>Naam</td><td>{{ foodstuff.name }}</td></tr>
         {% if isLoggedIn %}
             {% for key, property in foodstuff.aDH() %}

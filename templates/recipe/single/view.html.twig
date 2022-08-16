@@ -4,16 +4,16 @@
 
 {% block body %}
     {% if isLoggedIn %}
-        <div id="formErrorsClient"></div>
-        <div id="formErrors">
+        <div id="form-errors-client"></div>
+        <div id="form-errors-server">
             {{ form_errors(form) }}
-            {{ form_errors(form.rating) }}
+            {{ form_errors(form.rating,) }}
             {{ form_errors(form.content) }}
         </div>
         {{ form_start(form) }}
-        <table class="table tableSmall">
-            <tr><td>Waardering</td><td>{{ form_widget(form.rating) }}</td>
-            <tr><td>Review</td><td>{{ form_widget(form.content) }}</td>
+        <table class="table table-small">
+            <tr><td>Waardering</td><td>{{ form_widget(form.rating, {'id': 'rating-rating'}) }}</td>
+            <tr><td>Review</td><td>{{ form_widget(form.content, {'id': 'rating-content'}) }}</td>
             <tr><td colspan="2">{{ form_widget(form.submit, { 'label': 'Waardeer' }) }}</td>
             </tr>
         </table>
@@ -24,7 +24,7 @@
             {{ form_end(formDelete) }}
         {% endif %}
     {% endif %}
-    <table class="table tableSmall">
+    <table class="table table-small">
         <tr><td colspan="2">
                 {% if recipe.imageExtension is not null %}
                     <img src="{{  asset(recipe.getImagePath(appEnv, 600)) }}" id="recipe-image" class="img-fluid"

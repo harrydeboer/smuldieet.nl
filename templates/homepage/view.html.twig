@@ -14,10 +14,10 @@
         </div>
     {% endfor %}
     <div>
-        <i id="recipeFilterIcon" class="fas fa-sliders-h"></i>
+        <i id="recipe-filter-icon" class="fas fa-sliders-h"></i>
     </div>
-    <div id="formErrorsClient"></div>
-    <div id="formErrorsServer">
+    <div id="form-errors-client"></div>
+    <div id="form-errors-server">
         {{ form_errors(form) }}
         {{ form_errors(form.title) }}
         {{ form_errors(form.numberOfPersons) }}
@@ -38,7 +38,7 @@
     {% else %}
         {{ form_start(form, {'attr': {'id': 'filter-sort-form', 'class': 'd-none'}}) }}
     {% endif %}
-    <table class="table tableSmall">
+    <table class="table">
         <tr><td>{{ form_widget(form.title) }}</td></tr>
         <tr><td>{{ form_widget(form.numberOfPersons) }}</td></tr>
         <tr><td>{{ form_widget(form.numberOfPieces) }}</td></tr>
@@ -49,11 +49,11 @@
         <tr><td>{{ form_widget(form.occasion) }}</td></tr>
         <tr><td>{{ form_widget(form.isSelfInvented) }}</td></tr>
         <tr><td><div class="dropdown">
-                    <button type="text" class="dropdown-toggle form-control" id="dieetFilter"
+                    <button type="text" class="dropdown-toggle form-control" id="diet-filter"
                             value="test" data-bs-toggle="dropdown" aria-expanded="false">Selecteer dieet</button>
-                    <table class="dropdown-menu dropdown-diet" aria-labelledby="dieetFilter">
+                    <table class="dropdown-menu dropdown-diet" aria-labelledby="diet-filter">
                         {% for key,choice in dietChoices %}
-                            <tr><td><label class="form-check-label dietLabel" for="diet{{ key }}">{{ key }}</label></td>
+                            <tr><td><label class="form-check-label" for="diet{{ key }}">{{ key }}</label></td>
                                 <td>{{ form_widget(attribute(form, choice), {'id': 'diet'~key}) }}</td></tr>
                         {% endfor %}
                     </table>
@@ -66,10 +66,10 @@
     <table class="table table-striped">
         {% for recipe in paginator.results %}
             <tr>
-                <td class="d-none d-lg-table-cell">
+                <td>
                     {% if recipe.imageExtension is not null %}
                         <img src="{{ asset(recipe.getImagePath(appEnv, 100)) }}"
-                             alt="label" class="img-fluid recipe-image">
+                             alt="label" class="recipe-image">
                     {% endif %}
                 </td>
                 <td><a href="{{ path('recipeSingle', {'id': recipe.id}) }}">{{ recipe.title }}</a></td>

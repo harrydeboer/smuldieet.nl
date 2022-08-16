@@ -1,24 +1,24 @@
-let rowId = $('.createUpdateTable tr').length - 2;
+let rowId = $('.foodstuff-recipe-table tr').length - 2;
 
-$('#addFoodstuff').on('click', function () {
+$('#add-foodstuff').on('click', function () {
     rowId = rowId + 1;
-    let html = $('#rowROW_IDF')[0].outerHTML;
-    html = html.replaceAll('ROW_IDF', rowId);
-    $('.createUpdateTable tr:last').before(html);
+    let html = $('#row-row-idf')[0].outerHTML;
+    html = html.replaceAll('-row-idf', rowId);
+    $('.foodstuff-recipe-table tr:last').before(html);
 });
 
-$('#addRecipe').on('click', function () {
+$('#add-recipe').on('click', function () {
     rowId = rowId + 1;
-    let html = $('#rowROW_IDR')[0].outerHTML;
-    html = html.replaceAll('ROW_IDR', rowId);
-    $('.createUpdateTable tr:last').before(html);
+    let html = $('#row-row-idr')[0].outerHTML;
+    html = html.replaceAll('-riw-idr', rowId);
+    $('.foodstuff-recipe-table tr:last').before(html);
 });
 
 $('form[name="recipe"], form[name="day"], form[name="standard_day"], form[name="cookbook"], ' +
     'form[name="foodstuff_from_foodstuffs"]').on('submit', function (event) {
     let foodstuffNames = [];
     let text = '';
-    $('.foodstuffName').each(function() {
+    $('.foodstuff-name').each(function() {
         if (foodstuffNames.includes($(this).val())) {
             text = text + 'Dubbel voedingsmiddel. <br>';
             event.preventDefault();
@@ -28,7 +28,7 @@ $('form[name="recipe"], form[name="day"], form[name="standard_day"], form[name="
     if ($(this)[0] === $('form[name="foodstuff_from_foodstuffs"]')[0]) {
         let sum = 0;
         $('input[name="foodstuff_from_foodstuffs[foodstuffWeights][]"]').each(function() {
-            if ($(this).attr('id') !== 'weightROW_IDF') {
+            if ($(this).attr('id') !== 'weight-row-idf') {
                 sum = sum + parseFloat($(this).val().replace(',', '.'));
             }
         });
@@ -39,17 +39,17 @@ $('form[name="recipe"], form[name="day"], form[name="standard_day"], form[name="
     }
 
     let recipeNames = [];
-    $('.recipeName').each(function() {
+    $('.recipe-name').each(function() {
         if (recipeNames.includes($(this).val())) {
             text = text + 'Dubbel recept.';
             event.preventDefault();
         }
         recipeNames.push($(this).val());
     });
-    $('#formErrorsClient').html(text);
+    $('#form-errors-client').html(text);
 });
 
-$(document).on('input', ".foodstuffName", function () {
+$(document).on('input', ".foodstuff-name", function () {
     let form;
     if ($('form[name="day"]').length > 0) {
         form = 'day';
@@ -62,8 +62,8 @@ $(document).on('input', ".foodstuffName", function () {
     }
     let options = $('#' + form + '_foodstuffs option');
     let valueInput = $(this).val().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    let rowId = $(this).attr('id').replace('foodstuffName', '');
-    let searchResults = $('#searchResult' + rowId);
+    let rowId = $(this).attr('id').replace('foodstuff-name', '');
+    let searchResults = $('#search-result' + rowId);
     searchResults.html('');
 
     if (valueInput !== '') {
@@ -72,26 +72,26 @@ $(document).on('input', ".foodstuffName", function () {
             let nameOriginal = $(this).text();
             let name = $(this).text().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
             if (valueInput === name) {
-                $('#foodstuffValue' + rowId).val(value);
+                $('#foodstuff-value' + rowId).val(value);
             }
-            if ($('#searchResult' + rowId + ' .foodstuffDiv').length > 20) {
+            if ($('#search-result' + rowId + ' .foodstuff-div').length > 20) {
             } else {
                 if (name.includes(valueInput)) {
                     searchResults.html(searchResults.html() +
-                        '<div id="foodstuffDiv' + value + '" data-row="' + rowId +
-                        '" class="foodstuffDiv">' + nameOriginal + '</div>');
+                        '<div id="foodstuff-div' + value + '" data-row="' + rowId +
+                        '" class="foodstuff-div">' + nameOriginal + '</div>');
                 }
             }
         });
     }
 });
 
-$(document).on('input', ".recipeName", function () {
+$(document).on('input', ".recipe-name", function () {
     let valueInput = $(this).val().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    let rowId = $(this).attr('id').replace('recipeName', '');
-    let searchResults = $('#searchResult' + rowId);
+    let rowId = $(this).attr('id').replace('recipe-name', '');
+    let searchResults = $('#search-result' + rowId);
     searchResults.html('');
-    let errorField = $('#formErrorsClient');
+    let errorField = $('#form-errors-client');
     errorField.text('');
 
     if (valueInput !== '' && valueInput.length > 0 && valueInput.length < 255) {
@@ -100,11 +100,11 @@ $(document).on('input', ".recipeName", function () {
             type: 'GET',
             success: function (data) {
                 searchResults.html(data);
-                $('.recipeDiv').each(function () {
-                    let id = $(this).attr('id').replace('recipeDiv', '');
+                $('.recipe-div').each(function () {
+                    let id = $(this).attr('id').replace('recipe-div', '');
                     let name = $(this).text().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
                     if (valueInput === name) {
-                        $('#recipeValue' + rowId).val(id);
+                        $('#recipe-value' + rowId).val(id);
                     }
                 });
             },
@@ -117,26 +117,26 @@ $(document).on('input', ".recipeName", function () {
     }
 });
 
-$(document).on('click', ".foodstuffDiv", function () {
-    let value = $(this).attr('id').replace('foodstuffDiv', '');
+$(document).on('click', ".foodstuff-div", function () {
+    let value = $(this).attr('id').replace('foodstuff-div', '');
     let name = $(this).text();
     let rowId = $(this).data('row');
-    $('#foodstuffValue' + rowId).val(value);
-    $('#foodstuffName' + rowId).val(name);
-    $('#searchResult' + rowId).hide();
+    $('#foodstuff-value' + rowId).val(value);
+    $('#foodstuff-name' + rowId).val(name);
+    $('#search-result' + rowId).hide();
 });
 
-$(document).on('click', ".recipeDiv", function () {
-    let value = $(this).attr('id').replace('recipeDiv', '');
+$(document).on('click', ".recipe-div", function () {
+    let value = $(this).attr('id').replace('recipe-div', '');
     let name = $(this).text();
     let rowId = $(this).data('row');
-    $('#recipeValue' + rowId).val(value);
-    $('#recipeName' + rowId).val(name);
-    $('#searchResult' + rowId).hide();
+    $('#recipe-value' + rowId).val(value);
+    $('#recipe-name' + rowId).val(name);
+    $('#search-result' + rowId).hide();
 });
 
-$(document).on('click', ".removeRow", function () {
-    let rowId = $(this).attr('id').replace('removeRow', '');
+$(document).on('click', ".remove-row", function () {
+    let rowId = $(this).attr('id').replace('remove-row', '');
     $('#row' + rowId).remove();
 });
 
