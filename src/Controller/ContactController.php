@@ -29,30 +29,27 @@ class ContactController extends Controller
 
         $form->handleRequest($request);
 
-        $success = null;
+        /**
+         * Mail is only send in the prod environment with a reCAPTCHA check.
+         */
         $error = null;
-        if ($form->isSubmitted() && $form->isValid()) {
+        $success = null;
+        if ($form->isSubmitted() && $form->isValid() && $this->kernel->getEnvironment() === 'prod') {
+            if (is_null($error = $this->validateReCaptcha($form->get('reCaptchaToken')->getData()))) {
 
-            if ($this->kernel->getEnvironment() !== 'test') {
-                $error = $this->validateReCaptcha($form->get('reCaptchaToken')->getData());
-            }
+                $email = (new Email())
+                    ->from(new Address('postmaster@smuldieet.nl', strip_tags($form->get('name')->getData())))
+                    ->replyTo($form->get('email')->getData())
+                    ->to('info@smuldieet.nl')
+                    ->subject(strip_tags($form->get('subject')->getData()))
+                    ->html($form->get('message')->getData());
 
-            $email = (new Email())
-                ->from(new Address('postmaster@smuldieet.nl', strip_tags($form->get('name')->getData())))
-                ->replyTo($form->get('email')->getData())
-                ->to('info@smuldieet.nl')
-                ->subject(strip_tags($form->get('subject')->getData()))
-                ->html($form->get('message')->getData());
-
-            if ($this->kernel->getEnvironment() === 'prod' && is_null($error)) {
                 try {
                     $this->mailer->send($email);
-                    $success = "Bericht verzonden.";
+                    $success = 'Bericht verzonden.';
                 } catch (TransportExceptionInterface) {
                     $error = "Kon e-mail niet verzenden.";
                 }
-            } else {
-                $error = "Kon e-mail niet verzenden.";
             }
         }
 

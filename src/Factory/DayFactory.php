@@ -7,7 +7,6 @@ namespace App\Factory;
 use App\Entity\Day;
 use App\Repository\DayRepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-use InvalidArgumentException;
 
 class DayFactory extends AbstractFactory
 {
@@ -22,11 +21,6 @@ class DayFactory extends AbstractFactory
     public function create(array $params = []): Day
     {
         $paramsParent = [];
-        if (isset($params['user'])) {
-            $paramsParent['user'] = $params['user'];
-        } else {
-            $paramsParent['user'] = $this->userFactory->create();
-        }
         if (isset($params['recipes'])) {
             $paramsParent['recipes'] = $params['recipes'];
         } else {
@@ -41,6 +35,12 @@ class DayFactory extends AbstractFactory
             $arrayCollection->add($this->foodstuffFactory->create());
             $paramsParent['foodstuffs'] = $arrayCollection;
         }
+        if (isset($params['user'])) {
+            $paramsParent['user'] = $params['user'];
+        } else {
+            $paramsParent['user'] = $this->userFactory->create();
+        }
+
         $day = new Day();
 
         $day->setDate($this->randomDate());

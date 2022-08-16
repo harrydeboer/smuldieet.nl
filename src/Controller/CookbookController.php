@@ -8,7 +8,6 @@ use App\Entity\Cookbook;
 use App\Form\CookbookType;
 use App\Form\DeleteCookbookType;
 use App\Repository\CookbookRepositoryInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -70,15 +69,14 @@ class CookbookController extends AuthController
         $cookbook = new Cookbook();
         $form = $this->createForm(CookbookType::class, $cookbook);
         $form->handleRequest($request);
-        $cookbook->setTimestamp(time());
-        $cookbook->setUser($this->getUser());
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $cookbook->setTimestamp(time());
+            $cookbook->setUser($this->getUser());
             $this->cookbookRepository->create($cookbook);
 
             return $this->redirectToRoute('cookbook');
         }
-        $cookbook->setRecipes(new ArrayCollection());
 
         return $this->render('cookbook/new/view.html.twig', [
             'cookbook' => $cookbook,

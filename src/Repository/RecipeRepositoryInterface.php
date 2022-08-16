@@ -14,6 +14,8 @@ interface RecipeRepositoryInterface extends ServiceEntityRepositoryInterface
 
     public function search(string $title, int $userId): array;
 
+    public function findAllPending(): array;
+
     public function get(int $id): Recipe;
 
     public function create(Recipe $recipe): void;

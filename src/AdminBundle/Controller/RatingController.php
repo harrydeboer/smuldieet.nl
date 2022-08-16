@@ -14,6 +14,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Reviews their pending status is changed.
+ */
 class RatingController extends AuthController
 {
     public function __construct(
@@ -24,7 +27,7 @@ class RatingController extends AuthController
     #[Route('/waardering', name: 'adminRating')]
     public function view(): Response
     {
-        $reviews = $this->ratingRepository->findAllReviews();
+        $reviews = $this->ratingRepository->findAllPendingReviews();
 
         return $this->render('@AdminBundle/rating/view.html.twig', [
             'reviews' => $reviews,

@@ -35,6 +35,9 @@ class RegistrationController extends Controller
     ) {
     }
 
+    /**
+     * @throws TransportExceptionInterface
+     */
     #[Route('/registreren', name: 'appRegister')]
     public function register(Request $request): Response
     {
@@ -139,6 +142,7 @@ class RegistrationController extends Controller
     }
 
     /**
+     * Verification of email only in production.
      * @throws TransportExceptionInterface
      */
     private function sendVerificationMail(User $user): bool

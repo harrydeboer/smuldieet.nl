@@ -14,6 +14,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Recipes their pending status is changed.
+ */
 class RecipeController extends AuthController
 {
     public function __construct(
@@ -24,7 +27,7 @@ class RecipeController extends AuthController
     #[Route('/recept', name: 'adminRecipe')]
     public function view(): Response
     {
-        $recipes = $this->recipeRepository->findAll();
+        $recipes = $this->recipeRepository->findAllPending();
 
         return $this->render('@AdminBundle/recipe/view.html.twig', [
             'recipes' => $recipes,

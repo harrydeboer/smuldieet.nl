@@ -9,7 +9,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface;
 
 interface RatingRepositoryInterface extends ServiceEntityRepositoryInterface
 {
-    public function findAllReviews(): array;
+    public function findAllPendingReviews(): array;
 
     public function getFromUser(int $id, int $userId): Rating;
 

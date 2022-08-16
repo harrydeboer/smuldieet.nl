@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Rating;
-use App\Entity\Recipe;
 use App\Form\DeleteRatingType;
 use App\Form\RatingType;
 use App\Repository\RatingRepositoryInterface;
@@ -32,6 +31,7 @@ class RatingController extends AuthController
         if ($recipe->getPending() && $recipe->getUser()->getId() !== $this->getUser()->getId()) {
             throw new NotFoundHttpException('Dit recept can niet worden getoond.');
         }
+
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $rating->setUser($this->getUser());
@@ -51,6 +51,7 @@ class RatingController extends AuthController
         $recipe = $rating->getRecipe();
         $formDelete = $this->createForm(DeleteRatingType::class);
         $formDelete->handleRequest($request);
+
         if ($formDelete->isSubmitted() && $formDelete->isValid()) {
             $this->ratingRepository->delete($rating);
         }
@@ -66,6 +67,7 @@ class RatingController extends AuthController
         $oldRating = $rating->getRating();
         $form = $this->createForm(RatingType::class, $rating);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $this->ratingRepository->update($oldRating, $rating);
         }

@@ -10,7 +10,6 @@ use App\Form\DeleteDayType;
 use App\Form\StandardDayType;
 use App\Repository\DayRepositoryInterface;
 use App\Repository\RecipeRepositoryInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -68,8 +67,10 @@ class DayController extends AuthController
         if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
             try {
                 $this->dayRepository->update($day);
-
-                $this->addRecipesFromIds($day);
+                foreach ($day->getRecipeIds() as $id) {
+                    $recipe = $this->recipeRepository->get($id);
+                    $day->addRecipe($recipe);
+                }
 
                 return $this->redirectToRoute('day');
             } catch (InvalidArgumentException $exception) {
@@ -98,14 +99,16 @@ class DayController extends AuthController
             }
             try {
                 $this->dayRepository->create($day);
-                $this->addRecipesFromIds($day);
+                foreach ($day->getRecipeIds() as $id) {
+                    $recipe = $this->recipeRepository->get($id);
+                    $day->addRecipe($recipe);
+                }
 
                 return $this->redirectToRoute('day');
             } catch (InvalidArgumentException $exception) {
                 $form->addError(new FormError($exception->getMessage()));
             }
         }
-        $this->makeRecipesAndFoodstuffsEmpty($day);
 
         $dayStandard = $this->dayRepository->findOneBy(['user' => $this->getUser()->getId(), 'timestamp' => null]);
 
@@ -130,14 +133,16 @@ class DayController extends AuthController
             }
             try {
                 $this->dayRepository->create($day);
-                $this->addRecipesFromIds($day);
+                foreach ($day->getRecipeIds() as $id) {
+                    $recipe = $this->recipeRepository->get($id);
+                    $day->addRecipe($recipe);
+                }
 
                 return $this->redirectToRoute('day');
             } catch (InvalidArgumentException $exception) {
                 $form->addError(new FormError($exception->getMessage()));
             }
         }
-        $this->makeRecipesAndFoodstuffsEmpty($day);
 
         return $this->render('day/new/standardDay.html.twig', [
             'day' => $day,
@@ -168,29 +173,6 @@ class DayController extends AuthController
         return $this->render('day/single/view.html.twig', [
             'day' => $day,
         ]);
-    }
-
-    private function addRecipesFromIds(Day $day): void
-    {
-        if (is_null($day->getRecipeIds())) {
-            return;
-        }
-
-        foreach ($day->getRecipeIds() as $id) {
-            $recipe = $this->recipeRepository->get($id);
-            $timesSaved = $recipe->getTimesSaved();
-            $recipe->setTimesSaved($timesSaved + 1);
-            $this->recipeRepository->update($recipe);
-            $day->addRecipe($recipe);
-        }
-    }
-
-    private function makeRecipesAndFoodstuffsEmpty(Day $day)
-    {
-        $day->setFoodstuffs(new ArrayCollection());
-        $day->setFoodstuffWeights([]);
-        $day->setRecipes(new ArrayCollection());
-        $day->setRecipeWeights([]);
     }
 
     private function getDay(int $id): Day

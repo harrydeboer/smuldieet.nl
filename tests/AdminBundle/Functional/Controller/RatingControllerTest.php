@@ -10,7 +10,7 @@ use App\Tests\Functional\AuthAdminWebTestCase;
 
 class RatingControllerTest extends AuthAdminWebTestCase
 {
-    public function testCreateUpdateDelete(): void
+    public function testUpdateDelete(): void
     {
         $this->client->request('GET', '/admin/waardering');
 

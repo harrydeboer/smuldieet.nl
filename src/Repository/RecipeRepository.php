@@ -52,6 +52,16 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
         return $query->execute();
     }
 
+    public function findAllPending(): array
+    {
+        $qb = $this->createQueryBuilder('r');
+        $qb->where('r.pending = 1');
+
+        $query = $qb->getQuery();
+
+        return $query->execute();
+    }
+
     public function get(int $id): Recipe
     {
         $recipe = $this->findOneBy(['id' => $id]);

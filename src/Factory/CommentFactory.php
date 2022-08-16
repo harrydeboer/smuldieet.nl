@@ -6,7 +6,6 @@ namespace App\Factory;
 
 use App\Entity\Comment;
 use App\Repository\CommentRepositoryInterface;
-use InvalidArgumentException;
 
 class CommentFactory extends AbstractFactory
 {

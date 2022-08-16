@@ -24,10 +24,10 @@ trait ImageTrait
     }
 
     /**
-     * The image getter and setter have to exist for the wine form to work,
-     * but the value of getLabel is never used because a html input of type file cannot be prefilled.
+     * The image getter and setter have to exist for the form to work,
+     * but the value of getImage is never used because a html input of type file cannot be prefilled.
      * The setter only sets the imageExtension, because it does not save the image.
-     * The function moveLabel saves the image.
+     * The method moveImage saves the image.
      */
     public function getImage(): void
     {
@@ -39,6 +39,9 @@ trait ImageTrait
         }
     }
 
+    /**
+     * Get the path of the image with respect to the public folder.
+     */
     public function getImagePath(string $appEnv, int $width = null): ?string
     {
         $idString = (string) $this->getId();
@@ -73,6 +76,9 @@ trait ImageTrait
         }
     }
 
+    /**
+     * Move the image and create resized images for IMAGE_WIDTHS property values.
+     */
     public function moveImage(string $appEnv, string $projectDir, ?UploadedFile $image): void
     {
         if (!is_null($image)) {
@@ -87,10 +93,8 @@ trait ImageTrait
                 $extraPath = 'test/';
             }
             $classNameArray = explode('\\', get_class($this));
-            $image->move(
-                $projectDir . '/public/uploads/' . strtolower($classNameArray[2]) . '/images/' . $extraPath,
-                $id . '.' . $image->getClientOriginalExtension()
-            );
+            $image->move($projectDir . '/public/uploads/' . strtolower($classNameArray[2]) . '/images/' .
+                $extraPath,$id . '.' . $image->getClientOriginalExtension());
 
             $extension = $image->getClientOriginalExtension();
             $path = $projectDir . '/public/' .

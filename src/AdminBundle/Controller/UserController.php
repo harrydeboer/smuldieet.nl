@@ -22,13 +22,16 @@ class UserController extends AuthController
     ) {
     }
 
-    #[Route('/gebruiker', name: 'adminUser')]
-    public function view(): Response
+    #[
+        Route('/gebruiker', name: 'adminUser', defaults: ['page' => '1']),
+        Route('/gebruiker/pagina/{page<[1-9]\d*>}', name: 'adminUserIndexPaginated'),
+    ]
+    public function view(int $page): Response
     {
-        $users = $this->userRepository->findAll();
+        $users = $this->userRepository->findAllPaginated($page);
 
         return $this->render('@AdminBundle/user/view.html.twig', [
-            'users' => $users,
+            'paginator' => $users,
         ]);
     }
 
@@ -56,9 +59,9 @@ class UserController extends AuthController
             return $this->redirectToRoute('adminUser');
         }
 
-        return $this->renderForm('@AdminBundle/user/edit/view.html.twig', [
-            'formUpdate' => $formUpdate,
-            'formDelete' => $formDelete,
+        return $this->render('@AdminBundle/user/edit/view.html.twig', [
+            'formUpdate' => $formUpdate->createView(),
+            'formDelete' => $formDelete->createView(),
         ]);
     }
 
@@ -75,8 +78,8 @@ class UserController extends AuthController
             return $this->redirectToRoute('adminUser');
         }
 
-        return $this->renderForm('@AdminBundle/user/new/view.html.twig', [
-            'form' => $form,
+        return $this->render('@AdminBundle/user/new/view.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 

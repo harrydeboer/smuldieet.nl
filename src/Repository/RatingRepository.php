@@ -26,10 +26,11 @@ class RatingRepository extends ServiceEntityRepository implements RatingReposito
         parent::__construct($registry, Rating::class);
     }
 
-    public function findAllReviews(): array
+    public function findAllPendingReviews(): array
     {
         $qb = $this->createQueryBuilder('r');
         $qb->where('r.content IS NOT NULL');
+        $qb->andWhere('r.pending = 1');
 
         $query = $qb->getQuery();
 

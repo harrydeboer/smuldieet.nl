@@ -11,7 +11,6 @@ use App\Form\DeleteRecipeType;
 use App\Form\DeleteRatingType;
 use App\Repository\RatingRepositoryInterface;
 use App\Repository\RecipeRepositoryInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -100,9 +99,6 @@ class RecipeController extends Controller
             }
         }
 
-        $recipe->setFoodstuffs(new ArrayCollection());
-        $recipe->setFoodstuffWeights([]);
-
         return $this->render('recipe/new/view.html.twig', [
             'recipe' => $recipe,
             'form' => $form->createView(),
@@ -133,6 +129,7 @@ class RecipeController extends Controller
         if ($recipe->getPending() && $recipe->getUser()->getId() !== $this->getUser()->getId()) {
             throw new NotFoundHttpException('Dit recept can niet worden getoond.');
         }
+
         $rating = $this->ratingRepository->findOneBy([
             'recipe' => $recipe->getId(),
             'user' => $this->getUser()?->getId(),
@@ -168,7 +165,7 @@ class RecipeController extends Controller
         if (strlen($title) > 255) {
             $recipes = [];
         } else {
-            $recipes = $this->recipeRepository->search($this->transformUnwantedChars($title),
+            $recipes = $this->recipeRepository->search($this->transformDiacriticChars($title),
                 $this->getUser()->getId());
         }
 

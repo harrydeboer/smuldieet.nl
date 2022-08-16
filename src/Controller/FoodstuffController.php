@@ -60,7 +60,7 @@ class FoodstuffController extends Controller
                 $this->foodstuffRepository->update($foodstuff);
 
                 return $this->redirectToRoute('foodstuff');
-            } catch(InvalidArgumentException $exception) {
+            } catch (InvalidArgumentException $exception) {
                 $formUpdate->addError(new FormError($exception->getMessage()));
             }
         }
@@ -85,7 +85,7 @@ class FoodstuffController extends Controller
                 $this->foodstuffRepository->create($foodstuff);
 
                 return $this->redirectToRoute('foodstuff');
-            } catch(InvalidArgumentException $exception) {
+            } catch (InvalidArgumentException $exception) {
                 $form->addError(new FormError($exception->getMessage()));
             }
         }
@@ -110,7 +110,7 @@ class FoodstuffController extends Controller
                 $this->foodstuffRepository->create($foodstuff);
 
                 return $this->redirectToRoute('foodstuff');
-            } catch(InvalidArgumentException $exception) {
+            } catch (InvalidArgumentException $exception) {
                 $form->addError(new FormError($exception->getMessage()));
             }
         }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\User;
+use App\Pagination\Paginator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
@@ -47,6 +48,13 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
 
         $this->em->persist($user);
         $this->em->flush();
+    }
+
+    public function findAllPaginated(int $page): Paginator|array
+    {
+        $qb = $this->createQueryBuilder('u');
+
+        return (new Paginator($qb))->paginate($page);
     }
 
     public function create(User $user, string $plainPassword): void

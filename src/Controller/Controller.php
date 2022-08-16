@@ -18,7 +18,7 @@ class Controller extends AbstractController
         return parent::getUser();
     }
 
-    protected function transformUnwantedChars(string $string): string
+    protected function transformDiacriticChars(string $string): string
     {
         $unwantedArray = ['Ğ'=>'G', 'İ'=>'I', 'Ş'=>'S', 'ğ'=>'g', 'ı'=>'i', 'ş'=>'s', 'ü'=>'u', 'Š'=>'S', 'š'=>'s',
             'Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C',
