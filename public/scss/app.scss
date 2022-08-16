@@ -49,6 +49,10 @@ body {
   color: red;
 }
 
+#isSelfInvented_placeholder, label[for=isSelfInvented_placeholder] {
+  display: none;
+}
+
 .table-small {
   width: 768px;
 }
@@ -124,10 +128,6 @@ body {
 #recipe-is-self-invented {
   display: inline-block;
   width: 90%;
-}
-
-#is-self-invented-placeholder, label[for=is-self-invented-placeholder] {
-  display: none;
 }
 
 #recipe-source {

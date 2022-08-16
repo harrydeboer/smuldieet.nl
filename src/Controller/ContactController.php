@@ -48,9 +48,12 @@ class ContactController extends Controller
                     $this->mailer->send($email);
                     $success = 'Bericht verzonden.';
                 } catch (TransportExceptionInterface) {
-                    $error = "Kon e-mail niet verzenden.";
+                    $error = 'Kon e-mail niet verzenden.';
                 }
             }
+        }
+        if ($this->kernel->getEnvironment() !== 'prod' ) {
+            $error = 'Kon e-mail niet verzenden, want dit is geen prod omgeving.';
         }
 
         return $this->render('contact/view.html.twig', [
@@ -67,7 +70,7 @@ class ContactController extends Controller
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify");
         curl_setopt($ch, CURLOPT_POSTFIELDS, "secret=" . $this->getParameter('re_captcha_secret') .
-            "&response=" . $token);
+            '&response=' . $token);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         $response = curl_exec($ch);

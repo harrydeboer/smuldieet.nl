@@ -22,10 +22,12 @@ class RecipeFilterAndSortType extends AbstractType
                 'choices' => [
                     'nieuwste' => 'timestamp_DESC',
                     'oudste' => 'timestamp_ASC' ,
-                    'rating aflopend' => 'rating_DESC',
-                    'rating oplopend' => 'rating_ASC' ,
+                    'waardering aflopend' => 'rating_DESC',
+                    'waardering oplopend' => 'rating_ASC' ,
                     'aantal keer bewaard aflopend' => 'timesSaved_DESC' ,
                     'aantal keer bewaard oplopend' => 'timesSaved_ASC' ,
+                    'aantal reacties aflopend' => 'timesReacted_DESC' ,
+                    'aantal reacties oplopend' => 'timesReacted_ASC' ,
                 ],
                 'invalid_message' => 'Geen geldige sortering.',
                 'attr' => [

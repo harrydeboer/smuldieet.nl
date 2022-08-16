@@ -54,7 +54,7 @@
         <tr><td>Soort gerecht</td><td>{{ recipe.typeOfDish }}</td></tr>
         <tr><td>Gelegenheid</td><td>{{ recipe.occasion }}</td></tr>
         {% for key,choice in constant('DIET_CHOICES', recipe)  %}
-            <tr><td>{{ key }}</td><td>{{ attribute(recipe, choice) }}</td></tr>
+            <tr><td>{{ key }}</td><td>{{ attribute(recipe, choice) == 1 ? 'Ja' : '' }}</td></tr>
         {% endfor %}
         {% for rowNumber, foodstuff in recipe.foodstuffs %}
             <tr id="row{{ rowNumber + 1 }}">
