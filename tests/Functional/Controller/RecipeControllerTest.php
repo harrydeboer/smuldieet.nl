@@ -22,8 +22,8 @@ class RecipeControllerTest extends AuthAdminWebTestCase
 
         $form = $buttonCrawlerNode->form();
 
-        $testLabelPath = __DIR__ . '/test.jpg';
-        $form['recipe[image]'] = new File($testLabelPath);
+        $testImagePath = __DIR__ . '/test.jpg';
+        $form['recipe[image]'] = new File($testImagePath);
         $form['recipe[title]'] = 'test';
         $form['recipe[preparationMethod]'] = 'test';
         $form['recipe[niceStory]'] = 'test';

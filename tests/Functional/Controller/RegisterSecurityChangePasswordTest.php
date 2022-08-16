@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller;
 
+use App\Repository\UserRepositoryInterface;
 use App\Tests\Functional\WebTestCase;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 class RegisterSecurityChangePasswordTest extends WebTestCase
 {
@@ -16,6 +19,8 @@ class RegisterSecurityChangePasswordTest extends WebTestCase
 
         $form = $buttonCrawlerNode->form();
 
+        $testImagePath = __DIR__ . '/test.jpg';
+        $form['registration[image]'] = new File($testImagePath);
         $form['registration[username]'] = 'John';
         $form['registration[email]'] = 'john@secret.com';
         $form['registration[birthday]'] = '01-01-1990';
@@ -61,5 +66,10 @@ class RegisterSecurityChangePasswordTest extends WebTestCase
         $this->client->request('GET', '/uitloggen');
 
         $this->assertResponseRedirects();
+
+        $userRepository = static::getContainer()->get(UserRepositoryInterface::class);
+        $kernel = static::getContainer()->get(KernelInterface::class);
+        $user = $userRepository->find(1);
+        $user->unlinkImage('test', $kernel->getProjectDir());
     }
 }
