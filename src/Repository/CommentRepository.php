@@ -26,7 +26,9 @@ class CommentRepository extends ServiceEntityRepository implements CommentReposi
         parent::__construct($registry, Comment::class);
     }
 
-
+    /**
+     * When the comment is created the times reacted of its recipe is upped by 1.
+     */
     public function create(Comment $comment): void
     {
         if (!is_null($comment->getPage()) && !is_null($comment->getRecipe())) {
@@ -46,6 +48,9 @@ class CommentRepository extends ServiceEntityRepository implements CommentReposi
         $this->em->flush();
     }
 
+    /**
+     * When the comment is deleted the times reacted of its recipe is lowered by 1.
+     */
     public function delete(Comment $comment): void
     {
         if (!is_null($recipe = $comment->getRecipe())) {
