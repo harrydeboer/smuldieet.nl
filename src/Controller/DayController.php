@@ -75,8 +75,6 @@ class DayController extends AuthController
             } catch (InvalidArgumentException $exception) {
                 $formUpdate->addError(new FormError($exception->getMessage()));
             }
-        } else {
-            $day = $this->getDay($id);
         }
 
         return $this->render('day/edit/view.html.twig', [

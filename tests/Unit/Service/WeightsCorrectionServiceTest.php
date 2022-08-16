@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Service;
 
-use App\Service\DateCheckService;
+use App\Entity\Foodstuff;
 use App\Service\WeightsCorrectionService;
 use PHPUnit\Framework\TestCase;
 
@@ -12,6 +12,9 @@ class WeightsCorrectionServiceTest extends TestCase
 {
     public function testCorrectArray()
     {
-        $this->assertEquals(serialize(['18' => 3]), WeightsCorrectionService::correctArray(['18' => null, '0' => 3]));
+        $foodstuff = new Foodstuff();
+        $foodstuff->setId(3);
+        $this->assertEquals(serialize(['3' => 4]),
+            WeightsCorrectionService::correctArray(['0' => 4], [$foodstuff]));
     }
 }

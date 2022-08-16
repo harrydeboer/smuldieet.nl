@@ -6,24 +6,19 @@ namespace App\Service;
 
 class WeightsCorrectionService
 {
-    public static function correctArray(array $values): string
+    public static function correctArray(array $values, array $entities): string
     {
-        if (!in_array(null,$values)) {
-            return serialize($values);
-        } else {
-            $keys = [];
-            foreach ($values as $key => $value) {
-                if (is_null($value)) {
-                    $keys[] = $key;
-                    unset($values[$key]);
-                }
-            }
-            $correctValues = [];
-            foreach ($values as $key => $value) {
-                $correctValues[$keys[$key]] = $value;
-            }
-
-            return serialize($correctValues);
+        $array = [];
+        $count = 0;
+        $arrayEntities = [];
+        foreach ($entities as $entity) {
+            $arrayEntities[] = $entity;
         }
+        foreach ($values as $value) {
+            $array[$arrayEntities[$count]->getId()] = $value;
+            $count++;
+        }
+
+        return serialize($array);
     }
 }

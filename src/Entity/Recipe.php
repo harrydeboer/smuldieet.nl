@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\RecipeRepository;
-use App\Service\WeightsCorrectionService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,6 +12,7 @@ use InvalidArgumentException;
 use JetBrains\PhpStorm\Pure;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use App\Service\WeightsCorrectionService;
 
 #[
     ORM\Entity(repositoryClass: RecipeRepository::class),
@@ -700,7 +700,7 @@ class Recipe
 
     public function setFoodstuffWeights(array $values): void
     {
-        $this->foodstuffWeights = WeightsCorrectionService::correctArray($values);
+        $this->foodstuffWeights = WeightsCorrectionService::correctArray($values, $this->getFoodstuffs()->toArray());
     }
 
     public function getComments(): Collection

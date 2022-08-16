@@ -72,7 +72,6 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
         $recipe->setTimestamp(time());
         $this->em->persist($recipe);
         $this->em->flush();
-        $this->makeWeights($recipe);
         $this->em->persist($recipe);
         $this->em->flush();
     }
@@ -83,7 +82,6 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
     public function update(Recipe $recipe): void
     {
         $this->checkCount($recipe);
-        $this->makeWeights($recipe);
         $this->em->flush();
     }
 
@@ -168,16 +166,5 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
         }
 
         throw new InvalidArgumentException('Het aantal gewichten is niet gelijk aan het aantal elementen.');
-    }
-
-    private function makeWeights(Recipe $recipe): void
-    {
-        $array = [];
-        $count = 0;
-        foreach ($recipe->getFoodstuffWeights() as $value) {
-            $array[$recipe->getFoodstuffs()->toArray()[$count]->getId()] = $value;
-            $count++;
-        }
-        $recipe->setFoodstuffWeights($array);
     }
 }

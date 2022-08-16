@@ -48,7 +48,6 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
         $this->checkCount($day);
         $this->em->persist($day);
         $this->em->flush();
-        $this->makeWeights($day);
         $this->em->persist($day);
         $this->em->flush();
     }
@@ -59,7 +58,6 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
     public function update(Day $day): void
     {
         $this->checkCount($day);
-        $this->makeWeights($day);
         $this->em->flush();
     }
 
@@ -108,23 +106,5 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
         }
 
         throw new InvalidArgumentException('Het aantal gewichten is niet gelijk aan het aantal elementen.');
-    }
-
-    private function makeWeights(Day $day): void
-    {
-        $array = [];
-        $count = 0;
-        foreach ($day->getFoodstuffWeights() as $value) {
-            $array[$day->getFoodstuffs()->toArray()[$count]->getId()] = $value;
-            $count++;
-        }
-        $day->setFoodstuffWeights($array);
-        $array = [];
-        $count = 0;
-        foreach ($day->getRecipeWeights() as $value) {
-            $array[$day->getRecipes()->toArray()[$count]->getId()] = $value;
-            $count++;
-        }
-        $day->setRecipeWeights($array);
     }
 }

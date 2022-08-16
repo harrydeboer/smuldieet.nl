@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Service\DateCheckService;
-use App\Service\WeightsCorrectionService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,6 +12,7 @@ use App\Repository\DayRepository;
 use InvalidArgumentException;
 use JetBrains\PhpStorm\Pure;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use App\Service\WeightsCorrectionService;
 
 #[
     ORM\Entity(repositoryClass: DayRepository::class),
@@ -187,7 +187,7 @@ class Day
 
     public function setFoodstuffWeights(array $values): void
     {
-        $this->foodstuffWeights = WeightsCorrectionService::correctArray($values);
+        $this->foodstuffWeights = WeightsCorrectionService::correctArray($values, $this->getFoodstuffs()->toArray());
     }
 
     public function getRecipeWeights(): array
@@ -197,7 +197,7 @@ class Day
 
     public function setRecipeWeights(array $values): void
     {
-        $this->recipeWeights = WeightsCorrectionService::correctArray($values);
+        $this->recipeWeights = WeightsCorrectionService::correctArray($values, $this->getRecipes()->toArray());
     }
 
     public function getRecipeIds(): array

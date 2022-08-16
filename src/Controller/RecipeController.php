@@ -71,8 +71,6 @@ class RecipeController extends Controller
             } catch (InvalidArgumentException $exception) {
                 $formUpdate->addError(new FormError($exception->getMessage()));
             }
-        } else {
-            $recipe = $this->getRecipe($id);
         }
 
         return $this->render('recipe/edit/view.html.twig', [
