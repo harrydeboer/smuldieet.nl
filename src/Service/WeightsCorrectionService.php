@@ -11,10 +11,18 @@ class WeightsCorrectionService
         $array = [];
         $count = 0;
         $arrayEntities = [];
+        $arrayValues = [];
+        ksort($values);
         foreach ($entities as $entity) {
             $arrayEntities[] = $entity;
         }
         foreach ($values as $value) {
+            if (is_null($value)) {
+                continue;
+            }
+            $arrayValues[] = $value;
+        }
+        foreach ($arrayValues as $value) {
             $array[$arrayEntities[$count]->getId()] = $value;
             $count++;
         }
