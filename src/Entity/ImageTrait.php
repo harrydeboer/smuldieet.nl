@@ -82,11 +82,6 @@ trait ImageTrait
     public function moveImage(string $appEnv, string $projectDir, ?UploadedFile $image): void
     {
         if (!is_null($image)) {
-
-            if(!str_starts_with($image->getMimeType(), 'image/')) {
-                throw new InvalidArgumentException('Het bestand is geen plaatje.');
-            }
-
             $id = (string) $this->getId();
             $extraPath = '';
             if ($appEnv === 'test') {
@@ -110,7 +105,8 @@ trait ImageTrait
             } elseif ($extension === 'webp') {
                 $image = imagecreatefromwebp($path);
             } else {
-                throw new InvalidArgumentException('Uploaded file is not an image.');
+                throw new InvalidArgumentException('Geef alstublieft een geldig plaatje ' .
+                    '(png, jp(e)g, gif, bmp of webp).');
             }
             $x = imagesx($image);
             $y = imagesy($image);
@@ -131,7 +127,8 @@ trait ImageTrait
                 } elseif ($extension === 'webp') {
                     imagewebp($dst, $path);
                 } else {
-                    throw new InvalidArgumentException('Uploaded file is not an image.');
+                    throw new InvalidArgumentException('Geef alstublieft een geldig plaatje ' .
+                        '(png, jp(e)g, gif, bmp of webp).');
                 }
                 imagedestroy($dst);
             }
