@@ -6,6 +6,9 @@ namespace App\Service;
 
 use DateTime;
 
+/**
+ * Date has to be in format d-m-Y.
+ */
 class DateCheckService
 {
     public static function checkDate(string $date, bool $noFuture = false): bool

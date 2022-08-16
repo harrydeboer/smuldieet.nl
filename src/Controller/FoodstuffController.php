@@ -104,7 +104,7 @@ class FoodstuffController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $foodstuff = CombineFoodstuffsService::combine($form->getData(), $this->getUser());
+            $foodstuff = CombineFoodstuffsService::combine($form->getData());
             $foodstuff->setUser($this->getUser());
             try {
                 $this->foodstuffRepository->create($foodstuff);

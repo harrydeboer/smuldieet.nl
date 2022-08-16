@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\Foodstuff;
-use App\Entity\User;
 use InvalidArgumentException;
 
+/**
+ * The submitted foodstuffs are combined to one foodstuff with averaged values.
+ */
 class CombineFoodstuffsService
 {
-    public static function combine(array $formData, User $user): Foodstuff
+    public static function combine(array $formData): Foodstuff
     {
         $foodstuff = new Foodstuff();
         $foodstuff->setName($formData['name']);
@@ -20,7 +22,7 @@ class CombineFoodstuffsService
             throw new InvalidArgumentException('Weights must add up to 100 percent.');
         }
 
-        $properties = array_keys(Foodstuff::getADH($user->getBirthday(), $user->getGender(), $user->getWeight()));
+        $properties = array_keys(Foodstuff::getADH());
         foreach ($formData['foodstuffs']->toArray() as $key => $foodstuffForm) {
             foreach ($properties as $property) {
                 if (is_null($foodstuff->{'get' . ucfirst($property)}())) {
