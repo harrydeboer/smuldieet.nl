@@ -107,8 +107,6 @@ trait ImageTrait
                 $image = imagecreatefromgif($path);
             } elseif ($extension === 'bmp') {
                 $image = imagecreatefrombmp($path);
-            } elseif ($extension === 'wbmp') {
-                $image = imagecreatefromwbmp($path);
             } elseif ($extension === 'webp') {
                 $image = imagecreatefromwebp($path);
             } else {
@@ -130,8 +128,6 @@ trait ImageTrait
                     imagegif($dst, $path);
                 } elseif ($extension === 'bmp') {
                     imagebmp($dst, $path);
-                } elseif ($extension === 'wbmp') {
-                    imagewbmp($dst, $path);
                 } elseif ($extension === 'webp') {
                     imagewebp($dst, $path);
                 } else {

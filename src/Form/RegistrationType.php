@@ -26,23 +26,18 @@ class RegistrationType extends AbstractType
         $builder
             ->add('image', FileType::class, [
                 'attr' => [
-                    'accept' => 'image/png, image/jpg, image/jpeg, image/gif, image/bmp, image/wbmp, image/webp',
+                    'accept' => 'image/png, image/jpg, image/jpeg, image/gif, image/bmp, image/webp',
                     'class' => 'btn-primary form-control'
                 ],
                 'constraints' => [
                     new File([
                         'maxSize' => '4096k',
                         'mimeTypes' => [
-                            'image/png',
-                            'image/jpg',
-                            'image/jpeg',
-                            'image/gif',
-                            'image/bmp',
-                            'image/wbmp',
-                            'image/webp',
+                            'image/*',
+
                         ],
                         'maxSizeMessage' => 'De foto mag maximaal 4Mb zijn.',
-                        'mimeTypesMessage' => 'Geef alstublieft een geldig plaatje.',
+                        'mimeTypesMessage' => 'Geef alstublieft een geldig plaatje (png, jp(e)g, gif, bmp of webp).',
                     ])
                 ],
                 'required' => false,

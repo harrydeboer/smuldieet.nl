@@ -9,6 +9,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -y install \
     libcurl4-openssl-dev \
     libonig-dev \
     libpng-dev \
+    libjpeg-dev \
+    libwebp-dev \
     libzip-dev \
     zip \
     unzip \
@@ -21,14 +23,14 @@ RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
 
 RUN a2enmod headers rewrite ssl
 
-RUN docker-php-ext-install bcmath curl mbstring gd xml intl zip pdo_mysql opcache
+RUN docker-php-ext-configure gd --with-jpeg --with-webp
+RUN docker-php-ext-install -j$(nproc) gd
+
+RUN docker-php-ext-install bcmath curl mbstring xml intl zip pdo_mysql opcache
 
 RUN if [ "$APP_ENV" = "dev" ] ; then pecl install xdebug && docker-php-ext-enable xdebug; fi
 
 COPY --from=composer:2.2.4 /usr/bin/composer /usr/bin/composer
-
-RUN if [ "$APP_ENV" = "dev" ] ; then wget https://get.symfony.com/cli/installer -O - | bash; fi
-RUN if [ "$APP_ENV" = "dev" ] ; then mv /root/.symfony/bin/symfony /usr/local/bin/symfony; fi
 
 COPY . /var/www/html
 COPY ./docker/web/apache2.conf /etc/apache2/apache2.conf
