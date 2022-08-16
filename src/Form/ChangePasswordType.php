@@ -22,6 +22,7 @@ class ChangePasswordType extends AbstractType
                 'second_options' => ['label' => 'Repeat Password', 'attr' => ['class' => 'form-control']],
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
+                'invalid_message' => 'De wachtwoorden moeten gelijk zijn aan elkaar.',
                 'constraints' => [
                     new Length([
                         'min' => 6,

@@ -41,6 +41,7 @@ class RegistrationType extends AbstractType
                             'image/wbmp',
                             'image/webp',
                         ],
+                        'maxSizeMessage' => 'De foto mag maximaal 4Mb zijn.',
                         'mimeTypesMessage' => 'Geef alstublieft een geldig plaatje.',
                     ])
                 ],
@@ -66,10 +67,11 @@ class RegistrationType extends AbstractType
                 'second_options' => ['label' => 'Repeat Password', 'attr' => ['class' => 'form-control']],
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
+                'invalid_message' => 'De wachtwoorden moeten gelijk zijn aan elkaar.',
                 'constraints' => [
                     new Length([
                         'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        'minMessage' => 'Je wachtwoord moet ten minste {{ limit }} tekens hebben.',
                         'max' => 4096,
                     ]),
                 ],

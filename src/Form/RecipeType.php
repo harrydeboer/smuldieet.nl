@@ -52,6 +52,7 @@ class RecipeType extends AbstractType
                             'image/wbmp',
                             'image/webp',
                         ],
+                        'maxSizeMessage' => 'De Afbeelding mag maximaal 4Mb zijn.',
                         'mimeTypesMessage' => 'Geef alstublieft een geldig plaatje.',
                     ])
                 ],
