@@ -6,6 +6,14 @@
     <h1>Recepten</h1>
     <a href="{{ path('recipeCreate') }}">Maak een recept</a>
     <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col"></th>
+            <th scope="col">Titel</th>
+            <th scope="col">Waardering</th>
+            <th scope="col">Wijzig</th>
+        </tr>
+        </thead>
         {% for recipe in paginator.results %}
             <tr>
                 <td>
