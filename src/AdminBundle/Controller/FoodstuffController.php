@@ -10,11 +10,11 @@ use App\Controller\AuthController;
 use App\Entity\Foodstuff;
 use App\Repository\FoodstuffRepositoryInterface;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use InvalidArgumentException;
 
 class FoodstuffController extends AuthController
 {
@@ -56,7 +56,7 @@ class FoodstuffController extends AuthController
                 $this->foodstuffRepository->update($foodstuff);
 
                 return $this->redirectToRoute('adminFoodstuff');
-            } catch (InvalidArgumentException $exception) {
+            } catch (BadRequestException $exception) {
                 $formUpdate->addError(new FormError($exception->getMessage()));
             }
         }

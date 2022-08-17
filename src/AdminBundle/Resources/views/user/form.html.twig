@@ -15,7 +15,7 @@
 </div>
 {{ form_start(form) }}
 <table class="table table-small">
-    <tr><td>Foto</td><td>{{ form_widget(form.image) }}</td></tr>
+    <tr><td colspan="2"><button id="uploadFileButton" class="btn btn-primary">Upload foto</button>{{ form_widget(form.image) }}</td></tr>
     <tr><td>Gebruikersnaam</td><td>{{ form_widget(form.username) }}</td></tr>
     <tr><td>Voornaam</td><td>{{ form_widget(form.firstName) }}</td></tr>
     <tr><td>Achternaam</td><td>{{ form_widget(form.lastName) }}</td></tr>
