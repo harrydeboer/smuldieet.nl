@@ -14,6 +14,7 @@ class RecipeRepositoryTest extends KernelTestCase
     public function testCreateUpdateDelete(): void
     {
         $recipe = static::getContainer()->get(RecipeFactory::class)->create(['pending' => false]);
+        $recipePending = static::getContainer()->get(RecipeFactory::class)->create(['pending' => true]);
 
         $recipeRepository = static::getContainer()->get(RecipeRepositoryInterface::class);
 
@@ -30,6 +31,7 @@ class RecipeRepositoryTest extends KernelTestCase
         $this->assertSame([$recipe], $recipeRepository->search($recipe->getTitle(), $userId));
         $this->assertSame($recipe, $recipeRepository->findBySortAndFilter(1)->getResults()[0]);
         $this->assertSame($recipe, $recipeRepository->getRecipesFromUser($userId, 1)->getResults()[0]);
+        $this->assertSame([$recipePending], $recipeRepository->findAllPending());
 
         $id = $recipe->getId();
         $recipeRepository->delete($recipe);

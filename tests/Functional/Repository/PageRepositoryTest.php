@@ -18,12 +18,15 @@ class PageRepositoryTest extends KernelTestCase
 
         $this->assertSame($page, $pageRepository->find($page->getId()));
 
-        $updatedTitle = 'test';
+        $updatedTitle = 'Test';
+        $updatedSlug = 'test';
         $page->setTitle($updatedTitle);
+        $page->setSlug($updatedSlug);
 
         $pageRepository->update();
 
-        $this->assertSame($updatedTitle, $pageRepository->findOneBy(['title' => $updatedTitle])->getTitle());
+        $this->assertSame($updatedTitle, $pageRepository->getByTitle($updatedTitle)->getTitle());
+        $this->assertSame($updatedSlug, $pageRepository->getBySlug($updatedSlug)->getSlug());
 
         $id = $page->getId();
         $pageRepository->delete($page);

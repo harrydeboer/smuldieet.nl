@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\AdminBundle\Functional\Repository;
+namespace App\Tests\Functional\Repository;
 
 use App\Factory\UserFactory;
 use App\Repository\UserRepositoryInterface;
@@ -24,6 +24,7 @@ class UserRepositoryTest extends KernelTestCase
         $userRepository->update();
 
         $this->assertSame($updatedEmail, $userRepository->find($user->getId())->getEmail());
+        $this->assertSame($user, $userRepository->findAllPaginated(1)->getResults()[0]);
 
         $id = $user->getId();
         $userRepository->delete($user);
