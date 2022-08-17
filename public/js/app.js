@@ -8,8 +8,7 @@ $(function() {
     })
 
     $('#uploadFileButton').on('click', function (event) {
-        $('#registration_image')[0].click();
-        $('#recipe_image')[0].click();
+        $(this).next()[0].click();
         event.preventDefault();
     });
 
