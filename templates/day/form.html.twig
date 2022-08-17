@@ -2,7 +2,7 @@
 <div id="form-errors-server">
     {{ form_errors(form) }}
 </div>
-{{ form_start(form) }}
+{{ form_start(form, { 'attr' : { 'class': 'foodstuff-recipe-form' }}) }}
 {% if form.date is defined %}
     {{ form_errors(form.date) }}
 {% endif %}
