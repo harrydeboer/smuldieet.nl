@@ -10,6 +10,7 @@ use App\Form\DeleteDayType;
 use App\Form\StandardDayType;
 use App\Repository\DayRepositoryInterface;
 use App\Repository\RecipeRepositoryInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -65,6 +66,7 @@ class DayController extends AuthController
 
         if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
             try {
+                $day->setRecipes(new ArrayCollection());
                 foreach ($day->getRecipeIds() as $id) {
                     $recipe = $this->recipeRepository->get($id);
                     $day->addRecipe($recipe);

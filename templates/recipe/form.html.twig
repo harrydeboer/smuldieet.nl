@@ -55,7 +55,8 @@
             'entity': recipe, 'id': foodstuff.id, 'name': foodstuff.name,
             'weight': recipe.foodstuffWeights[foodstuff.id]}) }}
     {% endfor %}
-    <tr><td colspan="3"><button class="btn btn-primary" id="add-foodstuff">Voeg voedingsmiddel toe</button></td></tr>
+    <tr id="add-foodstuff-recipe-button-row"><td colspan="3">
+            <button class="btn btn-primary" id="add-foodstuff">Voeg voedingsmiddel toe</button></td></tr>
     <tr><td colspan="3">{{ form_widget(form.submit, { 'label': submitLabel }) }}</td></tr>
 </table>
 <div class="d-none">

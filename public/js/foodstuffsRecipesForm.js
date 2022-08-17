@@ -4,7 +4,7 @@ $('#add-foodstuff').on('click', function (event) {
     rowId = rowId + 1;
     let html = $('#row-row-idf')[0].outerHTML;
     html = html.replaceAll('-row-idf', rowId);
-    $('.foodstuff-recipe-table tr:nth-last-child(2)').before(html);
+    $('#add-foodstuff-recipe-button-row').before(html);
     event.preventDefault();
 });
 
@@ -12,7 +12,7 @@ $('#add-recipe').on('click', function (event) {
     rowId = rowId + 1;
     let html = $('#row-row-idr')[0].outerHTML;
     html = html.replaceAll('-riw-idr', rowId);
-    $('.foodstuff-recipe-table tr:nth-last-child(2)').before(html);
+    $('#add-foodstuff-recipe-button-row').before(html);
     event.preventDefault();
 });
 

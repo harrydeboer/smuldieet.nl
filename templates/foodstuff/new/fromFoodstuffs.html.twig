@@ -11,7 +11,8 @@
     {{ form_start(form, { 'attr' : { 'class': 'foodstuff-recipe-form' }}) }}
     <table class="foodstuff-recipe-table table table-small">
         <tr><td>Naam</td><td colspan="2">{{ form_widget(form.name) }}</td></tr>
-        <tr><td colspan="3"><button class="btn btn-primary" id="add-foodstuff">Voeg voedingsmiddel toe</button></td></tr>
+        <tr id="add-foodstuff-recipe-button-row"><td colspan="3">
+                <button class="btn btn-primary" id="add-foodstuff">Voeg voedingsmiddel toe</button></td></tr>
         <tr><td colspan="3">{{ form_widget(form.submit, { 'label': 'Voedingsmiddel opslaan' }) }}</td></tr>
     </table>
     <div class="d-none">
