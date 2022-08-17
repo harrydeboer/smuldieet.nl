@@ -45,16 +45,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[
         ORM\Column(type: "string", length: 180, nullable: true),
         Assert\Length(max: 180, maxMessage: 'De voornaam mag niet meer dan 180 tekens hebben.'),
-        Assert\Regex(pattern: "/^[A-zÀ-ÿ0-9\s\-]+$/",
-            message: "Toegestane tekens zijn letters, cijfers en { -}."),
+        Assert\Regex(pattern: "/^[A-zÀ-ÿ\s\-]+$/",
+            message: "Toegestane tekens zijn letters en vliegend streepje."),
     ]
     private ?string $firstName = null;
 
     #[
         ORM\Column(type: "string", length: 180, nullable: true),
         Assert\Length(max: 180, maxMessage: 'De achternaam mag niet meer dan 180 tekens hebben.'),
-        Assert\Regex(pattern: "/^[A-zÀ-ÿ0-9\s\-]+$/",
-            message: "Toegestane tekens zijn letters, cijfers en { -}."),
+        Assert\Regex(pattern: "/^[A-zÀ-ÿ\s\-]+$/",
+            message: "Toegestane tekens zijn letters en vliegend streepje."),
     ]
     private ?string $lastName = null;
 

@@ -28,6 +28,10 @@ class RatingController extends AuthController
         $rating = new Rating();
         $form = $this->createForm(RatingType::class, $rating);
         $recipe = $this->recipeRepository->get($recipeId);
+
+        /**
+         * When creating a rating it is checked that the recipe is not pending.
+         */
         if ($recipe->getPending() && $recipe->getUser()->getId() !== $this->getUser()->getId()) {
             throw new NotFoundHttpException('Dit recept can niet worden getoond.');
         }

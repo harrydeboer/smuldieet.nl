@@ -122,6 +122,9 @@ class RecipeController extends Controller
         return $this->redirectToRoute('recipe');
     }
 
+    /**
+     * The single recipe page is visible if the recipe is not pending and contains a rating form.
+     */
     #[Route('/recept/enkel/{id}', name: 'recipeSingle')]
     public function single(int $id): Response
     {
