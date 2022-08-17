@@ -30,7 +30,7 @@ class RatingController extends AuthController
         $recipe = $this->recipeRepository->get($recipeId);
 
         /**
-         * When creating a rating it is checked that the recipe is not pending.
+         * When creating a rating it is checked that the recipe is not pending except when the current user owns it.
          */
         if ($recipe->getPending() && $recipe->getUser()->getId() !== $this->getUser()->getId()) {
             throw new NotFoundHttpException('Dit recept can niet worden getoond.');

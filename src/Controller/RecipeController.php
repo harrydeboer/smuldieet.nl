@@ -123,7 +123,8 @@ class RecipeController extends Controller
     }
 
     /**
-     * The single recipe page is visible if the recipe is not pending and contains a rating form.
+     * The single recipe page is visible if the recipe is not pending except when the current user owns it.
+     * It contains a rating form. It also contains a deletion form when the user already rated this recipe.
      */
     #[Route('/recept/enkel/{id}', name: 'recipeSingle')]
     public function single(int $id): Response
