@@ -11,7 +11,6 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use InvalidArgumentException;
 
@@ -42,7 +41,7 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
     }
 
     /**
-     * @throws BadRequestException
+     * @throws InvalidArgumentException
      */
     public function create(Day $day): void
     {
@@ -54,7 +53,7 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
     }
 
     /**
-     * @throws BadRequestException
+     * @throws InvalidArgumentException
      */
     public function update(Day $day): void
     {
@@ -100,7 +99,7 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
     }
 
     /**
-     * @throws BadRequestException
+     * @throws InvalidArgumentException
      */
     private function checkCount(Day $day): void
     {
@@ -109,6 +108,6 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
             return;
         }
 
-        throw new BadRequestException('Het aantal gewichten is niet gelijk aan het aantal elementen.');
+        throw new InvalidArgumentException('The number of weights is not equal to the number of entities.');
     }
 }

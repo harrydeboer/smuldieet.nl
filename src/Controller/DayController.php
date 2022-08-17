@@ -11,7 +11,6 @@ use App\Form\StandardDayType;
 use App\Repository\DayRepositoryInterface;
 use App\Repository\RecipeRepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -46,6 +45,7 @@ class DayController extends AuthController
     public function edit(Request $request, int $id): Response
     {
         $day = $this->getDay($id);
+        $dayStandard = $this->dayRepository->findOneBy(['user' => $this->getUser()->getId(), 'timestamp' => null]);
 
         if (is_null($day->getTimestamp())) {
             $formUpdate = $this->createForm(StandardDayType::class, $day, [
@@ -65,18 +65,25 @@ class DayController extends AuthController
         $formUpdate->handleRequest($request);
 
         if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
-            try {
-                $day->setRecipes(new ArrayCollection());
-                foreach ($day->getRecipeIds() as $id) {
-                    $recipe = $this->recipeRepository->get($id);
-                    $day->addRecipe($recipe);
-                }
-                $this->dayRepository->update($day);
-
-                return $this->redirectToRoute('day');
-            } catch (BadRequestException $exception) {
-                $formUpdate->addError(new FormError($exception->getMessage()));
+            if ($dayStandard->getId() !== $day->getId() && is_null($day->getTimestamp())) {
+                throw new BadRequestException('The day cannot become the standard day.');
             }
+
+            /**
+             * Set the old recipes to an empty collection.
+             */
+            $day->setRecipes(new ArrayCollection());
+
+            /**
+             * Add the new recipes to the day.
+             */
+            foreach ($day->getRecipeIds() as $id) {
+                $recipe = $this->recipeRepository->get($id);
+                $day->addRecipe($recipe);
+            }
+            $this->dayRepository->update($day);
+
+            return $this->redirectToRoute('day');
         }
 
         return $this->render('day/edit/view.html.twig', [
@@ -95,20 +102,17 @@ class DayController extends AuthController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                if (is_null($day->getTimestamp())) {
-                    throw new BadRequestException('De dag moet een datum hebben.');
-                }
-                foreach ($day->getRecipeIds() as $id) {
-                    $recipe = $this->recipeRepository->get($id);
-                    $day->addRecipe($recipe);
-                }
-                $this->dayRepository->create($day);
-
-                return $this->redirectToRoute('day');
-            } catch (BadRequestException $exception) {
-                $form->addError(new FormError($exception->getMessage()));
+            if (is_null($day->getTimestamp())) {
+                throw new BadRequestException('The day must have a date.');
             }
+
+            foreach ($day->getRecipeIds() as $id) {
+                $recipe = $this->recipeRepository->get($id);
+                $day->addRecipe($recipe);
+            }
+            $this->dayRepository->create($day);
+
+            return $this->redirectToRoute('day');
         }
 
         $dayStandard = $this->dayRepository->findOneBy(['user' => $this->getUser()->getId(), 'timestamp' => null]);
@@ -129,20 +133,18 @@ class DayController extends AuthController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $dayStandard = $this->dayRepository->findOneBy(['user' => $this->getUser()->getId(), 'timestamp' => null]);
-            try {
-                if (!is_null($dayStandard)) {
-                    throw new BadRequestException('Er kan maar 1 standaard dag zijn.');
-                }
-                foreach ($day->getRecipeIds() as $id) {
-                    $recipe = $this->recipeRepository->get($id);
-                    $day->addRecipe($recipe);
-                }
-                $this->dayRepository->create($day);
 
-                return $this->redirectToRoute('day');
-            } catch (BadRequestException $exception) {
-                $form->addError(new FormError($exception->getMessage()));
+            if (!is_null($dayStandard)) {
+                throw new BadRequestException('There can only be one standard day.');
             }
+
+            foreach ($day->getRecipeIds() as $id) {
+                $recipe = $this->recipeRepository->get($id);
+                $day->addRecipe($recipe);
+            }
+            $this->dayRepository->create($day);
+
+            return $this->redirectToRoute('day');
         }
 
         return $this->render('day/new/standardDay.html.twig', [
