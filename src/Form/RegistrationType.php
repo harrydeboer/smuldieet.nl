@@ -27,7 +27,7 @@ class RegistrationType extends AbstractType
             ->add('image', FileType::class, [
                 'attr' => [
                     'accept' => 'image/png, image/jpg, image/jpeg, image/gif, image/bmp, image/webp',
-                    'class' => 'btn-primary form-control'
+                    'class' => 'btn-primary form-control d-none'
                 ],
                 'constraints' => [
                     new File([

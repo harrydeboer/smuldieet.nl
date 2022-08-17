@@ -13,7 +13,8 @@
 </div>
 {{ form_start(form) }}
 <table id="registerTable" class="table table-small">
-    <tr><td>Foto</td><td>{{ form_widget(form.image) }}</td></tr>
+    <tr><td colspan="2"><button id="uploadFileButton" class="btn btn-primary">Upload foto</button>
+            {{ form_widget(form.image) }}</td></tr>
     <tr><td>Gebruikersnaam</td><td>{{ form_widget(form.username) }}</td></tr>
     <tr><td>E-mail</td><td>{{ form_widget(form.email) }}</td></tr>
     <tr><td>Verjaardag</td><td>{{ form_widget(form.birthday) }}</td></tr>

@@ -38,7 +38,7 @@ class RecipeType extends AbstractType
             ->add('image', FileType::class, [
                 'attr' => [
                     'accept' => 'image/png, image/jpg, image/jpeg, image/gif, image/bmp, image/webp',
-                    'class' => 'form-control btn-primary'
+                    'class' => 'form-control btn-primary d-none'
                 ],
                 'constraints' => [
                     new File([

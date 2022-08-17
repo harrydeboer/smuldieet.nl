@@ -7,6 +7,12 @@ $(function() {
         e.stopPropagation();
     })
 
+    $('#uploadFileButton').on('click', function (event) {
+        $('#registration_image')[0].click();
+        $('#recipe_image')[0].click();
+        event.preventDefault();
+    });
+
     $('#abc-select').on('change', function () {
         window.location.href = '/voedingsmiddel/letter/' + $(this).val();
     });
