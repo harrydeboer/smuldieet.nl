@@ -14,8 +14,7 @@ $('#add-recipe').on('click', function () {
     $('.foodstuff-recipe-table tr:last').before(html);
 });
 
-$('form[name="recipe"], form[name="day"], form[name="standard_day"], form[name="cookbook"], ' +
-    'form[name="foodstuff_from_foodstuffs"]').on('submit', function (event) {
+$('.foodstuff-recipe-form').on('submit', function (event) {
     let foodstuffNames = [];
     let text = '';
     $('.foodstuff-name').each(function() {
