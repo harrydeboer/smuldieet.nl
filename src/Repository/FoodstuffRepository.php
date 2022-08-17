@@ -8,8 +8,8 @@ use App\Entity\Foodstuff;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use InvalidArgumentException;
 
 /**
  * @method Foodstuff|null find($id, $lockMode = null, $lockVersion = null)
@@ -81,7 +81,7 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
     }
 
     /**
-     * @throws InvalidArgumentException
+     * @throws BadRequestException
      */
     public function create(Foodstuff $foodstuff): void
     {
@@ -91,7 +91,7 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
     }
 
     /**
-     * @throws InvalidArgumentException
+     * @throws BadRequestException
      */
     public function update(Foodstuff $foodstuff): void
     {
@@ -106,7 +106,7 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
     }
 
     /**
-     * @throws InvalidArgumentException
+     * @throws BadRequestException
      */
     private function checkWeightsAndEnergy(Foodstuff $foodstuff): void
     {
@@ -126,19 +126,19 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
         }
 
         if ($sum < 85 || $sum > 115) {
-            throw new InvalidArgumentException('De gewichten van het voedingsmiddel moeten samen gelijk ' .
+            throw new BadRequestException('De gewichten van het voedingsmiddel moeten samen gelijk ' .
                 'aan 100g zijn.');
         }
 
         if ($foodstuff->getSucre() > $foodstuff->getCarbohydrates()) {
-            throw new InvalidArgumentException('Suiker mag niet zwaarder zijn dan koolhydraten.');
+            throw new BadRequestException('Suiker mag niet zwaarder zijn dan koolhydraten.');
         }
 
         $energy = $foodstuff->getCarbohydrates() * 4 + $foodstuff->getProtein() * 4 +
             $foodstuff->getFat() * 9 + $foodstuff->getAlcohol() * 7 + $foodstuff->getDietaryFiber() * 2;
         $allowed = $energy * 0.12;
         if (abs($foodstuff->getEnergyKcal() - $energy) > $allowed) {
-            throw new InvalidArgumentException('De totale energy klopt niet met de energieën uit ' .
+            throw new BadRequestException('De totale energy klopt niet met de energieën uit ' .
                 ' koolhydraten, eiwit, vet, alcohol  en vezels.');
         }
     }

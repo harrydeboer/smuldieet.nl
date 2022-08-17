@@ -31,7 +31,7 @@ class PageType extends AbstractType
                 'attr' => ['class' => 'form-control', 'rows' => 20],
             ])
             ->add('submit', SubmitType::class, [
-                'attr' => ['class' => 'btn btn-primary'],
+                'attr' => ['class' => 'btn btn-success'],
             ]);
     }
 }

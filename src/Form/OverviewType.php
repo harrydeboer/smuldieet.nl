@@ -21,7 +21,7 @@ class OverviewType extends AbstractType
                 'attr' => ['placeholder' => 'einde (dd-mm-jjjj)', 'class' => 'form-control date-field'],
             ])
             ->add('submit', SubmitType::class, [
-                'attr' => ['class' => 'btn btn-primary'],
+                'attr' => ['class' => 'btn btn-success'],
             ]);
     }
 }

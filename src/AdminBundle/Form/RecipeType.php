@@ -17,7 +17,7 @@ class RecipeType extends AbstractType
             ->add('pending', CheckboxType::class, ['required' => false,
                 'attr' => ['class' => 'form-check-input']])
             ->add('submit', SubmitType::class, [
-                'attr' => ['class' => 'btn btn-primary'],
+                'attr' => ['class' => 'btn btn-success'],
             ]);
     }
 }

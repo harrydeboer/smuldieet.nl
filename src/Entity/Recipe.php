@@ -700,7 +700,11 @@ class Recipe
 
     public function setFoodstuffWeights(array $values): void
     {
-        $this->foodstuffWeights = WeightsCorrectionService::correctArray($values, $this->getFoodstuffs()->toArray());
+        $ids = [];
+        foreach ($this->getFoodstuffs()->toArray() as $foodstuff) {
+            $ids[] = $foodstuff->getId();
+        }
+        $this->foodstuffWeights = WeightsCorrectionService::correctArray($values, $ids);
     }
 
     public function getComments(): Collection

@@ -17,7 +17,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
-use InvalidArgumentException;
 
 class DayController extends AuthController
 {
@@ -66,14 +65,14 @@ class DayController extends AuthController
 
         if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
             try {
-                $this->dayRepository->update($day);
                 foreach ($day->getRecipeIds() as $id) {
                     $recipe = $this->recipeRepository->get($id);
                     $day->addRecipe($recipe);
                 }
+                $this->dayRepository->update($day);
 
                 return $this->redirectToRoute('day');
-            } catch (InvalidArgumentException $exception) {
+            } catch (BadRequestException $exception) {
                 $formUpdate->addError(new FormError($exception->getMessage()));
             }
         }
@@ -94,18 +93,18 @@ class DayController extends AuthController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if (is_null($day->getTimestamp())) {
-                throw new BadRequestException('De dag moet een datum hebben.');
-            }
             try {
-                $this->dayRepository->create($day);
+                if (is_null($day->getTimestamp())) {
+                    throw new BadRequestException('De dag moet een datum hebben.');
+                }
                 foreach ($day->getRecipeIds() as $id) {
                     $recipe = $this->recipeRepository->get($id);
                     $day->addRecipe($recipe);
                 }
+                $this->dayRepository->create($day);
 
                 return $this->redirectToRoute('day');
-            } catch (InvalidArgumentException $exception) {
+            } catch (BadRequestException $exception) {
                 $form->addError(new FormError($exception->getMessage()));
             }
         }
@@ -128,18 +127,18 @@ class DayController extends AuthController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $dayStandard = $this->dayRepository->findOneBy(['user' => $this->getUser()->getId(), 'timestamp' => null]);
-            if (!is_null($dayStandard)) {
-                throw new BadRequestException('Er kan maar 1 standaard dag zijn.');
-            }
             try {
-                $this->dayRepository->create($day);
+                if (!is_null($dayStandard)) {
+                    throw new BadRequestException('Er kan maar 1 standaard dag zijn.');
+                }
                 foreach ($day->getRecipeIds() as $id) {
                     $recipe = $this->recipeRepository->get($id);
                     $day->addRecipe($recipe);
                 }
+                $this->dayRepository->create($day);
 
                 return $this->redirectToRoute('day');
-            } catch (InvalidArgumentException $exception) {
+            } catch (BadRequestException $exception) {
                 $form->addError(new FormError($exception->getMessage()));
             }
         }

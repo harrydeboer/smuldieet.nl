@@ -11,8 +11,9 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use InvalidArgumentException;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use InvalidArgumentException;
 
 /**
  * @method Day|null find($id, $lockMode = null, $lockVersion = null)
@@ -41,7 +42,7 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
     }
 
     /**
-     * @throws InvalidArgumentException
+     * @throws BadRequestException
      */
     public function create(Day $day): void
     {
@@ -53,7 +54,7 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
     }
 
     /**
-     * @throws InvalidArgumentException
+     * @throws BadRequestException
      */
     public function update(Day $day): void
     {
@@ -67,6 +68,9 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
         $this->em->flush();
     }
 
+    /**
+     * @throws InvalidArgumentException
+     */
     public function findBetween(string $start, string $end, int $userId): Collection|array
     {
         $qb = $this->createQueryBuilder('d');
@@ -96,15 +100,15 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
     }
 
     /**
-     * @throws InvalidArgumentException
+     * @throws BadRequestException
      */
     private function checkCount(Day $day): void
     {
         if (count($day->getFoodstuffWeights()) === count($day->getFoodstuffs())
-            && count($day->getRecipeWeights()) === count($day->getRecipes())) {
+            && count($day->getRecipeWeights()) === count($day->getRecipeIds())) {
             return;
         }
 
-        throw new InvalidArgumentException('Het aantal gewichten is niet gelijk aan het aantal elementen.');
+        throw new BadRequestException('Het aantal gewichten is niet gelijk aan het aantal elementen.');
     }
 }

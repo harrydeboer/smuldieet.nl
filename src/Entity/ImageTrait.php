@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use InvalidArgumentException;
 use Doctrine\ORM\Mapping as ORM;
+use InvalidArgumentException;
 
 trait ImageTrait
 {
@@ -105,7 +106,7 @@ trait ImageTrait
             } elseif ($extension === 'webp') {
                 $image = imagecreatefromwebp($path);
             } else {
-                throw new InvalidArgumentException('Geef alstublieft een geldig plaatje ' .
+                throw new BadRequestException('Geef alstublieft een geldig plaatje ' .
                     '(png, jp(e)g, gif, bmp of webp).');
             }
             $x = imagesx($image);
@@ -127,7 +128,7 @@ trait ImageTrait
                 } elseif ($extension === 'webp') {
                     imagewebp($dst, $path);
                 } else {
-                    throw new InvalidArgumentException('Geef alstublieft een geldig plaatje ' .
+                    throw new BadRequestException('Geef alstublieft een geldig plaatje ' .
                         '(png, jp(e)g, gif, bmp of webp).');
                 }
                 imagedestroy($dst);

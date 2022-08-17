@@ -1,17 +1,19 @@
 let rowId = $('.foodstuff-recipe-table tr').length - 2;
 
-$('#add-foodstuff').on('click', function () {
+$('#add-foodstuff').on('click', function (event) {
     rowId = rowId + 1;
     let html = $('#row-row-idf')[0].outerHTML;
     html = html.replaceAll('-row-idf', rowId);
-    $('.foodstuff-recipe-table tr:last').before(html);
+    $('.foodstuff-recipe-table tr:nth-last-child(2)').before(html);
+    event.preventDefault();
 });
 
-$('#add-recipe').on('click', function () {
+$('#add-recipe').on('click', function (event) {
     rowId = rowId + 1;
     let html = $('#row-row-idr')[0].outerHTML;
     html = html.replaceAll('-riw-idr', rowId);
-    $('.foodstuff-recipe-table tr:last').before(html);
+    $('.foodstuff-recipe-table tr:nth-last-child(2)').before(html);
+    event.preventDefault();
 });
 
 $('.foodstuff-recipe-form').on('submit', function (event) {

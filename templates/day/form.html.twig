@@ -22,6 +22,8 @@
         {{ include('recipeRow.html.twig', {'rowNumber': rowNumberRecipe, 'formName': formName,
             'id': recipe.id, 'title': recipe.title, 'weight': day.recipeWeights[recipe.id]}) }}
     {% endfor %}
+    <tr><td colspan="3"><button class="btn btn-primary" id="add-foodstuff">Voeg voedingsmiddel toe</button>
+            <button class="btn btn-primary" id="add-recipe">Voeg recept toe</button></td></tr>
     <tr><td colspan="3">{{ form_widget(form.submit, { 'label': submitLabel }) }}</td></tr>
 </table>
 <div class="d-none">
@@ -35,5 +37,3 @@
     {{ include('foodstuffRow.html.twig', {'formName': formName}) }}
     {{ include('recipeRow.html.twig', {'formName': formName}) }}
 </table>
-<button class="btn btn-primary" id="add-foodstuff">Voeg voedingsmiddel toe</button>
-<button class="btn btn-primary" id="add-recipe">Voeg recept toe</button>

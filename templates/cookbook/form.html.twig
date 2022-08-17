@@ -10,6 +10,7 @@
         {{ include('recipeRow.html.twig', {'rowNumber': rowNumber + 1, 'formName': 'cookbook',
             'id': recipe.id, 'title': recipe.title}) }}
     {% endfor %}
+    <tr><td colspan="3"><button class="btn btn-primary" id="add-recipe">Voeg recept toe</button></td></tr>
     <tr><td colspan="3">{{ form_widget(form.submit, { 'label': submitLabel }) }}</td></tr>
 </table>
 <div class="d-none">
@@ -19,4 +20,3 @@
 <table class="d-none">
     {{ include('recipeRow.html.twig', {'formName': 'cookbook'}) }}
 </table>
-<button class="btn btn-primary" id="add-recipe">Voeg recept toe</button>

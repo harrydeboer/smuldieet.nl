@@ -21,7 +21,7 @@ class FoodstuffType extends AbstractType
             $builder->add($key, NumberType::class, ['required' => false, 'attr' => ['class' => 'form-control']]);
         }
         $builder->add('submit', SubmitType::class, [
-            'attr' => ['class' => 'btn btn-primary'],
+            'attr' => ['class' => 'btn btn-success'],
         ]);
     }
 }

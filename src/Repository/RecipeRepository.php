@@ -9,8 +9,8 @@ use App\Pagination\Paginator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use InvalidArgumentException;
 
 /**
  * @method Recipe|null find($id, $lockMode = null, $lockVersion = null)
@@ -74,7 +74,7 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
     }
 
     /**
-     * @throws InvalidArgumentException
+     * @throws BadRequestException
      */
     public function create(Recipe $recipe): void
     {
@@ -87,7 +87,7 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
     }
 
     /**
-     * @throws InvalidArgumentException
+     * @throws BadRequestException
      */
     public function update(Recipe $recipe): void
     {
@@ -167,7 +167,7 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
     }
 
     /**
-     * @throws InvalidArgumentException
+     * @throws BadRequestException
      */
     private function checkCount(Recipe $recipe): void
     {
@@ -175,6 +175,6 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
             return;
         }
 
-        throw new InvalidArgumentException('Het aantal gewichten is niet gelijk aan het aantal elementen.');
+        throw new BadRequestException('Het aantal gewichten is niet gelijk aan het aantal elementen.');
     }
 }

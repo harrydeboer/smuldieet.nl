@@ -25,7 +25,7 @@ class RatingType extends AbstractType
                 'required' => false,
             ])
             ->add('submit', SubmitType::class, [
-                'attr' => ['class' => 'btn btn-primary'],
+                'attr' => ['class' => 'btn btn-success'],
             ]);
     }
 }

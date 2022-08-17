@@ -18,7 +18,7 @@ class LoginType extends AbstractType
             ->add('email', EmailType::class, ['attr' => ['class' => 'form-control']])
             ->add('password', PasswordType::class, ['attr' => ['class' => 'form-control']])
             ->add('login', SubmitType::class, [
-                'attr' => ['class' => 'btn btn-primary'],
+                'attr' => ['class' => 'btn btn-success'],
             ]);
     }
 }

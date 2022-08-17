@@ -114,7 +114,7 @@ class RecipeFilterAndSortType extends AbstractType
             ],
         ])
             ->add('show', SubmitType::class, [
-                'attr' => ['class' => 'btn btn-primary'],
+                'attr' => ['class' => 'btn btn-success'],
             ]);
     }
 }

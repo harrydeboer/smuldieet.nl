@@ -15,6 +15,6 @@ class WeightsCorrectionServiceTest extends TestCase
         $foodstuff = new Foodstuff();
         $foodstuff->setId(3);
         $this->assertEquals(serialize(['3' => 4]),
-            WeightsCorrectionService::correctArray(['33' => null, '0' => 4], [$foodstuff]));
+            WeightsCorrectionService::correctArray(['33' => null, '0' => 4], [$foodstuff->getId()]));
     }
 }

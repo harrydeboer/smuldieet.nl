@@ -47,9 +47,12 @@ class DayFactory extends AbstractFactory
         $day->setUser($paramsParent['user']);
         $day->setRecipes($paramsParent['recipes']);
         $weights = [];
+        $ids = [];
         foreach ($paramsParent['recipes'] as $recipe) {
             $weights[$recipe->getId()] = rand(1,10);
+            $ids[] = $recipe->getId();
         }
+        $day->setRecipeIds($ids);
         $day->setRecipeWeights($weights);
         $day->setFoodstuffs($paramsParent['foodstuffs']);
         $weights = [];

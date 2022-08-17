@@ -11,12 +11,12 @@ use App\Form\DeleteFoodstuffType;
 use App\Repository\FoodstuffRepositoryInterface;
 use App\Service\CombineFoodstuffsService;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
-use InvalidArgumentException;
 
 class FoodstuffController extends Controller
 {
@@ -60,7 +60,7 @@ class FoodstuffController extends Controller
                 $this->foodstuffRepository->update($foodstuff);
 
                 return $this->redirectToRoute('foodstuff');
-            } catch (InvalidArgumentException $exception) {
+            } catch (BadRequestException $exception) {
                 $formUpdate->addError(new FormError($exception->getMessage()));
             }
         }
@@ -85,7 +85,7 @@ class FoodstuffController extends Controller
                 $this->foodstuffRepository->create($foodstuff);
 
                 return $this->redirectToRoute('foodstuff');
-            } catch (InvalidArgumentException $exception) {
+            } catch (BadRequestException $exception) {
                 $form->addError(new FormError($exception->getMessage()));
             }
         }
@@ -110,7 +110,7 @@ class FoodstuffController extends Controller
                 $this->foodstuffRepository->create($foodstuff);
 
                 return $this->redirectToRoute('foodstuff');
-            } catch (InvalidArgumentException $exception) {
+            } catch (BadRequestException $exception) {
                 $form->addError(new FormError($exception->getMessage()));
             }
         }

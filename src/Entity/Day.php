@@ -187,7 +187,11 @@ class Day
 
     public function setFoodstuffWeights(array $values): void
     {
-        $this->foodstuffWeights = WeightsCorrectionService::correctArray($values, $this->getFoodstuffs()->toArray());
+        $ids = [];
+        foreach ($this->getFoodstuffs()->toArray() as $foodstuff) {
+            $ids[] = $foodstuff->getId();
+        }
+        $this->foodstuffWeights = WeightsCorrectionService::correctArray($values, $ids);
     }
 
     public function getRecipeWeights(): array
@@ -197,7 +201,7 @@ class Day
 
     public function setRecipeWeights(array $values): void
     {
-        $this->recipeWeights = WeightsCorrectionService::correctArray($values, $this->getRecipes()->toArray());
+        $this->recipeWeights = WeightsCorrectionService::correctArray($values, $this->getRecipeIds());
     }
 
     public function getRecipeIds(): array

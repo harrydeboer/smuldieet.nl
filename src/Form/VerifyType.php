@@ -13,7 +13,7 @@ class VerifyType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('sendEmailAgain', SubmitType::class, [
-            'attr' => ['class' => 'btn btn-primary'],
+            'attr' => ['class' => 'btn btn-success'],
         ]);
     }
 }

@@ -12,11 +12,9 @@ namespace App\Service;
  */
 class WeightsCorrectionService
 {
-    public static function correctArray(array $values, array $entities): string
+    public static function correctArray(array $values, array $ids): string
     {
         $array = [];
-        $count = 0;
-        $arrayEntities = [];
         $arrayValues = [];
         ksort($values);
         foreach ($values as $value) {
@@ -25,12 +23,8 @@ class WeightsCorrectionService
             }
             $arrayValues[] = $value;
         }
-        foreach ($entities as $entity) {
-            $arrayEntities[] = $entity;
-        }
-        foreach ($arrayValues as $value) {
-            $array[$arrayEntities[$count]->getId()] = $value;
-            $count++;
+        foreach ($arrayValues as $key => $value) {
+            $array[$ids[$key]] = $value;
         }
 
         return serialize($array);
