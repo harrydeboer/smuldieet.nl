@@ -6,10 +6,10 @@ namespace App\Repository;
 
 use App\Entity\Recipe;
 use App\Pagination\Paginator;
+use App\Service\ProfanityCheckService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use InvalidArgumentException;
 
@@ -22,7 +22,7 @@ use InvalidArgumentException;
 class RecipeRepository extends ServiceEntityRepository implements RecipeRepositoryInterface
 {
     public function __construct(
-        private readonly ProfanityRepositoryInterface $profanityRepository,
+        private readonly ProfanityCheckService $profanityCheckService,
         private readonly EntityManagerInterface $em,
         ManagerRegistry $registry,
     ) {
@@ -184,28 +184,15 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
 
     private function checkProfanitiesRecipe(Recipe $recipe): void
     {
-        $this->checkProfanities($recipe->getTitle());
-        $this->checkProfanities($recipe->getIngredients());
-        $this->checkProfanities($recipe->getNiceStory());
-        $this->checkProfanities($recipe->getNiceTips());
-        $this->checkProfanities($recipe->getPreparationMethod());
-        $this->checkProfanities($recipe->getSource());
-        $this->checkProfanities($recipe->getToolsAndKitchenware());
+        $this->profanityCheckService->check($recipe->getTitle());
+        $this->profanityCheckService->check($recipe->getIngredients());
+        $this->profanityCheckService->check($recipe->getNiceStory());
+        $this->profanityCheckService->check($recipe->getNiceTips());
+        $this->profanityCheckService->check($recipe->getPreparationMethod());
+        $this->profanityCheckService->check($recipe->getSource());
+        $this->profanityCheckService->check($recipe->getToolsAndKitchenware());
         foreach ($recipe->getTags() as $tag) {
-            $this->checkProfanities($tag->getName());
-        }
-    }
-
-    private function checkProfanities(?string $content): void
-    {
-        if (is_null($content)) {
-            return;
-        }
-        $contentArray = explode(' ', strtolower($content));
-        foreach ($this->profanityRepository->findAll() as $profanity) {
-            if (in_array(strtolower($profanity->getName()), $contentArray)) {
-                throw new BadRequestException('Geen gevloek toegestaan.');
-            }
+            $this->profanityCheckService->check($tag->getName());
         }
     }
 }

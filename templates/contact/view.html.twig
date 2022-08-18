@@ -4,6 +4,14 @@
 
 {% block body %}
     {{ page is not null ? page.content|raw : '' }}
+    <div id="form-errors-client"></div>
+    <div id="form-errors-server">
+        {{ form_errors(form) }}
+        {{ form_errors(form.name) }}
+        {{ form_errors(form.subject) }}
+        {{ form_errors(form.email) }}
+        {{ form_errors(form.message) }}
+    </div>
     {% if success is null and error is null %}
     {% elseif success %}
         <div class="success-message">{{ success }}</div>

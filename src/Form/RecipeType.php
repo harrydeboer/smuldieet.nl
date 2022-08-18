@@ -62,7 +62,9 @@ class RecipeType extends AbstractType
                 'class' => 'form-control',
                 'rows' => 10,
             ]])
-            ->add('niceStory', TextareaType::class, ['attr' => [
+            ->add('niceStory', TextareaType::class, [
+                'required' => false,
+                'attr' => [
                 'class' => 'form-control',
                 'rows' => 10,
             ]])

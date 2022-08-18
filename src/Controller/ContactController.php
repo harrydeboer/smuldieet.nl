@@ -6,6 +6,9 @@ namespace App\Controller;
 
 use App\Form\ContactType;
 use App\Repository\PageRepositoryInterface;
+use App\Service\ProfanityCheckService;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -21,6 +24,7 @@ class ContactController extends Controller
         private readonly MailerInterface $mailer,
         private readonly KernelInterface $kernel,
         private readonly PageRepositoryInterface $pageRepository,
+        private readonly ProfanityCheckService $profanityCheckService,
     ) {
     }
 
@@ -38,6 +42,14 @@ class ContactController extends Controller
         $success = null;
         if ($form->isSubmitted() && $form->isValid() && $this->kernel->getEnvironment() === 'prod') {
             if (is_null($error = $this->validateReCaptcha($form->get('reCaptchaToken')->getData()))) {
+
+                try {
+                    $this->profanityCheckService->check($form->get('name')->getData());
+                    $this->profanityCheckService->check($form->get('subject')->getData());
+                    $this->profanityCheckService->check($form->get('message')->getData());
+                } catch (BadRequestException $exception) {
+                    $form->addError(new FormError($exception->getMessage()));
+                }
 
                 $email = (new Email())
                     ->from(new Address('postmaster@smuldieet.nl', strip_tags($form->get('name')->getData())))
