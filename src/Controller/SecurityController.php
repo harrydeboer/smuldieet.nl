@@ -36,7 +36,7 @@ class SecurityController extends Controller
             'roles' => $this->getUser()?->getRoles(),
             'error' => $error,
             'form' => $form->createView(),
-            'page' => $this->pageRepository->findOneBy(['title' => 'Kookboeken']),
+            'page' => $this->pageRepository->findOneBy(['title' => 'Inloggen']),
             ]);
     }
 

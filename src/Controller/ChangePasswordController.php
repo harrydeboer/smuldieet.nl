@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Form\ChangePasswordType;
+use App\Repository\PageRepositoryInterface;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,6 +15,7 @@ class ChangePasswordController extends AuthController
 {
     public function __construct(
         private readonly UserRepository $userRepository,
+        private readonly PageRepositoryInterface $pageRepository,
     ) {
     }
 
@@ -32,6 +34,7 @@ class ChangePasswordController extends AuthController
 
         return $this->render('/security/changePassword.html.twig', [
             'form' => $form->createView(),
+            'page' => $this->pageRepository->findOneBy(['title' => 'Verander wachtwoord']),
         ]);
     }
 }
