@@ -31,7 +31,15 @@ body {
 }
 
 #add-foodstuff {
-  width: 250px;
+  width: 205px;
+  padding: 5px;
+  font-size: 15px;
+}
+
+#add-recipe {
+  width: 140px;
+  padding: 5px;
+  font-size: 15px;
 }
 
 #form-errors-client, #form-errors-server {
