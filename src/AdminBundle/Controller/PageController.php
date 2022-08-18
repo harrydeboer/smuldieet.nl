@@ -21,6 +21,9 @@ class PageController extends AuthController
     ) {
     }
 
+    /**
+     * The route has pagina as url and not pagina's because quotes are not to be used in urls.
+     */
     #[Route('/pagina', name: 'adminPage')]
     public function view(): Response
     {

@@ -12,7 +12,7 @@ class RatingControllerTest extends AuthAdminWebTestCase
 {
     public function testUpdateDelete(): void
     {
-        $this->client->request('GET', '/admin/waardering');
+        $this->client->request('GET', '/admin/waarderingen');
 
         $this->assertResponseIsSuccessful();
 
@@ -32,7 +32,7 @@ class RatingControllerTest extends AuthAdminWebTestCase
 
         $this->client->submit($form);
 
-        $this->assertResponseRedirects('/admin/waardering');
+        $this->assertResponseRedirects('/admin/waarderingen');
 
         $rating = $ratingRepository->findOneBy(['pending' => false]);
 
@@ -46,7 +46,7 @@ class RatingControllerTest extends AuthAdminWebTestCase
 
         $this->client->submit($form);
 
-        $this->assertResponseRedirects('/admin/waardering');
+        $this->assertResponseRedirects('/admin/waarderingen');
 
         $ratingRepository = $this->getContainer()->get(RatingRepositoryInterface::class);
 

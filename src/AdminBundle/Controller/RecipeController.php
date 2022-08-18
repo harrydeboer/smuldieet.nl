@@ -24,7 +24,7 @@ class RecipeController extends AuthController
     ) {
     }
 
-    #[Route('/recept', name: 'adminRecipe')]
+    #[Route('/recepten', name: 'adminRecipe')]
     public function view(): Response
     {
         $recipes = $this->recipeRepository->findAllPending();

@@ -25,8 +25,8 @@ class UserController extends AuthController
     }
 
     #[
-        Route('/gebruiker', name: 'adminUser', defaults: ['page' => '1']),
-        Route('/gebruiker/pagina/{page<[1-9]\d*>}', name: 'adminUserIndexPaginated'),
+        Route('/gebruikers', name: 'adminUser', defaults: ['page' => '1']),
+        Route('/gebruikers/pagina/{page<[1-9]\d*>}', name: 'adminUserIndexPaginated'),
     ]
     public function view(int $page): Response
     {

@@ -24,7 +24,7 @@ class RatingController extends AuthController
     ) {
     }
 
-    #[Route('/waardering', name: 'adminRating')]
+    #[Route('/waarderingen', name: 'adminRating')]
     public function view(): Response
     {
         $reviews = $this->ratingRepository->findAllPendingReviews();

@@ -11,7 +11,7 @@ class UserControllerTest extends AuthAdminWebTestCase
 {
     public function testCreateUpdateDelete(): void
     {
-        $this->client->request('GET', '/admin/gebruiker');
+        $this->client->request('GET', '/admin/gebruikers');
 
         $this->assertResponseIsSuccessful();
 
@@ -35,7 +35,7 @@ class UserControllerTest extends AuthAdminWebTestCase
 
         $this->client->submit($form);
 
-        $this->assertResponseRedirects('/admin/gebruiker');
+        $this->assertResponseRedirects('/admin/gebruikers');
 
         $userRepository = $this->getContainer()->get(UserRepositoryInterface::class);
 
@@ -53,7 +53,7 @@ class UserControllerTest extends AuthAdminWebTestCase
 
         $this->client->submit($form);
 
-        $this->assertResponseRedirects('/admin/gebruiker');
+        $this->assertResponseRedirects('/admin/gebruikers');
 
         $userRepository = $this->getContainer()->get(UserRepositoryInterface::class);
 
@@ -69,7 +69,7 @@ class UserControllerTest extends AuthAdminWebTestCase
 
         $this->client->submit($form);
 
-        $this->assertResponseRedirects('/admin/gebruiker');
+        $this->assertResponseRedirects('/admin/gebruikers');
 
         $userRepository = $this->getContainer()->get(UserRepositoryInterface::class);
 

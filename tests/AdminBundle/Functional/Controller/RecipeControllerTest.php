@@ -12,7 +12,7 @@ class RecipeControllerTest extends AuthAdminWebTestCase
 {
     public function testUpdateDelete(): void
     {
-        $this->client->request('GET', '/admin/recept');
+        $this->client->request('GET', '/admin/recepten');
 
         $this->assertResponseIsSuccessful();
 
@@ -32,7 +32,7 @@ class RecipeControllerTest extends AuthAdminWebTestCase
 
         $this->client->submit($form);
 
-        $this->assertResponseRedirects('/admin/recept');
+        $this->assertResponseRedirects('/admin/recepten');
 
         $recipe = $recipeRepository->findOneBy(['pending' => false]);
 
@@ -46,7 +46,7 @@ class RecipeControllerTest extends AuthAdminWebTestCase
 
         $this->client->submit($form);
 
-        $this->assertResponseRedirects('/admin/recept');
+        $this->assertResponseRedirects('/admin/recepten');
 
         $recipeRepository = $this->getContainer()->get(RecipeRepositoryInterface::class);
 

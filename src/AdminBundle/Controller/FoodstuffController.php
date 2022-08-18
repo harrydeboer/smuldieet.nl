@@ -24,8 +24,8 @@ class FoodstuffController extends AuthController
     }
 
     #[
-        Route('/voedingsmiddel', name: 'adminFoodstuff', defaults: ['char' => 'A']),
-        Route('/voedingsmiddel/letter/{char}', name: 'adminFoodstuffChar'),
+        Route('/voedingsmiddelen', name: 'adminFoodstuff', defaults: ['char' => 'A']),
+        Route('/voedingsmiddelen/letter/{char}', name: 'adminFoodstuffChar'),
     ]
     public function view($char = 'A'): Response
     {

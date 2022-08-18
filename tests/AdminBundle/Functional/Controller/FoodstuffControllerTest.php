@@ -12,7 +12,7 @@ class FoodstuffControllerTest extends AuthAdminWebTestCase
 {
     public function testUpdateDelete(): void
     {
-        $this->client->request('GET', '/admin/voedingsmiddel');
+        $this->client->request('GET', '/admin/voedingsmiddelen');
 
         $this->assertResponseIsSuccessful();
 
@@ -33,7 +33,7 @@ class FoodstuffControllerTest extends AuthAdminWebTestCase
 
         $this->client->submit($form);
 
-        $this->assertResponseRedirects('/admin/voedingsmiddel');
+        $this->assertResponseRedirects('/admin/voedingsmiddelen');
 
         $foodstuff = $foodstuffRepository->findOneBy(['name' => $updatedName]);
 
@@ -47,7 +47,7 @@ class FoodstuffControllerTest extends AuthAdminWebTestCase
 
         $this->client->submit($form);
 
-        $this->assertResponseRedirects('/admin/voedingsmiddel');
+        $this->assertResponseRedirects('/admin/voedingsmiddelen');
 
         $foodstuffRepository = $this->getContainer()->get(FoodstuffRepositoryInterface::class);
 
