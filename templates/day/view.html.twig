@@ -4,17 +4,19 @@
 
 {% block body %}
     <h1>Dagen</h1>
+    <div><a href="{{ path('dayCreate') }}">Maak een dag</a></div>
     {% if standardDay is null %}
         {{ page.content|raw }}
-    {% endif %}
-    <a href="{{ path('dayCreate') }}">Maak een dag</a>
-    {% if standardDay is not null %}
-        <a href="{{ path('dayEdit', {'id': standardDay.id}) }}">Wijzig de standaard dag</a>
     {% else %}
-        <a href="{{ path('dayCreateStandard') }}">Maak de standaard dag</a>
+        <br>
+    {% endif %}
+    {% if standardDay is not null %}
+        <div><a href="{{ path('dayEdit', {'id': standardDay.id}) }}">Wijzig de standaard dag</a></div>
+    {% else %}
+        <div><a href="{{ path('dayCreateStandard') }}">Maak de standaard dag</a></div>
     {% endif %}
     {% if paginator.results is empty %}
-        <p>Er zijn nog geen dagen toegevoegd aan je dagboek.</p>
+        <br><p>Er zijn nog geen dagen toegevoegd aan je dagboek.</p>
     {% else %}
         <table class="table table-striped">
             <thead>
