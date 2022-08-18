@@ -13,14 +13,23 @@
     {% else %}
         <a href="{{ path('dayCreateStandard') }}">Maak de standaard dag</a>
     {% endif %}
-    <table class="table table-striped">
-        <tr><td>Datum</td><td>Wijzig</td></tr>
-        {% for day in paginator.results %}
+    {% if paginator.results is empty %}
+        <p>Er zijn nog geen dagen toegevoegd aan je dagboek.</p>
+    {% else %}
+        <table class="table table-striped">
+            <thead>
             <tr>
-                <td><a href="{{ path('daySingle', {'id': day.id}) }}">{{ day.date }}</a></td>
-                <td><a href="{{ path('dayEdit', {'id': day.id }) }}">wijzig</a></td>
+                <th scope="col">Datum</th>
+                <th scope="col">Wijzig</th>
             </tr>
-        {% endfor %}
-    </table>
-    {{ include('pagination/view.html.twig', {route: 'dayIndexPaginated'}) }}
+            </thead>
+            {% for day in paginator.results %}
+                <tr>
+                    <td><a href="{{ path('daySingle', {'id': day.id}) }}">{{ day.date }}</a></td>
+                    <td><a href="{{ path('dayEdit', {'id': day.id }) }}">wijzig</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+        {{ include('pagination/view.html.twig', {route: 'dayIndexPaginated'}) }}
+    {% endif %}
 {% endblock %}
