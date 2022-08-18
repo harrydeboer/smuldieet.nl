@@ -163,8 +163,8 @@ class Recipe
         ORM\Column(type: "string", unique: true),
         Assert\Length(min: 1, max: 255, minMessage: 'De titel mag niet leeg zijn.',
             maxMessage: 'De titel mag niet meer dan 255 tekens hebben.'),
-        Assert\Regex(pattern: "/^[A-zÀ-ÿ0-9\s_\-,.%\/\(\)\+<>]+$/",
-            message: "Toegestane tekens zijn letters, cijfers, spaties en _-,.%/()+<>."),
+        Assert\Regex(pattern: "/^[A-Za-zÀ-ÿ0-9\s_\-,.%\/\(\)\+<>'\"]+$/",
+            message: "Toegestane tekens zijn letters, cijfers, spaties en _-,.%/()+<>'\"."),
     ]
     private string $title;
 

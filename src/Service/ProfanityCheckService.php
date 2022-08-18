@@ -19,7 +19,7 @@ class ProfanityCheckService
         if (is_null($content)) {
             return;
         } else {
-            $content = preg_replace('/[^A-zÀ-ÿ\s]/', '', $content);
+            $content = preg_replace('/[^A-Za-zÀ-ÿ\s]/', '', $content);
         }
 
         $contentArray = explode(' ', strtolower($content));

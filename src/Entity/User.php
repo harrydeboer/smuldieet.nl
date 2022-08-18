@@ -45,7 +45,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[
         ORM\Column(type: "string", length: 180, nullable: true),
         Assert\Length(max: 180, maxMessage: 'De voornaam mag niet meer dan 180 tekens hebben.'),
-        Assert\Regex(pattern: "/^[A-zÀ-ÿ\s\-]+$/",
+        Assert\Regex(pattern: "/^[A-Za-zÀ-ÿ\s\-]+$/",
             message: "Toegestane tekens zijn letters en vliegend streepje."),
     ]
     private ?string $firstName = null;
@@ -53,7 +53,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[
         ORM\Column(type: "string", length: 180, nullable: true),
         Assert\Length(max: 180, maxMessage: 'De achternaam mag niet meer dan 180 tekens hebben.'),
-        Assert\Regex(pattern: "/^[A-zÀ-ÿ\s\-]+$/",
+        Assert\Regex(pattern: "/^[A-Za-zÀ-ÿ\s\-]+$/",
             message: "Toegestane tekens zijn letters en vliegend streepje."),
     ]
     private ?string $lastName = null;
@@ -62,7 +62,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         ORM\Column(type: "string", length: 180),
         Assert\Length(min: 1, max: 180, minMessage: 'De gebruikersnaam mag niet leeg zijn.',
             maxMessage: 'De gebruikersnaam mag niet meer dan 180 tekens hebben.'),
-        Assert\Regex(pattern: "/^[a-zA-Z0-9_\-]+$/", message: "Toegestane tekens zijn letters, cijfers en streepjes."),
+        Assert\Regex(pattern: "/^[A-Za-z0-9_\-]+$/", message: "Toegestane tekens zijn letters, cijfers en streepjes."),
     ]
     private string $username;
 

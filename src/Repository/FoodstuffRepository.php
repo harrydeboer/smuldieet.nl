@@ -147,7 +147,7 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
 
     private function checkFirstChar(string $name)
     {
-        if (!preg_match('/^[A-zÀ-ÿ]+$/', substr($name, 0, 1))) {
+        if (!preg_match('/[A-Za-zÀ-ÿ]/', substr($name, 0, 1), $match)) {
             throw new BadRequestException('De naam moet beginnen met een letter.');
         }
     }
