@@ -9,6 +9,7 @@ use App\Pagination\Paginator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use InvalidArgumentException;
 
@@ -21,6 +22,7 @@ use InvalidArgumentException;
 class RecipeRepository extends ServiceEntityRepository implements RecipeRepositoryInterface
 {
     public function __construct(
+        private readonly ProfanityRepositoryInterface $profanityRepository,
         private readonly EntityManagerInterface $em,
         ManagerRegistry $registry,
     ) {
@@ -79,6 +81,7 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
     public function create(Recipe $recipe): void
     {
         $this->checkCount($recipe);
+        $this->checkProfanitiesRecipe($recipe);
         $recipe->setTimestamp(time());
         $this->em->persist($recipe);
         $this->em->flush();
@@ -92,6 +95,7 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
     public function update(Recipe $recipe): void
     {
         $this->checkCount($recipe);
+        $this->checkProfanitiesRecipe($recipe);
         $this->em->flush();
     }
 
@@ -176,5 +180,32 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
         }
 
         throw new InvalidArgumentException('The number of weights is not equal to the number of entities.');
+    }
+
+    private function checkProfanitiesRecipe(Recipe $recipe): void
+    {
+        $this->checkProfanities($recipe->getTitle());
+        $this->checkProfanities($recipe->getIngredients());
+        $this->checkProfanities($recipe->getNiceStory());
+        $this->checkProfanities($recipe->getNiceTips());
+        $this->checkProfanities($recipe->getPreparationMethod());
+        $this->checkProfanities($recipe->getSource());
+        $this->checkProfanities($recipe->getToolsAndKitchenware());
+        foreach ($recipe->getTags() as $tag) {
+            $this->checkProfanities($tag->getName());
+        }
+    }
+
+    private function checkProfanities(?string $content): void
+    {
+        if (is_null($content)) {
+            return;
+        }
+        $contentArray = explode(' ', strtolower($content));
+        foreach ($this->profanityRepository->findAll() as $profanity) {
+            if (in_array(strtolower($profanity->getName()), $contentArray)) {
+                throw new BadRequestException('Geen gevloek toegestaan.');
+            }
+        }
     }
 }

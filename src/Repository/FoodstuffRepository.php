@@ -85,6 +85,7 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
      */
     public function create(Foodstuff $foodstuff): void
     {
+        $this->checkFirstChar($foodstuff->getName());
         $this->checkWeightsAndEnergy($foodstuff);
         $this->em->persist($foodstuff);
         $this->em->flush();
@@ -95,6 +96,7 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
      */
     public function update(Foodstuff $foodstuff): void
     {
+        $this->checkFirstChar($foodstuff->getName());
         $this->checkWeightsAndEnergy($foodstuff);
         $this->em->flush();
     }
@@ -140,6 +142,13 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
         if (abs($foodstuff->getEnergyKcal() - $energy) > $allowed) {
             throw new BadRequestException('De totale energy klopt niet met de energieën uit ' .
                 ' koolhydraten, eiwit, vet, alcohol  en vezels.');
+        }
+    }
+
+    private function checkFirstChar(string $name)
+    {
+        if (!preg_match('/^[A-zÀ-ÿ]+$/', substr($name, 0, 1))) {
+            throw new BadRequestException('De naam moet beginnen met een letter.');
         }
     }
 }

@@ -163,8 +163,8 @@ class Recipe
         ORM\Column(type: "string", unique: true),
         Assert\Length(min: 1, max: 255, minMessage: 'De titel mag niet leeg zijn.',
             maxMessage: 'De titel mag niet meer dan 255 tekens hebben.'),
-        Assert\Regex(pattern: "/^[A-zÀ-ÿ0-9_\s\-'\",\.\*&^%$#!@:;\\/<>{}\[\]|?`\+~=\(\)]+$/",
-            message: "Toegestane tekens zijn letters, cijfers en { _-'\",.*&^%$#!@:;/<>{}[]?`\\+~=()}."),
+        Assert\Regex(pattern: "/^[A-zÀ-ÿ0-9\s_\-,.%\/\(\)\+<>]+$/",
+            message: "Toegestane tekens zijn letters, cijfers, spaties en _-,.%/()+<>."),
     ]
     private string $title;
 
@@ -187,10 +187,10 @@ class Recipe
     private string $preparationMethod;
 
     #[
-        ORM\Column(type: "text"),
+        ORM\Column(type: "text", nullable: true),
         Assert\Length(max: 65535, maxMessage: 'De leuke verhaal mag niet meer dan 65535 tekens hebben.'),
     ]
-    private string $niceStory;
+    private ?string $niceStory;
 
     #[
         ORM\Column(type: "text", nullable: true),
@@ -747,14 +747,18 @@ class Recipe
         $this->isSelfInvented = $isSelfInvented;
     }
 
-    public function getNiceStory(): string
+    public function getNiceStory(): ?string
     {
         return $this->niceStory;
     }
 
-    public function setNiceStory(string $niceStory): void
+    public function setNiceStory(?string $niceStory): void
     {
-        $this->niceStory = strip_tags($niceStory);
+        if (is_null($niceStory)) {
+            $this->niceStory = null;
+        } else {
+            $this->niceStory = strip_tags($niceStory);
+        }
     }
 
     public function getNumberOfPieces(): ?int

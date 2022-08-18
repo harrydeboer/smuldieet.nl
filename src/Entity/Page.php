@@ -33,8 +33,6 @@ class Page
         ORM\Column(type: "string"),
         Assert\Length(min: 1, max: 255, minMessage: 'De titel mag niet leeg zijn.',
             maxMessage: 'De titel mag niet meer dan 255 tekens hebben.'),
-        Assert\Regex(pattern: "/^[A-zÀ-ÿ0-9_\s\-'\",\.\*&^%$#!@:;\\/<>{}\[\]|?`\+~=\(\)]+$/",
-            message: "Toegestane tekens zijn letters, cijfers en { _-'\",.*&^%$#!@:;/<>{}[]?`\\+~=()}."),
     ]
     private string $title;
 
@@ -42,8 +40,6 @@ class Page
         ORM\Column(type: "string"),
         Assert\Length(min: 1, max: 255, minMessage: 'De slug mag niet leeg zijn.',
             maxMessage: 'De slug mag niet meer dan 255 tekens hebben.'),
-        Assert\Regex(pattern: "/^[A-zÀ-ÿ0-9_\s\-'\",\.\*&^%$#!@:;\\/<>{}\[\]|?`\+~=\(\)]+$/",
-            message: "Toegestane tekens zijn letters, cijfers en { _-'\",.*&^%$#!@:;/<>{}[]?`\\+~=()}."),
     ]
     private string $slug;
 

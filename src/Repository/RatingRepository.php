@@ -8,6 +8,7 @@ use App\Entity\Rating;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -21,6 +22,7 @@ class RatingRepository extends ServiceEntityRepository implements RatingReposito
     public function __construct(
         private readonly EntityManagerInterface $em,
         private readonly RecipeRepositoryInterface $recipeRepository,
+        private readonly ProfanityRepositoryInterface $profanityRepository,
         ManagerRegistry $registry,
     ) {
         parent::__construct($registry, Rating::class);
@@ -50,6 +52,7 @@ class RatingRepository extends ServiceEntityRepository implements RatingReposito
 
     public function create(Rating $rating): void
     {
+        $this->checkProfanities($rating->getContent());
         $recipe = $rating->getRecipe();
         $recipeRating = $recipe->getRating();
         $votes = $recipe->getVotes();
@@ -63,6 +66,7 @@ class RatingRepository extends ServiceEntityRepository implements RatingReposito
 
     public function update(float $oldRating, Rating $rating): void
     {
+        $this->checkProfanities($rating->getContent());
         $recipe = $rating->getRecipe();
         $recipeRating = $recipe->getRating();
         $votes = $recipe->getVotes();
@@ -84,5 +88,18 @@ class RatingRepository extends ServiceEntityRepository implements RatingReposito
         $this->recipeRepository->update($recipe);
         $this->em->remove($rating);
         $this->em->flush();
+    }
+
+    private function checkProfanities(?string $content): void
+    {
+        if (is_null($content)) {
+            return;
+        }
+        $contentArray = explode(' ', strtolower($content));
+        foreach ($this->profanityRepository->findAll() as $profanity) {
+            if (in_array(strtolower($profanity->getName()), $contentArray)) {
+                throw new BadRequestException('Geen gevloek toegestaan.');
+            }
+        }
     }
 }

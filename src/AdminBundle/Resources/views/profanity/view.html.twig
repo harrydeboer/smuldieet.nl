@@ -1,0 +1,15 @@
+{% extends '@AdminBundle/base.html.twig' %}
+
+{% block title %}Scheldwoorden{% endblock %}
+
+{% block body %}
+    <a href="{{ path('adminProfanityCreate') }}">Maak een scheldwoord</a>
+    <table class="table table-striped">
+        {% for profanity in profanities %}
+            <tr>
+                <td>{{ profanity.name }}</td>
+                <td><a href="{{ path('adminProfanityEdit', {'id': profanity.id}) }}">wijzig</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

@@ -9,6 +9,8 @@ use App\Form\DeleteRatingType;
 use App\Form\RatingType;
 use App\Repository\RatingRepositoryInterface;
 use App\Repository\RecipeRepositoryInterface;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -42,7 +44,12 @@ class RatingController extends AuthController
             $rating->setTimestamp(time());
             $rating->setPending(false);
             $rating->setRecipe($recipe);
-            $this->ratingRepository->create($rating);
+
+            try {
+                $this->ratingRepository->create($rating);
+            } catch (BadRequestException $exception) {
+                $this->addFlash('error', $exception->getMessage());
+            }
         }
 
         return $this->redirectToRoute('recipeSingle', ['id' => $recipeId]);
@@ -73,7 +80,11 @@ class RatingController extends AuthController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->ratingRepository->update($oldRating, $rating);
+            try {
+                $this->ratingRepository->update($oldRating, $rating);
+            } catch (BadRequestException $exception) {
+                $this->addFlash('error', $exception->getMessage());
+            }
         }
 
         return $this->redirectToRoute('recipeSingle', ['id' => $recipe->getId()]);
