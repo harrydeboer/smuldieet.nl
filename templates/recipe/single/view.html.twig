@@ -64,7 +64,7 @@
         {% for rowNumber, foodstuff in recipe.foodstuffs %}
             <tr id="row{{ rowNumber + 1 }}">
                 <td>{{ foodstuff.name }}</td>
-                <td>{{ recipe.foodstuffWeights[foodstuff.id]|number_format }}</td>
+                <td>{{ recipe.foodstuffWeights[foodstuff.id]|number_format }} g</td>
             </tr>
         {% endfor %}
         {% if currentUserId == recipe.user.id %}
