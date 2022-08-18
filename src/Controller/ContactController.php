@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Form\ContactType;
+use App\Repository\PageRepositoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -19,6 +20,7 @@ class ContactController extends Controller
     public function __construct(
         private readonly MailerInterface $mailer,
         private readonly KernelInterface $kernel,
+        private readonly PageRepositoryInterface $pageRepository,
     ) {
     }
 
@@ -60,6 +62,7 @@ class ContactController extends Controller
             'reCaptchaKey' => $this->getParameter('re_captcha_key'),
             'success' => $success,
             'error' => $error,
+            'page' => $this->pageRepository->findOneBy(['title' => 'Contact']),
         ]);
     }
 

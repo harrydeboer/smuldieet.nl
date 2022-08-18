@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Recepten{% endblock %}
+{% block title %}{{ page is not null ? page.title : '' }}{% endblock %}
 
 {% block body %}
-    <h1>Recepten</h1>
+    {{ page is not null ? page.content|raw : '' }}
     <a href="{{ path('recipeCreate') }}">Maak een recept</a>
     {% if paginator.results is empty %}
         <p>Je hebt nog geen recepten gemaakt.</p>

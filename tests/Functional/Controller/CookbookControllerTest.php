@@ -18,7 +18,7 @@ class CookbookControllerTest extends AuthAdminWebTestCase
         $timesSavedOld1 = $recipe1->getTimesSaved();
         $timesSavedOld2 = $recipe2->getTimesSaved();
 
-        $this->client->request('GET', '/kookboek');
+        $this->client->request('GET', '/kookboeken');
 
         $this->assertResponseIsSuccessful();
 
@@ -34,7 +34,7 @@ class CookbookControllerTest extends AuthAdminWebTestCase
         $values['cookbook']['recipeIds'] = [$recipe1->getId(), $recipe2->getId()];
         $this->client->request($form->getMethod(), $form->getUri(), $values, $form->getPhpFiles());
 
-        $this->assertResponseRedirects('/kookboek');
+        $this->assertResponseRedirects('/kookboeken');
 
         $cookbookRepository = $this->getContainer()->get(CookbookRepositoryInterface::class);
 
@@ -64,7 +64,7 @@ class CookbookControllerTest extends AuthAdminWebTestCase
         $values['cookbook']['recipeIds'] = [$recipe1->getId()];
         $this->client->request($form->getMethod(), $form->getUri(), $values, $form->getPhpFiles());
 
-        $this->assertResponseRedirects('/kookboek');
+        $this->assertResponseRedirects('/kookboeken');
 
         $recipeRepository = $this->getContainer()->get(RecipeRepositoryInterface::class);
         $recipe1 = $recipeRepository->get($recipe1->getId());
@@ -84,7 +84,7 @@ class CookbookControllerTest extends AuthAdminWebTestCase
 
         $this->client->submit($form);
 
-        $this->assertResponseRedirects('/kookboek');
+        $this->assertResponseRedirects('/kookboeken');
 
         $recipeRepository = $this->getContainer()->get(RecipeRepositoryInterface::class);
         $recipe1 = $recipeRepository->get($recipe1->getId());

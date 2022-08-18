@@ -9,6 +9,7 @@ use App\Form\RatingType;
 use App\Form\RecipeType;
 use App\Form\DeleteRecipeType;
 use App\Form\DeleteRatingType;
+use App\Repository\PageRepositoryInterface;
 use App\Repository\RatingRepositoryInterface;
 use App\Repository\RecipeRepositoryInterface;
 use Symfony\Component\Form\FormError;
@@ -24,12 +25,13 @@ class RecipeController extends Controller
     public function __construct(
         private readonly RatingRepositoryInterface $ratingRepository,
         private readonly RecipeRepositoryInterface $recipeRepository,
+        private readonly PageRepositoryInterface $pageRepository,
     ) {
     }
 
     #[
-        Route('/recept', name: 'recipe', defaults: ['page' => '1']),
-        Route('/recept/pagina/{page<[1-9]\d*>}', name: 'recipeIndexPaginated'),
+        Route('/recepten', name: 'recipe', defaults: ['page' => '1']),
+        Route('/recepten/pagina/{page<[1-9]\d*>}', name: 'recipeIndexPaginated'),
     ]
     public function view(int $page): Response
     {
@@ -41,6 +43,7 @@ class RecipeController extends Controller
         return $this->render('recipe/view.html.twig', [
             'appEnv' => $this->getParameter('kernel.project_dir'),
             'paginator' => $recipes,
+            'page' => $this->pageRepository->findOneBy(['title' => 'Recepten']),
         ]);
     }
 

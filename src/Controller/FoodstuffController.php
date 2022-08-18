@@ -28,8 +28,8 @@ class FoodstuffController extends Controller
     }
 
     #[
-        Route('/voedingsmiddel', name: 'foodstuff', defaults: ['char' => 'A']),
-        Route('/voedingsmiddel/letter/{char}', name: 'foodstuffChar'),
+        Route('/voedingsmiddelen', name: 'foodstuff', defaults: ['char' => 'A']),
+        Route('/voedingsmiddelen/letter/{char}', name: 'foodstuffChar'),
     ]
     public function view(string $char = 'A'): Response
     {
@@ -38,7 +38,7 @@ class FoodstuffController extends Controller
         return $this->render('foodstuff/view.html.twig', [
             'charSelected' => $char,
             'foodstuffs' => $foodstuffs,
-            'page' => $this->pageRepository->getByTitle('Voedingsmiddel'),
+            'page' => $this->pageRepository->findOneBy(['title' => 'Voedingsmiddelen']),
         ]);
     }
 

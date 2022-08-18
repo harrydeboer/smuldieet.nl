@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\RegistrationType;
 use App\Form\VerifyType;
+use App\Repository\PageRepositoryInterface;
 use App\Repository\UserRepositoryInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Form\FormError;
@@ -28,6 +29,7 @@ class RegistrationController extends Controller
 {
     public function __construct(
         private readonly UserRepositoryInterface $userRepository,
+        private readonly PageRepositoryInterface $pageRepository,
         private readonly TokenStorageInterface $tokenStorage,
         private readonly KernelInterface $kernel,
         private readonly MailerInterface $mailer,
@@ -68,6 +70,7 @@ class RegistrationController extends Controller
 
         return $this->render('registration/register.html.twig', [
             'form' => $form->createView(),
+            'page' => $this->pageRepository->findOneBy(['title' => 'Registreren']),
         ]);
     }
 

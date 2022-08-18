@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\LoginType;
+use App\Repository\PageRepositoryInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -14,6 +15,11 @@ use LogicException;
 
 class SecurityController extends Controller
 {
+    public function __construct(
+        private readonly PageRepositoryInterface $pageRepository,
+    ) {
+    }
+
     #[Route('/inloggen', name: 'appLogin')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
@@ -30,6 +36,7 @@ class SecurityController extends Controller
             'roles' => $this->getUser()?->getRoles(),
             'error' => $error,
             'form' => $form->createView(),
+            'page' => $this->pageRepository->findOneBy(['title' => 'Kookboeken']),
             ]);
     }
 

@@ -12,7 +12,7 @@ class RecipeControllerTest extends AuthAdminWebTestCase
 {
     public function testCreateUpdateDelete(): void
     {
-        $this->client->request('GET', '/recept');
+        $this->client->request('GET', '/recepten');
 
         $this->assertResponseIsSuccessful();
 
@@ -35,7 +35,7 @@ class RecipeControllerTest extends AuthAdminWebTestCase
 
         $this->client->submit($form);
 
-        $this->assertResponseRedirects('/recept');
+        $this->assertResponseRedirects('/recepten');
 
         $recipeRepository = $this->getContainer()->get(RecipeRepositoryInterface::class);
 
@@ -61,9 +61,9 @@ class RecipeControllerTest extends AuthAdminWebTestCase
 
         $this->client->submit($form);
 
-        $this->assertResponseRedirects('/recept');
+        $this->assertResponseRedirects('/recepten');
 
-        $this->client->request('GET', '/recept/pagina/1');
+        $this->client->request('GET', '/recepten/pagina/1');
 
         $this->assertResponseIsSuccessful();
 
@@ -124,7 +124,7 @@ class RecipeControllerTest extends AuthAdminWebTestCase
 
         $this->client->submit($form);
 
-        $this->assertResponseRedirects('/recept');
+        $this->assertResponseRedirects('/recepten');
 
         $recipeRepository = $this->getContainer()->get(RecipeRepositoryInterface::class);
 

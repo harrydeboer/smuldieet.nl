@@ -44,10 +44,15 @@ class SitemapController extends Controller
 
         $update = '2022-08-09';
 
-        $pageSlugs = ['/', '/voedingsmiddel', '/inloggen', '/registreren', '/contact'];
+        $pageSlugs = ['/'];
 
         foreach ($this->pageRepository->findAll() as $page) {
-            if ($page->getSlug() === 'home') {
+            if ($page->getSlug() === 'home'
+                || $page->getSlug() === 'dagen'
+                || $page->getSlug() === 'kookboeken'
+                || $page->getSlug() === 'overzicht'
+                || $page->getSlug() === 'recepten'
+            ) {
                 continue;
             }
             $pageSlugs[] = '/' . $page->getSlug();

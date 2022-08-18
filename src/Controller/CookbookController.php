@@ -8,6 +8,7 @@ use App\Entity\Cookbook;
 use App\Form\CookbookType;
 use App\Form\DeleteCookbookType;
 use App\Repository\CookbookRepositoryInterface;
+use App\Repository\PageRepositoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,11 +19,12 @@ class CookbookController extends AuthController
 {
     public function __construct(
         private readonly CookbookRepositoryInterface $cookbookRepository,
+        private readonly PageRepositoryInterface $pageRepository,
     ) {
     }
 
     #[
-        Route('/kookboek', name: 'cookbook'),
+        Route('/kookboeken', name: 'cookbook'),
     ]
     public function view(): Response
     {
@@ -30,6 +32,7 @@ class CookbookController extends AuthController
 
         return $this->render('cookbook/view.html.twig', [
             'cookbooks' => $cookbooks,
+            'page' => $this->pageRepository->findOneBy(['title' => 'Kookboeken']),
         ]);
     }
 

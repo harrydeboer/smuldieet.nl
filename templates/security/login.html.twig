@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Inloggen{% endblock %}
+{% block title %}{{ page is not null ? page.title : '' }}{% endblock %}
 
 {% block body %}
     {% if isLoggedIn %}
@@ -12,7 +12,7 @@
             <div class="no-wrap">Ga naar het <a href="{{ path('adminHomepage') }}">Admin Panel</a>.</div>
         {% endif %}
     {% else %}
-        <h1 class="h3 mb-3 font-weight-normal">Inloggen</h1>
+        {{ page is not null ? page.content|raw : '' }}
         <div id="form-errors-client"></div>
         <div id="form-errors-server">
             {{ form_errors(form) }}

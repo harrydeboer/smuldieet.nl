@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Home{% endblock %}
+{% block title %}{{ page is not null ? page.title : '' }}{% endblock %}
 
 {% block body %}
     {% for message in app.flashes('success') %}
@@ -13,7 +13,7 @@
             {{ message }}
         </div>
     {% endfor %}
-    {{ page.content|raw }}
+    {{ page is not null ? page.content|raw : '' }}
     <h3>Recente recepten</h3>
     <div>
         <i id="recipe-filter-icon" class="fas fa-sliders-h"></i>

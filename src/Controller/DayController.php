@@ -29,8 +29,8 @@ class DayController extends AuthController
     }
 
     #[
-        Route('/dag', name: 'day', defaults: ['page' => '1']),
-        Route('/dag/pagina/{page<[1-9]\d*>}', name: 'dayIndexPaginated'),
+        Route('/dagboek', name: 'diary', defaults: ['page' => '1']),
+        Route('/dagboek/pagina/{page<[1-9]\d*>}', name: 'diaryIndexPaginated'),
     ]
     public function view(int $page): Response
     {
@@ -40,7 +40,7 @@ class DayController extends AuthController
         return $this->render('day/view.html.twig', [
             'paginator' => $days,
             'standardDay' => $dayStandard,
-            'page' => $this->pageRepository->getByTitle('Dagboek'),
+            'page' => $this->pageRepository->findOneBy(['title' => 'Dagboek']),
         ]);
     }
 
@@ -86,7 +86,7 @@ class DayController extends AuthController
             }
             $this->dayRepository->update($day);
 
-            return $this->redirectToRoute('day');
+            return $this->redirectToRoute('diary');
         }
 
         return $this->render('day/edit/view.html.twig', [
@@ -115,7 +115,7 @@ class DayController extends AuthController
             }
             $this->dayRepository->create($day);
 
-            return $this->redirectToRoute('day');
+            return $this->redirectToRoute('diary');
         }
 
         $dayStandard = $this->dayRepository->findOneBy(['user' => $this->getUser()->getId(), 'timestamp' => null]);
@@ -147,7 +147,7 @@ class DayController extends AuthController
             }
             $this->dayRepository->create($day);
 
-            return $this->redirectToRoute('day');
+            return $this->redirectToRoute('diary');
         }
 
         return $this->render('day/new/standardDay.html.twig', [
@@ -168,7 +168,7 @@ class DayController extends AuthController
             $this->dayRepository->delete($day);
         }
 
-        return $this->redirectToRoute('day');
+        return $this->redirectToRoute('diary');
     }
 
     #[Route('/dag/enkel/{id}', name: 'daySingle')]

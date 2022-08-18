@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Dagen{% endblock %}
+{% block title %}{{ page is not null ? page.title : '' }}{% endblock %}
 
 {% block body %}
     <h1>Dagen</h1>
     <div><a href="{{ path('dayCreate') }}">Maak een dag</a></div>
     {% if standardDay is null %}
-        {{ page.content|raw }}
+        {{ page is not null ? page.content|raw : '' }}
     {% else %}
         <br>
     {% endif %}
@@ -32,6 +32,6 @@
                 </tr>
             {% endfor %}
         </table>
-        {{ include('pagination/view.html.twig', {route: 'dayIndexPaginated'}) }}
+        {{ include('pagination/view.html.twig', {route: 'diaryIndexPaginated'}) }}
     {% endif %}
 {% endblock %}

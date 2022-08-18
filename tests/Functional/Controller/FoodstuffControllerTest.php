@@ -13,11 +13,11 @@ class FoodstuffControllerTest extends AuthAdminWebTestCase
 {
     public function testCreateUpdateDelete(): void
     {
-        static::getContainer()->get(PageFactory::class)->create(['title' => 'Voedingsmiddel']);
+        static::getContainer()->get(PageFactory::class)->create(['title' => 'Voedingsmiddelen']);
         $foodstuff = static::getContainer()->get(FoodstuffFactory::class)
             ->create(['user' => $this->user]);
 
-        $this->client->request('GET', '/voedingsmiddel');
+        $this->client->request('GET', '/voedingsmiddelen');
 
         $this->assertResponseIsSuccessful();
 
@@ -34,7 +34,7 @@ class FoodstuffControllerTest extends AuthAdminWebTestCase
         $values['foodstuff_from_foodstuffs']['foodstuffWeights'] = [100];
         $this->client->request($form->getMethod(), $form->getUri(), $values, $form->getPhpFiles());
 
-        $this->assertResponseRedirects('/voedingsmiddel');
+        $this->assertResponseRedirects('/voedingsmiddelen');
 
         $foodstuffRepository = $this->getContainer()->get(FoodstuffRepositoryInterface::class);
 
@@ -56,7 +56,7 @@ class FoodstuffControllerTest extends AuthAdminWebTestCase
 
         $this->client->submit($form);
 
-        $this->assertResponseRedirects('/voedingsmiddel');
+        $this->assertResponseRedirects('/voedingsmiddelen');
 
         $foodstuff = $foodstuffRepository->findOneBy(['name' => $updatedName]);
 
@@ -70,7 +70,7 @@ class FoodstuffControllerTest extends AuthAdminWebTestCase
 
         $this->client->submit($form);
 
-        $this->assertResponseRedirects('/voedingsmiddel');
+        $this->assertResponseRedirects('/voedingsmiddelen');
 
         $foodstuffRepository = $this->getContainer()->get(FoodstuffRepositoryInterface::class);
 

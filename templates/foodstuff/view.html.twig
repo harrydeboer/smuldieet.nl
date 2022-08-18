@@ -1,10 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Voedingsmiddelen{% endblock %}
+{% block title %}{{ page is not null ? page.title : '' }}{% endblock %}
 
 {% block body %}
-    <h1>Voedingsmiddelen</h1>
-    {{ page.content|raw }}
+    {{ page is not null ? page.content|raw : '' }}
     <a href="{{ path('foodstuffFromFoodstuffsCreate') }}">Maak een voedingsmiddel van voedingsmiddelen</a><br>
     <br>
     <select id="abc-select">

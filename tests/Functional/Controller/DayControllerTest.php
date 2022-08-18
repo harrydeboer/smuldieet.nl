@@ -13,7 +13,7 @@ class DayControllerTest extends AuthAdminWebTestCase
     public function testCreateUpdateDelete(): void
     {
         static::getContainer()->get(PageFactory::class)->create(['title' => 'Dagboek']);
-        $this->client->request('GET', '/dag');
+        $this->client->request('GET', '/dagboek');
 
         $this->assertResponseIsSuccessful();
 
@@ -27,7 +27,7 @@ class DayControllerTest extends AuthAdminWebTestCase
 
         $this->client->submit($form);
 
-        $this->assertResponseRedirects('/dag');
+        $this->assertResponseRedirects('/dagboek');
 
         $crawler = $this->client->request('GET', '/dag/toevoegen/standaard');
 
@@ -37,14 +37,14 @@ class DayControllerTest extends AuthAdminWebTestCase
 
         $this->client->submit($form);
 
-        $this->assertResponseRedirects('/dag');
+        $this->assertResponseRedirects('/dagboek');
 
         $dayRepository = $this->getContainer()->get(DayRepositoryInterface::class);
 
         $day = $dayRepository->findOneBy(['timestamp' => 946684800]);
         $id = $day->getId();
 
-        $this->client->request('GET', '/dag/pagina/1');
+        $this->client->request('GET', '/dagboek/pagina/1');
 
         $this->assertResponseIsSuccessful();
 
@@ -63,7 +63,7 @@ class DayControllerTest extends AuthAdminWebTestCase
 
         $this->client->submit($form);
 
-        $this->assertResponseRedirects('/dag');
+        $this->assertResponseRedirects('/dagboek');
 
         $day = $dayRepository->findOneBy(['timestamp' => 978307200]);
 
@@ -77,7 +77,7 @@ class DayControllerTest extends AuthAdminWebTestCase
 
         $this->client->submit($form);
 
-        $this->assertResponseRedirects('/dag');
+        $this->assertResponseRedirects('/dagboek');
 
         $dayRepository = $this->getContainer()->get(DayRepositoryInterface::class);
 
