@@ -41,9 +41,10 @@ $(function() {
         }
     });
 
-    if (!$('#filter-sort-form').hasClass('d-none')) {
+    let recipesHomepage = $("#recipes-homepage");
+    if (recipesHomepage.length > 0 && !$('#filter-sort-form').hasClass('d-none')) {
         $('html, body').animate({
-            scrollTop: $("#recipes-homepage").offset().top
+            scrollTop: recipesHomepage.offset().top
         }, 1000);
     }
     $('#recipe-filter-icon').on('click', function() {

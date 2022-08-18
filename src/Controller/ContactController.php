@@ -51,8 +51,7 @@ class ContactController extends Controller
                     $error = 'Kon e-mail niet verzenden.';
                 }
             }
-        }
-        if ($this->kernel->getEnvironment() !== 'prod' ) {
+        } elseif ($form->isSubmitted() && $form->isValid() && $this->kernel->getEnvironment() !== 'prod' ) {
             $error = 'Kon e-mail niet verzenden, want dit is geen prod omgeving.';
         }
 
