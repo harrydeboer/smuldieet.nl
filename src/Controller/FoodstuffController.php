@@ -9,6 +9,7 @@ use App\Form\FoodstuffFromFoodstuffsType;
 use App\Form\FoodstuffType;
 use App\Form\DeleteFoodstuffType;
 use App\Repository\FoodstuffRepositoryInterface;
+use App\Repository\PageRepositoryInterface;
 use App\Service\CombineFoodstuffsService;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
@@ -22,6 +23,7 @@ class FoodstuffController extends Controller
 {
     public function __construct(
         private readonly FoodstuffRepositoryInterface $foodstuffRepository,
+        private readonly PageRepositoryInterface $pageRepository,
     ) {
     }
 
@@ -36,6 +38,7 @@ class FoodstuffController extends Controller
         return $this->render('foodstuff/view.html.twig', [
             'charSelected' => $char,
             'foodstuffs' => $foodstuffs,
+            'page' => $this->pageRepository->getByTitle('Voedingsmiddel'),
         ]);
     }
 
@@ -69,30 +72,6 @@ class FoodstuffController extends Controller
             'foodstuff' => $foodstuff,
             'formUpdate' => $formUpdate->createView(),
             'formDelete' => $formDelete->createView(),
-        ]);
-    }
-
-    #[Route('/voedingsmiddel/toevoegen', name: 'foodstuffCreate')]
-    public function new(Request $request): Response
-    {
-        $foodstuff = new Foodstuff();
-        $form = $this->createForm(FoodstuffType::class, $foodstuff);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $foodstuff->setUser($this->getUser());
-            try {
-                $this->foodstuffRepository->create($foodstuff);
-
-                return $this->redirectToRoute('foodstuff');
-            } catch (BadRequestException $exception) {
-                $form->addError(new FormError($exception->getMessage()));
-            }
-        }
-
-        return $this->render('foodstuff/new/view.html.twig', [
-            'foodstuff' => $foodstuff,
-            'form' => $form->createView(),
         ]);
     }
 

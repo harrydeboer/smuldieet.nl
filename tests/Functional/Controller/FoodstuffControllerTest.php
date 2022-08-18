@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller;
 
+use App\Factory\FoodstuffFactory;
+use App\Factory\PageFactory;
 use App\Repository\FoodstuffRepositoryInterface;
 use App\Tests\Functional\AuthAdminWebTestCase;
 
@@ -11,24 +13,13 @@ class FoodstuffControllerTest extends AuthAdminWebTestCase
 {
     public function testCreateUpdateDelete(): void
     {
+        static::getContainer()->get(PageFactory::class)->create(['title' => 'Voedingsmiddel']);
+        $foodstuff = static::getContainer()->get(FoodstuffFactory::class)
+            ->create(['user' => $this->user]);
+
         $this->client->request('GET', '/voedingsmiddel');
 
         $this->assertResponseIsSuccessful();
-
-        $crawler = $this->client->request('GET', '/voedingsmiddel/toevoegen');
-
-        $buttonCrawlerNode = $crawler->selectButton('Voedingsmiddel opslaan');
-
-        $form = $buttonCrawlerNode->form();
-
-        $form['foodstuff[name]'] = 'test1';
-        $form['foodstuff[energyKcal]'] = 80;
-        $form['foodstuff[carbohydrates]'] = 20;
-        $form['foodstuff[water]'] = 80;
-
-        $this->client->submit($form);
-
-        $this->assertResponseRedirects('/voedingsmiddel');
 
         $crawler = $this->client->request('GET', '/voedingsmiddel/van-voedingsmiddelen');
 
@@ -39,7 +30,7 @@ class FoodstuffControllerTest extends AuthAdminWebTestCase
         $form['foodstuff_from_foodstuffs[name]'] = 'test2';
 
         $values = $form->getPhpValues();
-        $values['foodstuff_from_foodstuffs']['foodstuffs'] = [1];
+        $values['foodstuff_from_foodstuffs']['foodstuffs'] = [$foodstuff->getId()];
         $values['foodstuff_from_foodstuffs']['foodstuffWeights'] = [100];
         $this->client->request($form->getMethod(), $form->getUri(), $values, $form->getPhpFiles());
 
@@ -47,7 +38,7 @@ class FoodstuffControllerTest extends AuthAdminWebTestCase
 
         $foodstuffRepository = $this->getContainer()->get(FoodstuffRepositoryInterface::class);
 
-        $foodstuff = $foodstuffRepository->findOneBy(['name' => 'test1']);
+        $foodstuff = $foodstuffRepository->findOneBy(['name' => $foodstuff->getName()]);
         $id = $foodstuff->getId();
 
         $this->client->request('GET', '/voedingsmiddel/enkel/' . $id);

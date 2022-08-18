@@ -137,7 +137,7 @@ class Recipe
         'Vegetarisch' => 'vegetarian',
         'Histamine vrij' => 'histamineFree',
         'Koemelk vrij' => 'cowMilkFree',
-        'Soya vrij' => 'soyFree',
+        'Soja vrij' => 'soyFree',
         'Gluten vrij' => 'glutenFree',
         'Kippenei eiwitvrij' => 'chickenEggProteinFree',
         'Noten vrij' => 'nutFree',

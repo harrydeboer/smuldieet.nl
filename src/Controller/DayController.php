@@ -9,6 +9,7 @@ use App\Form\DayType;
 use App\Form\DeleteDayType;
 use App\Form\StandardDayType;
 use App\Repository\DayRepositoryInterface;
+use App\Repository\PageRepositoryInterface;
 use App\Repository\RecipeRepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
@@ -23,6 +24,7 @@ class DayController extends AuthController
     public function __construct(
         private readonly DayRepositoryInterface $dayRepository,
         private readonly RecipeRepositoryInterface $recipeRepository,
+        private readonly PageRepositoryInterface $pageRepository,
     ) {
     }
 
@@ -38,6 +40,7 @@ class DayController extends AuthController
         return $this->render('day/view.html.twig', [
             'paginator' => $days,
             'standardDay' => $dayStandard,
+            'page' => $this->pageRepository->getByTitle('Dagboek'),
         ]);
     }
 

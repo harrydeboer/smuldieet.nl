@@ -4,7 +4,7 @@
 
 {% block body %}
     <h1>Voedingsmiddelen</h1>
-    <a href="{{ path('foodstuffCreate') }}">Maak een voedingsmiddel</a><br>
+    {{ page.content|raw }}
     <a href="{{ path('foodstuffFromFoodstuffsCreate') }}">Maak een voedingsmiddel van voedingsmiddelen</a><br>
     <select id="abc-select">
         {% for char in 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z'|split(',') %}

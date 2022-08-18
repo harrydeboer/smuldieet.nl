@@ -4,6 +4,9 @@
 
 {% block body %}
     <h1>Dagen</h1>
+    {% if standardDay is null %}
+        {{ page.content|raw }}
+    {% endif %}
     <a href="{{ path('dayCreate') }}">Maak een dag</a>
     {% if standardDay is not null %}
         <a href="{{ path('dayEdit', {'id': standardDay.id}) }}">Wijzig de standaard dag</a>

@@ -41,6 +41,11 @@ $(function() {
         }
     });
 
+    if (!$('#filter-sort-form').hasClass('d-none')) {
+        $('html, body').animate({
+            scrollTop: $("#recipes-homepage").offset().top
+        }, 1000);
+    }
     $('#recipe-filter-icon').on('click', function() {
         let form = $('#filter-sort-form');
         if (form.hasClass('d-none')) {
