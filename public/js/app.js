@@ -13,7 +13,7 @@ $(function() {
     });
 
     $('#abc-select').on('change', function () {
-        window.location.href = '/voedingsmiddelen/letter/' + $(this).val();
+        window.location.href = $('#abc-route').data('route') + '/' + $(this).val();
     });
 
     $('form[name="contact"]').on('submit', function (event) {

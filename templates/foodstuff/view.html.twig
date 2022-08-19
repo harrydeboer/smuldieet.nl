@@ -15,6 +15,7 @@
             {% endif %}
         {% endfor %}
     </select>
+    <div id="abc-route" data-route="{{ path('foodstuffChar') }}"></div>
     <div id="abc-chars">
         {% for char in 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z'|split(',') %}
             <a href="{{ path('foodstuffChar', {'char': char}) }}">{{ char }}</a>

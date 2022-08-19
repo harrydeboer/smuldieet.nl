@@ -3,7 +3,7 @@
 {% block title %}Voedingsmiddel{% endblock %}
 
 {% block body %}
-    <select id="abc-select-admin">
+    <select id="abc-select">
         {% for char in 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z'|split(',') %}
             {% if char == charSelected %}
                 <option value="{{ char }}" selected>{{ char }}</option>
@@ -12,7 +12,8 @@
             {% endif %}
         {% endfor %}
     </select>
-    <div id="abc-chars-admin">
+    <div id="abc-route" data-route="{{ path('adminFoodstuffChar') }}"></div>
+    <div id="abc-chars">
         {% for char in 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z'|split(',') %}
             <a href="{{ path('adminFoodstuffChar', {'char': char}) }}">{{ char }}</a>
         {% endfor %}
