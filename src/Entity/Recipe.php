@@ -12,7 +12,6 @@ use InvalidArgumentException;
 use JetBrains\PhpStorm\Pure;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use App\Service\WeightsCorrectionService;
 
 #[
     ORM\Entity(repositoryClass: RecipeRepository::class),
@@ -693,18 +692,24 @@ class Recipe
         $this->ratings = $ratings;
     }
 
-    public function getFoodstuffWeights(): array
+    public function getFoodstuffWeights(): ArrayCollection
     {
-        return unserialize($this->foodstuffWeights);
+        $collection = new ArrayCollection();
+        foreach (unserialize($this->foodstuffWeights) as $key => $value) {
+            $collection->set($key, $value);
+        }
+
+        return $collection;
     }
 
-    public function setFoodstuffWeights(array $values): void
+    public function setFoodstuffWeights(ArrayCollection $collection): void
     {
-        $ids = [];
-        foreach ($this->getFoodstuffs()->toArray() as $foodstuff) {
-            $ids[] = $foodstuff->getId();
+        foreach ($collection as $key => $item) {
+            if (is_null($item)) {
+                $collection->remove($key);
+            }
         }
-        $this->foodstuffWeights = WeightsCorrectionService::correctArray($values, $ids);
+        $this->foodstuffWeights = serialize($collection->toArray());
     }
 
     public function getComments(): Collection

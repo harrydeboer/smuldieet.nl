@@ -18,7 +18,7 @@
     {% if formName == 'cookbook' %}
         <td></td>
     {% else %}
-        <td><input type="text" name="{{ formName }}[recipeWeights][]"
+        <td><input id="weight{{ rowNumber }}" type="text" name="{{ formName }}[recipeWeights][{{ id }}]"
                    placeholder="aantal keer" class="form-control recipe-weight" value="{{ weight }}" required></td>
     {% endif %}
     <td><i class="remove-row fa fa-minus" id="remove-row{{ rowNumber }}"></i></td>

@@ -68,7 +68,7 @@ class DayController extends AuthController
         $formUpdate->handleRequest($request);
 
         if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
-            if ($dayStandard->getId() !== $day->getId() && is_null($day->getTimestamp())) {
+            if ($dayStandard?->getId() !== $day->getId() && is_null($day->getTimestamp())) {
                 throw new BadRequestException('The day cannot become the standard day.');
             }
 

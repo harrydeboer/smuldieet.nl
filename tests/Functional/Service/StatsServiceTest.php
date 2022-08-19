@@ -20,16 +20,20 @@ class StatsServiceTest extends KernelTestCase
         $foodstuff1 = static::getContainer()->get(FoodstuffFactory::class)->create();
         $arrayCollection1 = new ArrayCollection();
         $arrayCollection1->add($foodstuff1);
+        $weightCollection1 = new ArrayCollection();
+        $weightCollection1->set($foodstuff1->getId(), 100);
         $foodstuff2 = static::getContainer()->get(FoodstuffFactory::class)->create();
         $arrayCollection2 = new ArrayCollection();
         $arrayCollection2->add($foodstuff2);
+        $weightCollection2 = new ArrayCollection();
+        $weightCollection2->set($foodstuff2->getId(), 100);
         $day1 = static::getContainer()->get(DayFactory::class)->create([
             'foodstuffs' => $arrayCollection1,
-            'foodstuffWeights' => [100],
+            'foodstuffWeights' => $weightCollection1,
         ]);
         $day2 = static::getContainer()->get(DayFactory::class)->create([
             'foodstuffs' => $arrayCollection2,
-            'foodstuffWeights' => [100],
+            'foodstuffWeights' => $weightCollection2,
         ]);
         $stats = StatsService::daysStats([$day1, $day2], $user);
         $foodstuffsTotal = ($foodstuff1->getCalcium() + $foodstuff2->getCalcium()) / 2;

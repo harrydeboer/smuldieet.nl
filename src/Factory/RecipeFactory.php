@@ -41,9 +41,9 @@ class RecipeFactory extends AbstractFactory
         $recipe->setPreparationMethod('test');
         $recipe->setNumberOfPersons(rand(1,100));
         $recipe->setFoodstuffs($paramsParent['foodstuffs']);
-        $weights = [];
+        $weights = new ArrayCollection();
         foreach ($paramsParent['foodstuffs'] as $foodstuff) {
-            $weights[$foodstuff->getId()] = rand(1,10);
+            $weights->set($foodstuff->getId(), rand(1,10));
         }
         $recipe->setFoodstuffWeights($weights);
         $recipe->setRating(null);

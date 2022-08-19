@@ -22,7 +22,8 @@
         {% set placeholder = 'gram/ml' %}
     {% endif %}
     <td><input id="weight{{ rowNumber }}" class="form-control foodstuff-weight" type="text"
-               name="{{ formName }}[foodstuffWeights][]" placeholder="{{ placeholder }}" value="{{ weight }}" required>
+               name="{{ formName }}[foodstuffWeights][{{ id }}]"
+               placeholder="{{ placeholder }}" value="{{ weight }}" required>
     </td>
     <td><i class="remove-row fa fa-minus" id="remove-row{{ rowNumber }}"></i></td>
 </tr>

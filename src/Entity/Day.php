@@ -12,7 +12,6 @@ use App\Repository\DayRepository;
 use InvalidArgumentException;
 use JetBrains\PhpStorm\Pure;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use App\Service\WeightsCorrectionService;
 
 #[
     ORM\Entity(repositoryClass: DayRepository::class),
@@ -180,28 +179,44 @@ class Day
         $recipe->removeDay($this);
     }
 
-    public function getFoodstuffWeights(): array
+    public function getFoodstuffWeights(): ArrayCollection
     {
-        return unserialize($this->foodstuffWeights);
-    }
-
-    public function setFoodstuffWeights(array $values): void
-    {
-        $ids = [];
-        foreach ($this->getFoodstuffs()->toArray() as $foodstuff) {
-            $ids[] = $foodstuff->getId();
+        $collection = new ArrayCollection();
+        foreach (unserialize($this->foodstuffWeights) as $key => $value) {
+            $collection->set($key, $value);
         }
-        $this->foodstuffWeights = WeightsCorrectionService::correctArray($values, $ids);
+
+        return $collection;
     }
 
-    public function getRecipeWeights(): array
+    public function setFoodstuffWeights(ArrayCollection $collection): void
     {
-        return unserialize($this->recipeWeights);
+        foreach ($collection as $key => $item) {
+            if (is_null($item)) {
+                $collection->remove($key);
+            }
+        }
+        $this->foodstuffWeights = serialize($collection->toArray());
     }
 
-    public function setRecipeWeights(array $values): void
+    public function getRecipeWeights(): ArrayCollection
     {
-        $this->recipeWeights = WeightsCorrectionService::correctArray($values, $this->getRecipeIds());
+        $collection = new ArrayCollection();
+        foreach (unserialize($this->recipeWeights) as $key => $value) {
+            $collection->set($key, $value);
+        }
+
+        return $collection;
+    }
+
+    public function setRecipeWeights(ArrayCollection $collection): void
+    {
+        foreach ($collection as $key => $item) {
+            if (is_null($item)) {
+                $collection->remove($key);
+            }
+        }
+        $this->recipeWeights = serialize($collection->toArray());
     }
 
     public function getRecipeIds(): array

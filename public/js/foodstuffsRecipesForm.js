@@ -11,7 +11,7 @@ $('#add-foodstuff').on('click', function (event) {
 $('#add-recipe').on('click', function (event) {
     rowId = rowId + 1;
     let html = $('#row-row-idr')[0].outerHTML;
-    html = html.replaceAll('-riw-idr', rowId);
+    html = html.replaceAll('-row-idr', rowId);
     $('#add-foodstuff-recipe-button-row').before(html);
     event.preventDefault();
 });
@@ -74,6 +74,7 @@ $(document).on('input', ".foodstuff-name", function () {
             let name = $(this).text().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
             if (valueInput === name) {
                 $('#foodstuff-value' + rowId).val(value);
+                $('#weight' + rowId).attr('name', form + '[foodstuffWeights][' + value + ']');
             }
             if ($('#search-result' + rowId + ' .foodstuff-div').length > 20) {
             } else {
@@ -88,6 +89,16 @@ $(document).on('input', ".foodstuff-name", function () {
 });
 
 $(document).on('input', ".recipe-name", function () {
+    let form;
+    if ($('form[name="day"]').length > 0) {
+        form = 'day';
+    } else if ($('form[name="standard_day"]').length > 0) {
+        form = 'standard_day';
+    } else if ($('form[name="recipe"]').length > 0) {
+        form = 'recipe';
+    } else {
+        form = 'foodstuff_from_foodstuffs';
+    }
     let valueInput = $(this).val().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     let rowId = $(this).attr('id').replace('recipe-name', '');
     let searchResults = $('#search-result' + rowId);
@@ -106,6 +117,7 @@ $(document).on('input', ".recipe-name", function () {
                     let name = $(this).text().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
                     if (valueInput === name) {
                         $('#recipe-value' + rowId).val(id);
+                        $('#weight' + rowId).attr('name', form + '[recipeWeights][' + id + ']');
                     }
                 });
             },
@@ -123,6 +135,17 @@ $(document).on('click', ".foodstuff-div", function () {
     let name = $(this).text();
     let rowId = $(this).data('row');
     $('#foodstuff-value' + rowId).val(value);
+    let form;
+    if ($('form[name="day"]').length > 0) {
+        form = 'day';
+    } else if ($('form[name="standard_day"]').length > 0) {
+        form = 'standard_day';
+    } else if ($('form[name="recipe"]').length > 0) {
+        form = 'recipe';
+    } else {
+        form = 'foodstuff_from_foodstuffs';
+    }
+    $('#weight' + rowId).attr('name', form + '[foodstuffWeights][' + value + ']');
     $('#foodstuff-name' + rowId).val(name);
     $('#search-result' + rowId).hide();
 });
@@ -132,6 +155,17 @@ $(document).on('click', ".recipe-div", function () {
     let name = $(this).text();
     let rowId = $(this).data('row');
     $('#recipe-value' + rowId).val(value);
+    let form;
+    if ($('form[name="day"]').length > 0) {
+        form = 'day';
+    } else if ($('form[name="standard_day"]').length > 0) {
+        form = 'standard_day';
+    } else if ($('form[name="recipe"]').length > 0) {
+        form = 'recipe';
+    } else {
+        form = 'foodstuff_from_foodstuffs';
+    }
+    $('#weight' + rowId).attr('name', form + '[recipeWeights][' + value + ']');
     $('#recipe-name' + rowId).val(name);
     $('#search-result' + rowId).hide();
 });
