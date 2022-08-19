@@ -6,7 +6,6 @@ namespace App\Tests\Functional;
 
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\EntityManager;
-use Doctrine\DBAL\Exception;
 
 trait MigrationsTrait
 {
@@ -23,10 +22,6 @@ trait MigrationsTrait
         $schemaTool->updateSchema($metaData);
     }
 
-    /**
-     * @return void
-     * @throws Exception
-     */
     protected function dropAndCreateDb(): void
     {
         $db = $this->entityManager->getConnection()->getDatabase();

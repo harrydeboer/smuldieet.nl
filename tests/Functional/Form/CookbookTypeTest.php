@@ -12,6 +12,7 @@ class CookbookTypeTest extends AuthWebTestCase
     public function testSubmitModel(): void
     {
         $formData = ['title' => 'Test'];
+
         $form = $this->getContainer()->get('form.factory')->create(CookbookType::class);
 
         $form->submit($formData);

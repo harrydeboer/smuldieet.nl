@@ -30,7 +30,6 @@ class RegistrationTypeTest extends TypeTestCase
 
         $user = new User();
 
-        // $model will retrieve data from the form submission; pass it as the second argument
         $form = $this->factory->create(RegistrationType::class, $user);
 
         $expected = new User();
@@ -39,15 +38,11 @@ class RegistrationTypeTest extends TypeTestCase
         $expected->setBirthday($birthday);
         $expected->setGender($gender);
         $expected->setWeight($weight);
-        // ...populate $object properties with the data stored in $formData
 
-        // submit the data to the form directly
         $form->submit($formData);
 
-        // This check ensures there are no transformation failures
         $this->assertTrue($form->isSynchronized());
 
-        // check that $model was modified as expected when the form was submitted
         $this->assertEquals($expected, $user);
     }
 

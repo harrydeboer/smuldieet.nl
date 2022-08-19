@@ -30,7 +30,6 @@ class CreateUserTypeTest extends TypeTestCase
 
         $user = new User();
 
-        // $model will retrieve data from the form submission; pass it as the second argument
         $form = $this->factory->create(CreateUserType::class, $user);
 
         $expected = new User();

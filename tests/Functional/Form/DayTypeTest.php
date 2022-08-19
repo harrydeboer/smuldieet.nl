@@ -12,6 +12,7 @@ class DayTypeTest extends AuthWebTestCase
     public function testSubmitModel(): void
     {
         $formData = ['date' => '01-01-2000'];
+
         $form = $this->getContainer()->get('form.factory')->create(DayType::class);
 
         $form->submit($formData);

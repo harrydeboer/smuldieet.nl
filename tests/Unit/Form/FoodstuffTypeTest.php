@@ -15,13 +15,10 @@ class FoodstuffTypeTest extends TypeTestCase
             'name' => 'test',
         ];
 
-        // $model will retrieve data from the form submission; pass it as the second argument
         $form = $this->factory->create(FoodstuffType::class);
 
-        // submit the data to the form directly
         $form->submit($formData);
 
-        // This check ensures there are no transformation failures
         $this->assertTrue($form->isSynchronized());
     }
 }

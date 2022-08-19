@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional;
 
-use Doctrine\DBAL\Exception;
 use Symfony\Component\BrowserKit\AbstractBrowser;
 
 class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
@@ -20,9 +19,6 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
         $this->migrateDb();
     }
 
-    /**
-     * @throws Exception
-     */
     public function tearDown(): void
     {
         parent::tearDown();

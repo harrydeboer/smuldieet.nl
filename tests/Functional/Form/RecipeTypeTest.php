@@ -12,6 +12,7 @@ class RecipeTypeTest extends AuthWebTestCase
     public function testSubmitModel(): void
     {
         $formData = ['title' => 'test'];
+
         $form = $this->getContainer()->get('form.factory')->create(RecipeType::class);
 
         $form->submit($formData);

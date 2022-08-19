@@ -9,7 +9,6 @@ use App\Form\DeleteRatingType;
 use App\Form\RatingType;
 use App\Repository\RatingRepositoryInterface;
 use App\Repository\RecipeRepositoryInterface;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;

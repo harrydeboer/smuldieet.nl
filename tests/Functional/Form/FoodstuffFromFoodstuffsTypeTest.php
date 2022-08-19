@@ -17,6 +17,7 @@ class FoodstuffFromFoodstuffsTypeTest extends AuthWebTestCase
             'foodstuffs' => [static::getContainer()->get(FoodstuffFactory::class)->create()],
             'foodstuffWeights' => [100],
         ];
+
         $form = $this->getContainer()->get('form.factory')->create(FoodstuffFromFoodstuffsType::class);
 
         $form->submit($formData);

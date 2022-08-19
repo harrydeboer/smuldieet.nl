@@ -31,7 +31,6 @@ class UpdateUserTypeTest extends TypeTestCase
 
         $user = new User();
 
-        // $model will retrieve data from the form submission; pass it as the second argument
         $form = $this->factory->create(UpdateUserType::class, $user);
 
         $expected = new User();
@@ -41,7 +40,6 @@ class UpdateUserTypeTest extends TypeTestCase
         $expected->setWeight($weight);
         $expected->setGender($gender);
         $expected->setBirthday($birthday);
-
 
         $form->submit($formData);
 
