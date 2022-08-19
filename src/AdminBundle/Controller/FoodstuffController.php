@@ -52,7 +52,18 @@ class FoodstuffController extends AuthController
         $formUpdate->handleRequest($request);
 
         if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
+            if (is_null($foodstuff->getUser())) {
+                $foodstuffSameName = $this->foodstuffRepository->findOneBy(['user' => null,
+                    'name' => $foodstuff->getName()]);
+            } else {
+                $foodstuffSameName = $this->foodstuffRepository->findOneBy(['user' => $foodstuff->getUser()->getId(),
+                    'name' => $foodstuff->getName()]);
+            }
+
             try {
+                if (!is_null($foodstuffSameName)) {
+                    throw new BadRequestException('Er is al een voedingsmiddel met deze naam.');
+                }
                 $this->foodstuffRepository->update($foodstuff);
 
                 return $this->redirectToRoute('adminFoodstuff');
