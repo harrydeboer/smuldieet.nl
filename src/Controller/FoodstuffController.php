@@ -83,9 +83,13 @@ class FoodstuffController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $foodstuff = CombineFoodstuffsService::combine($form->getData());
-            $foodstuff->setUser($this->getUser());
+            $foodstuff = CombineFoodstuffsService::combine($this->getUser(), $form->getData());
+            $foodstuffSameName = $this->foodstuffRepository->findOneBy(['user' => $foodstuff->getUser()->getId(),
+                'name' => $foodstuff->getName()]);
             try {
+                if (!is_null($foodstuffSameName)) {
+                    throw new BadRequestException('Er is al een voedingsmiddel met deze naam.');
+                }
                 $this->foodstuffRepository->create($foodstuff);
 
                 return $this->redirectToRoute('foodstuff');

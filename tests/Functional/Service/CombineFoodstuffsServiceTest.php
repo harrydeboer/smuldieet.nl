@@ -6,10 +6,10 @@ namespace App\Tests\Functional\Service;
 
 use App\Factory\FoodstuffFactory;
 use App\Service\CombineFoodstuffsService;
-use App\Tests\Functional\KernelTestCase;
+use App\Tests\Functional\AuthWebTestCase;
 use Doctrine\Common\Collections\ArrayCollection;
 
-class CombineFoodstuffsServiceTest extends KernelTestCase
+class CombineFoodstuffsServiceTest extends AuthWebTestCase
 {
     public function testCombine(): void
     {
@@ -25,7 +25,7 @@ class CombineFoodstuffsServiceTest extends KernelTestCase
             'foodstuffs' => $collection,
             'foodstuffWeights' => [30,30,40],
         ];
-        $foodstuff = CombineFoodstuffsService::combine($formData);
+        $foodstuff = CombineFoodstuffsService::combine($this->user, $formData);
 
         $this->assertEquals($formData['name'], $foodstuff->getName());
         $this->assertSame(round(1000 * $foodstuff->getPotassium()), round(1000 * ($foodstuff1->getPotassium() * 0.3 +

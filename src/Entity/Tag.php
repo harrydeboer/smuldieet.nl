@@ -8,11 +8,14 @@ use App\Repository\TagRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[
     ORM\Entity(repositoryClass: TagRepository::class),
     ORM\Table(name: "tag"),
+    ORM\UniqueConstraint(fields: ["name"]),
+    UniqueEntity(fields: ["name"], message: "Er is al een tag met deze naam."),
 ]
 class Tag
 {

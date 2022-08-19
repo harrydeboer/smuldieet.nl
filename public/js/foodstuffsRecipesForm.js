@@ -144,6 +144,7 @@ $(document).on('click', ".remove-row", function () {
 $("#day_foodstuffs option:selected").removeAttr("selected");
 $("#standard_day_foodstuffs option:selected").removeAttr("selected");
 $("#recipe_foodstuffs option:selected").removeAttr("selected");
+$("#foodstuff_from_foodstuffs_foodstuffs option:selected").removeAttr("selected");
 $('#day_foodstuffWeights').remove();
 $('#day_recipeWeights').remove();
 $('#standard_day_foodstuffWeights').remove();

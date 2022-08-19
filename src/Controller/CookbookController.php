@@ -71,11 +71,12 @@ class CookbookController extends AuthController
     {
         $cookbook = new Cookbook();
         $form = $this->createForm(CookbookType::class, $cookbook);
+        $cookbook->setUser($this->getUser());
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $cookbook->setTimestamp(time());
-            $cookbook->setUser($this->getUser());
+
             $this->cookbookRepository->create($cookbook);
 
             return $this->redirectToRoute('cookbook');
