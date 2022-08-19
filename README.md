@@ -10,7 +10,9 @@ The DB_HOST has to be host.docker.internal</li>
 <li>Run the migrations.</li>
 <li>Register the user in the route /registreren.</li>
 <li>Run `php bin/console make:admin 1` to make the first user admin.</li>
-<li>Run npm install (with a global node and npm).</li>
+<li>Run npm install (with a global node and npm). When you are using PhpStorm 
+link the UglifyJS and SCSS File Watchers to the node_modules/.bin binaries. 
+The files in public/scss must compile to minimized files in public/css.</li>
 </ol>
 
 <h3>Testing</h3>
