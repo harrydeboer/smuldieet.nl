@@ -51,6 +51,7 @@ class RecipeController extends Controller
     public function edit(Request $request, int $id): Response
     {
         $recipe = $this->getRecipe($id);
+        $oldExtension = $recipe->getImageExtension();
 
         $formUpdate = $this->createForm(RecipeType::class, $recipe, [
             'method' => 'POST',
@@ -66,6 +67,12 @@ class RecipeController extends Controller
         if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
             try {
                 $this->recipeRepository->update($recipe);
+
+                $newExtension = $recipe->getImageExtension();
+                $recipe->setImageExtension($oldExtension);
+                $recipe->unlinkImage($this->getParameter('kernel.environment'),
+                    $this->getParameter('kernel.project_dir'));
+                $recipe->setImageExtension($newExtension);
                 $recipe->moveImage($this->getParameter('kernel.environment'),
                     $this->getParameter('kernel.project_dir'), $formUpdate->get('image')->getData());
 
