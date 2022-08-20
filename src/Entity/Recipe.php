@@ -189,7 +189,7 @@ class Recipe
         ORM\Column(type: "text", nullable: true),
         Assert\Length(max: 65535, maxMessage: 'De leuke verhaal mag niet meer dan 65535 tekens hebben.'),
     ]
-    private ?string $niceStory;
+    private ?string $niceStory = null;
 
     #[
         ORM\Column(type: "text", nullable: true),
