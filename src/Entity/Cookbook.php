@@ -55,7 +55,7 @@ class Cookbook
     ]
     private Collection $recipes;
 
-    private array $recipeIds = [];
+    private ArrayCollection $recipeIds;
 
     #[Pure] public function __construct()
     {
@@ -132,12 +132,19 @@ class Cookbook
         $recipe->removeCookbook($this);
     }
 
-    public function getRecipeIds(): array
+    /**
+     * Recipes are added from an recipeIds CollectionType.
+     * There can be a million recipes and so there should not be rendering in the html of EntityType choices.
+     * The recipe ids are searched for by means of Ajax calls.
+     */
+    public function getRecipeIds(): ArrayCollection
     {
+        if (!isset($this->recipeIds)) {
+            return new ArrayCollection();
+        }
         return $this->recipeIds;
     }
-
-    public function setRecipeIds(array $recipeIds): void
+    public function setRecipeIds(ArrayCollection $recipeIds): void
     {
         $this->recipeIds = $recipeIds;
     }

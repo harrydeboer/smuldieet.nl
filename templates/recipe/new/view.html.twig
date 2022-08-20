@@ -5,6 +5,3 @@
 {% block body %}
     {{ include('recipe/form.html.twig', {form: form, submitLabel: 'Recept opslaan'}) }}
 {% endblock %}
-{% block javascripts %}
-    <script src="{{ asset('js/foodstuffsRecipesForm.min.js') }}"></script>
-{% endblock %}

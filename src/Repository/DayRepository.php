@@ -24,6 +24,7 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
 {
     public function __construct(
         private readonly EntityManagerInterface $em,
+        private readonly RecipeRepositoryInterface $recipeRepository,
         ManagerRegistry $registry,
     ) {
         parent::__construct($registry, Day::class);
@@ -46,8 +47,7 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
     public function create(Day $day): void
     {
         $this->checkCount($day);
-        $this->em->persist($day);
-        $this->em->flush();
+        $this->addRecipesFromIds($day);
         $this->em->persist($day);
         $this->em->flush();
     }
@@ -55,9 +55,10 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
     /**
      * @throws InvalidArgumentException
      */
-    public function update(Day $day): void
+    public function update(Day $day, array $recipesOld): void
     {
         $this->checkCount($day);
+        $this->addRecipesFromIds($day, $recipesOld);
         $this->em->flush();
     }
 
@@ -109,5 +110,17 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
         }
 
         throw new InvalidArgumentException('The number of weights is not equal to the number of entities.');
+    }
+
+    private function addRecipesFromIds(Day $day, array $recipesOld = []): void
+    {
+        foreach ($recipesOld as $recipe) {
+            $day->removeRecipe($recipe);
+        }
+
+        foreach ($day->getRecipeIds() as $id) {
+            $recipe = $this->recipeRepository->get($id);
+            $day->addRecipe($recipe);
+        }
     }
 }

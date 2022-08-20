@@ -21,7 +21,7 @@ class DayRepositoryTest extends KernelTestCase
         $updatedDate = '01-01-2000';
         $day->setDate($updatedDate);
 
-        $dayRepository->update($day);
+        $dayRepository->update($day, $day->getRecipes()->toArray());
 
         $this->assertSame($updatedDate, $dayRepository->findOneBy(['timestamp' => 946684800])->getDate());
 

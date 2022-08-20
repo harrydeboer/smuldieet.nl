@@ -10,8 +10,6 @@ use App\Form\DeleteDayType;
 use App\Form\StandardDayType;
 use App\Repository\DayRepositoryInterface;
 use App\Repository\PageRepositoryInterface;
-use App\Repository\RecipeRepositoryInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +21,6 @@ class DayController extends AuthController
 {
     public function __construct(
         private readonly DayRepositoryInterface $dayRepository,
-        private readonly RecipeRepositoryInterface $recipeRepository,
         private readonly PageRepositoryInterface $pageRepository,
     ) {
     }
@@ -48,6 +45,7 @@ class DayController extends AuthController
     public function edit(Request $request, int $id): Response
     {
         $day = $this->getDay($id);
+        $recipesOld = $day->getRecipes()->toArray();
         $dayStandard = $this->dayRepository->findOneBy(['user' => $this->getUser()->getId(), 'timestamp' => null]);
 
         if (is_null($day->getTimestamp())) {
@@ -72,19 +70,7 @@ class DayController extends AuthController
                 throw new BadRequestException('The day cannot become the standard day.');
             }
 
-            /**
-             * Set the old recipes to an empty collection.
-             */
-            $day->setRecipes(new ArrayCollection());
-
-            /**
-             * Add the new recipes to the day.
-             */
-            foreach ($day->getRecipeIds() as $id) {
-                $recipe = $this->recipeRepository->get($id);
-                $day->addRecipe($recipe);
-            }
-            $this->dayRepository->update($day);
+            $this->dayRepository->update($day, $recipesOld);
 
             return $this->redirectToRoute('diary');
         }
@@ -109,10 +95,6 @@ class DayController extends AuthController
                 throw new BadRequestException('The day must have a date.');
             }
 
-            foreach ($day->getRecipeIds() as $id) {
-                $recipe = $this->recipeRepository->get($id);
-                $day->addRecipe($recipe);
-            }
             $this->dayRepository->create($day);
 
             return $this->redirectToRoute('diary');
@@ -141,10 +123,6 @@ class DayController extends AuthController
                 throw new BadRequestException('There can only be one standard day.');
             }
 
-            foreach ($day->getRecipeIds() as $id) {
-                $recipe = $this->recipeRepository->get($id);
-                $day->addRecipe($recipe);
-            }
             $this->dayRepository->create($day);
 
             return $this->redirectToRoute('diary');

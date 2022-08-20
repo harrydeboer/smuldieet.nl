@@ -80,10 +80,6 @@ class CookbookRepository extends ServiceEntityRepository implements CookbookRepo
      */
     private function addRecipesFromIds(Cookbook $cookbook, array $recipesOld = []): void
     {
-        if ($cookbook->getRecipeIds() === [null]) {
-            return;
-        }
-
         foreach ($recipesOld as $recipe) {
             $cookbook->removeRecipe($recipe);
         }
