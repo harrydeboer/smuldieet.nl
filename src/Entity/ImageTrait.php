@@ -80,13 +80,19 @@ trait ImageTrait
     /**
      * Move the image and create resized images for IMAGE_WIDTHS property values.
      */
-    public function moveImage(string $appEnv, string $projectDir, ?UploadedFile $image): void
+    public function moveImage(string $appEnv, string $projectDir, ?UploadedFile $image, $oldExtension = null): void
     {
         if (!is_null($image)) {
             $id = (string) $this->getId();
             $extraPath = '';
             if ($appEnv === 'test') {
                 $extraPath = 'test/';
+            }
+            if (!is_null($oldExtension)) {
+                $newExtension = $this->getImageExtension();
+                $this->setImageExtension($oldExtension);
+                $this->unlinkImage($appEnv, $projectDir);
+                $this->setImageExtension($newExtension);
             }
             $classNameArray = explode('\\', get_class($this));
             $image->move($projectDir . '/public/uploads/' . strtolower($classNameArray[2]) . '/images/' .

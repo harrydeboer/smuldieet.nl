@@ -61,13 +61,9 @@ class UserController extends AuthController
                     $this->userRepository->upgradePassword($user, $formUpdate->get('plainPassword')->getData());
                 }
 
-                $newExtension = $user->getImageExtension();
-                $user->setImageExtension($oldExtension);
-                $user->unlinkImage($this->getParameter('kernel.environment'),
-                    $this->getParameter('kernel.project_dir'));
-                $user->setImageExtension($newExtension);
                 $user->moveImage($this->getParameter('kernel.environment'),
-                    $this->getParameter('kernel.project_dir'), $formUpdate->get('image')->getData());
+                    $this->getParameter('kernel.project_dir'),
+                    $formUpdate->get('image')->getData(), $oldExtension);
 
                 return $this->redirectToRoute('adminUser');
             } catch (BadRequestException $exception) {

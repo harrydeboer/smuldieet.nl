@@ -68,13 +68,9 @@ class RecipeController extends Controller
             try {
                 $this->recipeRepository->update($recipe);
 
-                $newExtension = $recipe->getImageExtension();
-                $recipe->setImageExtension($oldExtension);
-                $recipe->unlinkImage($this->getParameter('kernel.environment'),
-                    $this->getParameter('kernel.project_dir'));
-                $recipe->setImageExtension($newExtension);
                 $recipe->moveImage($this->getParameter('kernel.environment'),
-                    $this->getParameter('kernel.project_dir'), $formUpdate->get('image')->getData());
+                    $this->getParameter('kernel.project_dir'),
+                    $formUpdate->get('image')->getData(), $oldExtension);
 
                 return $this->redirectToRoute('recipe');
             } catch (BadRequestException $exception) {

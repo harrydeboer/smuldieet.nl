@@ -502,16 +502,6 @@ class Recipe
         $this->typeOfDish = $typeOfDish;
     }
 
-    public function getImageExtension(): ?string
-    {
-        return $this->imageExtension;
-    }
-
-    public function setImageExtension(?string $imageExtension): void
-    {
-        $this->imageExtension = $imageExtension;
-    }
-
     public function getUser(): User
     {
         return $this->user;
