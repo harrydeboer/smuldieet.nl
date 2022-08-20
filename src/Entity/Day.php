@@ -61,7 +61,7 @@ class Day
     #[ORM\Column(type: "string")]
     private string $recipeWeights = 'a:0:{}';
 
-    private array $recipeIds = [];
+    private ArrayCollection $recipeIds;
 
     #[Pure] public function __construct()
     {
@@ -191,11 +191,6 @@ class Day
 
     public function setFoodstuffWeights(ArrayCollection $collection): void
     {
-        foreach ($collection as $key => $item) {
-            if (is_null($item)) {
-                $collection->remove($key);
-            }
-        }
         $this->foodstuffWeights = serialize($collection->toArray());
     }
 
@@ -211,20 +206,19 @@ class Day
 
     public function setRecipeWeights(ArrayCollection $collection): void
     {
-        foreach ($collection as $key => $item) {
-            if (is_null($item)) {
-                $collection->remove($key);
-            }
-        }
         $this->recipeWeights = serialize($collection->toArray());
     }
 
-    public function getRecipeIds(): array
+    public function getRecipeIds(): ArrayCollection
     {
+        if (!isset($this->recipeIds)) {
+            return new ArrayCollection();
+        }
+
         return $this->recipeIds;
     }
 
-    public function setRecipeIds(array $recipeIds): void
+    public function setRecipeIds(ArrayCollection $recipeIds): void
     {
         $this->recipeIds = $recipeIds;
     }

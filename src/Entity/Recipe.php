@@ -704,11 +704,6 @@ class Recipe
 
     public function setFoodstuffWeights(ArrayCollection $collection): void
     {
-        foreach ($collection as $key => $item) {
-            if (is_null($item)) {
-                $collection->remove($key);
-            }
-        }
         $this->foodstuffWeights = serialize($collection->toArray());
     }
 

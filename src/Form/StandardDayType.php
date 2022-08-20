@@ -53,6 +53,8 @@ class StandardDayType extends AbstractType
                 'entry_options' => [
                     'attr' => ['class' => 'form-control'],
                 ],
+                'allow_delete' => true,
+                'delete_empty' => true,
                 'required' => false,
             ])
             ->add('recipeWeights', CollectionType::class, [
@@ -61,6 +63,8 @@ class StandardDayType extends AbstractType
                 'entry_options' => [
                     'attr' => ['class' => 'form-control'],
                 ],
+                'allow_delete' => true,
+                'delete_empty' => true,
                 'required' => false,
             ])
             ->add('submit', SubmitType::class, [
