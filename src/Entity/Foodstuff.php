@@ -45,6 +45,12 @@ class Foodstuff
 
     #[
         ORM\Column(type: "float", nullable: true),
+        Assert\GreaterThanOrEqual(0, message: 'Gewicht per stuk moet groter of gelijk aan 0 zijn.'),
+    ]
+    private ?float $pieceWeight;
+
+    #[
+        ORM\Column(type: "float", nullable: true),
         Assert\GreaterThanOrEqual(0, message: 'Energie kcal moet groter of gelijk aan 0 zijn.'),
     ]
     private ?float $energyKcal = null;
@@ -361,6 +367,16 @@ class Foodstuff
     public function setName(string $name): void
     {
         $this->name = strip_tags($name);
+    }
+
+    public function getPieceWeight(): ?float
+    {
+        return $this->pieceWeight;
+    }
+
+    public function setUnitWeight(?float $pieceWeight): void
+    {
+        $this->pieceWeight = $pieceWeight;
     }
 
     public function getUser(): ?User
