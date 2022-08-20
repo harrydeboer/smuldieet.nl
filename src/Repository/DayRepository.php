@@ -55,10 +55,13 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
     /**
      * @throws InvalidArgumentException
      */
-    public function update(Day $day, array $recipesOld): void
+    public function update(Day $day): void
     {
         $this->checkCount($day);
-        $this->addRecipesFromIds($day, $recipesOld);
+        foreach ($day->getRecipes() as $recipe) {
+            $day->removeRecipe($recipe);
+        }
+        $this->addRecipesFromIds($day);
         $this->em->flush();
     }
 
@@ -112,12 +115,8 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
         throw new InvalidArgumentException('The number of weights is not equal to the number of entities.');
     }
 
-    private function addRecipesFromIds(Day $day, array $recipesOld = []): void
+    private function addRecipesFromIds(Day $day): void
     {
-        foreach ($recipesOld as $recipe) {
-            $day->removeRecipe($recipe);
-        }
-
         foreach ($day->getRecipeIds() as $id) {
             $recipe = $this->recipeRepository->get($id);
             $day->addRecipe($recipe);

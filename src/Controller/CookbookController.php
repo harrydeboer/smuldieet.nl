@@ -40,7 +40,6 @@ class CookbookController extends AuthController
     public function edit(Request $request, int $id): Response
     {
         $cookbook = $this->getCookbook($id);
-        $recipesOld = $cookbook->getRecipes()->toArray();
 
         $formUpdate = $this->createForm(CookbookType::class, $cookbook, [
             'method' => 'POST',
@@ -54,7 +53,7 @@ class CookbookController extends AuthController
         $formUpdate->handleRequest($request);
 
         if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
-            $this->cookbookRepository->update($cookbook, $recipesOld);
+            $this->cookbookRepository->update($cookbook);
 
             return $this->redirectToRoute('cookbook');
         }

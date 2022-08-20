@@ -15,7 +15,7 @@ interface DayRepositoryInterface extends ServiceEntityRepositoryInterface
 
     public function create(Day $day): void;
 
-    public function update(Day $day, array $recipesOld): void;
+    public function update(Day $day): void;
 
     public function delete(Day $day): void;
 

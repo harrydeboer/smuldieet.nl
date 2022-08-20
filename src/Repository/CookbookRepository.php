@@ -49,14 +49,15 @@ class CookbookRepository extends ServiceEntityRepository implements CookbookRepo
      * When the cookbook updates its old recipes are removed and times saved is lowered by 1.
      * Then the new recipes are added to the cookbook.
      */
-    public function update(Cookbook $cookbook, array $recipesOld): void
+    public function update(Cookbook $cookbook): void
     {
-        foreach ($recipesOld as $recipe) {
+        foreach ($cookbook->getRecipes() as $recipe) {
             $timesSaved = $recipe->getTimesSaved();
             $recipe->setTimesSaved($timesSaved - 1);
             $this->recipeRepository->update($recipe);
+            $cookbook->removeRecipe($recipe);
         }
-        $this->addRecipesFromIds($cookbook, $recipesOld);
+        $this->addRecipesFromIds($cookbook);
         $this->em->flush();
     }
 
@@ -78,12 +79,8 @@ class CookbookRepository extends ServiceEntityRepository implements CookbookRepo
     /**
      * When recipes are added the times saved is upped by 1.
      */
-    private function addRecipesFromIds(Cookbook $cookbook, array $recipesOld = []): void
+    private function addRecipesFromIds(Cookbook $cookbook): void
     {
-        foreach ($recipesOld as $recipe) {
-            $cookbook->removeRecipe($recipe);
-        }
-
         foreach ($cookbook->getRecipeIds() as $id) {
             $recipe = $this->recipeRepository->get($id);
             $timesSaved = $recipe->getTimesSaved();

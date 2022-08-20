@@ -13,7 +13,7 @@ interface CookbookRepositoryInterface extends ServiceEntityRepositoryInterface
 
     public function create(Cookbook $cookbook): void;
 
-    public function update(Cookbook $cookbook, array $recipesOld): void;
+    public function update(Cookbook $cookbook): void;
 
     public function delete(Cookbook $cookbook): void;
 }

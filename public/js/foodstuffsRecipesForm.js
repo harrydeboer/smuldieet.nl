@@ -39,6 +39,9 @@ class FoodstuffRecipeForm {
         html = html.replaceAll('-row-idr', this.rowId);
         html = html.replaceAll('form-name', this.formName);
         $('#add-foodstuff-recipe-button-row').before(html);
+        if (this.formName === 'cookbook') {
+            $('#weight' + this.rowId).remove();
+        }
         event.preventDefault();
     }
 

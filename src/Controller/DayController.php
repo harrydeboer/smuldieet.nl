@@ -45,7 +45,6 @@ class DayController extends AuthController
     public function edit(Request $request, int $id): Response
     {
         $day = $this->getDay($id);
-        $recipesOld = $day->getRecipes()->toArray();
         $dayStandard = $this->dayRepository->findOneBy(['user' => $this->getUser()->getId(), 'timestamp' => null]);
 
         if (is_null($day->getTimestamp())) {
@@ -70,7 +69,7 @@ class DayController extends AuthController
                 throw new BadRequestException('The day cannot become the standard day.');
             }
 
-            $this->dayRepository->update($day, $recipesOld);
+            $this->dayRepository->update($day);
 
             return $this->redirectToRoute('diary');
         }
