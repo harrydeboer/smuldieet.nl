@@ -86,5 +86,7 @@
             </tr>
         {% endfor %}
     </table>
-    {{ include('pagination/view.html.twig', {route: 'homepageIndexPaginated'}) }}
+    {% if isFiltered %}
+        {{ include('pagination/view.html.twig', {route: 'homepageIndexPaginated'}) }}
+    {% endif %}
 {% endblock %}

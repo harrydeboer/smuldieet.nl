@@ -115,6 +115,16 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
         return (new Paginator($qb))->paginate($page);
     }
 
+    public function findRecent(int $limit): Paginator|array
+    {
+        $qb = $this->createQueryBuilder('r')
+            ->where('r.pending = 0')
+            ->setMaxResults($limit)
+            ->orderBy('r.timestamp', 'DESC');
+
+        return (new Paginator($qb, $limit))->paginate();
+    }
+
     public function findBySortAndFilter(int $page, array $formData = null): Paginator|array
     {
         $qb = $this->createQueryBuilder('r');

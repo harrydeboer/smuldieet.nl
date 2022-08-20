@@ -42,7 +42,7 @@ class HomepageController extends Controller
             $recipes = $this->recipeRepository->findBySortAndFilter($page, $form->getData());
         } else {
             $isFiltered = false;
-            $recipes = $this->recipeRepository->findBySortAndFilter($page);
+            $recipes = $this->recipeRepository->findRecent(5);
         }
 
         return $this->render('homepage/view.html.twig', [

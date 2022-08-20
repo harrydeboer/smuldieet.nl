@@ -26,5 +26,7 @@ interface RecipeRepositoryInterface extends ServiceEntityRepositoryInterface
 
     public function getRecipesFromUser(int $userId, int $page): Paginator|array;
 
+    public function findRecent(int $limit): Paginator|array;
+
     public function findBySortAndFilter(int $page, array $formData = null): Paginator|array;
 }
