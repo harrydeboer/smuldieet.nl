@@ -39,6 +39,17 @@
         <tr><td>Titel</td><td>{{ recipe.title }}</td></tr>
         <tr><td>Url</td><td>{{ recipe.url }}</td></tr>
         <tr><td>Ingrediënten</td><td>{{ recipe.ingredients }}</td></tr>
+        <tr>
+            <td>
+                {% for rowNumber, foodstuff in recipe.foodstuffs %}
+                    <div class="no-wrap">{{ foodstuff.name }}</div>
+                {% endfor %}
+            </td><td>
+                {% for rowNumber, foodstuff in recipe.foodstuffs %}
+                    <div>{{ recipe.foodstuffWeights[foodstuff.id]|number_format }} g</div>
+                {% endfor %}
+            </td>
+        </tr>
         <tr><td>Bereidingswijze</td><td>{{ recipe.preparationMethod }}</td></tr>
         <tr><td>Vertel iets leuks over dit recept</td><td>{{ recipe.niceStory }}</td></tr>
         <tr><td>Leuke tips</td><td>{{ recipe.niceTips }}</td></tr>
@@ -60,12 +71,6 @@
         <tr><td>Gelegenheid</td><td>{{ recipe.occasion }}</td></tr>
         {% for key,choice in constant('DIET_CHOICES', recipe)  %}
             <tr><td>{{ key }}</td><td>{{ attribute(recipe, choice) == 1 ? 'Ja' : '' }}</td></tr>
-        {% endfor %}
-        {% for rowNumber, foodstuff in recipe.foodstuffs %}
-            <tr id="row{{ rowNumber + 1 }}">
-                <td>{{ foodstuff.name }}</td>
-                <td>{{ recipe.foodstuffWeights[foodstuff.id]|number_format }} g</td>
-            </tr>
         {% endfor %}
         {% if currentUserId == recipe.user.id %}
             <tr><td colspan="2"><a href="{{ path('recipeEdit', {'id': recipe.id}) }}">wijzig</a></td></tr>

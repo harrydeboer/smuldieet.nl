@@ -82,6 +82,7 @@ class RecipeController extends Controller
             'recipe' => $recipe,
             'formUpdate' => $formUpdate->createView(),
             'formDelete' => $formDelete->createView(),
+            'page' => $this->pageRepository->findOneBy(['title' => 'Recept formulier']),
         ]);
     }
 
@@ -108,6 +109,7 @@ class RecipeController extends Controller
         return $this->render('recipe/new/view.html.twig', [
             'recipe' => $recipe,
             'form' => $form->createView(),
+            'page' => $this->pageRepository->findOneBy(['title' => 'Recept formulier']),
         ]);
     }
 
