@@ -36,7 +36,7 @@ class CombineFoodstuffsService
                 }
                 $foodstuff->{'set' . ucfirst($property)}($foodstuff->{'get' . ucfirst($property)}() +
                     $foodstuffForm->{'get' . ucfirst($property)}()
-                    * $formData['foodstuffWeights'][$key] / $sum);
+                    * $formData['foodstuffWeights'][$foodstuffForm->getId()] / $sum);
             }
         }
 

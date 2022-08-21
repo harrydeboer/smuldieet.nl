@@ -152,8 +152,7 @@ class FoodstuffRecipeForm {
         });
         if (this.formName === "foodstuff_from_foodstuffs") {
             let sum = 0;
-            $('input[name="foodstuff_from_foodstuffs[foodstuffWeights][]"]')
-                .each((index, element) => {
+            $('.foodstuff-weight').each((index, element) => {
                 if ($(element).attr('id') !== 'weight-row-idf') {
                     sum = sum + parseFloat($(element).val().replace(',', '.'));
                 }

@@ -20,10 +20,14 @@ class CombineFoodstuffsServiceTest extends AuthWebTestCase
         $collection->add($foodstuff1);
         $collection->add($foodstuff2);
         $collection->add($foodstuff3);
+        $weights = [];
+        $weights[$foodstuff1->getId()] = 30;
+        $weights[$foodstuff2->getId()] = 30;
+        $weights[$foodstuff3->getId()] = 40;
         $formData = [
             'name' => 'newFoodstuff',
             'foodstuffs' => $collection,
-            'foodstuffWeights' => [30,30,40],
+            'foodstuffWeights' => $weights,
         ];
         $foodstuff = CombineFoodstuffsService::combine($this->user, $formData);
 

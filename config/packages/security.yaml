@@ -42,6 +42,7 @@ security:
         - { path: ^/kookboek, roles: ROLE_VERIFIED }
         - { path: ^/overzicht, roles: ROLE_VERIFIED }
         - { path: ^/voedingsmiddel/toevoegen, roles: ROLE_VERIFIED }
+        - { path: ^/voedingsmiddel/van-voedingsmiddelen, roles: ROLE_VERIFIED }
         - { path: ^/voedingsmiddel/wijzig, roles: ROLE_VERIFIED }
         - { path: ^/voedingsmiddel/verwijder, roles: ROLE_VERIFIED }
 

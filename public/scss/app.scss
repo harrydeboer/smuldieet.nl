@@ -8,7 +8,7 @@ body {
   margin-left: 10px;
 }
 
-.body, .navbar-nav {
+.body, .navbar-nav, #smuldieet-header {
   width: 1200px;
   margin-left: auto;
   margin-right: auto;
@@ -16,6 +16,10 @@ body {
 
 .navbar-nav li {
   margin-right: 10px;
+}
+
+#smuldieet-title {
+  display: inline;
 }
 
 .btn-primary, .btn-danger {

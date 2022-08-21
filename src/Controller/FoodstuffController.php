@@ -38,6 +38,7 @@ class FoodstuffController extends Controller
         return $this->render('foodstuff/view.html.twig', [
             'charSelected' => $char,
             'foodstuffs' => $foodstuffs,
+            'currentUser' => $this->getUser(),
             'page' => $this->pageRepository->findOneBy(['title' => 'Voedingsmiddelen']),
         ]);
     }

@@ -25,7 +25,11 @@
         {% for foodstuff in foodstuffs %}
             <tr>
                 <td><a href="{{ path('foodstuffSingle', {'id': foodstuff.id}) }}">{{ foodstuff.name }}</a></td>
-                <td><a href="{{ path('foodstuffEdit', {'id': foodstuff.id }) }}">wijzig</a></td>
+                {% if foodstuff.user == currentUser %}
+                    <td><a href="{{ path('foodstuffEdit', {'id': foodstuff.id }) }}">wijzig</a></td>
+                {% else %}
+                    <td></td>
+                {% endif %}
             </tr>
         {% endfor %}
     </table>

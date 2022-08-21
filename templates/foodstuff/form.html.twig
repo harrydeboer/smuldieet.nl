@@ -10,6 +10,7 @@
 <table class="table table-small">
     <tr><td>Naam</td><td>{{ form_widget(form.name) }}</td></tr>
     <tr><td>Gewicht per stuk</td><td>{{ form_widget(form.pieceWeight) }}</td></tr>
+    <tr><td>Naam per stuk</td><td>{{ form_widget(form.pieceName) }}</td></tr>
     {% for key,property in foodstuff.aDH() %}
         <tr><td>{{ property[3] }}</td><td>{{ form_widget(attribute(form, key)) }}</td></tr>
     {% endfor %}

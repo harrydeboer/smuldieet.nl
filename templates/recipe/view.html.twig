@@ -13,7 +13,6 @@
             <tr>
                 <th scope="col"></th>
                 <th scope="col">Titel</th>
-                <th scope="col">Waardering</th>
                 <th scope="col">Wijzig</th>
             </tr>
             </thead>
@@ -26,11 +25,6 @@
                         {% endif %}
                     </td>
                     <td><a href="{{ path('recipeSingle', {'id': recipe.id}) }}">{{ recipe.title }}</a></td>
-                    {% if recipe.rating is null%}
-                        <td>N/B</td>
-                    {% else %}
-                        <td>{{ recipe.rating }} <i class="fas fa-star"></i></td>
-                    {% endif %}
                     <td><a href="{{ path('recipeEdit', {'id': recipe.id }) }}">wijzig</a></td>
                 </tr>
             {% endfor %}
