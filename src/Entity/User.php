@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use App\Service\DateCheckService;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -218,18 +218,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->timestamp = $timestamp;
     }
 
-    public function getBirthday(): string
+    public function getBirthdate(): DateTime
     {
-        return date('d-m-Y', $this->timestamp);
+        $date = new DateTime();
+        $date->setTimestamp($this->timestamp);
+        return $date;
     }
 
-    public function setBirthday(string $date): void
+    public function setBirthdate(DateTime $date): void
     {
-        if (DateCheckService::checkDate($date, true)) {
-            $this->timestamp = strtotime($date);
-        } else {
-            throw new InvalidArgumentException('Birthday not in right format or in the future.');
-        }
+        $this->timestamp = $date->getTimestamp();
     }
 
     public function getWeight(): float

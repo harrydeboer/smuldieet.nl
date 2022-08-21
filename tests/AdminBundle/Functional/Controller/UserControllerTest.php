@@ -27,7 +27,9 @@ class UserControllerTest extends AuthAdminWebTestCase
         $form['create_user[email]'] = 'test@test.com';
         $form['create_user[isVerified]'] = 1;
         $form['create_user[roles]'] = ['ROLE_ADMIN'];
-        $form['create_user[birthday]'] = '01-01-2000';
+        $form['create_user[birthdate][day]'] = 1;
+        $form['create_user[birthdate][month]'] = 1;
+        $form['create_user[birthdate][year]'] = 2000;
         $form['create_user[gender]'] = 'man';
         $form['create_user[weight]'] = 70;
         $form['create_user[plainPassword][first]'] = 'secret';

@@ -6,12 +6,15 @@ namespace App\Tests\Functional\Form;
 
 use App\Form\DayType;
 use App\Tests\Functional\AuthWebTestCase;
+use DateTime;
 
 class DayTypeTest extends AuthWebTestCase
 {
     public function testSubmitModel(): void
     {
-        $formData = ['date' => '01-01-2000'];
+        $date = new DateTime();
+        $date->setDate(2000, 1, 1);
+        $formData = ['date' => $date];
 
         $form = $this->getContainer()->get('form.factory')->create(DayType::class);
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Factory;
 
+use DateTime;
 use InvalidArgumentException;
 
 abstract class AbstractFactory
@@ -35,35 +36,19 @@ abstract class AbstractFactory
         return $randomString;
     }
 
-    protected function randomDate(bool $noFuture = false): string
+    protected function randomDate(int $yearLimit = null): DateTime
     {
-        $daysPerMonth = [31,29,31,30,31,30,31,31,30,31,30,31];
-
-        $monthNumber = rand(1,12);
-        $dayNumber = rand(1, $daysPerMonth[$monthNumber - 1]);
-        if ($noFuture) {
-            $year = rand(1900, (int) date("Y"));
-            $monthNumber = rand(1, (int) date('m'));
-            $dayNumber = rand(1, (int) date('d'));
+        $day = rand(1, 28);
+        $month = rand(1, 12);
+        $currentYear = (int) date('Y');
+        if (is_null($yearLimit)) {
+            $year = rand(1900, $currentYear - 1);
         } else {
-            $year = rand(1900, 9999);
+            $year = rand($currentYear - $yearLimit, $currentYear - 1);
         }
+        $date = new DateTime();
+        $date->setDate($year, $month, $day);
 
-        if ($year % 4 !== 0 && $monthNumber === 2 && $dayNumber === 29) {
-            $dayNumber = 28;
-        }
-
-        $month = (string) $monthNumber;
-        $day = (string) $dayNumber;
-        $year = (string) $year;
-
-        if (strlen($day) === 1) {
-            $day = '0' . $day;
-        }
-        if (strlen($month) === 1) {
-            $month = '0' . $month;
-        }
-
-        return $day . '-' . $month . '-' . $year;
+        return $date;
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -42,6 +43,15 @@ class Foodstuff
             message: "Toegestane tekens zijn letters, cijfers, spaties en _-,.%/()+<>'\"."),
     ]
     private string $name;
+
+    #[
+        ORM\Column(type: "string", nullable: true),
+        Assert\Length(min: 1, max: 255, minMessage: 'De naam mag niet leeg zijn.',
+            maxMessage: 'De naam mag niet meer dan 255 tekens hebben.'),
+        Assert\Regex(pattern: "/^[A-Za-zÀ-ÿ0-9\s_\-,.%\/\(\)\+<>'\"]+$/",
+            message: "Toegestane tekens zijn letters, cijfers, spaties en _-,.%/()+<>'\"."),
+    ]
+    private ?string $pieceName;
 
     #[
         ORM\Column(type: "float", nullable: true),
@@ -369,12 +379,22 @@ class Foodstuff
         $this->name = strip_tags($name);
     }
 
+    public function getPieceName(): ?string
+    {
+        return $this->pieceName;
+    }
+
+    public function setPieceName(?string $pieceName): void
+    {
+        $this->pieceName = $pieceName;
+    }
+
     public function getPieceWeight(): ?float
     {
         return $this->pieceWeight;
     }
 
-    public function setUnitWeight(?float $pieceWeight): void
+    public function setPieceWeight(?float $pieceWeight): void
     {
         $this->pieceWeight = $pieceWeight;
     }
@@ -787,7 +807,7 @@ class Foodstuff
         return $this->salt * 400;
     }
 
-    public static function getADH(string $birthday = '01-01-2000', string $gender = 'man', float $weight = 70): array
+    public static function getADH(DateTime $birthdate = null, string $gender = 'man', float $weight = 70): array
     {
         if ($weight <= 0) {
             throw new InvalidArgumentException('Weight has to be greater than 0');
@@ -861,8 +881,10 @@ class Foodstuff
             $adhArray['magnesium'][1] = $adhArray['magnesium'][1] * 300 / 350;
         }
 
-        if ((time() - strtotime($birthday)) / 24 / 60 / 60 / 365.25 >= 70) {
-            $adhArray['vitaminD'][0] = $adhArray['vitaminD'][0] * 2;
+        if (!is_null($birthdate)) {
+            if ((time() - $birthdate->getTimestamp()) / 24 / 60 / 60 / 365.25 >= 70) {
+                $adhArray['vitaminD'][0] = $adhArray['vitaminD'][0] * 2;
+            }
         }
 
         return $adhArray;

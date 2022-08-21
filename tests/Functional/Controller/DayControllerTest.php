@@ -7,6 +7,7 @@ namespace App\Tests\Functional\Controller;
 use App\Factory\PageFactory;
 use App\Repository\DayRepositoryInterface;
 use App\Tests\Functional\AuthAdminWebTestCase;
+use DateTime;
 
 class DayControllerTest extends AuthAdminWebTestCase
 {
@@ -23,7 +24,11 @@ class DayControllerTest extends AuthAdminWebTestCase
 
         $form = $buttonCrawlerNode->form();
 
-        $form['day[date]'] = '01-01-2000';
+        $date = new DateTime();
+        $date->setTimestamp(strtotime('01-01-' . date('Y')));
+        $form['day[date][day]'] = 1;
+        $form['day[date][month]'] = 1;
+        $form['day[date][year]'] = date('Y');
 
         $this->client->submit($form);
 
@@ -41,7 +46,7 @@ class DayControllerTest extends AuthAdminWebTestCase
 
         $dayRepository = $this->getContainer()->get(DayRepositoryInterface::class);
 
-        $day = $dayRepository->findOneBy(['timestamp' => 946684800]);
+        $day = $dayRepository->findOneBy(['timestamp' => $date->getTimestamp()]);
         $id = $day->getId();
 
         $this->client->request('GET', '/dagboek/pagina/1');
@@ -58,14 +63,17 @@ class DayControllerTest extends AuthAdminWebTestCase
 
         $form = $buttonCrawlerNode->form();
 
-        $updatedDate = '01-01-2001';
-        $form['day[date]'] = $updatedDate;
+        $updatedDate = new DateTime();
+        $updatedDate->setTimestamp(strtotime('01-02-' . date('Y')));
+        $form['day[date][day]'] = 1;
+        $form['day[date][month]'] = 2;
+        $form['day[date][year]'] = date('Y');
 
         $this->client->submit($form);
 
         $this->assertResponseRedirects('/dagboek');
 
-        $day = $dayRepository->findOneBy(['timestamp' => 978307200]);
+        $day = $dayRepository->findOneBy(['timestamp' => $updatedDate->getTimestamp()]);
 
         $this->assertEquals($updatedDate, $day->getDate());
 

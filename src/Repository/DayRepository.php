@@ -6,13 +6,13 @@ namespace App\Repository;
 
 use App\Entity\Day;
 use App\Pagination\Paginator;
-use App\Service\DateCheckService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use InvalidArgumentException;
+use DateTime;
 
 /**
  * @method Day|null find($id, $lockMode = null, $lockVersion = null)
@@ -74,19 +74,15 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
     /**
      * @throws InvalidArgumentException
      */
-    public function findBetween(string $start, string $end, int $userId): Collection|array
+    public function findBetween(DateTime $start, DateTime $end, int $userId): Collection|array
     {
         $qb = $this->createQueryBuilder('d');
-        if (DateCheckService::checkDate($start) && DateCheckService::checkDate($end)) {
-            $qb->where('d.timestamp >= :timestampStart')
-                ->andWhere('d.timestamp <= :timestampEnd')
-                ->andWhere('d.user = :userId')
-                ->setParameter('timestampStart', strtotime($start))
-                ->setParameter('timestampEnd', strtotime($end))
-                ->setParameter('userId', $userId);
-        } else {
-            throw new InvalidArgumentException('Date not in right format.');
-        }
+        $qb->where('d.timestamp >= :timestampStart')
+            ->andWhere('d.timestamp <= :timestampEnd')
+            ->andWhere('d.user = :userId')
+            ->setParameter('timestampStart', $start->getTimestamp())
+            ->setParameter('timestampEnd', $end->getTimestamp())
+            ->setParameter('userId', $userId);
 
         return $qb->getQuery()->execute();
     }
@@ -107,12 +103,30 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
      */
     private function checkCount(Day $day): void
     {
-        if (count($day->getFoodstuffWeights()) === count($day->getFoodstuffs())
-            && count($day->getRecipeWeights()) === count($day->getRecipeIds())) {
-            return;
+        if (count($day->getFoodstuffWeights()) !== count($day->getFoodstuffs())) {
+            throw new InvalidArgumentException('The number of weights is not equal to the number of foodstuffs.');
         }
-
-        throw new InvalidArgumentException('The number of weights is not equal to the number of entities.');
+        if (count($day->getRecipeWeights()) !== count($day->getRecipeIds())) {
+            throw new InvalidArgumentException('The number of weights is not equal to the number of recipes.');
+        }
+        $foodstuffIds = [];
+        foreach ($day->getFoodstuffs()->toArray() as $foodstuff) {
+            $foodstuffIds[] = $foodstuff->getId();
+        }
+        foreach ($day->getFoodstuffWeights() as $id => $weight) {
+            if (!in_array($id, $foodstuffIds)) {
+                throw new InvalidArgumentException('The weights ids don\'t match the foodstuff ids.');
+            }
+        }
+        $recipeIds = [];
+        foreach ($day->getRecipes()->toArray() as $recipe) {
+            $recipeIds[] = $recipe->getId();
+        }
+        foreach ($day->getRecipeWeights() as $id => $weight) {
+            if (!in_array($id, $recipeIds)) {
+                throw new InvalidArgumentException('The weights ids don\'t match the recipe ids.');
+            }
+        }
     }
 
     private function addRecipesFromIds(Day $day): void

@@ -8,6 +8,7 @@ use App\Entity\Day;
 use App\Pagination\Paginator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface;
 use Doctrine\Common\Collections\Collection;
+use DateTime;
 
 interface DayRepositoryInterface extends ServiceEntityRepositoryInterface
 {
@@ -19,7 +20,7 @@ interface DayRepositoryInterface extends ServiceEntityRepositoryInterface
 
     public function delete(Day $day): void;
 
-    public function findBetween(string $start, string $end, int $userId): Collection|array;
+    public function findBetween(DateTime $start, DateTime $end, int $userId): Collection|array;
 
     public function findFromUserSorted(int $userId, int $page): Paginator|array;
 }

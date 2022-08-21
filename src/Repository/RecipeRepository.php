@@ -185,11 +185,18 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
      */
     private function checkCount(Recipe $recipe): void
     {
-        if (count($recipe->getFoodstuffWeights()) === count($recipe->getFoodstuffs())) {
-            return;
+        if (count($recipe->getFoodstuffWeights()) !== count($recipe->getFoodstuffs())) {
+            throw new InvalidArgumentException('The number of weights is not equal to the number of foodstuffs.');
         }
-
-        throw new InvalidArgumentException('The number of weights is not equal to the number of entities.');
+        $foodstuffIds = [];
+        foreach ($recipe->getFoodstuffs()->toArray() as $foodstuff) {
+            $foodstuffIds[] = $foodstuff->getId();
+        }
+        foreach ($recipe->getFoodstuffWeights() as $id => $weight) {
+            if (!in_array($id, $foodstuffIds)) {
+                throw new InvalidArgumentException('The weights ids don\'t match the foodstuff ids.');
+            }
+        }
     }
 
     private function checkProfanitiesRecipe(Recipe $recipe): void

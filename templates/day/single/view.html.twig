@@ -5,7 +5,7 @@
 {% block body %}
     <table class="table table-small">
         {% if day.date is not null %}
-            <tr><td>Datum</td><td>{{ day.date }}</td></tr>
+            <tr><td>Datum</td><td>{{ day.date|date('d-m-Y') }}</td></tr>
         {% endif %}
         {% for rowNumber, foodstuff in day.foodstuffs %}
             <tr id="row{{ rowNumber + 1 }}">

@@ -6,6 +6,7 @@ namespace App\Tests\AdminBundle\Unit\Form;
 
 use App\AdminBundle\Form\UpdateUserType;
 use App\Entity\User;
+use DateTime;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\Test\TypeTestCase;
 use Symfony\Component\Validator\Validation;
@@ -17,14 +18,15 @@ class UpdateUserTypeTest extends TypeTestCase
         $name = 'testUser';
         $email = 'test@test.com';
         $gender = 'vrouw';
-        $birthday = '01-01-2001';
+        $birthdate = new DateTime();
+        $birthdate->setTimestamp(strtotime('01-01-2000'));
         $weight = 60;
         $formData = [
             'username' => $name,
             'email' => $email,
             'isVerified' => true,
             'gender' => $gender,
-            'birthday' => $birthday,
+            'birthdate' => ['day' => 1, 'month' => 1, 'year' => 2000],
             'weight' => $weight,
             'plainPassword' => 'plainPassword',
         ];
@@ -39,7 +41,7 @@ class UpdateUserTypeTest extends TypeTestCase
         $expected->setIsVerified(true);
         $expected->setWeight($weight);
         $expected->setGender($gender);
-        $expected->setBirthday($birthday);
+        $expected->setBirthdate($birthdate);
 
         $form->submit($formData);
 

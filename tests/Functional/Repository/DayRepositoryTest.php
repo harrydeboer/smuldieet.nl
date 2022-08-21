@@ -7,6 +7,7 @@ namespace App\Tests\Functional\Repository;
 use App\Factory\DayFactory;
 use App\Repository\DayRepositoryInterface;
 use App\Tests\Functional\KernelTestCase;
+use DateTime;
 
 class DayRepositoryTest extends KernelTestCase
 {
@@ -18,12 +19,13 @@ class DayRepositoryTest extends KernelTestCase
 
         $this->assertSame($day, $dayRepository->find($day->getId()));
 
-        $updatedDate = '01-01-2000';
+        $updatedDate = new DateTime();
+        $updatedDate->setTimestamp(strtotime('03-02-' . date('Y')));
         $day->setDate($updatedDate);
 
-        $dayRepository->update($day, $day->getRecipes()->toArray());
-
-        $this->assertSame($updatedDate, $dayRepository->findOneBy(['timestamp' => 946684800])->getDate());
+        $dayRepository->update($day);
+        $date = $dayRepository->findOneBy(['timestamp' => $updatedDate->getTimestamp()])->getDate();
+        $this->assertEquals($updatedDate->getTimestamp(), $date->getTimestamp());
 
         $id = $day->getId();
         $userId = $day->getUser()->getId();

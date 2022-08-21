@@ -7,6 +7,7 @@ namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -23,6 +24,8 @@ class RegistrationType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $years = range(1900, date('Y'));
+        rsort($years);
         $builder
             ->add('image', FileType::class, [
                 'attr' => [
@@ -44,10 +47,10 @@ class RegistrationType extends AbstractType
             ])
             ->add('username', TextType::class, ['attr' => ['class' => 'form-control']])
             ->add('email', EmailType::class, ['attr' => ['class' => 'form-control']])
-            ->add('birthday', TextType::class, [
+            ->add('birthdate', DateType::class, [
+                'years' => $years,
                 'attr' => [
-                    'class' => 'form-control date-field no-future',
-                    'placeholder' => 'dd-mm-jjjj'
+                    'class' => 'form-control',
                 ],
             ])
             ->add('gender', ChoiceType::class, [

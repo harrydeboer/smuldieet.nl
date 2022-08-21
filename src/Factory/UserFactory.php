@@ -21,7 +21,7 @@ class UserFactory extends AbstractFactory
         $user->setUsername(uniqid('username'));
         $user->setEmail(uniqid('email'));
 
-        $user->setBirthday($this->randomDate(true));
+        $user->setBirthdate($this->randomDate());
         $user->setGender(User::GENDER[array_rand(User::GENDER)]);
         $user->setWeight(rand(1,100));
         $user->setIsVerified(true);

@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Service\DateCheckService;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\DayRepository;
-use InvalidArgumentException;
 use JetBrains\PhpStorm\Pure;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -89,23 +88,24 @@ class Day
         $this->timestamp = $timestamp;
     }
 
-    public function getDate(): ?string
+    public function getDate(): ?DateTime
     {
-        if (is_null($this->timestamp)) {
-            return null;
+        if (!is_null($this->timestamp)) {
+            $date = new DateTime();
+            $date->setTimestamp($this->timestamp);
+
+            return $date;
         }
 
-        return date('d-m-Y', $this->timestamp);
+        return null;
     }
 
-    public function setDate(?string $date): void
+    public function setDate(?DateTime $date): void
     {
         if (is_null($date)) {
             $this->timestamp = null;
-        } elseif (DateCheckService::checkDate($date)) {
-            $this->timestamp = strtotime($date);
         } else {
-            throw new InvalidArgumentException('Date not in right format.');
+            $this->timestamp = $date->getTimestamp();
         }
     }
 

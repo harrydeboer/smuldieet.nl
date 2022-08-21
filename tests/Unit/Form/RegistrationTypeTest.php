@@ -6,6 +6,7 @@ namespace App\Tests\Unit\Form;
 
 use App\Entity\User;
 use App\Form\RegistrationType;
+use DateTime;
 use Symfony\Component\Form\Test\TypeTestCase;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Validator\Validation;
@@ -16,13 +17,14 @@ class RegistrationTypeTest extends TypeTestCase
     {
         $username = 'testUser';
         $email = 'test@test.com';
-        $birthday = '01-01-1980';
+        $birthdate = new DateTime();
+        $birthdate->setTimestamp(strtotime('01-01-1980'));
         $gender = 'vrouw';
         $weight = 70;
         $formData = [
             'username' => $username,
             'email' => $email,
-            'birthday' => $birthday,
+            'birthdate' => ['day' => 1, 'month' => 1, 'year' => 1980],
             'gender' => $gender,
             'weight' => $weight,
             'plainPassword' => 'plainPassword',
@@ -35,7 +37,7 @@ class RegistrationTypeTest extends TypeTestCase
         $expected = new User();
         $expected->setUsername($username);
         $expected->setEmail($email);
-        $expected->setBirthday($birthday);
+        $expected->setBirthdate($birthdate);
         $expected->setGender($gender);
         $expected->setWeight($weight);
 

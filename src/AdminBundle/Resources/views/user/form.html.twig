@@ -6,7 +6,7 @@
     {{ form_errors(form.firstName) }}
     {{ form_errors(form.lastName) }}
     {{ form_errors(form.email) }}
-    {{ form_errors(form.birthday) }}
+    {{ form_errors(form.birthdate) }}
     {{ form_errors(form.gender) }}
     {{ form_errors(form.weight) }}
     {{ form_errors(form.roles) }}
@@ -21,7 +21,7 @@
     <tr><td>Voornaam</td><td>{{ form_widget(form.firstName) }}</td></tr>
     <tr><td>Achternaam</td><td>{{ form_widget(form.lastName) }}</td></tr>
     <tr><td>E-mail</td><td>{{ form_widget(form.email) }}</td></tr>
-    <tr><td>Verjaardag</td><td>{{ form_widget(form.birthday) }}</td></tr>
+    <tr><td>Verjaardag</td><td>{{ form_widget(form.birthdate) }}</td></tr>
     <tr><td>Geslacht</td><td>{{ form_widget(form.gender) }}</td></tr>
     <tr><td>Gewicht</td><td>{{ form_widget(form.weight) }}</td></tr>
     <tr><td>Rollen</td><td>{{ form_widget(form.roles) }}</td></tr>

@@ -18,8 +18,13 @@ class OverviewControllerTest extends AuthWebTestCase
 
         $form = $buttonCrawlerNode->form();
 
-        $form['start'] = '01-01-2000';
-        $form['end'] = '01-02-2000';
+        $form['start[day]'] = 1;
+        $form['start[month]'] = 1;
+        $form['start[year]'] = date('Y') - 3;
+
+        $form['end[day]'] = 1;
+        $form['end[month]'] = 2;
+        $form['end[year]'] = date('Y') - 2;
 
         $this->client->submit($form);
 

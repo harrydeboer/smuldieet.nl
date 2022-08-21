@@ -23,7 +23,9 @@ class RegisterSecurityChangePasswordTest extends WebTestCase
         $form['registration[image]'] = new File($testImagePath);
         $form['registration[username]'] = 'John';
         $form['registration[email]'] = 'john@secret.com';
-        $form['registration[birthday]'] = '01-01-1990';
+        $form['registration[birthdate][day]'] = 1;
+        $form['registration[birthdate][month]'] = 1;
+        $form['registration[birthdate][year]'] = 1990;
         $form['registration[gender]'] = 'man';
         $form['registration[weight]'] = 70;
         $form['registration[plainPassword][first]'] = 'secret';
