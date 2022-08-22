@@ -15,6 +15,7 @@ class DayType extends StandardDayType
         rsort($years);
         $builder
             ->add('date', DateType::class, [
+                'widget' => 'single_text',
                 'years' => $years,
                 'attr' => ['class' => 'form-control'],
             ]);

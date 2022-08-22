@@ -18,5 +18,6 @@
     <div class="d-none">
         {{ form_widget(form.foodstuffWeights) }}
     </div>
-    {{ form_end(form) }}
+    {{ form_widget(form._token) }}
+    {{ form_end(form, {render_rest: false}) }}
 {% endblock %}

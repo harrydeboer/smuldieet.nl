@@ -18,4 +18,5 @@
             <button class="btn btn-primary" id="add-recipe">Recept toevoegen</button></td></tr>
     <tr><td colspan="3">{{ form_widget(form.submit, { 'label': submitLabel }) }}</td></tr>
 </table>
-{{ form_end(form) }}
+{{ form_widget(form._token) }}
+{{ form_end(form, {render_rest: false}) }}

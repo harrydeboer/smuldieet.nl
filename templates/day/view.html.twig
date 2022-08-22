@@ -27,7 +27,7 @@
             </thead>
             {% for day in paginator.results %}
                 <tr>
-                    <td><a href="{{ path('daySingle', {'id': day.id}) }}">{{ day.date|date('d-m-Y') }}</a></td>
+                    <td><a href="{{ path('daySingle', {'id': day.id}) }}">{{ day.date|date('d-M-Y') }}</a></td>
                     <td><a href="{{ path('dayEdit', {'id': day.id }) }}">wijzig</a></td>
                 </tr>
             {% endfor %}

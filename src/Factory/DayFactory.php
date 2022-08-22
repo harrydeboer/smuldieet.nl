@@ -42,7 +42,6 @@ class DayFactory extends AbstractFactory
         }
 
         $day = new Day();
-
         $day->setDate($this->randomDate());
         $day->setUser($paramsParent['user']);
         $day->setRecipes($paramsParent['recipes']);

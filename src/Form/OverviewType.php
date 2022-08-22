@@ -17,10 +17,12 @@ class OverviewType extends AbstractType
         rsort($years);
         $builder
             ->add('start', DateType::class, [
+                'widget' => 'single_text',
                 'years' => $years,
                 'attr' => ['class' => 'form-control'],
             ])
             ->add('end', DateType::class, [
+                'widget' => 'single_text',
                 'years' => $years,
                 'attr' => ['class' => 'form-control'],
             ])

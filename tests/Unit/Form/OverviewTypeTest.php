@@ -12,8 +12,8 @@ class OverviewTypeTest extends TypeTestCase
     public function testSubmitModel(): void
     {
         $formData = [
-            'start' => '01-01-2000',
-            'end' => '01-02-2000',
+            'start' => '01-Jan-2000',
+            'end' => '01-Feb-2000',
         ];
 
         $form = $this->factory->create(OverviewType::class);

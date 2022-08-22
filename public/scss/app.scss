@@ -8,7 +8,7 @@ body {
   margin-left: 10px;
 }
 
-body, .navbar-nav, #smuldieet-header {
+#bodyPage, .navbar-nav, #smuldieet-header {
   width: 1200px;
   margin-left: auto;
   margin-right: auto;
@@ -85,7 +85,7 @@ body, .navbar-nav, #smuldieet-header {
 }
 
 @media (max-width: 1200px) {
-  .body, .navbar-nav {
+  #bodyPage, .navbar-nav {
     width: 100%;
   }
 }

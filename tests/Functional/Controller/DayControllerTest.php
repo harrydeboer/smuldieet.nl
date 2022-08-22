@@ -25,10 +25,8 @@ class DayControllerTest extends AuthAdminWebTestCase
         $form = $buttonCrawlerNode->form();
 
         $date = new DateTime();
-        $date->setTimestamp(strtotime('01-01-' . date('Y')));
-        $form['day[date][day]'] = 1;
-        $form['day[date][month]'] = 1;
-        $form['day[date][year]'] = date('Y');
+        $date->setTimestamp(strtotime(date('Y') . '-01-01'));
+        $form['day[date]'] = date('Y') . '-01-01';
 
         $this->client->submit($form);
 
@@ -64,10 +62,8 @@ class DayControllerTest extends AuthAdminWebTestCase
         $form = $buttonCrawlerNode->form();
 
         $updatedDate = new DateTime();
-        $updatedDate->setTimestamp(strtotime('01-02-' . date('Y')));
-        $form['day[date][day]'] = 1;
-        $form['day[date][month]'] = 2;
-        $form['day[date][year]'] = date('Y');
+        $updatedDate->setTimestamp(strtotime(date('Y') . '-01-02'));
+        $form['day[date]'] = date('Y') . '-01-02';
 
         $this->client->submit($form);
 

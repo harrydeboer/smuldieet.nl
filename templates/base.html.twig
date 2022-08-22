@@ -51,8 +51,10 @@
         </div>
     </div>
 </nav>
-{% block body %}
-{% endblock %}
+<div id="bodyPage">
+    {% block body %}
+    {% endblock %}
+</div>
 {% if reCaptchaKey is defined %}
     <script src="https://www.google.com/recaptcha/api.js?render={{ reCaptchaKey }}"></script>
     <div id="re-captcha-key" data-key="{{ reCaptchaKey }}"></div>
