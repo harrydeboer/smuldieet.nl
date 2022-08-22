@@ -1,9 +1,3 @@
-{% if rowId is not defined %}
-    {% set rowId = '-row-idr' %}
-    {% set id = '' %}
-    {% set title = '' %}
-    {% set weight = '1' %}
-{% endif %}
 {% if formName == 'cookbook' %}
     {% set weightClasses = 'form-control recipe-weight hidden-input' %}
 {% else %}
@@ -18,12 +12,9 @@
                  aria-labelledby="recipeName{{ rowId}}">
             </div>
         </div></td>
-    <td>{% if id == '' %}
-            <input id="weight{{ rowId }}" type="text" name="{{ formName }}[recipeWeights][]"
-                   placeholder="aantal keer" class="{{ weightClasses }}" value="1" required>
-        {% else %}
-            {{ form_widget(weight, {'attr': {'class': weightClasses},
-                'id': 'weight' ~ rowId, 'placeholder': 'aantal keer'}) }}
-        {% endif %}</td>
+    <td>
+        {{ form_widget(weight, {'attr': {'class': weightClasses},
+            'id': 'weight' ~ rowId, 'placeholder': 'aantal keer'}) }}
+    </td>
     <td><i class="remove-row fa fa-minus" id="remove-row{{ rowId }}"></i></td>
 </tr>

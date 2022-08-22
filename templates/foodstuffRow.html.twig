@@ -1,10 +1,3 @@
-{% if rowId is not defined %}
-    {% set rowId = '-row-idf' %}
-    {% set id = '' %}
-    {% set name = '' %}
-    {% set weight = '' %}
-{% endif %}
-{% set weightClasses = 'form-control recipe-weight' %}
 <tr id="row{{ rowId }}">
     <td><div class="dropdown">
             <input type="text" class="foodstuff-name dropdown-toggle form-control" maxlength="255"
@@ -20,14 +13,9 @@
     {% else %}
         {% set placeholder = 'gram/ml' %}
     {% endif %}
-    <td>{% if id == '' %}
-        <input id="weight{{ rowId }}" class="{{ weightClasses }}" type="text"
-               name="{{ formName }}[foodstuffWeights][]"
-               placeholder="{{ placeholder }}" required>
-        {% else %}
-            {{ form_widget(weight, {'attr': {'class': weightClasses},
-                'id': 'weight' ~ rowId, 'placeholder': placeholder}) }}
-        {% endif %}
+    <td>
+        {{ form_widget(weight, {'attr': {'class': 'form-control recipe-weight'},
+            'id': 'weight' ~ rowId, 'placeholder': placeholder}) }}
     </td>
     <td><i class="remove-row fa fa-minus" id="remove-row{{ rowId }}"></i></td>
 </tr>
