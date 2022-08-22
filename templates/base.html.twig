@@ -51,14 +51,8 @@
         </div>
     </div>
 </nav>
-<div class="body">
-    {% block body %}
-    {% endblock %}
-</div>
-<table class="d-none">
-    {{ include('foodstuffRow.html.twig') }}
-    {{ include('recipeRow.html.twig') }}
-</table>
+{% block body %}
+{% endblock %}
 {% if reCaptchaKey is defined %}
     <script src="https://www.google.com/recaptcha/api.js?render={{ reCaptchaKey }}"></script>
     <div id="re-captcha-key" data-key="{{ reCaptchaKey }}"></div>

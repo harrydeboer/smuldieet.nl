@@ -6,15 +6,19 @@
 {{ form_start(form, { 'attr' : { 'class': 'foodstuff-recipe-form' }}) }}
 <table class="foodstuff-recipe-table table table-small">
     <tr><td>Titel</td><td colspan="2">{{ form_widget(form.title) }}</td></tr>
-    {% for rowId, recipe in cookbook.recipes %}
-        {{ include('recipeRow.html.twig', {'rowId': rowId + 1, 'formName': 'cookbook',
-            'id': recipe.id, 'title': recipe.title, 'weight': 1}) }}
+    {% set row = 2 %}
+    {% for key, weight in form.recipeWeights %}
+        {% set recipeId = weight.vars.id|split('_')|last %}
+        {% set recipe = cookbook.recipes()[recipeId] %}
+        {{ include('recipeRow.html.twig', {'rowId': row, 'formName': 'cookbook',
+            'id': recipe.id, 'title': recipe.title, 'weight': weight}) }}
+        {% set row = row + 1 %}
     {% endfor %}
     <tr id="add-foodstuff-recipe-button-row"><td colspan="3">
             <button class="btn btn-primary" id="add-recipe">Recept toevoegen</button></td></tr>
     <tr><td colspan="3">{{ form_widget(form.submit, { 'label': submitLabel }) }}</td></tr>
 </table>
-<div class="d-none">
-    {{ form_widget(form.recipeWeights) }}
-</div>
 {{ form_end(form) }}
+<table class="d-none">
+    {{ include('recipeRow.html.twig', {'formName': 'cookbook'}) }}
+</table>

@@ -29,10 +29,14 @@
     <tr><td>Titel *</td><td colspan="2">{{ form_widget(form.title) }}</td></tr>
     <tr><td>Url video</td><td colspan="2">{{ form_widget(form.url) }}</td></tr>
     <tr><td>Ingrediënten</td><td colspan="2">{{ form_widget(form.ingredients) }}</td></tr>
-    {% for rowNumber, foodstuff in recipe.foodstuffs %}
-        {{ include('foodstuffRow.html.twig', {'rowId': rowId + 1, 'formName': 'recipe',
+    {% set row = 4 %}
+    {% for key, weight in form.foodstuffWeights %}
+        {% set foodstuffId = weight.vars.id|split('_')|last %}
+        {% set foodstuff = recipe.foodstuffs()[foodstuffId] %}
+        {{ include('foodstuffRow.html.twig', {'rowId': row, 'formName': 'recipe',
             'entity': recipe, 'id': foodstuff.id, 'name': foodstuff.name,
-            'weight': recipe.foodstuffWeights[foodstuff.id]}) }}
+            'weight': weight}) }}
+        {% set row = row + 1 %}
     {% endfor %}
     <tr id="add-foodstuff-recipe-button-row"><td colspan="3">
             <button class="btn btn-primary" id="add-foodstuff">Voedingsmiddel toevoegen</button></td></tr>
@@ -60,7 +64,7 @@
     </tr>
     <tr><td colspan="3">{{ form_widget(form.submit, { 'label': submitLabel }) }}</td></tr>
 </table>
-<div class="d-none">
-    {{ form_widget(form.foodstuffWeights) }}
-</div>
 {{ form_end(form) }}
+<table class="d-none">
+    {{ include('foodstuffRow.html.twig', {'formName': 'recipe'}) }}
+</table>

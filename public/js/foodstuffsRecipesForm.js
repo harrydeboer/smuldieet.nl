@@ -10,17 +10,11 @@ class FoodstuffRecipeForm {
         $('#add-foodstuff').on('click', this.addFoodstuff.bind(this));
         $('#add-recipe').on('click', this.addRecipe.bind(this));
 
-        $(this.form).on('input', ".foodstuff-name", this.foodstuffNameInput.bind(this));
-        $(this.form).on('input', ".recipe-name", this.recipeNameInput.bind(this));
-        $(this.form).on('click', ".foodstuff-div", this.foodstuffDivClick.bind(this));
-        $(this.form).on('click', ".recipe-div", this.recipeDivClick.bind(this));
-        $(this.form).on('click', ".remove-row", this.removeRow.bind(this));
-
-        $("#" + this.formName + "_foodstuffs option:selected").removeAttr("selected");
-        $('#' + this.formName + '_foodstuffWeights').remove();
-        $('#' + this.formName + '_recipeWeights').remove();
-        $('#' + this.formName + '_recipeIds').remove();
-
+        this.form.on('input', ".foodstuff-name", this.foodstuffNameInput.bind(this));
+        this.form.on('input', ".recipe-name", this.recipeNameInput.bind(this));
+        this.form.on('click', ".foodstuff-div", this.foodstuffDivClick.bind(this));
+        this.form.on('click', ".recipe-div", this.recipeDivClick.bind(this));
+        this.form.on('click', ".remove-row", this.removeRow.bind(this));
         this.form.on('submit', this.submit.bind(this));
     }
 
@@ -28,7 +22,6 @@ class FoodstuffRecipeForm {
         this.rowId = this.rowId + 1;
         let html = $('#row-row-idf')[0].outerHTML;
         html = html.replaceAll('-row-idf', this.rowId);
-        html = html.replaceAll('form-name', this.formName);
         $('#add-foodstuff-recipe-button-row').before(html);
         event.preventDefault();
     }
@@ -37,11 +30,7 @@ class FoodstuffRecipeForm {
         this.rowId = this.rowId + 1;
         let html = $('#row-row-idr')[0].outerHTML;
         html = html.replaceAll('-row-idr', this.rowId);
-        html = html.replaceAll('form-name', this.formName);
         $('#add-foodstuff-recipe-button-row').before(html);
-        if (this.formName === 'cookbook') {
-            $('#weight' + this.rowId).hide();
-        }
         event.preventDefault();
     }
 

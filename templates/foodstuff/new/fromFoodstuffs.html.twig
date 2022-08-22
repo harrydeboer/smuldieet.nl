@@ -19,4 +19,7 @@
         {{ form_widget(form.foodstuffWeights) }}
     </div>
     {{ form_end(form) }}
+    <table class="d-none">
+        {{ include('foodstuffRow.html.twig', {'formName': 'foodstuff_from_foodstuffs'}) }}
+    </table>
 {% endblock %}
