@@ -39,7 +39,7 @@ class Day
     private User $user;
 
     #[
-        ORM\ManyToMany(targetEntity: "Foodstuff", inversedBy: "days"),
+        ORM\ManyToMany(targetEntity: "Foodstuff", inversedBy: "days", indexBy: "id"),
         ORM\JoinTable(name: "day_foodstuff"),
         ORM\JoinColumn(name: "day_id", referencedColumnName: "id", onDelete: "CASCADE"),
         ORM\InverseJoinColumn(name: "foodstuff_id", referencedColumnName: "id", onDelete: "CASCADE"),
@@ -47,7 +47,7 @@ class Day
     private Collection $foodstuffs;
 
     #[
-        ORM\ManyToMany(targetEntity: "Recipe", inversedBy: "days"),
+        ORM\ManyToMany(targetEntity: "Recipe", inversedBy: "days", indexBy: "id"),
         ORM\JoinTable(name: "day_recipe"),
         ORM\JoinColumn(name: "day_id", referencedColumnName: "id", onDelete: "CASCADE"),
         ORM\InverseJoinColumn(name: "recipe_id", referencedColumnName: "id", onDelete: "CASCADE"),
@@ -59,8 +59,6 @@ class Day
 
     #[ORM\Column(type: "string")]
     private string $recipeWeights = 'a:0:{}';
-
-    private ArrayCollection $recipeIds;
 
     #[Pure] public function __construct()
     {
@@ -207,22 +205,5 @@ class Day
     public function setRecipeWeights(ArrayCollection $collection): void
     {
         $this->recipeWeights = serialize($collection->toArray());
-    }
-
-    /**
-     * Recipes are added from an recipeIds CollectionType.
-     * There can be a million recipes and so there should not be rendering in the html of EntityType choices.
-     * The recipe ids are searched for by means of Ajax calls.
-     */
-    public function getRecipeIds(): ArrayCollection
-    {
-        if (!isset($this->recipeIds)) {
-            return new ArrayCollection();
-        }
-        return $this->recipeIds;
-    }
-    public function setRecipeIds(ArrayCollection $recipeIds): void
-    {
-        $this->recipeIds = $recipeIds;
     }
 }

@@ -13,6 +13,8 @@ interface FoodstuffRepositoryInterface extends ServiceEntityRepositoryInterface
 
     public function findAllFromUser(?int $userId): array;
 
+    public function search(string $name, int $userId): array;
+
     public function get(int $id): Foodstuff;
 
     public function getByName(string $name): Foodstuff;

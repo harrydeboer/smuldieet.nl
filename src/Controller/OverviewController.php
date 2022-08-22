@@ -19,6 +19,7 @@ class OverviewController extends AuthController
         private readonly DayRepositoryInterface $dayRepository,
         private readonly FormFactoryInterface $formFactory,
         private readonly PageRepositoryInterface $pageRepository,
+        private readonly StatsService $statsService,
     ) {
     }
 
@@ -40,7 +41,7 @@ class OverviewController extends AuthController
         }
 
         return $this->render('overview/view.html.twig', [
-            'stats' => StatsService::daysStats($days, $this->getUser()),
+            'stats' => $this->statsService->daysStats($days, $this->getUser()),
             'form' => $form->createView(),
             'page' => $this->pageRepository->findOneBy(['title' => 'Overzicht']),
         ]);

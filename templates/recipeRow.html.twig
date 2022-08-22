@@ -1,26 +1,20 @@
-{% if rowNumber is not defined %}
-    {% set rowNumber = '-row-idr' %}
+{% if rowId is not defined %}
+    {% set rowId = '-row-idr' %}
     {% set id = '' %}
     {% set title = '' %}
     {% set weight = '1' %}
     {% set formName = 'form-name' %}
 {% endif %}
-<tr id="row{{ rowNumber }}">
-    <td><input type="text" name="{{ formName }}[recipeIds][]" id="recipe-value{{ rowNumber }}"
-               value="{{ id }}" class="hidden-input" required>
-        <div class="dropdown">
+<tr id="row{{ rowId }}">
+    <td><div class="dropdown">
             <input type="text" class="recipe-name form-control dropdown-toggle" maxlength="255"
-                   id="recipe-name{{ rowNumber }}" value="{{ title }}"
+                   id="recipe-name{{ rowId }}" value="{{ title }}"
                    data-bs-toggle="dropdown" placeholder="recept" aria-expanded="false" required>
-            <div id="search-result{{ rowNumber }}" class="dropdown-menu dropdown-menu-recipe"
-                 aria-labelledby="recipeName{{ rowNumber}}">
+            <div id="search-result{{ rowId }}" class="dropdown-menu dropdown-menu-recipe"
+                 aria-labelledby="recipeName{{ rowId}}">
             </div>
         </div></td>
-    {% if formName == 'cookbook' %}
-        <td></td>
-    {% else %}
-        <td><input id="weight{{ rowNumber }}" type="text" name="{{ formName }}[recipeWeights][{{ id }}]"
-                   placeholder="aantal keer" class="form-control recipe-weight" value="{{ weight }}" required></td>
-    {% endif %}
-    <td><i class="remove-row fa fa-minus" id="remove-row{{ rowNumber }}"></i></td>
+    <td><input id="weight{{ rowId }}" type="text" name="{{ formName }}[recipeWeights][{{ id }}]"
+               placeholder="aantal keer" class="form-control recipe-weight" value="{{ weight }}" required></td>
+    <td><i class="remove-row fa fa-minus" id="remove-row{{ rowId }}"></i></td>
 </tr>

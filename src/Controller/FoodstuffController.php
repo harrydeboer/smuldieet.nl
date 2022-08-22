@@ -24,6 +24,7 @@ class FoodstuffController extends Controller
     public function __construct(
         private readonly FoodstuffRepositoryInterface $foodstuffRepository,
         private readonly PageRepositoryInterface $pageRepository,
+        private readonly CombineFoodstuffsService $combineFoodstuffsService,
     ) {
     }
 
@@ -84,7 +85,7 @@ class FoodstuffController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $foodstuff = CombineFoodstuffsService::combine($this->getUser(), $form->getData());
+            $foodstuff = $this->combineFoodstuffsService->combine($this->getUser(), $form->getData());
             $foodstuffSameName = $this->foodstuffRepository->findOneBy(['user' => $foodstuff->getUser()->getId(),
                 'name' => $foodstuff->getName()]);
             try {
@@ -133,6 +134,22 @@ class FoodstuffController extends Controller
         }
 
         throw new NotFoundHttpException('Dit voedingsmiddel bestaat niet of hoort niet bij jou.');
+    }
+
+    #[Route('/voedingsmiddel/zoeken/{rowId}/{name}', name: 'foodstuffSearch')]
+    public function search(string $rowId, string $name): Response
+    {
+        if (strlen($name) > 255) {
+            $foodstuffs = [];
+        } else {
+            $foodstuffs = $this->foodstuffRepository->search($this->transformDiacriticChars($name),
+                $this->getUser()->getId());
+        }
+
+        return $this->render('foodstuff/search.html.twig', [
+            'rowId' => $rowId,
+            'foodstuffs' => $foodstuffs,
+        ]);
     }
 
     private function getFoodstuff(int $id): Foodstuff

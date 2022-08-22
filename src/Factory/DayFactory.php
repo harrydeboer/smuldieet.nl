@@ -52,7 +52,6 @@ class DayFactory extends AbstractFactory
             $weights->set($recipe->getId(), rand(1,10));
             $ids->add($recipe->getId());
         }
-        $day->setRecipeIds($ids);
         $day->setRecipeWeights($weights);
         $day->setFoodstuffs($paramsParent['foodstuffs']);
         $weights = new ArrayCollection();

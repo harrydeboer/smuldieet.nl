@@ -40,7 +40,7 @@ class FoodstuffRecipeForm {
         html = html.replaceAll('form-name', this.formName);
         $('#add-foodstuff-recipe-button-row').before(html);
         if (this.formName === 'cookbook') {
-            $('#weight' + this.rowId).remove();
+            $('#weight' + this.rowId).hide();
         }
         event.preventDefault();
     }
@@ -54,23 +54,23 @@ class FoodstuffRecipeForm {
         searchResults.html('');
 
         if (valueInput !== '') {
-            this.options.each((index, element) => {
-                let value = $(element).val();
-                let nameOriginal = $(element).text();
-                let name = nameOriginal.toLowerCase().normalize("NFD")
-                    .replace(/[\u0300-\u036f]/g, "");
-                if (valueInput === name) {
-                    $('#foodstuff-value' + rowId).val(value);
-                    $('#weight' + rowId).attr('name', this.formName +
-                        '[foodstuffWeights][' + value + ']');
-                }
-                if ($('#search-result' + rowId + ' .foodstuff-div').length > 20) {
-                } else {
-                    if (name.includes(valueInput)) {
-                        searchResults.html(searchResults.html() +
-                            '<div id="foodstuff-div' + value + '" data-row="' + rowId +
-                            '" class="foodstuff-div">' + nameOriginal + '</div>');
-                    }
+            $.ajax({
+                url: '/voedingsmiddel/zoeken/' + rowId + '/' + valueInput,
+                type: 'GET',
+                success: (data) => {
+                    searchResults.html(data);
+                    $('.foodstuff-div').each((index, element) => {
+                        let id = $(element).attr('id').replace('foodstuff-div', '');
+                        let name = $(element).text().toLowerCase().normalize("NFD")
+                            .replace(/[\u0300-\u036f]/g, "");
+                        if (valueInput === name) {
+                            $('#weight' + rowId).attr('name', this.formName +
+                                '[foodstuffWeights][' + id + ']');
+                        }
+                    });
+                },
+                error: () => {
+                    searchResults.html('Er ging iets fout.');
                 }
             });
         }
@@ -96,7 +96,6 @@ class FoodstuffRecipeForm {
                         let name = $(element).text().toLowerCase().normalize("NFD")
                             .replace(/[\u0300-\u036f]/g, "");
                         if (valueInput === name) {
-                            $('#recipe-value' + rowId).val(id);
                             $('#weight' + rowId).attr('name', this.formName +
                                 '[recipeWeights][' + id + ']');
                         }

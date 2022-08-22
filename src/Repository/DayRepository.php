@@ -24,6 +24,7 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
 {
     public function __construct(
         private readonly EntityManagerInterface $em,
+        private readonly FoodstuffRepositoryInterface $foodstuffRepository,
         private readonly RecipeRepositoryInterface $recipeRepository,
         ManagerRegistry $registry,
     ) {
@@ -46,8 +47,7 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
      */
     public function create(Day $day): void
     {
-        $this->checkCount($day);
-        $this->addRecipesFromIds($day);
+        $this->addFoodstuffsAndRecipesFromWeights($day);
         $this->em->persist($day);
         $this->em->flush();
     }
@@ -57,11 +57,13 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
      */
     public function update(Day $day): void
     {
-        $this->checkCount($day);
         foreach ($day->getRecipes() as $recipe) {
             $day->removeRecipe($recipe);
         }
-        $this->addRecipesFromIds($day);
+        foreach ($day->getFoodstuffs() as $foodstuff) {
+            $day->removeFoodstuff($foodstuff);
+        }
+        $this->addFoodstuffsAndRecipesFromWeights($day);
         $this->em->flush();
     }
 
@@ -98,40 +100,13 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
         return (new Paginator($qb))->paginate($page);
     }
 
-    /**
-     * @throws InvalidArgumentException
-     */
-    private function checkCount(Day $day): void
+    private function addFoodstuffsAndRecipesFromWeights(Day $day): void
     {
-        if (count($day->getFoodstuffWeights()) !== count($day->getFoodstuffs())) {
-            throw new InvalidArgumentException('The number of weights is not equal to the number of foodstuffs.');
-        }
-        if (count($day->getRecipeWeights()) !== count($day->getRecipeIds())) {
-            throw new InvalidArgumentException('The number of weights is not equal to the number of recipes.');
-        }
-        $foodstuffIds = [];
-        foreach ($day->getFoodstuffs()->toArray() as $foodstuff) {
-            $foodstuffIds[] = $foodstuff->getId();
-        }
         foreach ($day->getFoodstuffWeights() as $id => $weight) {
-            if (!in_array($id, $foodstuffIds)) {
-                throw new InvalidArgumentException('The weights ids don\'t match the foodstuff ids.');
-            }
-        }
-        $recipeIds = [];
-        foreach ($day->getRecipes()->toArray() as $recipe) {
-            $recipeIds[] = $recipe->getId();
+            $foodstuff = $this->foodstuffRepository->get($id);
+            $day->addFoodstuff($foodstuff);
         }
         foreach ($day->getRecipeWeights() as $id => $weight) {
-            if (!in_array($id, $recipeIds)) {
-                throw new InvalidArgumentException('The weights ids don\'t match the recipe ids.');
-            }
-        }
-    }
-
-    private function addRecipesFromIds(Day $day): void
-    {
-        foreach ($day->getRecipeIds() as $id) {
             $recipe = $this->recipeRepository->get($id);
             $day->addRecipe($recipe);
         }

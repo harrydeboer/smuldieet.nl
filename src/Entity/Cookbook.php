@@ -48,14 +48,14 @@ class Cookbook
     private User $user;
 
     #[
-        ORM\ManyToMany(targetEntity: "Recipe", inversedBy: "cookbooks"),
+        ORM\ManyToMany(targetEntity: "Recipe", inversedBy: "cookbooks", indexBy: "id"),
         ORM\JoinTable(name: "cookbook_recipe"),
         ORM\JoinColumn(name: "cookbook_id", referencedColumnName: "id", onDelete: "CASCADE"),
         ORM\InverseJoinColumn(name: "recipe_id", referencedColumnName: "id", onDelete: "CASCADE"),
     ]
     private Collection $recipes;
 
-    private ArrayCollection $recipeIds;
+    private string $recipeWeights = 'a:0:{}';
 
     #[Pure] public function __construct()
     {
@@ -132,20 +132,24 @@ class Cookbook
         $recipe->removeCookbook($this);
     }
 
-    /**
-     * Recipes are added from an recipeIds CollectionType.
-     * There can be a million recipes and so there should not be rendering in the html of EntityType choices.
-     * The recipe ids are searched for by means of Ajax calls.
-     */
-    public function getRecipeIds(): ArrayCollection
+    public function getRecipeWeights(): ArrayCollection
     {
-        if (!isset($this->recipeIds)) {
-            return new ArrayCollection();
+        $collection = new ArrayCollection();
+        if (unserialize($this->recipeWeights) === []) {
+            foreach ($this->recipes->toArray() as $recipe) {
+                $collection->set($recipe->getId(), 1);
+            }
+        } else {
+            foreach (unserialize($this->recipeWeights) as $id => $weight) {
+                $collection->set($id, 1);
+            }
         }
-        return $this->recipeIds;
+
+        return $collection;
     }
-    public function setRecipeIds(ArrayCollection $recipeIds): void
+
+    public function setRecipeWeights(ArrayCollection $collection): void
     {
-        $this->recipeIds = $recipeIds;
+        $this->recipeWeights = serialize($collection->toArray());
     }
 }

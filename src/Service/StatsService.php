@@ -9,7 +9,7 @@ use App\Entity\User;
 
 class StatsService
 {
-    public static function daysStats(array $days, User $user): array
+    public function daysStats(array $days, User $user): array
     {
         if ($days === []) {
             return [];

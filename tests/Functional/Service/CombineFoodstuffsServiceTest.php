@@ -7,7 +7,6 @@ namespace App\Tests\Functional\Service;
 use App\Factory\FoodstuffFactory;
 use App\Service\CombineFoodstuffsService;
 use App\Tests\Functional\AuthWebTestCase;
-use Doctrine\Common\Collections\ArrayCollection;
 
 class CombineFoodstuffsServiceTest extends AuthWebTestCase
 {
@@ -16,20 +15,16 @@ class CombineFoodstuffsServiceTest extends AuthWebTestCase
         $foodstuff1 = static::getContainer()->get(FoodstuffFactory::class)->create();
         $foodstuff2 = static::getContainer()->get(FoodstuffFactory::class)->create();
         $foodstuff3 = static::getContainer()->get(FoodstuffFactory::class)->create();
-        $collection = new ArrayCollection();
-        $collection->add($foodstuff1);
-        $collection->add($foodstuff2);
-        $collection->add($foodstuff3);
         $weights = [];
         $weights[$foodstuff1->getId()] = 30;
         $weights[$foodstuff2->getId()] = 30;
         $weights[$foodstuff3->getId()] = 40;
         $formData = [
             'name' => 'newFoodstuff',
-            'foodstuffs' => $collection,
             'foodstuffWeights' => $weights,
         ];
-        $foodstuff = CombineFoodstuffsService::combine($this->user, $formData);
+        $combineFoodstuffsService = static::getContainer()->get(CombineFoodstuffsService::class);
+        $foodstuff = $combineFoodstuffsService->combine($this->user, $formData);
 
         $this->assertEquals($formData['name'], $foodstuff->getName());
         $this->assertSame(round(1000 * $foodstuff->getPotassium()), round(1000 * ($foodstuff1->getPotassium() * 0.3 +

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\Foodstuff;
+use App\Repository\FoodstuffRepositoryInterface;
 use InvalidArgumentException;
 use App\Entity\User;
 
@@ -13,7 +14,12 @@ use App\Entity\User;
  */
 class CombineFoodstuffsService
 {
-    public static function combine(User $user, array $formData): Foodstuff
+    public function __construct(
+        private readonly FoodstuffRepositoryInterface $foodstuffRepository,
+    ) {
+    }
+
+    public function combine(User $user, array $formData): Foodstuff
     {
         $foodstuff = new Foodstuff();
         $foodstuff->setName($formData['name']);
@@ -24,19 +30,16 @@ class CombineFoodstuffsService
             throw new InvalidArgumentException('Weights must add up to 100 percent.');
         }
 
-        if (count($formData['foodstuffs']->toArray()) !== count($formData['foodstuffWeights'])) {
-            throw new InvalidArgumentException('There must be an equal amount of foodstuffs and weights.');
-        }
-
         $properties = array_keys(Foodstuff::getADH());
-        foreach ($formData['foodstuffs']->toArray() as $key => $foodstuffForm) {
+        foreach ($formData['foodstuffWeights'] as $id => $weight) {
+            $foodstuffForm = $this->foodstuffRepository->get($id);
             foreach ($properties as $property) {
                 if (is_null($foodstuff->{'get' . ucfirst($property)}())) {
                     $foodstuff->{'set' . ucfirst($property)}(0);
                 }
                 $foodstuff->{'set' . ucfirst($property)}($foodstuff->{'get' . ucfirst($property)}() +
                     $foodstuffForm->{'get' . ucfirst($property)}()
-                    * $formData['foodstuffWeights'][$foodstuffForm->getId()] / $sum);
+                    * $formData['foodstuffWeights'][$id] / $sum);
             }
         }
 

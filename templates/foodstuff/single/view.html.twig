@@ -5,9 +5,9 @@
 {% block body %}
     <table class="table table-small">
         <tr><td>Naam</td><td>{{ foodstuff.name }}</td></tr>
-        <tr><td>Gewicht per stuk</td><td>{{ foodstuff.pieceWeight }}</td></tr>
-        <tr><td>Naam per stuk</td><td>{{ foodstuff.pieceName }}</td></tr>
         {% if isLoggedIn %}
+            <tr><td>Gewicht per stuk</td><td>{{ foodstuff.pieceWeight }}</td></tr>
+            <tr><td>Naam per stuk</td><td>{{ foodstuff.pieceName }}</td></tr>
             {% for key, property in foodstuff.aDH() %}
                 <tr><td>{{ property[3]}} {{ property[2] }}</td>
                 {% if attribute(foodstuff, key) is null %}

@@ -23,6 +23,7 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
 {
     public function __construct(
         private readonly ProfanityCheckService $profanityCheckService,
+        private readonly FoodstuffRepositoryInterface $foodstuffRepository,
         private readonly EntityManagerInterface $em,
         ManagerRegistry $registry,
     ) {
@@ -80,8 +81,8 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
      */
     public function create(Recipe $recipe): void
     {
-        $this->checkCount($recipe);
         $this->checkProfanitiesRecipe($recipe);
+        $this->addFoodstuffsFromWeights($recipe);
         $recipe->setTimestamp(time());
         $this->em->persist($recipe);
         $this->em->flush();
@@ -94,8 +95,11 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
      */
     public function update(Recipe $recipe): void
     {
-        $this->checkCount($recipe);
         $this->checkProfanitiesRecipe($recipe);
+        foreach ($recipe->getFoodstuffs() as $foodstuff) {
+            $recipe->removeFoodstuff($foodstuff);
+        }
+        $this->addFoodstuffsFromWeights($recipe);
         $this->em->flush();
     }
 
@@ -180,22 +184,11 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
         return (new Paginator($qb))->paginate($page);
     }
 
-    /**
-     * @throws InvalidArgumentException
-     */
-    private function checkCount(Recipe $recipe): void
+    private function addFoodstuffsFromWeights(Recipe $recipe): void
     {
-        if (count($recipe->getFoodstuffWeights()) !== count($recipe->getFoodstuffs())) {
-            throw new InvalidArgumentException('The number of weights is not equal to the number of foodstuffs.');
-        }
-        $foodstuffIds = [];
-        foreach ($recipe->getFoodstuffs()->toArray() as $foodstuff) {
-            $foodstuffIds[] = $foodstuff->getId();
-        }
         foreach ($recipe->getFoodstuffWeights() as $id => $weight) {
-            if (!in_array($id, $foodstuffIds)) {
-                throw new InvalidArgumentException('The weights ids don\'t match the foodstuff ids.');
-            }
+            $foodstuff = $this->foodstuffRepository->get($id);
+            $recipe->addFoodstuff($foodstuff);
         }
     }
 

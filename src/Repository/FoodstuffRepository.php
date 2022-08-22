@@ -58,6 +58,20 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
         return $query->execute();
     }
 
+    public function search(string $name, int $userId): array
+    {
+        $qb = $this->createQueryBuilder('f');
+        $qb->where('f.name like :name')
+            ->setParameter('name', '%' . $name . '%')
+            ->andWhere('f.user = :userId or f.user IS NULL')
+            ->setParameter('userId', $userId)
+            ->setMaxResults(10);
+
+        $query = $qb->getQuery();
+
+        return $query->execute();
+    }
+
     public function get(int $id): Foodstuff
     {
         $foodstuff = $this->findOneBy(['id' => $id]);

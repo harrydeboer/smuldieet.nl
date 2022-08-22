@@ -30,7 +30,7 @@
     <tr><td>Url video</td><td colspan="2">{{ form_widget(form.url) }}</td></tr>
     <tr><td>Ingrediënten</td><td colspan="2">{{ form_widget(form.ingredients) }}</td></tr>
     {% for rowNumber, foodstuff in recipe.foodstuffs %}
-        {{ include('foodstuffRow.html.twig', {'rowNumber': rowNumber + 1, 'formName': 'recipe',
+        {{ include('foodstuffRow.html.twig', {'rowId': rowId + 1, 'formName': 'recipe',
             'entity': recipe, 'id': foodstuff.id, 'name': foodstuff.name,
             'weight': recipe.foodstuffWeights[foodstuff.id]}) }}
     {% endfor %}
@@ -61,7 +61,6 @@
     <tr><td colspan="3">{{ form_widget(form.submit, { 'label': submitLabel }) }}</td></tr>
 </table>
 <div class="d-none">
-    {{ form_widget(form.foodstuffs) }}
     {{ form_widget(form.foodstuffWeights) }}
 </div>
 {{ form_end(form) }}

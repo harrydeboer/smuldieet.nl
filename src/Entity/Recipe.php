@@ -308,7 +308,7 @@ class Recipe
     private User $user;
 
     #[
-        ORM\ManyToMany(targetEntity: "Foodstuff", inversedBy: "recipes"),
+        ORM\ManyToMany(targetEntity: "Foodstuff", inversedBy: "recipes", indexBy: "id"),
         ORM\JoinTable(name: "recipe_foodstuff"),
         ORM\JoinColumn(name: "recipe_id", referencedColumnName: "id", onDelete: "CASCADE"),
         ORM\InverseJoinColumn(name: "foodstuff_id", referencedColumnName: "id", onDelete: "CASCADE"),

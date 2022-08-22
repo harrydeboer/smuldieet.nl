@@ -35,7 +35,8 @@ class StatsServiceTest extends KernelTestCase
             'foodstuffs' => $arrayCollection2,
             'foodstuffWeights' => $weightCollection2,
         ]);
-        $stats = StatsService::daysStats([$day1, $day2], $user);
+        $statsService = static::getContainer()->get(StatsService::class);
+        $stats = $statsService->daysStats([$day1, $day2], $user);
         $foodstuffsTotal = ($foodstuff1->getCalcium() + $foodstuff2->getCalcium()) / 2;
         $recipesTotal = 0;
         $recipesTotal += $this->recipesTotal($day1);

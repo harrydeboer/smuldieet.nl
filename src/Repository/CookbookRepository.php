@@ -41,7 +41,7 @@ class CookbookRepository extends ServiceEntityRepository implements CookbookRepo
     {
         $this->em->persist($cookbook);
         $this->em->flush();
-        $this->addRecipesFromIds($cookbook);
+        $this->addRecipesFromWeights($cookbook);
         $this->em->flush();
     }
 
@@ -57,7 +57,7 @@ class CookbookRepository extends ServiceEntityRepository implements CookbookRepo
             $this->recipeRepository->update($recipe);
             $cookbook->removeRecipe($recipe);
         }
-        $this->addRecipesFromIds($cookbook);
+        $this->addRecipesFromWeights($cookbook);
         $this->em->flush();
     }
 
@@ -79,9 +79,9 @@ class CookbookRepository extends ServiceEntityRepository implements CookbookRepo
     /**
      * When recipes are added the times saved is upped by 1.
      */
-    private function addRecipesFromIds(Cookbook $cookbook): void
+    private function addRecipesFromWeights(Cookbook $cookbook): void
     {
-        foreach ($cookbook->getRecipeIds() as $id) {
+        foreach ($cookbook->getRecipeWeights() as $id => $weight) {
             $recipe = $this->recipeRepository->get($id);
             $timesSaved = $recipe->getTimesSaved();
             $recipe->setTimesSaved($timesSaved + 1);

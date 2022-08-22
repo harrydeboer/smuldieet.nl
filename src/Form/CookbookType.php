@@ -6,7 +6,7 @@ namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -17,8 +17,8 @@ class CookbookType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, ['attr' => ['class' => 'form-control']])
-            ->add('recipeIds', CollectionType::class, [
-                'entry_type' => IntegerType::class,
+            ->add('recipeWeights', CollectionType::class, [
+                'entry_type' => NumberType::class,
                 'allow_add' => true,
                 'entry_options' => [
                     'attr' => ['class' => 'form-control'],

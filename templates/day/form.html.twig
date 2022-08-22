@@ -13,13 +13,13 @@
     {% else %}
         {% set formName = 'standard_day' %}
     {% endif %}
-    {% for rowNumber, foodstuff in day.foodstuffs %}
-        {{ include('foodstuffRow.html.twig', {'rowNumber': rowNumber + 1, 'formName': formName,
+    {% for rowId, foodstuff in day.foodstuffs %}
+        {{ include('foodstuffRow.html.twig', {'rowId': rowId + 1, 'formName': formName,
             'id': foodstuff.id, 'name': foodstuff.name, 'weight': day.foodstuffWeights[foodstuff.id]}) }}
     {% endfor %}
-    {% for rowNumber, recipe in day.recipes %}
-        {% set rowNumberRecipe = rowNumber + day.foodstuffs.count + 1 %}
-        {{ include('recipeRow.html.twig', {'rowNumber': rowNumberRecipe, 'formName': formName,
+    {% for rowId, recipe in day.recipes %}
+        {% set rowIdRecipe = rowId + day.foodstuffs.count + 1 %}
+        {{ include('recipeRow.html.twig', {'rowId': rowIdRecipe, 'formName': formName,
             'id': recipe.id, 'title': recipe.title, 'weight': day.recipeWeights[recipe.id]}) }}
     {% endfor %}
     <tr id="add-foodstuff-recipe-button-row"><td colspan="3">
@@ -28,9 +28,7 @@
     <tr><td colspan="3">{{ form_widget(form.submit, { 'label': submitLabel }) }}</td></tr>
 </table>
 <div class="d-none">
-    {{ form_widget(form.foodstuffs) }}
     {{ form_widget(form.foodstuffWeights) }}
-    {{ form_widget(form.recipeIds) }}
     {{ form_widget(form.recipeWeights) }}
 </div>
 {{ form_end(form) }}
