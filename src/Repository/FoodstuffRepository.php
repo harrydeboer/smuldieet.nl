@@ -117,6 +117,16 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
 
     public function delete(Foodstuff $foodstuff): void
     {
+        foreach ($foodstuff->getDays() as $day) {
+            $weights = $day->getFoodstuffWeights();
+            unset($weights[$foodstuff->getId()]);
+            $day->setFoodstuffWeights($weights);
+        }
+        foreach ($foodstuff->getRecipes() as $recipe) {
+            $weights = $recipe->getFoodstuffWeights();
+            unset($weights[$recipe->getId()]);
+            $recipe->setFoodstuffWeights($weights);
+        }
         $this->em->remove($foodstuff);
         $this->em->flush();
     }

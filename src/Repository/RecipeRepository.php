@@ -105,6 +105,11 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
 
     public function delete(Recipe $recipe): void
     {
+        foreach ($recipe->getDays() as $day) {
+            $weights = $day->getRecipeWeights();
+            unset($weights[$recipe->getId()]);
+            $day->setRecipeWeights($weights);
+        }
         $this->em->remove($recipe);
         $this->em->flush();
     }
