@@ -108,12 +108,7 @@ body {
 }
 
 /* Foodstuff/Recipe form */
-.foodstuff-span:hover {
-  background-color: lightgray;
-  cursor: pointer;
-}
-
-.recipe-span:hover {
+.food-span:hover {
   background-color: lightgray;
   cursor: pointer;
 }
@@ -131,14 +126,6 @@ body {
   width: 0;
   height: 0;
   float: left;
-}
-
-.foodstuff-weight, .recipe-weight {
-  margin-top: 6px;
-}
-
-.fa.remove-row {
-  line-height: 2.5;
 }
 
 /* Recipe page */

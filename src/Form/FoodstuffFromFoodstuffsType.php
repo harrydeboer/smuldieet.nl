@@ -26,7 +26,10 @@ class FoodstuffFromFoodstuffsType extends AbstractType
                 'entry_type' => NumberType::class,
                 'allow_add' => true,
                 'entry_options' => [
-                    'attr' => ['class' => 'form-control'],
+                    'attr' => [
+                        'class' => 'form-control food-weight',
+                        'placeholder' => 'procent',
+                    ],
                 ],
                 'required' => false,
             ])

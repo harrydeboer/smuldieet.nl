@@ -171,8 +171,8 @@ class RecipeController extends Controller
         ]);
     }
 
-    #[Route('/recept/zoeken/{rowId}/{title}', name: 'recipeSearch')]
-    public function search(string $rowId, string $title): Response
+    #[Route('/recept/zoeken/{title}', name: 'recipeSearch')]
+    public function search(string $title): Response
     {
         if (strlen($title) > 255) {
             $recipes = [];
@@ -182,7 +182,6 @@ class RecipeController extends Controller
         }
 
         return $this->render('recipe/search.html.twig', [
-            'rowId' => $rowId,
             'recipes' => $recipes,
         ]);
     }

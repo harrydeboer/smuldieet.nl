@@ -136,8 +136,8 @@ class FoodstuffController extends Controller
         throw new NotFoundHttpException('Dit voedingsmiddel bestaat niet of hoort niet bij jou.');
     }
 
-    #[Route('/voedingsmiddel/zoeken/{rowId}/{name}', name: 'foodstuffSearch')]
-    public function search(string $rowId, string $name): Response
+    #[Route('/voedingsmiddel/zoeken/{name}', name: 'foodstuffSearch')]
+    public function search(string $name): Response
     {
         if (strlen($name) > 255) {
             $foodstuffs = [];
@@ -147,7 +147,6 @@ class FoodstuffController extends Controller
         }
 
         return $this->render('foodstuff/search.html.twig', [
-            'rowId' => $rowId,
             'foodstuffs' => $foodstuffs,
         ]);
     }

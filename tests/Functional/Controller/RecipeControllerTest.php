@@ -42,11 +42,7 @@ class RecipeControllerTest extends AuthAdminWebTestCase
         $recipe = $recipeRepository->findOneBy(['title' => 'test']);
         $id = $recipe->getId();
 
-        $this->client->request('GET', '/recept/zoeken/1/' . $recipe->getTitle());
-
-        $this->assertResponseIsSuccessful();
-
-        $this->client->xmlHttpRequest('GET', '/recept/zoeken/' . $recipe->getTitle() . '/1');
+        $this->client->xmlHttpRequest('GET', '/recept/zoeken/' . $recipe->getTitle());
 
         $this->assertResponseIsSuccessful();
 

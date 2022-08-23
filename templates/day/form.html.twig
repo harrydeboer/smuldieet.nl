@@ -2,36 +2,24 @@
 <div id="form-errors-server">
     {{ form_errors(form) }}
 </div>
-{{ form_start(form, { 'attr' : { 'class': 'foodstuff-recipe-form' }}) }}
+{{ form_start(form, { 'attr' : { 'class': 'food-form' }}) }}
 {% if form.date is defined %}
     {{ form_errors(form.date) }}
 {% endif %}
-<table class="foodstuff-recipe-table table table-small">
+<table class="food-table table table-small">
     {% if form.date is defined %}
         <tr><td>Datum</td><td colspan="2">{{ form_widget(form.date) }}</td></tr>
         {% set formName = 'day' %}
     {% else %}
         {% set formName = 'standard_day' %}
     {% endif %}
-    {% set row = 2 %}
-    {% for key, weight in form.foodstuffWeights %}
-        {% set foodstuffId = weight.vars.id|split('_')|last %}
-        {% set foodstuff = day.foodstuffs()[foodstuffId] %}
-        {{ include('foodstuffRow.html.twig', {'rowId': row, 'formName': formName,
-            'id': foodstuff.id, 'name': foodstuff.name, 'weight': weight}) }}
-        {% set row = row + 1 %}
-    {% endfor %}
-    {% for key, weight in form.recipeWeights %}
-        {% set recipeId = weight.vars.id|split('_')|last %}
-        {% set recipe = day.recipes()[recipeId] %}
-        {% set rowIdRecipe = key + day.foodstuffs.count + 1 %}
-        {{ include('recipeRow.html.twig', {'rowId': rowIdRecipe, 'formName': formName,
-            'id': recipe.id, 'title': recipe.title, 'weight': weight}) }}
-    {% endfor %}
+    {{ include('foodRow.html.twig', {'formName': formName, 'entities': day.foodstuffs,
+        'weights': form.foodstuffWeights, 'foodType': 'foodstuff'}) }}
+    {{ include('foodRow.html.twig', {'formName': formName, 'entities': day.recipes,
+        'weights': form.recipeWeights, 'foodType': 'recipe'}) }}
     <tr id="add-foodstuff-recipe-button-row"><td colspan="3">
             <button class="btn btn-primary" id="add-foodstuff">Voedingsmiddel toevoegen</button>
             <button class="btn btn-primary" id="add-recipe">Recept toevoegen</button></td></tr>
     <tr><td colspan="3">{{ form_widget(form.submit, { 'label': submitLabel }) }}</td></tr>
 </table>
-{{ form_widget(form._token) }}
-{{ form_end(form, {render_rest: false}) }}
+{{ form_end(form) }}

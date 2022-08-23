@@ -3,20 +3,13 @@
     {{ form_errors(form) }}
     {{ form_errors(form.title) }}
 </div>
-{{ form_start(form, { 'attr' : { 'class': 'foodstuff-recipe-form' }}) }}
-<table class="foodstuff-recipe-table table table-small">
+{{ form_start(form, { 'attr' : { 'class': 'food-form' }}) }}
+<table class="food-table table table-small">
     <tr><td>Titel</td><td colspan="2">{{ form_widget(form.title) }}</td></tr>
-    {% set row = 2 %}
-    {% for key, weight in form.recipeWeights %}
-        {% set recipeId = weight.vars.id|split('_')|last %}
-        {% set recipe = cookbook.recipes()[recipeId] %}
-        {{ include('recipeRow.html.twig', {'rowId': row, 'formName': 'cookbook',
-            'id': recipe.id, 'title': recipe.title, 'weight': weight}) }}
-        {% set row = row + 1 %}
-    {% endfor %}
+    {{ include('foodRow.html.twig', {'formName': 'cookbook', 'entities': cookbook.recipes,
+        'weights': form.recipeWeights, 'foodType': 'recipe'}) }}
     <tr id="add-foodstuff-recipe-button-row"><td colspan="3">
             <button class="btn btn-primary" id="add-recipe">Recept toevoegen</button></td></tr>
     <tr><td colspan="3">{{ form_widget(form.submit, { 'label': submitLabel }) }}</td></tr>
 </table>
-{{ form_widget(form._token) }}
-{{ form_end(form, {render_rest: false}) }}
+{{ form_end(form) }}

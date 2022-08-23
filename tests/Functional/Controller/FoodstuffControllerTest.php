@@ -37,6 +37,10 @@ class FoodstuffControllerTest extends AuthAdminWebTestCase
 
         $this->assertResponseRedirects('/voedingsmiddelen');
 
+        $this->client->xmlHttpRequest('GET', '/voedingsmiddel/zoeken/test2');
+
+        $this->assertResponseIsSuccessful();
+
         $foodstuffRepository = $this->getContainer()->get(FoodstuffRepositoryInterface::class);
 
         $foodstuff = $foodstuffRepository->findOneBy(['name' => $foodstuff->getName()]);

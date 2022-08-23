@@ -8,16 +8,14 @@
         {{ form_errors(form) }}
         {{ form_errors(form.name) }}
     </div>
-    {{ form_start(form, { 'attr' : { 'class': 'foodstuff-recipe-form' }}) }}
-    <table class="foodstuff-recipe-table table table-small">
+    {{ form_start(form, { 'attr' : { 'class': 'food-form' }}) }}
+    <table class="food-table table table-small">
         <tr><td>Naam</td><td colspan="2">{{ form_widget(form.name) }}</td></tr>
+        {{ include('foodRow.html.twig', {'formName': 'foodstuff_from_foodstuffs',
+            'weights': form.foodstuffWeights, 'foodType': 'foodstuff'}) }}
         <tr id="add-foodstuff-recipe-button-row"><td colspan="3">
                 <button class="btn btn-primary" id="add-foodstuff">Voedingsmiddel toevoegen</button></td></tr>
         <tr><td colspan="3">{{ form_widget(form.submit, { 'label': 'Voedingsmiddel opslaan' }) }}</td></tr>
     </table>
-    <div class="d-none">
-        {{ form_widget(form.foodstuffWeights) }}
-    </div>
-    {{ form_widget(form._token) }}
-    {{ form_end(form, {render_rest: false}) }}
+    {{ form_end(form) }}
 {% endblock %}

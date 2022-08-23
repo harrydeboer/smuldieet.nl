@@ -53,9 +53,9 @@ class RecipeType extends AbstractType
             ->add('niceStory', TextareaType::class, [
                 'required' => false,
                 'attr' => [
-                'class' => 'form-control',
-                'rows' => 10,
-            ]])
+                    'class' => 'form-control',
+                    'rows' => 10,
+                ]])
             ->add('niceTips', TextareaType::class, ['required' => false, 'attr' => [
                 'class' => 'form-control',
                 'rows' => 10,
@@ -100,15 +100,18 @@ class RecipeType extends AbstractType
                 'attr' => ['class' => 'form-check-input']]);
         }
         $builder->add('foodstuffWeights', CollectionType::class, [
-                'entry_type' => NumberType::class,
-                'allow_add' => true,
-                'entry_options' => [
-                    'attr' => ['class' => 'form-control'],
+            'entry_type' => NumberType::class,
+            'allow_add' => true,
+            'entry_options' => [
+                'attr' => [
+                    'class' => 'form-control food-weight',
+                    'placeholder' => 'g/ml',
                 ],
-                'allow_delete' => true,
-                'delete_empty' => true,
-                'required' => false,
-            ])
+            ],
+            'allow_delete' => true,
+            'delete_empty' => true,
+            'required' => false,
+        ])
             ->add('submit', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-success'],
             ]);

@@ -19,21 +19,25 @@ class StandardDayType extends AbstractType
                 'entry_type' => NumberType::class,
                 'allow_add' => true,
                 'entry_options' => [
-                    'attr' => ['class' => 'form-control'],
+                    'attr' => [
+                        'placeholder' => 'g/ml',
+                        'class' => 'form-control food-weight',
+                    ],
                 ],
                 'allow_delete' => true,
                 'delete_empty' => true,
-                'required' => false,
             ])
             ->add('recipeWeights', CollectionType::class, [
                 'entry_type' => NumberType::class,
                 'allow_add' => true,
                 'entry_options' => [
-                    'attr' => ['class' => 'form-control'],
+                    'attr' => [
+                        'placeholder' => 'aantal keer',
+                        'class' => 'form-control food-weight',
+                    ],
                 ],
                 'allow_delete' => true,
                 'delete_empty' => true,
-                'required' => false,
             ])
             ->add('submit', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-success'],
