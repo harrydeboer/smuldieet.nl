@@ -32,8 +32,7 @@ class UserControllerTest extends AuthAdminWebTestCase
         $form['create_user[birthdate][year]'] = 2000;
         $form['create_user[gender]'] = 'man';
         $form['create_user[weight]'] = 70;
-        $form['create_user[plainPassword][first]'] = 'secret';
-        $form['create_user[plainPassword][second]'] = 'secret';
+        $form['create_user[plainPassword]'] = ['first' => 'secret', 'second' => 'secret'];
 
         $this->client->submit($form);
 

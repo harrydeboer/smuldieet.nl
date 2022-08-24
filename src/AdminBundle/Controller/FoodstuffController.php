@@ -61,7 +61,7 @@ class FoodstuffController extends AuthController
             }
 
             try {
-                if (!is_null($foodstuffSameName)) {
+                if (!is_null($foodstuffSameName) && $foodstuff->getId() !== $foodstuffSameName->getId()) {
                     throw new BadRequestException('Er is al een voedingsmiddel met deze naam.');
                 }
                 $this->foodstuffRepository->update($foodstuff);

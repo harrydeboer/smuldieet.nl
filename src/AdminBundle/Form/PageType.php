@@ -19,7 +19,6 @@ class PageType extends AbstractType
                 'attr' => ['class' => 'form-control'],
             ])
             ->add('slug', TextType::class, [
-                'required' => false,
                 'attr' => ['class' => 'form-control'],
             ])
             ->add('summary', TextareaType::class, [

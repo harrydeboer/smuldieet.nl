@@ -160,8 +160,8 @@ class Recipe
 
     #[
         ORM\Column(type: "string", unique: true),
-        Assert\Length(min: 1, max: 255, minMessage: 'De titel mag niet leeg zijn.',
-            maxMessage: 'De titel mag niet meer dan 255 tekens hebben.'),
+        Assert\NotBlank(message: 'De titel mag niet leeg zijn.'),
+        Assert\Length(max: 255, maxMessage: 'De titel mag niet meer dan 255 tekens hebben.'),
         Assert\Regex(pattern: "/^[A-Za-zÀ-ÿ0-9\s_\-,.%\/\(\)\+<>'\"]+$/",
             message: "Toegestane tekens zijn letters, cijfers, spaties en _-,.%/()+<>'\"."),
     ]
@@ -180,8 +180,8 @@ class Recipe
 
     #[
         ORM\Column(type: "text"),
-        Assert\Length(min: 1, max: 65535, minMessage: 'De bereidingswijze mag niet leeg zijn.',
-            maxMessage: 'De bereidingswijze mag niet meer dan 65535 tekens hebben.'),
+        Assert\NotBlank(message: 'De bereidingswijze mag niet leeg zijn.'),
+        Assert\Length(max: 65535, maxMessage: 'De bereidingswijze mag niet meer dan 65535 tekens hebben.'),
     ]
     private string $preparationMethod;
 

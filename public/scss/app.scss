@@ -8,7 +8,7 @@ body {
   margin-left: 10px;
 }
 
-#bodyPage, .navbar-nav, #smuldieet-header {
+#body-page, .navbar-nav, #smuldieet-header {
   width: 1200px;
   margin-left: auto;
   margin-right: auto;
@@ -85,7 +85,7 @@ body {
 }
 
 @media (max-width: 1200px) {
-  #bodyPage, .navbar-nav {
+  #body-page, .navbar-nav {
     width: 100%;
   }
 }
@@ -119,6 +119,13 @@ body {
 
 .remove-row:hover {
   cursor: pointer;
+}
+
+.hidden-input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  float: left;
 }
 
 /* Recipe page */

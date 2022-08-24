@@ -18,14 +18,17 @@ class CreateUserType extends RegistrationType
             ->add('firstName', TextType::class, ['required' => false, 'attr' => ['class' => 'form-control']])
             ->add('lastName', TextType::class, ['required' => false, 'attr' => ['class' => 'form-control']])
             ->add('roles', ChoiceType::class, [
-            'placeholder' => 'selecteer rol',
-            'expanded' => true,
-            'multiple' => true,
-            'choices' => [
-                'ROLE_ADMIN' => 'ROLE_ADMIN',
-            ],
-            'attr' => ['class' => ''],
-        ])->add('isVerified', CheckboxType::class, ['attr' => ['class' => 'form-check-input']]);
+                'placeholder' => 'selecteer rol',
+                'expanded' => true,
+                'multiple' => true,
+                'choices' => [
+                    'ROLE_ADMIN' => 'ROLE_ADMIN',
+                ],
+                'attr' => ['class' => ''],
+            ])->add('isVerified', CheckboxType::class, [
+                'attr' => ['class' => 'form-check-input'],
+                'required' => false,
+            ]);
         parent::buildForm($builder, $options);
     }
 }

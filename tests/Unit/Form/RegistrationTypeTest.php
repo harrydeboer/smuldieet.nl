@@ -27,7 +27,7 @@ class RegistrationTypeTest extends TypeTestCase
             'birthdate' => ['day' => 1, 'month' => 1, 'year' => 1980],
             'gender' => $gender,
             'weight' => $weight,
-            'plainPassword' => 'plainPassword',
+            'plainPassword' => ['first' => 'secret', 'second' => 'secret'],
         ];
 
         $user = new User();

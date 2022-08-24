@@ -31,7 +31,6 @@ class FoodstuffFromFoodstuffsType extends AbstractType
                         'placeholder' => 'procent',
                     ],
                 ],
-                'required' => false,
             ])
             ->add('submit', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-success'],

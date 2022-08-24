@@ -28,8 +28,8 @@ class Tag
 
     #[
         ORM\Column(type: "string"),
-        Assert\Length(min: 1, max: 255, minMessage: 'De naam mag niet leeg zijn.',
-            maxMessage: 'De naam mag niet meer dan 255 tekens hebben.'),
+        Assert\NotBlank(message: 'De naam mag niet leeg zijn.'),
+        Assert\Length(max: 255, maxMessage: 'De naam mag niet meer dan 255 tekens hebben.'),
         Assert\Regex(pattern: "/^[A-Za-zÀ-ÿ0-9\s_\-,.%\/\(\)\+<>'\"]+$/",
             message: "Toegestane tekens zijn letters, cijfers, spaties en _-,.%/()+<>'\"."),
     ]

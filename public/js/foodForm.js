@@ -120,10 +120,8 @@ class FoodForm {
 
         if (this.formName === "foodstuff_from_foodstuffs") {
             let sum = 0;
-            $('.foodstuff-weight').each((index, element) => {
-                if ($(element).attr('id') !== 'weight-row-idf') {
-                    sum = sum + parseFloat($(element).val().replace(',', '.'));
-                }
+            $('.food-weight').each((index, element) => {
+                sum = sum + parseFloat($(element).val().replace(',', '.'));
             });
             if (Math.round(sum * 100) !== 10000) {
                 text = text + 'De gewichten zijn samen niet gelijk aan 100 procent. <br>';

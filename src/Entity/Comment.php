@@ -28,8 +28,8 @@ class Comment
 
     #[
         ORM\Column(type: "text"),
-        Assert\Length(min: 1, max: 65535, minMessage: 'Het commentaar mag niet leeg zijn.',
-            maxMessage: 'Het commentaar mag niet meer dan 65535 tekens hebben.'),
+        Assert\NotBlank(message: 'De content mag niet leeg zijn.'),
+        Assert\Length(max: 65535, maxMessage: 'Het commentaar mag niet meer dan 65535 tekens hebben.'),
     ]
     private string $content;
 

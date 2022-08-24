@@ -31,15 +31,15 @@ class Page
 
     #[
         ORM\Column(type: "string"),
-        Assert\Length(min: 1, max: 255, minMessage: 'De titel mag niet leeg zijn.',
-            maxMessage: 'De titel mag niet meer dan 255 tekens hebben.'),
+        Assert\NotBlank(message: 'De titel mag niet leeg zijn.'),
+        Assert\Length(max: 255, maxMessage: 'De titel mag niet meer dan 255 tekens hebben.'),
     ]
     private string $title;
 
     #[
         ORM\Column(type: "string"),
-        Assert\Length(min: 1, max: 255, minMessage: 'De slug mag niet leeg zijn.',
-            maxMessage: 'De slug mag niet meer dan 255 tekens hebben.'),
+        Assert\NotBlank(message: 'De slug mag niet leeg zijn.'),
+        Assert\Length(max: 255, maxMessage: 'De slug mag niet meer dan 255 tekens hebben.'),
     ]
     private string $slug;
 
@@ -56,8 +56,8 @@ class Page
 
     #[
         ORM\Column(type: "text"),
-        Assert\Length(min: 1, max: 65535, minMessage: 'De pagina mag niet leeg zijn.',
-            maxMessage: 'De pagina mag niet meer dan 65535 tekens hebben.'),
+        Assert\NotBlank(message: 'De content mag niet leeg zijn.'),
+        Assert\Length(max: 65535, maxMessage: 'De content mag niet meer dan 65535 tekens hebben.'),
     ]
     private string $content;
 

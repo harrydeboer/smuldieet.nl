@@ -110,7 +110,6 @@ class RecipeType extends AbstractType
             ],
             'allow_delete' => true,
             'delete_empty' => true,
-            'required' => false,
         ])
             ->add('submit', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-success'],

@@ -60,16 +60,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[
         ORM\Column(type: "string", length: 180),
-        Assert\Length(min: 1, max: 180, minMessage: 'De gebruikersnaam mag niet leeg zijn.',
-            maxMessage: 'De gebruikersnaam mag niet meer dan 180 tekens hebben.'),
+        Assert\NotBlank(message: 'De gebruikersnaam mag niet leeg zijn.'),
+        Assert\Length(max: 180, maxMessage: 'De gebruikersnaam mag niet meer dan 180 tekens hebben.'),
         Assert\Regex(pattern: "/^[A-Za-z0-9_\-]+$/", message: "Toegestane tekens zijn letters, cijfers en streepjes."),
     ]
     private string $username;
 
     #[
         ORM\Column(type: "string", length: 180),
-        Assert\Length(min: 1, max: 180, minMessage: 'Het e-mailadres mag niet leeg zijn.',
-            maxMessage: 'Het e-mailadres mag niet meer dan 180 tekens hebben.'),
+        Assert\NotBlank(message: 'De e-mail mag niet leeg zijn.'),
+        Assert\Length(max: 180, maxMessage: 'Het e-mailadres mag niet meer dan 180 tekens hebben.'),
         Assert\Email,
     ]
     private string $email;
@@ -97,8 +97,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[
         ORM\Column(type: "string"),
-        Assert\Length(min: 1, max: 255, minMessage: 'Het wachtwoord mag niet leeg zijn.',
-            maxMessage: 'Het wachtwoord mag niet meer dan 255 tekens hebben.'),
     ]
     private string $password;
 
