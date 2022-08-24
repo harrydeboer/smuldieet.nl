@@ -1,7 +1,16 @@
+{% if foodType == 'foodstuff' %}
+    {% set placeholder = 'voedingsmiddel' %}
+{% elseif foodType == 'recipe' %}
+    {% if formName == 'day' or formName == 'day_standard' %}
+        {% set placeholder = 'gerecht' %}
+    {% else %}
+        {% set placeholder = 'recept' %}
+    {% endif %}
+{% endif %}
 <div class="dropdown">
     <input type="text" class="{{ foodType }}-name form-control dropdown-toggle" maxlength="255"
            value="{{ title }}"
-           data-bs-toggle="dropdown" placeholder="{{ foodType == 'foodstuff' ? 'voedingsmiddel' : 'recept' }}"
+           data-bs-toggle="dropdown" placeholder="{{ placeholder }}"
            aria-expanded="false" required>
     <div class="dropdown-menu dropdown-menu-food">
     </div>
