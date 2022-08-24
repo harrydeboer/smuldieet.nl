@@ -6,7 +6,7 @@ namespace App\Controller;
 
 use App\Entity\Cookbook;
 use App\Form\CookbookType;
-use App\Form\DeleteCookbookType;
+use App\Form\DeleteType;
 use App\Repository\CookbookRepositoryInterface;
 use App\Repository\PageRepositoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -45,7 +45,7 @@ class CookbookController extends AuthController
             'method' => 'POST',
         ]);
 
-        $formDelete = $this->createForm(DeleteCookbookType::class, $cookbook, [
+        $formDelete = $this->createForm(DeleteType::class, $cookbook, [
             'action' => $this->generateUrl('cookbookDelete', ['id' => $cookbook->getId()]),
             'method' => 'POST',
         ]);
@@ -92,7 +92,7 @@ class CookbookController extends AuthController
     {
         $cookbook = $this->getCookbook($id);
 
-        $form = $this->createForm(DeleteCookbookType::class);
+        $form = $this->createForm(DeleteType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

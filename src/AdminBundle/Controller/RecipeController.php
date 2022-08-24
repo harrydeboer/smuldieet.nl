@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\AdminBundle\Controller;
 
-use App\AdminBundle\Form\DeleteRecipeType;
+use App\Form\DeleteType;
 use App\AdminBundle\Form\RecipeType;
 use App\Controller\AuthController;
 use App\Entity\Recipe;
@@ -41,7 +41,7 @@ class RecipeController extends AuthController
             'method' => 'POST',
         ]);
 
-        $formDelete = $this->createForm(DeleteRecipeType::class, $recipe, [
+        $formDelete = $this->createForm(DeleteType::class, $recipe, [
             'action' => $this->generateUrl('adminRecipeDelete', ['id' => $recipe->getId()]),
             'method' => 'POST',
         ]);
@@ -64,7 +64,7 @@ class RecipeController extends AuthController
     #[Route('/recept/verwijder/{id}', name: 'adminRecipeDelete')]
     public function delete(Request $request, Recipe $recipe): RedirectResponse
     {
-        $form = $this->createForm(DeleteRecipeType::class);
+        $form = $this->createForm(DeleteType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\AdminBundle\Controller;
 
-use App\AdminBundle\Form\DeletePageType;
+use App\Form\DeleteType;
 use App\AdminBundle\Form\PageType;
 use App\Controller\AuthController;
 use App\Entity\Page;
@@ -41,7 +41,7 @@ class PageController extends AuthController
             'method' => 'POST',
         ]);
 
-        $formDelete = $this->createForm(DeletePageType::class, $page, [
+        $formDelete = $this->createForm(DeleteType::class, $page, [
             'action' => $this->generateUrl('adminPageDelete', ['id' => $page->getId()]),
             'method' => 'POST',
         ]);
@@ -83,7 +83,7 @@ class PageController extends AuthController
     #[Route('/pagina/verwijder/{id}', name: 'adminPageDelete')]
     public function delete(Request $request, Page $page): RedirectResponse
     {
-        $form = $this->createForm(DeletePageType::class);
+        $form = $this->createForm(DeleteType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

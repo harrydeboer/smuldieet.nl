@@ -6,7 +6,7 @@ namespace App\Controller;
 
 use App\Entity\Day;
 use App\Form\DayType;
-use App\Form\DeleteDayType;
+use App\Form\DeleteType;
 use App\Form\StandardDayType;
 use App\Repository\DayRepositoryInterface;
 use App\Repository\PageRepositoryInterface;
@@ -57,7 +57,7 @@ class DayController extends AuthController
             ]);
         }
 
-        $formDelete = $this->createForm(DeleteDayType::class, $day, [
+        $formDelete = $this->createForm(DeleteType::class, $day, [
             'action' => $this->generateUrl('dayDelete', ['id' => $day->getId()]),
             'method' => 'POST',
         ]);
@@ -138,7 +138,7 @@ class DayController extends AuthController
     {
         $day = $this->getDay($id);
 
-        $form = $this->createForm(DeleteDayType::class);
+        $form = $this->createForm(DeleteType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

@@ -7,8 +7,7 @@ namespace App\Controller;
 use App\Entity\Recipe;
 use App\Form\RatingType;
 use App\Form\RecipeType;
-use App\Form\DeleteRecipeType;
-use App\Form\DeleteRatingType;
+use App\Form\DeleteType;
 use App\Repository\PageRepositoryInterface;
 use App\Repository\RatingRepositoryInterface;
 use App\Repository\RecipeRepositoryInterface;
@@ -57,7 +56,7 @@ class RecipeController extends Controller
             'method' => 'POST',
         ]);
 
-        $formDelete = $this->createForm(DeleteRecipeType::class, $recipe, [
+        $formDelete = $this->createForm(DeleteType::class, $recipe, [
             'action' => $this->generateUrl('recipeDelete', ['id' => $recipe->getId()]),
             'method' => 'POST',
         ]);
@@ -118,7 +117,7 @@ class RecipeController extends Controller
     {
         $recipe = $this->getRecipe($id);
 
-        $form = $this->createForm(DeleteRecipeType::class);
+        $form = $this->createForm(DeleteType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -156,7 +155,7 @@ class RecipeController extends Controller
             $form = $this->createForm(RatingType::class, $rating, [
                 'action' => $this->generateUrl('recipeRatingUpdate', ['id' => $rating->getId()]),
             ]);
-            $formDelete = $this->createForm(DeleteRatingType::class, null, [
+            $formDelete = $this->createForm(DeleteType::class, null, [
                 'action' => $this->generateUrl('recipeRatingDelete', ['id' => $rating->getId()]),
             ]);
         }

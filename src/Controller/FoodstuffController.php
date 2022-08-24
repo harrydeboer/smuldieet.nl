@@ -7,7 +7,7 @@ namespace App\Controller;
 use App\Entity\Foodstuff;
 use App\Form\FoodstuffFromFoodstuffsType;
 use App\Form\FoodstuffType;
-use App\Form\DeleteFoodstuffType;
+use App\Form\DeleteType;
 use App\Repository\FoodstuffRepositoryInterface;
 use App\Repository\PageRepositoryInterface;
 use App\Service\CombineFoodstuffsService;
@@ -53,7 +53,7 @@ class FoodstuffController extends Controller
             'method' => 'POST',
         ]);
 
-        $formDelete = $this->createForm(DeleteFoodstuffType::class, $foodstuff, [
+        $formDelete = $this->createForm(DeleteType::class, $foodstuff, [
             'action' => $this->generateUrl('foodstuffDelete', ['id' => $foodstuff->getId()]),
             'method' => 'POST',
         ]);
@@ -110,7 +110,7 @@ class FoodstuffController extends Controller
     public function delete(Request $request, int $id): RedirectResponse
     {
         $foodstuff = $this->getFoodstuff($id);
-        $form = $this->createForm(DeleteFoodstuffType::class);
+        $form = $this->createForm(DeleteType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

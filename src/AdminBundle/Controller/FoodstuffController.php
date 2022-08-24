@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\AdminBundle\Controller;
 
-use App\AdminBundle\Form\DeleteFoodstuffType;
+use App\Form\DeleteType;
 use App\AdminBundle\Form\FoodstuffType;
 use App\Controller\AuthController;
 use App\Entity\Foodstuff;
@@ -44,7 +44,7 @@ class FoodstuffController extends AuthController
             'method' => 'POST',
         ]);
 
-        $formDelete = $this->createForm(DeleteFoodstuffType::class, $foodstuff, [
+        $formDelete = $this->createForm(DeleteType::class, $foodstuff, [
             'action' => $this->generateUrl('adminFoodstuffDelete', ['id' => $foodstuff->getId()]),
             'method' => 'POST',
         ]);
@@ -82,7 +82,7 @@ class FoodstuffController extends AuthController
     #[Route('/voedingsmiddel/verwijder/{id}', name: 'adminFoodstuffDelete')]
     public function delete(Request $request, Foodstuff $foodstuff): RedirectResponse
     {
-        $form = $this->createForm(DeleteFoodstuffType::class);
+        $form = $this->createForm(DeleteType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

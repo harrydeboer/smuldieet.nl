@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\AdminBundle\Controller;
 
-use App\AdminBundle\Form\DeleteRatingType;
+use App\Form\DeleteType;
 use App\AdminBundle\Form\ReviewType;
 use App\Controller\AuthController;
 use App\Entity\Rating;
@@ -42,7 +42,7 @@ class RatingController extends AuthController
         ]);
         $ratingOldRating = $rating->getRating();
 
-        $formDelete = $this->createForm(DeleteRatingType::class, $rating, [
+        $formDelete = $this->createForm(DeleteType::class, $rating, [
             'action' => $this->generateUrl('adminRatingDelete', ['id' => $rating->getId()]),
             'method' => 'POST',
         ]);
@@ -65,7 +65,7 @@ class RatingController extends AuthController
     #[Route('/waardering/verwijder/{id}', name: 'adminRatingDelete')]
     public function delete(Request $request, Rating $rating): RedirectResponse
     {
-        $form = $this->createForm(DeleteRatingType::class);
+        $form = $this->createForm(DeleteType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

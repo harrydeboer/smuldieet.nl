@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\AdminBundle\Controller;
 
 use App\AdminBundle\Form\CreateUserType;
-use App\AdminBundle\Form\DeleteUserType;
+use App\Form\DeleteType;
 use App\AdminBundle\Form\UpdateUserType;
 use App\Controller\AuthController;
 use App\Entity\User;
@@ -46,7 +46,7 @@ class UserController extends AuthController
             'method' => 'POST',
         ]);
 
-        $formDelete = $this->createForm(DeleteUserType::class, $user, [
+        $formDelete = $this->createForm(DeleteType::class, $user, [
             'action' => $this->generateUrl('adminUserDelete', ['id' => $user->getId()]),
             'method' => 'POST',
         ]);
@@ -104,7 +104,7 @@ class UserController extends AuthController
     #[Route('/gebruiker/verwijder/{id}', name: 'adminUserDelete')]
     public function delete(Request $request, User $user): RedirectResponse
     {
-        $form = $this->createForm(DeleteUserType::class);
+        $form = $this->createForm(DeleteType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

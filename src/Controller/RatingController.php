@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Rating;
-use App\Form\DeleteRatingType;
+use App\Form\DeleteType;
 use App\Form\RatingType;
 use App\Repository\RatingRepositoryInterface;
 use App\Repository\RecipeRepositoryInterface;
@@ -59,7 +59,7 @@ class RatingController extends AuthController
     {
         $rating = $this->ratingRepository->getFromUser($id, $this->getUser()->getId());
         $recipe = $rating->getRecipe();
-        $formDelete = $this->createForm(DeleteRatingType::class);
+        $formDelete = $this->createForm(DeleteType::class);
         $formDelete->handleRequest($request);
 
         if ($formDelete->isSubmitted() && $formDelete->isValid()) {

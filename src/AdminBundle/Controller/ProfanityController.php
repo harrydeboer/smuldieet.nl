@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\AdminBundle\Controller;
 
-use App\AdminBundle\Form\DeleteProfanityType;
+use App\Form\DeleteType;
 use App\AdminBundle\Form\ProfanityType;
 use App\Controller\AuthController;
 use App\Entity\Profanity;
@@ -38,7 +38,7 @@ class ProfanityController extends AuthController
             'method' => 'POST',
         ]);
 
-        $formDelete = $this->createForm(DeleteProfanityType::class, $profanity, [
+        $formDelete = $this->createForm(DeleteType::class, $profanity, [
             'action' => $this->generateUrl('adminProfanityDelete', ['id' => $profanity->getId()]),
             'method' => 'POST',
         ]);
@@ -78,7 +78,7 @@ class ProfanityController extends AuthController
     #[Route('/scheldwoord/verwijder/{id}', name: 'adminProfanityDelete')]
     public function delete(Request $request, Profanity $profanity): RedirectResponse
     {
-        $form = $this->createForm(DeleteProfanityType::class);
+        $form = $this->createForm(DeleteType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
