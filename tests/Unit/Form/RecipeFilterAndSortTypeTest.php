@@ -11,8 +11,9 @@ class RecipeFilterAndSortTypeTest extends TypeTestCase
 {
     public function testSubmitModel(): void
     {
+        $sort = 'timestamp_DESC';
         $formData = [
-            'sort' => 'timestamp_DESC',
+            'sort' => $sort,
         ];
 
         $form = $this->factory->create(RecipeFilterAndSortType::class);
@@ -20,5 +21,7 @@ class RecipeFilterAndSortTypeTest extends TypeTestCase
         $form->submit($formData);
 
         $this->assertTrue($form->isSynchronized());
+
+        $this->assertEquals($sort, $form->get('sort')->getData());
     }
 }

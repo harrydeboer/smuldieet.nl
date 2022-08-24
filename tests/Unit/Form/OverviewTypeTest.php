@@ -5,15 +5,18 @@ declare(strict_types=1);
 namespace App\Tests\Unit\Form;
 
 use App\Form\OverviewType;
+use DateTime;
 use Symfony\Component\Form\Test\TypeTestCase;
 
 class OverviewTypeTest extends TypeTestCase
 {
     public function testSubmitModel(): void
     {
+        $startDateString = '2000-01-01';
+        $endDateString = '2000-02-01';
         $formData = [
-            'start' => '01-Jan-2000',
-            'end' => '01-Feb-2000',
+            'start' => $startDateString,
+            'end' => $endDateString,
         ];
 
         $form = $this->factory->create(OverviewType::class);
@@ -21,5 +24,13 @@ class OverviewTypeTest extends TypeTestCase
         $form->submit($formData);
 
         $this->assertTrue($form->isSynchronized());
+
+        $dateStart = new DateTime();
+        $dateStart->setTimestamp(strtotime($startDateString));
+        $dateEnd = new DateTime();
+        $dateEnd->setTimestamp(strtotime($endDateString));
+
+        $this->assertEquals($dateStart, $form->get('start')->getData());
+        $this->assertEquals($dateEnd, $form->get('end')->getData());
     }
 }

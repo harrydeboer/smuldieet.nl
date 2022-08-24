@@ -3,13 +3,15 @@
     {% set entity = entities[entitiyId] %}
     {% set title = foodType == 'foodstuff' ? entity.name : entity.title %}
     <tr>
-        <td>{{ include('foodDropdown.html.twig', {'title': title, 'foodType': foodType, 'required': 'required'}) }}</td>
+        <td>{{ include('foodDropdown.html.twig', {'title': title, 'foodType': foodType}) }}</td>
         <td>{{ form_widget(weight) }}</td>
         <td><i class="remove-row fa fa-minus"></i></td>
     </tr>
 {% endfor %}
-<tr id="{{ foodType }}-prototype" class="hidden-input">
-    <td>{{ include('foodDropdown.html.twig', {'title': '', 'foodType': foodType, 'required': '__required__'}) }}</td>
+<tr class="d-none">
+    <td><div id="{{ formName }}_{{ foodType }}Dropdown"
+        data-prototype="{{ include('foodDropdown.html.twig', {'title': '', 'foodType': foodType})|e('html') }}"></div>
+    </td>
     <td>
         {% if weights|length == 0 %}
             {{ form_widget(weights) }}
@@ -17,8 +19,9 @@
             <div id="{{ formName }}_{{ foodType }}Weights"
                  data-prototype="{{ form_widget(weights.vars.prototype)|e('html') }}"></div>
         {% endif %}
+    </td>
+    <td>
         <div id="foodstuffSearch" data-search="{{ path('foodstuffSearch', {'name': '__name__'}) }}"></div>
         <div id="recipeSearch" data-search="{{ path('recipeSearch', {'title': '__title__'}) }}"></div>
     </td>
-    <td></td>
 </tr>

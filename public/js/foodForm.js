@@ -17,7 +17,7 @@ class FoodForm {
 
     addRow(foodType, event) {
         let html = '<tr><td>';
-        html = html + $('#' + foodType + '-prototype .dropdown')[0].outerHTML + '</td><td>';
+        html = html + $('#' + this.formName + '_' + foodType + 'Dropdown').data('prototype') + '</td><td>';
         html = html + $('#' + this.formName + '_' + foodType + 'Weights').data('prototype');
         html = html + '</td><td><i class="remove-row fa fa-minus"></i></td></tr>';
         html = html.replace('<label for="' + this.formName + '_' + foodType +
@@ -28,6 +28,7 @@ class FoodForm {
         if (foodType === 'recipe') {
             $('#' + this.formName + '_recipeWeights_').val(1);
         }
+        $('#' + this.formName + '_' + foodType + 'Weights_').attr('id', '');
         event.preventDefault();
     }
 

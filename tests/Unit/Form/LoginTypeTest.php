@@ -11,9 +11,11 @@ class LoginTypeTest extends TypeTestCase
 {
     public function testSubmitModel(): void
     {
+        $email = 'test@test.com';
+        $password = 'secret';
         $formData = [
-            'email' => 'test@test.com',
-            'password' => 'secret',
+            'email' => $email,
+            'password' => $password,
         ];
 
         $form = $this->factory->create(LoginType::class);
@@ -21,5 +23,8 @@ class LoginTypeTest extends TypeTestCase
         $form->submit($formData);
 
         $this->assertTrue($form->isSynchronized());
+
+        $this->assertEquals($email, $form->get('email')->getData());
+        $this->assertEquals($password, $form->get('password')->getData());
     }
 }

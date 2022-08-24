@@ -6,16 +6,19 @@ namespace App\Tests\Unit\Form;
 
 use App\Entity\Foodstuff;
 use App\Form\FoodstuffFromFoodstuffsType;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\Test\TypeTestCase;
 
 class FoodstuffFromFoodstuffsTypeTest extends TypeTestCase
 {
     public function testSubmitModel(): void
     {
+        $foodstuff = new Foodstuff();
+        $foodstuff->setId(1);
+        $name = 'test';
         $formData = [
-            'name' => 'test',
-            'foodstuffs' => [new Foodstuff()],
-            'foodstuffWeights' => [100],
+            'name' => $name,
+            'foodstuffWeights' => [$foodstuff->getId() => 100],
         ];
 
         $form = $this->factory->create(FoodstuffFromFoodstuffsType::class);
@@ -23,5 +26,8 @@ class FoodstuffFromFoodstuffsTypeTest extends TypeTestCase
         $form->submit($formData);
 
         $this->assertTrue($form->isSynchronized());
+
+        $this->assertEquals($name, $form->get('name')->getData());
+        $this->assertEquals([$foodstuff->getId() => 100], $form->get('foodstuffWeights')->getData());
     }
 }
