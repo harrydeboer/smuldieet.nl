@@ -19,11 +19,11 @@ DirectoryIndex index.php
 
 <IfModule mod_deflate.c>
     SetOutputFilter DEFLATE
-    AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css application/x-javascript application/javascript application/json
+    AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css application/x-javascript \
+    application/javascript application/json
     BrowserMatch ^Mozilla/4 gzip-only-text/html
     BrowserMatch ^Mozilla/4\.0[678] no-gzip
     BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
-    BrowserMatch \bMSI[E] !no-gzip !gzip-only-text/html
     SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png)$ no-gzip
 </IfModule>
 

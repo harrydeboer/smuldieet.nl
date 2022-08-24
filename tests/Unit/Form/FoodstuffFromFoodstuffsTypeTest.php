@@ -6,7 +6,6 @@ namespace App\Tests\Unit\Form;
 
 use App\Entity\Foodstuff;
 use App\Form\FoodstuffFromFoodstuffsType;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\Test\TypeTestCase;
 
 class FoodstuffFromFoodstuffsTypeTest extends TypeTestCase
