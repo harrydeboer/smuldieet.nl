@@ -4,7 +4,7 @@
     {% set title = foodType == 'foodstuff' ? entity.name : entity.title %}
     <tr>
         <td>{{ include('foodDropdown.html.twig', {'title': title, 'foodType': foodType, 'formName': formName}) }}</td>
-        <td>{{ form_widget(weight) }}</td>
+        <td>{{ form_widget(weight, {'id': ''}) }}</td>
         <td><i class="remove-row fa fa-minus"></i></td>
     </tr>
 {% endfor %}

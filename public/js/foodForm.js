@@ -9,21 +9,25 @@ class FoodForm {
         $('#add-recipe').on('click', this.addRow.bind(this, 'recipe'));
         form.on('input', ".foodstuff-name", this.foodNameInput.bind(this, 'foodstuff'));
         form.on('input', ".recipe-name", this.foodNameInput.bind(this, 'recipe'));
-        form.on('click', ".foodstuff-div", this.foodDivClick.bind(this, 'foodstuff'));
-        form.on('click', ".recipe-div", this.foodDivClick.bind(this, 'recipe'));
+        form.on('click', ".foodstuff-result", this.foodSearchResultClick.bind(this, 'foodstuff'));
+        form.on('click', ".recipe-result", this.foodSearchResultClick.bind(this, 'recipe'));
         form.on('click', ".remove-row", this.removeRow.bind(this));
         form.on('submit', this.submit.bind(this));
     }
 
+    /**
+     * A row in the food form consists of a search dropdown, a weight and a minus icon for deletion of the row.
+     * The label of the weight input is removed and the __name__ is set to an empty string.
+     * When the food type is a recipe then the weight value is set to 1.
+     * The id is removed from the weight prototype.
+     */
     addRow(foodType, event) {
-        let html = '<tr><td>';
-        html = html + $('#' + this.formName + '_' + foodType + 'Dropdown').data('prototype') + '</td><td>';
-        html = html + $('#' + this.formName + '_' + foodType + 'Weights').data('prototype');
-        html = html + '</td><td><i class="remove-row fa fa-minus"></i></td></tr>';
+        let html = '<tr><td>' + $('#' + this.formName + '_' + foodType + 'Dropdown').data('prototype') + '</td>';
+        html += '<td>' + $('#' + this.formName + '_' + foodType + 'Weights').data('prototype') + '</td>';
+        html += '<td><i class="remove-row fa fa-minus"></i></td></tr>';
         html = html.replace('<label for="' + this.formName + '_' + foodType +
             'Weights___name__" class="required">__name__label__</label>', '');
         html = html.replaceAll('__name__', '');
-        html = html.replace('__required__', 'required')
         $('#add-foodstuff-recipe-button-row').before(html);
         if (foodType === 'recipe') {
             $('#' + this.formName + '_recipeWeights_').val(1);
@@ -32,6 +36,11 @@ class FoodForm {
         event.preventDefault();
     }
 
+    /**
+     * When the input of the search dropdown changes an Ajax call is sent to the server.
+     * When the call is successful the search dropdown is filled with search result.
+     * If the search string is equal to a search result then the weight name id is set.
+     */
     foodNameInput(foodType, event) {
         let thisElement = $(event.target);
         let row = new FoodRow(event.target);
@@ -52,8 +61,8 @@ class FoodForm {
                 type: 'GET',
                 success: (data) => {
                     searchResults.html(data);
-                    $('.food-div').each((index, element) => {
-                        let id = $(element).attr('id').replace(foodType + '-div', '');
+                    $('.' + foodType + '-result').each((index, element) => {
+                        let id = $(element).attr('id').replace(foodType + '-result', '');
                         let name = $(element).text().toLowerCase().normalize("NFD")
                             .replace(/[\u0300-\u036f]/g, "");
                         if (valueInput === name) {
@@ -68,10 +77,13 @@ class FoodForm {
         }
     }
 
-    foodDivClick(foodType, event) {
+    /**
+     * When a search result is clicked upon the weight name id gets set and the search input value is set.
+     */
+    foodSearchResultClick(foodType, event) {
         let thisElement = $(event.target);
         let row = new FoodRow(event.target);
-        let id = thisElement.attr('id').replace(foodType + '-div', '');
+        let id = thisElement.attr('id').replace(foodType + '-result', '');
         let name = thisElement.text();
         row.getWeight().attr('name', this.formName + '[' + foodType + 'Weights][' + id + ']')
         row.getName().val(name);
@@ -81,6 +93,10 @@ class FoodForm {
         new FoodRow(event.target).row.remove();
     }
 
+    /**
+     * When the form submits it is checked that foodstuffs and recipes appear only once in the form.
+     * When the form is foodstuff_from_foodstuffs it is checked that the percentages add up to 100.
+     */
     submit(event) {
         let text = '';
 
