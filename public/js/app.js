@@ -64,4 +64,9 @@ $(function() {
             event.preventDefault();
         }
     });
+
+    let form = $('.food-form');
+    if (form.length > 0) {
+        new FoodForm(form);
+    }
 });

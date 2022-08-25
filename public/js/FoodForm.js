@@ -1,6 +1,24 @@
 class FoodForm {
 
     constructor(form) {
+        this.FoodRow = class {
+            constructor(thisElement) {
+                this.row = $(thisElement).closest('tr');
+            }
+
+            getName() {
+                return this.row.find('.dropdown-toggle');
+            }
+
+            getWeight() {
+                return this.row.find('.food-weight');
+            }
+
+            getSearchResults() {
+                return this.row.find('.dropdown-menu-food')
+            }
+        }
+
         this.formName = form.attr('name');
         this.errors = $('#form-errors-client');
         this.options = $('#' + this.formName + '_foodstuffs option');
@@ -43,7 +61,7 @@ class FoodForm {
      */
     foodNameInput(foodType, event) {
         let thisElement = $(event.target);
-        let row = new FoodRow(event.target);
+        let row = new this.FoodRow(event.target);
         let valueInput = thisElement.val().toLowerCase().normalize("NFD")
             .replace(/[\u0300-\u036f]/g, "");
         let searchResults = row.getSearchResults();
@@ -82,7 +100,7 @@ class FoodForm {
      */
     foodSearchResultClick(foodType, event) {
         let thisElement = $(event.target);
-        let row = new FoodRow(event.target);
+        let row = new this.FoodRow(event.target);
         let id = thisElement.attr('id').replace(foodType + '-result', '');
         let name = thisElement.text();
         row.getWeight().attr('name', this.formName + '[' + foodType + 'Weights][' + id + ']')
@@ -90,7 +108,7 @@ class FoodForm {
     }
 
     removeRow(event) {
-        new FoodRow(event.target).row.remove();
+        new this.FoodRow(event.target).row.remove();
     }
 
     /**
@@ -132,28 +150,3 @@ class FoodForm {
         this.errors.html(text);
     }
 }
-
-class FoodRow {
-    constructor(thisElement) {
-        this.row = $(thisElement).closest('tr');
-    }
-
-    getName() {
-        return this.row.find('.dropdown-toggle');
-    }
-
-    getWeight() {
-        return this.row.find('.food-weight');
-    }
-
-    getSearchResults() {
-        return this.row.find('.dropdown-menu-food')
-    }
-}
-
-$(function() {
-    let form = $('.food-form');
-    if (form.length > 0) {
-        new FoodForm(form);
-    }
-});
