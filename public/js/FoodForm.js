@@ -1,24 +1,6 @@
 class FoodForm {
 
     constructor(form) {
-        this.FoodRow = class {
-            constructor(thisElement) {
-                this.row = $(thisElement).closest('tr');
-            }
-
-            getName() {
-                return this.row.find('.dropdown-toggle');
-            }
-
-            getWeight() {
-                return this.row.find('.food-weight');
-            }
-
-            getSearchResults() {
-                return this.row.find('.dropdown-menu-food')
-            }
-        }
-
         this.formName = form.attr('name');
         this.errors = $('#form-errors-client');
         this.options = $('#' + this.formName + '_foodstuffs option');
@@ -148,5 +130,31 @@ class FoodForm {
         }
 
         this.errors.html(text);
+    }
+
+    /**
+     * The FoodForm has a FoodRow class in which the current element can be put and the row of the element is returned.
+     * From this row the name, weight and search results can be retrieved.
+     * The inspection JSCheckFunctionSignatures is disabled because the find method works on class names.
+     */
+    FoodRow = class {
+        constructor(thisElement) {
+            this.row = $(thisElement).closest('tr');
+        }
+
+        getName() {
+            // noinspection JSCheckFunctionSignatures
+            return this.row.find('.dropdown-toggle');
+        }
+
+        getWeight() {
+            // noinspection JSCheckFunctionSignatures
+            return this.row.find('.food-weight');
+        }
+
+        getSearchResults() {
+            // noinspection JSCheckFunctionSignatures
+            return this.row.find('.dropdown-menu-food')
+        }
     }
 }
