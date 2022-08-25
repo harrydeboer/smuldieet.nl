@@ -64,12 +64,15 @@ class RatingController extends AuthController
         $rating = $this->ratingRepository->getFromUser($id, $this->getUser()->getId());
         $recipe = $rating->getRecipe();
         $oldRating = $rating->getRating();
+        $oldReview = $rating->getContent();
         $form = $this->createForm(RatingType::class, $rating);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 if (is_null($rating->getContent())) {
+                    $rating->setPending(false);
+                } elseif ($oldReview === $rating->getContent() && !$rating->getPending()) {
                     $rating->setPending(false);
                 } else {
                     $rating->setPending(true);
