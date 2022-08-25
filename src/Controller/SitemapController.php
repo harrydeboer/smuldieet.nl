@@ -53,6 +53,7 @@ class SitemapController extends Controller
                 || $page->getSlug() === 'overzicht'
                 || $page->getSlug() === 'recepten'
                 || $page->getSlug() === 'verander-wachtwoord'
+                || $page->getSlug() === 'recept-formulier'
             ) {
                 continue;
             }
