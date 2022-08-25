@@ -4,7 +4,9 @@
 
 {% block body %}
     {{ page is not null ? page.content|raw : '' }}
-    <a href="{{ path('foodstuffFromFoodstuffsCreate') }}">Maak een voedingsmiddel van voedingsmiddelen</a><br>
+    {% if currentUser is not null %}
+        <a href="{{ path('foodstuffFromFoodstuffsCreate') }}">Maak een voedingsmiddel van voedingsmiddelen</a><br>
+    {% endif %}
     <br>
     <select id="abc-select">
         {% for char in 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z'|split(',') %}
@@ -25,7 +27,7 @@
         {% for foodstuff in foodstuffs %}
             <tr>
                 <td><a href="{{ path('foodstuffSingle', {'id': foodstuff.id}) }}">{{ foodstuff.name }}</a></td>
-                {% if foodstuff.user == currentUser %}
+                {% if currentUser is not null and foodstuff.user == currentUser %}
                     <td><a href="{{ path('foodstuffEdit', {'id': foodstuff.id }) }}">wijzig</a></td>
                 {% else %}
                     <td></td>
