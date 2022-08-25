@@ -47,14 +47,14 @@
     <tr><td>Soort gerecht *</td><td colspan="2">{{ form_widget(form.typeOfDish) }}</td></tr>
     <tr><td>Gelegenheid</td><td colspan="2">{{ form_widget(form.occasion) }}</td></tr>
     <tr class="dropdown"><td colspan="3">
-        <div class="dropdown-toggle form-control" id="diet-filter"
-                value="test" data-bs-toggle="dropdown" aria-expanded="false">Selecteer dieet</div>
-        <table class="dropdown-menu dropdown-diet" aria-labelledby="diet-filter">
-            {% for key,choice in constant('DIET_CHOICES', recipe) %}
-                <tr><td><label class="form-check-label" for="diet{{ key|replace({' ':''}) }}">{{ key }}</label></td>
-                    <td>{{ form_widget(attribute(form, choice), {'id': 'diet'~key|replace({' ':''})}) }}</td></tr>
-            {% endfor %}
-        </table></td>
+            <div class="dropdown-toggle form-control" id="diet-filter" role="button"
+                 data-bs-toggle="dropdown" aria-expanded="false">Selecteer dieet</div>
+            <table class="dropdown-menu dropdown-diet" aria-labelledby="diet-filter">
+                {% for key,choice in constant('DIET_CHOICES', recipe) %}
+                    <tr><td><label class="form-check-label" for="diet{{ key|replace({' ':''}) }}">{{ key }}</label></td>
+                        <td>{{ form_widget(attribute(form, choice), {'id': 'diet'~key|replace({' ':''})}) }}</td></tr>
+                {% endfor %}
+            </table></td>
     </tr>
     <tr><td colspan="3">{{ form_widget(form.submit, { 'label': submitLabel }) }}</td></tr>
 </table>

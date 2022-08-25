@@ -50,8 +50,8 @@
         <tr><td>{{ form_widget(form.occasion) }}</td></tr>
         <tr><td>{{ form_widget(form.isSelfInvented) }}</td></tr>
         <tr><td><div class="dropdown">
-                    <div class="dropdown-toggle form-control" id="diet-filter"
-                            value="test" data-bs-toggle="dropdown" aria-expanded="false">Selecteer dieet</div>
+                    <div class="dropdown-toggle form-control" id="diet-filter" role="button"
+                         data-bs-toggle="dropdown" aria-expanded="false">Selecteer dieet</div>
                     <table class="dropdown-menu dropdown-diet" aria-labelledby="diet-filter">
                         {% for key,choice in dietChoices %}
                             <tr><td><label class="form-check-label"
