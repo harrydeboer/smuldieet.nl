@@ -32,7 +32,7 @@ class FoodForm {
         if (foodType === 'recipe') {
             $('#' + this.formName + '_recipeWeights_').val(1);
         }
-        $('#' + this.formName + '_' + foodType + 'Weights_').attr('id', '');
+        $('#' + this.formName + '_' + foodType + 'Weights_').removeAttr('id');
         event.preventDefault();
     }
 

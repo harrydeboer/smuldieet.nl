@@ -22,6 +22,7 @@ class FoodstuffType extends \App\Form\FoodstuffType
             ->add('user', EntityType::class, [
                 'class' => User::class,
                 'choices' => [$this->token->getToken()->getUser()],
+                'placeholder' => 'selecteer gebruiker',
                 'choice_value' => 'id',
                 'choice_label' => function(?User $user) {
                     return $user ? $user->getUsername() : '';

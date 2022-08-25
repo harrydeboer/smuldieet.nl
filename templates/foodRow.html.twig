@@ -8,7 +8,7 @@
     {% endif %}
     <tr>
         <td>{{ include('foodDropdown.html.twig', {'title': title, 'foodType': foodType, 'formName': formName}) }}</td>
-        <td>{{ form_widget(weight, {'id': ''}) }}</td>
+        <td>{{ form_widget(weight) }}</td>
         <td><i class="remove-row fa fa-minus"></i></td>
     </tr>
 {% endfor %}
@@ -26,7 +26,10 @@
         {% endif %}
     </td>
     <td>
-        <div id="foodstuffSearch" data-search="{{ path('foodstuffSearch', {'name': '__name__'}) }}"></div>
-        <div id="recipeSearch" data-search="{{ path('recipeSearch', {'title': '__title__'}) }}"></div>
+        {% if foodType == 'foodstuff' %}
+            <div id="foodstuffSearch" data-search="{{ path('foodstuffSearch', {'name': '__name__'}) }}"></div>
+        {% else %}
+            <div id="recipeSearch" data-search="{{ path('recipeSearch', {'title': '__title__'}) }}"></div>
+        {% endif %}
     </td>
 </tr>

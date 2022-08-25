@@ -41,7 +41,11 @@ class RatingController extends AuthController
         if ($form->isSubmitted() && $form->isValid()) {
             $rating->setUser($this->getUser());
             $rating->setTimestamp(time());
-            $rating->setPending(false);
+            if (is_null($rating->getContent())) {
+                $rating->setPending(false);
+            } else {
+                $rating->setPending(true);
+            }
             $rating->setRecipe($recipe);
 
             try {
@@ -52,21 +56,6 @@ class RatingController extends AuthController
         }
 
         return $this->redirectToRoute('recipeSingle', ['id' => $recipeId]);
-    }
-
-    #[Route('/waardering/verwijder/{id}', name: 'recipeRatingDelete')]
-    public function delete(Request $request, int $id): RedirectResponse
-    {
-        $rating = $this->ratingRepository->getFromUser($id, $this->getUser()->getId());
-        $recipe = $rating->getRecipe();
-        $formDelete = $this->createForm(DeleteType::class);
-        $formDelete->handleRequest($request);
-
-        if ($formDelete->isSubmitted() && $formDelete->isValid()) {
-            $this->ratingRepository->delete($rating);
-        }
-
-        return $this->redirectToRoute('recipeSingle', ['id' => $recipe->getId()]);
     }
 
     #[Route('/waardering/wijzig/{id}', name: 'recipeRatingUpdate')]
@@ -80,10 +69,30 @@ class RatingController extends AuthController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
+                if (is_null($rating->getContent())) {
+                    $rating->setPending(false);
+                } else {
+                    $rating->setPending(true);
+                }
                 $this->ratingRepository->update($oldRating, $rating);
             } catch (BadRequestException $exception) {
                 $this->addFlash('error', $exception->getMessage());
             }
+        }
+
+        return $this->redirectToRoute('recipeSingle', ['id' => $recipe->getId()]);
+    }
+
+    #[Route('/waardering/verwijder/{id}', name: 'recipeRatingDelete')]
+    public function delete(Request $request, int $id): RedirectResponse
+    {
+        $rating = $this->ratingRepository->getFromUser($id, $this->getUser()->getId());
+        $recipe = $rating->getRecipe();
+        $formDelete = $this->createForm(DeleteType::class);
+        $formDelete->handleRequest($request);
+
+        if ($formDelete->isSubmitted() && $formDelete->isValid()) {
+            $this->ratingRepository->delete($rating);
         }
 
         return $this->redirectToRoute('recipeSingle', ['id' => $recipe->getId()]);
