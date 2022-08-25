@@ -49,7 +49,7 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
             ->andWhere('r.pending = 0 or r.pending = 1 and r.user = :userId')
             ->setParameter('userId', $userId)
             ->setMaxResults(20)
-            ->orderBy('f.title', 'ASC');
+            ->orderBy('r.title', 'ASC');
 
         $query = $qb->getQuery();
 
