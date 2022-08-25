@@ -1,7 +1,11 @@
 {% for key, weight in weights %}
     {% set entitiyId = weight.vars.id|split('_')|last %}
     {% set entity = entities[entitiyId] %}
-    {% set title = foodType == 'foodstuff' ? entity.name : entity.title %}
+    {% if  foodType == 'foodstuff' %}
+        {% set title = entity.name %}
+    {% else %}
+        {% set title = entity.title %}
+    {% endif %}
     <tr>
         <td>{{ include('foodDropdown.html.twig', {'title': title, 'foodType': foodType, 'formName': formName}) }}</td>
         <td>{{ form_widget(weight, {'id': ''}) }}</td>
@@ -10,8 +14,8 @@
 {% endfor %}
 <tr class="d-none">
     <td><div id="{{ formName }}_{{ foodType }}Dropdown"
-        data-prototype="{{ include('foodDropdown.html.twig', {'title': '', 'foodType': foodType,
-            'formName': formName})|e('html') }}"></div>
+             data-prototype="{{ include('foodDropdown.html.twig', {'title': '', 'foodType': foodType,
+                 'formName': formName})|e('html') }}"></div>
     </td>
     <td>
         {% if weights|length == 0 %}

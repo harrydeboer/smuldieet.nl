@@ -9,7 +9,7 @@
     {{ include('foodRow.html.twig', {'formName': 'cookbook', 'entities': cookbook.recipes,
         'weights': form.recipeWeights, 'foodType': 'recipe'}) }}
     <tr id="add-foodstuff-recipe-button-row"><td colspan="3">
-            <button class="btn btn-primary" id="add-recipe">Recept toevoegen</button></td></tr>
+            <div class="btn btn-primary" id="add-recipe">Recept toevoegen</div></td></tr>
     <tr><td colspan="3">{{ form_widget(form.submit, { 'label': submitLabel }) }}</td></tr>
 </table>
 {{ form_end(form) }}

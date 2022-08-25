@@ -85,6 +85,7 @@ class DayController extends AuthController
     public function new(Request $request): Response
     {
         $day = new Day();
+        $dayStandard = $this->dayRepository->findOneBy(['user' => $this->getUser()->getId(), 'timestamp' => null]);
         $form = $this->createForm(DayType::class, $day);
         $day->setUser($this->getUser());
         $form->handleRequest($request);
@@ -97,9 +98,9 @@ class DayController extends AuthController
             $this->dayRepository->create($day);
 
             return $this->redirectToRoute('diary');
+        } else {
+            $form = $this->createForm(DayType::class, $dayStandard);
         }
-
-        $dayStandard = $this->dayRepository->findOneBy(['user' => $this->getUser()->getId(), 'timestamp' => null]);
 
         return $this->render('day/new/view.html.twig', [
             'day' => $dayStandard ?? $day,

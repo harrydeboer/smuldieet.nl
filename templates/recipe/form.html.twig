@@ -24,7 +24,7 @@
 {{ form_start(form, { 'attr' : { 'class': 'food-form' }}) }}
 {{ page is not null ? page.content|raw : '' }}
 <table class="food-table table table-small">
-    <tr><td colspan="3"><button id="uploadFileButton" class="btn btn-primary">Upload afbeelding</button>
+    <tr><td colspan="3"><div id="uploadFileButton" class="btn btn-primary">Upload afbeelding</div>
             {{ form_widget(form.image) }}</td></tr>
     <tr><td>Titel *</td><td colspan="2">{{ form_widget(form.title) }}</td></tr>
     <tr><td>Url video</td><td colspan="2">{{ form_widget(form.url) }}</td></tr>
@@ -33,7 +33,7 @@
     {{ include('foodRow.html.twig', {'formName': 'recipe', 'entities': recipe.foodstuffs,
         'weights': form.foodstuffWeights, 'foodType': 'foodstuff'}) }}
     <tr id="add-foodstuff-recipe-button-row"><td colspan="3">
-            <button class="btn btn-primary" id="add-foodstuff">Voedingsmiddel toevoegen</button></td></tr>
+            <div class="btn btn-primary" id="add-foodstuff">Voedingsmiddel toevoegen</div></td></tr>
     <tr><td>Bereidingswijze *</td><td colspan="2">{{ form_widget(form.preparationMethod) }}</td></tr>
     <tr><td>Vertel iets leuks over dit recept</td><td colspan="2">{{ form_widget(form.niceStory) }}</td></tr>
     <tr><td>Leuke tips</td><td colspan="2">{{ form_widget(form.niceTips) }}</td></tr>
@@ -47,8 +47,8 @@
     <tr><td>Soort gerecht *</td><td colspan="2">{{ form_widget(form.typeOfDish) }}</td></tr>
     <tr><td>Gelegenheid</td><td colspan="2">{{ form_widget(form.occasion) }}</td></tr>
     <tr class="dropdown"><td colspan="3">
-        <button class="dropdown-toggle form-control" id="diet-filter"
-                value="test" data-bs-toggle="dropdown" aria-expanded="false">Selecteer dieet</button>
+        <div class="dropdown-toggle form-control" id="diet-filter"
+                value="test" data-bs-toggle="dropdown" aria-expanded="false">Selecteer dieet</div>
         <table class="dropdown-menu dropdown-diet" aria-labelledby="diet-filter">
             {% for key,choice in constant('DIET_CHOICES', recipe) %}
                 <tr><td><label class="form-check-label" for="diet{{ key|replace({' ':''}) }}">{{ key }}</label></td>

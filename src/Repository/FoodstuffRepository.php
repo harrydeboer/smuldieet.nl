@@ -65,7 +65,8 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
             ->setParameter('name', '%' . $name . '%')
             ->andWhere('f.user = :userId or f.user IS NULL')
             ->setParameter('userId', $userId)
-            ->setMaxResults(10);
+            ->setMaxResults(10)
+            ->orderBy('f.name', 'ASC');
 
         $query = $qb->getQuery();
 
