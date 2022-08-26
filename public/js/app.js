@@ -48,7 +48,7 @@ $(function() {
         }, 1000);
     }
     $('#recipe-filter-icon').on('click', function() {
-        let form = $('#filter-sort-form');
+        let form = $('#filter-sort-table');
         if (form.hasClass('d-none')) {
             form.removeClass('d-none');
         } else {
