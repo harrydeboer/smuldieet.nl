@@ -39,6 +39,7 @@ class RecipeFactory extends AbstractFactory
         }
         $recipe = new Recipe();
         $recipe->setTitle(uniqid('recipe'));
+        $recipe->setIngredients(uniqid('ingredients'));
         $recipe->setNiceStory(uniqid('story'));
         $recipe->setUser($paramsParent['user']);
         $recipe->setTimestamp(time());

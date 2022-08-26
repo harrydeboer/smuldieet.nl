@@ -24,9 +24,10 @@ class RecipeControllerTest extends AuthAdminWebTestCase
 
         $testImagePath = __DIR__ . '/test.jpg';
         $form['recipe[image]'] = new File($testImagePath);
-        $form['recipe[title]'] = 'test';
-        $form['recipe[preparationMethod]'] = 'test';
-        $form['recipe[niceStory]'] = 'test';
+        $form['recipe[title]'] = 'test title';
+        $form['recipe[ingredients]'] = 'test ingredient';
+        $form['recipe[preparationMethod]'] = 'test preparation';
+        $form['recipe[niceStory]'] = 'test story';
         $form['recipe[isSelfInvented]'] = 0;
         $form['recipe[numberOfPersons]'] = 1;
         $form['recipe[cookingTime]'] = '0-10 min.';
@@ -39,7 +40,7 @@ class RecipeControllerTest extends AuthAdminWebTestCase
 
         $recipeRepository = $this->getContainer()->get(RecipeRepositoryInterface::class);
 
-        $recipe = $recipeRepository->findOneBy(['title' => 'test']);
+        $recipe = $recipeRepository->findOneBy(['title' => 'test title']);
         $id = $recipe->getId();
 
         $this->client->xmlHttpRequest('GET', '/recept/zoeken/' . $recipe->getTitle());

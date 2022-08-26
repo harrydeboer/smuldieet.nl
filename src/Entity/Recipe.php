@@ -172,10 +172,10 @@ class Recipe
     private ?string $url = null;
 
     #[
-        ORM\Column(type: "text", nullable: true),
+        ORM\Column(type: "text"),
         Assert\Length(max: 65535, maxMessage: 'De ingrediënten mogen niet meer dan 65535 tekens hebben.'),
     ]
-    private ?string $ingredients = null;
+    private string $ingredients;
 
     #[
         ORM\Column(type: "text"),
@@ -385,18 +385,14 @@ class Recipe
         $this->preparationMethod = strip_tags($preparationMethod);
     }
 
-    public function getIngredients(): ?string
+    public function getIngredients(): string
     {
         return $this->ingredients;
     }
 
-    public function setIngredients(?string $ingredients): void
+    public function setIngredients(string $ingredients): void
     {
-        if (is_null($ingredients)) {
-            $this->ingredients = null;
-        } else {
-            $this->ingredients = strip_tags($ingredients);
-        }
+        $this->ingredients = strip_tags($ingredients);
     }
 
     public function getNumberOfPersons(): int

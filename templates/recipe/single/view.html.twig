@@ -29,13 +29,15 @@
     {% endif %}
     {% if recipe.imageExtension is not null %}
         <div><img src="{{  asset(recipe.getImagePath(appEnv, 600)) }}" id="recipe-image" class="img-fluid"
-             alt="recipe"></div>
+                  alt="recipe"></div>
     {% endif %}
     <div id="singleRecipe">
         <div class="recipeSingleProperty">Titel</div>
         {{ recipe.title }}
-        <div class="recipeSingleProperty">Url</div>
-        {{ recipe.url }}
+        {% if recipe.url is not null %}
+            <div class="recipeSingleProperty">Url</div>
+            {{ recipe.url }}
+        {% endif %}
         <div class="recipeSingleProperty">Ingrediënten</div>
         {{ recipe.ingredients }}
         <div class="recipeSingleProperty">Voedingsmiddelen gerecht</div>
@@ -47,17 +49,30 @@
         </table>
         <div class="recipeSingleProperty">Bereidingswijze</div>
         {{ recipe.preparationMethod }}
-        <div class="recipeSingleProperty">Vertel iets leuks over dit recept</div>
-        {{ recipe.niceStory }}
-        <div class="recipeSingleProperty">Leuke tips</div>
-        {{ recipe.niceTips }}
-        <div class="recipeSingleProperty">Hulpmiddelen en keukengerei</div
-        {{ recipe.toolsAndKitchenware }}
+        {% if recipe.niceStory is not null %}
+            <div class="recipeSingleProperty">Vertel iets leuks over dit recept</div>
+            {{ recipe.niceStory }}
+        {% endif %}
+        {% if recipe.niceTips is not null %}
+            <div class="recipeSingleProperty">Leuke tips</div>
+            {{ recipe.niceTips }}
+        {% endif %}
+        {% if recipe.toolsAndKitchenware is not null %}
+            <div class="recipeSingleProperty">Hulpmiddelen en keukengerei</div
+            {{ recipe.toolsAndKitchenware }}
+        {% endif %}
         <div class="recipeSingleProperty">Aantal personen</div>
         {{ recipe.numberOfPersons }}
-        <div class="recipeSingleProperty">Aantal stuks</div>
-        {{ recipe.numberOfPieces }}
+        {% if recipe.numberOfPieces is not null %}
+            <div class="recipeSingleProperty">Aantal stuks</div>
+            {{ recipe.numberOfPieces }}
+        {% endif %}
         <div class="recipeSingleProperty">Zelf bedacht</div>
+        {{ recipe.isSelfInvented ? 'Ja' : 'Nee' }}
+        {% if recipe.source is not null %}
+            <div class="recipeSingleProperty">Bron</div>
+            {{ recipe.source }}
+        {% endif %}
         {{ recipe.isSelfInvented }}
         <div class="recipeSingleProperty">Waardering</div>
         {% if recipe.rating is null %}
@@ -77,15 +92,19 @@
         {{ recipe.kitchen }}
         <div class="recipeSingleProperty">Soort gerecht</div>
         {{ recipe.typeOfDish }}
-        <div class="recipeSingleProperty">Gelegenheid</div>
-        {{ recipe.occasion }}
+        {% if recipe.occasion is not null %}
+            <div class="recipeSingleProperty">Gelegenheid</div>
+            {{ recipe.occasion }}
+        {% endif %}
+        <br>
+        <br>
         {% for key, choice in constant('DIET_CHOICES', recipe)  %}
             {% if attribute(recipe, choice) == 1 %}
-                {{ key }}
+                <div>{{ key }}</div>
             {% endif %}
         {% endfor %}
         {% if currentUserId == recipe.user.id %}
-            <a href="{{ path('recipeEdit', {'id': recipe.id}) }}">wijzig</a>
+            <div><a href="{{ path('recipeEdit', {'id': recipe.id}) }}">wijzig</a></div>
         {% endif %}
     </div>
 {% endblock %}
