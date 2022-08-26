@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\Entity\Foodstuff;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface;
+use Exception;
 
 interface FoodstuffRepositoryInterface extends ServiceEntityRepositoryInterface
 {
@@ -19,8 +20,14 @@ interface FoodstuffRepositoryInterface extends ServiceEntityRepositoryInterface
 
     public function getByName(string $name): Foodstuff;
 
+    /**
+     * @throws Exception
+     */
     public function create(Foodstuff $foodstuff): void;
 
+    /**
+     * @throws Exception
+     */
     public function update(Foodstuff $foodstuff): void;
 
     public function delete(Foodstuff $foodstuff): void;

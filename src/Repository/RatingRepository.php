@@ -10,6 +10,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Exception;
 
 /**
  * @method Rating|null find($id, $lockMode = null, $lockVersion = null)
@@ -50,6 +51,9 @@ class RatingRepository extends ServiceEntityRepository implements RatingReposito
         return $day;
     }
 
+    /**
+     * @throws Exception
+     */
     public function create(Rating $rating): void
     {
         $this->profanityCheckService->check($rating->getContent());
@@ -64,6 +68,9 @@ class RatingRepository extends ServiceEntityRepository implements RatingReposito
         $this->em->flush();
     }
 
+    /**
+     * @throws Exception
+     */
     public function update(float $oldRating, Rating $rating): void
     {
         $this->profanityCheckService->check($rating->getContent());
@@ -85,7 +92,15 @@ class RatingRepository extends ServiceEntityRepository implements RatingReposito
         } else {
             $recipe->setRating(($recipe->getRating() * $votes - $rating->getRating()) / ($votes - 1));
         }
-        $this->recipeRepository->update($recipe);
+
+        /**
+         * An exception is thrown only when profanities are added which is not the case here.
+         */
+        try {
+            $this->recipeRepository->update($recipe);
+        } catch (Exception) {
+        }
+
         $this->em->remove($rating);
         $this->em->flush();
     }

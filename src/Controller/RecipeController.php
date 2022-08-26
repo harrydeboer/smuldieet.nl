@@ -12,12 +12,12 @@ use App\Repository\PageRepositoryInterface;
 use App\Repository\RatingRepositoryInterface;
 use App\Repository\RecipeRepositoryInterface;
 use Symfony\Component\Form\FormError;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Exception;
 
 class RecipeController extends Controller
 {
@@ -72,7 +72,7 @@ class RecipeController extends Controller
                     $formUpdate->get('image')->getData(), $oldExtension);
 
                 return $this->redirectToRoute('recipe');
-            } catch (BadRequestException $exception) {
+            } catch (Exception $exception) {
                 $formUpdate->addError(new FormError($exception->getMessage()));
             }
         }
@@ -100,7 +100,7 @@ class RecipeController extends Controller
                     $this->getParameter('kernel.project_dir'), $form->get('image')->getData());
 
                 return $this->redirectToRoute('recipe');
-            } catch (BadRequestException $exception) {
+            } catch (Exception $exception) {
                 $form->addError(new FormError($exception->getMessage()));
             }
         }

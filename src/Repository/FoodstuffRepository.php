@@ -8,8 +8,8 @@ use App\Entity\Foodstuff;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Exception;
 
 /**
  * @method Foodstuff|null find($id, $lockMode = null, $lockVersion = null)
@@ -96,7 +96,7 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
     }
 
     /**
-     * @throws BadRequestException
+     * @throws Exception
      */
     public function create(Foodstuff $foodstuff): void
     {
@@ -107,7 +107,7 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
     }
 
     /**
-     * @throws BadRequestException
+     * @throws Exception
      */
     public function update(Foodstuff $foodstuff): void
     {
@@ -133,7 +133,7 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
     }
 
     /**
-     * @throws BadRequestException
+     * @throws Exception
      */
     private function checkWeightsAndEnergy(Foodstuff $foodstuff): void
     {
@@ -153,27 +153,30 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
         }
 
         if ($sum < 85 || $sum > 115) {
-            throw new BadRequestException('De gewichten van het voedingsmiddel moeten samen gelijk ' .
+            throw new Exception('De gewichten van het voedingsmiddel moeten samen gelijk ' .
                 'aan 100g zijn.');
         }
 
         if ($foodstuff->getSucre() > $foodstuff->getCarbohydrates()) {
-            throw new BadRequestException('Suiker mag niet zwaarder zijn dan koolhydraten.');
+            throw new Exception('Suiker mag niet zwaarder zijn dan koolhydraten.');
         }
 
         $energy = $foodstuff->getCarbohydrates() * 4 + $foodstuff->getProtein() * 4 +
             $foodstuff->getFat() * 9 + $foodstuff->getAlcohol() * 7 + $foodstuff->getDietaryFiber() * 2;
         $allowed = $energy * 0.12;
         if (abs($foodstuff->getEnergyKcal() - $energy) > $allowed) {
-            throw new BadRequestException('De totale energy klopt niet met de energieën uit ' .
+            throw new Exception('De totale energy klopt niet met de energieën uit ' .
                 ' koolhydraten, eiwit, vet, alcohol  en vezels.');
         }
     }
 
+    /**
+     * @throws Exception
+     */
     private function checkFirstChar(string $name)
     {
         if (!preg_match('/[A-Za-zÀ-ÿ]/', substr($name, 0, 1))) {
-            throw new BadRequestException('De naam moet beginnen met een letter.');
+            throw new Exception('De naam moet beginnen met een letter.');
         }
     }
 }

@@ -11,7 +11,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use InvalidArgumentException;
 use DateTime;
 
 /**
@@ -42,9 +41,6 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
         return $day;
     }
 
-    /**
-     * @throws InvalidArgumentException
-     */
     public function create(Day $day): void
     {
         $this->addFoodstuffsAndRecipesFromWeights($day);
@@ -52,9 +48,6 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
         $this->em->flush();
     }
 
-    /**
-     * @throws InvalidArgumentException
-     */
     public function update(Day $day): void
     {
         foreach ($day->getRecipes() as $recipe) {
@@ -73,9 +66,6 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
         $this->em->flush();
     }
 
-    /**
-     * @throws InvalidArgumentException
-     */
     public function findBetween(DateTime $start, DateTime $end, int $userId): Collection|array
     {
         $qb = $this->createQueryBuilder('d');

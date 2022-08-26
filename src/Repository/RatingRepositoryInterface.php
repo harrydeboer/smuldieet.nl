@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\Entity\Rating;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface;
+use Exception;
 
 interface RatingRepositoryInterface extends ServiceEntityRepositoryInterface
 {
@@ -13,8 +14,14 @@ interface RatingRepositoryInterface extends ServiceEntityRepositoryInterface
 
     public function getFromUser(int $id, int $userId): Rating;
 
+    /**
+     * @throws Exception
+     */
     public function create(Rating $rating): void;
 
+    /**
+     * @throws Exception
+     */
     public function update(float $oldRating, Rating $rating): void;
 
     public function delete(Rating $rating): void;

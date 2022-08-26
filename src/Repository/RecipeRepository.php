@@ -11,7 +11,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use InvalidArgumentException;
+use Exception;
 
 /**
  * @method Recipe|null find($id, $lockMode = null, $lockVersion = null)
@@ -78,7 +78,7 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
     }
 
     /**
-     * @throws InvalidArgumentException
+     * @throws Exception
      */
     public function create(Recipe $recipe): void
     {
@@ -92,7 +92,7 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
     }
 
     /**
-     * @throws InvalidArgumentException
+     * @throws Exception
      */
     public function update(Recipe $recipe): void
     {
@@ -198,6 +198,9 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
         }
     }
 
+    /**
+     * @throws Exception;
+     */
     private function checkProfanitiesRecipe(Recipe $recipe): void
     {
         $this->profanityCheckService->check($recipe->getTitle());

@@ -9,11 +9,11 @@ use App\Form\DeleteType;
 use App\Form\RatingType;
 use App\Repository\RatingRepositoryInterface;
 use App\Repository\RecipeRepositoryInterface;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Exception;
 
 class RatingController extends AuthController
 {
@@ -50,7 +50,7 @@ class RatingController extends AuthController
 
             try {
                 $this->ratingRepository->create($rating);
-            } catch (BadRequestException $exception) {
+            } catch (Exception $exception) {
                 $this->addFlash('error', $exception->getMessage());
             }
         }
@@ -78,7 +78,7 @@ class RatingController extends AuthController
                     $rating->setPending(true);
                 }
                 $this->ratingRepository->update($oldRating, $rating);
-            } catch (BadRequestException $exception) {
+            } catch (Exception $exception) {
                 $this->addFlash('error', $exception->getMessage());
             }
         }

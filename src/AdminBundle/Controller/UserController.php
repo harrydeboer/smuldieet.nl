@@ -11,11 +11,11 @@ use App\Controller\AuthController;
 use App\Entity\User;
 use App\Repository\UserRepositoryInterface;
 use Symfony\Component\Form\FormError;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Exception;
 
 class UserController extends AuthController
 {
@@ -66,7 +66,7 @@ class UserController extends AuthController
                     $formUpdate->get('image')->getData(), $oldExtension);
 
                 return $this->redirectToRoute('adminUser');
-            } catch (BadRequestException $exception) {
+            } catch (Exception $exception) {
                 $formUpdate->addError(new FormError($exception->getMessage()));
             }
         }
@@ -91,7 +91,7 @@ class UserController extends AuthController
                     $this->getParameter('kernel.project_dir'), $form->get('image')->getData());
 
                 return $this->redirectToRoute('adminUser');
-            } catch (BadRequestException $exception) {
+            } catch (Exception $exception) {
                 $form->addError(new FormError($exception->getMessage()));
             }
         }

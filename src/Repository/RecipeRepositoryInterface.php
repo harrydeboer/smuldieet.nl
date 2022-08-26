@@ -7,6 +7,7 @@ namespace App\Repository;
 use App\Entity\Recipe;
 use App\Pagination\Paginator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface;
+use Exception;
 
 interface RecipeRepositoryInterface extends ServiceEntityRepositoryInterface
 {
@@ -18,8 +19,14 @@ interface RecipeRepositoryInterface extends ServiceEntityRepositoryInterface
 
     public function get(int $id): Recipe;
 
+    /**
+     * @throws Exception
+     */
     public function create(Recipe $recipe): void;
 
+    /**
+     * @throws Exception
+     */
     public function update(Recipe $recipe): void;
 
     public function delete(Recipe $recipe): void;

@@ -46,10 +46,7 @@ class Paginator
         $useOutputWalkers = count($this->queryBuilder->getDQLPart('having') ?: []) > 0;
         $paginator->setUseOutputWalkers($useOutputWalkers);
 
-        try {
-            $this->results = $paginator->getIterator();
-        } catch (Exception) {
-        }
+        $this->results = $paginator->getIterator();
         $this->numResults = $paginator->count();
 
         return $this;

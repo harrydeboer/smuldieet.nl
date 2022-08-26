@@ -8,7 +8,6 @@ use App\Form\ContactType;
 use App\Repository\PageRepositoryInterface;
 use App\Service\ProfanityCheckService;
 use Symfony\Component\Form\FormError;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -17,6 +16,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Mime\Address;
+use Exception;
 
 class ContactController extends Controller
 {
@@ -47,7 +47,7 @@ class ContactController extends Controller
                     $this->profanityCheckService->check($form->get('name')->getData());
                     $this->profanityCheckService->check($form->get('subject')->getData());
                     $this->profanityCheckService->check($form->get('message')->getData());
-                } catch (BadRequestException $exception) {
+                } catch (Exception $exception) {
                     $form->addError(new FormError($exception->getMessage()));
                 }
 

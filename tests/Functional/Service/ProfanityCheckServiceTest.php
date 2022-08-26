@@ -7,7 +7,7 @@ namespace App\Tests\Functional\Service;
 use App\Factory\ProfanityFactory;
 use App\Service\ProfanityCheckService;
 use App\Tests\Functional\KernelTestCase;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
+use Exception;
 
 class ProfanityCheckServiceTest extends KernelTestCase
 {
@@ -19,7 +19,7 @@ class ProfanityCheckServiceTest extends KernelTestCase
 
         $this->assertEmpty($profanityCheckService->check('test'));
 
-        $this->expectException(BadRequestException::class);
+        $this->expectException(Exception::class);
 
         $profanityCheckService->check($profanity->getName());
     }

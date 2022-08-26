@@ -10,11 +10,11 @@ use App\Controller\AuthController;
 use App\Entity\Foodstuff;
 use App\Repository\FoodstuffRepositoryInterface;
 use Symfony\Component\Form\FormError;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Exception;
 
 class FoodstuffController extends AuthController
 {
@@ -62,12 +62,12 @@ class FoodstuffController extends AuthController
 
             try {
                 if (!is_null($foodstuffSameName) && $foodstuff->getId() !== $foodstuffSameName->getId()) {
-                    throw new BadRequestException('Er is al een voedingsmiddel met deze naam.');
+                    throw new Exception('Er is al een voedingsmiddel met deze naam.');
                 }
                 $this->foodstuffRepository->update($foodstuff);
 
                 return $this->redirectToRoute('adminFoodstuff');
-            } catch (BadRequestException $exception) {
+            } catch (Exception $exception) {
                 $formUpdate->addError(new FormError($exception->getMessage()));
             }
         }

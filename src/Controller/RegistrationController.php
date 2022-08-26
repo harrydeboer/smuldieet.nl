@@ -9,9 +9,9 @@ use App\Form\RegistrationType;
 use App\Form\VerifyType;
 use App\Repository\PageRepositoryInterface;
 use App\Repository\UserRepositoryInterface;
+use Exception;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Form\FormError;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -63,7 +63,7 @@ class RegistrationController extends Controller
                     $this->getParameter('kernel.project_dir'), $form->get('image')->getData());
 
                 return $this->redirectToRoute('homepage');
-            } catch (BadRequestException $exception) {
+            } catch (Exception $exception) {
                 $form->addError(new FormError($exception->getMessage()));
             }
         }

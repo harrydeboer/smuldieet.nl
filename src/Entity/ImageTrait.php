@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
+use Exception;
 
 trait ImageTrait
 {
@@ -79,6 +79,7 @@ trait ImageTrait
 
     /**
      * Move the image and create resized images for IMAGE_WIDTHS property values.
+     * @throws Exception
      */
     public function moveImage(string $appEnv, string $projectDir, ?UploadedFile $image, $oldExtension = null): void
     {
@@ -112,7 +113,7 @@ trait ImageTrait
             } elseif ($extension === 'webp') {
                 $image = imagecreatefromwebp($path);
             } else {
-                throw new BadRequestException('Geef alstublieft een geldig plaatje ' .
+                throw new Exception('Geef alstublieft een geldig plaatje ' .
                     '(png, jp(e)g, gif, bmp of webp).');
             }
             $x = imagesx($image);
@@ -134,7 +135,7 @@ trait ImageTrait
                 } elseif ($extension === 'webp') {
                     imagewebp($dst, $path);
                 } else {
-                    throw new BadRequestException('Geef alstublieft een geldig plaatje ' .
+                    throw new Exception('Geef alstublieft een geldig plaatje ' .
                         '(png, jp(e)g, gif, bmp of webp).');
                 }
                 imagedestroy($dst);

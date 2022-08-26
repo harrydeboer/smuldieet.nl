@@ -12,12 +12,12 @@ use App\Repository\FoodstuffRepositoryInterface;
 use App\Repository\PageRepositoryInterface;
 use App\Service\CombineFoodstuffsService;
 use Symfony\Component\Form\FormError;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Exception;
 
 class FoodstuffController extends Controller
 {
@@ -65,7 +65,7 @@ class FoodstuffController extends Controller
                 $this->foodstuffRepository->update($foodstuff);
 
                 return $this->redirectToRoute('foodstuff');
-            } catch (BadRequestException $exception) {
+            } catch (Exception $exception) {
                 $formUpdate->addError(new FormError($exception->getMessage()));
             }
         }
@@ -90,12 +90,12 @@ class FoodstuffController extends Controller
                 'name' => $foodstuff->getName()]);
             try {
                 if (!is_null($foodstuffSameName)) {
-                    throw new BadRequestException('Er is al een voedingsmiddel met deze naam.');
+                    throw new Exception('Er is al een voedingsmiddel met deze naam.');
                 }
                 $this->foodstuffRepository->create($foodstuff);
 
                 return $this->redirectToRoute('foodstuff');
-            } catch (BadRequestException $exception) {
+            } catch (Exception $exception) {
                 $form->addError(new FormError($exception->getMessage()));
             }
         }
