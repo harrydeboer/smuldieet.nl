@@ -42,7 +42,7 @@ class RecipeType extends AbstractType
             ])
             ->add('title', TextType::class, ['attr' => ['class' => 'form-control']])
             ->add('url', TextType::class, ['required' => false, 'attr' => ['class' => 'form-control']])
-            ->add('ingredients', TextareaType::class, ['required' => false, 'attr' => [
+            ->add('ingredients', TextareaType::class, ['attr' => [
                 'class' => 'form-control',
                 'rows' => 10,
             ]])
