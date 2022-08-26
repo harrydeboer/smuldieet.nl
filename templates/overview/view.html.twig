@@ -39,5 +39,7 @@
             {% endfor %}
             </tbody>
         </table>
+    {% elseif isSubmitted %}
+        <p>Geen dagen gevonden tussen deze twee datums.</p>
     {% endif %}
 {% endblock %}

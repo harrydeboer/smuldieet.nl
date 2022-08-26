@@ -4,7 +4,7 @@
 
 {% block body %}
     {% if isLoggedIn %}
-        <div class="no-wrap">Je bent ingelogd als {{ username }},
+        <div>Je bent ingelogd als {{ username }},
             <a href="{{ path('appLogout') }}">klik hier</a> om uit te loggen.</div>
         <div class="no-wrap">Verander <a href="{{ path('changePassword') }}">hier</a> je wachtwoord.</div>
 

@@ -179,21 +179,31 @@ body {
 
 /* User page */
 #registration_birthdate_day {
-  width: 50px;
+  width: 100%;
 }
 #registration_birthdate_month {
-  width: 60px;
+  width: 100%;
 }
 #registration_birthdate_year {
-  width: 80px;
+  width: 100%;
 }
 
 #registration_gender {
   white-space: nowrap;
 }
 
-@media (min-width: 450px) {
+@media (min-width: 550px) {
   #registration_birthdate_day, #registration_birthdate_month, #registration_birthdate_year {
     display: inline;
+  }
+
+  #registration_birthdate_day {
+    width: 32%;
+  }
+  #registration_birthdate_month {
+    width: 32%;
+  }
+  #registration_birthdate_year {
+    width: 32%;
   }
 }

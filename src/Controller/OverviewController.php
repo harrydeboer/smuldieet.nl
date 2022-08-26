@@ -38,11 +38,15 @@ class OverviewController extends AuthController
         if ($form->isSubmitted() && $form->isValid()) {
             $days = $this->dayRepository->findBetween($form->get('start')->getData(),
                 $form->get('end')->getData(), $this->getUser()->getId());
+            $isSubmitted = true;
+        } else {
+            $isSubmitted = false;
         }
 
         return $this->render('overview/view.html.twig', [
             'stats' => $this->statsService->daysStats($days, $this->getUser()),
             'form' => $form->createView(),
+            'isSubmitted' => $isSubmitted,
             'page' => $this->pageRepository->findOneBy(['title' => 'Overzicht']),
         ]);
     }
