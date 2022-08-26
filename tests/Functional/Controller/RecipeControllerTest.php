@@ -100,7 +100,6 @@ class RecipeControllerTest extends AuthAdminWebTestCase
 
         $ratingUpdate = 8;
         $form['rating[rating]'] = $ratingUpdate;
-        $form['rating[content]'] = 'test';
 
         $this->client->submit($form);
 

@@ -8,6 +8,7 @@ use App\Entity\Recipe;
 use App\Form\RatingType;
 use App\Form\RecipeType;
 use App\Form\DeleteType;
+use App\Form\ReviewType;
 use App\Repository\PageRepositoryInterface;
 use App\Repository\RatingRepositoryInterface;
 use App\Repository\RecipeRepositoryInterface;
@@ -149,11 +150,11 @@ class RecipeController extends Controller
 
         if (is_null($rating)) {
             $form = $this->createForm(RatingType::class, null, [
-                'action' => $this->generateUrl('recipeRatingNew', ['recipeId' => $id]),
+                'action' => $this->generateUrl('recipeRatingCreate', ['recipeId' => $id]),
             ]);
         } else {
             $form = $this->createForm(RatingType::class, $rating, [
-                'action' => $this->generateUrl('recipeRatingUpdate', ['id' => $rating->getId()]),
+                'action' => $this->generateUrl('recipeRatingEdit', ['id' => $rating->getId()]),
             ]);
             $formDelete = $this->createForm(DeleteType::class, null, [
                 'action' => $this->generateUrl('recipeRatingDelete', ['id' => $rating->getId()]),

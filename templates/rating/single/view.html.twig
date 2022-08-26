@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Waardering{% endblock %}
+
+{% block body %}
+    <table class="table table-small">
+        <tr><td>Waardering</td><td>{{ rating.rating }}</td></tr>
+        <tr><td>Review</td><td>{{ rating.content }}</td></tr>
+        <tr><td colspan="2"><a href="{{ path('recipeRatingEdit', {'id': rating.id}) }}">wijzig</a></td></tr>
+    </table>
+{% endblock %}

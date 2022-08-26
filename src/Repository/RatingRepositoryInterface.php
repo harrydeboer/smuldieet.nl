@@ -12,6 +12,8 @@ interface RatingRepositoryInterface extends ServiceEntityRepositoryInterface
 {
     public function findAllPendingReviews(): array;
 
+    public function findAllFromUser(int $userId): array;
+
     public function getFromUser(int $id, int $userId): Rating;
 
     /**

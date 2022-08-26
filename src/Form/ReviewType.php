@@ -7,9 +7,10 @@ namespace App\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class RatingType extends AbstractType
+class ReviewType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -18,6 +19,13 @@ class RatingType extends AbstractType
                 'attr' => [
                     'class' => 'form-control',
                 ],
+            ])
+            ->add('content', TextareaType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'rows' => 10,
+                ],
+                'required' => false,
             ])
             ->add('submit', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-success'],

@@ -128,6 +128,15 @@ body {
   width: 600px;
 }
 
+.recipeSingleProperty {
+  font-weight: bold;
+}
+
+#singleRecipe {
+  margin-right: auto;
+  margin-left: auto;
+}
+
 #recipe-is-self-invented {
   display: inline-block;
   width: 90%;
@@ -158,5 +167,22 @@ body {
 
   #abc-chars {
     display: block;
+  }
+}
+
+/* User page */
+#registration_birthdate_day {
+  width: 50px;
+}
+#registration_birthdate_month {
+  width: 60px;
+}
+#registration_birthdate_year {
+  width: 80px;
+}
+
+@media (min-width: 450px) {
+  #registration_birthdate_day, #registration_birthdate_month, #registration_birthdate_year {
+    display: inline;
   }
 }

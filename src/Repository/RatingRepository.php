@@ -40,6 +40,11 @@ class RatingRepository extends ServiceEntityRepository implements RatingReposito
         return $query->execute();
     }
 
+    public function findAllFromUser(int $userId): array
+    {
+        return $this->findBy(['user' => $userId]);
+    }
+
     public function getFromUser(int $id, int $userId): Rating
     {
         $day = $this->findOneBy(['id' => $id, 'user' => $userId]);

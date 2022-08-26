@@ -1,11 +1,13 @@
 <div id="form-errors-client"></div>
 <div id="form-errors-server">
     {{ form_errors(form) }}
+    {% if form.date is defined %}
+        {{ form_errors(form.date) }}
+    {% endif %}
+    {{ form_errors(form.foodstuffWeights) }}
+    {{ form_errors(form.recipeWeights) }}
 </div>
 {{ form_start(form, { 'attr' : { 'class': 'food-form' }}) }}
-{% if form.date is defined %}
-    {{ form_errors(form.date) }}
-{% endif %}
 <table class="food-table table table-small">
     {% if form.date is defined %}
         <tr><td>Datum</td><td colspan="2">{{ form_widget(form.date) }}</td></tr>

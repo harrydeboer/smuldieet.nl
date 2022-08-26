@@ -13,14 +13,11 @@
         <div id="form-errors-server">
             {{ form_errors(form) }}
             {{ form_errors(form.rating,) }}
-            {{ form_errors(form.content) }}
         </div>
         {{ form_start(form) }}
         <table class="table table-small">
-            <tr><td>Waardering</td><td>{{ form_widget(form.rating, {'id': 'rating-rating'}) }}</td>
-            <tr><td>Review</td><td>{{ form_widget(form.content, {'id': 'rating-content'}) }}</td>
-            <tr><td colspan="2">{{ form_widget(form.submit, { 'label': 'Waardeer' }) }}</td>
-            </tr>
+            <tr><td>Waardering{{ form_widget(form.rating, {'id': 'rating-rating'}) }}</td></tr>
+            <tr><td colspan="2">{{ form_widget(form.submit, { 'label': 'Waardeer' }) }}</td></tr>
         </table>
         {{ form_end(form) }}
         {% if formDelete is not null %}
@@ -28,53 +25,67 @@
             {{ form_widget(formDelete.delete, { 'label': 'Verwijder' }) }}
             {{ form_end(formDelete) }}
         {% endif %}
+        <a href="{{ path('recipeRatingCreate', {'recipeId': recipe.id}) }}">Schrijf een review</a>
     {% endif %}
-    <table class="table table-small">
-        <tr><td colspan="2">
-                {% if recipe.imageExtension is not null %}
-                    <img src="{{  asset(recipe.getImagePath(appEnv, 600)) }}" id="recipe-image" class="img-fluid"
-                         alt="recipe">
-                {% endif %}
-            </td></tr>
-        <tr><td>Titel</td><td>{{ recipe.title }}</td></tr>
-        <tr><td>Url</td><td>{{ recipe.url }}</td></tr>
-        <tr><td>Ingrediënten</td><td>{{ recipe.ingredients }}</td></tr>
-        <tr><td colspan="2"><h4 class="no-wrap">Voedingsmiddelen gerecht</h4></td></tr>
-        <tr>
-            <td>
-                {% for rowNumber, foodstuff in recipe.foodstuffs %}
-                    <div class="no-wrap">{{ foodstuff.name }}</div>
-                {% endfor %}
-            </td><td>
-                {% for rowNumber, foodstuff in recipe.foodstuffs %}
-                    <div>{{ recipe.foodstuffWeights[foodstuff.id]|number_format }} g</div>
-                {% endfor %}
-            </td>
-        </tr>
-        <tr><td>Bereidingswijze</td><td>{{ recipe.preparationMethod }}</td></tr>
-        <tr><td>Vertel iets leuks over dit recept</td><td>{{ recipe.niceStory }}</td></tr>
-        <tr><td>Leuke tips</td><td>{{ recipe.niceTips }}</td></tr>
-        <tr><td>Hulpmiddelen en keukengerei</td><td>{{ recipe.toolsAndKitchenware }}</td></tr>
-        <tr><td>Aantal personen</td><td>{{ recipe.numberOfPersons }}</td></tr>
-        <tr><td>Aantal stuks</td><td>{{ recipe.numberOfPieces }}</td></tr>
-        <tr><td>Zelf bedacht</td><td>{{ recipe.isSelfInvented }}</td></tr>
+    {% if recipe.imageExtension is not null %}
+        <div><img src="{{  asset(recipe.getImagePath(appEnv, 600)) }}" id="recipe-image" class="img-fluid"
+             alt="recipe"></div>
+    {% endif %}
+    <div id="singleRecipe">
+        <div class="recipeSingleProperty">Titel</div>
+        {{ recipe.title }}
+        <div class="recipeSingleProperty">Url</div>
+        {{ recipe.url }}
+        <div class="recipeSingleProperty">Ingrediënten</div>
+        {{ recipe.ingredients }}
+        <div class="recipeSingleProperty">Voedingsmiddelen gerecht</div>
+        <table class="table">
+            {% for rowNumber, foodstuff in recipe.foodstuffs %}
+                <tr><td>{{ foodstuff.name }}</td>
+                    <td>{{ recipe.foodstuffWeights[foodstuff.id]|number_format }} g</td></tr>
+            {% endfor %}
+        </table>
+        <div class="recipeSingleProperty">Bereidingswijze</div>
+        {{ recipe.preparationMethod }}
+        <div class="recipeSingleProperty">Vertel iets leuks over dit recept</div>
+        {{ recipe.niceStory }}
+        <div class="recipeSingleProperty">Leuke tips</div>
+        {{ recipe.niceTips }}
+        <div class="recipeSingleProperty">Hulpmiddelen en keukengerei</div
+        {{ recipe.toolsAndKitchenware }}
+        <div class="recipeSingleProperty">Aantal personen</div>
+        {{ recipe.numberOfPersons }}
+        <div class="recipeSingleProperty">Aantal stuks</div>
+        {{ recipe.numberOfPieces }}
+        <div class="recipeSingleProperty">Zelf bedacht</div>
+        {{ recipe.isSelfInvented }}
+        <div class="recipeSingleProperty">Waardering</div>
         {% if recipe.rating is null %}
-            <tr><td>Waardering</td><td>N/B</td></tr>
+            N/B
         {% else %}
-            <tr><td>Waardering</td><td>{{ recipe.rating|number_format(1) }} <i class="fas fa-star"></i></td></tr>
+            {{ recipe.rating|number_format(1) }} <i class="fas fa-star"></i>
         {% endif %}
-        <tr><td>Aantal stemmen</td><td>{{ recipe.votes }}</td></tr>
-        <tr><td>Aantal keer bewaard</td><td>{{ recipe.timesSaved }}</td></tr>
-        <tr><td>Aantal reacties</td><td>{{ recipe.timesReacted }}</td></tr>
-        <tr><td>Bereidingstijd</td><td>{{ recipe.cookingTime }}</td></tr>
-        <tr><td>Keuken</td><td>{{ recipe.kitchen }}</td></tr>
-        <tr><td>Soort gerecht</td><td>{{ recipe.typeOfDish }}</td></tr>
-        <tr><td>Gelegenheid</td><td>{{ recipe.occasion }}</td></tr>
-        {% for key,choice in constant('DIET_CHOICES', recipe)  %}
-            <tr><td>{{ key }}</td><td>{{ attribute(recipe, choice) == 1 ? 'Ja' : '' }}</td></tr>
+        <div class="recipeSingleProperty">Aantal stemmen</div>
+        {{ recipe.votes }}
+        <div class="recipeSingleProperty">Aantal keer bewaard</div>
+        {{ recipe.timesSaved }}
+        <div class="recipeSingleProperty">Aantal reacties</div>
+        {{ recipe.timesReacted }}
+        <div class="recipeSingleProperty">Bereidingstijd</div>
+        {{ recipe.cookingTime }}
+        <div class="recipeSingleProperty">Keuken</div>
+        {{ recipe.kitchen }}
+        <div class="recipeSingleProperty">Soort gerecht</div>
+        {{ recipe.typeOfDish }}
+        <div class="recipeSingleProperty">Gelegenheid</div>
+        {{ recipe.occasion }}
+        {% for key, choice in constant('DIET_CHOICES', recipe)  %}
+            {% if attribute(recipe, choice) == 1 %}
+                {{ key }}
+            {% endif %}
         {% endfor %}
         {% if currentUserId == recipe.user.id %}
-            <tr><td colspan="2"><a href="{{ path('recipeEdit', {'id': recipe.id}) }}">wijzig</a></td></tr>
+            <a href="{{ path('recipeEdit', {'id': recipe.id}) }}">wijzig</a>
         {% endif %}
-    </table>
+    </div>
 {% endblock %}
