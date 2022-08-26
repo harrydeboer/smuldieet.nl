@@ -5,9 +5,9 @@
     {{ form_errors(form.content) }}
 </div>
 {{ form_start(form) }}
-<div class="recipeSingleProperty">Waardering</div>
+<div class="fw-bold">Waardering</div>
 {{ form_widget(form.rating) }}
-<div class="recipeSingleProperty">Review</div>
+<div class="fw-bold">Review</div>
 {{ form_widget(form.content) }}
 <div>{{ form_widget(form.submit, { 'label': submitLabel }) }}</div>
 {{ form_end(form) }}

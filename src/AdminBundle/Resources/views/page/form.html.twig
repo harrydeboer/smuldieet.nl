@@ -7,13 +7,13 @@
     {{ form_errors(form.content) }}
 </div>
 {{ form_start(form) }}
-<div class="recipeSingleProperty">Titel</div>
+<div class="fw-bold">Titel</div>
 {{ form_widget(form.title) }}
-<div class="recipeSingleProperty">Slug</div>
+<div class="fw-bold">Slug</div>
 {{ form_widget(form.slug) }}
-<div class="recipeSingleProperty">Samenvatting</div>
+<div class="fw-bold">Samenvatting</div>
 {{ form_widget(form.summary) }}
-<div class="recipeSingleProperty">Content</div>
+<div class="fw-bold">Content</div>
 {{ form_widget(form.content) }}
 <div>{{ form_widget(form.submit, { 'label': submitLabel }) }}</div>
 {{ form_end(form) }}

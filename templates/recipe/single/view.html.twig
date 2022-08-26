@@ -36,68 +36,68 @@
                   alt="recipe"></div>
     {% endif %}
     <div id="singleRecipe">
-        <div class="recipeSingleProperty">Titel</div>
+        <div class="fw-bold">Titel</div>
         {{ recipe.title }}
         {% if recipe.url is not null %}
-            <div class="recipeSingleProperty">Url</div>
+            <div class="fw-bold">Url</div>
             {{ recipe.url }}
         {% endif %}
-        <div class="recipeSingleProperty">Ingrediënten</div>
+        <div class="fw-bold">Ingrediënten</div>
         {{ recipe.ingredients|nl2br }}
-        <div class="recipeSingleProperty">Voedingsmiddelen gerecht</div>
+        <div class="fw-bold">Voedingsmiddelen gerecht</div>
         <table class="table">
             {% for rowNumber, foodstuff in recipe.foodstuffs %}
                 <tr><td>{{ foodstuff.name }}</td>
                     <td>{{ recipe.foodstuffWeights[foodstuff.id]|number_format }} g</td></tr>
             {% endfor %}
         </table>
-        <div class="recipeSingleProperty">Bereidingswijze</div>
+        <div class="fw-bold">Bereidingswijze</div>
         {{ recipe.preparationMethod|nl2br }}
         {% if recipe.niceStory is not null %}
-            <div class="recipeSingleProperty">Vertel iets leuks over dit recept</div>
+            <div class="fw-bold">Vertel iets leuks over dit recept</div>
             {{ recipe.niceStory|nl2br }}
         {% endif %}
         {% if recipe.niceTips is not null %}
-            <div class="recipeSingleProperty">Leuke tips</div>
+            <div class="fw-bold">Leuke tips</div>
             {{ recipe.niceTips|nl2br }}
         {% endif %}
         {% if recipe.toolsAndKitchenware is not null %}
-            <div class="recipeSingleProperty">Hulpmiddelen en keukengerei</div
+            <div class="fw-bold">Hulpmiddelen en keukengerei</div
             {{ recipe.toolsAndKitchenware|nl2br }}
         {% endif %}
-        <div class="recipeSingleProperty">Aantal personen</div>
+        <div class="fw-bold">Aantal personen</div>
         {{ recipe.numberOfPersons }}
         {% if recipe.numberOfPieces is not null %}
-            <div class="recipeSingleProperty">Aantal stuks</div>
+            <div class="fw-bold">Aantal stuks</div>
             {{ recipe.numberOfPieces }}
         {% endif %}
-        <div class="recipeSingleProperty">Zelf bedacht</div>
+        <div class="fw-bold">Zelf bedacht</div>
         {{ recipe.isSelfInvented ? 'Ja' : 'Nee' }}
         {% if recipe.source is not null %}
-            <div class="recipeSingleProperty">Bron</div>
+            <div class="fw-bold">Bron</div>
             {{ recipe.source }}
         {% endif %}
         {{ recipe.isSelfInvented }}
-        <div class="recipeSingleProperty">Waardering</div>
+        <div class="fw-bold">Waardering</div>
         {% if recipe.rating is null %}
             N/B
         {% else %}
             {{ recipe.rating|number_format(1) }} <i class="fas fa-star"></i>
         {% endif %}
-        <div class="recipeSingleProperty">Aantal stemmen</div>
+        <div class="fw-bold">Aantal stemmen</div>
         {{ recipe.votes }}
-        <div class="recipeSingleProperty">Aantal keer bewaard</div>
+        <div class="fw-bold">Aantal keer bewaard</div>
         {{ recipe.timesSaved }}
-        <div class="recipeSingleProperty">Aantal reacties</div>
+        <div class="fw-bold">Aantal reacties</div>
         {{ recipe.timesReacted }}
-        <div class="recipeSingleProperty">Bereidingstijd</div>
+        <div class="fw-bold">Bereidingstijd</div>
         {{ recipe.cookingTime }}
-        <div class="recipeSingleProperty">Keuken</div>
+        <div class="fw-bold">Keuken</div>
         {{ recipe.kitchen }}
-        <div class="recipeSingleProperty">Soort gerecht</div>
+        <div class="fw-bold">Soort gerecht</div>
         {{ recipe.typeOfDish }}
         {% if recipe.occasion is not null %}
-            <div class="recipeSingleProperty">Gelegenheid</div>
+            <div class="fw-bold">Gelegenheid</div>
             {{ recipe.occasion }}
         {% endif %}
         <br>

@@ -4,17 +4,17 @@
     {{ form_errors(form.pending) }}
 </div>
 {{ form_start(form) }}
-<div class="recipeSingleProperty">Ingredients</div>
+<div class="fw-bold">Ingredients</div>
 {{ recipe.ingredients }}
-<div class="recipeSingleProperty">Bereidingswijze</div>
+<div class="fw-bold">Bereidingswijze</div>
 {{ recipe.preparationMethod }}
-<div class="recipeSingleProperty">Leuk verhaal</div>
+<div class="fw-bold">Leuk verhaal</div>
 {{ recipe.niceStory }}
-<div class="recipeSingleProperty">Leuke tips</div>
+<div class="fw-bold">Leuke tips</div>
 {{ recipe.niceTips }}
-<div class="recipeSingleProperty">Hulpmiddelen en keukengerei</div>
+<div class="fw-bold">Hulpmiddelen en keukengerei</div>
 {{ recipe.toolsAndKitchenware }}
-<div class="recipeSingleProperty">Wacht op goedkeuring</div>
+<div class="fw-bold">Wacht op goedkeuring</div>
 {{ form_widget(form.pending) }}
 <div>{{ form_widget(form.submit, { 'label': submitLabel }) }}</div>
 {{ form_end(form) }}

@@ -4,9 +4,9 @@
     {{ form_errors(form.pending) }}
 </div>
 {{ form_start(form) }}
-<div class="recipeSingleProperty">Content</div>
+<div class="fw-bold">Content</div>
 {{ rating.content }}
-<div class="recipeSingleProperty">Wacht op goedkeuring</div>
+<div class="fw-bold">Wacht op goedkeuring</div>
 {{ form_widget(form.pending) }}
-<div class="recipeSingleProperty">{{ form_widget(form.submit, { 'label': submitLabel }) }}</div>
+<div>{{ form_widget(form.submit, { 'label': submitLabel }) }}</div>
 {{ form_end(form) }}

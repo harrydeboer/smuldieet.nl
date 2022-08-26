@@ -25,11 +25,11 @@
 {{ page is not null ? page.content|raw : '' }}
 <div id="uploadFileButton" class="btn btn-primary">Upload afbeelding</div>
 {{ form_widget(form.image) }}
-<div class="recipeSingleProperty">Titel *</div>
+<div class="fw-bold">Titel *</div>
 {{ form_widget(form.title) }}
-<div class="recipeSingleProperty">Url video</div>
+<div class="fw-bold">Url video</div>
 {{ form_widget(form.url) }}
-<div class="recipeSingleProperty">Ingrediënten</div>
+<div class="fw-bold">Ingrediënten *</div>
 {{ form_widget(form.ingredients) }}
 <h4 class="no-wrap">Voedingsmiddelen gerecht</h4>
 <table class="table">{{ include('foodRow.html.twig', {'formName': 'recipe', 'entities': recipe.foodstuffs,
@@ -37,28 +37,28 @@
     <tr id="add-foodstuff-recipe-button-row"><td colspan="3">
             <div class="btn btn-primary" id="add-foodstuff">Voedingsmiddel toevoegen</div></td></tr>
 </table>
-<div class="recipeSingleProperty">Bereidingswijze *</div>
+<div class="fw-bold">Bereidingswijze *</div>
 {{ form_widget(form.preparationMethod) }}
-<div class="recipeSingleProperty">Vertel iets leuks over dit recept</div>
+<div class="fw-bold">Vertel iets leuks over dit recept</div>
 {{ form_widget(form.niceStory) }}
-<div class="recipeSingleProperty">Leuke tips</div>
+<div class="fw-bold">Leuke tips</div>
 {{ form_widget(form.niceTips) }}
-<div class="recipeSingleProperty">Hulpmiddelen en keukengerei</div>
+<div class="fw-bold">Hulpmiddelen en keukengerei</div>
 {{ form_widget(form.toolsAndKitchenware) }}
-<div class="recipeSingleProperty">Aantal personen *</div>
+<div class="fw-bold">Aantal personen *</div>
 {{ form_widget(form.numberOfPersons) }}
-<div class="recipeSingleProperty">Aantal stuks</div>
+<div class="fw-bold">Aantal stuks</div>
 {{ form_widget(form.numberOfPieces) }}
-<div class="recipeSingleProperty">{{ form_widget(form.isSelfInvented, {'id':'recipe-is-self-invented'}) }} *</div>
-<div class="recipeSingleProperty" id="recipe-source">Bron</div>
+<div class="fw-bold">{{ form_widget(form.isSelfInvented, {'id':'recipe-is-self-invented'}) }} *</div>
+<div class="fw-bold" id="recipe-source">Bron</div>
 {{ form_widget(form.source) }}
-<div class="recipeSingleProperty">Bereidingstijd *</div>
+<div class="fw-bold">Bereidingstijd *</div>
 {{ form_widget(form.cookingTime) }}
-<div class="recipeSingleProperty">Keuken *</div>
+<div class="fw-bold">Keuken *</div>
 {{ form_widget(form.kitchen) }}
-<div class="recipeSingleProperty">Soort gerecht *</div>
+<div class="fw-bold">Soort gerecht *</div>
 {{ form_widget(form.typeOfDish) }}
-<div class="recipeSingleProperty">Gelegenheid</div>
+<div class="fw-bold">Gelegenheid</div>
 {{ form_widget(form.occasion) }}
 
 <div class="dropdown">
@@ -71,6 +71,8 @@
         {% endfor %}
     </table>
 </div>
-
+<br>
+<div class="fw-bold">* Verplicht</div>
+<br>
 {{ form_widget(form.submit, { 'label': submitLabel }) }}
 {{ form_end(form) }}
