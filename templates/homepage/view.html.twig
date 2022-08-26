@@ -31,9 +31,11 @@
         {% endfor %}
         {{ form_errors(form.sort) }}
     </div>
+    <br>
     {{ form_start(form) }}
     Zoek een recept {{ form_widget(form.title, {'id': 'recipeSearch'}) }}<span><i id="recipe-filter-icon"
                                                                                   class="fas fa-sliders-h"></i></span>
+    {{ form_widget(form.show, { 'label': 'Toon' }) }}
     <table class="table d-none" id="filter-sort-table">
         <tr><td>{{ form_widget(form.numberOfPersons) }}</td></tr>
         <tr><td>{{ form_widget(form.numberOfPieces) }}</td></tr>
@@ -56,9 +58,12 @@
                     </table>
                 </div></td></tr>
         <tr><td> {{ form_widget(form.sort) }}</td></tr>
-        <tr><td>{{ form_widget(form.show, { 'label': 'Toon' }) }}</td></tr>
     </table>
     {{ form_end(form) }}
+    <br>
+    {% if not isFiltered %}
+    <h2>Recente recepten</h2>
+    {% endif %}
     <table class="table table-striped" id="recipes-homepage">
         {% for recipe in paginator.results %}
             <tr>
