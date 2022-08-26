@@ -9,6 +9,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use InvalidArgumentException;
+use Exception;
 
 /**
  * @method Comment|null find($id, $lockMode = null, $lockVersion = null)
@@ -37,7 +38,10 @@ class CommentRepository extends ServiceEntityRepository implements CommentReposi
 
         if (!is_null($recipe = $comment->getRecipe())) {
             $recipe->setTimesReacted($recipe->getTimesReacted() + 1);
-            $this->recipeRepository->update($recipe);
+            try {
+                $this->recipeRepository->update($recipe);
+            } catch (Exception) {
+            }
         }
         $this->em->persist($comment);
         $this->em->flush();
@@ -55,7 +59,10 @@ class CommentRepository extends ServiceEntityRepository implements CommentReposi
     {
         if (!is_null($recipe = $comment->getRecipe())) {
             $recipe->setTimesReacted($recipe->getTimesReacted() - 1);
-            $this->recipeRepository->update($recipe);
+            try {
+                $this->recipeRepository->update($recipe);
+            } catch (Exception) {
+            }
         }
 
         $this->em->remove($comment);

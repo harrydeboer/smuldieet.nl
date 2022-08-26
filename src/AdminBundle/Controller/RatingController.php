@@ -9,10 +9,12 @@ use App\AdminBundle\Form\ReviewType;
 use App\Controller\AuthController;
 use App\Entity\Rating;
 use App\Repository\RatingRepositoryInterface;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Exception;
 
 /**
  * Reviews their pending status is changed.
@@ -50,9 +52,13 @@ class RatingController extends AuthController
         $formUpdate->handleRequest($request);
 
         if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
-            $this->ratingRepository->update($ratingOldRating, $rating);
+            try {
+                $this->ratingRepository->update($ratingOldRating, $rating);
 
-            return $this->redirectToRoute('adminRating');
+                return $this->redirectToRoute('adminRating');
+            } catch (Exception $exception) {
+                $formUpdate->addError(new FormError($exception->getMessage()));
+            }
         }
 
         return $this->render('@AdminBundle/rating/edit/view.html.twig', [

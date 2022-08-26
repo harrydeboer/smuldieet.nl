@@ -6,6 +6,7 @@ namespace App\Factory;
 
 use App\Entity\Rating;
 use App\Repository\RatingRepositoryInterface;
+use Exception;
 
 class RatingFactory extends AbstractFactory
 {
@@ -38,7 +39,10 @@ class RatingFactory extends AbstractFactory
 
         $this->setParams($params, $rating);
 
-        $this->ratingRepository->create($rating);
+        try {
+            $this->ratingRepository->create($rating);
+        } catch (Exception) {
+        }
 
         return $rating;
     }

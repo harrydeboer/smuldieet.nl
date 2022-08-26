@@ -18,6 +18,7 @@ class FileMTime implements VersionStrategyInterface
     public function getVersion(string $path): string
     {
         try {
+            /** @noinspection ProjectDirParameter */
             $version = (string) filemtime($this->kernel->getProjectDir() . '/public/' . $path);
         } catch (Exception) {
             return '';

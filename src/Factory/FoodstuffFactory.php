@@ -6,6 +6,7 @@ namespace App\Factory;
 
 use App\Entity\Foodstuff;
 use App\Repository\FoodstuffRepositoryInterface;
+use Exception;
 
 class FoodstuffFactory extends AbstractFactory
 {
@@ -38,7 +39,10 @@ class FoodstuffFactory extends AbstractFactory
 
         $this->setParams($params, $foodstuff);
 
-        $this->foodstuffRepository->create($foodstuff);
+        try {
+            $this->foodstuffRepository->create($foodstuff);
+        } catch (Exception) {
+        }
 
         return $foodstuff;
     }

@@ -9,7 +9,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
-use JetBrains\PhpStorm\Pure;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -336,7 +335,7 @@ class Recipe
     #[ORM\Column(type: "boolean")]
     private bool $pending = true;
 
-    #[Pure] public function __construct()
+    public function __construct()
     {
         $this->foodstuffs = new ArrayCollection();
         $this->days = new ArrayCollection();

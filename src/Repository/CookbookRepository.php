@@ -9,6 +9,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Exception;
 
 /**
  * @method Cookbook|null find($id, $lockMode = null, $lockVersion = null)
@@ -54,7 +55,10 @@ class CookbookRepository extends ServiceEntityRepository implements CookbookRepo
         foreach ($cookbook->getRecipes() as $recipe) {
             $timesSaved = $recipe->getTimesSaved();
             $recipe->setTimesSaved($timesSaved - 1);
-            $this->recipeRepository->update($recipe);
+            try {
+                $this->recipeRepository->update($recipe);
+            } catch (Exception) {
+            }
             $cookbook->removeRecipe($recipe);
         }
         $this->addRecipesFromWeights($cookbook);
@@ -69,7 +73,10 @@ class CookbookRepository extends ServiceEntityRepository implements CookbookRepo
         foreach ($cookbook->getRecipes()->toArray() as $recipe) {
             $timesSaved = $recipe->getTimesSaved();
             $recipe->setTimesSaved($timesSaved - 1);
-            $this->recipeRepository->update($recipe);
+            try {
+                $this->recipeRepository->update($recipe);
+            } catch (Exception) {
+            }
         }
 
         $this->em->remove($cookbook);
@@ -85,7 +92,10 @@ class CookbookRepository extends ServiceEntityRepository implements CookbookRepo
             $recipe = $this->recipeRepository->get($id);
             $timesSaved = $recipe->getTimesSaved();
             $recipe->setTimesSaved($timesSaved + 1);
-            $this->recipeRepository->update($recipe);
+            try {
+                $this->recipeRepository->update($recipe);
+            } catch (Exception) {
+            }
             $cookbook->addRecipe($recipe);
         }
     }

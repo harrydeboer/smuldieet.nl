@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Exception;
 
 /**
  * Recipes their pending status is changed.
@@ -49,7 +50,10 @@ class RecipeController extends AuthController
         $formUpdate->handleRequest($request);
 
         if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
-            $this->recipeRepository->update($recipe);
+            try {
+                $this->recipeRepository->update($recipe);
+            } catch (Exception) {
+            }
 
             return $this->redirectToRoute('adminRecipe');
         }
