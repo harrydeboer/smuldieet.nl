@@ -7,11 +7,13 @@
     {{ form_errors(form.content) }}
 </div>
 {{ form_start(form) }}
-<table class="table table-small">
-    <tr><td>Titel</td><td>{{ form_widget(form.title) }}</td></tr>
-    <tr><td>Slug</td><td>{{ form_widget(form.slug) }}</td></tr>
-    <tr><td>Samenvatting</td><td>{{ form_widget(form.summary) }}</td></tr>
-    <tr><td>Content</td><td>{{ form_widget(form.content) }}</td></tr>
-    <tr><td colspan="2">{{ form_widget(form.submit, { 'label': submitLabel }) }}</td></tr>
-</table>
+<div class="recipeSingleProperty">Titel</div>
+{{ form_widget(form.title) }}
+<div class="recipeSingleProperty">Slug</div>
+{{ form_widget(form.slug) }}
+<div class="recipeSingleProperty">Samenvatting</div>
+{{ form_widget(form.summary) }}
+<div class="recipeSingleProperty">Content</div>
+{{ form_widget(form.content) }}
+<div>{{ form_widget(form.submit, { 'label': submitLabel }) }}</div>
 {{ form_end(form) }}

@@ -12,7 +12,7 @@
         <div id="form-errors-client"></div>
         <div id="form-errors-server">
             {{ form_errors(form) }}
-            {{ form_errors(form.rating,) }}
+            {{ form_errors(form.rating) }}
         </div>
         {{ form_start(form) }}
         <table class="table table-small">
@@ -25,7 +25,11 @@
             {{ form_widget(formDelete.delete, { 'label': 'Verwijder' }) }}
             {{ form_end(formDelete) }}
         {% endif %}
-        <a href="{{ path('recipeRatingCreate', {'recipeId': recipe.id}) }}">Schrijf een review</a>
+        {% if formDelete is null %}
+            <a href="{{ path('recipeRatingCreate', {'recipeId': recipe.id}) }}">Schrijf een review</a>
+        {% else %}
+            <a href="{{ path('recipeRatingEdit', {'recipeId': recipe.id, 'id': rating.id}) }}">Schrijf een review</a>
+        {% endif %}
     {% endif %}
     {% if recipe.imageExtension is not null %}
         <div><img src="{{  asset(recipe.getImagePath(appEnv, 600)) }}" id="recipe-image" class="img-fluid"
@@ -39,7 +43,7 @@
             {{ recipe.url }}
         {% endif %}
         <div class="recipeSingleProperty">Ingrediënten</div>
-        {{ recipe.ingredients }}
+        {{ recipe.ingredients|nl2br }}
         <div class="recipeSingleProperty">Voedingsmiddelen gerecht</div>
         <table class="table">
             {% for rowNumber, foodstuff in recipe.foodstuffs %}
@@ -48,18 +52,18 @@
             {% endfor %}
         </table>
         <div class="recipeSingleProperty">Bereidingswijze</div>
-        {{ recipe.preparationMethod }}
+        {{ recipe.preparationMethod|nl2br }}
         {% if recipe.niceStory is not null %}
             <div class="recipeSingleProperty">Vertel iets leuks over dit recept</div>
-            {{ recipe.niceStory }}
+            {{ recipe.niceStory|nl2br }}
         {% endif %}
         {% if recipe.niceTips is not null %}
             <div class="recipeSingleProperty">Leuke tips</div>
-            {{ recipe.niceTips }}
+            {{ recipe.niceTips|nl2br }}
         {% endif %}
         {% if recipe.toolsAndKitchenware is not null %}
             <div class="recipeSingleProperty">Hulpmiddelen en keukengerei</div
-            {{ recipe.toolsAndKitchenware }}
+            {{ recipe.toolsAndKitchenware|nl2br }}
         {% endif %}
         <div class="recipeSingleProperty">Aantal personen</div>
         {{ recipe.numberOfPersons }}

@@ -162,6 +162,7 @@ class RecipeController extends Controller
 
         return $this->render('recipe/single/view.html.twig', [
             'recipe' => $recipe,
+            'rating' => $rating,
             'isLoggedIn' => !is_null($this->getUser()),
             'currentUserId' => $this->getUser()?->getId(),
             'appEnv' => $this->getParameter('kernel.environment'),

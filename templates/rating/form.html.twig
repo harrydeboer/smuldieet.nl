@@ -5,9 +5,9 @@
     {{ form_errors(form.content) }}
 </div>
 {{ form_start(form) }}
-<table class="food-table table table-small">
-    <tr><td>Waardering</td><td colspan="2">{{ form_widget(form.rating) }}</td></tr>
-    <tr><td>Review</td><td colspan="2">{{ form_widget(form.content) }}</td></tr>
-    <tr><td colspan="3">{{ form_widget(form.submit, { 'label': submitLabel }) }}</td></tr>
-</table>
+<div class="recipeSingleProperty">Waardering</div>
+{{ form_widget(form.rating) }}
+<div class="recipeSingleProperty">Review</div>
+{{ form_widget(form.content) }}
+<div>{{ form_widget(form.submit, { 'label': submitLabel }) }}</div>
 {{ form_end(form) }}
