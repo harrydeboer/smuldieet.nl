@@ -186,6 +186,10 @@ body {
   width: 80px;
 }
 
+#registration_gender {
+  white-space: nowrap;
+}
+
 @media (min-width: 450px) {
   #registration_birthdate_day, #registration_birthdate_month, #registration_birthdate_year {
     display: inline;
