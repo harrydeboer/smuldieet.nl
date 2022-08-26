@@ -109,7 +109,7 @@ class RecipeFilterAndSortType extends AbstractType
             'required' => false,
             'attr' => [
                 'class' => 'form-control',
-                'placeholder' => 'titel',
+                'placeholder' => 'Zoek een recept',
                 'maxlength' => 255,
             ],
         ])

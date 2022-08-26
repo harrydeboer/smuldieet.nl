@@ -17,7 +17,7 @@ class HomepageControllerTest extends WebTestCase
 
         $this->assertResponseIsSuccessful();
 
-        $buttonCrawlerNode = $crawler->selectButton('Toon');
+        $buttonCrawlerNode = $crawler->selectButton('Show');
 
         $form = $buttonCrawlerNode->form();
 

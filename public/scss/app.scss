@@ -94,13 +94,19 @@ body {
   width: 300px;
 }
 
-#recipeSearch {
+#recipe-search {
   width: 250px;
   display: inline;
 }
 
 #recipe-filter-icon {
   color: #0d6efd;
+  margin-left: -30px;
+}
+
+#recipe-search-icon {
+  margin-left: 10px;
+  cursor: pointer;
 }
 
 .recipe-image {

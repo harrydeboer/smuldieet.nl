@@ -12,6 +12,11 @@ $(function() {
         event.preventDefault();
     });
 
+    $('#recipe-search-icon').on('click', function (event) {
+        $(this).next()[0].click();
+        event.preventDefault();
+    });
+
     $('#abc-select').on('change', function () {
         window.location.href = $('#abc-route').data('route') + '/' + $(this).val();
     });
@@ -42,7 +47,7 @@ $(function() {
     });
 
     let recipesHomepage = $("#recipes-homepage");
-    if (recipesHomepage.length > 0 && !$('#filter-sort-form').hasClass('d-none')) {
+    if (recipesHomepage.length > 0 && !$('#filter-sort-table').hasClass('d-none')) {
         $('html, body').animate({
             scrollTop: recipesHomepage.offset().top
         }, 1000);
