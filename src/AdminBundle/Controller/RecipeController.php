@@ -9,6 +9,7 @@ use App\AdminBundle\Form\RecipeType;
 use App\Controller\AuthController;
 use App\Entity\Recipe;
 use App\Repository\RecipeRepositoryInterface;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -52,10 +53,11 @@ class RecipeController extends AuthController
         if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
             try {
                 $this->recipeRepository->update($recipe);
-            } catch (Exception) {
-            }
 
-            return $this->redirectToRoute('adminRecipe');
+                return $this->redirectToRoute('adminRecipe');
+            } catch (Exception $exception) {
+                $formUpdate->addError(new FormError($exception->getMessage()));
+            }
         }
 
         return $this->render('@AdminBundle/recipe/edit/view.html.twig', [

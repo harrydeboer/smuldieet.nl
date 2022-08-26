@@ -11,7 +11,7 @@ interface CommentRepositoryInterface extends ServiceEntityRepositoryInterface
 {
     public function create(Comment $comment): void;
 
-    public function update(): void;
+    public function update(Comment $comment): void;
 
     public function delete(Comment $comment): void;
 }

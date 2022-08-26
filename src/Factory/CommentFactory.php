@@ -6,6 +6,7 @@ namespace App\Factory;
 
 use App\Entity\Comment;
 use App\Repository\CommentRepositoryInterface;
+use Exception;
 
 class CommentFactory extends AbstractFactory
 {
@@ -17,6 +18,9 @@ class CommentFactory extends AbstractFactory
     ) {
     }
 
+    /**
+     * @throws Exception
+     */
     public function create(array $params = []): Comment
     {
         $paramsParent = [];

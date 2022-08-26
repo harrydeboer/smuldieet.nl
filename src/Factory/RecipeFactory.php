@@ -19,6 +19,9 @@ class RecipeFactory extends AbstractFactory
     ) {
     }
 
+    /**
+     * @throws Exception
+     */
     public function create(array $params = []): Recipe
     {
         $paramsParent = [];
@@ -76,10 +79,7 @@ class RecipeFactory extends AbstractFactory
 
         $this->setParams($params, $recipe);
 
-        try {
-            $this->recipeRepository->create($recipe);
-        } catch (Exception) {
-        }
+        $this->recipeRepository->create($recipe);
 
         return $recipe;
     }

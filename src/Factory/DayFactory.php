@@ -7,6 +7,7 @@ namespace App\Factory;
 use App\Entity\Day;
 use App\Repository\DayRepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use Exception;
 
 class DayFactory extends AbstractFactory
 {
@@ -18,6 +19,9 @@ class DayFactory extends AbstractFactory
     ) {
     }
 
+    /**
+     * @throws Exception
+     */
     public function create(array $params = []): Day
     {
         $paramsParent = [];

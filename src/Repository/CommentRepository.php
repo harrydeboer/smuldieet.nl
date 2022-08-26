@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Comment;
+use App\Service\ProfanityCheckService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
@@ -22,6 +23,7 @@ class CommentRepository extends ServiceEntityRepository implements CommentReposi
     public function __construct(
         private readonly EntityManagerInterface $em,
         private readonly RecipeRepositoryInterface $recipeRepository,
+        private readonly ProfanityCheckService $profanityCheckService,
         ManagerRegistry $registry,
     ) {
         parent::__construct($registry, Comment::class);
@@ -29,26 +31,30 @@ class CommentRepository extends ServiceEntityRepository implements CommentReposi
 
     /**
      * When the comment is created the times reacted of its recipe is upped by 1.
+     * @throws Exception
      */
     public function create(Comment $comment): void
     {
         if (!is_null($comment->getPage()) && !is_null($comment->getRecipe())) {
             throw new InvalidArgumentException('A comment cannot have both a page and a recipe.');
         }
+        $this->profanityCheckService->check($comment->getContent());
 
         if (!is_null($recipe = $comment->getRecipe())) {
             $recipe->setTimesReacted($recipe->getTimesReacted() + 1);
-            try {
-                $this->recipeRepository->update($recipe);
-            } catch (Exception) {
-            }
+            $this->recipeRepository->update($recipe);
         }
+
         $this->em->persist($comment);
         $this->em->flush();
     }
 
-    public function update(): void
+    /**
+     * @throws Exception
+     */
+    public function update(Comment $comment): void
     {
+        $this->profanityCheckService->check($comment->getContent());
         $this->em->flush();
     }
 

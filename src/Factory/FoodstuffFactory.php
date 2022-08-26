@@ -19,6 +19,7 @@ class FoodstuffFactory extends AbstractFactory
      * A foodstuff gets random numbers for all properties.
      * The total energy must match the kcal fields.
      * The total of weights must add up to 100 so water is filled with the remaining weight.
+     * @throws Exception
      */
     public function create(array $params = []): Foodstuff
     {
@@ -39,10 +40,7 @@ class FoodstuffFactory extends AbstractFactory
 
         $this->setParams($params, $foodstuff);
 
-        try {
-            $this->foodstuffRepository->create($foodstuff);
-        } catch (Exception) {
-        }
+        $this->foodstuffRepository->create($foodstuff);
 
         return $foodstuff;
     }

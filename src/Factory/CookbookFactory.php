@@ -7,6 +7,7 @@ namespace App\Factory;
 use App\Entity\Cookbook;
 use App\Repository\CookbookRepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use Exception;
 
 class CookbookFactory extends AbstractFactory
 {
@@ -17,6 +18,9 @@ class CookbookFactory extends AbstractFactory
     ) {
     }
 
+    /**
+     * @throws Exception
+     */
     public function create(array $params = []): Cookbook
     {
         $paramsParent = [];

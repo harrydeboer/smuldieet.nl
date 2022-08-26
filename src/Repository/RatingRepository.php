@@ -98,9 +98,6 @@ class RatingRepository extends ServiceEntityRepository implements RatingReposito
             $recipe->setRating(($recipe->getRating() * $votes - $rating->getRating()) / ($votes - 1));
         }
 
-        /**
-         * An exception is thrown only when profanities are added which is not the case here.
-         */
         try {
             $this->recipeRepository->update($recipe);
         } catch (Exception) {

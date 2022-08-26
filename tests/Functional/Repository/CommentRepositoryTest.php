@@ -21,7 +21,7 @@ class CommentRepositoryTest extends KernelTestCase
         $updatedContent = 'test';
         $comment->setContent($updatedContent);
 
-        $commentRepository->update();
+        $commentRepository->update($comment);
 
         $this->assertSame($updatedContent, $commentRepository->findOneBy(['content' => $updatedContent])->getContent());
 

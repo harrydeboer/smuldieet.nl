@@ -17,6 +17,9 @@ class RatingFactory extends AbstractFactory
     ) {
     }
 
+    /**
+     * @throws Exception
+     */
     public function create(array $params = []): Rating
     {
         $paramsParent = [];
@@ -39,10 +42,7 @@ class RatingFactory extends AbstractFactory
 
         $this->setParams($params, $rating);
 
-        try {
-            $this->ratingRepository->create($rating);
-        } catch (Exception) {
-        }
+        $this->ratingRepository->create($rating);
 
         return $rating;
     }
