@@ -62,7 +62,7 @@
     {{ form_end(form) }}
     <br>
     {% if not isFiltered %}
-    <h2>Recente recepten</h2>
+    <h2 id="recent-recipes-heading">Recente recepten</h2>
     {% endif %}
     <table class="table table-striped" id="recipes-homepage">
         {% for recipe in paginator.results %}

@@ -5,7 +5,7 @@
 </div>
 {{ form_start(form) }}
 <div class="fw-bold">Content</div>
-{{ rating.content }}
+{{ rating.content|nl2br }}
 <div class="fw-bold">Wacht op goedkeuring</div>
 {{ form_widget(form.pending) }}
 <div>{{ form_widget(form.submit, { 'label': submitLabel }) }}</div>

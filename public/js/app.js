@@ -47,7 +47,7 @@ $(function() {
     });
 
     let recipesHomepage = $("#recipes-homepage");
-    if (recipesHomepage.length > 0 && !$('#filter-sort-table').hasClass('d-none')) {
+    if (recipesHomepage.length > 0 && !($('#recent-recipes-heading').length > 0)) {
         $('html, body').animate({
             scrollTop: recipesHomepage.offset().top
         }, 1000);
