@@ -17,6 +17,9 @@ class StatsService
         $numberOfDays = count($days);
 
         $stats = Foodstuff::getADH($user->getBirthdate(), $user->getGender(), $user->getWeight());
+        unset($stats['molybdenum']);
+        unset($stats['chromium']);
+
         foreach ($days as $day) {
             foreach ($day->getFoodstuffs() as $foodstuff) {
                 foreach ($stats as $key => $stat) {
