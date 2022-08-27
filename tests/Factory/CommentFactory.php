@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Factory;
+namespace App\Tests\Factory;
 
 use App\Entity\Comment;
 use App\Repository\CommentRepositoryInterface;
@@ -56,8 +56,6 @@ class CommentFactory extends AbstractFactory
 
         $this->setParams($params, $comment);
 
-        $this->commentRepository->create($comment);
-
-        return $comment;
+        return $this->commentRepository->create($comment);
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Repository;
 
-use App\Factory\CookbookFactory;
+use App\Tests\Factory\CookbookFactory;
 use App\Repository\CookbookRepositoryInterface;
 use App\Tests\Functional\KernelTestCase;
 

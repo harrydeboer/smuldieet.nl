@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Service;
 
-use App\Factory\FoodstuffFactory;
+use App\Tests\Factory\FoodstuffFactory;
 use App\Service\CombineFoodstuffsService;
 use App\Tests\Functional\AuthWebTestCase;
 

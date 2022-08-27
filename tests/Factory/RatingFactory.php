@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Factory;
+namespace App\Tests\Factory;
 
 use App\Entity\Rating;
 use App\Repository\RatingRepositoryInterface;
@@ -42,8 +42,6 @@ class RatingFactory extends AbstractFactory
 
         $this->setParams($params, $rating);
 
-        $this->ratingRepository->create($rating);
-
-        return $rating;
+        return $this->ratingRepository->create($rating);
     }
 }

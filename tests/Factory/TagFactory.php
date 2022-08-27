@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Factory;
+namespace App\Tests\Factory;
 
 use App\Entity\Tag;
 use App\Repository\TagRepositoryInterface;
@@ -21,8 +21,6 @@ class TagFactory extends AbstractFactory
 
         $this->setParams($params, $tag);
 
-        $this->tagRepository->create($tag);
-
-        return $tag;
+        return $this->tagRepository->create($tag);
     }
 }

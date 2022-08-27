@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Repository;
 
-use App\Factory\DayFactory;
+use App\Tests\Factory\DayFactory;
 use App\Repository\DayRepositoryInterface;
 use App\Tests\Functional\KernelTestCase;
 use DateTime;

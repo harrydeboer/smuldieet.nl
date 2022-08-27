@@ -33,7 +33,7 @@ class CommentRepository extends ServiceEntityRepository implements CommentReposi
      * When the comment is created the times reacted of its recipe is upped by 1.
      * @throws Exception
      */
-    public function create(Comment $comment): void
+    public function create(Comment $comment): Comment
     {
         if (!is_null($comment->getPage()) && !is_null($comment->getRecipe())) {
             throw new InvalidArgumentException('A comment cannot have both a page and a recipe.');
@@ -47,6 +47,8 @@ class CommentRepository extends ServiceEntityRepository implements CommentReposi
 
         $this->em->persist($comment);
         $this->em->flush();
+
+        return $comment;
     }
 
     /**

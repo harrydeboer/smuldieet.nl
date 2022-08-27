@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Factory;
+namespace App\Tests\Factory;
 
 use App\Entity\Foodstuff;
 use App\Repository\FoodstuffRepositoryInterface;
@@ -40,9 +40,7 @@ class FoodstuffFactory extends AbstractFactory
 
         $this->setParams($params, $foodstuff);
 
-        $this->foodstuffRepository->create($foodstuff);
-
-        return $foodstuff;
+        return $this->foodstuffRepository->create($foodstuff);
     }
 
     private function randomNutritionalValue(): ?float

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Factory;
+namespace App\Tests\Factory;
 
 use App\Entity\User;
 use App\Repository\UserRepositoryInterface;
@@ -57,8 +57,6 @@ class UserFactory extends AbstractFactory
 
         $this->setParams($params, $user);
 
-        $this->userRepository->create($user, 'secret');
-
-        return $user;
+        return $this->userRepository->create($user, 'secret');
     }
 }

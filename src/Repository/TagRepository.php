@@ -25,10 +25,12 @@ class TagRepository extends ServiceEntityRepository implements TagRepositoryInte
     }
 
 
-    public function create(Tag $tag): void
+    public function create(Tag $tag): Tag
     {
         $this->em->persist($tag);
         $this->em->flush();
+
+        return $tag;
     }
 
     public function update(): void

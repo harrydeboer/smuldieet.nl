@@ -57,7 +57,7 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
         return (new Paginator($qb))->paginate($page);
     }
 
-    public function create(User $user, string $plainPassword): void
+    public function create(User $user, string $plainPassword): User
     {
         $user->setPassword(
             $this->passwordEncoder->hashPassword($user, $plainPassword)
@@ -65,6 +65,8 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
 
         $this->em->persist($user);
         $this->em->flush();
+
+        return $user;
     }
 
     public function update(): void

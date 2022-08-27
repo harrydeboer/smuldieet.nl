@@ -59,7 +59,7 @@ class RatingRepository extends ServiceEntityRepository implements RatingReposito
     /**
      * @throws Exception
      */
-    public function create(Rating $rating): void
+    public function create(Rating $rating): Rating
     {
         $this->profanityCheckService->check($rating->getContent());
         $recipe = $rating->getRecipe();
@@ -71,6 +71,8 @@ class RatingRepository extends ServiceEntityRepository implements RatingReposito
 
         $this->em->persist($rating);
         $this->em->flush();
+
+        return $rating;
     }
 
     /**

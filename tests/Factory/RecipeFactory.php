@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Factory;
+namespace App\Tests\Factory;
 
 use App\Entity\Recipe;
 use App\Repository\RecipeRepositoryInterface;
@@ -80,8 +80,6 @@ class RecipeFactory extends AbstractFactory
 
         $this->setParams($params, $recipe);
 
-        $this->recipeRepository->create($recipe);
-
-        return $recipe;
+        return $this->recipeRepository->create($recipe);
     }
 }

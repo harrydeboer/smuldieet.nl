@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\AdminBundle\Functional\Controller;
 
-use App\Factory\RecipeFactory;
+use App\Tests\Factory\RecipeFactory;
 use App\Repository\RecipeRepositoryInterface;
 use App\Tests\Functional\AuthAdminWebTestCase;
 

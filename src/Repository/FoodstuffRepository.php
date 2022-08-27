@@ -98,12 +98,14 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
     /**
      * @throws Exception
      */
-    public function create(Foodstuff $foodstuff): void
+    public function create(Foodstuff $foodstuff): Foodstuff
     {
         $this->checkFirstChar($foodstuff->getName());
         $this->checkWeightsAndEnergy($foodstuff);
         $this->em->persist($foodstuff);
         $this->em->flush();
+
+        return $foodstuff;
     }
 
     /**

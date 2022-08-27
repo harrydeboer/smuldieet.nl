@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Service;
 
 use App\Entity\Day;
-use App\Factory\DayFactory;
-use App\Factory\FoodstuffFactory;
-use App\Factory\UserFactory;
+use App\Tests\Factory\DayFactory;
+use App\Tests\Factory\FoodstuffFactory;
+use App\Tests\Factory\UserFactory;
 use App\Service\StatsService;
 use App\Tests\Functional\KernelTestCase;
 use Doctrine\Common\Collections\ArrayCollection;

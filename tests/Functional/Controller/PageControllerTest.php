@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller;
 
-use App\Factory\PageFactory;
+use App\Tests\Factory\PageFactory;
 use App\Tests\Functional\WebTestCase;
 
 class PageControllerTest extends WebTestCase

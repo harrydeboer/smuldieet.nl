@@ -80,7 +80,7 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
     /**
      * @throws Exception
      */
-    public function create(Recipe $recipe): void
+    public function create(Recipe $recipe): Recipe
     {
         $this->checkProfanitiesRecipe($recipe);
         $this->addFoodstuffsFromWeights($recipe);
@@ -89,6 +89,8 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
         $this->em->flush();
         $this->em->persist($recipe);
         $this->em->flush();
+
+        return $recipe;
     }
 
     /**

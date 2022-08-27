@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Repository;
 
-use App\Factory\FoodstuffFactory;
-use App\Factory\UserFactory;
+use App\Tests\Factory\FoodstuffFactory;
+use App\Tests\Factory\UserFactory;
 use App\Repository\FoodstuffRepositoryInterface;
 use App\Tests\Functional\KernelTestCase;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;

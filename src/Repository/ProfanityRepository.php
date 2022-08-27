@@ -25,10 +25,12 @@ class ProfanityRepository extends ServiceEntityRepository implements ProfanityRe
     }
 
 
-    public function create(Profanity $profanity): void
+    public function create(Profanity $profanity): Profanity
     {
         $this->em->persist($profanity);
         $this->em->flush();
+
+        return $profanity;
     }
 
     public function update(): void

@@ -28,6 +28,12 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    App\Factory\:
-        resource: '../src/Factory/'
-        public: true
+when@test:
+    services:
+        _defaults:
+            autowire: true      # Automatically injects dependencies in your services.
+            autoconfigure: true
+
+        App\Tests\Factory\:
+            resource: '../tests/Factory/'
+            public: true

@@ -9,7 +9,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface;
 
 interface ProfanityRepositoryInterface extends ServiceEntityRepositoryInterface
 {
-    public function create(Profanity $profanity): void;
+    public function create(Profanity $profanity): Profanity;
 
     public function update(): void;
 

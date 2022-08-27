@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Repository;
 
-use App\Factory\RatingFactory;
+use App\Tests\Factory\RatingFactory;
 use App\Repository\RatingRepositoryInterface;
 use App\Tests\Functional\KernelTestCase;
 

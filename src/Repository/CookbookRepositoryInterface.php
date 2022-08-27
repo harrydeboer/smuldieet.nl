@@ -11,7 +11,7 @@ interface CookbookRepositoryInterface extends ServiceEntityRepositoryInterface
 {
     public function getFromUser(int $id, int $userId): Cookbook;
 
-    public function create(Cookbook $cookbook): void;
+    public function create(Cookbook $cookbook): Cookbook;
 
     public function update(Cookbook $cookbook): void;
 

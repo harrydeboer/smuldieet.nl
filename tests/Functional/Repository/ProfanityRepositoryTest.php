@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Repository;
 
-use App\Factory\ProfanityFactory;
+use App\Tests\Factory\ProfanityFactory;
 use App\Repository\ProfanityRepositoryInterface;
 use App\Tests\Functional\KernelTestCase;
 

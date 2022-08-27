@@ -47,10 +47,12 @@ class PageRepository extends ServiceEntityRepository implements PageRepositoryIn
         return $page;
     }
 
-    public function create(Page $page): void
+    public function create(Page $page): Page
     {
         $this->em->persist($page);
         $this->em->flush();
+
+        return $page;
     }
 
     public function update(): void

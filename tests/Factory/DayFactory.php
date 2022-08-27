@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Factory;
+namespace App\Tests\Factory;
 
 use App\Entity\Day;
 use App\Repository\DayRepositoryInterface;
@@ -65,8 +65,6 @@ class DayFactory extends AbstractFactory
 
         $this->setParams($params, $day);
 
-        $this->dayRepository->create($day);
-
-        return $day;
+        return $this->dayRepository->create($day);
     }
 }

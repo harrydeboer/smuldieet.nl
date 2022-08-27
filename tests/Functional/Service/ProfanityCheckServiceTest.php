@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Service;
 
-use App\Factory\ProfanityFactory;
+use App\Tests\Factory\ProfanityFactory;
 use App\Service\ProfanityCheckService;
 use App\Tests\Functional\KernelTestCase;
 use Exception;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Factory;
+namespace App\Tests\Factory;
 
 use App\Entity\Profanity;
 use App\Repository\ProfanityRepositoryInterface;
@@ -21,8 +21,6 @@ class ProfanityFactory extends AbstractFactory
 
         $this->setParams($params, $profanity);
 
-        $this->profanityRepository->create($profanity);
-
-        return $profanity;
+        return $this->profanityRepository->create($profanity);
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Factory;
+namespace App\Tests\Factory;
 
 use App\Entity\Page;
 use App\Repository\PageRepositoryInterface;
@@ -37,8 +37,6 @@ class PageFactory extends AbstractFactory
 
         $this->setParams($params, $page);
 
-        $this->pageRepository->create($page);
-
-        return $page;
+        return $this->pageRepository->create($page);
     }
 }

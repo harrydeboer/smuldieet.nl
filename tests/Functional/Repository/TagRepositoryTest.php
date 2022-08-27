@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Repository;
 
-use App\Factory\TagFactory;
+use App\Tests\Factory\TagFactory;
 use App\Repository\TagRepositoryInterface;
 use App\Tests\Functional\KernelTestCase;
 

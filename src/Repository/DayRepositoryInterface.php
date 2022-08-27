@@ -14,7 +14,7 @@ interface DayRepositoryInterface extends ServiceEntityRepositoryInterface
 {
     public function getFromUser(int $id, int $userId): Day;
 
-    public function create(Day $day): void;
+    public function create(Day $day): Day;
 
     public function update(Day $day): void;
 

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Functional;
 
 use App\Entity\User;
-use App\Factory\UserFactory;
+use App\Tests\Factory\UserFactory;
 
 class AuthWebTestCase extends WebTestCase
 {

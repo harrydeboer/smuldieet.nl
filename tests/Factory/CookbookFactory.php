@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Factory;
+namespace App\Tests\Factory;
 
 use App\Entity\Cookbook;
 use App\Repository\CookbookRepositoryInterface;
@@ -44,8 +44,6 @@ class CookbookFactory extends AbstractFactory
 
         $this->setParams($params, $cookbook);
 
-        $this->cookbookRepository->create($cookbook);
-
-        return $cookbook;
+        return $this->cookbookRepository->create($cookbook);
     }
 }

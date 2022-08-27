@@ -23,7 +23,7 @@ interface FoodstuffRepositoryInterface extends ServiceEntityRepositoryInterface
     /**
      * @throws Exception
      */
-    public function create(Foodstuff $foodstuff): void;
+    public function create(Foodstuff $foodstuff): Foodstuff;
 
     /**
      * @throws Exception

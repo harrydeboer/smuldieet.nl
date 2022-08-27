@@ -13,7 +13,7 @@ interface PageRepositoryInterface extends ServiceEntityRepositoryInterface
 
     public function getBySlug(string $slug): Page;
 
-    public function create(Page $page): void;
+    public function create(Page $page): Page;
 
     public function update(): void;
 

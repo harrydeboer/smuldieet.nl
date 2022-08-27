@@ -19,7 +19,7 @@ interface RatingRepositoryInterface extends ServiceEntityRepositoryInterface
     /**
      * @throws Exception
      */
-    public function create(Rating $rating): void;
+    public function create(Rating $rating): Rating;
 
     /**
      * @throws Exception

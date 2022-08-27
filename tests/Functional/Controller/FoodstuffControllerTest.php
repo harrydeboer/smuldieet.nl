@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller;
 
-use App\Factory\FoodstuffFactory;
-use App\Factory\PageFactory;
+use App\Tests\Factory\FoodstuffFactory;
+use App\Tests\Factory\PageFactory;
 use App\Repository\FoodstuffRepositoryInterface;
 use App\Tests\Functional\AuthAdminWebTestCase;
 

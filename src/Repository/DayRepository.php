@@ -41,11 +41,13 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
         return $day;
     }
 
-    public function create(Day $day): void
+    public function create(Day $day): Day
     {
         $this->addFoodstuffsAndRecipesFromWeights($day);
         $this->em->persist($day);
         $this->em->flush();
+
+        return $day;
     }
 
     public function update(Day $day): void

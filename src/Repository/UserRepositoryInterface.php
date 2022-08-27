@@ -15,7 +15,7 @@ interface UserRepositoryInterface extends ServiceEntityRepositoryInterface
 
     public function findAllPaginated(int $page): Paginator|array;
 
-    public function create(User $user, string $plainPassword): void;
+    public function create(User $user, string $plainPassword): User;
 
     public function update(): void;
 

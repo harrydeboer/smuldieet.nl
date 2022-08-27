@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Repository;
 
-use App\Factory\UserFactory;
+use App\Tests\Factory\UserFactory;
 use App\Repository\UserRepositoryInterface;
 use App\Tests\Functional\KernelTestCase;
 
