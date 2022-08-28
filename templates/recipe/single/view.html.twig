@@ -67,15 +67,24 @@
                             stemmen
                         {% endif %}
                     {% endif %}</div></td>
-            <td><div id="rate-modal-button" class="fw-bold">&nbsp;&nbsp;
-                    {% if rating is null %}
-                        Waardeer <i class="far fa-star" id="rate-modal-button-star"></i>
-                    {% else %}
-                        {{ rating.rating }} <i class="fas fa-star" id="rate-modal-button-star"></i>
-                    {% endif %}
+            <td>{% if isLoggedIn %}
+                    <div id="rate-modal-button" class="fw-bold">&nbsp;&nbsp;
+                        {% if rating is null %}
+
+                            Waardeer <i class="far fa-star" id="rate-modal-button-star"></i>
+                        {% else %}
+                            {{ rating.rating }} <i class="fas fa-star" id="rate-modal-button-star"></i>
+                        {% endif %}
+                        <br>
+                        <br>
+                    </div>
+                {% else %}
+                    &nbsp;&nbsp;<a href="{{ path('appLogin') }}" id="rate-recipe-login">Waardeer
+                    <i class="far fa-star" id="rate-modal-button-star"></i>
+                    </a>
                     <br>
                     <br>
-                </div></td></tr>
+                {% endif %}</td></tr>
     </table>
     <br>
     <br>

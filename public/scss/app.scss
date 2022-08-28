@@ -223,7 +223,7 @@ body {
   font-weight: 900 !important;
 }
 
-#rating-div label:hover, .far:hover,
+#rating-div label:hover,
 #rating-div label:hover ~ label .far {
   font-weight: 900 !important;
 }
@@ -231,6 +231,10 @@ body {
 #rating-div {
   display: inline-block;
   list-style: none;
+}
+
+#rate-recipe-login {
+  text-decoration: none;
 }
 
 /* Overview page */
