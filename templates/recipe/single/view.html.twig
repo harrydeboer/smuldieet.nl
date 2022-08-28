@@ -55,23 +55,24 @@
         </tr>
         </thead>
         <tr><td><div>{% if recipe.rating is null %}
-                    N/B
-                {% else %}
-                    {{ recipe.rating|number_format(1) }} <i class="fas fa-star fa-star-gold"></i><br>
-                    {{ recipe.votes }}
-                    {% if recipe.votes == 1 %}
-                        stem
+                        N/B
+                        <br>
+                        <br>
                     {% else %}
-                        stemmen
-                    {% endif %}
+                        {{ recipe.rating|number_format(1) }} <i class="fas fa-star fa-star-gold"></i><br>
+                        {{ recipe.votes }}
+                        {% if recipe.votes == 1 %}
+                            stem
+                        {% else %}
+                            stemmen
+                        {% endif %}
                     {% endif %}</div></td>
             <td><div id="rate-modal-button" class="fw-bold">&nbsp;&nbsp;
                     {% if rating is null %}
-                        N/B
+                        Waardeer <i class="far fa-star" id="rate-modal-button-star"></i>
                     {% else %}
-                        {{ rating.rating }}
+                        {{ rating.rating }} <i class="fas fa-star" id="rate-modal-button-star"></i>
                     {% endif %}
-                    &nbsp;<i class="fas fa-star" id="rate-modal-button-star"></i>
                     <br>
                     <br>
                 </div></td></tr>
