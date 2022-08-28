@@ -101,12 +101,17 @@ body {
 
 #recipe-filter-icon {
   color: #0d6efd;
-  margin-left: -30px;
+  margin-left: -64px;
 }
 
 #recipe-search-icon {
-  margin-left: 10px;
+  margin-left: 0;
+  color: white;
+  background-color: #0d6efd;
+  padding: 7px 9px 9px 9px;
   cursor: pointer;
+  border-top-right-radius: .375rem;
+  border-bottom-right-radius: .375rem;
 }
 
 .recipe-image {
@@ -119,7 +124,7 @@ body {
 
 @media (min-width: 360px) {
   #recipe-search {
-    width: 360px;
+    width: 340px;
   }
 }
 
@@ -196,22 +201,31 @@ body {
   white-space: nowrap;
 }
 
+.fa-star-form {
+  color: rgb(87, 153, 239);
+}
+
 #rating-div .radio-star:checked + label .far,
 #rating-div .radio-star:checked ~ label .far {
-  color: rgb(87, 153, 239);
   font-weight: 900;
 }
 
 #rating-div label {
   float: right;
-  color: #ddd;
   padding: 10px 4px;
+}
+
+#rating-div:hover .far {
+  font-weight: 400 !important;
+}
+
+#rating-div:hover label:hover .far {
+  font-weight: 900 !important;
 }
 
 #rating-div label:hover, .far:hover,
 #rating-div label:hover ~ label .far {
-  color: gold !important;
-  font-weight: 900;
+  font-weight: 900 !important;
 }
 
 #rating-div {

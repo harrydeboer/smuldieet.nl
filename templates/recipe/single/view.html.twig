@@ -54,7 +54,7 @@
             <th scope="col">&nbsp;&nbsp;Jouw waardering</th>
         </tr>
         </thead>
-        <tr><td>{% if recipe.rating is null %}
+        <tr><td><div>{% if recipe.rating is null %}
                     N/B
                 {% else %}
                     {{ recipe.rating|number_format(1) }} <i class="fas fa-star fa-star-gold"></i><br>
@@ -64,7 +64,7 @@
                     {% else %}
                         stemmen
                     {% endif %}
-                {% endif %}</td>
+                    {% endif %}</div></td>
             <td><div id="rate-modal-button" class="fw-bold">&nbsp;&nbsp;
                     {% if rating is null %}
                         N/B
@@ -72,6 +72,8 @@
                         {{ rating.rating }}
                     {% endif %}
                     &nbsp;<i class="fas fa-star" id="rate-modal-button-star"></i>
+                    <br>
+                    <br>
                 </div></td></tr>
     </table>
     <br>
