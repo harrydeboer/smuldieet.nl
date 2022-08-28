@@ -10,6 +10,7 @@ use App\Form\RatingType;
 use App\Form\ReviewType;
 use App\Repository\RatingRepositoryInterface;
 use App\Repository\RecipeRepositoryInterface;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -75,7 +76,7 @@ class RatingController extends AuthController
 
                 return $this->redirectToRoute('recipeRating');
             } catch (Exception $exception) {
-                $this->addFlash('error', $exception->getMessage());
+                $form->addError(new FormError($exception->getMessage()));
             }
         }
 
@@ -122,7 +123,7 @@ class RatingController extends AuthController
 
                 return $this->redirectToRoute('recipeRating');
             } catch (Exception $exception) {
-                $this->addFlash('error', $exception->getMessage());
+                $formUpdate->addError(new FormError($exception->getMessage()));
             }
         }
 

@@ -144,6 +144,14 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
         $qb->where('r.pending = 0');
 
         if (!is_null($formData)) {
+            if (!is_null($formData['title'])) {
+                $qb->andWhere('Lower(r.title) like :title')
+                    ->setParameter('title', '%' . $formData['title'] . '%');
+            }
+            if (!is_null($formData['typeOfDish'])) {
+                $qb->andWhere('r.typeOfDish = :typeOfDish')
+                    ->setParameter('typeOfDish', $formData['typeOfDish']);
+            }
             if (!is_null($formData['cookingTime'])) {
                 $qb->andWhere('r.cookingTime = :cookingTime')
                     ->setParameter('cookingTime', $formData['cookingTime']);
@@ -152,38 +160,14 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
                 $qb->andWhere('r.kitchen = :kitchen')
                     ->setParameter('kitchen', $formData['kitchen']);
             }
-            if (!is_null($formData['typeOfDish'])) {
-                $qb->andWhere('r.typeOfDish = :typeOfDish')
-                    ->setParameter('typeOfDish', $formData['typeOfDish']);
-            }
             if (!is_null($formData['occasion'])) {
                 $qb->andWhere('r.occasion = :occasion')
                     ->setParameter('occasion', $formData['occasion']);
-            }
-            if (!is_null($formData['votes'])) {
-                $qb->andWhere('r.votes >= :votes')
-                    ->setParameter('votes', $formData['votes']);
-            }
-            if (!is_null($formData['isSelfInvented'])) {
-                $qb->andWhere('r.isSelfInvented = :isSelfInvented')
-                    ->setParameter('isSelfInvented', $formData['isSelfInvented']);
-            }
-            if (!is_null($formData['numberOfPersons'])) {
-                $qb->andWhere('r.numberOfPersons = :numberOfPersons')
-                    ->setParameter('numberOfPersons', $formData['numberOfPersons']);
-            }
-            if (!is_null($formData['numberOfPieces'])) {
-                $qb->andWhere('r.numberOfPieces = :numberOfPieces')
-                    ->setParameter('numberOfPieces', $formData['numberOfPieces']);
             }
             foreach (Recipe::DIET_CHOICES as $choice) {
                 if ($formData[$choice]) {
                     $qb->andWhere('r.' . $choice . ' = 1');
                 }
-            }
-            if (!is_null($formData['title'])) {
-                $qb->andWhere('Lower(r.title) like :title')
-                    ->setParameter('title', '%' . $formData['title'] . '%');
             }
             $filterArray = explode('_', $formData['sort']);
             $qb->orderBy('r.' . $filterArray[0], $filterArray[1]);

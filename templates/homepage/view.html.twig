@@ -18,14 +18,10 @@
     <div id="form-errors-server">
         {{ form_errors(form) }}
         {{ form_errors(form.title) }}
-        {{ form_errors(form.numberOfPersons) }}
-        {{ form_errors(form.numberOfPieces) }}
-        {{ form_errors(form.votes) }}
+        {{ form_errors(form.typeOfDish) }}
         {{ form_errors(form.cookingTime) }}
         {{ form_errors(form.kitchen) }}
-        {{ form_errors(form.typeOfDish) }}
         {{ form_errors(form.occasion) }}
-        {{ form_errors(form.isSelfInvented) }}
         {% for key,choice in dietChoices %}
             {{ form_errors(attribute(form, choice)) }}
         {% endfor %}
@@ -36,18 +32,14 @@
     {{ form_widget(form.title, {'id': 'recipe-search'}) }}<i
         id="recipe-filter-icon" class="fas fa-sliders-h"></i>
     <i id="recipe-search-icon" class="fas fa-search"></i>{{ form_widget(form.show, {'attr': {'class': 'd-none'}}) }}
-    <table class="table d-none" id="filter-sort-table">
-        <tr><td>{{ form_widget(form.numberOfPersons) }}</td></tr>
-        <tr><td>{{ form_widget(form.numberOfPieces) }}</td></tr>
-        <tr><td>{{ form_widget(form.votes) }}</td></tr>
-        <tr><td>{{ form_widget(form.cookingTime) }}</td></tr>
-        <tr><td>{{ form_widget(form.kitchen) }}</td></tr>
-        <tr><td>{{ form_widget(form.typeOfDish) }}</td></tr>
-        <tr><td>{{ form_widget(form.occasion) }}</td></tr>
-        <tr><td>{{ form_widget(form.isSelfInvented) }}</td></tr>
-        <tr><td><div class="dropdown">
+    <div id="filter-sort-div" class="d-none">
+        {{ form_widget(form.typeOfDish) }}
+        {{ form_widget(form.cookingTime) }}
+        {{ form_widget(form.kitchen) }}
+        {{ form_widget(form.occasion) }}
+        <div class="dropdown" id="diet">
                     <div class="dropdown-toggle form-control" id="diet-filter" role="button"
-                         data-bs-toggle="dropdown" aria-expanded="false">Selecteer dieet</div>
+                         data-bs-toggle="dropdown" aria-expanded="false">dieet</div>
                     <table class="dropdown-menu dropdown-diet" aria-labelledby="diet-filter">
                         {% for key,choice in dietChoices %}
                             <tr><td><label class="form-check-label"
@@ -56,9 +48,9 @@
                                         {'id': 'diet'~key|replace({' ':''})}) }}</td></tr>
                         {% endfor %}
                     </table>
-                </div></td></tr>
-        <tr><td> {{ form_widget(form.sort) }}</td></tr>
-    </table>
+                </div>
+         {{ form_widget(form.sort) }}
+    </div>
     {{ form_end(form) }}
     <br>
     {% if not isFiltered %}
@@ -78,7 +70,8 @@
                     <td><span class="nowrap"></span></td>
                 {% else %}
                     <td>
-                        <span class="nowrap">{{ recipe.rating|number_format(1) }} <i class="fas fa-star"></i></span>
+                        <span class="nowrap">{{ recipe.rating|number_format(1) }} <i
+                                    class="fas fa-star fa-star-gold"></i></span>
                     </td>
                 {% endif %}
             </tr>

@@ -3,6 +3,15 @@ $(function() {
         $('.delete-modal').modal('show');
     });
 
+    $('#rate-modal-button').on('click', function () {
+        $('#rate-modal').modal('show');
+    });
+
+    $('.radio-star').on('change', function () {
+        $('form[name="rating"]').trigger("submit")
+    });
+
+
     $(".dropdown-diet").on('click', function(e) {
         e.stopPropagation();
     })
@@ -53,16 +62,16 @@ $(function() {
         }, 1000);
     }
     $('#recipe-filter-icon').on('click', function() {
-        let form = $('#filter-sort-table');
-        if (form.hasClass('d-none')) {
-            form.removeClass('d-none');
+        let div = $('#filter-sort-div');
+        if (div.hasClass('d-none')) {
+            div.removeClass('d-none');
         } else {
-            form.addClass('d-none');
+            div.addClass('d-none');
         }
     });
 
     $('form[name="rating"]').on('submit', function (event) {
-        let rating = $('#rating-rating');
+        let rating = $('#rating_rating');
         rating.text('')
         if (rating.val() < 1 || rating.val() > 10) {
             $('#form-errors-client').text('The waardering moet tussen 1 en 10 zijn.')

@@ -28,7 +28,7 @@ body {
   white-space: nowrap;
 }
 
-.fa-star {
+.fa-star-gold {
   color: gold;
 }
 
@@ -95,7 +95,7 @@ body {
 }
 
 #recipe-search {
-  width: 250px;
+  width: 100%;
   display: inline;
 }
 
@@ -111,6 +111,28 @@ body {
 
 .recipe-image {
   width: 100px;
+}
+
+#filter-sort-div #typeOfDish, #cookingTime, #kitchen, #occasion, #diet, #diet-filter, #sort {
+  width: 100%;
+}
+
+@media (min-width: 360px) {
+  #recipe-search {
+    width: 360px;
+  }
+}
+
+@media (min-width: 500px) {
+  #filter-sort-div #typeOfDish, #cookingTime, #kitchen, #occasion, #diet, #diet-filter, #sort {
+    width: 120px;
+  }
+}
+
+@media (min-width: 725px) {
+  #filter-sort-div #typeOfDish, #cookingTime, #kitchen, #occasion, #diet, #diet-filter, #sort {
+    display: inline;
+  }
 }
 
 /* Foodstuff/Recipe form */
@@ -151,6 +173,50 @@ body {
 
 #recipe-source {
   display: none;
+}
+
+#rating_rating {
+  width: 50px;
+}
+
+#rate-modal-button, #rate-modal-button-star {
+  color: rgb(87, 153, 239);
+}
+
+#rate-modal-button:hover {
+  cursor: pointer
+}
+
+.radio-star {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  margin: 0;
+  float: right;
+  white-space: nowrap;
+}
+
+#rating-div .radio-star:checked + label .far,
+#rating-div .radio-star:checked ~ label .far {
+  color: rgb(87, 153, 239);
+  font-weight: 900;
+}
+
+#rating-div label {
+  float: right;
+  color: #ddd;
+  padding: 10px 4px;
+}
+
+#rating-div label:hover, .far:hover,
+#rating-div label:hover ~ label .far {
+  color: gold !important;
+  font-weight: 900;
+}
+
+#rating-div {
+  display: inline-block;
+  list-style: none;
 }
 
 /* Overview page */

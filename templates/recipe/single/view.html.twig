@@ -3,38 +3,79 @@
 {% block title %}Recept{% endblock %}
 
 {% block body %}
-    {% for message in app.flashes('error') %}
-        <div class="flash-notice-error">
-            {{ message }}
-        </div>
-    {% endfor %}
     {% if isLoggedIn %}
-        <div id="form-errors-client"></div>
-        <div id="form-errors-server">
-            {{ form_errors(form) }}
-            {{ form_errors(form.rating) }}
+        <div class="modal" id="rate-modal">
+            <div class="modal-dialog" id="rate-modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" id="rate-modal-header">
+                    </div>
+                    <div class="modal-body">
+                        <div id="form-errors-client"></div>
+                        <div id="form-errors-server">
+                            {{ form_errors(form) }}
+                            {{ form_errors(form.rating) }}
+                        </div>
+                        {{ form_start(form) }}
+                        <div id="rating-div">
+                            {% set count = 9 %}
+                            {% for index, choice in form.rating|reverse %}
+                                {{ form_widget(choice, {'attr': {'class': 'radio-star'}}) }}
+                                <label for="rating_rating_{{ count }}">
+                                    <i class="far fa-star fa-star-form"> </i></label>
+                                {% set count = count - 1 %}
+                            {% endfor %}
+                        </div>
+                        <br>
+                        <button class="d-none">Waardeer</button>
+                        {{ form_end(form) }}
+                        <br>
+                        {% if formDelete is not null %}
+                            {{ form_start(formDelete) }}
+                            {{ form_widget(formDelete.delete, { 'label': 'Verwijder' }) }}
+                            {{ form_end(formDelete) }}
+                        {% endif %}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Sluiten</button>
+                    </div>
+                </div>
+            </div>
         </div>
-        {{ form_start(form) }}
-        <table class="table table-small">
-            <tr><td>Waardering{{ form_widget(form.rating, {'id': 'rating-rating'}) }}</td></tr>
-            <tr><td colspan="2">{{ form_widget(form.submit, { 'label': 'Waardeer' }) }}</td></tr>
-        </table>
-        {{ form_end(form) }}
-        {% if formDelete is not null %}
-            {{ form_start(formDelete) }}
-            {{ form_widget(formDelete.delete, { 'label': 'Verwijder' }) }}
-            {{ form_end(formDelete) }}
-        {% endif %}
-        {% if formDelete is null %}
-            <a href="{{ path('recipeRatingCreate', {'recipeId': recipe.id}) }}">Schrijf een review</a>
-        {% else %}
-            <a href="{{ path('recipeRatingEdit', {'recipeId': recipe.id, 'id': rating.id}) }}">Schrijf een review</a>
-        {% endif %}
     {% endif %}
     {% if recipe.imageExtension is not null %}
         <div><img src="{{  asset(recipe.getImagePath(appEnv, 600)) }}" id="recipe-image" class="img-fluid"
                   alt="recipe"></div>
     {% endif %}
+    <br>
+    <table>
+        <thead>
+        <tr>
+            <th scope="col">Smuldieet waardering</th>
+            <th scope="col">&nbsp;&nbsp;Jouw waardering</th>
+        </tr>
+        </thead>
+        <tr><td>{% if recipe.rating is null %}
+                    N/B
+                {% else %}
+                    {{ recipe.rating|number_format(1) }} <i class="fas fa-star fa-star-gold"></i><br>
+                    {{ recipe.votes }}
+                    {% if recipe.votes == 1 %}
+                        stem
+                    {% else %}
+                        stemmen
+                    {% endif %}
+                {% endif %}</td>
+            <td><div id="rate-modal-button" class="fw-bold">&nbsp;&nbsp;
+                    {% if rating is null %}
+                        N/B
+                    {% else %}
+                        {{ rating.rating }}
+                    {% endif %}
+                    &nbsp;<i class="fas fa-star" id="rate-modal-button-star"></i>
+                </div></td></tr>
+    </table>
+    <br>
+    <br>
     <div id="singleRecipe">
         <div class="fw-bold">Titel</div>
         {{ recipe.title }}
@@ -78,12 +119,6 @@
             {{ recipe.source }}
         {% endif %}
         {{ recipe.isSelfInvented }}
-        <div class="fw-bold">Waardering</div>
-        {% if recipe.rating is null %}
-            N/B
-        {% else %}
-            {{ recipe.rating|number_format(1) }} <i class="fas fa-star"></i>
-        {% endif %}
         <div class="fw-bold">Aantal stemmen</div>
         {{ recipe.votes }}
         <div class="fw-bold">Aantal keer bewaard</div>
@@ -107,6 +142,14 @@
                 <div>{{ key }}</div>
             {% endif %}
         {% endfor %}
+        <br>
+        {% if formDelete is null %}
+            <a href="{{ path('recipeRatingCreate', {'recipeId': recipe.id}) }}">Schrijf een review</a>
+        {% else %}
+            <a href="{{ path('recipeRatingEdit', {'recipeId': recipe.id, 'id': rating.id}) }}">Schrijf een review</a>
+        {% endif %}
+        <br>
+        <br>
         {% if currentUserId == recipe.user.id %}
             <div><a href="{{ path('recipeEdit', {'id': recipe.id}) }}">wijzig</a></div>
         {% endif %}
