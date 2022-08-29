@@ -25,7 +25,7 @@ class RecipeType extends AbstractType
         $builder
             ->add('image', FileType::class, [
                 'attr' => [
-                    'accept' => 'image/png, image/jpg, image/jpeg, image/gif, image/bmp, image/webp',
+                    'accept' => 'image/png, image/jpg, image/jpeg, image/jfif, image/gif, image/bmp, image/webp',
                     'class' => 'form-control btn-primary d-none'
                 ],
                 'constraints' => [

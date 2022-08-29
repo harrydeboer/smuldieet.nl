@@ -62,7 +62,7 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
     {
         $qb = $this->createQueryBuilder('f');
         $qb->where('f.name like :name')
-            ->setParameter('name', '%' . $name . '%')
+            ->setParameter('name', $name . '%')
             ->andWhere('f.user = :userId or f.user IS NULL')
             ->setParameter('userId', $userId)
             ->setMaxResults(10)

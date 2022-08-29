@@ -104,7 +104,7 @@ trait ImageTrait
                 $this->getImagePath($appEnv);
             if ($extension === 'png') {
                 $image = imagecreatefrompng($path);
-            } elseif ($extension === 'jpg' || $extension === 'jpeg') {
+            } elseif ($extension === 'jpg' || $extension === 'jpeg' || $extension === 'jfif') {
                 $image = imagecreatefromjpeg($path);
             } elseif ($extension === 'gif') {
                 $image = imagecreatefromgif($path);
@@ -126,7 +126,7 @@ trait ImageTrait
                     $this->getImagePath($appEnv, $width);
                 if ($extension === 'png') {
                     imagepng($dst, $path);
-                } elseif ($extension === 'jpg' || $extension === 'jpeg') {
+                } elseif ($extension === 'jpg' || $extension === 'jpeg' || $extension === 'jfif') {
                     imagejpeg($dst, $path);
                 } elseif ($extension === 'gif') {
                     imagegif($dst, $path);

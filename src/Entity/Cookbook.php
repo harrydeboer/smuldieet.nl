@@ -118,7 +118,7 @@ class Cookbook
             return;
         }
 
-        $this->recipes->add($recipe);
+        $this->recipes->set($recipe->getId(), $recipe);
         $recipe->addCookbook($this);
     }
 

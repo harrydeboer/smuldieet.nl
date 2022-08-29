@@ -133,7 +133,7 @@ class Day
             return;
         }
 
-        $this->foodstuffs->add($foodstuff);
+        $this->foodstuffs->set($foodstuff->getId(), $foodstuff);
         $foodstuff->addDay($this);
     }
 
@@ -163,7 +163,7 @@ class Day
             return;
         }
 
-        $this->recipes->add($recipe);
+        $this->recipes->set($recipe->getId(), $recipe);
         $recipe->addDay($this);
     }
 

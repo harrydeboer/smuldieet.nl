@@ -603,7 +603,7 @@ class Recipe
             return;
         }
 
-        $this->foodstuffs->add($foodstuff);
+        $this->foodstuffs->set($foodstuff->getId(), $foodstuff);
         $foodstuff->addRecipe($this);
     }
 
