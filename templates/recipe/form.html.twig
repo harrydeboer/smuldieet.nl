@@ -49,7 +49,8 @@
 {{ form_widget(form.numberOfPersons) }}
 <div class="fw-bold">Aantal stuks</div>
 {{ form_widget(form.numberOfPieces) }}
-<div class="fw-bold">{{ form_widget(form.isSelfInvented, {'id':'recipe-is-self-invented'}) }} *</div>
+<div class="fw-bold">Zelf bedacht *</div>
+{{ form_widget(form.isSelfInvented) }}
 <div class="fw-bold" id="recipe-source">Bron</div>
 {{ form_widget(form.source) }}
 <div class="fw-bold">Bereidingstijd *</div>
@@ -60,9 +61,9 @@
 {{ form_widget(form.typeOfDish) }}
 <div class="fw-bold">Gelegenheid</div>
 {{ form_widget(form.occasion) }}
-
+<br>
 <div class="dropdown">
-    <div class="dropdown-toggle form-control" id="diet-filter" role="button"
+    <div class="form-control form-select" role="button"
          data-bs-toggle="dropdown" aria-expanded="false">Selecteer dieet</div>
     <table class="dropdown-menu dropdown-diet" aria-labelledby="diet-filter">
         {% for key,choice in constant('DIET_CHOICES', recipe) %}
@@ -72,7 +73,8 @@
     </table>
 </div>
 <br>
-<div class="fw-bold">* Verplicht</div>
+<span class="fw-bold">*</span> Verplicht
+<br>
 <br>
 {{ form_widget(form.submit, { 'label': submitLabel }) }}
 {{ form_end(form) }}

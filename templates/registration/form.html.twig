@@ -4,7 +4,7 @@
     {{ form_errors(form.image) }}
     {{ form_errors(form.username) }}
     {{ form_errors(form.email) }}
-{#    {{ form_errors(form.birthdate) }}#}
+    {{ form_errors(form.birthdate) }}
     {{ form_errors(form.gender) }}
     {{ form_errors(form.weight) }}
     {{ form_errors(form.plainPassword) }}
@@ -17,9 +17,9 @@
             {{ form_widget(form.image) }}</td></tr>
     <tr><td>Gebruikersnaam</td><td>{{ form_widget(form.username) }}</td></tr>
     <tr><td>E-mail</td><td>{{ form_widget(form.email) }}</td></tr>
-    <tr><td>Geboortedatum</td><td>{{ form_widget(form.birthdate.day, {'attr':{'class':'form-control'}}) }}
-            {{ form_widget(form.birthdate.month, {'attr':{'class':'form-control'}}) }}
-            {{ form_widget(form.birthdate.year, {'attr':{'class':'form-control'}}) }}</td></tr>
+    <tr><td>Geboortedatum</td><td>{{ form_widget(form.birthdate.day, {'attr':{'class':'form-control form-select'}}) }}
+            {{ form_widget(form.birthdate.month, {'attr':{'class':'form-control form-select'}}) }}
+            {{ form_widget(form.birthdate.year, {'attr':{'class':'form-control form-select'}}) }}</td></tr>
     <tr><td>Geslacht</td><td>{{ form_widget(form.gender) }}</td></tr>
     <tr><td>Gewicht</td><td>{{ form_widget(form.weight) }}</td></tr>
     <tr><td>Wachtwoord</td>

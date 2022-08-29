@@ -155,13 +155,6 @@
             {% endif %}
         {% endfor %}
         <br>
-        {% if formDelete is null %}
-            <a href="{{ path('recipeRatingCreate', {'recipeId': recipe.id}) }}">Schrijf een review</a>
-        {% else %}
-            <a href="{{ path('recipeRatingEdit', {'recipeId': recipe.id, 'id': rating.id}) }}">Schrijf een review</a>
-        {% endif %}
-        <br>
-        <br>
         {% if currentUserId == recipe.user.id %}
             <div><a href="{{ path('recipeEdit', {'id': recipe.id}) }}">wijzig</a></div>
         {% endif %}

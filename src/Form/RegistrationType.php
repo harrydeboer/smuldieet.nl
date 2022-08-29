@@ -51,7 +51,7 @@ class RegistrationType extends AbstractType
                 'years' => $years,
                 'placeholder' => ['day' => 'dag', 'month' => 'maand', 'year' => 'jaar'],
                 'attr' => [
-                    'class' => 'form-control',
+                    'class' => 'form-control form-select',
                 ],
             ])
             ->add('gender', ChoiceType::class, [

@@ -70,28 +70,28 @@ class RecipeType extends AbstractType
             ->add('source', TextType::class, ['required' => false,
                 'attr' => ['class' => 'form-control']])
             ->add('isSelfInvented', ChoiceType::class, [
-                'choices' => ['zelf bedacht' => true, 'niet zelf bedacht' => false],
+                'choices' => ['ja' => true, 'nee' => false],
                 'expanded' => true,
                 'attr' => ['class' => 'form-control'],
             ])
             ->add('cookingTime', ChoiceType::class, [
                 'placeholder' => 'selecteer bereidingstijd',
-                'attr' => ['class' => 'form-control'],
+                'attr' => ['class' => 'form-control form-select'],
                 'choices' => array_combine(Recipe::COOKING_TIMES,Recipe::COOKING_TIMES),
             ])
             ->add('kitchen', ChoiceType::class, [
                 'placeholder' => 'selecteer keuken',
-                'attr' => ['class' => 'form-control'],
+                'attr' => ['class' => 'form-control form-select'],
                 'choices' => array_combine(Recipe::KITCHEN,Recipe::KITCHEN),
             ])
             ->add('typeOfDish', ChoiceType::class, [
                 'placeholder' => 'selecteer gerecht',
-                'attr' => ['class' => 'form-control'],
+                'attr' => ['class' => 'form-control form-select'],
                 'choices' => array_combine(Recipe::TYPE_OF_DISH,Recipe::TYPE_OF_DISH),
             ])
             ->add('occasion', ChoiceType::class, [
                 'placeholder' => 'selecteer gelegenheid',
-                'attr' => ['class' => 'form-control'],
+                'attr' => ['class' => 'form-control form-select'],
                 'choices' => array_combine(Recipe::OCCASION,Recipe::OCCASION),
                 'required' => false,
             ]);
