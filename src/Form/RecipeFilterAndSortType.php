@@ -32,7 +32,7 @@ class RecipeFilterAndSortType extends AbstractType
                 'placeholder' => 'gang',
                 'invalid_message' => 'Geen geldig type gerecht.',
                 'attr' => [
-                    'class' => 'form-control',
+                    'class' => 'form-control form-select',
                 ],
             ])
             ->add('cookingTime', ChoiceType::class, [
@@ -41,7 +41,7 @@ class RecipeFilterAndSortType extends AbstractType
                 'placeholder' => 'tijd',
                 'invalid_message' => 'Geen geldige bereidingstijd.',
                 'attr' => [
-                    'class' => 'form-control',
+                    'class' => 'form-control form-select',
                 ],
             ])
             ->add('kitchen', ChoiceType::class, [
@@ -50,7 +50,7 @@ class RecipeFilterAndSortType extends AbstractType
                 'placeholder' => 'keuken',
                 'invalid_message' => 'Geen geldige keuken.',
                 'attr' => [
-                    'class' => 'form-control',
+                    'class' => 'form-control form-select',
                 ],
             ])
             ->add('occasion', ChoiceType::class, [
@@ -59,7 +59,7 @@ class RecipeFilterAndSortType extends AbstractType
                 'invalid_message' => 'Geen geldige gelegenheid.',
                 'required' => false,
                 'attr' => [
-                    'class' => 'form-control',
+                    'class' => 'form-control form-select',
                 ],
             ]);
         foreach (Recipe::DIET_CHOICES as $choice) {
@@ -72,14 +72,12 @@ class RecipeFilterAndSortType extends AbstractType
                 'oudste' => 'timestamp_ASC' ,
                 'waardering aflopend' => 'rating_DESC',
                 'waardering oplopend' => 'rating_ASC' ,
-                'aantal keer bewaard aflopend' => 'timesSaved_DESC' ,
-                'aantal keer bewaard oplopend' => 'timesSaved_ASC' ,
-                'aantal reacties aflopend' => 'timesReacted_DESC' ,
-                'aantal reacties oplopend' => 'timesReacted_ASC' ,
             ],
+            'placeholder' => 'sortering',
             'invalid_message' => 'Geen geldige sortering.',
+            'required' => false,
             'attr' => [
-                'class' => 'form-control',
+                'class' => 'form-control form-select',
             ],
         ])->add('show', SubmitType::class, [
             'attr' => ['class' => 'btn btn-success'],

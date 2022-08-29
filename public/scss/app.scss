@@ -124,17 +124,17 @@ body {
 
 @media (min-width: 360px) {
   #recipe-search {
-    width: 340px;
+    width: 320px;
   }
 }
 
 @media (min-width: 500px) {
   #filter-sort-div #typeOfDish, #cookingTime, #kitchen, #occasion, #diet, #diet-filter, #sort {
-    width: 120px;
+    width: 140px;
   }
 }
 
-@media (min-width: 725px) {
+@media (min-width: 830px) {
   #filter-sort-div #typeOfDish, #cookingTime, #kitchen, #occasion, #diet, #diet-filter, #sort {
     display: inline;
   }

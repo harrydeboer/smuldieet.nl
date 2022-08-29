@@ -169,8 +169,10 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
                     $qb->andWhere('r.' . $choice . ' = 1');
                 }
             }
-            $filterArray = explode('_', $formData['sort']);
-            $qb->orderBy('r.' . $filterArray[0], $filterArray[1]);
+            if (!is_null($formData['sort'])) {
+                $filterArray = explode('_', $formData['sort']);
+                $qb->orderBy('r.' . $filterArray[0], $filterArray[1]);
+            }
         }
 
         return (new Paginator($qb))->paginate($page);
