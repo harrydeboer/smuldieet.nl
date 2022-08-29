@@ -175,6 +175,7 @@ body {
   display: none;
 }
 
+/* Rating form */
 #rating_rating {
   width: 50px;
 }
@@ -200,7 +201,6 @@ body {
   color: rgb(87, 153, 239);
 }
 
-#rating-div .radio-star:checked + label .far,
 #rating-div .radio-star:checked ~ label .far {
   font-weight: 900;
 }
