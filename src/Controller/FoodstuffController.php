@@ -94,7 +94,7 @@ class FoodstuffController extends Controller
                 }
                 $this->foodstuffRepository->create($foodstuff);
 
-                return $this->redirectToRoute('foodstuff');
+                return $this->redirectToRoute('foodstuffEdit', ['id' => $foodstuff->getId()]);
             } catch (Exception $exception) {
                 $form->addError(new FormError($exception->getMessage()));
             }
@@ -137,7 +137,7 @@ class FoodstuffController extends Controller
     }
 
     #[Route('/voedingsmiddel/zoeken/{name}', name: 'foodstuffSearch')]
-    public function search(string $name): Response
+    public function search(string $name = ''): Response
     {
         if (strlen($name) > 255) {
             $foodstuffs = [];

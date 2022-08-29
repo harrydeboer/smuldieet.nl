@@ -137,7 +137,7 @@ class RecipeController extends Controller
     public function single(int $id): Response
     {
         $recipe = $this->recipeRepository->get($id);
-        if ($recipe->getPending() && $recipe->getUser()->getId() !== $this->getUser()->getId()) {
+        if ($recipe->getPending() && $recipe->getUser()->getId() !== $this->getUser()?->getId()) {
             throw new NotFoundHttpException('Dit recept can niet worden getoond.');
         }
 
@@ -172,7 +172,7 @@ class RecipeController extends Controller
     }
 
     #[Route('/recept/zoeken/{title}', name: 'recipeSearch')]
-    public function search(string $title): Response
+    public function search(string $title = ''): Response
     {
         if (strlen($title) > 255) {
             $recipes = [];

@@ -55,12 +55,20 @@ class FoodForm {
             url = $('#recipeSearch').data('search').replace('__title__', valueInput);
         }
 
-        if (valueInput !== '') {
+        if (this.timeout) {
+            clearTimeout(this.timeout);
+            this.timeout = null;
+        }
+        this.timeout = setTimeout(() => {
             $.ajax({
-                url:  url,
+                url: url,
                 type: 'GET',
                 success: (data) => {
-                    searchResults.html(data);
+                    if (valueInput !== '') {
+                        searchResults.html(data);
+                    } else {
+                        searchResults.html('');
+                    }
                     $('.' + foodType + '-result').each((index, element) => {
                         let id = $(element).attr('id').replace(foodType + '-result', '');
                         let name = $(element).text().toLowerCase().normalize("NFD")
@@ -74,7 +82,7 @@ class FoodForm {
                     searchResults.html('Er ging iets fout.');
                 }
             });
-        }
+        }, 1000);
     }
 
     /**

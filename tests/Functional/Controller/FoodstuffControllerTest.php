@@ -16,6 +16,8 @@ class FoodstuffControllerTest extends AuthAdminWebTestCase
         static::getContainer()->get(PageFactory::class)->create(['title' => 'Voedingsmiddelen']);
         $foodstuff = static::getContainer()->get(FoodstuffFactory::class)
             ->create(['user' => $this->user]);
+        $foodstuffAnonymous = static::getContainer()->get(FoodstuffFactory::class)
+            ->create();
 
         $this->client->request('GET', '/voedingsmiddelen');
 
@@ -35,13 +37,31 @@ class FoodstuffControllerTest extends AuthAdminWebTestCase
         $values['foodstuff_from_foodstuffs']['foodstuffWeights'] = $weights;
         $this->client->request($form->getMethod(), $form->getUri(), $values, $form->getPhpFiles());
 
-        $this->assertResponseRedirects('/voedingsmiddelen');
+        $foodstuffRepository = $this->getContainer()->get(FoodstuffRepositoryInterface::class);
+
+        $foodstuffCombined = $foodstuffRepository->getByName('test2');
+
+        $this->assertResponseRedirects('/voedingsmiddel/wijzig/' . $foodstuffCombined->getId());
+
+        $this->client->request('GET', '/uitloggen');
+
+        $this->client->request('GET', '/voedingsmiddelen');
+
+        $this->assertResponseIsSuccessful();
+
+        $this->client->request('GET', '/voedingsmiddelen/letter/A');
+
+        $this->assertResponseIsSuccessful();
+
+        $this->client->request('GET', '/voedingsmiddel/enkel/' . $foodstuffAnonymous->getId());
+
+        $this->assertResponseIsSuccessful();
+
+        $this->client->loginUser($this->user);
 
         $this->client->xmlHttpRequest('GET', '/voedingsmiddel/zoeken/test2');
 
         $this->assertResponseIsSuccessful();
-
-        $foodstuffRepository = $this->getContainer()->get(FoodstuffRepositoryInterface::class);
 
         $foodstuff = $foodstuffRepository->findOneBy(['name' => $foodstuff->getName()]);
         $id = $foodstuff->getId();
@@ -62,6 +82,8 @@ class FoodstuffControllerTest extends AuthAdminWebTestCase
         $this->client->submit($form);
 
         $this->assertResponseRedirects('/voedingsmiddelen');
+
+        $foodstuffRepository = $this->getContainer()->get(FoodstuffRepositoryInterface::class);
 
         $foodstuff = $foodstuffRepository->findOneBy(['name' => $updatedName]);
 

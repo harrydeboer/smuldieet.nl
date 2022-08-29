@@ -6,15 +6,19 @@
     <table class="table table-small">
         <tr><td>Naam</td><td>{{ foodstuff.name }}</td></tr>
         {% if isLoggedIn %}
-            <tr><td>Gewicht per stuk</td><td>{{ foodstuff.pieceWeight }}</td></tr>
-            <tr><td>Naam per stuk</td><td>{{ foodstuff.pieceName }}</td></tr>
+            {% if foodstuff.pieceWeight is not null %}
+                <tr><td>Gewicht per stuk</td><td>{{ foodstuff.pieceWeight }}</td></tr>
+            {% endif %}
+            {% if foodstuff.pieceName is not null %}
+                <tr><td>Naam per stuk</td><td>{{ foodstuff.pieceName }}</td></tr>
+            {% endif %}
             {% for key, property in foodstuff.aDH() %}
                 <tr><td>{{ property[3]}} {{ property[2] }}</td>
-                {% if attribute(foodstuff, key) is null %}
-                    <td>N/B</td>
-                {% else %}
-                    <td>{{ attribute(foodstuff, key)|number_format(property[4]) }}</td>
-                {% endif %}
+                    {% if attribute(foodstuff, key) is null %}
+                        <td>N/B</td>
+                    {% else %}
+                        <td>{{ attribute(foodstuff, key)|number_format(property[4]) }}</td>
+                    {% endif %}
                 </tr>
             {% endfor %}
         {% else %}

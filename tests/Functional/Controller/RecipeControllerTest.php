@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller;
 
 use App\Repository\RecipeRepositoryInterface;
+use App\Tests\Factory\RecipeFactory;
 use App\Tests\Functional\AuthAdminWebTestCase;
 use Symfony\Component\HttpFoundation\File\File;
 
@@ -12,6 +13,8 @@ class RecipeControllerTest extends AuthAdminWebTestCase
 {
     public function testCreateUpdateDelete(): void
     {
+        $recipeNotPending = static::getContainer()->get(RecipeFactory::class)->create(['pending' => false]);
+
         $this->client->request('GET', '/recepten');
 
         $this->assertResponseIsSuccessful();
@@ -46,6 +49,18 @@ class RecipeControllerTest extends AuthAdminWebTestCase
         $this->client->xmlHttpRequest('GET', '/recept/zoeken/' . $recipe->getTitle());
 
         $this->assertResponseIsSuccessful();
+
+        $this->client->request('GET', '/uitloggen');
+
+        $this->client->request('GET', '/recept/enkel/' . $id);
+
+        $this->assertResponseStatusCodeSame(404);
+
+        $this->client->request('GET', '/recept/enkel/' . $recipeNotPending->getId());
+
+        $this->assertResponseIsSuccessful();
+
+        $this->client->loginUser($this->user);
 
         $crawler = $this->client->request('GET', '/recept/wijzig/' . $id);
 
