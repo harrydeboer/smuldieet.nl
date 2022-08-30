@@ -67,7 +67,7 @@
                 </td>
                 <td><a href="{{ path('recipeSingle', {'id': recipe.id}) }}">{{ recipe.title }}</a></td>
                 {% if recipe.rating is null %}
-                    <td><span class="nowrap"></span></td>
+                    <td></td>
                 {% else %}
                     <td>
                         <span class="nowrap">{{ recipe.rating|number_format(1) }} <i

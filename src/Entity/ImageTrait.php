@@ -104,7 +104,8 @@ trait ImageTrait
                 $this->getImagePath($appEnv);
             if ($extension === 'png') {
                 $image = imagecreatefrompng($path);
-            } elseif ($extension === 'jpg' || $extension === 'jpeg' || $extension === 'jfif') {
+            } elseif ($extension === 'jpg' || $extension === 'jpeg' || $extension === 'jpe'
+                || $extension === 'jfif' || $extension === 'jif') {
                 $image = imagecreatefromjpeg($path);
             } elseif ($extension === 'gif') {
                 $image = imagecreatefromgif($path);
@@ -114,7 +115,7 @@ trait ImageTrait
                 $image = imagecreatefromwebp($path);
             } else {
                 throw new Exception('Geef alstublieft een geldig plaatje ' .
-                    '(png, jp(e)g, gif, bmp of webp).');
+                    '(png, jp(eg), j(f)if, gif, bmp of webp).');
             }
             $x = imagesx($image);
             $y = imagesy($image);
@@ -126,7 +127,8 @@ trait ImageTrait
                     $this->getImagePath($appEnv, $width);
                 if ($extension === 'png') {
                     imagepng($dst, $path);
-                } elseif ($extension === 'jpg' || $extension === 'jpeg' || $extension === 'jfif') {
+                } elseif ($extension === 'jpg' || $extension === 'jpeg' || $extension === 'jpe'
+                    || $extension === 'jfif' || $extension === 'jif') {
                     imagejpeg($dst, $path);
                 } elseif ($extension === 'gif') {
                     imagegif($dst, $path);
@@ -136,7 +138,7 @@ trait ImageTrait
                     imagewebp($dst, $path);
                 } else {
                     throw new Exception('Geef alstublieft een geldig plaatje ' .
-                        '(png, jp(e)g, gif, bmp of webp).');
+                        '(png, jp(eg), j(f)if, gif, bmp of webp).');
                 }
                 imagedestroy($dst);
             }

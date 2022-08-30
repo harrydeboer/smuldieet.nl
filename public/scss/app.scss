@@ -115,11 +115,17 @@ body {
 }
 
 .recipe-image {
-  width: 100px;
+  width: 85px;
 }
 
 #filter-sort-div #typeOfDish, #cookingTime, #kitchen, #occasion, #diet, #diet-filter, #sort {
   width: 100%;
+}
+
+@media (min-width: 370px) {
+  .recipe-image {
+    width: 100px;
+  }
 }
 
 @media (min-width: 360px) {
