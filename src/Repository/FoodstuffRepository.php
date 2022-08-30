@@ -62,11 +62,13 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
     {
         $qb = $this->createQueryBuilder('f');
         $qb->where('f.name like :name')
-            ->setParameter('name', $name . '%')
+            ->setParameter('name', '%' . $name . '%')
             ->andWhere('f.user = :userId or f.user IS NULL')
             ->setParameter('userId', $userId)
             ->setMaxResults(10)
-            ->orderBy('f.name', 'ASC');
+            ->addSelect("(CASE WHEN f.name like '" . $name . " %' THEN 0 WHEN f.name like '" . $name . "%' " .
+                "THEN 1 WHEN f.name like '%" . $name . "%' THEN 2 ELSE 3 END) AS HIDDEN ORD ");
+        $qb->orderBy('ORD', 'ASC');
 
         $query = $qb->getQuery();
 

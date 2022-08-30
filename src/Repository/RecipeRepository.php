@@ -49,7 +49,9 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
             ->andWhere('r.pending = 0 or r.pending = 1 and r.user = :userId')
             ->setParameter('userId', $userId)
             ->setMaxResults(20)
-            ->orderBy('r.title', 'ASC');
+            ->addSelect("(CASE WHEN r.title like '" . $title . " %' THEN 0 WHEN r.title like '" . $title . "%' " .
+                "THEN 1 WHEN r.title like '%" . $title . "%' THEN 2 ELSE 3 END) AS HIDDEN ORD ");
+        $qb->orderBy('ORD', 'ASC');
 
         $query = $qb->getQuery();
 
