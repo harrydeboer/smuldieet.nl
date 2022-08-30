@@ -34,7 +34,8 @@ class RecipeFactory extends AbstractFactory
             $paramsParent['foodstuffs'] = $params['foodstuffs'];
         } else {
             $arrayCollection = new ArrayCollection();
-            $arrayCollection->add($this->foodstuffFactory->create());
+            $foodstuff = $this->foodstuffFactory->create();
+            $arrayCollection->set($foodstuff->getId(), $foodstuff);
             $paramsParent['foodstuffs'] = $arrayCollection;
         }
         $recipe = new Recipe();

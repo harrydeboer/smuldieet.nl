@@ -93,7 +93,19 @@ class FoodForm {
         let row = new this.FoodRow(event.target);
         let id = thisElement.attr('id').replace(foodType + '-result', '');
         let name = thisElement.text();
-        row.getWeight().attr('name', this.formName + '[' + foodType + 'Weights][' + id + ']')
+        let pieceWeight = thisElement.data('piece-weight');
+        let pieceName = thisElement.data('piece-name');
+        row.getWeight().attr('name', this.formName + '[' + foodType + 'Weights][' + id + ']');
+
+        let condition = this.formName !== 'foodstuff_from_foodstuffs' && foodType === 'foodstuff';
+        if (condition && pieceWeight !== '' && pieceName !== '') {
+            row.getWeight().attr('placeholder', 'per stuk van ' + pieceWeight + ' g (' + pieceName + ')');
+        } else if (condition && pieceWeight !== '') {
+            row.getWeight().attr('placeholder', 'per stuk van ' + pieceWeight + ' g');
+        } else if (condition) {
+            row.getWeight().attr('placeholder', 'g/ml');
+        }
+
         row.getName().val(name);
     }
 

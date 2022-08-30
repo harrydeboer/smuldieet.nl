@@ -19,12 +19,12 @@ class StatsServiceTest extends KernelTestCase
         $user = static::getContainer()->get(UserFactory::class)->create();
         $foodstuff1 = static::getContainer()->get(FoodstuffFactory::class)->create();
         $arrayCollection1 = new ArrayCollection();
-        $arrayCollection1->add($foodstuff1);
+        $arrayCollection1->set($foodstuff1->getId(), $foodstuff1);
         $weightCollection1 = new ArrayCollection();
         $weightCollection1->set($foodstuff1->getId(), 100);
         $foodstuff2 = static::getContainer()->get(FoodstuffFactory::class)->create();
         $arrayCollection2 = new ArrayCollection();
-        $arrayCollection2->add($foodstuff2);
+        $arrayCollection2->set($foodstuff2->getId(), $foodstuff2);
         $weightCollection2 = new ArrayCollection();
         $weightCollection2->set($foodstuff2->getId(), 100);
         $day1 = static::getContainer()->get(DayFactory::class)->create([

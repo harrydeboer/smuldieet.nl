@@ -1,3 +1,5 @@
 {% for foodstuff in foodstuffs %}
-    <div id="foodstuff-result{{ foodstuff.id }}" class="foodstuff-result">{{ foodstuff.name }}</div>
+    <div id="foodstuff-result{{ foodstuff.id }}" class="foodstuff-result"
+         data-piece-name="{{ foodstuff.pieceName }}"
+         data-piece-weight="{{ foodstuff.pieceWeight }}">{{ foodstuff.name }}</div>
 {% endfor %}

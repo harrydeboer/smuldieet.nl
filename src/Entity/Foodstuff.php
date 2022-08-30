@@ -50,13 +50,13 @@ class Foodstuff
         Assert\Regex(pattern: "/^[A-Za-zÀ-ÿ0-9\s_\-,.%\/\(\)\+<>'\"]+$/",
             message: "Toegestane tekens zijn letters, cijfers, spaties en _-,.%/()+<>'\"."),
     ]
-    private ?string $pieceName;
+    private ?string $pieceName = null;
 
     #[
         ORM\Column(type: "float", nullable: true),
         Assert\GreaterThanOrEqual(0, message: 'Gewicht per stuk moet groter of gelijk aan 0 zijn.'),
     ]
-    private ?float $pieceWeight;
+    private ?float $pieceWeight = null;
 
     #[
         ORM\Column(type: "float", nullable: true),

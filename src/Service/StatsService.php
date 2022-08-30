@@ -23,8 +23,12 @@ class StatsService
         foreach ($days as $day) {
             foreach ($day->getFoodstuffs() as $foodstuff) {
                 foreach ($stats as $key => $stat) {
+                    $weight = $day->getFoodstuffWeights()[$foodstuff->getId()];
                     $value = $foodstuff->{'get' . ucfirst($key)}() / $numberOfDays *
-                        $day->getFoodstuffWeights()[$foodstuff->getId()] / 100;
+                        $weight / 100;
+                    if (!is_null($foodstuff->getPieceWeight())) {
+                        $value = $value * $foodstuff->getPieceWeight();
+                    }
                     if (isset($stat[5])) {
                         $stats[$key][5] += $value;
                     } else {

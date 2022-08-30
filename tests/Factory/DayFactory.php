@@ -29,14 +29,16 @@ class DayFactory extends AbstractFactory
             $paramsParent['recipes'] = $params['recipes'];
         } else {
             $arrayCollection = new ArrayCollection();
-            $arrayCollection->add($this->recipeFactory->create());
+            $recipe = $this->recipeFactory->create();
+            $arrayCollection->set($recipe->getId(), $recipe);
             $paramsParent['recipes'] = $arrayCollection;
         }
         if (isset($params['foodstuffs'])) {
             $paramsParent['foodstuffs'] = $params['foodstuffs'];
         } else {
             $arrayCollection = new ArrayCollection();
-            $arrayCollection->add($this->foodstuffFactory->create());
+            $foodstuff = $this->foodstuffFactory->create();
+            $arrayCollection->set($foodstuff->getId(), $foodstuff);
             $paramsParent['foodstuffs'] = $arrayCollection;
         }
         if (isset($params['user'])) {
@@ -52,14 +54,14 @@ class DayFactory extends AbstractFactory
         $weights = new ArrayCollection();
         $ids = new ArrayCollection();
         foreach ($paramsParent['recipes'] as $recipe) {
-            $weights->set($recipe->getId(), rand(1,10));
+            $weights->set($recipe->getId(), rand(1, 10));
             $ids->add($recipe->getId());
         }
         $day->setRecipeWeights($weights);
         $day->setFoodstuffs($paramsParent['foodstuffs']);
         $weights = new ArrayCollection();
         foreach ($paramsParent['foodstuffs'] as $foodstuff) {
-            $weights->set($foodstuff->getId(), rand(1,100));
+            $weights->set($foodstuff->getId(), rand(1, 30));
         }
         $day->setFoodstuffWeights($weights);
 

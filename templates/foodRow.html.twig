@@ -8,7 +8,14 @@
     {% endif %}
     <tr>
         <td>{{ include('foodDropdown.html.twig', {'title': title, 'foodType': foodType, 'formName': formName}) }}</td>
-        <td>{{ form_widget(weight) }}</td>
+        {% if foodType == 'foodstuff' and entity.pieceWeight is not null and entity.pieceName is null %}
+            <td>{{ form_widget(weight, {'attr': {'placeholder': 'per stuk van '~entity.pieceWeight~' g'}}) }}</td>
+        {% elseif foodType == 'foodstuff' and entity.pieceWeight is not null and entity.pieceName is not null %}
+            <td>{{ form_widget(weight, {'attr': {'placeholder': 'per stuk van '
+                    ~entity.pieceWeight~' g ('~entity.pieceName~')'}}) }}</td>
+        {% else %}
+            <td>{{ form_widget(weight) }}</td>
+        {% endif %}
         <td><i class="remove-row fa fa-minus"></i></td>
     </tr>
 {% endfor %}
