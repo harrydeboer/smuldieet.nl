@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Entity\Day;
+use App\Entity\FoodWeights;
 use App\Entity\Foodstuff;
-use App\Entity\Recipe;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -214,7 +213,7 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
         return $numberOfPieces;
     }
 
-    private function replaceWeightWithPiece(Recipe|Day $entity, Foodstuff $foodstuff): void
+    private function replaceWeightWithPiece(FoodWeights $entity, Foodstuff $foodstuff): void
     {
         $weights = $entity->getFoodstuffWeights();
         $entity->setFoodstuffNumberOfPieces($this->roundToNearest($weights[$foodstuff->getId()] /
@@ -223,7 +222,7 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
         $entity->setFoodstuffWeights($weights);
     }
 
-    private function replacePieceWithWeight(Recipe|Day $entity, Foodstuff $foodstuff, float $pieceWeightOld): void
+    private function replacePieceWithWeight(FoodWeights $entity, Foodstuff $foodstuff, float $pieceWeightOld): void
     {
         $numberOfPieces = $entity->getFoodstuffNumberOfPieces();
         $weights = $entity->getFoodstuffWeights();

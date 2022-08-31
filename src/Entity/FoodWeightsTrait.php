@@ -42,21 +42,6 @@ trait FoodWeightsTrait
     #[ORM\Column(type: "string")]
     private string $foodstuffNumberOfPieces = 'a:0:{}';
 
-    public function getFoodstuffNumberOfPieces(): ArrayCollection
-    {
-        $collection = new ArrayCollection();
-        foreach (unserialize($this->foodstuffNumberOfPieces) as $key => $value) {
-            $collection->set($key, $value);
-        }
-
-        return $collection;
-    }
-
-    public function setFoodstuffNumberOfPieces(ArrayCollection $collection): void
-    {
-        $this->foodstuffNumberOfPieces = serialize($collection->toArray());
-    }
-
     public function getFoodstuffWeights(): ArrayCollection
     {
         $collection = new ArrayCollection();
@@ -70,5 +55,20 @@ trait FoodWeightsTrait
     public function setFoodstuffWeights(ArrayCollection $collection): void
     {
         $this->foodstuffWeights = serialize($collection->toArray());
+    }
+
+    public function getFoodstuffNumberOfPieces(): ArrayCollection
+    {
+        $collection = new ArrayCollection();
+        foreach (unserialize($this->foodstuffNumberOfPieces) as $key => $value) {
+            $collection->set($key, $value);
+        }
+
+        return $collection;
+    }
+
+    public function setFoodstuffNumberOfPieces(ArrayCollection $collection): void
+    {
+        $this->foodstuffNumberOfPieces = serialize($collection->toArray());
     }
 }

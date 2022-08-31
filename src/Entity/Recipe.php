@@ -17,7 +17,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
     ORM\Table(name: "recipe"),
     UniqueEntity(fields: ["title"], message: "Er is al een recept met deze titel."),
 ]
-class Recipe
+class Recipe implements FoodWeights
 {
     use ImageTrait;
     use FoodWeightsTrait;

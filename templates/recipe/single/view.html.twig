@@ -99,9 +99,13 @@
         {{ recipe.ingredients|nl2br }}
         <div class="fw-bold">Voedingsmiddelen gerecht</div>
         <table class="table">
-            {% for rowNumber, foodstuff in recipe.foodstuffs %}
-                <tr><td>{{ foodstuff.name }}</td>
-                    <td>{{ recipe.foodstuffWeights[foodstuff.id]|number_format }} g</td></tr>
+            {% for id, weight in recipe.foodstuffWeights %}
+                <tr><td>{{ recipe.foodstuffs()[id].name }}</td>
+                    <td>{{ weight|number_format }} g</td></tr>
+            {% endfor %}
+            {% for id, weight in recipe.foodstuffNumberOfPieces %}
+                <tr><td>{{ recipe.foodstuffs()[id].name }}</td>
+                    <td>{{ weight / 4 }} {{ recipe.foodstuffs()[id].pieceName }}</td></tr>
             {% endfor %}
         </table>
         <div class="fw-bold">Bereidingswijze</div>

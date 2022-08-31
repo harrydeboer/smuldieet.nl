@@ -7,17 +7,23 @@
         {% if day.date is not null %}
             <tr><td>Datum</td><td>{{ day.date|date('d-M-Y') }}</td></tr>
         {% endif %}
-        {% for rowNumber, foodstuff in day.foodstuffs %}
-            <tr id="row{{ rowNumber + 1 }}">
-                <td>{{ foodstuff.name }}</td>
-                <td>{{ day.foodstuffWeights[foodstuff.id]|number_format }} g</td>
+        {% for id, weight in day.foodstuffWeights %}
+            <tr>
+                <td>{{ day.foodstuffs()[id].name }}</td>
+                <td>{{ weight|number_format }} g</td>
+            </tr>
+        {% endfor %}
+        {% for id, weight in day.foodstuffNumberOfPieces %}
+            <tr>
+                <td>{{ day.foodstuffs()[id].name }}</td>
+                <td>{{ weight / 4 }} {{ day.foodstuffs()[id].pieceName }}</td>
             </tr>
         {% endfor %}
         {% for rowNumber, recipe in day.recipes %}
             {% set rowNumberRecipe = rowNumber + day.foodstuffs.count %}
             <tr id="row{{ rowNumberRecipe + 1 }}">
                 <td>{{ recipe.title }}</td>
-                <td>{{ day.recipeWeights[recipe.id]|number_format }} keer</td>
+                <td>{{ day.recipeWeights[recipe.id]|number_format }}</td>
             </tr>
         {% endfor %}
         <tr><td colspan="2"><a href="{{ path('dayEdit', {'id': day.id}) }}">wijzig</a></td></tr>
