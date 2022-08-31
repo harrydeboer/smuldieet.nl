@@ -40,6 +40,8 @@ class FoodstuffController extends AuthController
     #[Route('/voedingsmiddel/wijzig/{id}', name: 'adminFoodstuffEdit')]
     public function edit(Request $request, Foodstuff $foodstuff): Response
     {
+        $pieceWeightOld = $foodstuff->getPieceWeight();
+
         $formUpdate = $this->createForm(FoodstuffType::class, $foodstuff, [
             'method' => 'POST',
         ]);
@@ -64,7 +66,7 @@ class FoodstuffController extends AuthController
                 if (!is_null($foodstuffSameName) && $foodstuff->getId() !== $foodstuffSameName->getId()) {
                     throw new Exception('Er is al een voedingsmiddel met deze naam.');
                 }
-                $this->foodstuffRepository->update($foodstuff);
+                $this->foodstuffRepository->update($foodstuff, $pieceWeightOld);
 
                 return $this->redirectToRoute('adminFoodstuff');
             } catch (Exception $exception) {

@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\Day;
 use App\Entity\Foodstuff;
+use App\Entity\Recipe;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -113,8 +116,26 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
     /**
      * @throws Exception
      */
-    public function update(Foodstuff $foodstuff): void
+    public function update(Foodstuff $foodstuff, ?float $pieceWeightOld): void
     {
+        if (is_null($pieceWeightOld) && !is_null($foodstuff->getPieceWeight())) {
+            foreach ($foodstuff->getDays() as $day) {
+                $this->replaceWeightWithPiece($day, $foodstuff);
+            }
+            foreach ($foodstuff->getRecipes() as $recipe) {
+                $this->replaceWeightWithPiece($recipe, $foodstuff);
+            }
+        } elseif (!is_null($pieceWeightOld) && is_null($foodstuff->getPieceWeight())) {
+            if (!is_null($foodstuff->getPieceName())) {
+                throw new Exception('No piece name allowed when there is no piece weight.');
+            }
+            foreach ($foodstuff->getDays() as $day) {
+                $this->replacePieceWithWeight($day, $foodstuff, $pieceWeightOld);
+            }
+            foreach ($foodstuff->getRecipes() as $recipe) {
+                $this->replacePieceWithWeight($recipe, $foodstuff, $pieceWeightOld);
+            }
+        }
         $this->checkFirstChar($foodstuff->getName());
         $this->checkWeightsAndEnergy($foodstuff);
         $this->em->flush();
@@ -126,11 +147,17 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
             $weights = $day->getFoodstuffWeights();
             unset($weights[$foodstuff->getId()]);
             $day->setFoodstuffWeights($weights);
+            $numberOfPieces = $day->getFoodstuffNumberOfPieces();
+            unset($numberOfPieces[$foodstuff->getId()]);
+            $day->getFoodstuffNumberOfPieces($numberOfPieces);
         }
         foreach ($foodstuff->getRecipes() as $recipe) {
             $weights = $recipe->getFoodstuffWeights();
             unset($weights[$recipe->getId()]);
             $recipe->setFoodstuffWeights($weights);
+            $numberOfPieces = $recipe->getFoodstuffNumberOfPieces();
+            unset($numberOfPieces[$recipe->getId()]);
+            $recipe->setFoodstuffNumberOfPieces($numberOfPieces);
         }
         $this->em->remove($foodstuff);
         $this->em->flush();
@@ -172,6 +199,38 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
             throw new Exception('De totale energy klopt niet met de energieën uit ' .
                 ' koolhydraten, eiwit, vet, alcohol  en vezels.');
         }
+    }
+
+    private function roundToNearest(float $number, ArrayCollection $numberOfPieces, int $id): ArrayCollection
+    {
+        if ($number < 1) {
+            $numberOfPieces[$id] = round($number * 4);
+        } elseif ($number <= 2) {
+            $numberOfPieces[$id] = round($number * 2) * 2;
+        } else {
+            $numberOfPieces[$id] = round($number) * 4;
+        }
+
+        return $numberOfPieces;
+    }
+
+    private function replaceWeightWithPiece(Recipe|Day $entity, Foodstuff $foodstuff): void
+    {
+        $weights = $entity->getFoodstuffWeights();
+        $entity->setFoodstuffNumberOfPieces($this->roundToNearest($weights[$foodstuff->getId()] /
+            $foodstuff->getPieceWeight(), $entity->getFoodstuffNumberOfPieces(), $foodstuff->getId()));
+        unset($weights[$foodstuff->getId()]);
+        $entity->setFoodstuffWeights($weights);
+    }
+
+    private function replacePieceWithWeight(Recipe|Day $entity, Foodstuff $foodstuff, float $pieceWeightOld): void
+    {
+        $numberOfPieces = $entity->getFoodstuffNumberOfPieces();
+        $weights = $entity->getFoodstuffWeights();
+        $weights[$foodstuff->getId()] = $pieceWeightOld * $numberOfPieces[$foodstuff->getId()] / 4;
+        $entity->setFoodstuffWeights($weights);
+        unset($numberOfPieces[$foodstuff->getId()]);
+        $entity->setFoodstuffNumberOfPieces($numberOfPieces);
     }
 
     /**

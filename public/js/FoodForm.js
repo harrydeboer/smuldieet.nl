@@ -81,9 +81,10 @@ class FoodForm {
                             if (this.formName !== 'foodstuff_from_foodstuffs' && foodType === 'foodstuff') {
                                 let pieceWeight = $(element).data('piece-weight');
                                 let pieceName = $(element).data('piece-name');
-                                this.replaceWeight(pieceWeight, pieceName, row);
+                                this.replaceWeight(pieceWeight, pieceName, id, row);
+                            } else {
+                                row.getWeight().attr('name', this.formName + '[' + foodType + 'Weights][' + id + ']');
                             }
-                            row.getWeight().attr('name', this.formName + '[' + foodType + 'Weights][' + id + ']');
                         }
                     });
                 },
@@ -106,21 +107,25 @@ class FoodForm {
         let pieceName = thisElement.data('piece-name');
         row.getName().val(name);
         if (this.formName !== 'foodstuff_from_foodstuffs' && foodType === 'foodstuff') {
-            this.replaceWeight(pieceWeight, pieceName, row);
+            this.replaceWeight(pieceWeight, pieceName, id, row);
+        } else {
+            row.getWeight().attr('name', this.formName + '[' + foodType + 'Weights][' + id + ']');
         }
-        row.getWeight().attr('name', this.formName + '[' + foodType + 'Weights][' + id + ']');
     }
 
-    replaceWeight(pieceWeight, pieceName, row)
+    replaceWeight(pieceWeight, pieceName, id, row)
     {
         if (pieceWeight === '') {
             let input = $('#' + this.formName + '_foodstuffWeights').data('prototype');
             row.getWeight().replaceWith(this.removeLabel(input));
             row.getWeight().val('');
+            row.getWeight().attr('name', this.formName + '[foodstuffWeights][' + id + ']');
         } else {
             let select = $('#' + this.formName + '_foodstuffNumberOfPieces').data('prototype');
             row.getWeight().replaceWith(this.removeLabel(select));
-            row.getWeight().val(1);
+            row.getWeight().val(4);
+            row.getWeight().attr('name', this.formName + '[foodstuffNumberOfPieces][' + id + ']');
+            $('#' + this.formName + '_foodstuffNumberOfPieces___name__').removeAttr('id');
         }
         if (pieceName === '') {
             row.getPieceName().text('');

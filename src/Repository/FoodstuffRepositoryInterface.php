@@ -28,7 +28,7 @@ interface FoodstuffRepositoryInterface extends ServiceEntityRepositoryInterface
     /**
      * @throws Exception
      */
-    public function update(Foodstuff $foodstuff): void;
+    public function update(Foodstuff $foodstuff, ?float $pieceWeightOld): void;
 
     public function delete(Foodstuff $foodstuff): void;
 }
