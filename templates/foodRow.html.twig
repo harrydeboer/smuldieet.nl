@@ -19,9 +19,9 @@
     </td>
     <td>
         {% if weights|length == 0 %}
-            {{ form_widget(weights, {'id': formName~'_'~foodType~weightsOrPieces }) }}
+            {{ form_widget(weights, {'id': formName~'_'~foodType~weightsOrChoices }) }}
         {% else %}
-            <div id="{{ formName }}_{{ foodType }}{{ weightsOrPieces }}"
+            <div id="{{ formName }}_{{ foodType }}{{ weightsOrChoices }}"
                  data-prototype="{{ form_widget(weights.vars.prototype)|e('html') }}"></div>
         {% endif %}
     </td>

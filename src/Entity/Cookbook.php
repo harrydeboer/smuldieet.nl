@@ -20,6 +20,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 ]
 class Cookbook
 {
+    public static array $recipeChoices = ['1' => 1];
+
     #[
         ORM\Id,
         ORM\Column(type: "integer"),
@@ -55,7 +57,7 @@ class Cookbook
     ]
     private Collection $recipes;
 
-    private string $recipeWeights = 'a:0:{}';
+    private string $recipeNumberOfTimes = 'a:0:{}';
 
     #[Pure] public function __construct()
     {
@@ -132,15 +134,15 @@ class Cookbook
         $recipe->removeCookbook($this);
     }
 
-    public function getRecipeWeights(): ArrayCollection
+    public function getRecipeNumberOfTimes(): ArrayCollection
     {
         $collection = new ArrayCollection();
-        if (unserialize($this->recipeWeights) === []) {
+        if (unserialize($this->recipeNumberOfTimes) === []) {
             foreach ($this->recipes->toArray() as $recipe) {
                 $collection->set($recipe->getId(), 1);
             }
         } else {
-            foreach (unserialize($this->recipeWeights) as $id => $weight) {
+            foreach (unserialize($this->recipeNumberOfTimes) as $id => $weight) {
                 $collection->set($id, 1);
             }
         }
@@ -148,8 +150,8 @@ class Cookbook
         return $collection;
     }
 
-    public function setRecipeWeights(ArrayCollection $collection): void
+    public function setRecipeNumberOfTimes(ArrayCollection $collection): void
     {
-        $this->recipeWeights = serialize($collection->toArray());
+        $this->recipeNumberOfTimes = serialize($collection->toArray());
     }
 }

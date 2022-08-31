@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller;
 
 use App\Repository\RecipeRepositoryInterface;
+use App\Tests\Factory\FoodstuffFactory;
 use App\Tests\Factory\RecipeFactory;
 use App\Tests\Functional\AuthAdminWebTestCase;
 use Symfony\Component\HttpFoundation\File\File;
@@ -14,6 +15,7 @@ class RecipeControllerTest extends AuthAdminWebTestCase
     public function testCreateUpdateDelete(): void
     {
         $recipeNotPending = static::getContainer()->get(RecipeFactory::class)->create(['pending' => false]);
+        $foodstuff = static::getContainer()->get(FoodstuffFactory::class)->create();
 
         $this->client->request('GET', '/recepten');
 
@@ -37,7 +39,9 @@ class RecipeControllerTest extends AuthAdminWebTestCase
         $form['recipe[kitchen]'] = 'Afrikaans';
         $form['recipe[typeOfDish]'] = 'Hoofdgerecht';
 
-        $this->client->submit($form);
+        $values = $form->getPhpValues();
+        $values['recipe']['foodstuffWeights'] = [$foodstuff->getId() => 10];
+        $this->client->request($form->getMethod(), $form->getUri(), $values, $form->getPhpFiles());
 
         $this->assertResponseRedirects('/recepten');
 

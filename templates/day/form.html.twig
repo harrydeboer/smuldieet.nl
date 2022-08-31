@@ -6,7 +6,7 @@
     {% endif %}
     {{ form_errors(form.foodstuffWeights) }}
     {{ form_errors(form.foodstuffNumberOfPieces) }}
-    {{ form_errors(form.recipeWeights) }}
+    {{ form_errors(form.recipeNumberOfTimes) }}
 </div>
 {{ form_start(form, { 'attr' : { 'class': 'food-form' }}) }}
 <table class="food-table table table-small">
@@ -17,11 +17,11 @@
         {% set formName = 'standard_day' %}
     {% endif %}
     {{ include('foodRow.html.twig', {'formName': formName, 'entities': day.foodstuffs,
-        'weights': form.foodstuffWeights, 'foodType': 'foodstuff', 'weightsOrPieces': 'Weights'}) }}
+        'weights': form.foodstuffWeights, 'foodType': 'foodstuff', 'weightsOrChoices': 'Weights'}) }}
     {{ include('foodRow.html.twig', {'formName': formName, 'entities': day.foodstuffs,
-        'weights': form.foodstuffNumberOfPieces, 'foodType': 'foodstuff', 'weightsOrPieces': 'NumberOfPieces'}) }}
+        'weights': form.foodstuffNumberOfPieces, 'foodType': 'foodstuff', 'weightsOrChoices': 'Choices'}) }}
     {{ include('foodRow.html.twig', {'formName': formName, 'entities': day.recipes,
-        'weights': form.recipeWeights, 'foodType': 'recipe', 'weightsOrPieces': 'Weights'}) }}
+        'weights': form.recipeNumberOfTimes, 'foodType': 'recipe', 'weightsOrChoices': 'Choices'}) }}
     <tr id="add-foodstuff-recipe-button-row"><td colspan="4">
             <div class="btn btn-primary" id="add-foodstuff">Voedingsmiddel toevoegen</div>
             <div class="btn btn-primary" id="add-recipe">Gerecht toevoegen</div></td></tr>

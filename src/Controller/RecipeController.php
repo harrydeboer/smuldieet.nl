@@ -65,6 +65,9 @@ class RecipeController extends Controller
 
         if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
             try {
+                if (count($recipe->getFoodstuffWeights()) === 0 && count($recipe->getFoodstuffNumberOfPieces()) === 0) {
+                    throw new Exception('De voedingsmiddelen van het gerecht mogen niet leeg zijn.');
+                }
                 $this->recipeRepository->update($recipe);
 
                 $recipe->moveImage($this->getParameter('kernel.environment'),
@@ -95,6 +98,9 @@ class RecipeController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
+                if (count($recipe->getFoodstuffWeights()) === 0 && count($recipe->getFoodstuffNumberOfPieces()) === 0) {
+                    throw new Exception('De voedingsmiddelen van het gerecht mogen niet leeg zijn.');
+                }
                 $this->recipeRepository->create($recipe);
                 $recipe->moveImage($this->getParameter('kernel.environment'),
                     $this->getParameter('kernel.project_dir'), $form->get('image')->getData());

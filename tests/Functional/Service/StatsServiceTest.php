@@ -51,7 +51,7 @@ class StatsServiceTest extends KernelTestCase
         foreach ($day->getRecipes() as $recipe) {
             foreach ($recipe->getFoodstuffs() as $foodstuff) {
                 $total += $foodstuff->getCalcium() / 2 *
-                    $day->getRecipeWeights()[$recipe->getId()] / 100 *
+                    $day->getRecipeNumberOfTimes()[$recipe->getId()] / 100 *
                     $recipe->getFoodstuffWeights()[$foodstuff->getId()];
             }
         }

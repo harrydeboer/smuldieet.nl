@@ -36,9 +36,9 @@
 <h4 class="no-wrap">Voedingsmiddelen gerecht</h4>
 <table class="table">
     {{ include('foodRow.html.twig', {'formName': 'recipe', 'entities': recipe.foodstuffs,
-        'weights': form.foodstuffWeights, 'foodType': 'foodstuff', 'weightsOrPieces': 'Weights'}) }}
+        'weights': form.foodstuffWeights, 'foodType': 'foodstuff', 'weightsOrChoices': 'Weights'}) }}
     {{ include('foodRow.html.twig', {'formName': 'recipe', 'entities': recipe.foodstuffs,
-        'weights': form.foodstuffNumberOfPieces, 'foodType': 'foodstuff', 'weightsOrPieces': 'NumberOfPieces'}) }}
+        'weights': form.foodstuffNumberOfPieces, 'foodType': 'foodstuff', 'weightsOrChoices': 'Choices'}) }}
     <tr id="add-foodstuff-recipe-button-row"><td colspan="4">
             <div class="btn btn-primary" id="add-foodstuff">Voedingsmiddel toevoegen</div></td></tr>
 </table>

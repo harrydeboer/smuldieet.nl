@@ -11,7 +11,7 @@ use InvalidArgumentException;
 
 abstract class FoodstuffsEntity
 {
-    public static array $pieceChoices = [
+    public static array $foodstuffChoices = [
         '¼' => 0.25,
         '½' => 0.5,
         '¾' => 0.75,
@@ -85,7 +85,7 @@ abstract class FoodstuffsEntity
         } else {
             $numberOfPieces[$id] = round($number);
         }
-        if (!in_array($numberOfPieces[$id], self::$pieceChoices)) {
+        if (!in_array($numberOfPieces[$id], self::$foodstuffChoices)) {
             throw new InvalidArgumentException('The rounded value must exist in the piece choices.');
         }
 

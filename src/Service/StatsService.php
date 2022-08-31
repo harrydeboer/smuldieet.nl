@@ -50,7 +50,7 @@ class StatsService
                     $foodstuff = $recipe->getFoodstuffs()[$id];
                     foreach ($stats as $key => $stat) {
                         $value = $foodstuff->{'get' . ucfirst($key)}() / $numberOfDays *
-                            $day->getRecipeWeights()[$recipe->getId()] / 100 * $weight;
+                            $day->getRecipeNumberOfTimes()[$recipe->getId()] / 100 * $weight;
                         if (isset($stat[5])) {
                             $stats[$key][5] += $value;
                         } else {
@@ -62,7 +62,8 @@ class StatsService
                     $foodstuff = $recipe->getFoodstuffs()[$id];
                     foreach ($stats as $key => $stat) {
                         $value = $foodstuff->{'get' . ucfirst($key)}() / $numberOfDays *
-                            $day->getRecipeWeights()[$recipe->getId()] / 100 * $weight * $foodstuff->getPieceWeight();
+                            $day->getRecipeNumberOfTimes()[$recipe->getId()] / 100 *
+                            $weight * $foodstuff->getPieceWeight();
                         if (isset($stat[5])) {
                             $stats[$key][5] += $value;
                         } else {

@@ -2,12 +2,13 @@
 <div id="form-errors-server">
     {{ form_errors(form) }}
     {{ form_errors(form.title) }}
+    {{ form_errors(form.recipeNumberOfTimes) }}
 </div>
 {{ form_start(form, { 'attr' : { 'class': 'food-form' }}) }}
 <table class="food-table table table-small">
     <tr><td>Titel</td><td colspan="2">{{ form_widget(form.title) }}</td></tr>
     {{ include('foodRow.html.twig', {'formName': 'cookbook', 'entities': cookbook.recipes,
-        'weights': form.recipeWeights, 'foodType': 'recipe', 'weightsOrPieces': 'Weights'}) }}
+        'weights': form.recipeNumberOfTimes, 'foodType': 'recipe', 'weightsOrChoices': 'Choices'}) }}
     <tr id="add-foodstuff-recipe-button-row"><td colspan="3">
             <div class="btn btn-primary" id="add-recipe">Recept toevoegen</div></td></tr>
     <tr><td colspan="3">{{ form_widget(form.submit, { 'label': submitLabel }) }}</td></tr>

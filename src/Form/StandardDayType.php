@@ -33,7 +33,7 @@ class StandardDayType extends AbstractType
                 'entry_type' => ChoiceType::class,
                 'allow_add' => true,
                 'entry_options' => [
-                    'choices' => Day::$pieceChoices,
+                    'choices' => Day::$foodstuffChoices,
                     'attr' => [
                         'class' => 'form-control food-weight form-select',
                     ],
@@ -41,10 +41,11 @@ class StandardDayType extends AbstractType
                 'allow_delete' => true,
                 'delete_empty' => true,
             ])
-            ->add('recipeWeights', CollectionType::class, [
-                'entry_type' => NumberType::class,
+            ->add('recipeNumberOfTimes', CollectionType::class, [
+                'entry_type' => ChoiceType::class,
                 'allow_add' => true,
                 'entry_options' => [
+                    'choices' => Day::$recipeChoices,
                     'attr' => [
                         'placeholder' => 'aantal keer',
                         'class' => 'form-control food-weight',

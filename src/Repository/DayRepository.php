@@ -111,7 +111,7 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
             $foodstuff = $this->foodstuffRepository->get($id);
             $day->addFoodstuff($foodstuff);
         }
-        foreach ($day->getRecipeWeights() as $id => $weight) {
+        foreach ($day->getRecipeNumberOfTimes() as $id => $weight) {
             $recipe = $this->recipeRepository->get($id);
             $day->addRecipe($recipe);
         }

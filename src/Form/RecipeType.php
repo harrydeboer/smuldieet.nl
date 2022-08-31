@@ -112,17 +112,17 @@ class RecipeType extends AbstractType
             'allow_delete' => true,
             'delete_empty' => true,
         ])->add('foodstuffNumberOfPieces', CollectionType::class, [
-                'entry_type' => ChoiceType::class,
-                'allow_add' => true,
-                'entry_options' => [
-                    'choices' => Recipe::$pieceChoices,
-                    'attr' => [
-                        'class' => 'form-control food-weight form-select',
-                    ],
+            'entry_type' => ChoiceType::class,
+            'allow_add' => true,
+            'entry_options' => [
+                'choices' => Recipe::$foodstuffChoices,
+                'attr' => [
+                    'class' => 'form-control food-weight form-select',
                 ],
-                'allow_delete' => true,
-                'delete_empty' => true,
-            ])
+            ],
+            'allow_delete' => true,
+            'delete_empty' => true,
+        ])
             ->add('submit', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-success'],
             ]);

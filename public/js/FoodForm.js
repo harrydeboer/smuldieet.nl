@@ -17,7 +17,7 @@ class FoodForm {
 
     /**
      * A row in the food form consists of a search dropdown, a weight and a minus icon for deletion of the row.
-     * The label of the weight input is removed and the __name__ is set to an empty string.
+     * The label of the weight input is removed.
      * When the food type is a recipe then the weight value is set to 1.
      * The id is removed from the weight prototype.
      */
@@ -27,12 +27,11 @@ class FoodForm {
             '</td><td><span class="piece-name"></span></td>';
         html += '<td><i class="remove-row fa fa-minus"></i></td></tr>';
         html = this.removeLabel(html);
-        html = html.replaceAll('__name__', '');
-        $('#add-foodstuff-recipe-button-row').before(html);
         if (foodType === 'recipe') {
-            $('#' + this.formName + '_recipeWeights_').val(1);
+            $('#' + this.formName + '_recipeWeights___name__').val(1);
         }
-        $('#' + this.formName + '_' + foodType + 'Weights_').removeAttr('id');
+        $('#add-foodstuff-recipe-button-row').before(html);
+        $('#' + this.formName + '_' + foodType + 'Weights___name__').removeAttr('id');
         event.preventDefault();
     }
 
@@ -120,12 +119,13 @@ class FoodForm {
             row.getWeight().replaceWith(this.removeLabel(input));
             row.getWeight().val('');
             row.getWeight().attr('name', this.formName + '[foodstuffWeights][' + id + ']');
+            $('#' + this.formName + '_foodstuffWeights___name__').removeAttr('id');
         } else {
-            let select = $('#' + this.formName + '_foodstuffNumberOfPieces').data('prototype');
+            let select = $('#' + this.formName + '_foodstuffChoices').data('prototype');
             row.getWeight().replaceWith(this.removeLabel(select));
             row.getWeight().val(1);
-            row.getWeight().attr('name', this.formName + '[foodstuffNumberOfPieces][' + id + ']');
-            $('#' + this.formName + '_foodstuffNumberOfPieces___name__').removeAttr('id');
+            row.getWeight().attr('name', this.formName + '[foodstuffChoices][' + id + ']');
+            $('#' + this.formName + '_foodstuffChoices___name__').removeAttr('id');
         }
         if (pieceName === '') {
             row.getPieceName().text('');
