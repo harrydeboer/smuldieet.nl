@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 trait FoodWeightsTrait
 {
     public static array $pieceChoices = [
+        '⅛' => 0.125,
         '¼' => 0.25,
         '½' => 0.5,
         '¾' => 0.75,

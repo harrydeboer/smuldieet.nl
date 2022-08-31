@@ -24,7 +24,7 @@ class FoodForm {
     addRow(foodType, event) {
         let html = '<tr><td>' + $('#' + this.formName + '_' + foodType + 'Dropdown').data('prototype') + '</td>';
         html += '<td>' + $('#' + this.formName + '_' + foodType + 'Weights').data('prototype') +
-            '</td><td><span id="pieceName"></span></td>';
+            '</td><td><span class="piece-name"></span></td>';
         html += '<td><i class="remove-row fa fa-minus"></i></td></tr>';
         html = this.removeLabel(html);
         html = html.replaceAll('__name__', '');
@@ -104,11 +104,11 @@ class FoodForm {
         let name = thisElement.text();
         let pieceWeight = thisElement.data('piece-weight');
         let pieceName = thisElement.data('piece-name');
-        row.getWeight().attr('name', this.formName + '[' + foodType + 'Weights][' + id + ']');
         row.getName().val(name);
         if (this.formName !== 'foodstuff_from_foodstuffs' && foodType === 'foodstuff') {
             this.replaceWeight(pieceWeight, pieceName, row);
         }
+        row.getWeight().attr('name', this.formName + '[' + foodType + 'Weights][' + id + ']');
     }
 
     replaceWeight(pieceWeight, pieceName, row)
@@ -123,9 +123,9 @@ class FoodForm {
             row.getWeight().val(1);
         }
         if (pieceName === '') {
-            $('#pieceName').text('');
+            row.getPieceName().text('');
         } else {
-            $('#pieceName').text(pieceName);
+            row.getPieceName().text(pieceName);
         }
     }
 
@@ -190,6 +190,11 @@ class FoodForm {
         getWeight() {
             // noinspection JSCheckFunctionSignatures
             return this.row.find('.food-weight');
+        }
+
+        getPieceName() {
+            // noinspection JSCheckFunctionSignatures
+            return this.row.find('.piece-name');
         }
 
         getSearchResults() {

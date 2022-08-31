@@ -8,7 +8,7 @@
     {% endif %}
     <tr>
         <td>{{ include('foodDropdown.html.twig', {'title': title, 'foodType': foodType, 'formName': formName}) }}</td>
-        <td>{{ form_widget(weight) }}</td><td><span id="pieceName"></span></td>
+        <td>{{ form_widget(weight) }}</td><td><span class="piece-name"></span></td>
         <td><i class="remove-row fa fa-minus"></i></td>
     </tr>
 {% endfor %}

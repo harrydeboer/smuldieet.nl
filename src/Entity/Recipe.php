@@ -134,6 +134,7 @@ class Recipe
 
     public const DIET_CHOICES = [
         'Vegetarisch' => 'vegetarian',
+        'Veganistisch' => 'vegan',
         'Histamine vrij' => 'histamineFree',
         'Koemelk vrij' => 'cowMilkFree',
         'Soja vrij' => 'soyFree',
