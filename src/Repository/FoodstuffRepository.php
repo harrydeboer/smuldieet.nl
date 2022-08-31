@@ -200,23 +200,10 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
         }
     }
 
-    private function roundToNearest(float $number, ArrayCollection $numberOfPieces, int $id): ArrayCollection
-    {
-        if ($number < 1) {
-            $numberOfPieces[$id] = round($number * 4);
-        } elseif ($number <= 2) {
-            $numberOfPieces[$id] = round($number * 2) * 2;
-        } else {
-            $numberOfPieces[$id] = round($number) * 4;
-        }
-
-        return $numberOfPieces;
-    }
-
     private function replaceWeightWithPiece(FoodWeights $entity, Foodstuff $foodstuff): void
     {
         $weights = $entity->getFoodstuffWeights();
-        $entity->setFoodstuffNumberOfPieces($this->roundToNearest($weights[$foodstuff->getId()] /
+        $entity->setFoodstuffNumberOfPieces($entity->roundToNearest($weights[$foodstuff->getId()] /
             $foodstuff->getPieceWeight(), $entity->getFoodstuffNumberOfPieces(), $foodstuff->getId()));
         unset($weights[$foodstuff->getId()]);
         $entity->setFoodstuffWeights($weights);

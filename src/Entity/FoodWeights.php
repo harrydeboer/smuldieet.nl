@@ -15,4 +15,6 @@ interface FoodWeights
     public function getFoodstuffNumberOfPieces(): ArrayCollection;
 
     public function setFoodstuffNumberOfPieces(ArrayCollection $collection): void;
+
+    public function roundToNearest(float $number, ArrayCollection $numberOfPieces, int $id): ArrayCollection;
 }

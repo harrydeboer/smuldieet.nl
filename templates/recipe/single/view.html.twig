@@ -105,7 +105,7 @@
             {% endfor %}
             {% for id, weight in recipe.foodstuffNumberOfPieces %}
                 <tr><td>{{ recipe.foodstuffs()[id].name }}</td>
-                    <td>{{ weight / 4 }} {{ recipe.foodstuffs()[id].pieceName }}</td></tr>
+                    <td>{{ weight }} {{ recipe.foodstuffs()[id].pieceName }}</td></tr>
             {% endfor %}
         </table>
         <div class="fw-bold">Bereidingswijze</div>

@@ -16,7 +16,7 @@
         {% for id, weight in day.foodstuffNumberOfPieces %}
             <tr>
                 <td>{{ day.foodstuffs()[id].name }}</td>
-                <td>{{ weight / 4 }} {{ day.foodstuffs()[id].pieceName }}</td>
+                <td>{{ weight }} {{ day.foodstuffs()[id].pieceName }}</td>
             </tr>
         {% endfor %}
         {% for rowNumber, recipe in day.recipes %}

@@ -6,34 +6,35 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use InvalidArgumentException;
 
 trait FoodWeightsTrait
 {
     public static array $pieceChoices = [
-        '¼' => 1,
-        '½' => 2,
-        '¾' => 3,
-        '1' => 4,
-        '1½' => 6,
-        '2' => 8,
-        '3' => 12,
-        '4' => 16,
-        '5' => 20,
-        '6' => 24,
-        '7' => 28,
-        '8' => 32,
-        '9' => 36,
-        '10' => 40,
-        '11' => 44,
-        '12' => 48,
-        '13' => 52,
-        '14' => 56,
-        '15' => 60,
-        '16' => 64,
-        '17' => 68,
-        '18' => 72,
-        '19' => 76,
-        '20' => 80,
+        '¼' => 0.25,
+        '½' => 0.5,
+        '¾' => 0.75,
+        '1' => 1,
+        '1½' => 1.5,
+        '2' => 2,
+        '3' => 3,
+        '4' => 4,
+        '5' => 5,
+        '6' => 6,
+        '7' => 7,
+        '8' => 8,
+        '9' => 9,
+        '10' => 10,
+        '11' => 11,
+        '12' => 12,
+        '13' => 13,
+        '14' => 14,
+        '15' => 15,
+        '16' => 16,
+        '17' => 17,
+        '18' => 18,
+        '19' => 19,
+        '20' => 20,
     ];
 
     #[ORM\Column(type: "string")]
@@ -61,7 +62,7 @@ trait FoodWeightsTrait
     {
         $collection = new ArrayCollection();
         foreach (unserialize($this->foodstuffNumberOfPieces) as $key => $value) {
-            $collection->set($key, $value);
+            $collection->set($key, $value / 4);
         }
 
         return $collection;
@@ -69,6 +70,32 @@ trait FoodWeightsTrait
 
     public function setFoodstuffNumberOfPieces(ArrayCollection $collection): void
     {
-        $this->foodstuffNumberOfPieces = serialize($collection->toArray());
+        $array = [];
+        foreach ($collection->toArray() as $key => $value) {
+            $array[$key] = round($value * 4);
+        }
+        $this->foodstuffNumberOfPieces = serialize($array);
+    }
+
+    public function roundToNearest(float $number, ArrayCollection $numberOfPieces, int $id): ArrayCollection
+    {
+        if ($number < 0.125) {
+            $numberOfPieces[$id] = 1;
+        } elseif ($number < 1) {
+            $numberOfPieces[$id] = round($number * 4);
+        } elseif ($number <= 2) {
+            $numberOfPieces[$id] = round($number * 2) * 2;
+        } else {
+            $numberOfPieces[$id] = round($number) * 4;
+        }
+        $pieceChoicesTimes4 = [];
+        foreach (self::$pieceChoices as $choiceValue) {
+            $pieceChoicesTimes4[] = round($choiceValue * 4);
+        }
+        if (!in_array($numberOfPieces[$id], $pieceChoicesTimes4)) {
+            throw new InvalidArgumentException('The rounded value must exist in the piece choices.');
+        }
+
+        return $numberOfPieces;
     }
 }

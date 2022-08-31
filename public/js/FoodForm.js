@@ -123,7 +123,7 @@ class FoodForm {
         } else {
             let select = $('#' + this.formName + '_foodstuffNumberOfPieces').data('prototype');
             row.getWeight().replaceWith(this.removeLabel(select));
-            row.getWeight().val(4);
+            row.getWeight().val(1);
             row.getWeight().attr('name', this.formName + '[foodstuffNumberOfPieces][' + id + ']');
             $('#' + this.formName + '_foodstuffNumberOfPieces___name__').removeAttr('id');
         }
