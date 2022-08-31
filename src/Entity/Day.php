@@ -18,10 +18,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
     ORM\UniqueConstraint(name: "timestamp_unique", columns: ["user_id", "timestamp"]),
     UniqueEntity(fields: ["user", "timestamp"], message: "Er is al een dag met deze datum."),
 ]
-class Day implements FoodWeights
+class Day extends FoodstuffsEntity
 {
-    use FoodWeightsTrait;
-
     #[
         ORM\Id,
         ORM\Column(type: "integer"),

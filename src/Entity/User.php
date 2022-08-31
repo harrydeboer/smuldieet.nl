@@ -25,7 +25,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 ]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    use ImageTrait;
+    use UploadImageTrait;
 
     public const GENDER = ['man', 'vrouw'];
 

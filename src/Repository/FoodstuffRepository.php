@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Entity\FoodWeights;
+use App\Entity\FoodstuffsEntity;
 use App\Entity\Foodstuff;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -200,7 +199,7 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
         }
     }
 
-    private function replaceWeightWithPiece(FoodWeights $entity, Foodstuff $foodstuff): void
+    private function replaceWeightWithPiece(FoodstuffsEntity $entity, Foodstuff $foodstuff): void
     {
         $weights = $entity->getFoodstuffWeights();
         $entity->setFoodstuffNumberOfPieces($entity->roundToNearest($weights[$foodstuff->getId()] /
@@ -209,7 +208,7 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
         $entity->setFoodstuffWeights($weights);
     }
 
-    private function replacePieceWithWeight(FoodWeights $entity, Foodstuff $foodstuff, float $pieceWeightOld): void
+    private function replacePieceWithWeight(FoodstuffsEntity $entity, Foodstuff $foodstuff, float $pieceWeightOld): void
     {
         $numberOfPieces = $entity->getFoodstuffNumberOfPieces();
         $weights = $entity->getFoodstuffWeights();

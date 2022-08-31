@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
 
-trait FoodWeightsTrait
+abstract class FoodstuffsEntity
 {
     public static array $pieceChoices = [
         '¼' => 0.25,
@@ -98,4 +99,12 @@ trait FoodWeightsTrait
 
         return $numberOfPieces;
     }
+
+    abstract public function getFoodstuffs(): Collection;
+
+    abstract public function setFoodstuffs(Collection $foodstuffs): void;
+
+    abstract public function addFoodstuff(Foodstuff $foodstuff);
+
+    abstract public function removeFoodstuff(Foodstuff $foodstuff);
 }

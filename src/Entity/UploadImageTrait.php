@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
 use Exception;
 
-trait ImageTrait
+trait UploadImageTrait
 {
     #[ORM\Column(type: "string", nullable: true)]
     protected ?string $imageExtension = null;
