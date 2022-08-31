@@ -23,10 +23,10 @@ class FoodForm {
      */
     addRow(foodType, event) {
         let html = '<tr><td>' + $('#' + this.formName + '_' + foodType + 'Dropdown').data('prototype') + '</td>';
-        html += '<td>' + $('#' + this.formName + '_' + foodType + 'Weights').data('prototype') + '</td>';
+        html += '<td>' + $('#' + this.formName + '_' + foodType + 'Weights').data('prototype') +
+            '</td><td><span id="pieceName"></span></td>';
         html += '<td><i class="remove-row fa fa-minus"></i></td></tr>';
-        html = html.replace('<label for="' + this.formName + '_' + foodType +
-            'Weights___name__" class="required">__name__label__</label>', '');
+        html = this.removeLabel(html);
         html = html.replaceAll('__name__', '');
         $('#add-foodstuff-recipe-button-row').before(html);
         if (foodType === 'recipe') {
@@ -34,6 +34,10 @@ class FoodForm {
         }
         $('#' + this.formName + '_' + foodType + 'Weights_').removeAttr('id');
         event.preventDefault();
+    }
+
+    removeLabel(html) {
+        return html.replace(/<label[\s\S]+?<\/label>/, '');
     }
 
     /**
@@ -74,6 +78,11 @@ class FoodForm {
                         let name = $(element).text().toLowerCase().normalize("NFD")
                             .replace(/[\u0300-\u036f]/g, "");
                         if (valueInput === name) {
+                            if (this.formName !== 'foodstuff_from_foodstuffs' && foodType === 'foodstuff') {
+                                let pieceWeight = $(element).data('piece-weight');
+                                let pieceName = $(element).data('piece-name');
+                                this.replaceWeight(pieceWeight, pieceName, row);
+                            }
                             row.getWeight().attr('name', this.formName + '[' + foodType + 'Weights][' + id + ']');
                         }
                     });
@@ -96,17 +105,28 @@ class FoodForm {
         let pieceWeight = thisElement.data('piece-weight');
         let pieceName = thisElement.data('piece-name');
         row.getWeight().attr('name', this.formName + '[' + foodType + 'Weights][' + id + ']');
-
-        let condition = this.formName !== 'foodstuff_from_foodstuffs' && foodType === 'foodstuff';
-        if (condition && pieceWeight !== '' && pieceName !== '') {
-            row.getWeight().attr('placeholder', 'per stuk van ' + pieceWeight + ' g (' + pieceName + ')');
-        } else if (condition && pieceWeight !== '') {
-            row.getWeight().attr('placeholder', 'per stuk van ' + pieceWeight + ' g');
-        } else if (condition) {
-            row.getWeight().attr('placeholder', 'g/ml');
-        }
-
         row.getName().val(name);
+        if (this.formName !== 'foodstuff_from_foodstuffs' && foodType === 'foodstuff') {
+            this.replaceWeight(pieceWeight, pieceName, row);
+        }
+    }
+
+    replaceWeight(pieceWeight, pieceName, row)
+    {
+        if (pieceWeight === '') {
+            let input = $('#' + this.formName + '_foodstuffWeights').data('prototype');
+            row.getWeight().replaceWith(this.removeLabel(input));
+            row.getWeight().val('');
+        } else {
+            let select = $('#' + this.formName + '_foodstuffNumberOfPieces').data('prototype');
+            row.getWeight().replaceWith(this.removeLabel(select));
+            row.getWeight().val(1);
+        }
+        if (pieceName === '') {
+            $('#pieceName').text('');
+        } else {
+            $('#pieceName').text(pieceName);
+        }
     }
 
     removeRow(event) {

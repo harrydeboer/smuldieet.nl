@@ -42,6 +42,9 @@ class StatsService
                         $value = $foodstuff->{'get' . ucfirst($key)}() / $numberOfDays *
                             $day->getRecipeWeights()[$recipe->getId()] / 100 *
                             $recipe->getFoodstuffWeights()[$foodstuff->getId()];
+                        if (!is_null($foodstuff->getPieceWeight())) {
+                            $value = $value * $foodstuff->getPieceWeight();
+                        }
                         if (isset($stat[5])) {
                             $stats[$key][5] += $value;
                         } else {

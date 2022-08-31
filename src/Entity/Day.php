@@ -20,6 +20,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 ]
 class Day
 {
+    use FoodWeightsTrait;
+
     #[
         ORM\Id,
         ORM\Column(type: "integer"),
@@ -53,9 +55,6 @@ class Day
         ORM\InverseJoinColumn(name: "recipe_id", referencedColumnName: "id", onDelete: "CASCADE"),
     ]
     private Collection $recipes;
-
-    #[ORM\Column(type: "string")]
-    private string $foodstuffWeights = 'a:0:{}';
 
     #[ORM\Column(type: "string")]
     private string $recipeWeights = 'a:0:{}';
@@ -175,21 +174,6 @@ class Day
 
         $this->recipes->removeElement($recipe);
         $recipe->removeDay($this);
-    }
-
-    public function getFoodstuffWeights(): ArrayCollection
-    {
-        $collection = new ArrayCollection();
-        foreach (unserialize($this->foodstuffWeights) as $key => $value) {
-            $collection->set($key, $value);
-        }
-
-        return $collection;
-    }
-
-    public function setFoodstuffWeights(ArrayCollection $collection): void
-    {
-        $this->foodstuffWeights = serialize($collection->toArray());
     }
 
     public function getRecipeWeights(): ArrayCollection

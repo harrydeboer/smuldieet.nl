@@ -212,8 +212,8 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
     {
         foreach ($recipe->getFoodstuffWeights() as $id => $weight) {
             $foodstuff = $recipe->getFoodstuffs()[$id];
-            if (!is_null($foodstuff->getPieceWeight()) && $weight > 30) {
-                throw new Exception('Het aantal stuks kan niet groter zijn dan 30.');
+            if (!is_null($foodstuff->getPieceWeight()) && $weight > 20) {
+                throw new Exception('Het aantal stuks kan niet groter zijn dan 20.');
             }
         }
     }

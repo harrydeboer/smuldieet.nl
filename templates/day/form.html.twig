@@ -5,6 +5,7 @@
         {{ form_errors(form.date) }}
     {% endif %}
     {{ form_errors(form.foodstuffWeights) }}
+    {{ form_errors(form.foodstuffNumberOfPieces) }}
     {{ form_errors(form.recipeWeights) }}
 </div>
 {{ form_start(form, { 'attr' : { 'class': 'food-form' }}) }}
@@ -16,10 +17,12 @@
         {% set formName = 'standard_day' %}
     {% endif %}
     {{ include('foodRow.html.twig', {'formName': formName, 'entities': day.foodstuffs,
-        'weights': form.foodstuffWeights, 'foodType': 'foodstuff'}) }}
+        'weights': form.foodstuffWeights, 'foodType': 'foodstuff', 'weightsOrPieces': 'Weights'}) }}
+    {{ include('foodRow.html.twig', {'formName': formName, 'entities': day.foodstuffs,
+        'weights': form.foodstuffNumberOfPieces, 'foodType': 'foodstuff', 'weightsOrPieces': 'NumberOfPieces'}) }}
     {{ include('foodRow.html.twig', {'formName': formName, 'entities': day.recipes,
-        'weights': form.recipeWeights, 'foodType': 'recipe'}) }}
-    <tr id="add-foodstuff-recipe-button-row"><td colspan="3">
+        'weights': form.recipeWeights, 'foodType': 'recipe', 'weightsOrPieces': 'Weights'}) }}
+    <tr id="add-foodstuff-recipe-button-row"><td colspan="4">
             <div class="btn btn-primary" id="add-foodstuff">Voedingsmiddel toevoegen</div>
             <div class="btn btn-primary" id="add-recipe">Gerecht toevoegen</div></td></tr>
     <tr><td colspan="3">{{ form_widget(form.submit, { 'label': submitLabel }) }}</td></tr>

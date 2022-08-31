@@ -17,6 +17,8 @@
     {{ form_errors(form.kitchen) }}
     {{ form_errors(form.typeOfDish) }}
     {{ form_errors(form.occasion) }}
+    {{ form_errors(form.foodstuffWeights) }}
+    {{ form_errors(form.foodstuffNumberOfPieces) }}
     {% for key,choice in constant('DIET_CHOICES', recipe) %}
         {{ form_errors(attribute(form, choice)) }}
     {% endfor %}
@@ -32,9 +34,12 @@
 <div class="fw-bold">Ingrediënten *</div>
 {{ form_widget(form.ingredients) }}
 <h4 class="no-wrap">Voedingsmiddelen gerecht</h4>
-<table class="table">{{ include('foodRow.html.twig', {'formName': 'recipe', 'entities': recipe.foodstuffs,
-        'weights': form.foodstuffWeights, 'foodType': 'foodstuff'}) }}
-    <tr id="add-foodstuff-recipe-button-row"><td colspan="3">
+<table class="table">
+    {{ include('foodRow.html.twig', {'formName': 'recipe', 'entities': recipe.foodstuffs,
+        'weights': form.foodstuffWeights, 'foodType': 'foodstuff', 'weightsOrPieces': 'Weights'}) }}
+    {{ include('foodRow.html.twig', {'formName': 'recipe', 'entities': recipe.foodstuffs,
+        'weights': form.foodstuffNumberOfPieces, 'foodType': 'foodstuff', 'weightsOrPieces': 'NumberOfPieces'}) }}
+    <tr id="add-foodstuff-recipe-button-row"><td colspan="4">
             <div class="btn btn-primary" id="add-foodstuff">Voedingsmiddel toevoegen</div></td></tr>
 </table>
 <div class="fw-bold">Bereidingswijze *</div>

@@ -120,8 +120,8 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
     {
         foreach ($day->getFoodstuffWeights() as $id => $weight) {
             $foodstuff = $day->getFoodstuffs()[$id];
-            if (!is_null($foodstuff->getPieceWeight()) && $weight > 30) {
-                throw new Exception('Het aantal stuks kan niet groter zijn dan 30.');
+            if (!is_null($foodstuff->getPieceWeight()) && $weight > 20) {
+                throw new Exception('Het aantal stuks kan niet groter zijn dan 20.');
             }
         }
     }

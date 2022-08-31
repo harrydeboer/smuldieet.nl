@@ -20,6 +20,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 class Recipe
 {
     use ImageTrait;
+    use FoodWeightsTrait;
 
     public const COOKING_TIMES = ['0-10 min.', '10-20 min.', '20-30 min.', '30-60 min.', '> 1 uur', '> 2 uur'];
 
@@ -280,6 +281,9 @@ class Recipe
     private bool $vegetarian = false;
 
     #[ORM\Column(type: "boolean")]
+    private bool $vegan = false;
+
+    #[ORM\Column(type: "boolean")]
     private bool $histamineFree = false;
 
     #[ORM\Column(type: "boolean")]
@@ -328,9 +332,6 @@ class Recipe
 
     #[ORM\ManyToMany(targetEntity: "Tag", mappedBy: "recipes")]
     private Collection $tags;
-
-    #[ORM\Column(type: "string")]
-    private string $foodstuffWeights = 'a:0:{}';
 
     #[ORM\Column(type: "boolean")]
     private bool $pending = true;
@@ -517,6 +518,16 @@ class Recipe
         $this->vegetarian = $vegetarian;
     }
 
+    public function getVegan(): bool
+    {
+        return $this->vegan;
+    }
+
+    public function setVegan(bool $vegan): void
+    {
+        $this->vegan = $vegan;
+    }
+
     public function getHistamineFree(): bool
     {
         return $this->histamineFree;
@@ -675,21 +686,6 @@ class Recipe
     public function setRatings(Collection $ratings): void
     {
         $this->ratings = $ratings;
-    }
-
-    public function getFoodstuffWeights(): ArrayCollection
-    {
-        $collection = new ArrayCollection();
-        foreach (unserialize($this->foodstuffWeights) as $key => $value) {
-            $collection->set($key, $value);
-        }
-
-        return $collection;
-    }
-
-    public function setFoodstuffWeights(ArrayCollection $collection): void
-    {
-        $this->foodstuffWeights = serialize($collection->toArray());
     }
 
     public function getComments(): Collection

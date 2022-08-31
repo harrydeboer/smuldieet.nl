@@ -8,14 +8,7 @@
     {% endif %}
     <tr>
         <td>{{ include('foodDropdown.html.twig', {'title': title, 'foodType': foodType, 'formName': formName}) }}</td>
-        {% if foodType == 'foodstuff' and entity.pieceWeight is not null and entity.pieceName is null %}
-            <td>{{ form_widget(weight, {'attr': {'placeholder': 'per stuk van '~entity.pieceWeight~' g'}}) }}</td>
-        {% elseif foodType == 'foodstuff' and entity.pieceWeight is not null and entity.pieceName is not null %}
-            <td>{{ form_widget(weight, {'attr': {'placeholder': 'per stuk van '
-                    ~entity.pieceWeight~' g ('~entity.pieceName~')'}}) }}</td>
-        {% else %}
-            <td>{{ form_widget(weight) }}</td>
-        {% endif %}
+        <td>{{ form_widget(weight) }}</td><td><span id="pieceName"></span></td>
         <td><i class="remove-row fa fa-minus"></i></td>
     </tr>
 {% endfor %}
@@ -26,12 +19,13 @@
     </td>
     <td>
         {% if weights|length == 0 %}
-            {{ form_widget(weights) }}
+            {{ form_widget(weights, {'id': formName~'_'~foodType~weightsOrPieces }) }}
         {% else %}
-            <div id="{{ formName }}_{{ foodType }}Weights"
+            <div id="{{ formName }}_{{ foodType }}{{ weightsOrPieces }}"
                  data-prototype="{{ form_widget(weights.vars.prototype)|e('html') }}"></div>
         {% endif %}
     </td>
+    <td></td>
     <td>
         {% if foodType == 'foodstuff' %}
             <div id="foodstuffSearch" data-search="{{ path('foodstuffSearch', {'name': '__name__'}) }}"></div>
