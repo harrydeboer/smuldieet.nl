@@ -39,10 +39,10 @@ abstract class FoodstuffsEntity
     ];
 
     #[ORM\Column(type: "string")]
-    private string $foodstuffWeights = 'a:0:{}';
+    protected string $foodstuffWeights = 'a:0:{}';
 
     #[ORM\Column(type: "string")]
-    private string $foodstuffNumberOfPieces = 'a:0:{}';
+    protected string $foodstuffNumberOfPieces = 'a:0:{}';
 
     public function getFoodstuffWeights(): ArrayCollection
     {
@@ -63,7 +63,7 @@ abstract class FoodstuffsEntity
     {
         $collection = new ArrayCollection();
         foreach (unserialize($this->foodstuffNumberOfPieces) as $key => $value) {
-            $collection->set($key, $value / 4);
+            $collection->set($key, $value);
         }
 
         return $collection;
@@ -71,29 +71,21 @@ abstract class FoodstuffsEntity
 
     public function setFoodstuffNumberOfPieces(ArrayCollection $collection): void
     {
-        $array = [];
-        foreach ($collection->toArray() as $key => $value) {
-            $array[$key] = round($value * 4);
-        }
-        $this->foodstuffNumberOfPieces = serialize($array);
+        $this->foodstuffNumberOfPieces = serialize($collection->toArray());
     }
 
     public function roundToNearest(float $number, ArrayCollection $numberOfPieces, int $id): ArrayCollection
     {
         if ($number < 0.125) {
-            $numberOfPieces[$id] = 1;
+            $numberOfPieces[$id] = 0.25;
         } elseif ($number < 1) {
-            $numberOfPieces[$id] = round($number * 4);
+            $numberOfPieces[$id] = round($number * 4) / 4;
         } elseif ($number <= 2) {
-            $numberOfPieces[$id] = round($number * 2) * 2;
+            $numberOfPieces[$id] = round($number * 2) / 2;
         } else {
-            $numberOfPieces[$id] = round($number) * 4;
+            $numberOfPieces[$id] = round($number);
         }
-        $pieceChoicesTimes4 = [];
-        foreach (self::$pieceChoices as $choiceValue) {
-            $pieceChoicesTimes4[] = round($choiceValue * 4);
-        }
-        if (!in_array($numberOfPieces[$id], $pieceChoicesTimes4)) {
+        if (!in_array($numberOfPieces[$id], self::$pieceChoices)) {
             throw new InvalidArgumentException('The rounded value must exist in the piece choices.');
         }
 
