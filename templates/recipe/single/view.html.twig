@@ -42,6 +42,7 @@
             </div>
         </div>
     {% endif %}
+    <h2>{{ recipe.title }}</h2>
     {% if recipe.imageExtension is not null %}
         <div><img src="{{  asset(recipe.getImagePath(appEnv, 600)) }}" id="recipe-image" class="img-fluid"
                   alt="recipe"></div>
@@ -81,7 +82,7 @@
                 {% else %}
                     &nbsp;&nbsp;<a href="{{ path('appLogin') }}" id="rate-recipe-login">Waardeer
                     <i class="far fa-star" id="rate-modal-button-star"></i>
-                    </a>
+                </a>
                     <br>
                     <br>
                 {% endif %}</td></tr>
@@ -89,8 +90,6 @@
     <br>
     <br>
     <div id="singleRecipe">
-        <div class="fw-bold">Titel</div>
-        {{ recipe.title }}
         {% if recipe.url is not null %}
             <div class="fw-bold">Url</div>
             {{ recipe.url }}
