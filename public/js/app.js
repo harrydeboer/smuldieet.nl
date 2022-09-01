@@ -11,7 +11,6 @@ $(function() {
         $('form[name="rating"]').trigger("submit")
     });
 
-
     $(".dropdown-diet").on('click', function(e) {
         e.stopPropagation();
     })
@@ -49,9 +48,11 @@ $(function() {
     }
     $('input[name="recipe[isSelfInvented]"]').on('change', function () {
         if ($(this).val() === '1') {
-            $('#recipe-source').hide();
+            $('#recipe-source-title').addClass('d-none');
+            $('#recipe_source').addClass('d-none');
         } else {
-            $('#recipe-source').show();
+            $('#recipe-source-title').removeClass('d-none');
+            $('#recipe_source').removeClass('d-none');
         }
     });
 

@@ -56,8 +56,13 @@
 {{ form_widget(form.numberOfPieces) }}
 <div class="fw-bold">Zelf bedacht *</div>
 {{ form_widget(form.isSelfInvented) }}
-<div class="fw-bold" id="recipe-source">Bron</div>
-{{ form_widget(form.source) }}
+{% if form.isSelfInvented.vars.value == 0 %}
+    <div class="fw-bold" id="recipe-source-title">Bron</div>
+    {{ form_widget(form.source) }}
+{% else %}
+    <div class="fw-bold d-none" id="recipe-source-title">Bron</div>
+    {{ form_widget(form.source, {'attr': {'class': 'd-none form-control'}}) }}
+{% endif %}
 <div class="fw-bold">Bereidingstijd *</div>
 {{ form_widget(form.cookingTime) }}
 <div class="fw-bold">Keuken *</div>
