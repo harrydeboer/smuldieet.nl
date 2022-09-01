@@ -129,7 +129,7 @@
         {% endif %}
         <div class="fw-bold">Zelf bedacht</div>
         {{ recipe.isSelfInvented ? 'Ja' : 'Nee' }}
-        {% if recipe.isSelfInvented == 0 %}
+        {% if recipe.source is not null %}
             <div class="fw-bold">Bron</div>
             {{ recipe.source }}
         {% endif %}
