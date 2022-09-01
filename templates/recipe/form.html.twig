@@ -18,7 +18,7 @@
     {{ form_errors(form.typeOfDish) }}
     {{ form_errors(form.occasion) }}
     {{ form_errors(form.foodstuffWeights) }}
-    {{ form_errors(form.foodstuffNumberOfPieces) }}
+    {{ form_errors(form.foodstuffChoices) }}
     {% for key,choice in constant('DIET_CHOICES', recipe) %}
         {{ form_errors(attribute(form, choice)) }}
     {% endfor %}
@@ -38,7 +38,7 @@
     {{ include('foodRow.html.twig', {'formName': 'recipe', 'entities': recipe.foodstuffs,
         'weights': form.foodstuffWeights, 'foodType': 'foodstuff', 'weightsOrChoices': 'Weights'}) }}
     {{ include('foodRow.html.twig', {'formName': 'recipe', 'entities': recipe.foodstuffs,
-        'weights': form.foodstuffNumberOfPieces, 'foodType': 'foodstuff', 'weightsOrChoices': 'Choices'}) }}
+        'weights': form.foodstuffChoices, 'foodType': 'foodstuff', 'weightsOrChoices': 'Choices'}) }}
     <tr id="add-foodstuff-recipe-button-row"><td colspan="4">
             <div class="btn btn-primary" id="add-foodstuff">Voedingsmiddel toevoegen</div></td></tr>
 </table>

@@ -11,7 +11,7 @@ use InvalidArgumentException;
 
 abstract class FoodstuffsEntity
 {
-    public static array $foodstuffChoices = [
+    public static array $foodstuffChoicesArray = [
         '¼' => 0.25,
         '½' => 0.5,
         '¾' => 0.75,
@@ -42,7 +42,7 @@ abstract class FoodstuffsEntity
     protected string $foodstuffWeights = 'a:0:{}';
 
     #[ORM\Column(type: "string")]
-    protected string $foodstuffNumberOfPieces = 'a:0:{}';
+    protected string $foodstuffChoices = 'a:0:{}';
 
     public function getFoodstuffWeights(): ArrayCollection
     {
@@ -59,19 +59,19 @@ abstract class FoodstuffsEntity
         $this->foodstuffWeights = serialize($collection->toArray());
     }
 
-    public function getFoodstuffNumberOfPieces(): ArrayCollection
+    public function getFoodstuffChoices(): ArrayCollection
     {
         $collection = new ArrayCollection();
-        foreach (unserialize($this->foodstuffNumberOfPieces) as $key => $value) {
+        foreach (unserialize($this->foodstuffChoices) as $key => $value) {
             $collection->set($key, $value);
         }
 
         return $collection;
     }
 
-    public function setFoodstuffNumberOfPieces(ArrayCollection $collection): void
+    public function setFoodstuffChoices(ArrayCollection $collection): void
     {
-        $this->foodstuffNumberOfPieces = serialize($collection->toArray());
+        $this->foodstuffChoices = serialize($collection->toArray());
     }
 
     public function roundToNearest(float $number, ArrayCollection $numberOfPieces, int $id): ArrayCollection
@@ -85,7 +85,7 @@ abstract class FoodstuffsEntity
         } else {
             $numberOfPieces[$id] = round($number);
         }
-        if (!in_array($numberOfPieces[$id], self::$foodstuffChoices)) {
+        if (!in_array($numberOfPieces[$id], self::$foodstuffChoicesArray)) {
             throw new InvalidArgumentException('The rounded value must exist in the piece choices.');
         }
 

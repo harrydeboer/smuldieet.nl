@@ -28,10 +28,14 @@ class FoodForm {
         html += '<td><i class="remove-row fa fa-minus"></i></td></tr>';
         html = this.removeLabel(html);
         if (foodType === 'recipe') {
-            $('#' + this.formName + '_recipeWeights___name__').val(1);
+            $('#' + this.formName + '_recipeChoices___name__').val(1);
         }
         $('#add-foodstuff-recipe-button-row').before(html);
-        $('#' + this.formName + '_' + foodType + 'Weights___name__').removeAttr('id');
+        if (foodType === 'recipe') {
+            $('#' + this.formName + '_recipeChoices___name__').removeAttr('id');
+        } else {
+            $('#' + this.formName + '_' + foodType + 'Weights___name__').removeAttr('id');
+        }
         event.preventDefault();
     }
 

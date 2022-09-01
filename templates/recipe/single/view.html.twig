@@ -102,7 +102,7 @@
                 <tr><td>{{ recipe.foodstuffs()[id].name }}</td>
                     <td>{{ weight|number_format }} g</td></tr>
             {% endfor %}
-            {% for id, weight in recipe.foodstuffNumberOfPieces %}
+            {% for id, weight in recipe.foodstuffChoices %}
                 <tr><td>{{ recipe.foodstuffs()[id].name }}</td>
                     <td>{{ weight }} {{ recipe.foodstuffs()[id].pieceName }}</td></tr>
             {% endfor %}

@@ -145,17 +145,17 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
             $weights = $day->getFoodstuffWeights();
             unset($weights[$foodstuff->getId()]);
             $day->setFoodstuffWeights($weights);
-            $numberOfPieces = $day->getFoodstuffNumberOfPieces();
+            $numberOfPieces = $day->getFoodstuffChoices();
             unset($numberOfPieces[$foodstuff->getId()]);
-            $day->getFoodstuffNumberOfPieces($numberOfPieces);
+            $day->setFoodstuffChoices($numberOfPieces);
         }
         foreach ($foodstuff->getRecipes() as $recipe) {
             $weights = $recipe->getFoodstuffWeights();
             unset($weights[$recipe->getId()]);
             $recipe->setFoodstuffWeights($weights);
-            $numberOfPieces = $recipe->getFoodstuffNumberOfPieces();
+            $numberOfPieces = $recipe->getFoodstuffChoices();
             unset($numberOfPieces[$recipe->getId()]);
-            $recipe->setFoodstuffNumberOfPieces($numberOfPieces);
+            $recipe->setFoodstuffChoices($numberOfPieces);
         }
         $this->em->remove($foodstuff);
         $this->em->flush();
@@ -202,20 +202,20 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
     private function replaceWeightWithPiece(FoodstuffsEntity $entity, Foodstuff $foodstuff): void
     {
         $weights = $entity->getFoodstuffWeights();
-        $entity->setFoodstuffNumberOfPieces($entity->roundToNearest($weights[$foodstuff->getId()] /
-            $foodstuff->getPieceWeight(), $entity->getFoodstuffNumberOfPieces(), $foodstuff->getId()));
+        $entity->setFoodstuffChoices($entity->roundToNearest($weights[$foodstuff->getId()] /
+            $foodstuff->getPieceWeight(), $entity->getFoodstuffChoices(), $foodstuff->getId()));
         unset($weights[$foodstuff->getId()]);
         $entity->setFoodstuffWeights($weights);
     }
 
     private function replacePieceWithWeight(FoodstuffsEntity $entity, Foodstuff $foodstuff, float $pieceWeightOld): void
     {
-        $numberOfPieces = $entity->getFoodstuffNumberOfPieces();
+        $numberOfPieces = $entity->getFoodstuffChoices();
         $weights = $entity->getFoodstuffWeights();
         $weights[$foodstuff->getId()] = $pieceWeightOld * $numberOfPieces[$foodstuff->getId()] / 4;
         $entity->setFoodstuffWeights($weights);
         unset($numberOfPieces[$foodstuff->getId()]);
-        $entity->setFoodstuffNumberOfPieces($numberOfPieces);
+        $entity->setFoodstuffChoices($numberOfPieces);
     }
 
     /**

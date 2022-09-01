@@ -18,11 +18,11 @@ class CookbookType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, ['attr' => ['class' => 'form-control']])
-            ->add('recipeNumberOfTimes', CollectionType::class, [
+            ->add('recipeChoices', CollectionType::class, [
                 'entry_type' => ChoiceType::class,
                 'allow_add' => true,
                 'entry_options' => [
-                    'choices' => Cookbook::$recipeChoices,
+                    'choices' => Cookbook::$recipeChoicesArray,
                     'attr' => ['class' => 'form-control food-weight hidden-input'],
                 ],
                 'allow_delete' => true,

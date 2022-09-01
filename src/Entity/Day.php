@@ -20,7 +20,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 ]
 class Day extends FoodstuffsEntity
 {
-    public static array $recipeChoices = [
+    public static array $recipeChoicesArray = [
         '¼' => 0.25,
         '½' => 0.5,
         '¾' => 0.75,
@@ -67,7 +67,7 @@ class Day extends FoodstuffsEntity
     private Collection $recipes;
 
     #[ORM\Column(type: "string")]
-    private string $recipeNumberOfTimes = 'a:0:{}';
+    private string $recipeChoices = 'a:0:{}';
 
     #[Pure] public function __construct()
     {
@@ -186,18 +186,18 @@ class Day extends FoodstuffsEntity
         $recipe->removeDay($this);
     }
 
-    public function getRecipeNumberOfTimes(): ArrayCollection
+    public function getRecipeChoices(): ArrayCollection
     {
         $collection = new ArrayCollection();
-        foreach (unserialize($this->recipeNumberOfTimes) as $key => $value) {
+        foreach (unserialize($this->recipeChoices) as $key => $value) {
             $collection->set($key, $value);
         }
 
         return $collection;
     }
 
-    public function setRecipeNumberOfTimes(ArrayCollection $collection): void
+    public function setRecipeChoices(ArrayCollection $collection): void
     {
-        $this->recipeNumberOfTimes = serialize($collection->toArray());
+        $this->recipeChoices = serialize($collection->toArray());
     }
 }

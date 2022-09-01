@@ -29,11 +29,11 @@ class StandardDayType extends AbstractType
                 'allow_delete' => true,
                 'delete_empty' => true,
             ])
-            ->add('foodstuffNumberOfPieces', CollectionType::class, [
+            ->add('foodstuffChoices', CollectionType::class, [
                 'entry_type' => ChoiceType::class,
                 'allow_add' => true,
                 'entry_options' => [
-                    'choices' => Day::$foodstuffChoices,
+                    'choices' => Day::$foodstuffChoicesArray,
                     'attr' => [
                         'class' => 'form-control food-weight form-select',
                     ],
@@ -41,11 +41,11 @@ class StandardDayType extends AbstractType
                 'allow_delete' => true,
                 'delete_empty' => true,
             ])
-            ->add('recipeNumberOfTimes', CollectionType::class, [
+            ->add('recipeChoices', CollectionType::class, [
                 'entry_type' => ChoiceType::class,
                 'allow_add' => true,
                 'entry_options' => [
-                    'choices' => Day::$recipeChoices,
+                    'choices' => Day::$recipeChoicesArray,
                     'attr' => [
                         'placeholder' => 'aantal keer',
                         'class' => 'form-control food-weight',

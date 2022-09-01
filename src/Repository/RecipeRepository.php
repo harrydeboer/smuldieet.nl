@@ -187,7 +187,7 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
             $recipe->addFoodstuff($foodstuff);
         }
 
-        foreach ($recipe->getFoodstuffNumberOfPieces() as $id => $weight) {
+        foreach ($recipe->getFoodstuffChoices() as $id => $weight) {
             $foodstuff = $this->foodstuffRepository->get($id);
             $recipe->addFoodstuff($foodstuff);
         }

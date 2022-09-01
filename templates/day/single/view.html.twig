@@ -13,7 +13,7 @@
                 <td>{{ weight|number_format }} g</td>
             </tr>
         {% endfor %}
-        {% for id, weight in day.foodstuffNumberOfPieces %}
+        {% for id, weight in day.foodstuffChoices %}
             <tr>
                 <td>{{ day.foodstuffs()[id].name }}</td>
                 <td>{{ weight }} {{ day.foodstuffs()[id].pieceName }}</td>
@@ -23,7 +23,7 @@
             {% set rowNumberRecipe = rowNumber + day.foodstuffs.count %}
             <tr id="row{{ rowNumberRecipe + 1 }}">
                 <td>{{ recipe.title }}</td>
-                <td>{{ day.recipeWeights[recipe.id]|number_format }}</td>
+                <td>{{ day.recipeChoices[recipe.id]|number_format }}</td>
             </tr>
         {% endfor %}
         <tr><td colspan="2"><a href="{{ path('dayEdit', {'id': day.id}) }}">wijzig</a></td></tr>
