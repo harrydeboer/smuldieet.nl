@@ -212,7 +212,7 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
     {
         $numberOfPieces = $entity->getFoodstuffChoices();
         $weights = $entity->getFoodstuffWeights();
-        $weights[$foodstuff->getId()] = $pieceWeightOld * $numberOfPieces[$foodstuff->getId()] / 4;
+        $weights[$foodstuff->getId()] = $pieceWeightOld * $numberOfPieces[$foodstuff->getId()];
         $entity->setFoodstuffWeights($weights);
         unset($numberOfPieces[$foodstuff->getId()]);
         $entity->setFoodstuffChoices($numberOfPieces);
