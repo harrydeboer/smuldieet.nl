@@ -62,8 +62,11 @@ class RecipeFilterAndSortType extends AbstractType
                 ],
             ]);
         foreach (Recipe::DIET_CHOICES as $choice) {
-            $builder->add($choice, CheckboxType::class, ['required' => false,
-                'attr' => ['class' => 'form-check-input']]);
+            $builder->add($choice, CheckboxType::class, [
+                'required' => false,
+                'label_attr' => ['class' => 'form-check-label'],
+                'attr' => ['class' => 'form-check-input'],
+                ]);
         }
         $builder->add('sort', ChoiceType::class, [
             'choices' => [

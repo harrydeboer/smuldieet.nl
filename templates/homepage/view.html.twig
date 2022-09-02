@@ -41,11 +41,9 @@
                     <div class="form-control form-select" id="diet-filter" role="button"
                          data-bs-toggle="dropdown" aria-expanded="false">Dieet</div>
                     <table class="dropdown-menu dropdown-diet" aria-labelledby="diet-filter">
-                        {% for key,choice in dietChoices %}
-                            <tr><td><label class="form-check-label"
-                                           for="diet{{ key|replace({' ':''}) }}">{{ key }}</label></td>
-                                <td>{{ form_widget(attribute(form, choice),
-                                        {'id': 'diet'~key|replace({' ':''})}) }}</td></tr>
+                        {% for key, choice in dietChoices %}
+                            <tr><td>{{ form_label(attribute(form, choice)) }}</td>
+                                <td>{{ form_widget(attribute(form, choice)) }}</td></tr>
                         {% endfor %}
                     </table>
                 </div>
