@@ -162,8 +162,8 @@ class Recipe extends FoodstuffsEntity
         ORM\Column(type: "string", unique: true),
         Assert\NotBlank(message: 'De titel mag niet leeg zijn.'),
         Assert\Length(max: 255, maxMessage: 'De titel mag niet meer dan 255 tekens hebben.'),
-        Assert\Regex(pattern: "/^[A-Za-zÀ-ÿ0-9\s_\-,.%\/\(\)\+<>'\"]+$/",
-            message: "Toegestane tekens zijn letters, cijfers, spaties en _-,.%/()+<>'\"."),
+        Assert\Regex(pattern: "/^[A-Za-zÀ-ÿ0-9\s_\-,.%&\/\(\)\+<>'\"]+$/",
+            message: "Toegestane tekens zijn letters, cijfers, spaties en _-,.%&/()+<>'\"."),
     ]
     private string $title;
 
