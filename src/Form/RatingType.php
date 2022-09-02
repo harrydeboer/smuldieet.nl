@@ -16,9 +16,9 @@ class RatingType extends AbstractType
             ->add('rating', ChoiceType::class, [
                 'choices' => [1,2,3,4,5,6,7,8,9,10],
                 'expanded' => true,
-                'attr' => [
-                    'class' => 'form-control',
-                ],
+                'choice_attr' => function() {
+                    return ['class' => 'radio-star'];
+                },
             ]);
     }
 }

@@ -19,7 +19,7 @@
                         <div id="rating-div">
                             {% set count = 9 %}
                             {% for index, choice in form.rating|reverse %}
-                                {{ form_widget(choice, {'attr': {'class': 'radio-star'}}) }}
+                                {{ form_widget(choice) }}
                                 <label for="rating_rating_{{ count }}">
                                     <i class="far fa-star fa-star-form"> </i></label>
                                 {% set count = count - 1 %}
