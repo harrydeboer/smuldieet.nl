@@ -74,7 +74,7 @@
 <br>
 <div class="dropdown">
     <div class="form-control form-select" role="button"
-         data-bs-toggle="dropdown" aria-expanded="false">Selecteer dieet</div>
+         data-bs-toggle="dropdown" aria-expanded="false">Dieet</div>
     <table class="dropdown-menu dropdown-diet" aria-labelledby="diet-filter">
         {% for key,choice in constant('DIET_CHOICES', recipe) %}
             <tr><td><label class="form-check-label" for="diet{{ key|replace({' ':''}) }}">{{ key }}</label></td>

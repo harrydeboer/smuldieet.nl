@@ -34,12 +34,13 @@ class CombineFoodstuffsService
         foreach ($formData['foodstuffWeights'] as $id => $weight) {
             $foodstuffForm = $this->foodstuffRepository->get($id);
             foreach ($properties as $property) {
-                if (is_null($foodstuff->{'get' . ucfirst($property)}())) {
-                    $foodstuff->{'set' . ucfirst($property)}(0);
+                if (is_null($foodstuffForm->{'get' . ucfirst($property)}())) {
+                    continue;
+                } else {
+                    $foodstuff->{'set' . ucfirst($property)}($foodstuff->{'get' . ucfirst($property)}() +
+                        $foodstuffForm->{'get' . ucfirst($property)}()
+                        * $formData['foodstuffWeights'][$id] / $sum);
                 }
-                $foodstuff->{'set' . ucfirst($property)}($foodstuff->{'get' . ucfirst($property)}() +
-                    $foodstuffForm->{'get' . ucfirst($property)}()
-                    * $formData['foodstuffWeights'][$id] / $sum);
             }
         }
 

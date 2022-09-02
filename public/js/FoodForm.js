@@ -114,6 +114,8 @@ class FoodForm {
         row.getName().val(name);
         if (this.formName !== 'foodstuff_from_foodstuffs' && foodType === 'foodstuff') {
             this.replaceWeight(pieceWeight, pieceName, id, row);
+        } else if (foodType === 'recipe') {
+            row.getWeight().attr('name', this.formName + '[' + foodType + 'Choices][' + id + ']');
         } else {
             row.getWeight().attr('name', this.formName + '[' + foodType + 'Weights][' + id + ']');
         }

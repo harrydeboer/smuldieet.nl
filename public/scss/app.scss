@@ -136,11 +136,11 @@ body {
 
 @media (min-width: 500px) {
   #filter-sort-div #typeOfDish, #cookingTime, #kitchen, #occasion, #diet, #diet-filter, #sort {
-    width: 140px;
+    width: 145px;
   }
 }
 
-@media (min-width: 830px) {
+@media (min-width: 870px) {
   #filter-sort-div #typeOfDish, #cookingTime, #kitchen, #occasion, #diet, #diet-filter, #sort {
     display: inline;
   }

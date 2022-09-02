@@ -29,7 +29,7 @@ class RecipeFilterAndSortType extends AbstractType
             ->add('typeOfDish', ChoiceType::class, [
                 'choices' => array_combine(Recipe::TYPE_OF_DISH, Recipe::TYPE_OF_DISH),
                 'required' => false,
-                'placeholder' => 'gang',
+                'placeholder' => 'Gang',
                 'invalid_message' => 'Geen geldig type gerecht.',
                 'attr' => [
                     'class' => 'form-control form-select',
@@ -38,7 +38,7 @@ class RecipeFilterAndSortType extends AbstractType
             ->add('cookingTime', ChoiceType::class, [
                 'choices' => array_combine(Recipe::COOKING_TIMES, Recipe::COOKING_TIMES),
                 'required' => false,
-                'placeholder' => 'tijd',
+                'placeholder' => 'Tijd',
                 'invalid_message' => 'Geen geldige bereidingstijd.',
                 'attr' => [
                     'class' => 'form-control form-select',
@@ -47,14 +47,14 @@ class RecipeFilterAndSortType extends AbstractType
             ->add('kitchen', ChoiceType::class, [
                 'choices' => array_combine(Recipe::KITCHEN, Recipe::KITCHEN),
                 'required' => false,
-                'placeholder' => 'keuken',
+                'placeholder' => 'Keuken',
                 'invalid_message' => 'Geen geldige keuken.',
                 'attr' => [
                     'class' => 'form-control form-select',
                 ],
             ])
             ->add('occasion', ChoiceType::class, [
-                'placeholder' => 'gelegenheid',
+                'placeholder' => 'Gelegenheid',
                 'choices' => array_combine(Recipe::OCCASION,Recipe::OCCASION),
                 'invalid_message' => 'Geen geldige gelegenheid.',
                 'required' => false,
@@ -73,7 +73,7 @@ class RecipeFilterAndSortType extends AbstractType
                 'waardering aflopend' => 'rating_DESC',
                 'waardering oplopend' => 'rating_ASC' ,
             ],
-            'placeholder' => 'sortering',
+            'placeholder' => 'Sortering',
             'invalid_message' => 'Geen geldige sortering.',
             'required' => false,
             'attr' => [
