@@ -51,14 +51,11 @@ class RegistrationType extends AbstractType
             ->add('birthdate', DateType::class, [
                 'years' => $years,
                 'placeholder' => ['day' => 'dag', 'month' => 'maand', 'year' => 'jaar'],
-                'attr' => [
-                    'class' => 'form-control form-select',
-                ],
             ])
             ->add('gender', ChoiceType::class, [
                 'choices' => array_combine(User::GENDER, User::GENDER),
                 'expanded' => true,
-                'attr' => ['class' => 'form-control']
+                'attr' => ['class' => 'form-control gender-field']
             ])
             ->add('weight', NumberType::class, ['attr' => ['class' => 'form-control']])
             ->add('plainPassword', RepeatedType::class, [

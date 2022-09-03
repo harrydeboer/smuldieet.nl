@@ -66,7 +66,14 @@ body {
 
 .table-small {
   width: 100%;
+}
 
+.food-table td:nth-child(2) {
+  width: 100px;
+}
+
+.food-table td:nth-child(4) {
+  width: 30px;
 }
 
 @media (min-width: 768px) {
@@ -259,32 +266,17 @@ body {
 }
 
 /* User page */
-#registration_birthdate_day {
-  width: 100%;
-}
-#registration_birthdate_month {
-  width: 100%;
-}
-#registration_birthdate_year {
+.date-field {
   width: 100%;
 }
 
-#registration_gender {
+.gender-field {
   white-space: nowrap;
 }
 
 @media (min-width: 550px) {
-  #registration_birthdate_day, #registration_birthdate_month, #registration_birthdate_year {
+  .date-field {
     display: inline;
-  }
-
-  #registration_birthdate_day {
-    width: 32%;
-  }
-  #registration_birthdate_month {
-    width: 32%;
-  }
-  #registration_birthdate_year {
     width: 32%;
   }
 }
