@@ -70,9 +70,12 @@ class RecipeController extends Controller
                 }
                 $this->recipeRepository->update($recipe);
 
-                $recipe->moveImage($this->getParameter('kernel.environment'),
+                $recipe->moveImage(
+                    $this->getParameter('kernel.environment'),
                     $this->getParameter('kernel.project_dir'),
-                    $formUpdate->get('image')->getData(), $oldExtension);
+                    $formUpdate->get('image')->getData(),
+                    $oldExtension,
+                );
 
                 return $this->redirectToRoute('recipe');
             } catch (Exception $exception) {
@@ -102,8 +105,11 @@ class RecipeController extends Controller
                     throw new Exception('De voedingsmiddelen van het gerecht mogen niet leeg zijn.');
                 }
                 $this->recipeRepository->create($recipe);
-                $recipe->moveImage($this->getParameter('kernel.environment'),
-                    $this->getParameter('kernel.project_dir'), $form->get('image')->getData());
+                $recipe->moveImage(
+                    $this->getParameter('kernel.environment'),
+                    $this->getParameter('kernel.project_dir'),
+                    $form->get('image')->getData(),
+                );
 
                 return $this->redirectToRoute('recipe');
             } catch (Exception $exception) {
@@ -127,8 +133,10 @@ class RecipeController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $recipe->unlinkImage($this->getParameter('kernel.environment'),
-                $this->getParameter('kernel.project_dir'));
+            $recipe->unlinkImage(
+                $this->getParameter('kernel.environment'),
+                $this->getParameter('kernel.project_dir'),
+            );
             $this->recipeRepository->delete($recipe);
         }
 

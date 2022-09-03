@@ -34,7 +34,10 @@ class DayController extends AuthController
     public function view(int $page): Response
     {
         $days = $this->dayRepository->findFromUserSorted($this->getUser()->getId(), $page);
-        $dayStandard = $this->dayRepository->findOneBy(['user' => $this->getUser()->getId(), 'timestamp' => null]);
+        $dayStandard = $this->dayRepository->findOneBy([
+            'user' => $this->getUser()->getId(),
+            'timestamp' => null,
+        ]);
 
         return $this->render('day/view.html.twig', [
             'paginator' => $days,
@@ -47,7 +50,10 @@ class DayController extends AuthController
     public function edit(Request $request, int $id): Response
     {
         $day = $this->getDay($id);
-        $dayStandard = $this->dayRepository->findOneBy(['user' => $this->getUser()->getId(), 'timestamp' => null]);
+        $dayStandard = $this->dayRepository->findOneBy([
+            'user' => $this->getUser()->getId(),
+            'timestamp' => null,
+        ]);
 
         if (is_null($day->getTimestamp())) {
             $formUpdate = $this->createForm(StandardDayType::class, $day, [
@@ -91,7 +97,10 @@ class DayController extends AuthController
     public function new(Request $request): Response
     {
         $day = new Day();
-        $dayStandard = $this->dayRepository->findOneBy(['user' => $this->getUser()->getId(), 'timestamp' => null]);
+        $dayStandard = $this->dayRepository->findOneBy([
+            'user' => $this->getUser()->getId(),
+            'timestamp' => null,
+        ]);
         $form = $this->createForm(DayType::class, $day);
         $day->setUser($this->getUser());
         $form->handleRequest($request);
@@ -127,7 +136,10 @@ class DayController extends AuthController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $dayStandard = $this->dayRepository->findOneBy(['user' => $this->getUser()->getId(), 'timestamp' => null]);
+            $dayStandard = $this->dayRepository->findOneBy([
+                'user' => $this->getUser()->getId(),
+                'timestamp' => null,
+            ]);
 
             if (!is_null($dayStandard)) {
                 throw new BadRequestException('There can only be one standard day.');

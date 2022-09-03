@@ -31,11 +31,17 @@ class FoodstuffFactory extends AbstractFactory
             $foodstuff->$method($this->randomNutritionalValue());
         }
         $foodstuff->setSucre($foodstuff->getCarbohydrates());
-        $energy = $foodstuff->getCarbohydrates() * 4 + $foodstuff->getProtein() * 4 +
-            $foodstuff->getFat() * 9 + $foodstuff->getAlcohol() * 7 + $foodstuff->getDietaryFiber() * 2;
+        $energy = $foodstuff->getCarbohydrates() * 4
+            + $foodstuff->getProtein() * 4
+            + $foodstuff->getFat() * 9
+            + $foodstuff->getAlcohol() * 7
+            + $foodstuff->getDietaryFiber() * 2;
         $foodstuff->setEnergyKcal($energy);
-        $weight = $foodstuff->getFat() + $foodstuff->getCarbohydrates() + $foodstuff->getProtein() +
-            $foodstuff->getDietaryFiber() + $foodstuff->getSalt();
+        $weight = $foodstuff->getFat()
+            + $foodstuff->getCarbohydrates()
+            + $foodstuff->getProtein()
+            + $foodstuff->getDietaryFiber()
+            + $foodstuff->getSalt();
         $foodstuff->setWater(100 - $weight);
 
         $this->setParams($params, $foodstuff);

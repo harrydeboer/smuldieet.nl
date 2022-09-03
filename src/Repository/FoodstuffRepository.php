@@ -68,8 +68,8 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
             ->setParameter('userId', $userId)
             ->setMaxResults(10)
             ->addSelect("(CASE WHEN f.name like '" . $name . " %' THEN 0 WHEN f.name like '" . $name . "%' " .
-                "THEN 1 WHEN f.name like '%" . $name . "%' THEN 2 ELSE 3 END) AS HIDDEN ORD ");
-        $qb->orderBy('ORD', 'ASC');
+                "THEN 1 WHEN f.name like '%" . $name . "%' THEN 2 ELSE 3 END) AS HIDDEN ORD ")
+            ->orderBy('ORD', 'ASC');
 
         $query = $qb->getQuery();
 
@@ -112,26 +112,27 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
     }
 
     /**
+     * When a foodstuff gets a piece weight or loses a piece weight the day and recipe weight and choices are updated.
      * @throws Exception
      */
     public function update(Foodstuff $foodstuff, ?float $pieceWeightOld): void
     {
         if (is_null($pieceWeightOld) && !is_null($foodstuff->getPieceWeight())) {
             foreach ($foodstuff->getDays() as $day) {
-                $this->replaceWeightWithPiece($day, $foodstuff);
+                $this->replaceWeightWithChoice($day, $foodstuff);
             }
             foreach ($foodstuff->getRecipes() as $recipe) {
-                $this->replaceWeightWithPiece($recipe, $foodstuff);
+                $this->replaceWeightWithChoice($recipe, $foodstuff);
             }
         } elseif (!is_null($pieceWeightOld) && is_null($foodstuff->getPieceWeight())) {
             if (!is_null($foodstuff->getPieceName())) {
                 throw new Exception('No piece name allowed when there is no piece weight.');
             }
             foreach ($foodstuff->getDays() as $day) {
-                $this->replacePieceWithWeight($day, $foodstuff, $pieceWeightOld);
+                $this->replaceChoiceWithWeight($day, $foodstuff, $pieceWeightOld);
             }
             foreach ($foodstuff->getRecipes() as $recipe) {
-                $this->replacePieceWithWeight($recipe, $foodstuff, $pieceWeightOld);
+                $this->replaceChoiceWithWeight($recipe, $foodstuff, $pieceWeightOld);
             }
         }
         $this->checkFirstChar($foodstuff->getName());
@@ -139,23 +140,26 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
         $this->em->flush();
     }
 
+    /**
+     * When a foodstuff is deleted the weights and choices properties of day and recipe are updated.
+     */
     public function delete(Foodstuff $foodstuff): void
     {
         foreach ($foodstuff->getDays() as $day) {
             $weights = $day->getFoodstuffWeights();
             unset($weights[$foodstuff->getId()]);
             $day->setFoodstuffWeights($weights);
-            $numberOfPieces = $day->getFoodstuffChoices();
-            unset($numberOfPieces[$foodstuff->getId()]);
-            $day->setFoodstuffChoices($numberOfPieces);
+            $choices = $day->getFoodstuffChoices();
+            unset($choices[$foodstuff->getId()]);
+            $day->setFoodstuffChoices($choices);
         }
         foreach ($foodstuff->getRecipes() as $recipe) {
             $weights = $recipe->getFoodstuffWeights();
             unset($weights[$recipe->getId()]);
             $recipe->setFoodstuffWeights($weights);
-            $numberOfPieces = $recipe->getFoodstuffChoices();
-            unset($numberOfPieces[$recipe->getId()]);
-            $recipe->setFoodstuffChoices($numberOfPieces);
+            $choices = $recipe->getFoodstuffChoices();
+            unset($choices[$recipe->getId()]);
+            $recipe->setFoodstuffChoices($choices);
         }
         $this->em->remove($foodstuff);
         $this->em->flush();
@@ -199,7 +203,7 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
         }
     }
 
-    private function replaceWeightWithPiece(FoodstuffsEntity $entity, Foodstuff $foodstuff): void
+    private function replaceWeightWithChoice(FoodstuffsEntity $entity, Foodstuff $foodstuff): void
     {
         $weights = $entity->getFoodstuffWeights();
         $entity->setFoodstuffChoices($entity->roundToNearest($weights[$foodstuff->getId()] /
@@ -208,14 +212,18 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
         $entity->setFoodstuffWeights($weights);
     }
 
-    private function replacePieceWithWeight(FoodstuffsEntity $entity, Foodstuff $foodstuff, float $pieceWeightOld): void
+    private function replaceChoiceWithWeight(
+        FoodstuffsEntity $entity,
+        Foodstuff $foodstuff,
+        float $pieceWeightOld,
+    ): void
     {
-        $numberOfPieces = $entity->getFoodstuffChoices();
+        $choices = $entity->getFoodstuffChoices();
         $weights = $entity->getFoodstuffWeights();
-        $weights[$foodstuff->getId()] = $pieceWeightOld * $numberOfPieces[$foodstuff->getId()];
+        $weights[$foodstuff->getId()] = $pieceWeightOld * $choices[$foodstuff->getId()];
         $entity->setFoodstuffWeights($weights);
-        unset($numberOfPieces[$foodstuff->getId()]);
-        $entity->setFoodstuffChoices($numberOfPieces);
+        unset($choices[$foodstuff->getId()]);
+        $entity->setFoodstuffChoices($choices);
     }
 
     /**

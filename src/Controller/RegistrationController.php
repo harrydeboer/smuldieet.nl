@@ -59,8 +59,11 @@ class RegistrationController extends Controller
             $this->tokenStorage->setToken($token);
 
             try {
-                $user->moveImage($this->getParameter('kernel.environment'),
-                    $this->getParameter('kernel.project_dir'), $form->get('image')->getData());
+                $user->moveImage(
+                    $this->getParameter('kernel.environment'),
+                    $this->getParameter('kernel.project_dir'),
+                    $form->get('image')->getData(),
+                );
 
                 return $this->redirectToRoute('homepage');
             } catch (Exception $exception) {

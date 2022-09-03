@@ -114,7 +114,7 @@ trait UploadImageTrait
             } elseif ($extension === 'webp') {
                 $image = imagecreatefromwebp($path);
             } else {
-                throw new Exception('Geef alstublieft een geldig plaatje ' .
+                throw new Exception('Geef alsjeblieft een geldig plaatje ' .
                     '(png, jp(eg), j(f)if, gif, bmp of webp).');
             }
             $x = imagesx($image);
@@ -137,7 +137,7 @@ trait UploadImageTrait
                 } elseif ($extension === 'webp') {
                     imagewebp($dst, $path);
                 } else {
-                    throw new Exception('Geef alstublieft een geldig plaatje ' .
+                    throw new Exception('Geef alsjeblieft een geldig plaatje ' .
                         '(png, jp(eg), j(f)if, gif, bmp of webp).');
                 }
                 imagedestroy($dst);

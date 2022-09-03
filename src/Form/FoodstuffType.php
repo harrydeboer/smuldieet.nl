@@ -16,11 +16,22 @@ class FoodstuffType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name', TextType::class, ['attr' => ['class' => 'form-control']])
-            ->add('pieceWeight', NumberType::class, ['required' => false, 'attr' => ['class' => 'form-control']])
-            ->add('pieceName', TextType::class, ['required' => false, 'attr' => ['class' => 'form-control']]);
+            ->add('name', TextType::class, [
+                'attr' => ['class' => 'form-control'],
+            ])
+            ->add('pieceWeight', NumberType::class, [
+                'required' => false,
+                'attr' => ['class' => 'form-control'],
+            ])
+            ->add('pieceName', TextType::class, [
+                'required' => false,
+                'attr' => ['class' => 'form-control'],
+            ]);
         foreach (Foodstuff::getADH() as $key => $property) {
-            $builder->add($key, NumberType::class, ['required' => false, 'attr' => ['class' => 'form-control']]);
+            $builder->add($key, NumberType::class, [
+                'required' => false,
+                'attr' => ['class' => 'form-control'],
+            ]);
         }
         $builder->add('submit', SubmitType::class, [
             'attr' => ['class' => 'btn btn-success'],

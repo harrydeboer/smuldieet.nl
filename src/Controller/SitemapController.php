@@ -47,7 +47,8 @@ class SitemapController extends Controller
         $pageSlugs = ['/'];
 
         foreach ($this->pageRepository->findAll() as $page) {
-            if ($page->getSlug() === 'home'
+            if (
+                $page->getSlug() === 'home'
                 || $page->getSlug() === 'dagen'
                 || $page->getSlug() === 'kookboeken'
                 || $page->getSlug() === 'overzicht'

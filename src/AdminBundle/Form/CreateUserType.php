@@ -15,8 +15,14 @@ class CreateUserType extends RegistrationType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('firstName', TextType::class, ['required' => false, 'attr' => ['class' => 'form-control']])
-            ->add('lastName', TextType::class, ['required' => false, 'attr' => ['class' => 'form-control']])
+            ->add('firstName', TextType::class, [
+                'required' => false,
+                'attr' => ['class' => 'form-control'],
+            ])
+            ->add('lastName', TextType::class, [
+                'required' => false,
+                'attr' => ['class' => 'form-control'],
+            ])
             ->add('roles', ChoiceType::class, [
                 'placeholder' => 'selecteer rol',
                 'expanded' => true,

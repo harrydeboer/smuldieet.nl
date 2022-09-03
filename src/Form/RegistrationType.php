@@ -40,14 +40,18 @@ class RegistrationType extends AbstractType
 
                         ],
                         'maxSizeMessage' => 'De foto mag maximaal 4Mb zijn.',
-                        'mimeTypesMessage' => 'Geef alstublieft een geldig plaatje (png, jp(eg), ' .
+                        'mimeTypesMessage' => 'Geef alsjeblieft een geldig plaatje (png, jp(eg), ' .
                             'j(f)if, gif, bmp of webp).',
                     ])
                 ],
                 'required' => false,
             ])
-            ->add('username', TextType::class, ['attr' => ['class' => 'form-control']])
-            ->add('email', EmailType::class, ['attr' => ['class' => 'form-control']])
+            ->add('username', TextType::class, [
+                'attr' => ['class' => 'form-control'],
+            ])
+            ->add('email', EmailType::class, [
+                'attr' => ['class' => 'form-control'],
+            ])
             ->add('birthdate', DateType::class, [
                 'years' => $years,
                 'placeholder' => ['day' => 'dag', 'month' => 'maand', 'year' => 'jaar'],
@@ -57,7 +61,9 @@ class RegistrationType extends AbstractType
                 'expanded' => true,
                 'attr' => ['class' => 'form-control gender-field']
             ])
-            ->add('weight', NumberType::class, ['attr' => ['class' => 'form-control']])
+            ->add('weight', NumberType::class, [
+                'attr' => ['class' => 'form-control'],
+            ])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'first_options' => ['label' => 'Password', 'attr' => ['class' => 'form-control']],

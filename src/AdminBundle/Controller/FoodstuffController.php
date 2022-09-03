@@ -54,12 +54,21 @@ class FoodstuffController extends AuthController
         $formUpdate->handleRequest($request);
 
         if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
+
+            /**
+             * Check if a foodstuff of a user with the same name already exists.
+             * When the user is null then the foodstuff name must be unique as well.
+             */
             if (is_null($foodstuff->getUser())) {
-                $foodstuffSameName = $this->foodstuffRepository->findOneBy(['user' => null,
-                    'name' => $foodstuff->getName()]);
+                $foodstuffSameName = $this->foodstuffRepository->findOneBy([
+                    'user' => null,
+                    'name' => $foodstuff->getName(),
+                    ]);
             } else {
-                $foodstuffSameName = $this->foodstuffRepository->findOneBy(['user' => $foodstuff->getUser()->getId(),
-                    'name' => $foodstuff->getName()]);
+                $foodstuffSameName = $this->foodstuffRepository->findOneBy([
+                    'user' => $foodstuff->getUser()->getId(),
+                    'name' => $foodstuff->getName(),
+                    ]);
             }
 
             try {

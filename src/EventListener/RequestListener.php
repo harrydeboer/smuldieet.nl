@@ -12,7 +12,9 @@ class RequestListener
     {
         $response = $event->getResponse();
 
-        // Set multiple headers simultaneously
+        /**
+         * Set the Content Security Policy header.
+         */
         $response->headers->set(
             'Content-Security-Policy', "default-src 'self'; style-src 'self' " .
             "https://fonts.googleapis.com/css2 " .

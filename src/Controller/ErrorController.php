@@ -25,7 +25,6 @@ class ErrorController extends Controller
         if (method_exists($exception, 'getStatusCode')) {
             $statusCodeString = (string) $exception->getStatusCode();
 
-
             /**
              * When the exception is because of no verification then send
              * the user to the sendVerificationEmailAgain route.
@@ -36,9 +35,11 @@ class ErrorController extends Controller
 
             $templatePath = 'error/' . $statusCodeString . '.html.twig';
             if ($this->environment->getLoader()->exists($templatePath)) {
-                return $this->render($templatePath, [
-                    'message' => $exception->getMessage(),
-                ], new Response('', (int) $statusCodeString));
+                return $this->render(
+                    $templatePath,
+                    ['message' => $exception->getMessage()],
+                    new Response('', (int) $statusCodeString),
+                );
             }
         }
 

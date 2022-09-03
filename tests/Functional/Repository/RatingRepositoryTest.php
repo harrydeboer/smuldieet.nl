@@ -14,7 +14,9 @@ class RatingRepositoryTest extends KernelTestCase
     {
         $rating = static::getContainer()->get(RatingFactory::class)->create(['pending' => false]);
         $reviewPending = static::getContainer()->get(RatingFactory::class)->create([
-            'pending' => true, 'content' => 'test']);
+            'pending' => true,
+            'content' => 'test',
+        ]);
         $oldRating = $rating->getRating();
 
         $ratingRepository = static::getContainer()->get(RatingRepositoryInterface::class);

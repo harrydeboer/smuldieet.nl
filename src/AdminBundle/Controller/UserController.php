@@ -61,9 +61,12 @@ class UserController extends AuthController
                     $this->userRepository->upgradePassword($user, $formUpdate->get('plainPassword')->getData());
                 }
 
-                $user->moveImage($this->getParameter('kernel.environment'),
+                $user->moveImage(
+                    $this->getParameter('kernel.environment'),
                     $this->getParameter('kernel.project_dir'),
-                    $formUpdate->get('image')->getData(), $oldExtension);
+                    $formUpdate->get('image')->getData(),
+                    $oldExtension,
+                );
 
                 return $this->redirectToRoute('adminUser');
             } catch (Exception $exception) {
@@ -87,8 +90,11 @@ class UserController extends AuthController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $this->userRepository->create($user, $form->get('plainPassword')->getData());
-                $user->moveImage($this->getParameter('kernel.environment'),
-                    $this->getParameter('kernel.project_dir'), $form->get('image')->getData());
+                $user->moveImage(
+                    $this->getParameter('kernel.environment'),
+                    $this->getParameter('kernel.project_dir'),
+                    $form->get('image')->getData(),
+                );
 
                 return $this->redirectToRoute('adminUser');
             } catch (Exception $exception) {
@@ -108,8 +114,10 @@ class UserController extends AuthController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->unlinkImage($this->getParameter('kernel.environment'),
-                $this->getParameter('kernel.project_dir'));
+            $user->unlinkImage(
+                $this->getParameter('kernel.environment'),
+                $this->getParameter('kernel.project_dir'),
+            );
             $this->userRepository->delete($user);
         }
 

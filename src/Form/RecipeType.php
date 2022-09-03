@@ -35,18 +35,24 @@ class RecipeType extends AbstractType
                             'image/*',
                         ],
                         'maxSizeMessage' => 'De Afbeelding mag maximaal 4Mb zijn.',
-                        'mimeTypesMessage' => 'Geef alstublieft een geldig plaatje (png, jp(eg), ' .
+                        'mimeTypesMessage' => 'Geef alsjeblieft een geldig plaatje (png, jp(eg), ' .
                             'j(f)if, gif, bmp of webp).',
                     ])
                 ],
                 'required' => false,
             ])
-            ->add('title', TextType::class, ['attr' => ['class' => 'form-control']])
-            ->add('url', TextType::class, ['required' => false, 'attr' => ['class' => 'form-control']])
-            ->add('ingredients', TextareaType::class, ['attr' => [
-                'class' => 'form-control',
-                'rows' => 10,
-            ]])
+            ->add('title', TextType::class, [
+                'attr' => ['class' => 'form-control'],
+            ])
+            ->add('url', TextType::class, [
+                'required' => false,
+                'attr' => ['class' => 'form-control'],
+            ])
+            ->add('ingredients', TextareaType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'rows' => 10,
+                ]])
             ->add('preparationMethod', TextareaType::class, ['attr' => [
                 'class' => 'form-control',
                 'rows' => 10,
@@ -57,19 +63,29 @@ class RecipeType extends AbstractType
                     'class' => 'form-control',
                     'rows' => 10,
                 ]])
-            ->add('niceTips', TextareaType::class, ['required' => false, 'attr' => [
-                'class' => 'form-control',
-                'rows' => 10,
-            ]])
-            ->add('toolsAndKitchenware', TextareaType::class, ['required' => false, 'attr' => [
-                'class' => 'form-control',
-                'rows' => 10,
-            ]])
-            ->add('numberOfPersons', IntegerType::class, ['attr' => ['class' => 'form-control']])
-            ->add('numberOfPieces', IntegerType::class, ['required' => false,
-                'attr' => ['class' => 'form-control']])
-            ->add('source', TextType::class, ['required' => false,
-                'attr' => ['class' => 'form-control']])
+            ->add('niceTips', TextareaType::class, [
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                    'rows' => 10,
+                ]])
+            ->add('toolsAndKitchenware', TextareaType::class, [
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                    'rows' => 10,
+                ]])
+            ->add('numberOfPersons', IntegerType::class, [
+                'attr' => ['class' => 'form-control'],
+            ])
+            ->add('numberOfPieces', IntegerType::class, [
+                'required' => false,
+                'attr' => ['class' => 'form-control'],
+            ])
+            ->add('source', TextType::class, [
+                'required' => false,
+                'attr' => ['class' => 'form-control'],
+            ])
             ->add('isSelfInvented', ChoiceType::class, [
                 'choices' => ['ja' => true, 'nee' => false],
                 'expanded' => true,

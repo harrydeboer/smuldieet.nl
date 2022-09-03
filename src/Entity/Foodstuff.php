@@ -817,8 +817,9 @@ class Foodstuff
         if (!in_array($gender, User::GENDER)) {
             throw new InvalidArgumentException('Gender has to be man or vrouw.');
         }
+
         /**
-         * Gives min and max of nutritional values.
+         * Gives min and max of nutritional values, gives the unit, the Dutch name and number of decimals.
          */
         $adhArray = [
             'energyKcal' => [2500, 2500, 'kcal', 'Energie', 0],

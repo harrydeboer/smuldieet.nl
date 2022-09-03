@@ -20,6 +20,10 @@ class StatsService
         unset($stats['molybdenum']);
         unset($stats['chromium']);
 
+        /**
+         * Add the day weights and choice food values in the stats array.
+         * This is also done for the recipes of the days.
+         */
         foreach ($days as $day) {
             foreach ($day->getFoodstuffWeights() as $id => $weight) {
                 $foodstuff = $day->getFoodstuffs()[$id];

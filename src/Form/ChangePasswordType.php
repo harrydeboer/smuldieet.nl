@@ -18,8 +18,14 @@ class ChangePasswordType extends AbstractType
         $builder
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'first_options' => ['label' => 'Password', 'attr' => ['class' => 'form-control']],
-                'second_options' => ['label' => 'Repeat Password', 'attr' => ['class' => 'form-control']],
+                'first_options' => [
+                    'label' => 'Password',
+                    'attr' => ['class' => 'form-control'],
+                ],
+                'second_options' => [
+                    'label' => 'Repeat Password',
+                    'attr' => ['class' => 'form-control'],
+                ],
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
                 'invalid_message' => 'De wachtwoorden moeten gelijk zijn aan elkaar.',

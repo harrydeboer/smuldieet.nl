@@ -66,7 +66,7 @@ class ContactController extends Controller
                 }
             }
         } elseif ($form->isSubmitted() && $form->isValid() && $this->kernel->getEnvironment() !== 'prod' ) {
-            $error = 'Kon e-mail niet verzenden, want dit is geen prod omgeving.';
+            $error = 'Could not send mail, because this is not the prod environment.';
         }
 
         return $this->render('contact/view.html.twig', [

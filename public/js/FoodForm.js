@@ -16,10 +16,11 @@ class FoodForm {
     }
 
     /**
-     * A row in the food form consists of a search dropdown, a weight and a minus icon for deletion of the row.
+     * A row in the food form consists of a search dropdown, a weight, a piece name
+     * and a minus icon for deleting the row.
      * The label of the weight input is removed.
      * When the food type is a recipe then the weight value is set to 1.
-     * The id is removed from the weight prototype.
+     * The id is removed from the new weight.
      */
     addRow(foodType, event) {
         let html = '<tr><td>' + $('#' + this.formName + '_' + foodType + 'Dropdown').data('prototype') +
@@ -121,6 +122,11 @@ class FoodForm {
         }
     }
 
+    /**
+     * The weight can be of type input or select. When a foodstuff name is selected the correct prototype replaces
+     * the existing one. The label is removed and the value is set to empty for input and 1 for select.
+     * The name attribute is filled in and the id is removed.
+     */
     replaceWeight(pieceWeight, pieceName, id, row)
     {
         if (pieceWeight === '') {
@@ -188,8 +194,8 @@ class FoodForm {
 
     /**
      * The FoodForm has a FoodRow class in which the current element can be put and the row of the element is returned.
-     * From this row the name, weight and search results can be retrieved.
-     * The inspection JSCheckFunctionSignatures is disabled because the find method works on class names.
+     * From this row the name, weight, piece name and search results can be retrieved.
+     * The inspection JSCheckFunctionSignatures is disabled because the find method works for class names.
      */
     FoodRow = class {
         constructor(thisElement) {

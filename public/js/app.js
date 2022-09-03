@@ -43,6 +43,9 @@ $(function() {
         }
     });
 
+    /**
+     * The is self invented radio button shows a source field when it is not self invented.
+     */
     if ($('input[name="recipe[isSelfInvented]"]:checked').val() === '0') {
         $('#recipe-source').show();
     }
@@ -56,12 +59,16 @@ $(function() {
         }
     });
 
+    /**
+     * After a recipe search has been performed on the homepage the browser animates to the search results.
+     */
     let recipesHomepage = $("#recipes-homepage");
     if (recipesHomepage.length > 0 && !($('#recent-recipes-heading').length > 0)) {
         $('html, body').animate({
             scrollTop: recipesHomepage.offset().top
         }, 1000);
     }
+
     $('#recipe-filter-icon').on('click', function() {
         let div = $('#filter-sort-div');
         if (div.hasClass('d-none')) {
