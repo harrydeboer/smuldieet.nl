@@ -4,12 +4,19 @@
 
 {% block body %}
     <table class="table table-small">
-        <tr><td>Titel</td><td>{{ cookbook.title }}</td></tr>
+        <tr>
+            <td>Titel</td>
+            <td>{{ cookbook.title }}</td>
+        </tr>
         {% for rowNumber, recipe in cookbook.recipes %}
             <tr>
                 <td colspan="2">{{ recipe.title }}</td>
             </tr>
         {% endfor %}
-        <tr><td colspan="2"><a href="{{ path('cookbookEdit', {'id': cookbook.id}) }}">wijzig</a></td></tr>
+        <tr>
+            <td colspan="2">
+                <a href="{{ path('cookbookEdit', {'id': cookbook.id}) }}">wijzig</a>
+            </td>
+        </tr>
     </table>
 {% endblock %}

@@ -23,7 +23,7 @@ class CookbookType extends AbstractType
                 'allow_add' => true,
                 'entry_options' => [
                     'choices' => Cookbook::$recipeChoicesArray,
-                    'attr' => ['class' => 'form-control food-weight hidden-input'],
+                    'attr' => ['class' => 'form-control food-weight form-select hidden-input'],
                 ],
                 'allow_delete' => true,
                 'delete_empty' => true,

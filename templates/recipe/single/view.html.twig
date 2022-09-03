@@ -23,7 +23,8 @@
             <th scope="col">&nbsp;&nbsp;Jouw waardering</th>
         </tr>
         </thead>
-        <tr><td>
+        <tr>
+            <td>
                 <div>
                     {% if recipe.rating is null %}
                         N/B
@@ -38,8 +39,10 @@
                             stemmen
                         {% endif %}
                     {% endif %}
-                </div></td>
-            <td>{% if isLoggedIn %}
+                </div>
+            </td>
+            <td>
+                {% if isLoggedIn %}
                     <div id="rate-modal-button" class="fw-bold">&nbsp;&nbsp;
                         {% if rating is null %}
 
@@ -56,7 +59,9 @@
                 </a>
                     <br>
                     <br>
-                {% endif %}</td></tr>
+                {% endif %}
+            </td>
+        </tr>
     </table>
     <br>
     <br>
@@ -70,12 +75,16 @@
         <div class="fw-bold">Voedingsmiddelen gerecht</div>
         <table class="table">
             {% for id, weight in recipe.foodstuffWeights %}
-                <tr><td>{{ recipe.foodstuffs()[id].name }}</td>
-                    <td>{{ weight|number_format }} g</td></tr>
+                <tr>
+                    <td>{{ recipe.foodstuffs()[id].name }}</td>
+                    <td>{{ weight|number_format }} g</td>
+                </tr>
             {% endfor %}
             {% for id, weight in recipe.foodstuffChoices %}
-                <tr><td>{{ recipe.foodstuffs()[id].name }}</td>
-                    <td>{{ weight }} {{ recipe.foodstuffs()[id].pieceName }}</td></tr>
+                <tr>
+                    <td>{{ recipe.foodstuffs()[id].name }}</td>
+                    <td>{{ weight }} {{ recipe.foodstuffs()[id].pieceName }}</td>
+                </tr>
             {% endfor %}
         </table>
         <div class="fw-bold">Bereidingswijze</div>

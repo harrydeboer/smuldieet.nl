@@ -38,21 +38,23 @@
         {{ form_widget(form.kitchen) }}
         {{ form_widget(form.occasion) }}
         <div class="dropdown" id="diet">
-                    <div class="form-control form-select" id="diet-filter" role="button"
-                         data-bs-toggle="dropdown" aria-expanded="false">Dieet</div>
-                    <table class="dropdown-menu dropdown-diet" aria-labelledby="diet-filter">
-                        {% for key, choice in dietChoices %}
-                            <tr><td>{{ form_label(attribute(form, choice)) }}</td>
-                                <td>{{ form_widget(attribute(form, choice)) }}</td></tr>
-                        {% endfor %}
-                    </table>
-                </div>
-         {{ form_widget(form.sort) }}
+            <div class="form-control form-select" id="diet-filter" role="button"
+                 data-bs-toggle="dropdown" aria-expanded="false">Dieet</div>
+            <table class="dropdown-menu dropdown-diet" aria-labelledby="diet-filter">
+                {% for key, choice in dietChoices %}
+                    <tr>
+                        <td>{{ form_label(attribute(form, choice)) }}</td>
+                        <td>{{ form_widget(attribute(form, choice)) }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {{ form_widget(form.sort) }}
     </div>
     {{ form_end(form) }}
     <br>
     {% if not isFiltered %}
-    <h2 id="recent-recipes-heading">Recente recepten</h2>
+        <h2 id="recent-recipes-heading">Recente recepten</h2>
     {% endif %}
     <table class="table table-striped" id="recipes-homepage">
         {% for recipe in paginator.results %}

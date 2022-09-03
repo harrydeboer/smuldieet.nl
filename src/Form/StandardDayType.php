@@ -48,7 +48,7 @@ class StandardDayType extends AbstractType
                     'choices' => Day::$recipeChoicesArray,
                     'attr' => [
                         'placeholder' => 'aantal keer',
-                        'class' => 'form-control food-weight',
+                        'class' => 'form-control food-weight form-select',
                     ],
                 ],
                 'allow_delete' => true,

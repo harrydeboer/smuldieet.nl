@@ -4,16 +4,26 @@
 
 {% block body %}
     <table class="table table-small">
-        <tr><td>Naam</td><td>{{ foodstuff.name }}</td></tr>
+        <tr>
+            <td>Naam</td>
+            <td>{{ foodstuff.name }}</td>
+        </tr>
         {% if isLoggedIn %}
             {% if foodstuff.pieceWeight is not null %}
-                <tr><td>Gewicht per stuk</td><td>{{ foodstuff.pieceWeight }}</td></tr>
+                <tr>
+                    <td>Gewicht per stuk</td>
+                    <td>{{ foodstuff.pieceWeight }}</td>
+                </tr>
             {% endif %}
             {% if foodstuff.pieceName is not null %}
-                <tr><td>Naam per stuk</td><td>{{ foodstuff.pieceName }}</td></tr>
+                <tr>
+                    <td>Naam per stuk</td>
+                    <td>{{ foodstuff.pieceName }}</td>
+                </tr>
             {% endif %}
             {% for key, property in foodstuff.aDH() %}
-                <tr><td>{{ property[3]}} {{ property[2] }}</td>
+                <tr>
+                    <td>{{ property[3]}} {{ property[2] }}</td>
                     {% if attribute(foodstuff, key) is null %}
                         <td>N/B</td>
                     {% else %}
@@ -22,12 +32,16 @@
                 </tr>
             {% endfor %}
         {% else %}
-            <tr><td colspan="2"><a href="{{ path('appLogin') }}">Log in om alle waarden te zien.</a></td></tr>
+            <tr>
+                <td colspan="2"><a href="{{ path('appLogin') }}">Log in om alle waarden te zien.</a></td>
+            </tr>
         {% endif %}
-        <tr><td colspan="2">
+        <tr>
+            <td colspan="2">
                 {% if foodstuff.user is not null %}
                     <a href="{{ path('foodstuffEdit', {'id': foodstuff.id}) }}">wijzig</a>
                 {% endif %}
-            </td></tr>
+            </td>
+        </tr>
     </table>
 {% endblock %}

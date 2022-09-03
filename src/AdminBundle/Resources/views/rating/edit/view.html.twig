@@ -3,7 +3,7 @@
 {% block title %}Wijzig{% endblock %}
 
 {% block body %}
-    {{ include('@AdminBundle/rating/form.html.twig', {form: formUpdate, rating: rating, submitLabel: 'Wijzig'}) }}
+    {{ include('@AdminBundle/rating/form.html.twig', {form: formUpdate, submitLabel: 'Wijzig'}) }}
     <br>
     {{ include('deleteModal.html.twig', {
         entityName: 'rating',

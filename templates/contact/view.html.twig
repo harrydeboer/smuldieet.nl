@@ -20,11 +20,24 @@
     {% endif %}
     {{ form_start(form) }}
     <table id="contact-table" class="table table-small">
-        <tr><td>Naam</td><td>{{ form_widget(form.name) }}</td></tr>
-        <tr><td>Onderwerp</td><td>{{ form_widget(form.subject) }}</td></tr>
-        <tr><td>E-mail</td><td>{{ form_widget(form.email) }}</td></tr>
-        <tr><td>Bericht</td><td>{{ form_widget(form.message) }}</td></tr>
-        <tr><td colspan="2">{{ form_widget(form.send, { 'label': 'Verzenden' }) }}</td></tr>
+        <tr>
+            <td>Naam</td>
+            <td>{{ form_widget(form.name) }}</td>
+        </tr>
+        <tr>
+            <td>Onderwerp</td>
+            <td>{{ form_widget(form.subject) }}</td>
+        </tr>
+        <tr>
+            <td>E-mail</td>
+            <td>{{ form_widget(form.email) }}</td>
+        </tr>
+        <tr>
+            <td>Bericht</td>
+            <td>{{ form_widget(form.message) }}</td></tr>
+        <tr>
+            <td colspan="2">{{ form_widget(form.send, { 'label': 'Verzenden' }) }}</td>
+        </tr>
     </table>
     {{ form_widget(form.reCaptchaToken, {'id': 'contact-re-captcha-token'}) }}
     {{ form_end(form) }}

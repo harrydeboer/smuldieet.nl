@@ -18,8 +18,13 @@
             <th scope="col">Eind datum</th>
         </tr>
         </thead>
-        <tr><td>{{ form_widget(form.start) }}</td><td>{{ form_widget(form.end) }}</td></tr>
-        <tr><td colspan="2">{{ form_widget(form.submit, { 'label': 'Bekijk' }) }}</td></tr>
+        <tr>
+            <td>{{ form_widget(form.start) }}</td>
+            <td>{{ form_widget(form.end) }}</td>
+        </tr>
+        <tr>
+            <td colspan="2">{{ form_widget(form.submit, { 'label': 'Bekijk' }) }}</td>
+        </tr>
     </table>
     {{ form_end(form) }}
     {% if stats is not empty %}
@@ -34,8 +39,12 @@
             </thead>
             <tbody>
             {% for key,property in stats %}
-                <tr><td>{{ property[3] }} {{ property[2] }}</td><td>{{ property[0] }}</td><td>{{ property[1] }}</td>
-                    <td>{{ property[5]|number_format(property[4]) }}</td></tr>
+                <tr>
+                    <td>{{ property[3] }} {{ property[2] }}</td>
+                    <td>{{ property[0] }}</td>
+                    <td>{{ property[1] }}</td>
+                    <td>{{ property[5]|number_format(property[4]) }}</td>
+                </tr>
             {% endfor %}
             </tbody>
         </table>

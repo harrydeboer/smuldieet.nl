@@ -11,20 +11,46 @@
 {{ form_start(form, { 'attr' : { 'class': 'food-form' }}) }}
 <table class="food-table table table-small">
     {% if form.date is defined %}
-        <tr><td>Datum</td><td colspan="3">{{ form_widget(form.date) }}</td></tr>
+        <tr>
+            <td>Datum</td>
+            <td colspan="3">{{ form_widget(form.date) }}</td>
+        </tr>
         {% set formName = 'day' %}
     {% else %}
         {% set formName = 'standard_day' %}
     {% endif %}
-    {{ include('foodRow.html.twig', {'formName': formName, 'entities': day.foodstuffs,
-        'weights': form.foodstuffWeights, 'foodType': 'foodstuff', 'weightsOrChoices': 'Weights'}) }}
-    {{ include('foodRow.html.twig', {'formName': formName, 'entities': day.foodstuffs,
-        'weights': form.foodstuffChoices, 'foodType': 'foodstuff', 'weightsOrChoices': 'Choices'}) }}
-    {{ include('foodRow.html.twig', {'formName': formName, 'entities': day.recipes,
-        'weights': form.recipeChoices, 'foodType': 'recipe', 'weightsOrChoices': 'Choices'}) }}
-    <tr id="add-foodstuff-recipe-button-row"><td colspan="4">
+    {{ include('foodRow.html.twig', {
+        'formName': formName,
+        'entities': day.foodstuffs,
+        'weights': form.foodstuffWeights,
+        'foodType': 'foodstuff',
+        'weightsOrChoices': 'Weights',
+        'placeholder': 'voedingsmiddel',
+    }) }}
+    {{ include('foodRow.html.twig', {
+        'formName': formName,
+        'entities': day.foodstuffs,
+        'weights': form.foodstuffChoices,
+        'foodType': 'foodstuff',
+        'weightsOrChoices': 'Choices',
+        'placeholder': 'voedingsmiddel'
+    }) }}
+    {{ include('foodRow.html.twig', {
+        'formName': formName,
+        'entities': day.recipes,
+        'weights': form.recipeChoices,
+        'foodType': 'recipe',
+        'weightsOrChoices': 'Choices',
+        'placeholder': 'gerecht'
+    }) }}
+    <tr id="add-foodstuff-recipe-button-row">
+        <td colspan="4">
             <div class="btn btn-primary" id="add-foodstuff">Voedingsmiddel toevoegen</div>
-            <div class="btn btn-primary" id="add-recipe">Gerecht toevoegen</div></td></tr>
-    <tr><td colspan="3">{{ form_widget(form.submit, { 'label': submitLabel }) }}</td></tr>
+            <div class="btn btn-primary" id="add-recipe">Gerecht toevoegen</div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">{{ form_widget(form.submit, { 'label': submitLabel }) }}</td>
+    </tr>
 </table>
 {{ form_end(form) }}

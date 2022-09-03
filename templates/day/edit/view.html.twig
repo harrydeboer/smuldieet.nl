@@ -3,7 +3,7 @@
 {% block title %}Wijzig{% endblock %}
 
 {% block body %}
-    {{ include('day/form.html.twig', {form: formUpdate, submitLabel: 'Wijzig dag', day: day}) }}
+    {{ include('day/form.html.twig', {form: formUpdate, submitLabel: 'Wijzig dag'}) }}
     <br>
     {{ include('deleteModal.html.twig', {
         entityName: 'dag',

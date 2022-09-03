@@ -6,11 +6,23 @@
 </div>
 {{ form_start(form, { 'attr' : { 'class': 'food-form' }}) }}
 <table class="food-table table table-small">
-    <tr><td>Titel</td><td colspan="3">{{ form_widget(form.title) }}</td></tr>
-    {{ include('foodRow.html.twig', {'formName': 'cookbook', 'entities': cookbook.recipes,
-        'weights': form.recipeChoices, 'foodType': 'recipe', 'weightsOrChoices': 'Choices'}) }}
-    <tr id="add-foodstuff-recipe-button-row"><td colspan="4">
-            <div class="btn btn-primary" id="add-recipe">Recept toevoegen</div></td></tr>
-    <tr><td colspan="3">{{ form_widget(form.submit, { 'label': submitLabel }) }}</td></tr>
+    <tr>
+        <td>Titel</td>
+        <td colspan="3">{{ form_widget(form.title) }}</td>
+    </tr>
+    {{ include('foodRow.html.twig', {
+        'formName': 'cookbook',
+        'entities': cookbook.recipes,
+        'weights': form.recipeChoices,
+        'foodType': 'recipe',
+        'weightsOrChoices': 'Choices',
+        'placeholder': 'recept'
+    }) }}
+    <tr id="add-foodstuff-recipe-button-row">
+        <td colspan="4"><div class="btn btn-primary" id="add-recipe">Recept toevoegen</div></td>
+    </tr>
+    <tr>
+        <td colspan="3">{{ form_widget(form.submit, { 'label': submitLabel }) }}</td>
+    </tr>
 </table>
 {{ form_end(form) }}

@@ -1,11 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Day{% endblock %}
+{% block title %}Dag{% endblock %}
 
 {% block body %}
     <table class="table table-small">
         {% if day.date is not null %}
-            <tr><td>Datum</td><td>{{ day.date|date('d-M-Y') }}</td></tr>
+            <tr>
+                <td>Datum</td>
+                <td>{{ day.date|date('d-M-Y') }}</td>
+            </tr>
         {% endif %}
         {% for id, weight in day.foodstuffWeights %}
             <tr>
@@ -26,6 +29,8 @@
                 <td>{{ day.recipeChoices[recipe.id]|number_format }}</td>
             </tr>
         {% endfor %}
-        <tr><td colspan="2"><a href="{{ path('dayEdit', {'id': day.id}) }}">wijzig</a></td></tr>
+        <tr>
+            <td colspan="2"><a href="{{ path('dayEdit', {'id': day.id}) }}">wijzig</a></td>
+        </tr>
     </table>
 {% endblock %}

@@ -3,7 +3,7 @@
 {% block title %}Wijzig{% endblock %}
 
 {% block body %}
-    {{ include('@AdminBundle/recipe/form.html.twig', {form: formUpdate, recipe: recipe, submitLabel: 'Wijzig'}) }}
+    {{ include('@AdminBundle/recipe/form.html.twig', {form: formUpdate, submitLabel: 'Wijzig'}) }}
     <br>
     {{ include('deleteModal.html.twig', {
         entityName: 'recipe',

@@ -3,7 +3,7 @@
 {% block title %}Wijzig{% endblock %}
 
 {% block body %}
-    {{ include('rating/form.html.twig', {form: formUpdate, submitLabel: 'Wijzig waardering', rating: rating}) }}
+    {{ include('rating/form.html.twig', {form: formUpdate, submitLabel: 'Wijzig waardering'}) }}
     <br>
     {{ include('deleteModal.html.twig', {
         entityName: 'rating',

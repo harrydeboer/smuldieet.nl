@@ -24,10 +24,18 @@
             <div>{{ error.messageKey|trans(error.messageData, 'security', 'nl') }}</div>
         {% endif %}
         <table class="table table-small">
-            <tr><td>E-mail</td><td>{{ form_widget(form.email,
-                        {'value' : last_username}) }}</td></tr>
-            <tr><td>Wachtwoord</td><td>{{ form_widget(form.password) }}</td></tr>
-            <tr><td colspan="2">{{ form_widget(form.login, {'label': 'Inloggen'}) }}</td></tr>
+            <tr>
+                <td>E-mail</td>
+                <td>{{ form_widget(form.email,
+                        {'value' : last_username}) }}</td>
+            </tr>
+            <tr>
+                <td>Wachtwoord</td>
+                <td>{{ form_widget(form.password) }}</td>
+            </tr>
+            <tr>
+                <td colspan="2">{{ form_widget(form.login, {'label': 'Inloggen'}) }}</td>
+            </tr>
         </table>
         {{ form_end(form) }}
         <span class="no-wrap">Niet geregistreerd? Ga naar <a href="{{ path('appRegister') }}">deze</a> link.</span>

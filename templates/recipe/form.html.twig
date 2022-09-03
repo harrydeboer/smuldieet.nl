@@ -35,12 +35,25 @@
 {{ form_widget(form.ingredients) }}
 <h4 class="no-wrap">Voedingsmiddelen gerecht</h4>
 <table class="table">
-    {{ include('foodRow.html.twig', {'formName': 'recipe', 'entities': recipe.foodstuffs,
-        'weights': form.foodstuffWeights, 'foodType': 'foodstuff', 'weightsOrChoices': 'Weights'}) }}
-    {{ include('foodRow.html.twig', {'formName': 'recipe', 'entities': recipe.foodstuffs,
-        'weights': form.foodstuffChoices, 'foodType': 'foodstuff', 'weightsOrChoices': 'Choices'}) }}
-    <tr id="add-foodstuff-recipe-button-row"><td colspan="4">
-            <div class="btn btn-primary" id="add-foodstuff">Voedingsmiddel toevoegen</div></td></tr>
+    {{ include('foodRow.html.twig', {
+        'formName': 'recipe',
+        'entities': recipe.foodstuffs,
+        'weights': form.foodstuffWeights,
+        'foodType': 'foodstuff',
+        'weightsOrChoices': 'Weights',
+        'placeholder': 'voedingsmiddel'
+    }) }}
+    {{ include('foodRow.html.twig', {
+        'formName': 'recipe',
+        'entities': recipe.foodstuffs,
+        'weights': form.foodstuffChoices,
+        'foodType': 'foodstuff',
+        'weightsOrChoices': 'Choices',
+        'placeholder': 'voedingsmiddel'
+    }) }}
+    <tr id="add-foodstuff-recipe-button-row">
+        <td colspan="4"><div class="btn btn-primary" id="add-foodstuff">Voedingsmiddel toevoegen</div></td>
+    </tr>
 </table>
 <div class="fw-bold">Bereidingswijze *</div>
 {{ form_widget(form.preparationMethod) }}
@@ -77,8 +90,10 @@
          data-bs-toggle="dropdown" aria-expanded="false">Dieet</div>
     <table class="dropdown-menu dropdown-diet" aria-labelledby="diet-filter">
         {% for key,choice in constant('DIET_CHOICES', recipe) %}
-            <tr><td>{{ form_label(attribute(form, choice)) }}</td>
-                <td>{{ form_widget(attribute(form, choice)) }}</td></tr>
+            <tr>
+                <td>{{ form_label(attribute(form, choice)) }}</td>
+                <td>{{ form_widget(attribute(form, choice)) }}</td>
+            </tr>
         {% endfor %}
     </table>
 </div>

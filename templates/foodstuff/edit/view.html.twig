@@ -3,8 +3,7 @@
 {% block title %}Wijzig{% endblock %}
 
 {% block body %}
-    {{ include('foodstuff/form.html.twig', {form: formUpdate,
-        submitLabel: 'Wijzig voedingsmiddel', foodstuff: foodstuff}) }}
+    {{ include('foodstuff/form.html.twig', {form: formUpdate, submitLabel: 'Wijzig voedingsmiddel'}) }}
     <br>
     {{ include('deleteModal.html.twig', {
         entityName: 'voedingsmiddel',

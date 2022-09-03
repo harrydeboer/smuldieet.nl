@@ -3,7 +3,7 @@
 {% block title %}Wijzig{% endblock %}
 
 {% block body %}
-    {{ include('cookbook/form.html.twig', {form: formUpdate, submitLabel: 'Wijzig kookboek', cookbook: cookbook}) }}
+    {{ include('cookbook/form.html.twig', {form: formUpdate, submitLabel: 'Wijzig kookboek'}) }}
     <br>
     {{ include('deleteModal.html.twig', {
         entityName: 'kookboek',
