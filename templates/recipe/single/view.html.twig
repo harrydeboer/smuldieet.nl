@@ -4,45 +4,16 @@
 
 {% block body %}
     {% if isLoggedIn %}
-        <div class="modal" id="rate-modal">
-            <div class="modal-dialog" id="rate-modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header" id="rate-modal-header">
-                    </div>
-                    <div class="modal-body">
-                        <div id="form-errors-client"></div>
-                        <div id="form-errors-server">
-                            {{ form_errors(form) }}
-                            {{ form_errors(form.rating) }}
-                        </div>
-                        {{ form_start(form) }}
-                        <div id="rating-div">
-                            {% for index, choice in form.rating|reverse %}
-                                {{ form_widget(choice) }}
-                                {{ form_label(choice) }}
-                            {% endfor %}
-                        </div>
-                        <br>
-                        <button class="d-none">Waardeer</button>
-                        {{ form_end(form) }}
-                        <br>
-                        {% if formDelete is not null %}
-                            {{ form_start(formDelete) }}
-                            {{ form_widget(formDelete.delete, { 'label': 'Verwijder' }) }}
-                            {{ form_end(formDelete) }}
-                        {% endif %}
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Sluiten</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        {{ include('rating/ratingModal.html.twig') }}
     {% endif %}
     <h2>{{ recipe.title }}</h2>
     {% if recipe.imageExtension is not null %}
-        <div><img src="{{  asset(recipe.getImagePath(appEnv, 600)) }}" id="recipe-image" class="img-fluid"
-                  alt="recipe"></div>
+        <div>
+            <img src="{{  asset(recipe.getImagePath(appEnv, 600)) }}"
+                 id="recipe-image"
+                 class="img-fluid"
+                 alt="recipe">
+        </div>
     {% endif %}
     <br>
     <table>
@@ -52,7 +23,9 @@
             <th scope="col">&nbsp;&nbsp;Jouw waardering</th>
         </tr>
         </thead>
-        <tr><td><div>{% if recipe.rating is null %}
+        <tr><td>
+                <div>
+                    {% if recipe.rating is null %}
                         N/B
                         <br>
                         <br>
@@ -64,7 +37,8 @@
                         {% else %}
                             stemmen
                         {% endif %}
-                    {% endif %}</div></td>
+                    {% endif %}
+                </div></td>
             <td>{% if isLoggedIn %}
                     <div id="rate-modal-button" class="fw-bold">&nbsp;&nbsp;
                         {% if rating is null %}

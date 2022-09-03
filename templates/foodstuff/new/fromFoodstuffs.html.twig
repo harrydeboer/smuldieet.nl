@@ -10,12 +10,12 @@
     </div>
     {{ form_start(form, { 'attr' : { 'class': 'food-form' }}) }}
     <table class="food-table table table-small">
-        <tr><td>Naam</td><td colspan="2">{{ form_widget(form.name) }}</td></tr>
+        <tr><td>Naam</td><td colspan="3">{{ form_widget(form.name) }}</td></tr>
         {{ include('foodRow.html.twig', {'formName': 'foodstuff_from_foodstuffs',
             'weights': form.foodstuffWeights, 'foodType': 'foodstuff', 'weightsOrChoices': 'Weights'}) }}
-        <tr id="add-foodstuff-recipe-button-row"><td colspan="3">
+        <tr id="add-foodstuff-recipe-button-row"><td colspan="4">
                 <div class="btn btn-primary" id="add-foodstuff">Voedingsmiddel toevoegen</div></td></tr>
-        <tr><td colspan="3">{{ form_widget(form.submit, { 'label': 'Voedingsmiddel opslaan' }) }}</td></tr>
+        <tr><td colspan="4">{{ form_widget(form.submit, { 'label': 'Voedingsmiddel opslaan' }) }}</td></tr>
     </table>
     {{ form_end(form) }}
 {% endblock %}

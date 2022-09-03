@@ -11,7 +11,7 @@
 {{ form_start(form, { 'attr' : { 'class': 'food-form' }}) }}
 <table class="food-table table table-small">
     {% if form.date is defined %}
-        <tr><td>Datum</td><td colspan="2">{{ form_widget(form.date) }}</td></tr>
+        <tr><td>Datum</td><td colspan="3">{{ form_widget(form.date) }}</td></tr>
         {% set formName = 'day' %}
     {% else %}
         {% set formName = 'standard_day' %}
