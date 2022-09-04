@@ -6,7 +6,6 @@ namespace App\Tests\Factory;
 
 use App\Entity\Rating;
 use App\Repository\RatingRepositoryInterface;
-use Exception;
 
 class RatingFactory extends AbstractFactory
 {
@@ -17,9 +16,6 @@ class RatingFactory extends AbstractFactory
     ) {
     }
 
-    /**
-     * @throws Exception
-     */
     public function create(array $params = []): Rating
     {
         $paramsParent = [];

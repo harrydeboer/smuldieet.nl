@@ -112,9 +112,10 @@ class RecipeType extends AbstractType
                 'choices' => array_combine(Recipe::OCCASION,Recipe::OCCASION),
                 'required' => false,
             ]);
-        foreach (Recipe::DIET_CHOICES as $choice) {
+        foreach (Recipe::DIET_CHOICES as $key => $choice) {
             $builder->add($choice, CheckboxType::class, [
                 'required' => false,
+                'label' => $key,
                 'label_attr' => ['class' => 'form-check-label'],
                 'attr' => ['class' => 'form-check-input']],
             );

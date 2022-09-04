@@ -8,7 +8,6 @@ use App\Entity\Recipe;
 use App\Repository\RecipeRepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use InvalidArgumentException;
-use Exception;
 
 class RecipeFactory extends AbstractFactory
 {
@@ -19,9 +18,6 @@ class RecipeFactory extends AbstractFactory
     ) {
     }
 
-    /**
-     * @throws Exception
-     */
     public function create(array $params = []): Recipe
     {
         $paramsParent = [];

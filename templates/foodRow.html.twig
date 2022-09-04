@@ -6,7 +6,11 @@
                 'placeholder': placeholder
             }) }}</td>
         <td>{{ form_widget(weight) }}</td>
-        <td><span class="piece-name"></span></td>
+        {% if foodType == 'foodstuff' %}
+            <td><span class="piece-name"></span></td>
+        {% else %}
+            <td></td>
+        {% endif %}
         <td><i class="remove-row fa fa-minus"></i></td>
     </tr>
 {% endfor %}
@@ -22,7 +26,7 @@
     </td>
     <td>
         {% if weights|length == 0 %}
-            {{ form_widget(weights, {'id': formName~'_'~foodType~weightsOrChoices }) }}
+            {{ form_widget(weights) }}
         {% else %}
             <div id="{{ formName }}_{{ foodType }}{{ weightsOrChoices }}"
                  data-prototype="{{ form_widget(weights.vars.prototype)|e('html') }}"></div>

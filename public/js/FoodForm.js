@@ -5,8 +5,8 @@ class FoodForm {
         this.errors = $('#form-errors-client');
         this.options = $('#' + this.formName + '_foodstuffs option');
 
-        $('#add-foodstuff').on('click', this.addRow.bind(this, 'foodstuff'));
-        $('#add-recipe').on('click', this.addRow.bind(this, 'recipe'));
+        $('#add-foodstuff').on('click', this.addFoodstuff.bind(this));
+        $('#add-recipe').on('click', this.addRecipe.bind(this));
         form.on('input', ".foodstuff-name", this.foodNameInput.bind(this, 'foodstuff'));
         form.on('input', ".recipe-name", this.foodNameInput.bind(this, 'recipe'));
         form.on('click', ".foodstuff-result", this.foodSearchResultClick.bind(this, 'foodstuff'));
@@ -16,30 +16,33 @@ class FoodForm {
     }
 
     /**
-     * A row in the food form consists of a search dropdown, a weight, a piece name
-     * and a minus icon for deleting the row.
+     * A row in the food form consists of a search dropdown, a weight, a piece name or empty cell
+     * and a minus icon for deletion of the row.
      * The label of the weight input is removed.
      * When the food type is a recipe then the weight value is set to 1.
      * The id is removed from the new weight.
      */
-    addRow(foodType, event) {
-        let html = '<tr><td>' + $('#' + this.formName + '_' + foodType + 'Dropdown').data('prototype') +
-            '</td><td>';
-        if (foodType === 'recipe') {
-            html += $('#' + this.formName + '_' + foodType + 'Choices').data('prototype');
-        } else {
-            html += $('#' + this.formName + '_' + foodType + 'Weights').data('prototype');
-        }
-        html += '</td><td><span class="piece-name"></span></td><td><i class="remove-row fa fa-minus"></i></td></tr>';
+    addFoodstuff(event) {
+        let html = '<tr><td>' + $('#' + this.formName + '_foodstuffDropdown').data('prototype') + '</td>';
+        html += '<td>' + $('#' + this.formName + '_foodstuffWeights').data('prototype') + '</td>';
+        html += '<td><span class="piece-name"></span></td>';
+        html += '<td><i class="remove-row fa fa-minus"></i></td></tr>';
         html = this.removeLabel(html);
         $('#add-foodstuff-recipe-button-row').before(html);
-        if (foodType === 'recipe') {
-            let options = $('#' + this.formName + '_recipeChoices___name__');
-            options.val(1);
-            options.removeAttr('id');
-        } else {
-            $('#' + this.formName + '_' + foodType + 'Weights___name__').removeAttr('id');
-        }
+        $('#' + this.formName + '_foodstuffWeights___name__').removeAttr('id');
+        event.preventDefault();
+    }
+
+    addRecipe(event) {
+        let html = '<tr><td>' + $('#' + this.formName + '_recipeDropdown').data('prototype') + '</td>';
+        html += '<td>' + $('#' + this.formName + '_recipeChoices').data('prototype') + '</td>';
+        html += '<td></td>';
+        html += '<td><i class="remove-row fa fa-minus"></i></td></tr>';
+        html = this.removeLabel(html);
+        $('#add-foodstuff-recipe-button-row').before(html);
+        let options = $('#' + this.formName + '_recipeChoices___name__');
+        options.val(1);
+        options.removeAttr('id');
         event.preventDefault();
     }
 
