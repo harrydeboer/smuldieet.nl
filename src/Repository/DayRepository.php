@@ -12,7 +12,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use DateTime;
-use Exception;
 
 /**
  * @method Day|null find($id, $lockMode = null, $lockVersion = null)
@@ -42,9 +41,6 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
         return $day;
     }
 
-    /**
-     * @throws Exception
-     */
     public function create(Day $day): Day
     {
         $this->addFoodstuffsAndRecipesFromWeights($day);
@@ -55,9 +51,6 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
         return $day;
     }
 
-    /**
-     * @throws Exception
-     */
     public function update(Day $day): void
     {
         foreach ($day->getRecipes() as $recipe) {

@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
-use Exception;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 abstract class FoodstuffsEntity
 {
@@ -94,22 +94,22 @@ abstract class FoodstuffsEntity
     }
 
     /**
-     * @throws Exception;
+     * @throws BadRequestException;
      */
     public function checkPieces(): void
     {
         foreach ($this->getFoodstuffWeights() as $id => $weight) {
             $foodstuff = $this->getFoodstuffs()[$id];
             if (!is_null($foodstuff->getPieceWeight())) {
-                throw new Exception('The weight foodstuff can not have a piece weight.');
+                throw new BadRequestException('The weight foodstuff can not have a piece weight.');
             }
         }
         foreach ($this->getFoodstuffChoices() as $id => $choice) {
             $foodstuff = $this->getFoodstuffs()[$id];
             if (!is_null($foodstuff->getPieceWeight()) && $choice > 20) {
-                throw new Exception('The number of pieces can not be greater than 20.');
+                throw new BadRequestException('The number of pieces can not be greater than 20.');
             } elseif (is_null($foodstuff->getPieceWeight())) {
-                throw new Exception('The choice foodstuff must have a piece weight.');
+                throw new BadRequestException('The choice foodstuff must have a piece weight.');
             }
         }
     }

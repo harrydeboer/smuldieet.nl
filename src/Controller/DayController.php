@@ -10,14 +10,12 @@ use App\Form\DeleteType;
 use App\Form\StandardDayType;
 use App\Repository\DayRepositoryInterface;
 use App\Repository\PageRepositoryInterface;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
-use Exception;
 
 class DayController extends AuthController
 {
@@ -77,13 +75,9 @@ class DayController extends AuthController
                 throw new BadRequestException('The day cannot become the standard day.');
             }
 
-            try {
-                $this->dayRepository->update($day);
+            $this->dayRepository->update($day);
 
-                return $this->redirectToRoute('diary');
-            } catch (Exception $exception) {
-                $formUpdate->addError(new FormError($exception->getMessage()));
-            }
+            return $this->redirectToRoute('diary');
         }
 
         return $this->render('day/edit/view.html.twig', [
@@ -110,13 +104,9 @@ class DayController extends AuthController
                 throw new BadRequestException('The day must have a date.');
             }
 
-            try {
-                $this->dayRepository->create($day);
+            $this->dayRepository->create($day);
 
-                return $this->redirectToRoute('diary');
-            } catch (Exception $exception) {
-                $form->addError(new FormError($exception->getMessage()));
-            }
+            return $this->redirectToRoute('diary');
         } else {
             $form = $this->createForm(DayType::class, $dayStandard);
         }
@@ -145,13 +135,9 @@ class DayController extends AuthController
                 throw new BadRequestException('There can only be one standard day.');
             }
 
-            try {
-                $this->dayRepository->create($day);
+            $this->dayRepository->create($day);
 
-                return $this->redirectToRoute('diary');
-            } catch (Exception $exception) {
-                $form->addError(new FormError($exception->getMessage()));
-            }
+            return $this->redirectToRoute('diary');
         }
 
         return $this->render('day/new/standardDay.html.twig', [
