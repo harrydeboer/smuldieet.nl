@@ -86,7 +86,7 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
     {
         $this->checkProfanitiesRecipe($recipe);
         $this->addFoodstuffsFromWeights($recipe);
-        $this->checkWeights($recipe);
+        $recipe->checkPieces();
         $recipe->setTimestamp(time());
         $this->em->persist($recipe);
         $this->em->flush();
@@ -104,7 +104,7 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
             $recipe->removeFoodstuff($foodstuff);
         }
         $this->addFoodstuffsFromWeights($recipe);
-        $this->checkWeights($recipe);
+        $recipe->checkPieces();
         $this->em->flush();
     }
 
@@ -207,19 +207,6 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
         $this->profanityCheckService->check($recipe->getToolsAndKitchenware());
         foreach ($recipe->getTags() as $tag) {
             $this->profanityCheckService->check($tag->getName());
-        }
-    }
-
-    /**
-     * @throws Exception;
-     */
-    private function checkWeights(Recipe $recipe)
-    {
-        foreach ($recipe->getFoodstuffWeights() as $id => $weight) {
-            $foodstuff = $recipe->getFoodstuffs()[$id];
-            if (!is_null($foodstuff->getPieceWeight()) && $weight > 20) {
-                throw new Exception('Het aantal stuks kan niet groter zijn dan 20.');
-            }
         }
     }
 }

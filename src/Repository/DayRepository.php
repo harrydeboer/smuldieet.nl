@@ -48,7 +48,7 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
     public function create(Day $day): Day
     {
         $this->addFoodstuffsAndRecipesFromWeights($day);
-        $this->checkWeights($day);
+        $day->checkPieces();
         $this->em->persist($day);
         $this->em->flush();
 
@@ -67,7 +67,7 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
             $day->removeFoodstuff($foodstuff);
         }
         $this->addFoodstuffsAndRecipesFromWeights($day);
-        $this->checkWeights($day);
+        $day->checkPieces();
         $this->em->flush();
     }
 
@@ -114,19 +114,6 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
         foreach ($day->getRecipeChoices() as $id => $weight) {
             $recipe = $this->recipeRepository->get($id);
             $day->addRecipe($recipe);
-        }
-    }
-
-    /**
-     * @throws Exception;
-     */
-    private function checkWeights(Day $day)
-    {
-        foreach ($day->getFoodstuffWeights() as $id => $weight) {
-            $foodstuff = $day->getFoodstuffs()[$id];
-            if (!is_null($foodstuff->getPieceWeight()) && $weight > 20) {
-                throw new Exception('Het aantal stuks kan niet groter zijn dan 20.');
-            }
         }
     }
 }
