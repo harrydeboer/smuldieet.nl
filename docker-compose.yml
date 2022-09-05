@@ -5,6 +5,7 @@ services:
     build:
       dockerfile: docker/web/Dockerfile
       context: .
+    image: harrydeboer/smuldieet.nl:latest
     working_dir: /var/www/html
     container_name: smuldieet
     ports:
@@ -16,7 +17,7 @@ services:
       - database
   database:
     image: mysql:8.0
-    container_name: smuldieetDb
+    container_name: smuldieet-database
     env_file: .env.local
     ports:
       - 127.0.0.1:${DB_PORT}:${DB_PORT}
