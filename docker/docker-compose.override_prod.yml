@@ -1,0 +1,17 @@
+services:
+  web:
+    build:
+      args:
+        APP_ENV: prod
+    volumes:
+      - uploadsPublic:/var/www/html/public/uploads
+      - ./public/.well-known/acme-challenge:/var/www/html/public/.well-known/acme-challenge
+    restart: always
+  database:
+    restart: always
+    ports:
+      - 127.0.0.1:${DB_PORT}:${DB_PORT}
+
+volumes:
+  uploadsPublic:
+    driver: local

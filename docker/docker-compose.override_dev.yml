@@ -12,6 +12,3 @@ services:
       - PHP_IDE_CONFIG=serverName=smuldieet
     volumes:
       - .:/var/www/html
-  database:
-    ports:
-      - ${DB_PORT}:${DB_PORT}

@@ -1,5 +1,0 @@
-services:
-  web:
-    build:
-      args:
-        APP_ENV: staging

@@ -18,6 +18,8 @@ services:
     image: mysql:8.0
     container_name: smuldieetDb
     env_file: .env.local
+    ports:
+      - 127.0.0.1:${DB_PORT}:${DB_PORT}
     volumes:
       - mysqldata:/var/lib/mysql
     networks:

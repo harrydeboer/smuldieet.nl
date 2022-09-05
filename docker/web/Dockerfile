@@ -4,6 +4,7 @@ ARG APP_ENV
 
 RUN apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install \
+    git \
     nano \
     libxml2-dev \
     libcurl4-openssl-dev \
@@ -34,7 +35,7 @@ RUN if [ "$APP_ENV" = "dev" ] ; then pecl install xdebug && docker-php-ext-enabl
 
 COPY --from=composer:2.2.4 /usr/bin/composer /usr/bin/composer
 
-COPY . /var/www/html
+COPY ./docker /var/www/html/docker
 COPY ./docker/web/apache2.conf /etc/apache2/apache2.conf
 COPY ./docker/web/000-default.${APP_ENV}.conf /etc/apache2/sites-available/000-default.conf
 COPY ./docker/web/php.ini /usr/local/etc/php/conf.d/php.ini
@@ -48,8 +49,6 @@ RUN if [ "$APP_ENV" = "dev" ] ; then \
 
 RUN if [ "$APP_ENV" = "dev" ] ;  \
     then cp /var/www/html/docker/web/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; fi
-
-RUN chown www-data:www-data -R /var/www/html/
 
 RUN mkdir /var/www/.composer
 RUN chown www-data:www-data -R /var/www/.composer
