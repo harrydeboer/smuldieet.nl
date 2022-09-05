@@ -9,8 +9,6 @@ services:
     restart: always
   database:
     restart: always
-    ports:
-      - 127.0.0.1:${DB_PORT}:${DB_PORT}
 
 volumes:
   uploadsPublic:
