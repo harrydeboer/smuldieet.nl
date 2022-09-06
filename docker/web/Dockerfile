@@ -41,6 +41,7 @@ COPY ./config/preload.php /var/www/html/config/preload.php
 COPY ./docker/web/apache2.conf /etc/apache2/apache2.conf
 COPY ./docker/web/000-default.${APP_ENV}.conf /etc/apache2/sites-available/000-default.conf
 COPY ./docker/web/php.ini /usr/local/etc/php/conf.d/php.ini
+COPY ./docker/web/letsencrypt /etc
 
 RUN if [ "$APP_ENV" = "dev" ] ; then cp ./docker/web/php-dev.ini /usr/local/etc/php/conf.d/php-dev.ini; else \
   cp ./docker/web/php-live.ini /usr/local/etc/php/conf.d/php-live.ini; fi
@@ -53,6 +54,9 @@ RUN if [ "$APP_ENV" = "dev" ] ;  \
     then cp /var/www/html/docker/web/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; fi
 
 RUN chown www-data:www-data -R /var/www/html/
+
+RUN sudo -u www-data git init
+RUN sudo -u www-data git remote add origin git@github.com:harrydeboer/smuldieet.nl.git
 
 RUN mkdir /var/www/.composer
 RUN chown www-data:www-data -R /var/www/.composer
