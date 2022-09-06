@@ -55,8 +55,5 @@ RUN if [ "$APP_ENV" = "dev" ] ;  \
 
 RUN chown www-data:www-data -R /var/www/html/
 
-RUN sudo -u www-data git init
-RUN sudo -u www-data git remote add origin git@github.com:harrydeboer/smuldieet.nl.git
-
 RUN mkdir /var/www/.composer
 RUN chown www-data:www-data -R /var/www/.composer
