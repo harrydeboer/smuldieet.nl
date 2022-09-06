@@ -16,5 +16,5 @@ since mailing is disabled in development.</li>
 <li>Run npm install (with a global node and npm). When you are using PhpStorm 
 link the UglifyJS and SCSS File Watchers to the node_modules/.bin binaries. 
 The files in public/scss must compile to minimized files in public/css.</li>
-<li>Run runTests.sh to test.</li>
+<li>Run run-tests.sh to test.</li>
 </ol>
