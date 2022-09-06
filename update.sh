@@ -7,7 +7,6 @@ if [[ $EUID -eq 0 ]]; then
 fi
 PREVIOUS=$(git rev-parse HEAD)
 git pull origin master
-test "$PREVIOUS" == "$(git rev-parse HEAD)" && exit 1
 docker login --username harrydeboer
 docker-compose pull
 docker-compose up -d
