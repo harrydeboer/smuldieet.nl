@@ -107,18 +107,10 @@
             <div class="fw-bold">Aantal stuks</div>
             {{ recipe.numberOfPieces }}
         {% endif %}
-        <div class="fw-bold">Zelf bedacht</div>
-        {{ recipe.isSelfInvented ? 'Ja' : 'Nee' }}
         {% if recipe.source is not null %}
             <div class="fw-bold">Bron</div>
             {{ recipe.source }}
         {% endif %}
-        <div class="fw-bold">Aantal stemmen</div>
-        {{ recipe.votes }}
-        <div class="fw-bold">Aantal keer bewaard</div>
-        {{ recipe.timesSaved }}
-        <div class="fw-bold">Aantal reacties</div>
-        {{ recipe.timesReacted }}
         <div class="fw-bold">Bereidingstijd</div>
         {{ recipe.cookingTime }}
         <div class="fw-bold">Keuken</div>

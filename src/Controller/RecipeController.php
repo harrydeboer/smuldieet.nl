@@ -34,9 +34,6 @@ class RecipeController extends Controller
     ]
     public function view(int $page): Response
     {
-        if (is_null($this->getUser())) {
-            return $this->redirectToRoute('appLogin');
-        }
         $recipes = $this->recipeRepository->getRecipesFromUser($this->getUser()->getId(), $page);
 
         return $this->render('recipe/view.html.twig', [
