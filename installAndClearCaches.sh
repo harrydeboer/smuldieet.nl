@@ -13,7 +13,10 @@ docker cp /var/www/.ssh smuldieet:/var/www
 docker cp /var/www/smuldieet.nl/.env.local smuldieet:/var/www/html/.env.local
 docker-compose restart web
 PREFIX="docker exec -it --user=www-data smuldieet"
-$PREFIX sh -c "test ! -d .git" && git init && git remote add origin git@github.com:harrydeboer/smuldieet.nl.git && git clean -fd
+$PREFIX sh -c "test ! -d .git" \
+  && $PREFIX git init \
+  && $PREFIX git remote add origin git@github.com:harrydeboer/smuldieet.nl.git \
+  && $PREFIX git clean -fd
 $PREFIX git pull origin master
 $PREFIX composer install --no-dev --no-progress --prefer-dist
 $PREFIX php bin/console cache:clear
