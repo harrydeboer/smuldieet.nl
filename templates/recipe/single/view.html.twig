@@ -15,6 +15,15 @@
                  alt="recipe">
         </div>
     {% endif %}
+    <i class="fas fa-clock"></i>
+    {{ recipe.cookingTime }}
+    <img src="{{ asset('/img/kitchen.png') }}" id="kitchen-icon" alt="kitchen" width="28">
+    {{ recipe.kitchen }}
+    <i class="fas fa-utensils"></i>
+    {{ recipe.typeOfDish }}
+    <i class="fas fa-user"></i>
+    {{ recipe.numberOfPersons }}
+    <br>
     <br>
     <table>
         <thead>
@@ -72,6 +81,8 @@
         {% endif %}
         <div class="fw-bold">Ingrediënten</div>
         {{ recipe.ingredients|nl2br }}
+        <br>
+        <br>
         <div class="fw-bold">Voedingsmiddelen gerecht</div>
         <table class="table">
             {% for id, weight in recipe.foodstuffWeights %}
@@ -101,30 +112,30 @@
             <div class="fw-bold">Hulpmiddelen en keukengerei</div
             {{ recipe.toolsAndKitchenware|nl2br }}
         {% endif %}
-        <div class="fw-bold">Aantal personen</div>
-        {{ recipe.numberOfPersons }}
         {% if recipe.numberOfPieces is not null %}
             <div class="fw-bold">Aantal stuks</div>
             {{ recipe.numberOfPieces }}
         {% endif %}
         {% if recipe.source is not null %}
+            <br>
+            <br>
             <div class="fw-bold">Bron</div>
             {{ recipe.source }}
         {% endif %}
-        <div class="fw-bold">Bereidingstijd</div>
-        {{ recipe.cookingTime }}
-        <div class="fw-bold">Keuken</div>
-        {{ recipe.kitchen }}
-        <div class="fw-bold">Soort gerecht</div>
-        {{ recipe.typeOfDish }}
         {% if recipe.occasion is not null %}
+            <br>
             <div class="fw-bold">Gelegenheid</div>
             {{ recipe.occasion }}
         {% endif %}
-        <br>
-        <br>
+        {% set hasDiet = false %}
         {% for key, choice in constant('DIET_CHOICES', recipe)  %}
             {% if attribute(recipe, choice) == 1 %}
+                {% if not hasDiet %}
+                    <br>
+                    <br>
+                    <div class="fw-bold">Dieet</div>
+                {% endif %}
+                {% set hasDiet = true %}
                 <div>{{ key }}</div>
             {% endif %}
         {% endfor %}

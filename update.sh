@@ -5,9 +5,8 @@ if [[ $EUID -eq 0 ]]; then
   echo "This script must NOT be run as root" 1>&2
   exit 1
 fi
-PREVIOUS=$(git rev-parse HEAD)
-git pull origin master
 docker login --username harrydeboer
+git pull origin master
 docker-compose pull
 docker-compose up -d
 docker cp /var/www/letsencrypt smuldieet:/etc
