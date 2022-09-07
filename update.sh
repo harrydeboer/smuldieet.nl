@@ -11,10 +11,14 @@ docker-compose pull
 docker-compose up -d
 docker cp /var/www/letsencrypt smuldieet:/etc
 docker cp /var/www/.ssh smuldieet:/var/www
-docker cp /var/www/smuldieet.nl/.env.local smuldieet:/var/www/html/.env.local
 PREFIX="docker exec -it --user=www-data smuldieet"
-$PREFIX sh -c "test ! -d .git" && docker cp /var/www/smuldieet.nl/. smuldieet:/var/www/html
-$PREFIX git pull origin master
+if $PREFIX sh -c "test ! -d .git"
+then
+  docker cp /var/www/smuldieet.nl/. smuldieet:/var/www/html
+else
+  $PREFIX git pull origin master
+  docker cp /var/www/smuldieet.nl/.env.local smuldieet:/var/www/html/.env.local
+fi
 $PREFIX composer install --no-dev --no-progress --prefer-dist
 $PREFIX php bin/console cache:clear
 docker-compose restart web
