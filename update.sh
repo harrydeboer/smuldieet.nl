@@ -10,11 +10,11 @@ git pull origin master
 docker-compose pull
 docker-compose up -d
 docker cp /var/www/letsencrypt smuldieet:/etc
-docker cp /var/www/.ssh smuldieet:/var/www
 PREFIX="docker exec -it --user=www-data smuldieet"
 if $PREFIX sh -c "test ! -d .git"
 then
   docker cp /var/www/smuldieet.nl/. smuldieet:/var/www/html
+  docker cp /var/www/.ssh smuldieet:/var/www
 else
   $PREFIX git pull origin master
   docker cp /var/www/smuldieet.nl/.env.local smuldieet:/var/www/html/.env.local
