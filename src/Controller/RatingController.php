@@ -52,7 +52,7 @@ class RatingController extends AuthController
         /**
          * When creating a rating it is checked that the recipe is not pending except when the current user owns it.
          */
-        if ($recipe->getPending() && $recipe->getUser()->getId() !== $this->getUser()->getId()) {
+        if ($recipe->getIsPending() && $recipe->getUser()->getId() !== $this->getUser()->getId()) {
             throw new NotFoundHttpException('Dit recept can niet worden getoond.');
         }
 
@@ -61,9 +61,9 @@ class RatingController extends AuthController
             $rating->setUser($this->getUser());
             $rating->setTimestamp(time());
             if (is_null($rating->getContent())) {
-                $rating->setPending(false);
+                $rating->setIsPending(false);
             } else {
-                $rating->setPending(true);
+                $rating->setIsPending(true);
             }
             $rating->setRecipe($recipe);
 
@@ -109,11 +109,11 @@ class RatingController extends AuthController
         if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
             try {
                 if (is_null($rating->getContent())) {
-                    $rating->setPending(false);
-                } elseif ($oldReview === $rating->getContent() && !$rating->getPending()) {
-                    $rating->setPending(false);
+                    $rating->setIsPending(false);
+                } elseif ($oldReview === $rating->getContent() && !$rating->getIsPending()) {
+                    $rating->setIsPending(false);
                 } else {
-                    $rating->setPending(true);
+                    $rating->setIsPending(true);
                 }
                 $this->ratingRepository->update($oldRating, $rating);
 

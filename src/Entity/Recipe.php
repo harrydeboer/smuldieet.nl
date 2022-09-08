@@ -132,15 +132,15 @@ class Recipe extends FoodstuffsEntity
     ];
 
     public const DIET_CHOICES = [
-        'Vegetarisch' => 'vegetarian',
-        'Veganistisch' => 'vegan',
-        'Histamine vrij' => 'histamineFree',
-        'Koemelk vrij' => 'cowMilkFree',
-        'Soja vrij' => 'soyFree',
-        'Gluten vrij' => 'glutenFree',
-        'Kippenei eiwitvrij' => 'chickenEggProteinFree',
-        'Noten vrij' => 'nutFree',
-        'Zonder pakjes en zakjes' => 'withoutPackagesAndBags',
+        'Vegetarisch' => 'isVegetarian',
+        'Veganistisch' => 'isVegan',
+        'Histamine vrij' => 'isHistamineFree',
+        'Koemelk vrij' => 'isCowMilkFree',
+        'Soja vrij' => 'isSoyFree',
+        'Gluten vrij' => 'isGlutenFree',
+        'Kippenei eiwitvrij' => 'isChickenEggProteinFree',
+        'Noten vrij' => 'isNutFree',
+        'Zonder pakjes en zakjes' => 'isWithoutPackagesAndBags',
     ];
 
     public const IMAGE_WIDTHS = [
@@ -278,31 +278,31 @@ class Recipe extends FoodstuffsEntity
     private ?string $source = null;
 
     #[ORM\Column(type: "boolean")]
-    private bool $vegetarian = false;
+    private bool $isVegetarian = false;
 
     #[ORM\Column(type: "boolean")]
-    private bool $vegan = false;
+    private bool $isVegan = false;
 
     #[ORM\Column(type: "boolean")]
-    private bool $histamineFree = false;
+    private bool $isHistamineFree = false;
 
     #[ORM\Column(type: "boolean")]
-    private bool $cowMilkFree = false;
+    private bool $isCowMilkFree = false;
 
     #[ORM\Column(type: "boolean")]
-    private bool $soyFree = false;
+    private bool $isSoyFree = false;
 
     #[ORM\Column(type: "boolean")]
-    private bool $glutenFree = false;
+    private bool $isGlutenFree = false;
 
     #[ORM\Column(type: "boolean")]
-    private bool $chickenEggProteinFree = false;
+    private bool $isChickenEggProteinFree = false;
 
     #[ORM\Column(type: "boolean")]
-    private bool $nutFree = false;
+    private bool $isNutFree = false;
 
     #[ORM\Column(type: "boolean")]
-    private bool $withoutPackagesAndBags = false;
+    private bool $isWithoutPackagesAndBags = false;
 
     #[
         ORM\ManyToOne(targetEntity: "App\Entity\User", inversedBy: "recipes"),
@@ -334,7 +334,7 @@ class Recipe extends FoodstuffsEntity
     private Collection $tags;
 
     #[ORM\Column(type: "boolean")]
-    private bool $pending = true;
+    private bool $isPending = true;
 
     public function __construct()
     {
@@ -508,94 +508,94 @@ class Recipe extends FoodstuffsEntity
         $this->user = $user;
     }
 
-    public function getVegetarian(): bool
+    public function getIsVegetarian(): bool
     {
-        return $this->vegetarian;
+        return $this->isVegetarian;
     }
 
-    public function setVegetarian(bool $vegetarian): void
+    public function setIsVegetarian(bool $isVegetarian): void
     {
-        $this->vegetarian = $vegetarian;
+        $this->isVegetarian = $isVegetarian;
     }
 
-    public function getVegan(): bool
+    public function getIsVegan(): bool
     {
-        return $this->vegan;
+        return $this->isVegan;
     }
 
-    public function setVegan(bool $vegan): void
+    public function setIsVegan(bool $isVegan): void
     {
-        $this->vegan = $vegan;
+        $this->isVegan = $isVegan;
     }
 
-    public function getHistamineFree(): bool
+    public function getIsHistamineFree(): bool
     {
-        return $this->histamineFree;
+        return $this->isHistamineFree;
     }
 
-    public function setHistamineFree(bool $histamineFree): void
+    public function setIsHistamineFree(bool $isHistamineFree): void
     {
-        $this->histamineFree = $histamineFree;
+        $this->isHistamineFree = $isHistamineFree;
     }
 
-    public function getCowMilkFree(): bool
+    public function getIsCowMilkFree(): bool
     {
-        return $this->cowMilkFree;
+        return $this->isCowMilkFree;
     }
 
-    public function setCowMilkFree(bool $cowMilkFree): void
+    public function setIsCowMilkFree(bool $isCowMilkFree): void
     {
-        $this->cowMilkFree = $cowMilkFree;
+        $this->isCowMilkFree = $isCowMilkFree;
     }
 
-    public function getSoyFree(): bool
+    public function getIsSoyFree(): bool
     {
-        return $this->soyFree;
+        return $this->isSoyFree;
     }
 
-    public function setSoyFree(bool $soyFree): void
+    public function setIsSoyFree(bool $isSoyFree): void
     {
-        $this->soyFree = $soyFree;
+        $this->isSoyFree = $isSoyFree;
     }
 
-    public function getGlutenFree(): bool
+    public function getIsGlutenFree(): bool
     {
-        return $this->glutenFree;
+        return $this->isGlutenFree;
     }
 
-    public function setGlutenFree(bool $glutenFree): void
+    public function setIsGlutenFree(bool $isGlutenFree): void
     {
-        $this->glutenFree = $glutenFree;
+        $this->isGlutenFree = $isGlutenFree;
     }
 
-    public function getChickenEggProteinFree(): bool
+    public function getIsChickenEggProteinFree(): bool
     {
-        return $this->chickenEggProteinFree;
+        return $this->isChickenEggProteinFree;
     }
 
-    public function setChickenEggProteinFree(bool $chickenEggProteinFree): void
+    public function setIsChickenEggProteinFree(bool $isChickenEggProteinFree): void
     {
-        $this->chickenEggProteinFree = $chickenEggProteinFree;
+        $this->isChickenEggProteinFree = $isChickenEggProteinFree;
     }
 
-    public function getNutFree(): bool
+    public function getIsNutFree(): bool
     {
-        return $this->nutFree;
+        return $this->isNutFree;
     }
 
-    public function setNutFree(bool $nutFree): void
+    public function setIsNutFree(bool $isNutFree): void
     {
-        $this->nutFree = $nutFree;
+        $this->isNutFree = $isNutFree;
     }
 
-    public function getWithoutPackagesAndBags(): bool
+    public function getIsWithoutPackagesAndBags(): bool
     {
-        return $this->withoutPackagesAndBags;
+        return $this->isWithoutPackagesAndBags;
     }
 
-    public function setWithoutPackagesAndBags(bool $withoutPackagesAndBags): void
+    public function setIsWithoutPackagesAndBags(bool $isWithoutPackagesAndBags): void
     {
-        $this->withoutPackagesAndBags = $withoutPackagesAndBags;
+        $this->isWithoutPackagesAndBags = $isWithoutPackagesAndBags;
     }
 
     public function getFoodstuffs(): Collection
@@ -708,14 +708,14 @@ class Recipe extends FoodstuffsEntity
         $this->cookbooks = $cookbooks;
     }
 
-    public function getPending(): bool
+    public function getIsPending(): bool
     {
-        return $this->pending;
+        return $this->isPending;
     }
 
-    public function setPending(bool $pending): void
+    public function setIsPending(bool $isPending): void
     {
-        $this->pending = $pending;
+        $this->isPending = $isPending;
     }
 
     public function getIsSelfInvented(): bool

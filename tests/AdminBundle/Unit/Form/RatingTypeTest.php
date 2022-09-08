@@ -13,7 +13,7 @@ class RatingTypeTest extends TypeTestCase
     public function testSubmitModel(): void
     {
         $formData = [
-            'pending' => false,
+            'isPending' => false,
         ];
 
         $rating = new Rating();
@@ -21,7 +21,7 @@ class RatingTypeTest extends TypeTestCase
         $form = $this->factory->create(ReviewType::class, $rating);
 
         $expected = new Rating();
-        $expected->setPending(false);
+        $expected->setIsPending(false);
 
         $form->submit($formData);
 

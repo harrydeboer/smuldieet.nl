@@ -14,7 +14,7 @@ class RecipeControllerTest extends AuthAdminWebTestCase
 {
     public function testCreateUpdateDelete(): void
     {
-        $recipeNotPending = static::getContainer()->get(RecipeFactory::class)->create(['pending' => false]);
+        $recipeNotPending = static::getContainer()->get(RecipeFactory::class)->create(['isPending' => false]);
         $foodstuff = static::getContainer()->get(FoodstuffFactory::class)->create();
 
         $this->client->request('GET', '/recepten');

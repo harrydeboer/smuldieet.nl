@@ -33,7 +33,7 @@ class RatingRepository extends ServiceEntityRepository implements RatingReposito
     {
         $qb = $this->createQueryBuilder('r');
         $qb->where('r.content IS NOT NULL');
-        $qb->andWhere('r.pending = 1');
+        $qb->andWhere('r.isPending = 1');
 
         $query = $qb->getQuery();
 

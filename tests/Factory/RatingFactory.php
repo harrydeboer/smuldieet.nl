@@ -32,7 +32,7 @@ class RatingFactory extends AbstractFactory
         $rating = new Rating();
         $rating->setRating(rand(10, 100) / 10);
         $rating->setTimestamp(time());
-        $rating->setPending(rand(0, 1) === 1);
+        $rating->setIsPending(rand(0, 1) === 1);
         $rating->setUser($paramsParent['user']);
         $rating->setRecipe($paramsParent['recipe']);
 

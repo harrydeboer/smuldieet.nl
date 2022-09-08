@@ -40,7 +40,7 @@ class Rating
     private int $rating;
 
     #[ORM\Column(type: "boolean")]
-    private bool $pending = true;
+    private bool $isPending = true;
 
     #[
         ORM\ManyToOne(targetEntity: "App\Entity\User", inversedBy: "ratings"),
@@ -94,14 +94,14 @@ class Rating
         $this->rating = (int) (10 * $rating);
     }
 
-    public function getPending(): bool
+    public function getIsPending(): bool
     {
-        return $this->pending;
+        return $this->isPending;
     }
 
-    public function setPending(bool $pending): void
+    public function setIsPending(bool $isPending): void
     {
-        $this->pending = $pending;
+        $this->isPending = $isPending;
     }
 
     public function getUser(): User

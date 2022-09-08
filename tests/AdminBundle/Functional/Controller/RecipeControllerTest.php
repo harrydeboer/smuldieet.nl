@@ -16,7 +16,7 @@ class RecipeControllerTest extends AuthAdminWebTestCase
 
         $this->assertResponseIsSuccessful();
 
-        $recipe = static::getContainer()->get(RecipeFactory::class)->create(['pending' => true]);
+        $recipe = static::getContainer()->get(RecipeFactory::class)->create(['isPending' => true]);
 
         $recipeRepository = $this->getContainer()->get(RecipeRepositoryInterface::class);
 
@@ -28,15 +28,15 @@ class RecipeControllerTest extends AuthAdminWebTestCase
 
         $form = $buttonCrawlerNode->form();
 
-        $form['recipe[pending]'] = false;
+        $form['recipe[isPending]'] = false;
 
         $this->client->submit($form);
 
         $this->assertResponseRedirects('/admin/recepten');
 
-        $recipe = $recipeRepository->findOneBy(['pending' => false]);
+        $recipe = $recipeRepository->findOneBy(['isPending' => false]);
 
-        $this->assertEquals(false, $recipe->getPending());
+        $this->assertEquals(false, $recipe->getIsPending());
 
         $crawler = $this->client->request('GET', '/admin/recept/wijzig/' . $id);
 
