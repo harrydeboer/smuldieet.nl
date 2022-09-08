@@ -24,7 +24,7 @@ class PageController extends AuthController
     /**
      * The route has pagina as url and not pagina's because quotes are not to be used in urls.
      */
-    #[Route('/pagina', name: 'adminPage')]
+    #[Route('/pagina', name: 'admin_page')]
     public function view(): Response
     {
         $pages = $this->pageRepository->findAll();
@@ -34,7 +34,7 @@ class PageController extends AuthController
         ]);
     }
 
-    #[Route('/pagina/wijzig/{id}', name: 'adminPageEdit')]
+    #[Route('/pagina/wijzig/{id}', name: 'admin_page_edit')]
     public function edit(Request $request, Page $page): Response
     {
         $formUpdate = $this->createForm(PageType::class, $page, [
@@ -42,7 +42,7 @@ class PageController extends AuthController
         ]);
 
         $formDelete = $this->createForm(DeleteType::class, $page, [
-            'action' => $this->generateUrl('adminPageDelete', ['id' => $page->getId()]),
+            'action' => $this->generateUrl('admin_page_delete', ['id' => $page->getId()]),
             'method' => 'POST',
         ]);
 
@@ -51,16 +51,16 @@ class PageController extends AuthController
         if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
             $this->pageRepository->update();
 
-            return $this->redirectToRoute('adminPage');
+            return $this->redirectToRoute('admin_page');
         }
 
-        return $this->render('@AdminBundle/page/edit/view.html.twig', [
+        return $this->render('@AdminBundle/page/edit.html.twig', [
             'formUpdate' => $formUpdate->createView(),
             'formDelete' => $formDelete->createView(),
         ]);
     }
 
-    #[Route('/pagina/toevoegen', name: 'adminPageCreate')]
+    #[Route('/pagina/toevoegen', name: 'admin_page_create')]
     public function new(Request $request): Response
     {
         $page = new Page();
@@ -72,15 +72,15 @@ class PageController extends AuthController
             $page->setTimestamp(time());
             $this->pageRepository->create($page);
 
-            return $this->redirectToRoute('adminPage');
+            return $this->redirectToRoute('admin_page');
         }
 
-        return $this->render('@AdminBundle/page/new/view.html.twig', [
+        return $this->render('@AdminBundle/page/new.html.twig', [
             'form' => $form->createView(),
         ]);
     }
 
-    #[Route('/pagina/verwijder/{id}', name: 'adminPageDelete')]
+    #[Route('/pagina/verwijder/{id}', name: 'admin_page_delete')]
     public function delete(Request $request, Page $page): RedirectResponse
     {
         $form = $this->createForm(DeleteType::class);
@@ -90,6 +90,6 @@ class PageController extends AuthController
             $this->pageRepository->delete($page);
         }
 
-        return $this->redirectToRoute('adminPage');
+        return $this->redirectToRoute('admin_page');
     }
 }

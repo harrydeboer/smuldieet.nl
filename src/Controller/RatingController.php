@@ -27,7 +27,7 @@ class RatingController extends AuthController
     }
 
     #[
-        Route('/waarderingen', name: 'recipeRating'),
+        Route('/waarderingen', name: 'rating'),
     ]
     public function view(): Response
     {
@@ -38,7 +38,7 @@ class RatingController extends AuthController
         ]);
     }
 
-    #[Route('/waardering/{recipeId}', name: 'recipeRatingCreate')]
+    #[Route('/waardering/{recipeId}', name: 'rating_create')]
     public function new(Request $request, int $recipeId): Response
     {
         $rating = new Rating();
@@ -71,22 +71,22 @@ class RatingController extends AuthController
                 $this->ratingRepository->create($rating);
 
                 if ($request->get('rating')) {
-                    return $this->redirectToRoute('recipeSingle', ['id' => $recipe->getId()]);
+                    return $this->redirectToRoute('recipe_single', ['id' => $recipe->getId()]);
                 }
 
-                return $this->redirectToRoute('recipeRating');
+                return $this->redirectToRoute('rating');
             } catch (Exception $exception) {
                 $form->addError(new FormError($exception->getMessage()));
             }
         }
 
-        return $this->render('rating/new/view.html.twig', [
+        return $this->render('rating/new.html.twig', [
             'rating' => $rating,
             'form' => $form->createView(),
         ]);
     }
 
-    #[Route('/waardering/wijzig/{id}', name: 'recipeRatingEdit')]
+    #[Route('/waardering/wijzig/{id}', name: 'rating_edit')]
     public function edit(Request $request, int $id): Response
     {
         $rating = $this->getRating($id);
@@ -100,7 +100,7 @@ class RatingController extends AuthController
             $formUpdate = $this->createForm(ReviewType::class, $rating);
         }
         $formDelete = $this->createForm(DeleteType::class, $rating, [
-            'action' => $this->generateUrl('recipeRatingDelete', ['id' => $rating->getId()]),
+            'action' => $this->generateUrl('recipe_rating_delete', ['id' => $rating->getId()]),
             'method' => 'POST',
         ]);
 
@@ -118,33 +118,33 @@ class RatingController extends AuthController
                 $this->ratingRepository->update($oldRating, $rating);
 
                 if ($request->get('rating')) {
-                    return $this->redirectToRoute('recipeSingle', ['id' => $recipe->getId()]);
+                    return $this->redirectToRoute('recipe_single', ['id' => $recipe->getId()]);
                 }
 
-                return $this->redirectToRoute('recipeRating');
+                return $this->redirectToRoute('rating');
             } catch (Exception $exception) {
                 $formUpdate->addError(new FormError($exception->getMessage()));
             }
         }
 
-        return $this->render('rating/edit/view.html.twig', [
+        return $this->render('rating/edit.html.twig', [
             'rating' => $rating,
             'formUpdate' => $formUpdate->createView(),
             'formDelete' => $formDelete->createView(),
         ]);
     }
 
-    #[Route('/waardering/enkel/{id}', name: 'recipeRatingSingle')]
+    #[Route('/waardering/enkel/{id}', name: 'rating_single')]
     public function single(int $id): Response
     {
         $rating = $this->getRating($id);
 
-        return $this->render('rating/single/view.html.twig', [
+        return $this->render('rating/single.html.twig', [
             'rating' => $rating,
         ]);
     }
 
-    #[Route('/waardering/verwijder/{id}', name: 'recipeRatingDelete')]
+    #[Route('/waardering/verwijder/{id}', name: 'recipe_rating_delete')]
     public function delete(Request $request, int $id): RedirectResponse
     {
         $rating = $this->getRating($id);
@@ -156,7 +156,7 @@ class RatingController extends AuthController
             $this->ratingRepository->delete($rating);
         }
 
-        return $this->redirectToRoute('recipeSingle', ['id' => $recipe->getId()]);
+        return $this->redirectToRoute('recipe_single', ['id' => $recipe->getId()]);
     }
 
     private function getRating(int $id): Rating

@@ -2,7 +2,7 @@
 <html lang="nl">
 <head>
     <title>{% block title %}{% endblock %}</title>
-    {{ include('head.html.twig') }}
+    {{ include('_head.html.twig') }}
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -10,23 +10,22 @@
         <button class="navbar-toggler"
                 type="button"
                 data-bs-toggle="collapse"
-                data-bs-target="#navbar-supported-content"
-                aria-controls="navbar-supported-content"
+                data-bs-target="#navbar_supported_content"
+                aria-controls="navbar_supported_content"
                 aria-expanded="false"
                 aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbar-supported-content">
+        <div class="collapse navbar-collapse" id="navbar_supported_content">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li><a href="{{ path('adminHomepage') }}">Home</a></li>
-                <li><a href="{{ path('adminPage') }}">Pagina's</a></li>
-                <li><a href="{{ path('adminUser') }}">Gebruikers</a></li>
-                <li><a href="{{ path('adminFoodstuff') }}">Voedingsmiddelen</a></li>
-                <li><a href="{{ path('adminRecipe') }}">Recepten</a></li>
-                <li><a href="{{ path('adminRating') }}">Reviews</a></li>
-                <li><a href="{{ path('adminProfanity') }}">Scheldwoorden</a></li>
+                <li><a href="{{ path('admin_homepage') }}">Home</a></li>
+                <li><a href="{{ path('admin_page') }}">Pagina's</a></li>
+                <li><a href="{{ path('admin_user') }}">Gebruikers</a></li>
+                <li><a href="{{ path('admin_foodstuff') }}">Voedingsmiddelen</a></li>
+                <li><a href="{{ path('admin_recipe') }}">Recepten</a></li>
+                <li><a href="{{ path('admin_rating') }}">Reviews</a></li>
+                <li><a href="{{ path('admin_profanity') }}">Scheldwoorden</a></li>
             </ul>
-            <div id="navigation-border"></div>
         </div>
     </div>
 </nav>
@@ -41,4 +40,3 @@
 {% endblock %}
 </body>
 </html>
-

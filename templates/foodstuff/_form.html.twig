@@ -1,0 +1,35 @@
+<div id="form_errors_client"></div>
+<div id="form_errors_server">
+    {{ form_errors(form) }}
+    {{ form_errors(form.name) }}
+    {% for key,property in foodstuff.aDH() %}
+        {{ form_errors(attribute(form, key)) }}
+    {% endfor %}
+</div>
+<p>Nu het voedingsmiddel gemaakt is uit andere voedingsmiddelen kun je nog de voedingswaarden op het etiket invullen
+    voor jouw voedingsmiddel.</p>
+{{ form_start(form) }}
+<table class="table table-small">
+    <tr>
+        <td>Naam</td>
+        <td>{{ form_widget(form.name) }}</td>
+    </tr>
+    <tr>
+        <td>Gewicht per stuk</td>
+        <td>{{ form_widget(form.pieceWeight) }}</td>
+    </tr>
+    <tr>
+        <td>Naam per stuk</td>
+        <td>{{ form_widget(form.pieceName) }}</td>
+    </tr>
+    {% for key,property in foodstuff.aDH() %}
+        <tr>
+            <td>{{ property[3] }}</td>
+            <td>{{ form_widget(attribute(form, key)) }}</td>
+        </tr>
+    {% endfor %}
+    <tr>
+        <td colspan="2">{{ form_widget(form.submit, { 'label': submit_label }) }}</td>
+    </tr>
+</table>
+{{ form_end(form) }}

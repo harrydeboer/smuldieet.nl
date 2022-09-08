@@ -7,7 +7,7 @@
         {% for recipe in recipes %}
             <tr>
                 <td>{{ recipe.title }}</td>
-                <td><a href="{{ path('adminRecipeEdit', {'id': recipe.id}) }}">wijzig</a></td>
+                <td><a href="{{ path('admin_recipe_edit', {'id': recipe.id}) }}">wijzig</a></td>
             </tr>
         {% endfor %}
     </table>

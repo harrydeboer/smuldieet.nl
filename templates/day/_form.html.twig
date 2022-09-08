@@ -1,0 +1,56 @@
+<div id="form_errors_client"></div>
+<div id="form_errors_server">
+    {{ form_errors(form) }}
+    {% if form.date is defined %}
+        {{ form_errors(form.date) }}
+    {% endif %}
+    {{ form_errors(form.foodstuffWeights) }}
+    {{ form_errors(form.foodstuffChoices) }}
+    {{ form_errors(form.recipeChoices) }}
+</div>
+{{ form_start(form, { 'attr' : { 'class': 'food-form' }}) }}
+<table class="food-table table table-small">
+    {% if form.date is defined %}
+        <tr>
+            <td>Datum</td>
+            <td colspan="3">{{ form_widget(form.date) }}</td>
+        </tr>
+        {% set formName = 'day' %}
+    {% else %}
+        {% set formName = 'standard_day' %}
+    {% endif %}
+    {{ include('_food_row.html.twig', {
+        'form_name': formName,
+        'entities': day.foodstuffs,
+        'weights': form.foodstuffWeights,
+        'food_type': 'foodstuff',
+        'weights_or_choices': 'weights',
+        'placeholder': 'voedingsmiddel',
+    }) }}
+    {{ include('_food_row.html.twig', {
+        'form_name': formName,
+        'entities': day.foodstuffs,
+        'weights': form.foodstuffChoices,
+        'food_type': 'foodstuff',
+        'weights_or_choices': 'choices',
+        'placeholder': 'voedingsmiddel'
+    }) }}
+    {{ include('_food_row.html.twig', {
+        'form_name': formName,
+        'entities': day.recipes,
+        'weights': form.recipeChoices,
+        'food_type': 'recipe',
+        'weights_or_choices': 'choices',
+        'placeholder': 'gerecht'
+    }) }}
+    <tr id="add_foodstuff_recipe_button_row">
+        <td colspan="4">
+            <div class="btn btn-primary" id="add_foodstuff">Voedingsmiddel toevoegen</div>
+            <div class="btn btn-primary" id="add_recipe">Gerecht toevoegen</div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">{{ form_widget(form.submit, { 'label': submit_label }) }}</td>
+    </tr>
+</table>
+{{ form_end(form) }}

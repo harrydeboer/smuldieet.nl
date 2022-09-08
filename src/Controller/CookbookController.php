@@ -36,7 +36,7 @@ class CookbookController extends AuthController
         ]);
     }
 
-    #[Route('/kookboek/wijzig/{id}', name: 'cookbookEdit')]
+    #[Route('/kookboek/wijzig/{id}', name: 'cookbook_edit')]
     public function edit(Request $request, int $id): Response
     {
         $cookbook = $this->getCookbook($id);
@@ -46,7 +46,7 @@ class CookbookController extends AuthController
         ]);
 
         $formDelete = $this->createForm(DeleteType::class, $cookbook, [
-            'action' => $this->generateUrl('cookbookDelete', ['id' => $cookbook->getId()]),
+            'action' => $this->generateUrl('cookbook_delete', ['id' => $cookbook->getId()]),
             'method' => 'POST',
         ]);
 
@@ -58,14 +58,14 @@ class CookbookController extends AuthController
             return $this->redirectToRoute('cookbook');
         }
 
-        return $this->render('cookbook/edit/view.html.twig', [
+        return $this->render('cookbook/edit.html.twig', [
             'cookbook' => $cookbook,
             'formUpdate' => $formUpdate->createView(),
             'formDelete' => $formDelete->createView(),
         ]);
     }
 
-    #[Route('/kookboek/toevoegen', name: 'cookbookCreate')]
+    #[Route('/kookboek/toevoegen', name: 'cookbook_create')]
     public function new(Request $request): Response
     {
         $cookbook = new Cookbook();
@@ -81,13 +81,13 @@ class CookbookController extends AuthController
             return $this->redirectToRoute('cookbook');
         }
 
-        return $this->render('cookbook/new/view.html.twig', [
+        return $this->render('cookbook/new.html.twig', [
             'cookbook' => $cookbook,
             'form' => $form->createView(),
         ]);
     }
 
-    #[Route('/kookboek/verwijder/{id}', name: 'cookbookDelete')]
+    #[Route('/kookboek/verwijder/{id}', name: 'cookbook_delete')]
     public function delete(Request $request, int $id): RedirectResponse
     {
         $cookbook = $this->getCookbook($id);
@@ -102,12 +102,12 @@ class CookbookController extends AuthController
         return $this->redirectToRoute('cookbook');
     }
 
-    #[Route('/kookboek/enkel/{id}', name: 'cookbookSingle')]
+    #[Route('/kookboek/enkel/{id}', name: 'cookbook_single')]
     public function single(int $id): Response
     {
         $cookbook = $this->getCookbook($id);
 
-        return $this->render('cookbook/single/view.html.twig', [
+        return $this->render('cookbook/single.html.twig', [
             'cookbook' => $cookbook,
         ]);
     }

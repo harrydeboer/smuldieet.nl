@@ -5,10 +5,10 @@
 {% block body %}
     {{ page is not null ? page.content|raw : '' }}
     {% if currentUser is not null %}
-        <a href="{{ path('foodstuffFromFoodstuffsCreate') }}">Maak een voedingsmiddel van voedingsmiddelen</a><br>
+        <a href="{{ path('foodstuff_from_foodstuffs_create') }}">Maak een voedingsmiddel van voedingsmiddelen</a><br>
     {% endif %}
     <br>
-    <select id="abc-select">
+    <select id="abc_select">
         {% for char in 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z'|split(',') %}
             {% if char == charSelected %}
                 <option value="{{ char }}" selected>{{ char }}</option>
@@ -17,18 +17,18 @@
             {% endif %}
         {% endfor %}
     </select>
-    <div id="abc-route" data-route="{{ path('foodstuffChar') }}"></div>
-    <div id="abc-chars">
+    <div id="abc_route" data-route="{{ path('foodstuff_char') }}"></div>
+    <div id="abc_chars">
         {% for char in 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z'|split(',') %}
-            <a href="{{ path('foodstuffChar', {'char': char}) }}">{{ char }}</a>
+            <a href="{{ path('foodstuff_char', {'char': char}) }}">{{ char }}</a>
         {% endfor %}
     </div>
     <table class="table table-striped">
         {% for foodstuff in foodstuffs %}
             <tr>
-                <td><a href="{{ path('foodstuffSingle', {'id': foodstuff.id}) }}">{{ foodstuff.name }}</a></td>
+                <td><a href="{{ path('foodstuff_single', {'id': foodstuff.id}) }}">{{ foodstuff.name }}</a></td>
                 {% if currentUser is not null and foodstuff.user == currentUser %}
-                    <td><a href="{{ path('foodstuffEdit', {'id': foodstuff.id }) }}">wijzig</a></td>
+                    <td><a href="{{ path('foodstuff_edit', {'id': foodstuff.id }) }}">wijzig</a></td>
                 {% else %}
                     <td></td>
                 {% endif %}

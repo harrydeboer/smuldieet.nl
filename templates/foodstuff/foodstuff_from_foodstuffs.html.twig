@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Maak voedingsmiddel van voedingsmiddelen{% endblock %}
+
+{% block body %}
+    <div id="form_errors_client"></div>
+    <div id="form_errors_server">
+        {{ form_errors(form) }}
+        {{ form_errors(form.name) }}
+    </div>
+    {{ form_start(form, { 'attr' : { 'class': 'food-form' }}) }}
+    <table class="food-table table table-small">
+        <tr>
+            <td>Naam</td>
+            <td colspan="3">{{ form_widget(form.name) }}</td>
+        </tr>
+        {{ include('_food_row.html.twig', {
+            'form_name': 'foodstuff_from_foodstuffs',
+            'weights': form.foodstuffWeights,
+            'food_type': 'foodstuff',
+            'weights_or_choices': 'weights',
+            'placeholder': 'voedingsmiddel'
+        }) }}
+        <tr id="add_foodstuff_recipe_button_row">
+            <td colspan="4"><div class="btn btn-primary" id="add_foodstuff">Voedingsmiddel toevoegen</div></td>
+        </tr>
+        <tr>
+            <td colspan="4">{{ form_widget(form.submit, { 'label': 'Voedingsmiddel opslaan' }) }}</td>
+        </tr>
+    </table>
+    {{ form_end(form) }}
+{% endblock %}

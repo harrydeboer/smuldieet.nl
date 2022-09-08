@@ -26,7 +26,7 @@ class RecipeController extends AuthController
     ) {
     }
 
-    #[Route('/recepten', name: 'adminRecipe')]
+    #[Route('/recepten', name: 'admin_recipe')]
     public function view(): Response
     {
         $recipes = $this->recipeRepository->findAllPending();
@@ -36,7 +36,7 @@ class RecipeController extends AuthController
         ]);
     }
 
-    #[Route('/recept/wijzig/{id}', name: 'adminRecipeEdit')]
+    #[Route('/recept/wijzig/{id}', name: 'admin_recipe_edit')]
     public function edit(Request $request, Recipe $recipe): Response
     {
         $formUpdate = $this->createForm(RecipeType::class, $recipe, [
@@ -44,7 +44,7 @@ class RecipeController extends AuthController
         ]);
 
         $formDelete = $this->createForm(DeleteType::class, $recipe, [
-            'action' => $this->generateUrl('adminRecipeDelete', ['id' => $recipe->getId()]),
+            'action' => $this->generateUrl('admin_recipe_delete', ['id' => $recipe->getId()]),
             'method' => 'POST',
         ]);
 
@@ -54,20 +54,20 @@ class RecipeController extends AuthController
             try {
                 $this->recipeRepository->update($recipe);
 
-                return $this->redirectToRoute('adminRecipe');
+                return $this->redirectToRoute('admin_recipe');
             } catch (Exception $exception) {
                 $formUpdate->addError(new FormError($exception->getMessage()));
             }
         }
 
-        return $this->render('@AdminBundle/recipe/edit/view.html.twig', [
+        return $this->render('@AdminBundle/recipe/edit.html.twig', [
             'recipe' => $recipe,
             'formUpdate' => $formUpdate->createView(),
             'formDelete' => $formDelete->createView(),
         ]);
     }
 
-    #[Route('/recept/verwijder/{id}', name: 'adminRecipeDelete')]
+    #[Route('/recept/verwijder/{id}', name: 'admin_recipe_delete')]
     public function delete(Request $request, Recipe $recipe): RedirectResponse
     {
         $form = $this->createForm(DeleteType::class);
@@ -77,6 +77,6 @@ class RecipeController extends AuthController
             $this->recipeRepository->delete($recipe);
         }
 
-        return $this->redirectToRoute('adminRecipe');
+        return $this->redirectToRoute('admin_recipe');
     }
 }

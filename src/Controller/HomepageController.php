@@ -26,7 +26,7 @@ class HomepageController extends Controller
 
     #[
         Route('/', name: 'homepage', defaults: ['page' => '1']),
-        Route('/pagina/{page<[1-9]\d*>}', name: 'homepageIndexPaginated'),
+        Route('/pagina/{page<[1-9]\d*>}', name: 'homepage_index_paginated'),
     ]
     public function view(Request $request, int $page): Response
     {

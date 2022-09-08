@@ -1,0 +1,12 @@
+{% extends '@AdminBundle/base.html.twig' %}
+
+{% block title %}Wijzig{% endblock %}
+
+{% block body %}
+    {{ include('@AdminBundle/foodstuff/_form.html.twig', {form: formUpdate, submit_label: 'Wijzig'}) }}
+    <br>
+    {{ include('_delete_confirmation.html.twig', {
+        entityName: 'foodstuff',
+        warning: 'Weet je zeker dat je dit voedingsmiddel, zijn dagen en recepten wilt verwijderen?'
+    }) }}
+{% endblock %}

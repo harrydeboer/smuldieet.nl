@@ -7,7 +7,7 @@
         {% for review in reviews %}
             <tr>
                 <td>{{ review.content }}</td>
-                <td><a href="{{ path('adminRatingEdit', {'id': review.id}) }}">wijzig</a></td>
+                <td><a href="{{ path('admin_rating_edit', {'id': review.id}) }}">wijzig</a></td>
             </tr>
         {% endfor %}
     </table>

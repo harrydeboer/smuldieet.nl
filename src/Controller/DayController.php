@@ -27,7 +27,7 @@ class DayController extends AuthController
 
     #[
         Route('/dagboek', name: 'diary', defaults: ['page' => '1']),
-        Route('/dagboek/pagina/{page<[1-9]\d*>}', name: 'diaryIndexPaginated'),
+        Route('/dagboek/pagina/{page<[1-9]\d*>}', name: 'diary_index_paginated'),
     ]
     public function view(int $page): Response
     {
@@ -44,7 +44,7 @@ class DayController extends AuthController
         ]);
     }
 
-    #[Route('/dag/wijzig/{id}', name: 'dayEdit')]
+    #[Route('/dag/wijzig/{id}', name: 'day_edit')]
     public function edit(Request $request, int $id): Response
     {
         $day = $this->getDay($id);
@@ -64,7 +64,7 @@ class DayController extends AuthController
         }
 
         $formDelete = $this->createForm(DeleteType::class, $day, [
-            'action' => $this->generateUrl('dayDelete', ['id' => $day->getId()]),
+            'action' => $this->generateUrl('day_delete', ['id' => $day->getId()]),
             'method' => 'POST',
         ]);
 
@@ -80,14 +80,14 @@ class DayController extends AuthController
             return $this->redirectToRoute('diary');
         }
 
-        return $this->render('day/edit/view.html.twig', [
+        return $this->render('day/edit.html.twig', [
             'day' => $day,
             'formUpdate' => $formUpdate->createView(),
             'formDelete' => $formDelete->createView(),
         ]);
     }
 
-    #[Route('/dag/toevoegen', name: 'dayCreate')]
+    #[Route('/dag/toevoegen', name: 'day_create')]
     public function new(Request $request): Response
     {
         $day = new Day();
@@ -111,13 +111,13 @@ class DayController extends AuthController
             $form = $this->createForm(DayType::class, $dayStandard);
         }
 
-        return $this->render('day/new/view.html.twig', [
+        return $this->render('day/new.html.twig', [
             'day' => $dayStandard ?? $day,
             'form' => $form->createView(),
         ]);
     }
 
-    #[Route('/dag/toevoegen/standaard', name: 'dayCreateStandard')]
+    #[Route('/dag/toevoegen/standaard', name: 'day_create_standard')]
     public function newStandard(Request $request): Response
     {
         $day = new Day();
@@ -140,13 +140,13 @@ class DayController extends AuthController
             return $this->redirectToRoute('diary');
         }
 
-        return $this->render('day/new/standardDay.html.twig', [
+        return $this->render('day/new_standard_day.html.twig', [
             'day' => $day,
             'form' => $form->createView(),
         ]);
     }
 
-    #[Route('/dag/verwijder/{id}', name: 'dayDelete')]
+    #[Route('/dag/verwijder/{id}', name: 'day_delete')]
     public function delete(Request $request, int $id): RedirectResponse
     {
         $day = $this->getDay($id);
@@ -161,12 +161,12 @@ class DayController extends AuthController
         return $this->redirectToRoute('diary');
     }
 
-    #[Route('/dag/enkel/{id}', name: 'daySingle')]
+    #[Route('/dag/enkel/{id}', name: 'day_single')]
     public function single(int $id): Response
     {
         $day = $this->getDay($id);
 
-        return $this->render('day/single/view.html.twig', [
+        return $this->render('day/single.html.twig', [
             'day' => $day,
         ]);
     }

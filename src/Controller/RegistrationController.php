@@ -40,7 +40,7 @@ class RegistrationController extends Controller
     /**
      * @throws TransportExceptionInterface
      */
-    #[Route('/registreren', name: 'appRegister')]
+    #[Route('/registreren', name: 'app_register')]
     public function register(Request $request): Response
     {
         $user = new User();
@@ -99,7 +99,7 @@ class RegistrationController extends Controller
         } catch (VerifyEmailExceptionInterface $e) {
             $this->addFlash('verify_email_error', $e->getReason());
 
-            return $this->redirectToRoute('appRegister');
+            return $this->redirectToRoute('app_register');
         }
 
         $this->addFlash('success', 'Je e-mail adres is geverifieerd.');
@@ -117,7 +117,7 @@ class RegistrationController extends Controller
     /**
      * @throws TransportExceptionInterface
      */
-    #[Route('/verstuur-verificatie-e-mail-opnieuw', name: 'sendVerificationEmailAgain')]
+    #[Route('/verstuur-verificatie-e-mail-opnieuw', name: 'send_verification_email_again')]
     public function sendVerificationEmailAgain(Request $request): Response
     {
         $success = null;
@@ -140,7 +140,7 @@ class RegistrationController extends Controller
             }
         }
 
-        return $this->render('registration/sendVerificationEmailAgain.html.twig', [
+        return $this->render('registration/send_verification_email_again.html.twig', [
             'form' => $form->createView(),
             'success' => $success,
             'error' => $error,

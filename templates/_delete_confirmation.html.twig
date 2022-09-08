@@ -1,0 +1,16 @@
+<div class="modal delete-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>{{ warning }}</h3>
+                {{ form_start(formDelete) }}
+                {{ form_widget(formDelete.delete, { 'label': 'Verwijder' }) }}
+                {{ form_end(formDelete) }}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Sluiten</button>
+            </div>
+        </div>
+    </div>
+</div>
+<button class="btn btn-danger delete-modal-button">Verwijder {{ entityName }}</button>

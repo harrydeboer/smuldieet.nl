@@ -30,7 +30,7 @@ class FoodstuffController extends Controller
 
     #[
         Route('/voedingsmiddelen', name: 'foodstuff', defaults: ['char' => 'A']),
-        Route('/voedingsmiddelen/letter/{char}', name: 'foodstuffChar'),
+        Route('/voedingsmiddelen/letter/{char}', name: 'foodstuff_char'),
     ]
     public function view(string $char = 'A'): Response
     {
@@ -44,7 +44,7 @@ class FoodstuffController extends Controller
         ]);
     }
 
-    #[Route('/voedingsmiddel/wijzig/{id}', name: 'foodstuffEdit')]
+    #[Route('/voedingsmiddel/wijzig/{id}', name: 'foodstuff_edit')]
     public function edit(Request $request, int $id): Response
     {
         $foodstuff = $this->getFoodstuff($id);
@@ -55,7 +55,7 @@ class FoodstuffController extends Controller
         ]);
 
         $formDelete = $this->createForm(DeleteType::class, $foodstuff, [
-            'action' => $this->generateUrl('foodstuffDelete', ['id' => $foodstuff->getId()]),
+            'action' => $this->generateUrl('foodstuff_delete', ['id' => $foodstuff->getId()]),
             'method' => 'POST',
         ]);
 
@@ -71,14 +71,14 @@ class FoodstuffController extends Controller
             }
         }
 
-        return $this->render('foodstuff/edit/view.html.twig', [
+        return $this->render('foodstuff/edit.html.twig', [
             'foodstuff' => $foodstuff,
             'formUpdate' => $formUpdate->createView(),
             'formDelete' => $formDelete->createView(),
         ]);
     }
 
-    #[Route('/voedingsmiddel/van-voedingsmiddelen', name: 'foodstuffFromFoodstuffsCreate')]
+    #[Route('/voedingsmiddel/van-voedingsmiddelen', name: 'foodstuff_from_foodstuffs_create')]
     public function newFromFoodstuffs(Request $request): Response
     {
         $foodstuff = new Foodstuff();
@@ -97,19 +97,19 @@ class FoodstuffController extends Controller
                 }
                 $this->foodstuffRepository->create($foodstuff);
 
-                return $this->redirectToRoute('foodstuffEdit', ['id' => $foodstuff->getId()]);
+                return $this->redirectToRoute('foodstuff_edit', ['id' => $foodstuff->getId()]);
             } catch (Exception $exception) {
                 $form->addError(new FormError($exception->getMessage()));
             }
         }
 
-        return $this->render('foodstuff/new/fromFoodstuffs.html.twig', [
+        return $this->render('foodstuff/foodstuff_from_foodstuffs.html.twig', [
             'foodstuff' => $foodstuff,
             'form' => $form->createView(),
         ]);
     }
 
-    #[Route('/voedingsmiddel/verwijder/{id}', name: 'foodstuffDelete')]
+    #[Route('/voedingsmiddel/verwijder/{id}', name: 'foodstuff_delete')]
     public function delete(Request $request, int $id): RedirectResponse
     {
         $foodstuff = $this->getFoodstuff($id);
@@ -125,12 +125,12 @@ class FoodstuffController extends Controller
         return $this->redirectToRoute('foodstuff');
     }
 
-    #[Route('/voedingsmiddel/enkel/{id}', name: 'foodstuffSingle')]
+    #[Route('/voedingsmiddel/enkel/{id}', name: 'foodstuff_single')]
     public function single(int $id): Response
     {
         $foodstuff = $this->getFoodstuff($id);
         if (is_null($foodstuff->getUser()) || $foodstuff->getUser()->getId() === $this->getUser()?->getId()) {
-            return $this->render('foodstuff/single/view.html.twig', [
+            return $this->render('foodstuff/single.html.twig', [
                 'foodstuff' => $foodstuff,
                 'isLoggedIn' => !is_null($this->getUser()),
             ]);
@@ -139,7 +139,7 @@ class FoodstuffController extends Controller
         throw new NotFoundHttpException('Dit voedingsmiddel bestaat niet of hoort niet bij jou.');
     }
 
-    #[Route('/voedingsmiddel/zoeken/{name}', name: 'foodstuffSearch')]
+    #[Route('/voedingsmiddel/zoeken/{name}', name: 'foodstuff_search')]
     public function search(string $name = ''): Response
     {
         if (strlen($name) > 255) {

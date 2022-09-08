@@ -4,13 +4,13 @@
 
 {% block body %}
     {{ page is not null ? page.content|raw : '' }}
-    <div id="form-errors-client"></div>
-    <div id="form-errors-server">
+    <div id="form_errors_client"></div>
+    <div id="form_errors_server">
         {{ form_errors(form) }}
         {{ form_errors(form.start) }}
         {{ form_errors(form.end) }}
     </div>
-    {{ form_start(form, {'attr': {'id': 'overview-form'}}) }}
+    {{ form_start(form) }}
     <table class="table table-small">
         <thead>
         <tr>

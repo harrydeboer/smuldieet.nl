@@ -4,8 +4,8 @@
 
 {% block body %}
     {{ page is not null ? page.content|raw : '' }}
-    <div id="form-errors-client"></div>
-    <div id="form-errors-server">
+    <div id="form_errors_client"></div>
+    <div id="form_errors_server">
         {{ form_errors(form) }}
         {{ form_errors(form.name) }}
         {{ form_errors(form.subject) }}
@@ -19,7 +19,7 @@
         <div class="error-message">{{ error }}</div>
     {% endif %}
     {{ form_start(form) }}
-    <table id="contact-table" class="table table-small">
+    <table class="table table-small">
         <tr>
             <td>Naam</td>
             <td>{{ form_widget(form.name) }}</td>
@@ -39,6 +39,6 @@
             <td colspan="2">{{ form_widget(form.send, { 'label': 'Verzenden' }) }}</td>
         </tr>
     </table>
-    {{ form_widget(form.reCaptchaToken, {'id': 'contact-re-captcha-token'}) }}
+    {{ form_widget(form.reCaptchaToken) }}
     {{ form_end(form) }}
 {% endblock %}

@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HomepageController extends AuthController
 {
-    #[Route('/', name: 'adminHomepage')]
+    #[Route('/', name: 'admin_homepage')]
     public function view(): Response
     {
         return $this->render('@AdminBundle/homepage/view.html.twig');

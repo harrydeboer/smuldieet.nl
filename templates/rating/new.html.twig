@@ -1,0 +1,7 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Maak dag{% endblock %}
+
+{% block body %}
+    {{ include('rating/_form.html.twig', {submit_label: 'Waardering opslaan'}) }}
+{% endblock %}

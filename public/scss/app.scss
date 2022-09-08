@@ -1,9 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 
-$font-stack: 'Open Sans', sans-serif;
+$search-color: #0d6efd;
+$sort-filter-selector: type_of_dish, cooking_time, kitchen, occasion, diet, diet_filter, sort;
 
 body {
-  font-family: $font-stack;
+  font-family: 'Open Sans', sans-serif;
   font-size: 20px;
   width: 100%;
   margin-left: auto;
@@ -16,7 +17,7 @@ body {
   margin-right: 10px;
 }
 
-#smuldieet-title {
+#smuldieet_title {
   display: inline;
 }
 
@@ -32,15 +33,15 @@ body {
   color: gold;
 }
 
-#add-foodstuff {
+#add_foodstuff {
   width: 150px;
 }
 
-#add-recipe {
+#add_recipe {
   width: 150px;
 }
 
-#form-errors-client, #form-errors-server {
+#form_errors_client, #form_errors_server {
   color: red;
 }
 
@@ -58,10 +59,6 @@ body {
 
 .flash-notice-must-verify {
   color: red;
-}
-
-#isSelfInvented_placeholder, label[for=isSelfInvented_placeholder] {
-  display: none;
 }
 
 .table-small {
@@ -89,28 +86,28 @@ body {
 }
 
 /* Homepage */
-#filter-sort-form #number-of-persons, #votes {
+#filter_sort_form #number_of_persons, #votes {
   width: 200px;
 }
 
-#filter-sort-form #sort {
+#filter_sort_form #sort {
   width: 300px;
 }
 
-#recipe-search {
+form #title {
   width: 100%;
   display: inline;
 }
 
-#recipe-filter-icon {
-  color: #0d6efd;
+#recipe_filter_icon {
+  color: $search-color;
   margin-left: -64px;
 }
 
-#recipe-search-icon {
+#recipe_search_icon {
   margin-left: 0;
   color: white;
-  background-color: #0d6efd;
+  background-color: $search-color;
   padding: 7px 9px 9px 9px;
   cursor: pointer;
   border-top-right-radius: .375rem;
@@ -121,7 +118,7 @@ body {
   width: 85px;
 }
 
-#filter-sort-div #typeOfDish, #cookingTime, #kitchen, #occasion, #diet, #diet-filter, #sort {
+#filter_sort_div #{$sort-filter-selector} {
   width: 100%;
 }
 
@@ -132,19 +129,19 @@ body {
 }
 
 @media (min-width: 360px) {
-  #recipe-search {
+  form #title {
     width: 320px;
   }
 }
 
 @media (min-width: 500px) {
-  #filter-sort-div #typeOfDish, #cookingTime, #kitchen, #occasion, #diet, #diet-filter, #sort {
+  #filter_sort_div #{$sort-filter-selector} {
     width: 145px;
   }
 }
 
 @media (min-width: 870px) {
-  #filter-sort-div #typeOfDish, #cookingTime, #kitchen, #occasion, #diet, #diet-filter, #sort {
+  #filter_sort_div #{$sort-filter-selector} {
     display: inline;
   }
 }
@@ -171,21 +168,17 @@ body {
 }
 
 /* Recipe page */
-#recipe-image {
+#recipe_image {
   width: 600px;
 }
 
-#singleRecipe {
+#single_recipe {
   margin-right: auto;
   margin-left: auto;
 }
 
-#kitchen-icon {
+#kitchen_icon {
   margin-bottom: 3px;
-}
-
-#recipe-source {
-  display: none;
 }
 
 /* Rating form */
@@ -193,11 +186,11 @@ body {
   width: 50px;
 }
 
-#rate-modal-button, #rate-modal-button-star {
+#rate_modal_button, #rate_modal_button_star {
   color: rgb(87, 153, 239);
 }
 
-#rate-modal-button:hover {
+#rate_modal_button:hover {
   cursor: pointer
 }
 
@@ -214,57 +207,52 @@ body {
   color: rgb(87, 153, 239);
 }
 
-#rating-div .radio-star:checked ~ label .far {
+#rating_div .radio-star:checked ~ label .far {
   font-weight: 900;
 }
 
-#rating-div label {
+#rating_div label {
   float: right;
   padding: 10px 4px;
 }
 
-#rating-div:hover .far {
+#rating_div:hover .far {
   font-weight: 400 !important;
 }
 
-#rating-div:hover label:hover .far {
+#rating_div:hover label:hover .far {
   font-weight: 900 !important;
 }
 
-#rating-div label:hover,
-#rating-div label:hover ~ label .far {
+#rating_div label:hover,
+#rating_div label:hover ~ label .far {
   font-weight: 900 !important;
 }
 
-#rating-div {
+#rating_div {
   display: inline-block;
   list-style: none;
 }
 
-#rate-recipe-login {
+#rate_recipe_login {
   text-decoration: none;
 }
 
-/* Overview page */
-#overview-legend {
-  font-weight: bold;
-}
-
 /* Foodstuff page */
-#abc-select {
+#abc_select {
   display: block;
 }
 
-#abc-chars {
+#abc_chars {
   display: none;
 }
 
 @media (min-width: 576px) {
-  #abc-select {
+  #abc_select {
     display: none;
   }
 
-  #abc-chars {
+  #abc_chars {
     display: block;
   }
 }

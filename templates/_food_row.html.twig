@@ -1,0 +1,37 @@
+{% for key, weight in weights %}
+    <tr>
+        <td>{{ include('_food_dropdown.html.twig', {
+                'title': food_type == 'foodstuff' ? entities[key].name : entities[key].title,
+            }) }}</td>
+        <td>{{ form_widget(weight) }}</td>
+        {% if food_type == 'foodstuff' %}
+            <td><span class="piece-name"></span></td>
+        {% else %}
+            <td></td>
+        {% endif %}
+        <td><i class="remove-row fa fa-minus"></i></td>
+    </tr>
+{% endfor %}
+<tr class="d-none">
+    <td>
+        <div id="{{ form_name }}_{{ food_type }}_dropdown"
+             data-prototype="{{ include('_food_dropdown.html.twig', {'title': ''})|e('html') }}">
+        </div>
+    </td>
+    <td>
+        {% if weights|length == 0 %}
+            {{ form_widget(weights) }}
+        {% else %}
+            <div id="{{ form_name }}_{{ food_type }}_{{ weights_or_choices }}"
+                 data-prototype="{{ form_widget(weights.vars.prototype)|e('html') }}"></div>
+        {% endif %}
+    </td>
+    <td></td>
+    <td>
+        {% if food_type == 'foodstuff' %}
+            <div id="foodstuff_search" data-search="{{ path('foodstuff_search', {'name': '__name__'}) }}"></div>
+        {% else %}
+            <div id="recipe_search" data-search="{{ path('recipe_search', {'title': '__title__'}) }}"></div>
+        {% endif %}
+    </td>
+</tr>

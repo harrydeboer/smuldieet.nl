@@ -1,0 +1,73 @@
+<div id="form_errors_client"></div>
+<div id="form_errors_server">
+    {{ form_errors(form) }}
+    {{ form_errors(form.image) }}
+    {{ form_errors(form.username) }}
+    {{ form_errors(form.firstName) }}
+    {{ form_errors(form.lastName) }}
+    {{ form_errors(form.email) }}
+    {{ form_errors(form.birthdate) }}
+    {{ form_errors(form.gender) }}
+    {{ form_errors(form.weight) }}
+    {{ form_errors(form.roles) }}
+    {{ form_errors(form.isVerified) }}
+    {{ form_errors(form.plainPassword) }}
+</div>
+{{ form_start(form) }}
+<table class="table table-small">
+    <tr>
+        <td colspan="2">
+            <button id="upload_file_button" class="btn btn-primary">Upload foto</button>{{ form_widget(form.image) }}
+        </td>
+    </tr>
+    <tr>
+        <td>Gebruikersnaam</td>
+        <td>{{ form_widget(form.username) }}</td>
+    </tr>
+    <tr>
+        <td>Voornaam</td>
+        <td>{{ form_widget(form.firstName) }}</td>
+    </tr>
+    <tr>
+        <td>Achternaam</td>
+        <td>{{ form_widget(form.lastName) }}</td>
+    </tr>
+    <tr>
+        <td>E-mail</td>
+        <td>{{ form_widget(form.email) }}</td>
+    </tr>
+    <tr>
+        <td>Geboortedatum</td>
+        <td>{{ form_widget(form.birthdate.day, {'attr': {'class': 'date-field form-control form-select'}}) }}
+            {{ form_widget(form.birthdate.month, {'attr': {'class': 'date-field form-control form-select'}}) }}
+            {{ form_widget(form.birthdate.year, {'attr': {'class': 'date-field form-control form-select'}}) }}
+        </td>
+    </tr>
+    <tr>
+        <td>Geslacht</td>
+        <td>{{ form_widget(form.gender) }}</td>
+    </tr>
+    <tr>
+        <td>Gewicht</td>
+        <td>{{ form_widget(form.weight) }}</td>
+    </tr>
+    <tr>
+        <td>Rollen</td>
+        <td>{{ form_widget(form.roles) }}</td>
+    </tr>
+    <tr>
+        <td>Is geverifieerd</td>
+        <td>{{ form_widget(form.isVerified) }}</td>
+    </tr>
+    <tr>
+        <td>Wachtwoord</td>
+        <td>{{ form_widget(form.plainPassword.children.first) }}</td>
+    </tr>
+    <tr>
+        <td>Herhaal wachtwoord</td>
+        <td>{{ form_widget(form.plainPassword.children.second) }}</td>
+    </tr>
+    <tr><td colspan="2">{{ form_widget(form.register, { 'label': submit_label }) }}</td>
+    </tr>
+</table>
+{{ form_end(form) }}

@@ -1,0 +1,12 @@
+{% extends '@AdminBundle/base.html.twig' %}
+
+{% block title %}Wijzig{% endblock %}
+
+{% block body %}
+    {{ include('@AdminBundle/page/_form.html.twig', {form: formUpdate, submit_label: 'Wijzig'}) }}
+    <br>
+    {{ include('_delete_confirmation.html.twig', {
+        entityName: 'page',
+        warning: 'Weet je zeker dat je deze pagina wilt verwijderen?'
+    }) }}
+{% endblock %}

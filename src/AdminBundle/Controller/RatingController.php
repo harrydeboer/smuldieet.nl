@@ -26,7 +26,7 @@ class RatingController extends AuthController
     ) {
     }
 
-    #[Route('/waarderingen', name: 'adminRating')]
+    #[Route('/waarderingen', name: 'admin_rating')]
     public function view(): Response
     {
         $reviews = $this->ratingRepository->findAllPendingReviews();
@@ -36,7 +36,7 @@ class RatingController extends AuthController
         ]);
     }
 
-    #[Route('/waardering/wijzig/{id}', name: 'adminRatingEdit')]
+    #[Route('/waardering/wijzig/{id}', name: 'admin_rating_edit')]
     public function edit(Request $request, Rating $rating): Response
     {
         $formUpdate = $this->createForm(ReviewType::class, $rating, [
@@ -45,7 +45,7 @@ class RatingController extends AuthController
         $ratingOldRating = $rating->getRating();
 
         $formDelete = $this->createForm(DeleteType::class, $rating, [
-            'action' => $this->generateUrl('adminRatingDelete', ['id' => $rating->getId()]),
+            'action' => $this->generateUrl('admin_rating_delete', ['id' => $rating->getId()]),
             'method' => 'POST',
         ]);
 
@@ -55,20 +55,20 @@ class RatingController extends AuthController
             try {
                 $this->ratingRepository->update($ratingOldRating, $rating);
 
-                return $this->redirectToRoute('adminRating');
+                return $this->redirectToRoute('admin_rating');
             } catch (Exception $exception) {
                 $formUpdate->addError(new FormError($exception->getMessage()));
             }
         }
 
-        return $this->render('@AdminBundle/rating/edit/view.html.twig', [
+        return $this->render('@AdminBundle/rating/edit.html.twig', [
             'rating' => $rating,
             'formUpdate' => $formUpdate->createView(),
             'formDelete' => $formDelete->createView(),
         ]);
     }
 
-    #[Route('/waardering/verwijder/{id}', name: 'adminRatingDelete')]
+    #[Route('/waardering/verwijder/{id}', name: 'admin_rating_delete')]
     public function delete(Request $request, Rating $rating): RedirectResponse
     {
         $form = $this->createForm(DeleteType::class);
@@ -78,6 +78,6 @@ class RatingController extends AuthController
             $this->ratingRepository->delete($rating);
         }
 
-        return $this->redirectToRoute('adminRating');
+        return $this->redirectToRoute('admin_rating');
     }
 }

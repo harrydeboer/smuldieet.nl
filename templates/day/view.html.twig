@@ -4,16 +4,16 @@
 
 {% block body %}
     <h1>Dagen</h1>
-    <div><a href="{{ path('dayCreate') }}">Maak een dag</a></div>
+    <div><a href="{{ path('day_create') }}">Maak een dag</a></div>
     {% if standardDay is null %}
         {{ page is not null ? page.content|raw : '' }}
     {% else %}
         <br>
     {% endif %}
     {% if standardDay is not null %}
-        <div><a href="{{ path('dayEdit', {'id': standardDay.id}) }}">Wijzig de standaard dag</a></div>
+        <div><a href="{{ path('day_edit', {'id': standardDay.id}) }}">Wijzig de standaard dag</a></div>
     {% else %}
-        <div><a href="{{ path('dayCreateStandard') }}">Maak de standaard dag</a></div>
+        <div><a href="{{ path('day_create_standard') }}">Maak de standaard dag</a></div>
     {% endif %}
     {% if paginator.results is empty %}
         <br><p>Er zijn nog geen dagen toegevoegd aan je dagboek.</p>
@@ -27,11 +27,11 @@
             </thead>
             {% for day in paginator.results %}
                 <tr>
-                    <td><a href="{{ path('daySingle', {'id': day.id}) }}">{{ day.date|date('d-M-Y') }}</a></td>
-                    <td><a href="{{ path('dayEdit', {'id': day.id }) }}">wijzig</a></td>
+                    <td><a href="{{ path('day_single', {'id': day.id}) }}">{{ day.date|date('d-M-Y') }}</a></td>
+                    <td><a href="{{ path('day_edit', {'id': day.id }) }}">wijzig</a></td>
                 </tr>
             {% endfor %}
         </table>
-        {{ include('pagination/view.html.twig', {route: 'diaryIndexPaginated'}) }}
+        {{ include('pagination/view.html.twig', {route: 'diary_index_paginated'}) }}
     {% endif %}
 {% endblock %}

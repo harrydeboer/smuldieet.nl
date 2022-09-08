@@ -30,7 +30,7 @@ class ErrorController extends Controller
              * the user to the sendVerificationEmailAgain route.
              */
             if ($statusCodeString === '403' && !$this->getUser()->isVerified()) {
-                return $this->redirectToRoute('sendVerificationEmailAgain');
+                return $this->redirectToRoute('send_verification_email_again');
             }
 
             $templatePath = 'error/' . $statusCodeString . '.html.twig';

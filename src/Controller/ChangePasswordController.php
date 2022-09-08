@@ -19,7 +19,7 @@ class ChangePasswordController extends AuthController
     ) {
     }
 
-    #[Route('/verander-wachtwoord', name: 'changePassword')]
+    #[Route('/verander-wachtwoord', name: 'change_password')]
     public function changePassword(Request $request): Response
     {
         $form = $this->createForm(ChangePasswordType::class);
@@ -32,7 +32,7 @@ class ChangePasswordController extends AuthController
             return $this->redirectToRoute('homepage');
         }
 
-        return $this->render('/security/changePassword.html.twig', [
+        return $this->render('/security/change_password.html.twig', [
             'form' => $form->createView(),
             'page' => $this->pageRepository->findOneBy(['title' => 'Verander wachtwoord']),
         ]);

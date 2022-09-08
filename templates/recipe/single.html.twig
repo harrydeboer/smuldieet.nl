@@ -1,0 +1,147 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Recept{% endblock %}
+
+{% block body %}
+    {% if isLoggedIn %}
+        {{ include('rating/_rating_modal.html.twig') }}
+    {% endif %}
+    <h2>{{ recipe.title }}</h2>
+    {% if recipe.imageExtension is not null %}
+        <div>
+            <img src="{{  asset(recipe.getImagePath(appEnv, 600)) }}"
+                 id="recipe_image"
+                 class="img-fluid"
+                 alt="recipe">
+        </div>
+    {% endif %}
+    <i class="fas fa-clock"></i>
+    {{ recipe.cookingTime }}
+    <img src="{{ asset('/img/kitchen.png') }}" id="kitchen_icon" alt="kitchen" width="28">
+    {{ recipe.kitchen }}
+    <i class="fas fa-utensils"></i>
+    {{ recipe.typeOfDish }}
+    <i class="fas fa-user"></i>
+    {{ recipe.numberOfPersons }}
+    <br>
+    <br>
+    <table>
+        <thead>
+        <tr>
+            <th scope="col">Smuldieet waardering</th>
+            <th scope="col">&nbsp;&nbsp;Jouw waardering</th>
+        </tr>
+        </thead>
+        <tr>
+            <td>
+                <div>
+                    {% if recipe.rating is null %}
+                        N/B
+                        <br>
+                        <br>
+                    {% else %}
+                        {{ recipe.rating|number_format(1) }} <i class="fas fa-star fa-star-gold"></i><br>
+                        {{ recipe.votes }}
+                        {% if recipe.votes == 1 %}
+                            stem
+                        {% else %}
+                            stemmen
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </td>
+            <td>
+                {% if isLoggedIn %}
+                    <div id="rate_modal_button" class="fw-bold">&nbsp;&nbsp;
+                        {% if rating is null %}
+
+                            Waardeer <i class="far fa-star" id="rate_modal_button_star"></i>
+                        {% else %}
+                            {{ rating.rating }} <i class="fas fa-star" id="rate_modal_button_star"></i>
+                        {% endif %}
+                        <br>
+                        <br>
+                    </div>
+                {% else %}
+                    &nbsp;&nbsp;<a href="{{ path('app_login') }}" id="rate_recipe_login">Waardeer
+                    <i class="far fa-star" id="rate_modal_button_star"></i>
+                </a>
+                    <br>
+                    <br>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+    <br>
+    <br>
+    <div id="single_recipe">
+        {% if recipe.url is not null %}
+            <div class="fw-bold">Url</div>
+            {{ recipe.url }}
+        {% endif %}
+        <div class="fw-bold">Ingrediënten</div>
+        {{ recipe.ingredients|nl2br }}
+        <br>
+        <br>
+        <div class="fw-bold">Voedingsmiddelen gerecht</div>
+        <table class="table">
+            {% for id, weight in recipe.foodstuffWeights %}
+                <tr>
+                    <td>{{ recipe.foodstuffs()[id].name }}</td>
+                    <td>{{ weight|number_format }} g</td>
+                </tr>
+            {% endfor %}
+            {% for id, weight in recipe.foodstuffChoices %}
+                <tr>
+                    <td>{{ recipe.foodstuffs()[id].name }}</td>
+                    <td>{{ weight }} {{ recipe.foodstuffs()[id].pieceName }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        <div class="fw-bold">Bereidingswijze</div>
+        {{ recipe.preparationMethod|nl2br }}
+        {% if recipe.niceStory is not null %}
+            <div class="fw-bold">Vertel iets leuks over dit recept</div>
+            {{ recipe.niceStory|nl2br }}
+        {% endif %}
+        {% if recipe.niceTips is not null %}
+            <div class="fw-bold">Leuke tips</div>
+            {{ recipe.niceTips|nl2br }}
+        {% endif %}
+        {% if recipe.toolsAndKitchenware is not null %}
+            <div class="fw-bold">Hulpmiddelen en keukengerei</div
+            {{ recipe.toolsAndKitchenware|nl2br }}
+        {% endif %}
+        {% if recipe.numberOfPieces is not null %}
+            <div class="fw-bold">Aantal stuks</div>
+            {{ recipe.numberOfPieces }}
+        {% endif %}
+        {% if recipe.source is not null %}
+            <br>
+            <br>
+            <div class="fw-bold">Bron</div>
+            {{ recipe.source }}
+        {% endif %}
+        {% if recipe.occasion is not null %}
+            <br>
+            <div class="fw-bold">Gelegenheid</div>
+            {{ recipe.occasion }}
+        {% endif %}
+        {% set hasDiet = false %}
+        {% for key, choice in constant('DIET_CHOICES', recipe)  %}
+            {% if attribute(recipe, choice) == 1 %}
+                {% if not hasDiet %}
+                    <br>
+                    <br>
+                    <div class="fw-bold">Dieet</div>
+                {% endif %}
+                {% set hasDiet = true %}
+                <div>{{ key }}</div>
+            {% endif %}
+        {% endfor %}
+        <br>
+        {% if currentUserId == recipe.user.id %}
+            <div><a href="{{ path('recipe_edit', {'id': recipe.id}) }}">wijzig</a></div>
+        {% endif %}
+    </div>
+{% endblock %}

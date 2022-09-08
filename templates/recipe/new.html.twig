@@ -1,0 +1,7 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Maak recept{% endblock %}
+
+{% block body %}
+    {{ include('recipe/_form.html.twig', {submit_label: 'Recept opslaan'}) }}
+{% endblock %}

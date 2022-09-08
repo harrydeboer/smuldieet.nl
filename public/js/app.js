@@ -3,8 +3,8 @@ $(function() {
         $('.delete-modal').modal('show');
     });
 
-    $('#rate-modal-button').on('click', function () {
-        $('#rate-modal').modal('show');
+    $('#rate_modal_button').on('click', function () {
+        $('#rate_modal').modal('show');
     });
 
     $('.radio-star').on('change', function () {
@@ -15,27 +15,27 @@ $(function() {
         e.stopPropagation();
     })
 
-    $('#uploadFileButton').on('click', function (event) {
+    $('#upload_file_button').on('click', function (event) {
         $(this).next()[0].click();
         event.preventDefault();
     });
 
-    $('#recipe-search-icon').on('click', function (event) {
+    $('#recipe_search_icon').on('click', function (event) {
         $(this).next()[0].click();
         event.preventDefault();
     });
 
-    $('#abc-select').on('change', function () {
-        window.location.href = $('#abc-route').data('route') + '/' + $(this).val();
+    $('#abc_select').on('change', function () {
+        window.location.href = $('#abc_route').data('route') + '/' + $(this).val();
     });
 
     $('form[name="contact"]').on('submit', function (event) {
-        if ($('#contact-re-captcha-token').val() === '') {
+        if ($('#contact_re_captcha_token').val() === '') {
             // noinspection JSUnresolvedVariable
             grecaptcha.ready(function () {
                 // noinspection JSUnresolvedVariable,JSUnresolvedFunction
-                grecaptcha.execute($('#re-captcha-key').data('key'), {action: 'contact'}).then(function (token) {
-                    $('#contact-re-captcha-token').val(token);
+                grecaptcha.execute($('#re_captcha_key').data('key'), {action: 'contact'}).then(function (token) {
+                    $('#contact_re_captcha_token').val(token);
                     $('[name="contact"]').trigger('submit');
                 });
             });
@@ -47,14 +47,14 @@ $(function() {
      * The is self invented radio button shows a source field when it is not self invented.
      */
     if ($('input[name="recipe[isSelfInvented]"]:checked').val() === '0') {
-        $('#recipe-source').show();
+        $('#recipe_source').removeClass('d-none');
     }
     $('input[name="recipe[isSelfInvented]"]').on('change', function () {
         if ($(this).val() === '1') {
-            $('#recipe-source-title').addClass('d-none');
+            $('#recipe_source_title').addClass('d-none');
             $('#recipe_source').addClass('d-none');
         } else {
-            $('#recipe-source-title').removeClass('d-none');
+            $('#recipe_source_title').removeClass('d-none');
             $('#recipe_source').removeClass('d-none');
         }
     });
@@ -62,15 +62,15 @@ $(function() {
     /**
      * After a recipe search has been performed on the homepage the browser animates to the search results.
      */
-    let recipesHomepage = $("#recipes-homepage");
-    if (recipesHomepage.length > 0 && !($('#recent-recipes-heading').length > 0)) {
+    let recipesHomepage = $("#recipes_homepage");
+    if (recipesHomepage.length > 0 && !($('#recent_recipes_heading').length > 0)) {
         $('html, body').animate({
             scrollTop: recipesHomepage.offset().top
         }, 1000);
     }
 
-    $('#recipe-filter-icon').on('click', function() {
-        let div = $('#filter-sort-div');
+    $('#recipe_filter_icon').on('click', function() {
+        let div = $('#filter_sort_div');
         if (div.hasClass('d-none')) {
             div.removeClass('d-none');
         } else {
@@ -82,7 +82,7 @@ $(function() {
         let rating = $('#rating_rating');
         rating.text('')
         if (rating.val() < 1 || rating.val() > 10) {
-            $('#form-errors-client').text('The waardering moet tussen 1 en 10 zijn.')
+            $('#form_errors_client').text('The waardering moet tussen 1 en 10 zijn.')
             event.preventDefault();
         }
     });

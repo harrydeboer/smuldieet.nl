@@ -4,7 +4,7 @@
 
 {% block body %}
     {{ page is not null ? page.content|raw : '' }}
-    <a href="{{ path('recipeCreate') }}">Maak een recept</a>
+    <a href="{{ path('recipe_create') }}">Maak een recept</a>
     {% if paginator.results is empty %}
         <p>Je hebt nog geen recepten gemaakt.</p>
     {% else %}
@@ -24,11 +24,11 @@
                                  alt="label" class="img-fluid recipe-image">
                         {% endif %}
                     </td>
-                    <td><a href="{{ path('recipeSingle', {'id': recipe.id}) }}">{{ recipe.title }}</a></td>
-                    <td><a href="{{ path('recipeEdit', {'id': recipe.id }) }}">wijzig</a></td>
+                    <td><a href="{{ path('recipe_single', {'id': recipe.id}) }}">{{ recipe.title }}</a></td>
+                    <td><a href="{{ path('recipe_edit', {'id': recipe.id }) }}">wijzig</a></td>
                 </tr>
             {% endfor %}
         </table>
-        {{ include('pagination/view.html.twig', {route: 'recipeIndexPaginated'}) }}
+        {{ include('pagination/view.html.twig', {route: 'recipe_index_paginated'}) }}
     {% endif %}
 {% endblock %}

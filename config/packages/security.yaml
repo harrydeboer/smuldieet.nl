@@ -19,7 +19,7 @@ security:
             custom_authenticator: App\Security\LoginFormAuthenticator
             login_throttling: ~
             logout:
-                path: appLogout
+                path: app_logout
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall

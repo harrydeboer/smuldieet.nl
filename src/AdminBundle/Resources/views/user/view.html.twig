@@ -3,14 +3,14 @@
 {% block title %}Gebruiker{% endblock %}
 
 {% block body %}
-    <a href="{{ path('adminUserCreate') }}">Maak een gebruiker</a>
+    <a href="{{ path('admin_user_create') }}">Maak een gebruiker</a>
     <table class="table table-striped">
         {% for user in paginator.results %}
             <tr>
                 <td>{{ user.username }}</td>
-                <td><a href="{{ path('adminUserEdit', {'id': user.id}) }}">wijzig</a></td>
+                <td><a href="{{ path('admin_user_edit', {'id': user.id}) }}">wijzig</a></td>
             </tr>
         {% endfor %}
     </table>
-    {{ include('pagination/view.html.twig', {route: 'adminUserIndexPaginated'}) }}
+    {{ include('pagination/view.html.twig', {route: 'admin_user_index_paginated'}) }}
 {% endblock %}

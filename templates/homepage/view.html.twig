@@ -14,8 +14,8 @@
         </div>
     {% endfor %}
     {{ page is not null ? page.content|raw : '' }}
-    <div id="form-errors-client"></div>
-    <div id="form-errors-server">
+    <div id="form_errors_client"></div>
+    <div id="form_errors_server">
         {{ form_errors(form) }}
         {{ form_errors(form.title) }}
         {{ form_errors(form.typeOfDish) }}
@@ -29,18 +29,18 @@
     </div>
     <br>
     {{ form_start(form) }}
-    {{ form_widget(form.title, {'id': 'recipe-search'}) }}<i
-        id="recipe-filter-icon" class="fas fa-sliders-h"></i>
-    <i id="recipe-search-icon" class="fas fa-search"></i>{{ form_widget(form.show, {'attr': {'class': 'd-none'}}) }}
-    <div id="filter-sort-div" class="d-none">
+    {{ form_widget(form.title) }}<i
+        id="recipe_filter_icon" class="fas fa-sliders-h"></i>
+    <i id="recipe_search_icon" class="fas fa-search"></i>{{ form_widget(form.show, {'attr': {'class': 'd-none'}}) }}
+    <div id="filter_sort_div" class="d-none">
         {{ form_widget(form.typeOfDish) }}
         {{ form_widget(form.cookingTime) }}
         {{ form_widget(form.kitchen) }}
         {{ form_widget(form.occasion) }}
         <div class="dropdown" id="diet">
-            <div class="form-control form-select" id="diet-filter" role="button"
+            <div class="form-control form-select" id="diet_filter" role="button"
                  data-bs-toggle="dropdown" aria-expanded="false">Dieet</div>
-            <table class="dropdown-menu dropdown-diet" aria-labelledby="diet-filter">
+            <table class="dropdown-menu dropdown-diet" aria-labelledby="diet_filter">
                 {% for key, choice in dietChoices %}
                     <tr>
                         <td>{{ form_label(attribute(form, choice)) }}</td>
@@ -54,9 +54,9 @@
     {{ form_end(form) }}
     <br>
     {% if not isFiltered %}
-        <h2 id="recent-recipes-heading">Recente recepten</h2>
+        <h2 id="recent_recipes_heading">Recente recepten</h2>
     {% endif %}
-    <table class="table table-striped" id="recipes-homepage">
+    <table class="table table-striped" id="recipes_homepage">
         {% for recipe in paginator.results %}
             <tr>
                 <td>
@@ -65,7 +65,7 @@
                              alt="label" class="img-fluid recipe-image">
                     {% endif %}
                 </td>
-                <td><a href="{{ path('recipeSingle', {'id': recipe.id}) }}">{{ recipe.title }}</a></td>
+                <td><a href="{{ path('recipe_single', {'id': recipe.id}) }}">{{ recipe.title }}</a></td>
                 {% if recipe.rating is null %}
                     <td></td>
                 {% else %}
@@ -78,6 +78,6 @@
         {% endfor %}
     </table>
     {% if isFiltered %}
-        {{ include('pagination/view.html.twig', {route: 'homepageIndexPaginated'}) }}
+        {{ include('pagination/view.html.twig', {route: 'homepage_index_paginated'}) }}
     {% endif %}
 {% endblock %}

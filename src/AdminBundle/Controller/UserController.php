@@ -25,8 +25,8 @@ class UserController extends AuthController
     }
 
     #[
-        Route('/gebruikers', name: 'adminUser', defaults: ['page' => '1']),
-        Route('/gebruikers/pagina/{page<[1-9]\d*>}', name: 'adminUserIndexPaginated'),
+        Route('/gebruikers', name: 'admin_user', defaults: ['page' => '1']),
+        Route('/gebruikers/pagina/{page<[1-9]\d*>}', name: 'admin_user_index_paginated'),
     ]
     public function view(int $page): Response
     {
@@ -37,7 +37,7 @@ class UserController extends AuthController
         ]);
     }
 
-    #[Route('/gebruiker/wijzig/{id}', name: 'adminUserEdit')]
+    #[Route('/gebruiker/wijzig/{id}', name: 'admin_user_edit')]
     public function edit(Request $request, User $user): Response
     {
         $oldExtension = $user->getImageExtension();
@@ -47,7 +47,7 @@ class UserController extends AuthController
         ]);
 
         $formDelete = $this->createForm(DeleteType::class, $user, [
-            'action' => $this->generateUrl('adminUserDelete', ['id' => $user->getId()]),
+            'action' => $this->generateUrl('admin_user_delete', ['id' => $user->getId()]),
             'method' => 'POST',
         ]);
 
@@ -68,19 +68,19 @@ class UserController extends AuthController
                     $oldExtension,
                 );
 
-                return $this->redirectToRoute('adminUser');
+                return $this->redirectToRoute('admin_user');
             } catch (Exception $exception) {
                 $formUpdate->addError(new FormError($exception->getMessage()));
             }
         }
 
-        return $this->render('@AdminBundle/user/edit/view.html.twig', [
+        return $this->render('@AdminBundle/user/edit.html.twig', [
             'formUpdate' => $formUpdate->createView(),
             'formDelete' => $formDelete->createView(),
         ]);
     }
 
-    #[Route('/gebruiker/toevoegen', name: 'adminUserCreate')]
+    #[Route('/gebruiker/toevoegen', name: 'admin_user_create')]
     public function new(Request $request): Response
     {
         $user = new User();
@@ -96,18 +96,18 @@ class UserController extends AuthController
                     $form->get('image')->getData(),
                 );
 
-                return $this->redirectToRoute('adminUser');
+                return $this->redirectToRoute('admin_user');
             } catch (Exception $exception) {
                 $form->addError(new FormError($exception->getMessage()));
             }
         }
 
-        return $this->render('@AdminBundle/user/new/view.html.twig', [
+        return $this->render('@AdminBundle/user/new.html.twig', [
             'form' => $form->createView(),
         ]);
     }
 
-    #[Route('/gebruiker/verwijder/{id}', name: 'adminUserDelete')]
+    #[Route('/gebruiker/verwijder/{id}', name: 'admin_user_delete')]
     public function delete(Request $request, User $user): RedirectResponse
     {
         $form = $this->createForm(DeleteType::class);
@@ -121,6 +121,6 @@ class UserController extends AuthController
             $this->userRepository->delete($user);
         }
 
-        return $this->redirectToRoute('adminUser');
+        return $this->redirectToRoute('admin_user');
     }
 }

@@ -2,11 +2,11 @@ class FoodForm {
 
     constructor(form) {
         this.formName = form.attr('name');
-        this.errors = $('#form-errors-client');
+        this.errors = $('#form_errors_client');
         this.options = $('#' + this.formName + '_foodstuffs option');
 
-        $('#add-foodstuff').on('click', this.addFoodstuff.bind(this));
-        $('#add-recipe').on('click', this.addRecipe.bind(this));
+        $('#add_foodstuff').on('click', this.addFoodstuff.bind(this));
+        $('#add_recipe').on('click', this.addRecipe.bind(this));
         form.on('input', ".foodstuff-name", this.foodNameInput.bind(this, 'foodstuff'));
         form.on('input', ".recipe-name", this.foodNameInput.bind(this, 'recipe'));
         form.on('click', ".foodstuff-result", this.foodSearchResultClick.bind(this, 'foodstuff'));
@@ -23,24 +23,24 @@ class FoodForm {
      * The id is removed from the new weight.
      */
     addFoodstuff(event) {
-        let html = '<tr><td>' + $('#' + this.formName + '_foodstuffDropdown').data('prototype') + '</td>';
-        html += '<td>' + $('#' + this.formName + '_foodstuffWeights').data('prototype') + '</td>';
+        let html = '<tr><td>' + $('#' + this.formName + '_foodstuff_dropdown').data('prototype') + '</td>';
+        html += '<td>' + $('#' + this.formName + '_foodstuff_weights').data('prototype') + '</td>';
         html += '<td><span class="piece-name"></span></td>';
         html += '<td><i class="remove-row fa fa-minus"></i></td></tr>';
         html = this.removeLabel(html);
-        $('#add-foodstuff-recipe-button-row').before(html);
-        $('#' + this.formName + '_foodstuffWeights___name__').removeAttr('id');
+        $('#add_foodstuff_recipe_button_row').before(html);
+        $('#' + this.formName + '_foodstuff_weights___name__').removeAttr('id');
         event.preventDefault();
     }
 
     addRecipe(event) {
-        let html = '<tr><td>' + $('#' + this.formName + '_recipeDropdown').data('prototype') + '</td>';
-        html += '<td>' + $('#' + this.formName + '_recipeChoices').data('prototype') + '</td>';
+        let html = '<tr><td>' + $('#' + this.formName + '_recipe_dropdown').data('prototype') + '</td>';
+        html += '<td>' + $('#' + this.formName + '_recipe_choices').data('prototype') + '</td>';
         html += '<td></td>';
         html += '<td><i class="remove-row fa fa-minus"></i></td></tr>';
         html = this.removeLabel(html);
-        $('#add-foodstuff-recipe-button-row').before(html);
-        let options = $('#' + this.formName + '_recipeChoices___name__');
+        $('#add_foodstuff_recipe_button_row').before(html);
+        let options = $('#' + this.formName + '_recipe_choices___name__');
         options.val(1);
         options.removeAttr('id');
         event.preventDefault();
@@ -64,9 +64,9 @@ class FoodForm {
         searchResults.html('');
         let url;
         if (foodType === 'foodstuff') {
-            url = $('#foodstuffSearch').data('search').replace('__name__', valueInput);
+            url = $('#foodstuff_search').data('search').replace('__name__', valueInput);
         } else {
-            url = $('#recipeSearch').data('search').replace('__title__', valueInput);
+            url = $('#recipe_search').data('search').replace('__title__', valueInput);
         }
 
         if (this.timeout) {
@@ -84,7 +84,7 @@ class FoodForm {
                         searchResults.html('');
                     }
                     $('.' + foodType + '-result').each((index, element) => {
-                        let id = $(element).attr('id').replace(foodType + '-result', '');
+                        let id = $(element).attr('id').replace(foodType + '_result_', '');
                         let name = $(element).text().toLowerCase().normalize("NFD")
                             .replace(/[\u0300-\u036f]/g, "");
                         if (valueInput === name) {
@@ -93,7 +93,7 @@ class FoodForm {
                                 let pieceName = $(element).data('piece-name');
                                 this.replaceWeight(pieceWeight, pieceName, id, row);
                             } else {
-                                row.getWeight().attr('name', this.formName + '[' + foodType + 'Weights][' + id + ']');
+                                row.getWeight().attr('name', this.formName + '[' + foodType + '_weights][' + id + ']');
                             }
                         }
                     });
@@ -111,7 +111,7 @@ class FoodForm {
     foodSearchResultClick(foodType, event) {
         let thisElement = $(event.target);
         let row = new this.FoodRow(event.target);
-        let id = thisElement.attr('id').replace(foodType + '-result', '');
+        let id = thisElement.attr('id').replace(foodType + '_result_', '');
         let name = thisElement.text();
         let pieceWeight = thisElement.data('piece-weight');
         let pieceName = thisElement.data('piece-name');
@@ -119,9 +119,9 @@ class FoodForm {
         if (this.formName !== 'foodstuff_from_foodstuffs' && foodType === 'foodstuff') {
             this.replaceWeight(pieceWeight, pieceName, id, row);
         } else if (foodType === 'recipe') {
-            row.getWeight().attr('name', this.formName + '[' + foodType + 'Choices][' + id + ']');
+            row.getWeight().attr('name', this.formName + '[' + foodType + '_choices][' + id + ']');
         } else {
-            row.getWeight().attr('name', this.formName + '[' + foodType + 'Weights][' + id + ']');
+            row.getWeight().attr('name', this.formName + '[' + foodType + '_weights][' + id + ']');
         }
     }
 
@@ -133,17 +133,17 @@ class FoodForm {
     replaceWeight(pieceWeight, pieceName, id, row)
     {
         if (pieceWeight === '') {
-            let input = $('#' + this.formName + '_foodstuffWeights').data('prototype');
+            let input = $('#' + this.formName + '_foodstuff_weights').data('prototype');
             row.getWeight().replaceWith(this.removeLabel(input));
             row.getWeight().val('');
-            row.getWeight().attr('name', this.formName + '[foodstuffWeights][' + id + ']');
-            $('#' + this.formName + '_foodstuffWeights___name__').removeAttr('id');
+            row.getWeight().attr('name', this.formName + '[foodstuff_weights][' + id + ']');
+            $('#' + this.formName + '_foodstuff_weights___name__').removeAttr('id');
         } else {
-            let select = $('#' + this.formName + '_foodstuffChoices').data('prototype');
+            let select = $('#' + this.formName + '_foodstuff_choices').data('prototype');
             row.getWeight().replaceWith(this.removeLabel(select));
             row.getWeight().val(1);
-            row.getWeight().attr('name', this.formName + '[foodstuffChoices][' + id + ']');
-            $('#' + this.formName + '_foodstuffChoices___name__').removeAttr('id');
+            row.getWeight().attr('name', this.formName + '[foodstuff_choices][' + id + ']');
+            $('#' + this.formName + '_foodstuff_choices___name__').removeAttr('id');
         }
         if (pieceName === '') {
             row.getPieceName().text('');

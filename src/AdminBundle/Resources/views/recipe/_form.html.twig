@@ -1,0 +1,20 @@
+<div id="form_errors_client"></div>
+<div id="form_errors_server">
+    {{ form_errors(form) }}
+    {{ form_errors(form.pending) }}
+</div>
+{{ form_start(form) }}
+<div class="fw-bold">Ingredients</div>
+{{ recipe.ingredients|nl2br }}
+<div class="fw-bold">Bereidingswijze</div>
+{{ recipe.preparationMethod|nl2br }}
+<div class="fw-bold">Leuk verhaal</div>
+{{ recipe.niceStory|nl2br }}
+<div class="fw-bold">Leuke tips</div>
+{{ recipe.niceTips|nl2br }}
+<div class="fw-bold">Hulpmiddelen en keukengerei</div>
+{{ recipe.toolsAndKitchenware|nl2br }}
+<div class="fw-bold">Wacht op goedkeuring</div>
+{{ form_widget(form.pending) }}
+<div>{{ form_widget(form.submit, { 'label': submit_label }) }}</div>
+{{ form_end(form) }}

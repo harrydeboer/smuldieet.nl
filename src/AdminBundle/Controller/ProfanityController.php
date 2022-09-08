@@ -21,7 +21,7 @@ class ProfanityController extends AuthController
     ) {
     }
 
-    #[Route('/scheldwoorden', name: 'adminProfanity')]
+    #[Route('/scheldwoorden', name: 'admin_profanity')]
     public function view(): Response
     {
         $profanities = $this->profanityRepository->findAll();
@@ -31,7 +31,7 @@ class ProfanityController extends AuthController
         ]);
     }
 
-    #[Route('/scheldwoord/wijzig/{id}', name: 'adminProfanityEdit')]
+    #[Route('/scheldwoord/wijzig/{id}', name: 'admin_profanity_edit')]
     public function edit(Request $request, Profanity $profanity): Response
     {
         $formUpdate = $this->createForm(ProfanityType::class, $profanity, [
@@ -39,7 +39,7 @@ class ProfanityController extends AuthController
         ]);
 
         $formDelete = $this->createForm(DeleteType::class, $profanity, [
-            'action' => $this->generateUrl('adminProfanityDelete', ['id' => $profanity->getId()]),
+            'action' => $this->generateUrl('admin_profanity_delete', ['id' => $profanity->getId()]),
             'method' => 'POST',
         ]);
 
@@ -48,16 +48,16 @@ class ProfanityController extends AuthController
         if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
             $this->profanityRepository->update();
 
-            return $this->redirectToRoute('adminProfanity');
+            return $this->redirectToRoute('admin_profanity');
         }
 
-        return $this->render('@AdminBundle/profanity/edit/view.html.twig', [
+        return $this->render('@AdminBundle/profanity/edit.html.twig', [
             'formUpdate' => $formUpdate->createView(),
             'formDelete' => $formDelete->createView(),
         ]);
     }
 
-    #[Route('/scheldwoord/toevoegen', name: 'adminProfanityCreate')]
+    #[Route('/scheldwoord/toevoegen', name: 'admin_profanity_create')]
     public function new(Request $request): Response
     {
         $profanity = new Profanity();
@@ -67,15 +67,15 @@ class ProfanityController extends AuthController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->profanityRepository->create($profanity);
 
-            return $this->redirectToRoute('adminProfanity');
+            return $this->redirectToRoute('admin_profanity');
         }
 
-        return $this->render('@AdminBundle/profanity/new/view.html.twig', [
+        return $this->render('@AdminBundle/profanity/new.html.twig', [
             'form' => $form->createView(),
         ]);
     }
 
-    #[Route('/scheldwoord/verwijder/{id}', name: 'adminProfanityDelete')]
+    #[Route('/scheldwoord/verwijder/{id}', name: 'admin_profanity_delete')]
     public function delete(Request $request, Profanity $profanity): RedirectResponse
     {
         $form = $this->createForm(DeleteType::class);
@@ -85,6 +85,6 @@ class ProfanityController extends AuthController
             $this->profanityRepository->delete($profanity);
         }
 
-        return $this->redirectToRoute('adminProfanity');
+        return $this->redirectToRoute('admin_profanity');
     }
 }

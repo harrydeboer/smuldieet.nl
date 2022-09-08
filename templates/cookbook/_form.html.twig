@@ -1,0 +1,28 @@
+<div id="form_errors_client"></div>
+<div id="form_errors_server">
+    {{ form_errors(form) }}
+    {{ form_errors(form.title) }}
+    {{ form_errors(form.recipeChoices) }}
+</div>
+{{ form_start(form, { 'attr' : { 'class': 'food-form' }}) }}
+<table class="food-table table table-small">
+    <tr>
+        <td>Titel</td>
+        <td colspan="3">{{ form_widget(form.title) }}</td>
+    </tr>
+    {{ include('_food_row.html.twig', {
+        'form_name': 'cookbook',
+        'entities': cookbook.recipes,
+        'weights': form.recipeChoices,
+        'food_type': 'recipe',
+        'weights_or_choices': 'choices',
+        'placeholder': 'recept'
+    }) }}
+    <tr id="add_foodstuff_recipe_button_row">
+        <td colspan="4"><div class="btn btn-primary" id="add_recipe">Recept toevoegen</div></td>
+    </tr>
+    <tr>
+        <td colspan="3">{{ form_widget(form.submit, { 'label': submit_label }) }}</td>
+    </tr>
+</table>
+{{ form_end(form) }}

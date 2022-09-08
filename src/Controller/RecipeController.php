@@ -30,7 +30,7 @@ class RecipeController extends Controller
 
     #[
         Route('/recepten', name: 'recipe', defaults: ['page' => '1']),
-        Route('/recepten/pagina/{page<[1-9]\d*>}', name: 'recipeIndexPaginated'),
+        Route('/recepten/pagina/{page<[1-9]\d*>}', name: 'recipe_index_paginated'),
     ]
     public function view(int $page): Response
     {
@@ -43,7 +43,7 @@ class RecipeController extends Controller
         ]);
     }
 
-    #[Route('/recept/wijzig/{id}', name: 'recipeEdit')]
+    #[Route('/recept/wijzig/{id}', name: 'recipe_edit')]
     public function edit(Request $request, int $id): Response
     {
         $recipe = $this->getRecipe($id);
@@ -54,7 +54,7 @@ class RecipeController extends Controller
         ]);
 
         $formDelete = $this->createForm(DeleteType::class, $recipe, [
-            'action' => $this->generateUrl('recipeDelete', ['id' => $recipe->getId()]),
+            'action' => $this->generateUrl('recipe_delete', ['id' => $recipe->getId()]),
             'method' => 'POST',
         ]);
 
@@ -80,7 +80,7 @@ class RecipeController extends Controller
             }
         }
 
-        return $this->render('recipe/edit/view.html.twig', [
+        return $this->render('recipe/edit.html.twig', [
             'recipe' => $recipe,
             'formUpdate' => $formUpdate->createView(),
             'formDelete' => $formDelete->createView(),
@@ -88,7 +88,7 @@ class RecipeController extends Controller
         ]);
     }
 
-    #[Route('/recept/toevoegen', name: 'recipeCreate')]
+    #[Route('/recept/toevoegen', name: 'recipe_create')]
     public function new(Request $request): Response
     {
         $recipe = new Recipe();
@@ -114,14 +114,14 @@ class RecipeController extends Controller
             }
         }
 
-        return $this->render('recipe/new/view.html.twig', [
+        return $this->render('recipe/new.html.twig', [
             'recipe' => $recipe,
             'form' => $form->createView(),
             'page' => $this->pageRepository->findOneBy(['title' => 'Recept formulier']),
         ]);
     }
 
-    #[Route('/recept/verwijder/{id}', name: 'recipeDelete')]
+    #[Route('/recept/verwijder/{id}', name: 'recipe_delete')]
     public function delete(Request $request, int $id): RedirectResponse
     {
         $recipe = $this->getRecipe($id);
@@ -144,7 +144,7 @@ class RecipeController extends Controller
      * The single recipe page is visible if the recipe is not pending except when the current user owns it.
      * It contains a rating form. It also contains a deletion form when the user already rated this recipe.
      */
-    #[Route('/recept/enkel/{id}', name: 'recipeSingle')]
+    #[Route('/recept/enkel/{id}', name: 'recipe_single')]
     public function single(int $id): Response
     {
         $recipe = $this->recipeRepository->get($id);
@@ -160,18 +160,18 @@ class RecipeController extends Controller
 
         if (is_null($rating)) {
             $form = $this->createForm(RatingType::class, null, [
-                'action' => $this->generateUrl('recipeRatingCreate', ['recipeId' => $id]),
+                'action' => $this->generateUrl('rating_create', ['recipeId' => $id]),
             ]);
         } else {
             $form = $this->createForm(RatingType::class, $rating, [
-                'action' => $this->generateUrl('recipeRatingEdit', ['id' => $rating->getId()]),
+                'action' => $this->generateUrl('rating_edit', ['id' => $rating->getId()]),
             ]);
             $formDelete = $this->createForm(DeleteType::class, null, [
-                'action' => $this->generateUrl('recipeRatingDelete', ['id' => $rating->getId()]),
+                'action' => $this->generateUrl('recipe_rating_delete', ['id' => $rating->getId()]),
             ]);
         }
 
-        return $this->render('recipe/single/view.html.twig', [
+        return $this->render('recipe/single.html.twig', [
             'recipe' => $recipe,
             'rating' => $rating,
             'isLoggedIn' => !is_null($this->getUser()),
@@ -182,7 +182,7 @@ class RecipeController extends Controller
         ]);
     }
 
-    #[Route('/recept/zoeken/{title}', name: 'recipeSearch')]
+    #[Route('/recept/zoeken/{title}', name: 'recipe_search')]
     public function search(string $title = ''): Response
     {
         if (strlen($title) > 255) {

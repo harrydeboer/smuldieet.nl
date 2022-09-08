@@ -84,7 +84,7 @@ class RecipeType extends AbstractType
             ])
             ->add('source', TextType::class, [
                 'required' => false,
-                'attr' => ['class' => 'form-control'],
+                'attr' => ['class' => 'form-control d-none'],
             ])
             ->add('isSelfInvented', ChoiceType::class, [
                 'choices' => ['ja' => true, 'nee' => false],

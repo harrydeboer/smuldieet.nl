@@ -3,7 +3,7 @@
 {% block title %}Voedingsmiddel{% endblock %}
 
 {% block body %}
-    <select id="abc-select">
+    <select id="abc_select">
         {% for char in 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z'|split(',') %}
             {% if char == charSelected %}
                 <option value="{{ char }}" selected>{{ char }}</option>
@@ -12,17 +12,17 @@
             {% endif %}
         {% endfor %}
     </select>
-    <div id="abc-route" data-route="{{ path('adminFoodstuffChar') }}"></div>
-    <div id="abc-chars">
+    <div id="abc_route" data-route="{{ path('admin_foodstuff_char') }}"></div>
+    <div id="abc_chars">
         {% for char in 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z'|split(',') %}
-            <a href="{{ path('adminFoodstuffChar', {'char': char}) }}">{{ char }}</a>
+            <a href="{{ path('admin_foodstuff_char', {'char': char}) }}">{{ char }}</a>
         {% endfor %}
     </div>
     <table class="table table-striped">
         {% for foodstuff in foodstuffs %}
             <tr>
                 <td>{{ foodstuff.name }}</td>
-                <td><a href="{{ path('adminFoodstuffEdit', {'id': foodstuff.id}) }}">wijzig</a></td>
+                <td><a href="{{ path('admin_foodstuff_edit', {'id': foodstuff.id}) }}">wijzig</a></td>
             </tr>
         {% endfor %}
     </table>

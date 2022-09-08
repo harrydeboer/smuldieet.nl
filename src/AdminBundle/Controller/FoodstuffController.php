@@ -24,8 +24,8 @@ class FoodstuffController extends AuthController
     }
 
     #[
-        Route('/voedingsmiddelen', name: 'adminFoodstuff', defaults: ['char' => 'A']),
-        Route('/voedingsmiddelen/letter/{char}', name: 'adminFoodstuffChar'),
+        Route('/voedingsmiddelen', name: 'admin_foodstuff', defaults: ['char' => 'A']),
+        Route('/voedingsmiddelen/letter/{char}', name: 'admin_foodstuff_char'),
     ]
     public function view($char = 'A'): Response
     {
@@ -37,7 +37,7 @@ class FoodstuffController extends AuthController
         ]);
     }
 
-    #[Route('/voedingsmiddel/wijzig/{id}', name: 'adminFoodstuffEdit')]
+    #[Route('/voedingsmiddel/wijzig/{id}', name: 'admin_foodstuff_edit')]
     public function edit(Request $request, Foodstuff $foodstuff): Response
     {
         $pieceWeightOld = $foodstuff->getPieceWeight();
@@ -47,7 +47,7 @@ class FoodstuffController extends AuthController
         ]);
 
         $formDelete = $this->createForm(DeleteType::class, $foodstuff, [
-            'action' => $this->generateUrl('adminFoodstuffDelete', ['id' => $foodstuff->getId()]),
+            'action' => $this->generateUrl('admin_foodstuff_delete', ['id' => $foodstuff->getId()]),
             'method' => 'POST',
         ]);
 
@@ -77,20 +77,20 @@ class FoodstuffController extends AuthController
                 }
                 $this->foodstuffRepository->update($foodstuff, $pieceWeightOld);
 
-                return $this->redirectToRoute('adminFoodstuff');
+                return $this->redirectToRoute('admin_foodstuff');
             } catch (Exception $exception) {
                 $formUpdate->addError(new FormError($exception->getMessage()));
             }
         }
 
-        return $this->render('@AdminBundle/foodstuff/edit/view.html.twig', [
+        return $this->render('@AdminBundle/foodstuff/edit.html.twig', [
             'foodstuff' => $foodstuff,
             'formUpdate' => $formUpdate->createView(),
             'formDelete' => $formDelete->createView(),
         ]);
     }
 
-    #[Route('/voedingsmiddel/verwijder/{id}', name: 'adminFoodstuffDelete')]
+    #[Route('/voedingsmiddel/verwijder/{id}', name: 'admin_foodstuff_delete')]
     public function delete(Request $request, Foodstuff $foodstuff): RedirectResponse
     {
         $form = $this->createForm(DeleteType::class);
@@ -100,6 +100,6 @@ class FoodstuffController extends AuthController
             $this->foodstuffRepository->delete($foodstuff);
         }
 
-        return $this->redirectToRoute('adminFoodstuff');
+        return $this->redirectToRoute('admin_foodstuff');
     }
 }

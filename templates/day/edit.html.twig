@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Wijzig{% endblock %}
+
+{% block body %}
+    {{ include('day/_form.html.twig', {form: formUpdate, submit_label: 'Wijzig dag'}) }}
+    <br>
+    {{ include('_delete_confirmation.html.twig', {
+        entityName: 'dag',
+        warning: 'Weet je zeker dat je deze dag wilt verwijderen?'
+    }) }}
+{% endblock %}

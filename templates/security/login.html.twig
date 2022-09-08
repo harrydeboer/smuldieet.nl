@@ -5,16 +5,16 @@
 {% block body %}
     {% if isLoggedIn %}
         <div>Je bent ingelogd als {{ username }},
-            <a href="{{ path('appLogout') }}">klik hier</a> om uit te loggen.</div>
-        <div class="no-wrap">Verander <a href="{{ path('changePassword') }}">hier</a> je wachtwoord.</div>
+            <a href="{{ path('app_logout') }}">klik hier</a> om uit te loggen.</div>
+        <div class="no-wrap">Verander <a href="{{ path('change_password') }}">hier</a> je wachtwoord.</div>
 
         {% if 'ROLE_ADMIN' in roles  %}
-            <div class="no-wrap">Ga naar het <a href="{{ path('adminHomepage') }}">Admin Panel</a>.</div>
+            <div class="no-wrap">Ga naar het <a href="{{ path('admin_homepage') }}">Admin Panel</a>.</div>
         {% endif %}
     {% else %}
         {{ page is not null ? page.content|raw : '' }}
-        <div id="form-errors-client"></div>
-        <div id="form-errors-server">
+        <div id="form_errors_client"></div>
+        <div id="form_errors_server">
             {{ form_errors(form) }}
             {{ form_errors(form.email) }}
             {{ form_errors(form.password) }}
@@ -38,6 +38,6 @@
             </tr>
         </table>
         {{ form_end(form) }}
-        <span class="no-wrap">Niet geregistreerd? Ga naar <a href="{{ path('appRegister') }}">deze</a> link.</span>
+        <span class="no-wrap">Niet geregistreerd? Ga naar <a href="{{ path('app_register') }}">deze</a> link.</span>
     {% endif %}
 {% endblock %}
