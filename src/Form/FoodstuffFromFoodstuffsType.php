@@ -22,7 +22,7 @@ class FoodstuffFromFoodstuffsType extends AbstractType
                     'maxlength' => 255,
                 ],
             ])
-            ->add('foodstuffWeights', CollectionType::class, [
+            ->add('foodstuff_weights', CollectionType::class, [
                 'entry_type' => NumberType::class,
                 'allow_add' => true,
                 'entry_options' => [

@@ -11,6 +11,6 @@ class UpdateUserType extends CreateUserType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         parent::buildForm($builder, $options);
-        $builder->get('plainPassword')->setRequired(false);
+        $builder->get('plain_password')->setRequired(false);
     }
 }

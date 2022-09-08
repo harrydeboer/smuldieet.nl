@@ -53,32 +53,32 @@ class RecipeType extends AbstractType
                     'class' => 'form-control',
                     'rows' => 10,
                 ]])
-            ->add('preparationMethod', TextareaType::class, ['attr' => [
+            ->add('preparation_method', TextareaType::class, ['attr' => [
                 'class' => 'form-control',
                 'rows' => 10,
             ]])
-            ->add('niceStory', TextareaType::class, [
+            ->add('nice_story', TextareaType::class, [
                 'required' => false,
                 'attr' => [
                     'class' => 'form-control',
                     'rows' => 10,
                 ]])
-            ->add('niceTips', TextareaType::class, [
+            ->add('nice_tips', TextareaType::class, [
                 'required' => false,
                 'attr' => [
                     'class' => 'form-control',
                     'rows' => 10,
                 ]])
-            ->add('toolsAndKitchenware', TextareaType::class, [
+            ->add('tools_and_kitchenware', TextareaType::class, [
                 'required' => false,
                 'attr' => [
                     'class' => 'form-control',
                     'rows' => 10,
                 ]])
-            ->add('numberOfPersons', IntegerType::class, [
+            ->add('number_of_persons', IntegerType::class, [
                 'attr' => ['class' => 'form-control'],
             ])
-            ->add('numberOfPieces', IntegerType::class, [
+            ->add('number_of_pieces', IntegerType::class, [
                 'required' => false,
                 'attr' => ['class' => 'form-control'],
             ])
@@ -86,12 +86,12 @@ class RecipeType extends AbstractType
                 'required' => false,
                 'attr' => ['class' => 'form-control d-none'],
             ])
-            ->add('isSelfInvented', ChoiceType::class, [
+            ->add('is_self_invented', ChoiceType::class, [
                 'choices' => ['ja' => true, 'nee' => false],
                 'expanded' => true,
                 'attr' => ['class' => 'form-control'],
             ])
-            ->add('cookingTime', ChoiceType::class, [
+            ->add('cooking_time', ChoiceType::class, [
                 'placeholder' => 'selecteer bereidingstijd',
                 'attr' => ['class' => 'form-control form-select'],
                 'choices' => array_combine(Recipe::COOKING_TIMES,Recipe::COOKING_TIMES),
@@ -101,7 +101,7 @@ class RecipeType extends AbstractType
                 'attr' => ['class' => 'form-control form-select'],
                 'choices' => array_combine(Recipe::KITCHEN,Recipe::KITCHEN),
             ])
-            ->add('typeOfDish', ChoiceType::class, [
+            ->add('type_of_dish', ChoiceType::class, [
                 'placeholder' => 'selecteer gerecht',
                 'attr' => ['class' => 'form-control form-select'],
                 'choices' => array_combine(Recipe::TYPE_OF_DISH,Recipe::TYPE_OF_DISH),
@@ -112,7 +112,7 @@ class RecipeType extends AbstractType
                 'choices' => array_combine(Recipe::OCCASION,Recipe::OCCASION),
                 'required' => false,
             ]);
-        foreach (Recipe::DIET_CHOICES as $key => $choice) {
+        foreach (Recipe::getDietChoices('snake') as $key => $choice) {
             $builder->add($choice, CheckboxType::class, [
                 'required' => false,
                 'label' => $key,
@@ -120,7 +120,7 @@ class RecipeType extends AbstractType
                 'attr' => ['class' => 'form-check-input']],
             );
         }
-        $builder->add('foodstuffWeights', CollectionType::class, [
+        $builder->add('foodstuff_weights', CollectionType::class, [
             'entry_type' => NumberType::class,
             'allow_add' => true,
             'entry_options' => [
@@ -131,7 +131,7 @@ class RecipeType extends AbstractType
             ],
             'allow_delete' => true,
             'delete_empty' => true,
-        ])->add('foodstuffChoices', CollectionType::class, [
+        ])->add('foodstuff_choices', CollectionType::class, [
             'entry_type' => ChoiceType::class,
             'allow_add' => true,
             'entry_options' => [

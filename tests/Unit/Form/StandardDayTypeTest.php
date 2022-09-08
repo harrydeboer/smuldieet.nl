@@ -17,7 +17,7 @@ class StandardDayTypeTest extends TypeTestCase
         $foodstuff = new Foodstuff();
         $foodstuff->setId(1);
         $formData = [
-            'foodstuffWeights' => [$foodstuff->getId() => 20],
+            'foodstuff_weights' => [$foodstuff->getId() => 20],
         ];
 
         $day = new Day();

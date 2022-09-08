@@ -4,9 +4,9 @@
     {% if form.date is defined %}
         {{ form_errors(form.date) }}
     {% endif %}
-    {{ form_errors(form.foodstuffWeights) }}
-    {{ form_errors(form.foodstuffChoices) }}
-    {{ form_errors(form.recipeChoices) }}
+    {{ form_errors(form.foodstuff_weights) }}
+    {{ form_errors(form.foodstuff_choices) }}
+    {{ form_errors(form.recipe_choices) }}
 </div>
 {{ form_start(form, { 'attr' : { 'class': 'food-form' }}) }}
 <table class="food-table table table-small">
@@ -22,7 +22,7 @@
     {{ include('_food_row.html.twig', {
         'form_name': formName,
         'entities': day.foodstuffs,
-        'weights': form.foodstuffWeights,
+        'weights': form.foodstuff_weights,
         'food_type': 'foodstuff',
         'weights_or_choices': 'weights',
         'placeholder': 'voedingsmiddel',
@@ -30,7 +30,7 @@
     {{ include('_food_row.html.twig', {
         'form_name': formName,
         'entities': day.foodstuffs,
-        'weights': form.foodstuffChoices,
+        'weights': form.foodstuff_choices,
         'food_type': 'foodstuff',
         'weights_or_choices': 'choices',
         'placeholder': 'voedingsmiddel'
@@ -38,7 +38,7 @@
     {{ include('_food_row.html.twig', {
         'form_name': formName,
         'entities': day.recipes,
-        'weights': form.recipeChoices,
+        'weights': form.recipe_choices,
         'food_type': 'recipe',
         'weights_or_choices': 'choices',
         'placeholder': 'gerecht'

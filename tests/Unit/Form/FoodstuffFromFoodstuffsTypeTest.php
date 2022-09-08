@@ -17,7 +17,7 @@ class FoodstuffFromFoodstuffsTypeTest extends TypeTestCase
         $name = 'test';
         $formData = [
             'name' => $name,
-            'foodstuffWeights' => [$foodstuff->getId() => 100],
+            'foodstuff_weights' => [$foodstuff->getId() => 100],
         ];
 
         $form = $this->factory->create(FoodstuffFromFoodstuffsType::class);
@@ -27,6 +27,6 @@ class FoodstuffFromFoodstuffsTypeTest extends TypeTestCase
         $this->assertTrue($form->isSynchronized());
 
         $this->assertEquals($name, $form->get('name')->getData());
-        $this->assertEquals([$foodstuff->getId() => 100], $form->get('foodstuffWeights')->getData());
+        $this->assertEquals([$foodstuff->getId() => 100], $form->get('foodstuff_weights')->getData());
     }
 }

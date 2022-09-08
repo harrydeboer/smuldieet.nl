@@ -49,7 +49,7 @@ class HomepageController extends Controller
             'page' => $this->pageRepository->findOneBy(['title' => 'Home']),
             'isFiltered' => $isFiltered,
             'paginator' => $recipes,
-            'dietChoices' => Recipe::DIET_CHOICES,
+            'dietChoices' => Recipe::getDietChoices('snake'),
             'appEnv' => $this->kernel->getEnvironment(),
             'form' => $form->createView(),
         ]);

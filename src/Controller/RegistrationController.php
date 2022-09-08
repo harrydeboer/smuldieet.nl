@@ -48,7 +48,7 @@ class RegistrationController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->userRepository->create($user, $form->get('plainPassword')->getData());
+            $this->userRepository->create($user, $form->get('plain_password')->getData());
 
             $this->sendVerificationMail($user);
 

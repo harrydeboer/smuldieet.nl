@@ -15,7 +15,7 @@ class ChangePasswordTypeTest extends TypeTestCase
     {
         $newPassword = 'newNew';
         $formData = [
-            'plainPassword' => ['first' => $newPassword, 'second' => $newPassword],
+            'plain_password' => ['first' => $newPassword, 'second' => $newPassword],
         ];
 
         $form = $this->factory->create(ChangePasswordType::class);
@@ -24,7 +24,7 @@ class ChangePasswordTypeTest extends TypeTestCase
 
         $this->assertTrue($form->isSynchronized());
 
-        $this->assertEquals($newPassword, $form->get('plainPassword')->getData());
+        $this->assertEquals($newPassword, $form->get('plain_password')->getData());
     }
 
     protected function getExtensions(): array

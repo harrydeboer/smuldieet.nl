@@ -5,21 +5,21 @@
     {{ form_errors(form.title) }}
     {{ form_errors(form.url) }}
     {{ form_errors(form.ingredients) }}
-    {{ form_errors(form.niceStory) }}
-    {{ form_errors(form.niceTips) }}
-    {{ form_errors(form.toolsAndKitchenware) }}
-    {{ form_errors(form.preparationMethod) }}
-    {{ form_errors(form.numberOfPersons) }}
-    {{ form_errors(form.numberOfPieces) }}
-    {{ form_errors(form.isSelfInvented) }}
+    {{ form_errors(form.nice_story) }}
+    {{ form_errors(form.nice_tips) }}
+    {{ form_errors(form.tools_and_kitchenware) }}
+    {{ form_errors(form.preparation_method) }}
+    {{ form_errors(form.number_of_persons) }}
+    {{ form_errors(form.number_of_pieces) }}
+    {{ form_errors(form.is_self_invented) }}
     {{ form_errors(form.source) }}
-    {{ form_errors(form.cookingTime) }}
+    {{ form_errors(form.cooking_time) }}
     {{ form_errors(form.kitchen) }}
-    {{ form_errors(form.typeOfDish) }}
+    {{ form_errors(form.type_of_dish) }}
     {{ form_errors(form.occasion) }}
-    {{ form_errors(form.foodstuffWeights) }}
-    {{ form_errors(form.foodstuffChoices) }}
-    {% for key,choice in constant('DIET_CHOICES', recipe) %}
+    {{ form_errors(form.foodstuff_weights) }}
+    {{ form_errors(form.foodstuff_choices) }}
+    {% for key,choice in recipe.dietChoices('snake') %}
         {{ form_errors(attribute(form, choice)) }}
     {% endfor %}
 </div>
@@ -38,7 +38,7 @@
     {{ include('_food_row.html.twig', {
         'form_name': 'recipe',
         'entities': recipe.foodstuffs,
-        'weights': form.foodstuffWeights,
+        'weights': form.foodstuff_weights,
         'food_type': 'foodstuff',
         'weights_or_choices': 'weights',
         'placeholder': 'voedingsmiddel'
@@ -46,7 +46,7 @@
     {{ include('_food_row.html.twig', {
         'form_name': 'recipe',
         'entities': recipe.foodstuffs,
-        'weights': form.foodstuffChoices,
+        'weights': form.foodstuff_choices,
         'food_type': 'foodstuff',
         'weights_or_choices': 'choices',
         'placeholder': 'voedingsmiddel'
@@ -56,20 +56,20 @@
     </tr>
 </table>
 <div class="fw-bold">Bereidingswijze *</div>
-{{ form_widget(form.preparationMethod) }}
+{{ form_widget(form.preparation_method) }}
 <div class="fw-bold">Vertel iets leuks over dit recept</div>
-{{ form_widget(form.niceStory) }}
+{{ form_widget(form.nice_story) }}
 <div class="fw-bold">Leuke tips</div>
-{{ form_widget(form.niceTips) }}
+{{ form_widget(form.nice_tips) }}
 <div class="fw-bold">Hulpmiddelen en keukengerei</div>
-{{ form_widget(form.toolsAndKitchenware) }}
+{{ form_widget(form.tools_and_kitchenware) }}
 <div class="fw-bold">Aantal personen *</div>
-{{ form_widget(form.numberOfPersons) }}
+{{ form_widget(form.number_of_persons) }}
 <div class="fw-bold">Aantal stuks</div>
-{{ form_widget(form.numberOfPieces) }}
+{{ form_widget(form.number_of_pieces) }}
 <div class="fw-bold">Zelf bedacht *</div>
-{{ form_widget(form.isSelfInvented) }}
-{% if form.isSelfInvented.vars.value == 0 %}
+{{ form_widget(form.is_self_invented) }}
+{% if form.is_self_invented.vars.value == 0 %}
     <div class="fw-bold" id="recipe_source_title">Bron</div>
     {{ form_widget(form.source) }}
 {% else %}
@@ -77,11 +77,11 @@
     {{ form_widget(form.source, {'attr': {'class': 'd-none form-control'}}) }}
 {% endif %}
 <div class="fw-bold">Bereidingstijd *</div>
-{{ form_widget(form.cookingTime) }}
+{{ form_widget(form.cooking_time) }}
 <div class="fw-bold">Keuken *</div>
 {{ form_widget(form.kitchen) }}
 <div class="fw-bold">Soort gerecht *</div>
-{{ form_widget(form.typeOfDish) }}
+{{ form_widget(form.type_of_dish) }}
 <div class="fw-bold">Gelegenheid</div>
 {{ form_widget(form.occasion) }}
 <br>
@@ -89,7 +89,7 @@
     <div class="form-control form-select" role="button"
          data-bs-toggle="dropdown" aria-expanded="false">Dieet</div>
     <table class="dropdown-menu dropdown-diet" aria-labelledby="diet-filter">
-        {% for key,choice in constant('DIET_CHOICES', recipe) %}
+        {% for key,choice in recipe.dietChoices('snake') %}
             <tr>
                 <td>{{ form_label(attribute(form, choice)) }}</td>
                 <td>{{ form_widget(attribute(form, choice)) }}</td>

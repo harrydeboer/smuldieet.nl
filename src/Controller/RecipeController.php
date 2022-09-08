@@ -171,6 +171,15 @@ class RecipeController extends Controller
             ]);
         }
 
+        $hasDiet = false;
+        $diet = [];
+        foreach ($recipe::getDietChoices() as $key => $choice) {
+            if ($recipe->{'get' . ucwords($choice)}() === true) {
+                $hasDiet = true;
+                $diet[] = $key;
+            }
+        }
+
         return $this->render('recipe/single.html.twig', [
             'recipe' => $recipe,
             'rating' => $rating,
@@ -178,6 +187,8 @@ class RecipeController extends Controller
             'currentUserId' => $this->getUser()?->getId(),
             'appEnv' => $this->getParameter('kernel.environment'),
             'form' => $form->createView(),
+            'hasDiet' => $hasDiet,
+            'diet' => $diet,
             'formDelete' => $formDelete?->createView(),
         ]);
     }

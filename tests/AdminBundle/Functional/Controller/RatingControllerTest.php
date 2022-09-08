@@ -28,7 +28,7 @@ class RatingControllerTest extends AuthAdminWebTestCase
 
         $form = $buttonCrawlerNode->form();
 
-        $form['review[isPending]'] = false;
+        $form['review[is_pending]'] = false;
 
         $this->client->submit($form);
 

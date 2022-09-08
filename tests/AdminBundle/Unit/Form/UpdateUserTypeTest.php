@@ -24,11 +24,11 @@ class UpdateUserTypeTest extends TypeTestCase
         $formData = [
             'username' => $name,
             'email' => $email,
-            'isVerified' => true,
+            'is_verified' => true,
             'gender' => $gender,
             'birthdate' => ['day' => 1, 'month' => 1, 'year' => 2000],
             'weight' => $weight,
-            'plainPassword' => 'plainPassword',
+            'plain_password' => 'plainPassword',
         ];
 
         $user = new User();

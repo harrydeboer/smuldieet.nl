@@ -16,7 +16,7 @@ class StatsService
         }
         $numberOfDays = count($days);
 
-        $stats = Foodstuff::getADH($user->getBirthdate(), $user->getGender(), $user->getWeight());
+        $stats = Foodstuff::getADH('camel', $user->getBirthdate(), $user->getGender(), $user->getWeight());
         unset($stats['molybdenum']);
         unset($stats['chromium']);
 
@@ -66,8 +66,7 @@ class StatsService
                     $foodstuff = $recipe->getFoodstuffs()[$id];
                     foreach ($stats as $key => $stat) {
                         $value = $foodstuff->{'get' . ucfirst($key)}() / $numberOfDays *
-                            $day->getRecipeChoices()[$recipe->getId()] / 100 *
-                            $weight * $foodstuff->getPieceWeight();
+                            $day->getRecipeChoices()[$recipe->getId()] / 100 * $weight * $foodstuff->getPieceWeight();
                         if (isset($stat[5])) {
                             $stats[$key][5] += $value;
                         } else {

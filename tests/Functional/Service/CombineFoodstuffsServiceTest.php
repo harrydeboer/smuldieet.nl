@@ -21,7 +21,7 @@ class CombineFoodstuffsServiceTest extends AuthWebTestCase
         $weights[$foodstuff3->getId()] = 40;
         $formData = [
             'name' => 'newFoodstuff',
-            'foodstuffWeights' => $weights,
+            'foodstuff_weights' => $weights,
         ];
         $combineFoodstuffsService = static::getContainer()->get(CombineFoodstuffsService::class);
         $foodstuff = $combineFoodstuffsService->combine($this->user, $formData);

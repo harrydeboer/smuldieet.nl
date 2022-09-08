@@ -22,17 +22,17 @@ class UserControllerTest extends AuthAdminWebTestCase
         $form = $buttonCrawlerNode->form();
 
         $form['create_user[username]'] = 'TestTest';
-        $form['create_user[firstName]'] = 'Test';
-        $form['create_user[lastName]'] = 'Test';
+        $form['create_user[first_name]'] = 'Test';
+        $form['create_user[last_name]'] = 'Test';
         $form['create_user[email]'] = 'test@test.com';
-        $form['create_user[isVerified]'] = 1;
+        $form['create_user[is_verified]'] = 1;
         $form['create_user[roles]'] = ['ROLE_ADMIN'];
         $form['create_user[birthdate][day]'] = 1;
         $form['create_user[birthdate][month]'] = 1;
         $form['create_user[birthdate][year]'] = 2000;
         $form['create_user[gender]'] = 'man';
         $form['create_user[weight]'] = 70;
-        $form['create_user[plainPassword]'] = ['first' => 'secret', 'second' => 'secret'];
+        $form['create_user[plain_password]'] = ['first' => 'secret', 'second' => 'secret'];
 
         $this->client->submit($form);
 

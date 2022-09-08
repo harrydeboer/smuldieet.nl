@@ -55,10 +55,10 @@ class UserController extends AuthController
 
         if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
             try {
-                if (is_null($formUpdate->get('plainPassword')->getData())) {
+                if (is_null($formUpdate->get('plain_password')->getData())) {
                     $this->userRepository->update();
                 } else {
-                    $this->userRepository->upgradePassword($user, $formUpdate->get('plainPassword')->getData());
+                    $this->userRepository->upgradePassword($user, $formUpdate->get('plain_password')->getData());
                 }
 
                 $user->moveImage(
@@ -89,7 +89,7 @@ class UserController extends AuthController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $this->userRepository->create($user, $form->get('plainPassword')->getData());
+                $this->userRepository->create($user, $form->get('plain_password')->getData());
                 $user->moveImage(
                     $this->getParameter('kernel.environment'),
                     $this->getParameter('kernel.project_dir'),

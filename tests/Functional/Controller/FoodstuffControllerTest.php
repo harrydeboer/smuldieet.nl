@@ -34,7 +34,7 @@ class FoodstuffControllerTest extends AuthAdminWebTestCase
         $values = $form->getPhpValues();
         $weights = [];
         $weights[$foodstuff->getId()] = 100;
-        $values['foodstuff_from_foodstuffs']['foodstuffWeights'] = $weights;
+        $values['foodstuff_from_foodstuffs']['foodstuff_weights'] = $weights;
         $this->client->request($form->getMethod(), $form->getUri(), $values, $form->getPhpFiles());
 
         $foodstuffRepository = $this->getContainer()->get(FoodstuffRepositoryInterface::class);

@@ -150,13 +150,13 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
                 $qb->andWhere('Lower(r.title) like :title')
                     ->setParameter('title', '%' . $formData['title'] . '%');
             }
-            if (!is_null($formData['typeOfDish'])) {
+            if (!is_null($formData['type_of_dish'])) {
                 $qb->andWhere('r.typeOfDish = :typeOfDish')
-                    ->setParameter('typeOfDish', $formData['typeOfDish']);
+                    ->setParameter('typeOfDish', $formData['type_of_dish']);
             }
-            if (!is_null($formData['cookingTime'])) {
+            if (!is_null($formData['cooking_time'])) {
                 $qb->andWhere('r.cookingTime = :cookingTime')
-                    ->setParameter('cookingTime', $formData['cookingTime']);
+                    ->setParameter('cookingTime', $formData['cooking_time']);
             }
             if (!is_null($formData['kitchen'])) {
                 $qb->andWhere('r.kitchen = :kitchen')
@@ -166,8 +166,8 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
                 $qb->andWhere('r.occasion = :occasion')
                     ->setParameter('occasion', $formData['occasion']);
             }
-            foreach (Recipe::DIET_CHOICES as $choice) {
-                if ($formData[$choice]) {
+            foreach (Recipe::getDietChoices() as $choice) {
+                if ($formData[strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $choice))]) {
                     $qb->andWhere('r.' . $choice . ' = 1');
                 }
             }

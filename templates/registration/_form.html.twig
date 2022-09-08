@@ -7,9 +7,9 @@
     {{ form_errors(form.birthdate) }}
     {{ form_errors(form.gender) }}
     {{ form_errors(form.weight) }}
-    {{ form_errors(form.plainPassword) }}
-    {{ form_errors(form.plainPassword.children.first) }}
-    {{ form_errors(form.plainPassword.children.second) }}
+    {{ form_errors(form.plain_password) }}
+    {{ form_errors(form.plain_password.children.first) }}
+    {{ form_errors(form.plain_password.children.second) }}
 </div>
 {{ form_start(form) }}
 <table class="table table-small">
@@ -45,11 +45,11 @@
     </tr>
     <tr>
         <td>Wachtwoord</td>
-        <td>{{ form_widget(form.plainPassword.children.first) }}</td>
+        <td>{{ form_widget(form.plain_password.children.first) }}</td>
     </tr>
     <tr>
         <td>Herhaal wachtwoord</td>
-        <td>{{ form_widget(form.plainPassword.children.second) }}</td>
+        <td>{{ form_widget(form.plain_password.children.second) }}</td>
     </tr>
     <tr>
         <td colspan="2">{{ form_widget(form.register, {'label': 'Registreer'}) }}</td>

@@ -1,7 +1,7 @@
 <div id="form_errors_client"></div>
 <div id="form_errors_server">
     {{ form_errors(form) }}
-    {{ form_errors(form.isPending) }}
+    {{ form_errors(form.is_pending) }}
 </div>
 {{ form_start(form) }}
 <div class="fw-bold">Ingredients</div>
@@ -15,6 +15,6 @@
 <div class="fw-bold">Hulpmiddelen en keukengerei</div>
 {{ recipe.toolsAndKitchenware|nl2br }}
 <div class="fw-bold">Wacht op goedkeuring</div>
-{{ form_widget(form.isPending) }}
+{{ form_widget(form.is_pending) }}
 <div>{{ form_widget(form.submit, { 'label': submit_label }) }}</div>
 {{ form_end(form) }}

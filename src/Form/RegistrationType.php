@@ -64,7 +64,7 @@ class RegistrationType extends AbstractType
             ->add('weight', NumberType::class, [
                 'attr' => ['class' => 'form-control'],
             ])
-            ->add('plainPassword', RepeatedType::class, [
+            ->add('plain_password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'first_options' => ['label' => 'Password', 'attr' => ['class' => 'form-control']],
                 'second_options' => ['label' => 'Repeat Password', 'attr' => ['class' => 'form-control']],

@@ -13,7 +13,7 @@ class RatingTypeTest extends TypeTestCase
     public function testSubmitModel(): void
     {
         $formData = [
-            'isPending' => false,
+            'is_pending' => false,
         ];
 
         $rating = new Rating();

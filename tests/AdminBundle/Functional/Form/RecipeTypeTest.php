@@ -11,7 +11,7 @@ class RecipeTypeTest extends AuthWebTestCase
 {
     public function testSubmitModel(): void
     {
-        $formData = ['isPending' => false];
+        $formData = ['is_pending' => false];
 
         $form = $this->getContainer()->get('form.factory')->create(RecipeType::class);
 

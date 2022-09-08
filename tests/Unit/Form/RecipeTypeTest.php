@@ -24,13 +24,13 @@ class RecipeTypeTest extends TypeTestCase
         $typeOfDish = 'Hoofdgerecht';
         $formData = [
             'title' => $title,
-            'preparationMethod' => $preparationMethod,
-            'niceStory' => $niceStory,
-            'isSelfInvented' => $isSelfInvented,
-            'numberOfPersons' => $numberOfPersons,
-            'cookingTime' => $cookingTime,
+            'preparation_method' => $preparationMethod,
+            'nice_story' => $niceStory,
+            'is_self_invented' => $isSelfInvented,
+            'number_of_persons' => $numberOfPersons,
+            'cooking_time' => $cookingTime,
             'kitchen' => $kitchen,
-            'typeOfDish' => $typeOfDish,
+            'type_of_dish' => $typeOfDish,
         ];
 
         $recipe = new Recipe();

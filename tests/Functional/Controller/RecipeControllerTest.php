@@ -31,16 +31,16 @@ class RecipeControllerTest extends AuthAdminWebTestCase
         $form['recipe[image]'] = new File($testImagePath);
         $form['recipe[title]'] = 'test title';
         $form['recipe[ingredients]'] = 'test ingredient';
-        $form['recipe[preparationMethod]'] = 'test preparation';
-        $form['recipe[niceStory]'] = 'test story';
-        $form['recipe[isSelfInvented]'] = 0;
-        $form['recipe[numberOfPersons]'] = 1;
-        $form['recipe[cookingTime]'] = '0-10 min.';
+        $form['recipe[preparation_method]'] = 'test preparation';
+        $form['recipe[nice_story]'] = 'test story';
+        $form['recipe[is_self_invented]'] = 0;
+        $form['recipe[number_of_persons]'] = 1;
+        $form['recipe[cooking_time]'] = '0-10 min.';
         $form['recipe[kitchen]'] = 'Afrikaans';
-        $form['recipe[typeOfDish]'] = 'Hoofdgerecht';
+        $form['recipe[type_of_dish]'] = 'Hoofdgerecht';
 
         $values = $form->getPhpValues();
-        $values['recipe']['foodstuffWeights'] = [$foodstuff->getId() => 10];
+        $values['recipe']['foodstuff_weights'] = [$foodstuff->getId() => 10];
         $this->client->request($form->getMethod(), $form->getUri(), $values, $form->getPhpFiles());
 
         $this->assertResponseRedirects('/recepten');

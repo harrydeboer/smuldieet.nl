@@ -15,11 +15,11 @@ class CreateUserType extends RegistrationType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('firstName', TextType::class, [
+            ->add('first_name', TextType::class, [
                 'required' => false,
                 'attr' => ['class' => 'form-control'],
             ])
-            ->add('lastName', TextType::class, [
+            ->add('last_name', TextType::class, [
                 'required' => false,
                 'attr' => ['class' => 'form-control'],
             ])
@@ -31,7 +31,7 @@ class CreateUserType extends RegistrationType
                     'ROLE_ADMIN' => 'ROLE_ADMIN',
                 ],
                 'attr' => ['class' => ''],
-            ])->add('isVerified', CheckboxType::class, [
+            ])->add('is_verified', CheckboxType::class, [
                 'attr' => ['class' => 'form-check-input'],
                 'required' => false,
             ]);

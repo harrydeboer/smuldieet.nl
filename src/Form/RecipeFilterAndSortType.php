@@ -25,7 +25,7 @@ class RecipeFilterAndSortType extends AbstractType
                     'maxlength' => 255,
                 ],
             ])
-            ->add('typeOfDish', ChoiceType::class, [
+            ->add('type_of_dish', ChoiceType::class, [
                 'choices' => array_combine(Recipe::TYPE_OF_DISH, Recipe::TYPE_OF_DISH),
                 'required' => false,
                 'placeholder' => 'Gang',
@@ -34,7 +34,7 @@ class RecipeFilterAndSortType extends AbstractType
                     'class' => 'form-control form-select',
                 ],
             ])
-            ->add('cookingTime', ChoiceType::class, [
+            ->add('cooking_time', ChoiceType::class, [
                 'choices' => array_combine(Recipe::COOKING_TIMES, Recipe::COOKING_TIMES),
                 'required' => false,
                 'placeholder' => 'Tijd',
@@ -61,7 +61,7 @@ class RecipeFilterAndSortType extends AbstractType
                     'class' => 'form-control form-select',
                 ],
             ]);
-        foreach (Recipe::DIET_CHOICES as $key => $choice) {
+        foreach (Recipe::getDietChoices('snake') as $key => $choice) {
             $builder->add($choice, CheckboxType::class, [
                 'required' => false,
                 'label' => $key,

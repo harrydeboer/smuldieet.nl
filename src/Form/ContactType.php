@@ -34,7 +34,7 @@ class ContactType extends AbstractType
                 ],
                 'constraints' => [new Length(['max' => 65535])],
             ])
-            ->add('reCaptchaToken', HiddenType::class)
+            ->add('re_captcha_token', HiddenType::class)
             ->add('send', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-success'],
             ]);

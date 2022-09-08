@@ -28,8 +28,8 @@ class RegisterSecurityChangePasswordTest extends WebTestCase
         $form['registration[birthdate][year]'] = 1990;
         $form['registration[gender]'] = 'man';
         $form['registration[weight]'] = 70;
-        $form['registration[plainPassword][first]'] = 'secret';
-        $form['registration[plainPassword][second]'] = 'secret';
+        $form['registration[plain_password][first]'] = 'secret';
+        $form['registration[plain_password][second]'] = 'secret';
 
         $this->client->submit($form);
 
@@ -58,8 +58,8 @@ class RegisterSecurityChangePasswordTest extends WebTestCase
 
         $form = $buttonCrawlerNode->form();
 
-        $form['change_password[plainPassword][first]'] = 'newNew';
-        $form['change_password[plainPassword][second]'] = 'newNew';
+        $form['change_password[plain_password][first]'] = 'newNew';
+        $form['change_password[plain_password][second]'] = 'newNew';
 
         $this->client->submit($form);
 

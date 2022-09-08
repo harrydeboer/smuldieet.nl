@@ -27,7 +27,7 @@ class ChangePasswordController extends AuthController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $this->userRepository->upgradePassword($this->getUser(), $form->get('plainPassword')->getData());
+            $this->userRepository->upgradePassword($this->getUser(), $form->get('plain_password')->getData());
 
             return $this->redirectToRoute('homepage');
         }

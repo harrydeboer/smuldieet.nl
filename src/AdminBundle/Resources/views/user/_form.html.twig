@@ -3,15 +3,15 @@
     {{ form_errors(form) }}
     {{ form_errors(form.image) }}
     {{ form_errors(form.username) }}
-    {{ form_errors(form.firstName) }}
-    {{ form_errors(form.lastName) }}
+    {{ form_errors(form.first_name) }}
+    {{ form_errors(form.last_name) }}
     {{ form_errors(form.email) }}
     {{ form_errors(form.birthdate) }}
     {{ form_errors(form.gender) }}
     {{ form_errors(form.weight) }}
     {{ form_errors(form.roles) }}
-    {{ form_errors(form.isVerified) }}
-    {{ form_errors(form.plainPassword) }}
+    {{ form_errors(form.is_verified) }}
+    {{ form_errors(form.plain_password) }}
 </div>
 {{ form_start(form) }}
 <table class="table table-small">
@@ -26,11 +26,11 @@
     </tr>
     <tr>
         <td>Voornaam</td>
-        <td>{{ form_widget(form.firstName) }}</td>
+        <td>{{ form_widget(form.first_name) }}</td>
     </tr>
     <tr>
         <td>Achternaam</td>
-        <td>{{ form_widget(form.lastName) }}</td>
+        <td>{{ form_widget(form.last_name) }}</td>
     </tr>
     <tr>
         <td>E-mail</td>
@@ -57,15 +57,15 @@
     </tr>
     <tr>
         <td>Is geverifieerd</td>
-        <td>{{ form_widget(form.isVerified) }}</td>
+        <td>{{ form_widget(form.is_verified) }}</td>
     </tr>
     <tr>
         <td>Wachtwoord</td>
-        <td>{{ form_widget(form.plainPassword.children.first) }}</td>
+        <td>{{ form_widget(form.plain_password.children.first) }}</td>
     </tr>
     <tr>
         <td>Herhaal wachtwoord</td>
-        <td>{{ form_widget(form.plainPassword.children.second) }}</td>
+        <td>{{ form_widget(form.plain_password.children.second) }}</td>
     </tr>
     <tr><td colspan="2">{{ form_widget(form.register, { 'label': submit_label }) }}</td>
     </tr>

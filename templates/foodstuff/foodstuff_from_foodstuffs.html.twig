@@ -7,6 +7,7 @@
     <div id="form_errors_server">
         {{ form_errors(form) }}
         {{ form_errors(form.name) }}
+        {{ form_errors(form.foodstuff_weights) }}
     </div>
     {{ form_start(form, { 'attr' : { 'class': 'food-form' }}) }}
     <table class="food-table table table-small">
@@ -16,7 +17,7 @@
         </tr>
         {{ include('_food_row.html.twig', {
             'form_name': 'foodstuff_from_foodstuffs',
-            'weights': form.foodstuffWeights,
+            'weights': form.foodstuff_weights,
             'food_type': 'foodstuff',
             'weights_or_choices': 'weights',
             'placeholder': 'voedingsmiddel'

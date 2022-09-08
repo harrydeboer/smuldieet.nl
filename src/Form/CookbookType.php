@@ -18,7 +18,7 @@ class CookbookType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, ['attr' => ['class' => 'form-control']])
-            ->add('recipeChoices', CollectionType::class, [
+            ->add('recipe_choices', CollectionType::class, [
                 'entry_type' => ChoiceType::class,
                 'allow_add' => true,
                 'entry_options' => [

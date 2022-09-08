@@ -14,7 +14,7 @@ class ReviewType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('isPending', CheckboxType::class, ['required' => false,
+            ->add('is_pending', CheckboxType::class, ['required' => false,
                 'attr' => ['class' => 'form-check-input']])
             ->add('submit', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-success'],

@@ -127,17 +127,13 @@
             <div class="fw-bold">Gelegenheid</div>
             {{ recipe.occasion }}
         {% endif %}
-        {% set hasDiet = false %}
-        {% for key, choice in constant('DIET_CHOICES', recipe)  %}
-            {% if attribute(recipe, choice) == 1 %}
-                {% if not hasDiet %}
-                    <br>
-                    <br>
-                    <div class="fw-bold">Dieet</div>
-                {% endif %}
-                {% set hasDiet = true %}
-                <div>{{ key }}</div>
-            {% endif %}
+        {% if hasDiet %}
+            <br>
+            <br>
+            <div class="fw-bold">Dieet</div>
+        {% endif %}
+        {% for item in diet  %}
+            <div>{{ item }}</div>
         {% endfor %}
         <br>
         {% if currentUserId == recipe.user.id %}

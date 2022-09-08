@@ -24,14 +24,14 @@ class CombineFoodstuffsService
         $foodstuff = new Foodstuff();
         $foodstuff->setName($formData['name']);
         $foodstuff->setUser($user);
-        $sum = array_sum($formData['foodstuffWeights']);
+        $sum = array_sum($formData['foodstuff_weights']);
 
         if ((int) round(($sum * 100)) !== 10000) {
             throw new InvalidArgumentException('Weights must add up to 100 percent.');
         }
 
         $properties = array_keys(Foodstuff::getADH());
-        foreach ($formData['foodstuffWeights'] as $id => $weight) {
+        foreach ($formData['foodstuff_weights'] as $id => $weight) {
             $foodstuffForm = $this->foodstuffRepository->get($id);
             foreach ($properties as $property) {
                 if (is_null($foodstuffForm->{'get' . ucfirst($property)}())) {
@@ -39,7 +39,7 @@ class CombineFoodstuffsService
                 } else {
                     $foodstuff->{'set' . ucfirst($property)}($foodstuff->{'get' . ucfirst($property)}() +
                         $foodstuffForm->{'get' . ucfirst($property)}()
-                        * $formData['foodstuffWeights'][$id] / $sum);
+                        * $formData['foodstuff_weights'][$id] / $sum);
                 }
             }
         }

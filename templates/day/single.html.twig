@@ -23,8 +23,7 @@
             </tr>
         {% endfor %}
         {% for rowNumber, recipe in day.recipes %}
-            {% set rowNumberRecipe = rowNumber + day.foodstuffs.count %}
-            <tr id="row{{ rowNumberRecipe + 1 }}">
+            <tr>
                 <td>{{ recipe.title }}</td>
                 <td>{{ day.recipeChoices[recipe.id]|number_format }}</td>
             </tr>

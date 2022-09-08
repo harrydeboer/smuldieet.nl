@@ -28,7 +28,7 @@ class RecipeControllerTest extends AuthAdminWebTestCase
 
         $form = $buttonCrawlerNode->form();
 
-        $form['recipe[isPending]'] = false;
+        $form['recipe[is_pending]'] = false;
 
         $this->client->submit($form);
 

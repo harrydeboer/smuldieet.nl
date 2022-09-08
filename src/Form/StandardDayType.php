@@ -17,7 +17,7 @@ class StandardDayType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('foodstuffWeights', CollectionType::class, [
+            ->add('foodstuff_weights', CollectionType::class, [
                 'entry_type' => NumberType::class,
                 'allow_add' => true,
                 'entry_options' => [
@@ -29,7 +29,7 @@ class StandardDayType extends AbstractType
                 'allow_delete' => true,
                 'delete_empty' => true,
             ])
-            ->add('foodstuffChoices', CollectionType::class, [
+            ->add('foodstuff_choices', CollectionType::class, [
                 'entry_type' => ChoiceType::class,
                 'allow_add' => true,
                 'entry_options' => [
@@ -41,7 +41,7 @@ class StandardDayType extends AbstractType
                 'allow_delete' => true,
                 'delete_empty' => true,
             ])
-            ->add('recipeChoices', CollectionType::class, [
+            ->add('recipe_choices', CollectionType::class, [
                 'entry_type' => ChoiceType::class,
                 'allow_add' => true,
                 'entry_options' => [

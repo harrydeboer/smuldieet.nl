@@ -131,18 +131,6 @@ class Recipe extends FoodstuffsEntity
         'Voorgerecht',
     ];
 
-    public const DIET_CHOICES = [
-        'Vegetarisch' => 'isVegetarian',
-        'Veganistisch' => 'isVegan',
-        'Histamine vrij' => 'isHistamineFree',
-        'Koemelk vrij' => 'isCowMilkFree',
-        'Soja vrij' => 'isSoyFree',
-        'Gluten vrij' => 'isGlutenFree',
-        'Kippenei eiwitvrij' => 'isChickenEggProteinFree',
-        'Noten vrij' => 'isNutFree',
-        'Zonder pakjes en zakjes' => 'isWithoutPackagesAndBags',
-    ];
-
     public const IMAGE_WIDTHS = [
         100,
         600,
@@ -344,6 +332,33 @@ class Recipe extends FoodstuffsEntity
         $this->cookbooks = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->tags = new ArrayCollection();
+    }
+
+    public static function getDietChoices(string $camelOrSnake = 'camel'): array
+    {
+        $arrayCamel = [
+            'Vegetarisch' => 'isVegetarian',
+            'Veganistisch' => 'isVegan',
+            'Histamine vrij' => 'isHistamineFree',
+            'Koemelk vrij' => 'isCowMilkFree',
+            'Soja vrij' => 'isSoyFree',
+            'Gluten vrij' => 'isGlutenFree',
+            'Kippenei eiwitvrij' => 'isChickenEggProteinFree',
+            'Noten vrij' => 'isNutFree',
+            'Zonder pakjes en zakjes' => 'isWithoutPackagesAndBags',
+        ];
+
+        if ($camelOrSnake === 'snake') {
+            $arraySnake = [];
+            foreach ($arrayCamel as $key => $item) {
+                $arraySnake[$key] = strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $item));
+            }
+
+            return $arraySnake;
+        } else {
+
+            return $arrayCamel;
+        }
     }
 
     public function getId(): ?int

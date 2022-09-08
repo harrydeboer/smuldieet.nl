@@ -806,7 +806,12 @@ class Foodstuff
         return $this->salt * 400;
     }
 
-    public static function getADH(DateTime $birthdate = null, string $gender = 'man', float $weight = 70): array
+    public static function getADH(
+        string $camelOrSnake = 'camel',
+        DateTime $birthdate = null,
+        string $gender = 'man',
+        float $weight = 70,
+    ): array
     {
         if ($weight <= 0) {
             throw new InvalidArgumentException('Weight has to be greater than 0');
@@ -885,6 +890,15 @@ class Foodstuff
             if ((time() - $birthdate->getTimestamp()) / 24 / 60 / 60 / 365.25 >= 70) {
                 $adhArray['vitaminD'][0] = $adhArray['vitaminD'][0] * 2;
             }
+        }
+
+        if ($camelOrSnake === 'snake') {
+            $arraySnake = [];
+            foreach ($adhArray as $key => $item) {
+                $arraySnake[strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $key))] = $item;
+            }
+
+            return $arraySnake;
         }
 
         return $adhArray;
