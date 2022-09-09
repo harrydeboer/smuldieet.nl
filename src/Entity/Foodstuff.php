@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\ValueObject\Nutrient;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -833,7 +834,10 @@ class Foodstuff
         return $this->salt * 400;
     }
 
-    public static function getADH(
+    /**
+     * @return Nutrient[]
+     */
+    public static function getNutrients(
         string $camelOrSnake = 'camel',
         DateTime $birthdate = null,
         string $gender = 'man',
@@ -850,84 +854,381 @@ class Foodstuff
             throw new InvalidArgumentException('Gender has to be man or vrouw.');
         }
 
-        /**
-         * Gives min and max of nutritional values, gives the unit, the Dutch name and number of decimals.
-         */
-        $adhArray = [
-            'energyKcal' => [2500, 2500, 'kcal', 'Energie', 0],
-            'water' => [35 * $weight, 35 * $weight, 'ml', 'Water', 1],
-            'protein' => [0.8 * $weight, 0.8 * $weight, 'g', 'Eiwit', 1],
-            'carbohydrates' => [250,438, 'g', 'Koolhydraten', 1],
-            'sucre' => [60,90, 'g', 'Suiker', 1],
-            'fat' => [56,111, 'g', 'Vet', 1],
-            'saturatedFat' => [8,28, 'g', 'Verzadigd vet', 1],
-            'monounsaturatedFat' => [4,16, 'g', 'Enkelvoudig verzadigd vet', 1],
-            'polyunsaturatedFat' => [4,17, 'g', 'Meervoudig verzadigd vet', 1],
-            'cholesterol' => [0,250, 'mg', 'Cholesterol', 1],
-            'dietaryFiber' => [30,'N/B', 'g', 'Vezels', 1],
-            'salt' => [0,6, 'g', 'Zout', 1],
-            'vitaminA' => [0.8,3, 'mg', 'Vitamine A', 2],
-            'vitaminB1' => [0.9,6, 'mg', 'Vitamine B1', 2],
-            'vitaminB2' => [1.6,'N/B', 'mg', 'Vitamine B2', 2],
-            'vitaminB3' => [17,900, 'mg', 'Vitamine B3', 2],
-            'vitaminB6' => [1.5,21, 'mg', 'Vitamine B6', 2],
-            'vitaminB11' => [300,1000, 'μg', 'Vitamine B11', 2],
-            'vitaminB12' => [2.8,'N/B', 'μg', 'Vitamine B12', 2],
-            'vitaminC' => [75,2000, 'mg', 'Vitamine C', 2],
-            'vitaminD' => [10,50, 'μg', 'Vitamine D', 2],
-            'vitaminE' => [11,300, 'mg', 'Vitamine E', 2],
-            'vitaminK' => [70,'N/B', 'μg', 'Vitamine K', 2],
-            'potassium' => [3500,3500, 'mg', 'Kalium', 0],
-            'calcium' => [1000,2500, 'mg', 'Calcium', 0],
-            'phosphorus' => [550,3000, 'mg', 'Fosfor', 0],
-            'iron' => [11,45, 'mg', 'IJzer', 1],
-            'magnesium' => [350,650, 'mg', 'Magnesium', 0],
-            'copper' => [0.9,6, 'mg', 'Koper', 2],
-            'zinc' => [9,25, 'mg', 'Zink', 2],
-            'selenium' => [70,300, 'μg', 'Seleen', 0],
-            'iodine' => [150,600, 'μg', 'Jodium', 0],
-            'manganese' => [3,11, 'mg', 'Mangaan', 2],
-            'molybdenum' => [65,600, 'μg', 'Molybdeen', 2],
-            'chromium' => [30,250, 'μg', 'Chroom', 2],
-            'fluoride' => [0,7, 'mg', 'Fluoride', 2],
-            'alcohol' => [0,10, 'g', 'Alcohol', 0],
-            'caffeine' => [0,400, 'mg', 'Caffeïne', 0],
-        ];
-
         if ($gender === 'vrouw') {
-            $adhArray['energyKcal'][0] = $adhArray['energyKcal'][0] * 0.8;
-            $adhArray['energyKcal'][1] = $adhArray['energyKcal'][1] * 0.8;
-            $adhArray['carbohydrates'][0] = $adhArray['carbohydrates'][0] * 0.8;
-            $adhArray['carbohydrates'][1] = $adhArray['carbohydrates'][1] * 0.8;
-            $adhArray['sucre'][0] = $adhArray['sucre'][0] * 0.8;
-            $adhArray['sucre'][1] = $adhArray['sucre'][1] * 0.8;
-            $adhArray['fat'][0] = $adhArray['fat'][0] * 0.8;
-            $adhArray['fat'][1] = $adhArray['fat'][1] * 0.8;
-            $adhArray['saturatedFat'][0] = $adhArray['saturatedFat'][0] * 0.8;
-            $adhArray['saturatedFat'][1] = $adhArray['saturatedFat'][1] * 0.8;
-            $adhArray['monounsaturatedFat'][0] = $adhArray['monounsaturatedFat'][0] * 0.8;
-            $adhArray['monounsaturatedFat'][1] = $adhArray['monounsaturatedFat'][1] * 0.8;
-            $adhArray['polyunsaturatedFat'][0] = $adhArray['polyunsaturatedFat'][0] * 0.8;
-            $adhArray['polyunsaturatedFat'][1] = $adhArray['polyunsaturatedFat'][1] * 0.8;
-            $adhArray['zinc'][1] = $adhArray['zinc'][1] * 7 / 9;
-            $adhArray['magnesium'][1] = $adhArray['magnesium'][1] * 300 / 350;
+            $factor = 0.8;
+        } else {
+            $factor = 1;
         }
 
+        $nutrients = [];
+
+        $nutrient = new Nutrient();
+        $nutrient->setName('energyKcal');
+        $nutrient->setNameNL('Energie');
+        $nutrient->setMinRDA(2500 * $factor);
+        $nutrient->setMaxRDA(2500 * $factor);
+        $nutrient->setUnit('kcal');
+        $nutrient->setDecimalPlaces(0);
+        $nutrients[$nutrient->getName()] = $nutrient;
+
+        $nutrient = new Nutrient();
+        $nutrient->setName('water');
+        $nutrient->setNameNL('Water');
+        $nutrient->setMinRDA(35 * $weight);
+        $nutrient->setMaxRDA(35 * $weight);
+        $nutrient->setUnit('ml');
+        $nutrient->setDecimalPlaces(1);
+        $nutrients[$nutrient->getName()] = $nutrient;
+
+        $nutrient = new Nutrient();
+        $nutrient->setName('protein');
+        $nutrient->setNameNL('Eiwit');
+        $nutrient->setMinRDA(0.8 * $weight);
+        $nutrient->setMaxRDA(0.8 * $weight);
+        $nutrient->setUnit('g');
+        $nutrient->setDecimalPlaces(1);
+        $nutrients[$nutrient->getName()] = $nutrient;
+
+        $nutrient = new Nutrient();
+        $nutrient->setName('carbohydrates');
+        $nutrient->setNameNL('Koolhydraten');
+        $nutrient->setMinRDA(250 * $factor);
+        $nutrient->setMaxRDA(438 * $factor);
+        $nutrient->setUnit('g');
+        $nutrient->setDecimalPlaces(1);
+        $nutrients[$nutrient->getName()] = $nutrient;
+
+        $nutrient = new Nutrient();
+        $nutrient->setName('sucre');
+        $nutrient->setNameNL('Suiker');
+        $nutrient->setMinRDA(60 * $factor);
+        $nutrient->setMaxRDA(90 * $factor);
+        $nutrient->setUnit('g');
+        $nutrient->setDecimalPlaces(1);
+        $nutrients[$nutrient->getName()] = $nutrient;
+
+        $nutrient = new Nutrient();
+        $nutrient->setName('fat');
+        $nutrient->setNameNL('Vet');
+        $nutrient->setMinRDA(56 * $factor);
+        $nutrient->setMaxRDA(111 * $factor);
+        $nutrient->setUnit('g');
+        $nutrient->setDecimalPlaces(1);
+        $nutrients[$nutrient->getName()] = $nutrient;
+
+        $nutrient = new Nutrient();
+        $nutrient->setName('saturatedFat');
+        $nutrient->setNameNL('Verzadigd vet');
+        $nutrient->setMinRDA(8 * $factor);
+        $nutrient->setMaxRDA(28 * $factor);
+        $nutrient->setUnit('g');
+        $nutrient->setDecimalPlaces(1);
+        $nutrients[$nutrient->getName()] = $nutrient;
+
+        $nutrient = new Nutrient();
+        $nutrient->setName('monounsaturatedFat');
+        $nutrient->setNameNL('Enkelvoudig verzadigd vet');
+        $nutrient->setMinRDA(4 * $factor);
+        $nutrient->setMaxRDA(16 * $factor);
+        $nutrient->setUnit('g');
+        $nutrient->setDecimalPlaces(1);
+        $nutrients[$nutrient->getName()] = $nutrient;
+
+        $nutrient = new Nutrient();
+        $nutrient->setName('polyunsaturatedFat');
+        $nutrient->setNameNL('Meervoudig verzadigd vet');
+        $nutrient->setMinRDA(4 * $factor);
+        $nutrient->setMaxRDA(17 * $factor);
+        $nutrient->setUnit('g');
+        $nutrient->setDecimalPlaces(1);
+        $nutrients[$nutrient->getName()] = $nutrient;
+
+        $nutrient = new Nutrient();
+        $nutrient->setName('cholesterol');
+        $nutrient->setNameNL('Cholesterol');
+        $nutrient->setMinRDA(0);
+        $nutrient->setMaxRDA(250);
+        $nutrient->setUnit('mg');
+        $nutrient->setDecimalPlaces(1);
+        $nutrients[$nutrient->getName()] = $nutrient;
+
+        $nutrient = new Nutrient();
+        $nutrient->setName('dietaryFiber');
+        $nutrient->setNameNL('Vezels');
+        $nutrient->setMinRDA(30);
+        $nutrient->setMaxRDA(null);
+        $nutrient->setUnit('mg');
+        $nutrient->setDecimalPlaces(1);
+        $nutrients[$nutrient->getName()] = $nutrient;
+
+        $nutrient = new Nutrient();
+        $nutrient->setName('salt');
+        $nutrient->setNameNL('Zout');
+        $nutrient->setMinRDA(0);
+        $nutrient->setMaxRDA(6);
+        $nutrient->setUnit('g');
+        $nutrient->setDecimalPlaces(1);
+        $nutrients[$nutrient->getName()] = $nutrient;
+
+        $nutrient = new Nutrient();
+        $nutrient->setName('vitaminA');
+        $nutrient->setNameNL('Vitamine A');
+        $nutrient->setMinRDA(0.8);
+        $nutrient->setMaxRDA(3);
+        $nutrient->setUnit('mg');
+        $nutrient->setDecimalPlaces(2);
+        $nutrients[$nutrient->getName()] = $nutrient;
+
+        $nutrient = new Nutrient();
+        $nutrient->setName('vitaminB1');
+        $nutrient->setNameNL('Vitamine B1');
+        $nutrient->setMinRDA(0.9);
+        $nutrient->setMaxRDA(6);
+        $nutrient->setUnit('mg');
+        $nutrient->setDecimalPlaces(2);
+        $nutrients[$nutrient->getName()] = $nutrient;
+
+        $nutrient = new Nutrient();
+        $nutrient->setName('vitaminB2');
+        $nutrient->setNameNL('Vitamine B2');
+        $nutrient->setMinRDA(1.6);
+        $nutrient->setMaxRDA(null);
+        $nutrient->setUnit('mg');
+        $nutrient->setDecimalPlaces(2);
+        $nutrients[$nutrient->getName()] = $nutrient;
+
+        $nutrient = new Nutrient();
+        $nutrient->setName('vitaminB3');
+        $nutrient->setNameNL('Vitamine B3');
+        $nutrient->setMinRDA(17);
+        $nutrient->setMaxRDA(900);
+        $nutrient->setUnit('mg');
+        $nutrient->setDecimalPlaces(2);
+        $nutrients[$nutrient->getName()] = $nutrient;
+
+        $nutrient = new Nutrient();
+        $nutrient->setName('vitaminB6');
+        $nutrient->setNameNL('Vitamine B6');
+        $nutrient->setMinRDA(1.5);
+        $nutrient->setMaxRDA(21);
+        $nutrient->setUnit('mg');
+        $nutrient->setDecimalPlaces(2);
+        $nutrients[$nutrient->getName()] = $nutrient;
+
+        $nutrient = new Nutrient();
+        $nutrient->setName('vitaminB11');
+        $nutrient->setNameNL('Vitamine B11');
+        $nutrient->setMinRDA(300);
+        $nutrient->setMaxRDA(1000);
+        $nutrient->setUnit('μg');
+        $nutrient->setDecimalPlaces(2);
+        $nutrients[$nutrient->getName()] = $nutrient;
+
+        $nutrient = new Nutrient();
+        $nutrient->setName('vitaminB12');
+        $nutrient->setNameNL('Vitamine B12');
+        $nutrient->setMinRDA(2.8);
+        $nutrient->setMaxRDA(null);
+        $nutrient->setUnit('μg');
+        $nutrient->setDecimalPlaces(2);
+        $nutrients[$nutrient->getName()] = $nutrient;
+
+        $nutrient = new Nutrient();
+        $nutrient->setName('vitaminC');
+        $nutrient->setNameNL('Vitamine C');
+        $nutrient->setMinRDA(75);
+        $nutrient->setMaxRDA(2000);
+        $nutrient->setUnit('mg');
+        $nutrient->setDecimalPlaces(2);
+        $nutrients[$nutrient->getName()] = $nutrient;
+
+        $nutrient = new Nutrient();
+        $nutrient->setName('vitaminD');
+        $nutrient->setNameNL('Vitamine D');
+        $nutrient->setMinRDA(10);
+        /**
+         * For people over 70 years the vitamin D minimum is 20 μg.
+         */
         if (!is_null($birthdate)) {
             if ((time() - $birthdate->getTimestamp()) / 24 / 60 / 60 / 365.25 >= 70) {
-                $adhArray['vitaminD'][0] = $adhArray['vitaminD'][0] * 2;
+                $nutrient->setMinRDA(20);
             }
         }
+        $nutrient->setMaxRDA(50);
+        $nutrient->setUnit('μg');
+        $nutrient->setDecimalPlaces(2);
+        $nutrients[$nutrient->getName()] = $nutrient;
+
+        $nutrient = new Nutrient();
+        $nutrient->setName('vitaminE');
+        $nutrient->setNameNL('Vitamine E');
+        $nutrient->setMinRDA(11);
+        $nutrient->setMaxRDA(300);
+        $nutrient->setUnit('mg');
+        $nutrient->setDecimalPlaces(2);
+        $nutrients[$nutrient->getName()] = $nutrient;
+
+        $nutrient = new Nutrient();
+        $nutrient->setName('vitaminK');
+        $nutrient->setNameNL('Vitamine K');
+        $nutrient->setMinRDA(70);
+        $nutrient->setMaxRDA(null);
+        $nutrient->setUnit('μg');
+        $nutrient->setDecimalPlaces(2);
+        $nutrients[$nutrient->getName()] = $nutrient;
+
+        $nutrient = new Nutrient();
+        $nutrient->setName('potassium');
+        $nutrient->setNameNL('Kalium');
+        $nutrient->setMinRDA(3500);
+        $nutrient->setMaxRDA(3500);
+        $nutrient->setUnit('mg');
+        $nutrient->setDecimalPlaces(0);
+        $nutrients[$nutrient->getName()] = $nutrient;
+
+        $nutrient = new Nutrient();
+        $nutrient->setName('calcium');
+        $nutrient->setNameNL('Calcium');
+        $nutrient->setMinRDA(1000);
+        $nutrient->setMaxRDA(2500);
+        $nutrient->setUnit('mg');
+        $nutrient->setDecimalPlaces(0);
+        $nutrients[$nutrient->getName()] = $nutrient;
+
+        $nutrient = new Nutrient();
+        $nutrient->setName('phosphorus');
+        $nutrient->setNameNL('Fosfor');
+        $nutrient->setMinRDA(550);
+        $nutrient->setMaxRDA(3000);
+        $nutrient->setUnit('mg');
+        $nutrient->setDecimalPlaces(0);
+        $nutrients[$nutrient->getName()] = $nutrient;
+
+        $nutrient = new Nutrient();
+        $nutrient->setName('iron');
+        $nutrient->setNameNL('IJzer');
+        $nutrient->setMinRDA(11);
+        $nutrient->setMaxRDA(45);
+        $nutrient->setUnit('mg');
+        $nutrient->setDecimalPlaces(1);
+        $nutrients[$nutrient->getName()] = $nutrient;
+
+        $nutrient = new Nutrient();
+        $nutrient->setName('magnesium');
+        $nutrient->setNameNL('Magnesium');
+        if ($gender === 'vrouw') {
+            $nutrient->setMinRDA(300);
+        } else {
+            $nutrient->setMinRDA(350);
+        }
+        $nutrient->setMaxRDA(650);
+        $nutrient->setUnit('mg');
+        $nutrient->setDecimalPlaces(0);
+        $nutrients[$nutrient->getName()] = $nutrient;
+
+        $nutrient = new Nutrient();
+        $nutrient->setName('copper');
+        $nutrient->setNameNL('Koper');
+        $nutrient->setMinRDA(0.9);
+        $nutrient->setMaxRDA(6);
+        $nutrient->setUnit('mg');
+        $nutrient->setDecimalPlaces(2);
+        $nutrients[$nutrient->getName()] = $nutrient;
+
+        $nutrient = new Nutrient();
+        $nutrient->setName('zinc');
+        $nutrient->setNameNL('Zink');
+        if ($gender === 'vrouw') {
+            $nutrient->setMinRDA(7);
+        } else {
+            $nutrient->setMinRDA(9);
+        }
+        $nutrient->setMaxRDA(25);
+        $nutrient->setUnit('mg');
+        $nutrient->setDecimalPlaces(2);
+        $nutrients[$nutrient->getName()] = $nutrient;
+
+        $nutrient = new Nutrient();
+        $nutrient->setName('selenium');
+        $nutrient->setNameNL('Seleen');
+        $nutrient->setMinRDA(70);
+        $nutrient->setMaxRDA(300);
+        $nutrient->setUnit('μg');
+        $nutrient->setDecimalPlaces(0);
+        $nutrients[$nutrient->getName()] = $nutrient;
+
+        $nutrient = new Nutrient();
+        $nutrient->setName('iodine');
+        $nutrient->setNameNL('Jodium');
+        $nutrient->setMinRDA(150);
+        $nutrient->setMaxRDA(600);
+        $nutrient->setUnit('μg');
+        $nutrient->setDecimalPlaces(0);
+        $nutrients[$nutrient->getName()] = $nutrient;
+
+        $nutrient = new Nutrient();
+        $nutrient->setName('manganese');
+        $nutrient->setNameNL('Mangaan');
+        $nutrient->setMinRDA(3);
+        $nutrient->setMaxRDA(11);
+        $nutrient->setUnit('mg');
+        $nutrient->setDecimalPlaces(2);
+        $nutrients[$nutrient->getName()] = $nutrient;
+
+        $nutrient = new Nutrient();
+        $nutrient->setName('molybdenum');
+        $nutrient->setNameNL('Molybdeen');
+        $nutrient->setMinRDA(65);
+        $nutrient->setMaxRDA(600);
+        $nutrient->setUnit('μg');
+        $nutrient->setDecimalPlaces(0);
+        $nutrients[$nutrient->getName()] = $nutrient;
+
+        $nutrient = new Nutrient();
+        $nutrient->setName('chromium');
+        $nutrient->setNameNL('Chroom');
+        $nutrient->setMinRDA(30);
+        $nutrient->setMaxRDA(250);
+        $nutrient->setUnit('μg');
+        $nutrient->setDecimalPlaces(0);
+        $nutrients[$nutrient->getName()] = $nutrient;
+
+        $nutrient = new Nutrient();
+        $nutrient->setName('fluoride');
+        $nutrient->setNameNL('Fluoride');
+        $nutrient->setMinRDA(0);
+        $nutrient->setMaxRDA(7);
+        $nutrient->setUnit('mg');
+        $nutrient->setDecimalPlaces(2);
+        $nutrients[$nutrient->getName()] = $nutrient;
+
+        $nutrient = new Nutrient();
+        $nutrient->setName('alcohol');
+        $nutrient->setNameNL('Alcohol');
+        $nutrient->setMinRDA(0);
+        $nutrient->setMaxRDA(10);
+        $nutrient->setUnit('g');
+        $nutrient->setDecimalPlaces(0);
+        $nutrients[$nutrient->getName()] = $nutrient;
+
+        $nutrient = new Nutrient();
+        $nutrient->setName('caffeine');
+        $nutrient->setNameNL('Caffeïne');
+        $nutrient->setMinRDA(0);
+        $nutrient->setMaxRDA(400);
+        $nutrient->setUnit('mg');
+        $nutrient->setDecimalPlaces(0);
+        $nutrients[$nutrient->getName()] = $nutrient;
 
         if ($camelOrSnake === 'snake') {
             $arraySnake = [];
-            foreach ($adhArray as $key => $item) {
-                $arraySnake[strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $key))] = $item;
+            foreach ($nutrients as $key => $nutrient) {
+                $arraySnake[strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $key))] = $nutrient;
             }
 
             return $arraySnake;
         }
 
-        return $adhArray;
+        return $nutrients;
     }
 }

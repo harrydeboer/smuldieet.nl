@@ -8,7 +8,7 @@ use App\Entity\Day;
 use App\Tests\Factory\DayFactory;
 use App\Tests\Factory\FoodstuffFactory;
 use App\Tests\Factory\UserFactory;
-use App\Service\StatsService;
+use App\Service\RDAService;
 use App\Tests\Functional\KernelTestCase;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -35,14 +35,14 @@ class StatsServiceTest extends KernelTestCase
             'foodstuffs' => $arrayCollection2,
             'foodstuffWeights' => $weightCollection2,
         ]);
-        $statsService = static::getContainer()->get(StatsService::class);
-        $stats = $statsService->daysStats([$day1, $day2], $user);
+        $rdaService = static::getContainer()->get(RDAService::class);
+        $nutrients = $rdaService->daysStats([$day1, $day2], $user);
         $foodstuffsTotal = ($foodstuff1->getCalcium() + $foodstuff2->getCalcium()) / 2;
         $recipesTotal = 0;
         $recipesTotal += $this->recipesTotal($day1);
         $recipesTotal += $this->recipesTotal($day2);
 
-        $this->assertEquals($foodstuffsTotal + $recipesTotal, $stats['calcium'][5]);
+        $this->assertEquals($foodstuffsTotal + $recipesTotal, $nutrients['calcium']->getRealised());
     }
 
     private function recipesTotal(Day $day): float

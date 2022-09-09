@@ -38,12 +38,16 @@
             </tr>
             </thead>
             <tbody>
-            {% for key,property in stats %}
+            {% for stat in stats %}
                 <tr>
-                    <td>{{ property[3] }} {{ property[2] }}</td>
-                    <td>{{ property[0] }}</td>
-                    <td>{{ property[1] }}</td>
-                    <td>{{ property[5]|number_format(property[4]) }}</td>
+                    <td>{{ stat.nameNL }} {{ stat.unit }}</td>
+                    <td>{{ stat.minRDA }}</td>
+                    {% if stat.maxRDA is null %}
+                        <td>N/B</td>
+                    {% else %}
+                        <td>{{ stat.maxRDA }}</td>
+                    {% endif %}
+                    <td>{{ stat.realised|number_format(stat.decimalPlaces) }}</td>
                 </tr>
             {% endfor %}
             </tbody>

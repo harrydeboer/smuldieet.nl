@@ -30,7 +30,7 @@ class CombineFoodstuffsService
             throw new InvalidArgumentException('Weights must add up to 100 percent.');
         }
 
-        $properties = array_keys(Foodstuff::getADH());
+        $properties = array_keys(Foodstuff::getNutrients());
         foreach ($formData['foodstuff_weights'] as $id => $weight) {
             $foodstuffForm = $this->foodstuffRepository->get($id);
             foreach ($properties as $property) {

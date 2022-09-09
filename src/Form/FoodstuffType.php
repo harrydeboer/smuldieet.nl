@@ -27,7 +27,7 @@ class FoodstuffType extends AbstractType
                 'required' => false,
                 'attr' => ['class' => 'form-control'],
             ]);
-        foreach (Foodstuff::getADH('snake') as $key => $property) {
+        foreach (Foodstuff::getNutrients('snake') as $key => $property) {
             $builder->add($key, NumberType::class, [
                 'required' => false,
                 'attr' => ['class' => 'form-control'],

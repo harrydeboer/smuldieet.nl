@@ -22,7 +22,7 @@
         {{ form_errors(form.cooking_time) }}
         {{ form_errors(form.kitchen) }}
         {{ form_errors(form.occasion) }}
-        {% for key,choice in dietChoices %}
+        {% for choice,label in dietChoices %}
             {{ form_errors(attribute(form, choice)) }}
         {% endfor %}
         {{ form_errors(form.sort) }}
@@ -41,7 +41,7 @@
             <div class="form-control form-select" id="diet_filter" role="button"
                  data-bs-toggle="dropdown" aria-expanded="false">Dieet</div>
             <table class="dropdown-menu dropdown-diet" aria-labelledby="diet_filter">
-                {% for key, choice in dietChoices %}
+                {% for choice,label in dietChoices %}
                     <tr>
                         <td>{{ form_label(attribute(form, choice)) }}</td>
                         <td>{{ form_widget(attribute(form, choice)) }}</td>

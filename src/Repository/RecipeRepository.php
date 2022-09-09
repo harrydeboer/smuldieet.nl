@@ -166,8 +166,8 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
                 $qb->andWhere('r.occasion = :occasion')
                     ->setParameter('occasion', $formData['occasion']);
             }
-            foreach (Recipe::getDietChoices() as $choice) {
-                if ($formData[strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $choice))]) {
+            foreach (Recipe::getDietChoices() as $choice => $label) {
+                if (!is_null($formData[strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $choice))])) {
                     $qb->andWhere('r.' . $choice . ' = 1');
                 }
             }

@@ -19,7 +19,7 @@
     {{ form_errors(form.occasion) }}
     {{ form_errors(form.foodstuff_weights) }}
     {{ form_errors(form.foodstuff_choices) }}
-    {% for key,choice in recipe.dietChoices('snake') %}
+    {% for choice,label in recipe.dietChoices('snake') %}
         {{ form_errors(attribute(form, choice)) }}
     {% endfor %}
 </div>
@@ -89,7 +89,7 @@
     <div class="form-control form-select" role="button"
          data-bs-toggle="dropdown" aria-expanded="false">Dieet</div>
     <table class="dropdown-menu dropdown-diet" aria-labelledby="diet-filter">
-        {% for key,choice in recipe.dietChoices('snake') %}
+        {% for choice,label in recipe.dietChoices('snake') %}
             <tr>
                 <td>{{ form_label(attribute(form, choice)) }}</td>
                 <td>{{ form_widget(attribute(form, choice)) }}</td>

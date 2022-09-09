@@ -7,7 +7,7 @@ namespace App\Controller;
 use App\Form\OverviewType;
 use App\Repository\DayRepositoryInterface;
 use App\Repository\PageRepositoryInterface;
-use App\Service\StatsService;
+use App\Service\RDAService;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,10 +16,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class OverviewController extends AuthController
 {
     public function __construct(
-        private readonly DayRepositoryInterface $dayRepository,
-        private readonly FormFactoryInterface $formFactory,
+        private readonly DayRepositoryInterface  $dayRepository,
+        private readonly FormFactoryInterface    $formFactory,
         private readonly PageRepositoryInterface $pageRepository,
-        private readonly StatsService $statsService,
+        private readonly RDAService              $RDAService,
     ) {
     }
 
@@ -44,7 +44,7 @@ class OverviewController extends AuthController
         }
 
         return $this->render('overview/view.html.twig', [
-            'stats' => $this->statsService->daysStats($days, $this->getUser()),
+            'stats' => $this->RDAService->daysStats($days, $this->getUser()),
             'form' => $form->createView(),
             'isSubmitted' => $isSubmitted,
             'page' => $this->pageRepository->findOneBy(['title' => 'Overzicht']),

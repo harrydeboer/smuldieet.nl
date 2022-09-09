@@ -341,21 +341,21 @@ class Recipe implements FoodstuffsInterface, UploadImageInterface
     public static function getDietChoices(string $camelOrSnake = 'camel'): array
     {
         $arrayCamel = [
-            'Vegetarisch' => 'isVegetarian',
-            'Veganistisch' => 'isVegan',
-            'Histamine vrij' => 'isHistamineFree',
-            'Koemelk vrij' => 'isCowMilkFree',
-            'Soja vrij' => 'isSoyFree',
-            'Gluten vrij' => 'isGlutenFree',
-            'Kippenei eiwitvrij' => 'isChickenEggProteinFree',
-            'Noten vrij' => 'isNutFree',
-            'Zonder pakjes en zakjes' => 'isWithoutPackagesAndBags',
+            'isVegetarian' => 'Vegetarisch',
+            'isVegan' => 'Veganistisch',
+            'isHistamineFree' => 'Histamine vrij',
+            'isCowMilkFree' => 'Koemelk vrij',
+            'isSoyFree' => 'Soja vrij',
+            'isGlutenFree' => 'Gluten vrij',
+            'isChickenEggProteinFree' => 'Kippenei eiwitvrij',
+            'isNutFree' => 'Noten vrij',
+            'isWithoutPackagesAndBags' => 'Zonder pakjes en zakjes',
         ];
 
         if ($camelOrSnake === 'snake') {
             $arraySnake = [];
             foreach ($arrayCamel as $key => $item) {
-                $arraySnake[$key] = strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $item));
+                $arraySnake[strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $key))] = $item;
             }
 
             return $arraySnake;

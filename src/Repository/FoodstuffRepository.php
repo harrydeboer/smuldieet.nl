@@ -174,15 +174,15 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
     private function checkWeightsAndEnergy(Foodstuff $foodstuff): void
     {
         $sum = 0;
-        foreach (Foodstuff::getADH() as $key => $property) {
+        foreach (Foodstuff::getNutrients() as $key => $nutrient) {
             if ($key === 'energyKcal' || $key === 'saturatedFat' || $key === 'monounsaturatedFat'
                 || $key === 'polyunsaturatedFat'|| $key === 'sucre') {
                 continue;
             }
             $factor = 1;
-            if ($property[2] === 'mg') {
+            if ($nutrient->getUnit() === 'mg') {
                 $factor = 0.001;
-            } elseif ($property[2] === 'μg') {
+            } elseif ($nutrient->getUnit() === 'μg') {
                 $factor = 0.000001;
             }
             $sum = $sum + $foodstuff->{'get' . ucfirst($key)}() * $factor;

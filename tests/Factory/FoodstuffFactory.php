@@ -24,9 +24,8 @@ class FoodstuffFactory extends AbstractFactory
         $foodstuff = new Foodstuff();
         $foodstuff->setName(uniqid('foodstuff'));
 
-        foreach ($foodstuff->getAdh() as $key => $property) {
-            $method = 'set' . str_replace(' ', '', ucwords(str_replace('_', ' ', $key)));
-            $foodstuff->$method($this->randomNutritionalValue());
+        foreach (Foodstuff::getNutrients() as $key => $property) {
+            $foodstuff->{'set' . ucfirst($key)}($this->randomNutritionalValue());
         }
         $foodstuff->setSucre($foodstuff->getCarbohydrates());
         $energy = $foodstuff->getCarbohydrates() * 4

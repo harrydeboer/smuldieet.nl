@@ -2,7 +2,7 @@
 <div id="form_errors_server">
     {{ form_errors(form) }}
     {{ form_errors(form.name) }}
-    {% for key,property in foodstuff.aDH('snake') %}
+    {% for key,property in foodstuff.nutrients('snake') %}
         {{ form_errors(attribute(form, key)) }}
     {% endfor %}
 </div>
@@ -22,9 +22,9 @@
         <td>Naam per stuk</td>
         <td>{{ form_widget(form.piece_name) }}</td>
     </tr>
-    {% for key, property in foodstuff.aDH('snake') %}
+    {% for key,nutrient in foodstuff.nutrients('snake') %}
         <tr>
-            <td>{{ property[3] }}</td>
+            <td>{{ nutrient.nameNL }} {{ nutrient.unit }}</td>
             <td>{{ form_widget(attribute(form, key)) }}</td>
         </tr>
     {% endfor %}
