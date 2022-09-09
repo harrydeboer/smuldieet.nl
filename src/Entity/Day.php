@@ -18,7 +18,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
     ORM\UniqueConstraint(name: "timestamp_unique", columns: ["user_id", "timestamp"]),
     UniqueEntity(fields: ["user", "timestamp"], message: "Er is al een dag met deze datum."),
 ]
-class Day extends FoodstuffsEntity
+class Day implements FoodstuffsInterface, RecipesInterface
 {
     public static array $recipeChoicesArray = [
         '¼' => 0.25,
@@ -68,6 +68,12 @@ class Day extends FoodstuffsEntity
 
     #[ORM\Column(type: "string")]
     private string $recipeChoices = 'a:0:{}';
+
+    #[ORM\Column(type: "string")]
+    protected string $foodstuffWeights = 'a:0:{}';
+
+    #[ORM\Column(type: "string")]
+    protected string $foodstuffChoices = 'a:0:{}';
 
     #[Pure] public function __construct()
     {
@@ -199,5 +205,35 @@ class Day extends FoodstuffsEntity
     public function setRecipeChoices(ArrayCollection $collection): void
     {
         $this->recipeChoices = serialize($collection->toArray());
+    }
+
+    public function getFoodstuffWeights(): ArrayCollection
+    {
+        $collection = new ArrayCollection();
+        foreach (unserialize($this->foodstuffWeights) as $key => $value) {
+            $collection->set($key, $value);
+        }
+
+        return $collection;
+    }
+
+    public function setFoodstuffWeights(ArrayCollection $collection): void
+    {
+        $this->foodstuffWeights = serialize($collection->toArray());
+    }
+
+    public function getFoodstuffChoices(): ArrayCollection
+    {
+        $collection = new ArrayCollection();
+        foreach (unserialize($this->foodstuffChoices) as $key => $value) {
+            $collection->set($key, $value);
+        }
+
+        return $collection;
+    }
+
+    public function setFoodstuffChoices(ArrayCollection $collection): void
+    {
+        $this->foodstuffChoices = serialize($collection->toArray());
     }
 }

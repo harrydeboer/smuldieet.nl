@@ -11,6 +11,7 @@ use App\Form\DeleteType;
 use App\Repository\PageRepositoryInterface;
 use App\Repository\RatingRepositoryInterface;
 use App\Repository\RecipeRepositoryInterface;
+use App\Service\UploadedImageService;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +25,8 @@ class RecipeController extends Controller
     public function __construct(
         private readonly RatingRepositoryInterface $ratingRepository,
         private readonly RecipeRepositoryInterface $recipeRepository,
-        private readonly PageRepositoryInterface $pageRepository,
+        private readonly PageRepositoryInterface   $pageRepository,
+        private readonly UploadedImageService      $uploadedImageService,
     ) {
     }
 
@@ -37,7 +39,6 @@ class RecipeController extends Controller
         $recipes = $this->recipeRepository->getRecipesFromUser($this->getUser()->getId(), $page);
 
         return $this->render('recipe/view.html.twig', [
-            'appEnv' => $this->getParameter('kernel.project_dir'),
             'paginator' => $recipes,
             'page' => $this->pageRepository->findOneBy(['title' => 'Recepten']),
         ]);
@@ -67,10 +68,9 @@ class RecipeController extends Controller
                 }
                 $this->recipeRepository->update($recipe);
 
-                $recipe->moveImage(
-                    $this->getParameter('kernel.environment'),
-                    $this->getParameter('kernel.project_dir'),
+                $this->uploadedImageService->moveImage(
                     $formUpdate->get('image')->getData(),
+                    $recipe,
                     $oldExtension,
                 );
 
@@ -102,11 +102,7 @@ class RecipeController extends Controller
                     throw new Exception('De voedingsmiddelen van het gerecht mogen niet leeg zijn.');
                 }
                 $this->recipeRepository->create($recipe);
-                $recipe->moveImage(
-                    $this->getParameter('kernel.environment'),
-                    $this->getParameter('kernel.project_dir'),
-                    $form->get('image')->getData(),
-                );
+                $this->uploadedImageService->moveImage($form->get('image')->getData(), $recipe);
 
                 return $this->redirectToRoute('recipe');
             } catch (Exception $exception) {
@@ -130,10 +126,7 @@ class RecipeController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $recipe->unlinkImage(
-                $this->getParameter('kernel.environment'),
-                $this->getParameter('kernel.project_dir'),
-            );
+            $this->uploadedImageService->unlinkImage($recipe);
             $this->recipeRepository->delete($recipe);
         }
 
@@ -185,7 +178,6 @@ class RecipeController extends Controller
             'rating' => $rating,
             'isLoggedIn' => !is_null($this->getUser()),
             'currentUserId' => $this->getUser()?->getId(),
-            'appEnv' => $this->getParameter('kernel.environment'),
             'form' => $form->createView(),
             'hasDiet' => $hasDiet,
             'diet' => $diet,

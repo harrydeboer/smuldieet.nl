@@ -86,7 +86,7 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
     {
         $this->checkProfanitiesRecipe($recipe);
         $this->addFoodstuffsFromWeights($recipe);
-        $recipe->checkPieces();
+        $this->foodstuffRepository->checkPieces($recipe);
         $recipe->setTimestamp(time());
         $this->em->persist($recipe);
         $this->em->flush();
@@ -104,7 +104,7 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
             $recipe->removeFoodstuff($foodstuff);
         }
         $this->addFoodstuffsFromWeights($recipe);
-        $recipe->checkPieces();
+        $this->foodstuffRepository->checkPieces($recipe);
         $this->em->flush();
     }
 

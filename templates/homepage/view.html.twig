@@ -61,7 +61,7 @@
             <tr>
                 <td>
                     {% if recipe.imageExtension is not null %}
-                        <img src="{{ asset(recipe.getImagePath(appEnv, 100)) }}"
+                        <img src="{{ asset(recipe.getImagePath(100)) }}"
                              alt="label" class="img-fluid recipe-image">
                     {% endif %}
                 </td>

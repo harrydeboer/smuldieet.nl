@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use App\Service\UploadedImageService;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -23,16 +25,9 @@ use Symfony\Component\Validator\Constraints as Assert;
     UniqueEntity(fields: ["username"], message: "Er is al een gebruiker met deze gebruikersnaam."),
     UniqueEntity(fields: ["email"], message: "Er is al een gebruiker met dit e-mailadres."),
 ]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface, UploadImageInterface
 {
-    use UploadImageTrait;
-
     public const GENDER = ['man', 'vrouw'];
-
-    public const IMAGE_WIDTHS = [
-        100,
-        600,
-    ];
 
     #[
         ORM\Id,
@@ -123,6 +118,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: "user", targetEntity: "App\Entity\Comment", cascade: ["remove"])]
     private Collection $comments;
 
+    #[ORM\Column(type: "string", nullable: true)]
+    protected ?string $imageExtension = null;
+
     public function __construct()
     {
         $this->days = new ArrayCollection();
@@ -134,7 +132,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->comments = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
@@ -356,5 +354,56 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPages(Collection $pages): void
     {
         $this->pages = $pages;
+    }
+
+    public function getImageExtension(): ?string
+    {
+        return $this->imageExtension;
+    }
+
+    public function setImageExtension(?string $imageExtension): void
+    {
+        $this->imageExtension = $imageExtension;
+    }
+
+    /**
+     * The image getter and setter have to exist for the form to work,
+     * but the value of getImage is never used because a html input of type file cannot be prefilled.
+     * The setter only sets the imageExtension, because it does not save the image.
+     */
+    public function getImage(): void
+    {
+    }
+    public function setImage(?UploadedFile $image): void
+    {
+        if (!is_null($image)) {
+            $this->setImageExtension($image->getClientOriginalExtension());
+        }
+    }
+
+    public function getImageWidths(): array
+    {
+        return [
+            100,
+            600,
+        ];
+    }
+
+    public function getEntityNameSnakeCase(): string
+    {
+        return 'user';
+    }
+
+    /**
+     * Get the path of the image with respect to the public folder.
+     */
+    public function getImagePath(int $width = null, string $extraPath = ''): ?string
+    {
+        if (is_null($idString = UploadedImageService::getIdString($this, $width))) {
+
+            return null;
+        }
+
+        return 'uploads/user/images/' . $extraPath . $idString . '.' . $this->getImageExtension();
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Form;
 
+use App\Entity\Foodstuff;
 use App\Entity\Recipe;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -135,7 +136,7 @@ class RecipeType extends AbstractType
             'entry_type' => ChoiceType::class,
             'allow_add' => true,
             'entry_options' => [
-                'choices' => Recipe::$foodstuffChoicesArray,
+                'choices' => Foodstuff::$foodstuffChoicesArray,
                 'attr' => [
                     'class' => 'form-control food-weight form-select',
                 ],

@@ -9,6 +9,7 @@ use App\Form\RegistrationType;
 use App\Form\VerifyType;
 use App\Repository\PageRepositoryInterface;
 use App\Repository\UserRepositoryInterface;
+use App\Service\UploadedImageService;
 use Exception;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Form\FormError;
@@ -28,12 +29,13 @@ use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 class RegistrationController extends Controller
 {
     public function __construct(
-        private readonly UserRepositoryInterface $userRepository,
-        private readonly PageRepositoryInterface $pageRepository,
-        private readonly TokenStorageInterface $tokenStorage,
-        private readonly KernelInterface $kernel,
-        private readonly MailerInterface $mailer,
+        private readonly UserRepositoryInterface    $userRepository,
+        private readonly PageRepositoryInterface    $pageRepository,
+        private readonly TokenStorageInterface      $tokenStorage,
+        private readonly KernelInterface            $kernel,
+        private readonly MailerInterface            $mailer,
         private readonly VerifyEmailHelperInterface $verifyEmailHelper,
+        private readonly UploadedImageService       $uploadedImageService,
     ) {
     }
 
@@ -59,11 +61,7 @@ class RegistrationController extends Controller
             $this->tokenStorage->setToken($token);
 
             try {
-                $user->moveImage(
-                    $this->getParameter('kernel.environment'),
-                    $this->getParameter('kernel.project_dir'),
-                    $form->get('image')->getData(),
-                );
+                $this->uploadedImageService->moveImage($form->get('image')->getData(), $user);
 
                 return $this->redirectToRoute('homepage');
             } catch (Exception $exception) {

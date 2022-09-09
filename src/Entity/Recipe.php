@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\RecipeRepository;
+use App\Service\UploadedImageService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -17,10 +19,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
     ORM\Table(name: "recipe"),
     UniqueEntity(fields: ["title"], message: "Er is al een recept met deze titel."),
 ]
-class Recipe extends FoodstuffsEntity
+class Recipe implements FoodstuffsInterface, UploadImageInterface
 {
-    use UploadImageTrait;
-
     public const COOKING_TIMES = ['0-10 min.', '10-20 min.', '20-30 min.', '30-60 min.', '> 1 uur', '> 2 uur'];
 
     public const OCCASION = [
@@ -129,11 +129,6 @@ class Recipe extends FoodstuffsEntity
         'Tussengerecht',
         'Vegetarisch',
         'Voorgerecht',
-    ];
-
-    public const IMAGE_WIDTHS = [
-        100,
-        600,
     ];
 
     #[
@@ -324,6 +319,15 @@ class Recipe extends FoodstuffsEntity
     #[ORM\Column(type: "boolean")]
     private bool $isPending = true;
 
+    #[ORM\Column(type: "string")]
+    protected string $foodstuffWeights = 'a:0:{}';
+
+    #[ORM\Column(type: "string")]
+    protected string $foodstuffChoices = 'a:0:{}';
+
+    #[ORM\Column(type: "string", nullable: true)]
+    protected ?string $imageExtension = null;
+
     public function __construct()
     {
         $this->foodstuffs = new ArrayCollection();
@@ -361,7 +365,7 @@ class Recipe extends FoodstuffsEntity
         }
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
@@ -847,5 +851,86 @@ class Recipe extends FoodstuffsEntity
 
         $this->tags->removeElement($tag);
         $tag->removeRecipe($this);
+    }
+
+    public function getFoodstuffWeights(): ArrayCollection
+    {
+        $collection = new ArrayCollection();
+        foreach (unserialize($this->foodstuffWeights) as $key => $value) {
+            $collection->set($key, $value);
+        }
+
+        return $collection;
+    }
+
+    public function setFoodstuffWeights(ArrayCollection $collection): void
+    {
+        $this->foodstuffWeights = serialize($collection->toArray());
+    }
+
+    public function getFoodstuffChoices(): ArrayCollection
+    {
+        $collection = new ArrayCollection();
+        foreach (unserialize($this->foodstuffChoices) as $key => $value) {
+            $collection->set($key, $value);
+        }
+
+        return $collection;
+    }
+
+    public function setFoodstuffChoices(ArrayCollection $collection): void
+    {
+        $this->foodstuffChoices = serialize($collection->toArray());
+    }
+
+    public function getImageExtension(): ?string
+    {
+        return $this->imageExtension;
+    }
+
+    public function setImageExtension(?string $imageExtension): void
+    {
+        $this->imageExtension = $imageExtension;
+    }
+
+    /**
+     * The image getter and setter have to exist for the form to work,
+     * but the value of getImage is never used because a html input of type file cannot be prefilled.
+     * The setter only sets the imageExtension, because it does not save the image.
+     */
+    public function getImage(): void
+    {
+    }
+    public function setImage(?UploadedFile $image): void
+    {
+        if (!is_null($image)) {
+            $this->setImageExtension($image->getClientOriginalExtension());
+        }
+    }
+
+    public function getImageWidths(): array
+    {
+        return [
+            100,
+            600,
+        ];
+    }
+
+    public function getEntityNameSnakeCase(): string
+    {
+        return 'recipe';
+    }
+
+    /**
+     * Get the path of the image with respect to the public folder.
+     */
+    public function getImagePath(int $width = null, string $extraPath = ''): ?string
+    {
+        if (is_null($idString = UploadedImageService::getIdString($this, $width))) {
+
+            return null;
+        }
+
+        return 'uploads/recipe/images/' . $extraPath . $idString . '.' . $this->getImageExtension();
     }
 }

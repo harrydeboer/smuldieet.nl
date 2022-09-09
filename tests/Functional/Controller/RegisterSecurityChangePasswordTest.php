@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller;
 
 use App\Repository\UserRepositoryInterface;
+use App\Service\UploadedImageService;
 use App\Tests\Functional\WebTestCase;
 use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\HttpKernel\KernelInterface;
 
 class RegisterSecurityChangePasswordTest extends WebTestCase
 {
@@ -70,8 +70,8 @@ class RegisterSecurityChangePasswordTest extends WebTestCase
         $this->assertResponseRedirects();
 
         $userRepository = static::getContainer()->get(UserRepositoryInterface::class);
-        $kernel = static::getContainer()->get(KernelInterface::class);
+        $uploadedImageService = static::getContainer()->get(UploadedImageService::class);
         $user = $userRepository->find(1);
-        $user->unlinkImage('test', $kernel->getProjectDir());
+        $uploadedImageService->unlinkImage($user);
     }
 }

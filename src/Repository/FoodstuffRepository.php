@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Entity\FoodstuffsEntity;
+use App\Entity\FoodstuffsInterface;
 use App\Entity\Foodstuff;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use InvalidArgumentException;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Exception;
 
@@ -203,19 +206,19 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
         }
     }
 
-    private function replaceWeightWithChoice(FoodstuffsEntity $entity, Foodstuff $foodstuff): void
+    private function replaceWeightWithChoice(FoodstuffsInterface $entity, Foodstuff $foodstuff): void
     {
         $weights = $entity->getFoodstuffWeights();
-        $entity->setFoodstuffChoices($entity->roundToNearest($weights[$foodstuff->getId()] /
+        $entity->setFoodstuffChoices($this->roundToNearest($weights[$foodstuff->getId()] /
             $foodstuff->getPieceWeight(), $entity->getFoodstuffChoices(), $foodstuff->getId()));
         unset($weights[$foodstuff->getId()]);
         $entity->setFoodstuffWeights($weights);
     }
 
     private function replaceChoiceWithWeight(
-        FoodstuffsEntity $entity,
-        Foodstuff $foodstuff,
-        float $pieceWeightOld,
+        FoodstuffsInterface $entity,
+        Foodstuff           $foodstuff,
+        float               $pieceWeightOld,
     ): void
     {
         $choices = $entity->getFoodstuffChoices();
@@ -224,6 +227,45 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
         $entity->setFoodstuffWeights($weights);
         unset($choices[$foodstuff->getId()]);
         $entity->setFoodstuffChoices($choices);
+    }
+
+    private function roundToNearest(float $number, ArrayCollection $numberOfPieces, int $id): ArrayCollection
+    {
+        if ($number < 0.125) {
+            $numberOfPieces[$id] = 0.25;
+        } elseif ($number < 1) {
+            $numberOfPieces[$id] = round($number * 4) / 4;
+        } elseif ($number <= 2) {
+            $numberOfPieces[$id] = round($number * 2) / 2;
+        } else {
+            $numberOfPieces[$id] = round($number);
+        }
+        if (!in_array($numberOfPieces[$id], Foodstuff::$foodstuffChoicesArray)) {
+            throw new InvalidArgumentException('The rounded value must exist in the piece choices.');
+        }
+
+        return $numberOfPieces;
+    }
+
+    /**
+     * @throws BadRequestException;
+     */
+    public function checkPieces(FoodstuffsInterface $entity): void
+    {
+        foreach ($entity->getFoodstuffWeights() as $id => $weight) {
+            $foodstuff = $entity->getFoodstuffs()[$id];
+            if (!is_null($foodstuff->getPieceWeight())) {
+                throw new BadRequestException('The weight foodstuff can not have a piece weight.');
+            }
+        }
+        foreach ($entity->getFoodstuffChoices() as $id => $choice) {
+            $foodstuff = $entity->getFoodstuffs()[$id];
+            if (!is_null($foodstuff->getPieceWeight()) && $choice > 20) {
+                throw new BadRequestException('The number of pieces can not be greater than 20.');
+            } elseif (is_null($foodstuff->getPieceWeight())) {
+                throw new BadRequestException('The choice foodstuff must have a piece weight.');
+            }
+        }
     }
 
     /**

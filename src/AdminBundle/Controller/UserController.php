@@ -10,6 +10,7 @@ use App\AdminBundle\Form\UpdateUserType;
 use App\Controller\AuthController;
 use App\Entity\User;
 use App\Repository\UserRepositoryInterface;
+use App\Service\UploadedImageService;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,6 +22,7 @@ class UserController extends AuthController
 {
     public function __construct(
         private readonly UserRepositoryInterface $userRepository,
+        private readonly UploadedImageService    $uploadedImageService,
     ) {
     }
 
@@ -61,10 +63,9 @@ class UserController extends AuthController
                     $this->userRepository->upgradePassword($user, $formUpdate->get('plain_password')->getData());
                 }
 
-                $user->moveImage(
-                    $this->getParameter('kernel.environment'),
-                    $this->getParameter('kernel.project_dir'),
+                $this->uploadedImageService->moveImage(
                     $formUpdate->get('image')->getData(),
+                    $user,
                     $oldExtension,
                 );
 
@@ -90,11 +91,7 @@ class UserController extends AuthController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $this->userRepository->create($user, $form->get('plain_password')->getData());
-                $user->moveImage(
-                    $this->getParameter('kernel.environment'),
-                    $this->getParameter('kernel.project_dir'),
-                    $form->get('image')->getData(),
-                );
+                $this->uploadedImageService->moveImage($form->get('image')->getData(), $user);
 
                 return $this->redirectToRoute('admin_user');
             } catch (Exception $exception) {
@@ -114,10 +111,7 @@ class UserController extends AuthController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->unlinkImage(
-                $this->getParameter('kernel.environment'),
-                $this->getParameter('kernel.project_dir'),
-            );
+            $this->uploadedImageService->unlinkImage($user);
             $this->userRepository->delete($user);
         }
 

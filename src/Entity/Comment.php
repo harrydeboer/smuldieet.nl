@@ -51,7 +51,7 @@ class Comment
     ]
     private ?Page $page = null;
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }

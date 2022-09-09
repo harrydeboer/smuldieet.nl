@@ -54,7 +54,7 @@ class Rating
     ]
     private Recipe $recipe;
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }

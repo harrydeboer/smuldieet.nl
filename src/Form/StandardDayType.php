@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Form;
 
 use App\Entity\Day;
+use App\Entity\Foodstuff;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -33,7 +34,7 @@ class StandardDayType extends AbstractType
                 'entry_type' => ChoiceType::class,
                 'allow_add' => true,
                 'entry_options' => [
-                    'choices' => Day::$foodstuffChoicesArray,
+                    'choices' => Foodstuff::$foodstuffChoicesArray,
                     'attr' => [
                         'class' => 'form-control food-weight form-select',
                     ],

@@ -11,7 +11,6 @@ use App\Repository\RecipeRepositoryInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class HomepageController extends Controller
@@ -19,7 +18,6 @@ class HomepageController extends Controller
     public function __construct(
         private readonly RecipeRepositoryInterface $recipeRepository,
         private readonly FormFactoryInterface $formFactory,
-        private readonly KernelInterface $kernel,
         private readonly PageRepositoryInterface $pageRepository,
     ) {
     }
@@ -50,7 +48,6 @@ class HomepageController extends Controller
             'isFiltered' => $isFiltered,
             'paginator' => $recipes,
             'dietChoices' => Recipe::getDietChoices('snake'),
-            'appEnv' => $this->kernel->getEnvironment(),
             'form' => $form->createView(),
         ]);
     }
