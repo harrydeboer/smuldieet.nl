@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use App\Service\UploadedImageService;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -389,21 +388,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, UploadI
         ];
     }
 
-    public function getEntityNameSnakeCase(): string
-    {
-        return 'user';
-    }
-
     /**
      * Get the path of the image with respect to the public folder.
      */
-    public function getImagePath(int $width = null, string $extraPath = ''): ?string
+    public function getImageUrl(int $width = null, string $extraPath = ''): ?string
     {
-        if (is_null($idString = UploadedImageService::getIdString($this, $width))) {
-
-            return null;
-        }
-
-        return 'uploads/user/images/' . $extraPath . $idString . '.' . $this->getImageExtension();
+        return 'uploads/user/images/' . $extraPath . $this->getId() . '_' . $width . '.' . $this->getImageExtension();
     }
 }

@@ -25,7 +25,5 @@ interface UploadImageInterface
 
     public function getImageWidths(): array;
 
-    public function getEntityNameSnakeCase(): string;
-
-    public function getImagePath(int $width = null, string $extraPath = ''): ?string;
+    public function getImageUrl(int $width = null, string $extraPath = ''): ?string;
 }

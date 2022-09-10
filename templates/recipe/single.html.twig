@@ -9,7 +9,7 @@
     <h2>{{ recipe.title }}</h2>
     {% if recipe.imageExtension is not null %}
         <div>
-            <img src="{{  asset(recipe.getImagePath(600)) }}"
+            <img src="{{  asset(recipe.getImageUrl(600)) }}"
                  id="recipe_image"
                  class="img-fluid"
                  alt="recipe">

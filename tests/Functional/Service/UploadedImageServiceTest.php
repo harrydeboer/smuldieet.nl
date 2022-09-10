@@ -12,15 +12,30 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 class UploadedImageServiceTest extends KernelTestCase
 {
-    public function testGetIdString(): void
+    public function testMoveAndUnlinkImage(): void
     {
+        $uploadedImageService = static::getContainer()->get(UploadedImageService::class);
+        $kernel = static::getContainer()->get(KernelInterface::class);
+
+        $testImagePath = __DIR__ . '/test.jpg';
+        $image = new UploadedFile($testImagePath, 'test.jpg', 'image/jpeg', 0, true);
+
+        copy($testImagePath, __DIR__ . '/test_tmp.jpg');
+
         $recipe = new Recipe();
         $recipe->setId(1);
-        $this->assertNull(UploadedImageService::getIdString($recipe));
-
         $recipe->setImageExtension('jpg');
-        $this->assertEquals('1', UploadedImageService::getIdString($recipe));
 
-        $this->assertEquals('1_100', UploadedImageService::getIdString($recipe, 100));
+        $uploadedImageService->moveImage($image, $recipe);
+
+        rename(__DIR__ . '/test_tmp.jpg', __DIR__ . '/test.jpg');
+
+        $this->assertTrue(file_exists($kernel->getProjectDir() . '/public/' .
+            $recipe->getImageUrl(null, 'test/')));
+
+        $uploadedImageService->unlinkImage($recipe);
+
+        $this->assertFalse(file_exists($kernel->getProjectDir() . '/public/' .
+            $recipe->getImageUrl(null, 'test/')));
     }
 }

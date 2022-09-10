@@ -6,7 +6,6 @@ namespace App\Service;
 
 use App\Entity\UploadImageInterface;
 use Exception;
-use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpKernel\KernelInterface;
 
@@ -17,34 +16,16 @@ class UploadedImageService
     ) {
     }
 
-    public static function getIdString(UploadImageInterface $entity, int $width = null): ?string
-    {
-        $idString = (string) $entity->getId();
-        if (!is_null($width)) {
-            if (!in_array($width, $entity->getImageWidths())) {
-                throw new InvalidArgumentException('Specified width is not in entity constant.');
-            }
-            $widthString = (string) $width;
-            $idString = $idString . '_' . $widthString;
-        }
-
-        if (is_null($entity->getImageExtension())) {
-            return null;
-        }
-
-        return $idString;
-    }
-
     public function unlinkImage(UploadImageInterface $entity): void
     {
         $extraPath = '';
         if ($this->kernel->getEnvironment() === 'test') {
             $extraPath = 'test/';
         }
-        if (!is_null($entity->getImagePath())) {
-            @unlink($this->kernel->getProjectDir() . '/public/' . $entity->getImagePath(null, $extraPath));
+        if (!is_null($entity->getImageUrl())) {
+            @unlink($this->kernel->getProjectDir() . '/public/' . $entity->getImageUrl(null, $extraPath));
             foreach ($entity->getImageWidths() as $width) {
-                @unlink($this->kernel->getProjectDir() . '/public/' . $entity->getImagePath($width, $extraPath));
+                @unlink($this->kernel->getProjectDir() . '/public/' . $entity->getImageUrl($width, $extraPath));
             }
         }
     }
@@ -71,12 +52,11 @@ class UploadedImageService
                 $this->unlinkImage($entity);
                 $entity->setImageExtension($newExtension);
             }
-            $image->move($this->kernel->getProjectDir() . '/public/uploads/' .
-                $entity->getEntityNameSnakeCase() . '/images/' .
-                $extraPath,$id . '.' . $image->getClientOriginalExtension());
+            $image->move(dirname($this->kernel->getProjectDir() . '/public/' .
+                $entity->getImageUrl(null, $extraPath)),$id . '_.' . $image->getClientOriginalExtension());
 
             $extension = $image->getClientOriginalExtension();
-            $path = $this->kernel->getProjectDir() . '/public/' . $entity->getImagePath(null, $extraPath);
+            $path = $this->kernel->getProjectDir() . '/public/' . $entity->getImageUrl(null, $extraPath);
             if ($extension === 'png') {
                 $image = imagecreatefrompng($path);
             } elseif ($extension === 'jpg' || $extension === 'jpeg' || $extension === 'jpe'
@@ -98,7 +78,7 @@ class UploadedImageService
                 $dst = imagecreatetruecolor($width, (int)($y * $width / $x));
                 imagecopyresampled($dst, $image, 0, 0, 0, 0,
                     $width, (int)($y * $width / $x), $x, $y);
-                $path = $this->kernel->getProjectDir() . '/public/' . $entity->getImagePath($width, $extraPath);
+                $path = $this->kernel->getProjectDir() . '/public/' . $entity->getImageUrl($width, $extraPath);
                 if ($extension === 'png') {
                     imagepng($dst, $path);
                 } elseif ($extension === 'jpg' || $extension === 'jpeg' || $extension === 'jpe'

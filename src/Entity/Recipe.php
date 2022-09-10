@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\RecipeRepository;
-use App\Service\UploadedImageService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -906,21 +905,11 @@ class Recipe implements FoodstuffsInterface, UploadImageInterface
         ];
     }
 
-    public function getEntityNameSnakeCase(): string
-    {
-        return 'recipe';
-    }
-
     /**
      * Get the path of the image with respect to the public folder.
      */
-    public function getImagePath(int $width = null, string $extraPath = ''): ?string
+    public function getImageUrl(int $width = null, string $extraPath = ''): ?string
     {
-        if (is_null($idString = UploadedImageService::getIdString($this, $width))) {
-
-            return null;
-        }
-
-        return 'uploads/recipe/images/' . $extraPath . $idString . '.' . $this->getImageExtension();
+        return 'uploads/recipe/images/' . $extraPath . $this->getId() . '_' . $width . '.' . $this->getImageExtension();
     }
 }
