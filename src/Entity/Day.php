@@ -209,12 +209,7 @@ class Day implements FoodstuffsInterface, RecipesInterface
 
     public function getFoodstuffWeights(): ArrayCollection
     {
-        $collection = new ArrayCollection();
-        foreach (unserialize($this->foodstuffWeights) as $key => $value) {
-            $collection->set($key, $value);
-        }
-
-        return $collection;
+        return new ArrayCollection(unserialize($this->foodstuffWeights));
     }
 
     public function setFoodstuffWeights(ArrayCollection $collection): void
@@ -224,12 +219,7 @@ class Day implements FoodstuffsInterface, RecipesInterface
 
     public function getFoodstuffChoices(): ArrayCollection
     {
-        $collection = new ArrayCollection();
-        foreach (unserialize($this->foodstuffChoices) as $key => $value) {
-            $collection->set($key, $value);
-        }
-
-        return $collection;
+        return new ArrayCollection(unserialize($this->foodstuffChoices));
     }
 
     public function setFoodstuffChoices(ArrayCollection $collection): void

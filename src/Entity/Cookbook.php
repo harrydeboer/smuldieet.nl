@@ -136,18 +136,7 @@ class Cookbook implements RecipesInterface
 
     public function getRecipeChoices(): ArrayCollection
     {
-        $collection = new ArrayCollection();
-        if (unserialize($this->recipeChoices) === []) {
-            foreach ($this->recipes->toArray() as $recipe) {
-                $collection->set($recipe->getId(), 1);
-            }
-        } else {
-            foreach (unserialize($this->recipeChoices) as $id => $weight) {
-                $collection->set($id, 1);
-            }
-        }
-
-        return $collection;
+        return new ArrayCollection(unserialize($this->recipeChoices));
     }
 
     public function setRecipeChoices(ArrayCollection $collection): void
