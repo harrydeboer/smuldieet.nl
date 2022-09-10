@@ -70,8 +70,13 @@
                     <td></td>
                 {% else %}
                     <td>
-                        <span class="nowrap">{{ recipe.rating|number_format(1) }} <i
-                                    class="fas fa-star fa-star-gold"></i></span>
+                        <span class="nowrap">
+                            {% if recipe.rating >= 9.95 %}
+                                {{ recipe.rating|number_format(0) }} &nbsp;<i class="fas fa-star fa-star-gold"></i>
+                            {% else %}
+                                {{ recipe.rating|number_format(1) }} <i class="fas fa-star fa-star-gold"></i>
+                            {% endif %}
+                        </span>
                     </td>
                 {% endif %}
             </tr>
