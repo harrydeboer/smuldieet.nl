@@ -16,16 +16,16 @@
                 <td>{{ weight|number_format }} g</td>
             </tr>
         {% endfor %}
-        {% for id, weight in day.foodstuffChoices %}
+        {% for id, choice in day.foodstuffChoices %}
             <tr>
                 <td>{{ day.foodstuffs()[id].name }}</td>
-                <td>{{ weight }} {{ day.foodstuffs()[id].pieceName }}</td>
+                <td>{{ choice }} {{ day.foodstuffs()[id].pieceName }}</td>
             </tr>
         {% endfor %}
-        {% for rowNumber, recipe in day.recipes %}
+        {% for id, choice in day.recipeChoices %}
             <tr>
-                <td>{{ recipe.title }}</td>
-                <td>{{ day.recipeChoices[recipe.id]|number_format }}</td>
+                <td>{{ day.recipes()[id].title }}</td>
+                <td>{{ choice|number_format }}</td>
             </tr>
         {% endfor %}
         <tr>

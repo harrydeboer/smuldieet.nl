@@ -86,7 +86,6 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
     {
         $this->checkProfanitiesRecipe($recipe);
         $this->addFoodstuffsFromWeights($recipe);
-        $this->foodstuffRepository->checkPieces($recipe);
         $recipe->setTimestamp(time());
         $this->em->persist($recipe);
         $this->em->flush();
@@ -104,7 +103,6 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
             $recipe->removeFoodstuff($foodstuff);
         }
         $this->addFoodstuffsFromWeights($recipe);
-        $this->foodstuffRepository->checkPieces($recipe);
         $this->em->flush();
     }
 
@@ -167,7 +165,7 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
                     ->setParameter('occasion', $formData['occasion']);
             }
             foreach (Recipe::getDietChoices() as $choice => $label) {
-                if (!is_null($formData[strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $choice))])) {
+                if ($formData[strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $choice))]) {
                     $qb->andWhere('r.' . $choice . ' = 1');
                 }
             }

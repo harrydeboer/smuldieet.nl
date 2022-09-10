@@ -27,27 +27,27 @@
         </tr>
     </table>
     {{ form_end(form) }}
-    {% if stats is not empty %}
+    {% if nutrients is not empty %}
         <table class="table">
             <thead>
             <tr>
                 <th scope="col"></th>
-                <th scope="col">Min</th>
-                <th scope="col">Max</th>
+                <th scope="col">Min ADH</th>
+                <th scope="col">Max ADH</th>
                 <th scope="col">Feitelijk</th>
             </tr>
             </thead>
             <tbody>
-            {% for stat in stats %}
+            {% for nutrient in nutrients %}
                 <tr>
-                    <td>{{ stat.nameNL }} {{ stat.unit }}</td>
-                    <td>{{ stat.minRDA }}</td>
-                    {% if stat.maxRDA is null %}
+                    <td>{{ nutrient.nameNL }} {{ nutrient.unit }}</td>
+                    <td>{{ nutrient.minRDA }}</td>
+                    {% if nutrient.maxRDA is null %}
                         <td>N/B</td>
                     {% else %}
-                        <td>{{ stat.maxRDA }}</td>
+                        <td>{{ nutrient.maxRDA }}</td>
                     {% endif %}
-                    <td>{{ stat.realised|number_format(stat.decimalPlaces) }}</td>
+                    <td>{{ nutrient.realised|number_format(nutrient.decimalPlaces) }}</td>
                 </tr>
             {% endfor %}
             </tbody>

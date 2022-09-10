@@ -15,14 +15,18 @@
                  alt="recipe">
         </div>
     {% endif %}
-    <i class="fas fa-clock"></i>
-    {{ recipe.cookingTime }}
-    <img src="{{ asset('/img/kitchen.png') }}" id="kitchen_icon" alt="kitchen" width="28">
-    {{ recipe.kitchen }}
-    <i class="fas fa-utensils"></i>
-    {{ recipe.typeOfDish }}
-    <i class="fas fa-user"></i>
-    {{ recipe.numberOfPersons }}
+    <span class="no-wrap">
+        <i class="far fa-clock"></i>
+        {{ recipe.cookingTime }}
+        <img src="{{ asset('/img/kitchen.png') }}" id="kitchen_icon" alt="kitchen" width="28">
+        {{ recipe.kitchen }}
+    </span>
+    <span class="no-wrap">
+        <img src="{{ asset('/img/knife-fork.png') }}" id="knife_fork_icon" alt="knife-fork" width="25">
+        {{ recipe.typeOfDish }}
+        <i class="far fa-user"></i>
+        {{ recipe.numberOfPersons }}
+    </span>
     <br>
     <br>
     <table>

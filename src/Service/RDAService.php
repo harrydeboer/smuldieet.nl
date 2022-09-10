@@ -20,10 +20,15 @@ class RDAService
         }
         $numberOfDays = count($days);
 
-        $nutrients = Foodstuff::getNutrients('camel', $user->getBirthdate(), $user->getGender(), $user->getWeight());
+        $nutrients = Foodstuff::getNutrients(
+            'camel',
+            $user->getBirthdate(),
+            $user->getGender(),
+            $user->getWeight(),
+        );
 
         /**
-         * Add the day weights and choice food values in the stats array.
+         * The nutrient realised value is set from the foodstuff weights and foodstuff choices of the days.
          * This is also done for the recipes of the days.
          */
         foreach ($days as $day) {

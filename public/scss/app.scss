@@ -1,7 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 
 $search-color: #0d6efd;
-$sort-filter-selector: type_of_dish, cooking_time, kitchen, occasion, diet, diet_filter, sort;
+$rate-color: rgb(87, 153, 239);
+$sort-filter-selectors: '#type_of_dish, #cooking_time, #kitchen, #occasion, #diet, #diet_filter, #sort';
 
 body {
   font-family: 'Open Sans', sans-serif;
@@ -118,7 +119,7 @@ form #title {
   width: 85px;
 }
 
-#filter_sort_div #{$sort-filter-selector} {
+#filter_sort_div #{$sort-filter-selectors} {
   width: 100%;
 }
 
@@ -135,13 +136,13 @@ form #title {
 }
 
 @media (min-width: 500px) {
-  #filter_sort_div #{$sort-filter-selector} {
+  #filter_sort_div #{$sort-filter-selectors} {
     width: 145px;
   }
 }
 
 @media (min-width: 870px) {
-  #filter_sort_div #{$sort-filter-selector} {
+  #filter_sort_div #{$sort-filter-selectors} {
     display: inline;
   }
 }
@@ -187,7 +188,7 @@ form #title {
 }
 
 #rate_modal_button, #rate_modal_button_star {
-  color: rgb(87, 153, 239);
+  color: $rate-color;
 }
 
 #rate_modal_button:hover {
@@ -204,7 +205,7 @@ form #title {
 }
 
 .fa-star-form {
-  color: rgb(87, 153, 239);
+  color: $rate-color;
 }
 
 #rating_div .radio-star:checked ~ label .far {

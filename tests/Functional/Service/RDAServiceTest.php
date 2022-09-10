@@ -12,7 +12,7 @@ use App\Service\RDAService;
 use App\Tests\Functional\KernelTestCase;
 use Doctrine\Common\Collections\ArrayCollection;
 
-class StatsServiceTest extends KernelTestCase
+class RDAServiceTest extends KernelTestCase
 {
     public function testDaysStats(): void
     {

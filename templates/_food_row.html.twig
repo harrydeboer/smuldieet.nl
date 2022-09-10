@@ -1,7 +1,7 @@
-{% for key, weight in weights %}
+{% for id, weight in weights %}
     <tr>
         <td>{{ include('_food_dropdown.html.twig', {
-                'title': food_type == 'foodstuff' ? entities[key].name : entities[key].title,
+                'nameOrTitle': food_type == 'foodstuff' ? entities[id].name : entities[id].title,
             }) }}</td>
         <td>{{ form_widget(weight) }}</td>
         {% if food_type == 'foodstuff' %}
@@ -15,7 +15,7 @@
 <tr class="d-none">
     <td>
         <div id="{{ form_name }}_{{ food_type }}_dropdown"
-             data-prototype="{{ include('_food_dropdown.html.twig', {'title': ''})|e('html') }}">
+             data-prototype="{{ include('_food_dropdown.html.twig', {'nameOrTitle': ''})|e('html') }}">
         </div>
     </td>
     <td>

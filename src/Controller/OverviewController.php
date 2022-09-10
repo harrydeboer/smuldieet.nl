@@ -44,7 +44,7 @@ class OverviewController extends AuthController
         }
 
         return $this->render('overview/view.html.twig', [
-            'stats' => $this->RDAService->daysStats($days, $this->getUser()),
+            'nutrients' => $this->RDAService->daysStats($days, $this->getUser()),
             'form' => $form->createView(),
             'isSubmitted' => $isSubmitted,
             'page' => $this->pageRepository->findOneBy(['title' => 'Overzicht']),
