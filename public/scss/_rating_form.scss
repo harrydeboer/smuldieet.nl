@@ -1,0 +1,57 @@
+$rate-color: rgb(87, 153, 239);
+
+#rating_rating {
+  width: 50px;
+}
+
+#rate_modal_button, #rate_modal_button_star {
+  color: $rate-color;
+}
+
+#rate_modal_button:hover {
+  cursor: pointer
+}
+
+.radio-star {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  margin: 0;
+  float: right;
+  white-space: nowrap;
+}
+
+.fa-star-form {
+  color: $rate-color;
+}
+
+#rating_div .radio-star:checked ~ label .far {
+  font-weight: 900;
+}
+
+#rating_div label {
+  float: right;
+  padding: 10px 4px;
+}
+
+#rating_div:hover .far {
+  font-weight: 400 !important;
+}
+
+#rating_div:hover label:hover .far {
+  font-weight: 900 !important;
+}
+
+#rating_div label:hover,
+#rating_div label:hover ~ label .far {
+  font-weight: 900 !important;
+}
+
+#rating_div {
+  display: inline-block;
+  list-style: none;
+}
+
+#rate_recipe_login {
+  text-decoration: none;
+}

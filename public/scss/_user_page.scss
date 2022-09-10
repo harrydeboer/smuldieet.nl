@@ -1,0 +1,14 @@
+.date-field {
+  width: 100%;
+}
+
+.gender-field {
+  white-space: nowrap;
+}
+
+@media (min-width: 550px) {
+  .date-field {
+    display: inline;
+    width: 32%;
+  }
+}
