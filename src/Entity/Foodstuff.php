@@ -28,10 +28,6 @@ class Foodstuff
         'stuks' => 'stuks',
         'el' => 'el',
         'tl' => 'tl',
-        'ml' => 'ml',
-        'cl' => 'cl',
-        'dl' => 'dl',
-        'l' => 'l',
     ];
 
     public static array $foodstuffUnitsLiquid = [

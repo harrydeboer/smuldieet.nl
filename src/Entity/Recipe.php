@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Entity(repositoryClass: RecipeRepository::class),
     ORM\Table(name: "recipe"),
 ]
-class Recipe implements FoodstuffsInterface, UploadImageInterface
+class Recipe implements FoodstuffWeightsInterface, UploadImageInterface
 {
     public const COOKING_TIMES = ['0-10 min.', '10-20 min.', '20-30 min.', '30-60 min.', '> 1 uur', '> 2 uur'];
 

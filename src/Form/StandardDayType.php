@@ -34,7 +34,7 @@ class StandardDayType extends AbstractType
                 'entry_type' => ChoiceType::class,
                 'allow_add' => true,
                 'entry_options' => [
-                    'choices' => Foodstuff::$foodstuffUnits,
+                    'choices' => array_merge(Foodstuff::$foodstuffUnits, Foodstuff::$foodstuffUnitsLiquid),
                     'attr' => [
                         'class' => 'form-control food-unit form-select',
                     ],

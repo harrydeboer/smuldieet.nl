@@ -7,7 +7,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
-interface FoodstuffsInterface
+interface FoodstuffWeightsInterface
 {
     public function getFoodstuffWeights(): ArrayCollection;
 

@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\UniqueConstraint(name: "title_unique", columns: ["user_id", "title"]),
     UniqueEntity(fields: ["user", "title"], message: "Er is al een kookboek met deze titel."),
 ]
-class Cookbook implements RecipesInterface
+class Cookbook implements RecipeWeightsInterface
 {
     #[
         ORM\Id,
