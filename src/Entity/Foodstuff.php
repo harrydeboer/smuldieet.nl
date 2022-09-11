@@ -22,12 +22,19 @@ use App\Repository\FoodstuffRepository;
 ]
 class Foodstuff
 {
-    public static array $foodstuffChoicesArray = [
+    public static array $foodstuffUnits = [
         'g' => 'g',
         'kg' => 'kg',
         'stuks' => 'stuks',
         'el' => 'el',
         'tl' => 'tl',
+        'ml' => 'ml',
+        'cl' => 'cl',
+        'dl' => 'dl',
+        'l' => 'l',
+    ];
+
+    public static array $foodstuffUnitsLiquid = [
         'ml' => 'ml',
         'cl' => 'cl',
         'dl' => 'dl',

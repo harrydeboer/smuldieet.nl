@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\Foodstuff;
 use App\Entity\Recipe;
 use App\Pagination\Paginator;
 use App\Service\ProfanityCheckService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Exception;
 
@@ -180,9 +182,26 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
 
     private function addFoodstuffsFromWeights(Recipe $recipe): void
     {
+        if (count($recipe->getFoodstuffWeights()) !== count($recipe->getFoodstuffUnits())) {
+            throw new BadRequestException('There must be an equal amount of weights and units.');
+        }
+
         foreach ($recipe->getFoodstuffWeights() as $id => $weight) {
             $foodstuff = $this->foodstuffRepository->get($id);
+            if (!is_numeric($weight)) {
+                throw new BadRequestException('Weight must be a number.');
+            }
             $recipe->addFoodstuff($foodstuff);
+        }
+
+        foreach ($recipe->getFoodstuffs() as $id => $foodstuff) {
+            $unit = $recipe->getFoodstuffUnits()[$id];
+            if (!in_array($unit, Foodstuff::$foodstuffUnits)) {
+                throw new BadRequestException('Invalid unit.');
+            }
+            if (!$foodstuff->getIsLiquid() && in_array($unit, Foodstuff::$foodstuffUnitsLiquid)) {
+                throw new BadRequestException('Solid foodstuffs cannot have a liquid unit.');
+            }
         }
     }
 

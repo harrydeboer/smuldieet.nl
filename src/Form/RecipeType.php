@@ -114,7 +114,7 @@ class RecipeType extends AbstractType
             'entry_type' => ChoiceType::class,
             'allow_add' => true,
             'entry_options' => [
-                'choices' => Foodstuff::$foodstuffChoicesArray,
+                'choices' => Foodstuff::$foodstuffUnits,
                 'attr' => [
                     'class' => 'form-control food-unit form-select',
                 ],

@@ -14,11 +14,6 @@ interface UploadImageInterface
 
     public function setImageExtension(?string $imageExtension): void;
 
-    /**
-     * The image getter and setter have to exist for the form to work,
-     * but the value of getImage is never used because a html input of type file cannot be prefilled.
-     * The setter only sets the imageExtension, because it does not save the image.
-     */
     public function getImage(): void;
 
     public function setImage(?UploadedFile $image): void;

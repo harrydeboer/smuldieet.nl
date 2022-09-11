@@ -8,6 +8,7 @@ use App\Entity\Cookbook;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Exception;
 
@@ -92,6 +93,9 @@ class CookbookRepository extends ServiceEntityRepository implements CookbookRepo
     {
         foreach ($cookbook->getRecipeWeights() as $id => $weight) {
             $recipe = $this->recipeRepository->get($id);
+            if (!is_numeric($weight)) {
+                throw new BadRequestException('Weight must be a number.');
+            }
             $timesSaved = $recipe->getTimesSaved();
             $recipe->setTimesSaved($timesSaved + 1);
             try {
