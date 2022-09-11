@@ -18,6 +18,8 @@ interface FoodstuffRepositoryInterface extends ServiceEntityRepositoryInterface
 
     public function get(int $id): Foodstuff;
 
+    public function getFromUser(int $id, int $userId): Foodstuff;
+
     public function getByName(string $name): Foodstuff;
 
     /**

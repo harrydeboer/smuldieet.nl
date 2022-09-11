@@ -114,10 +114,6 @@ class CookbookController extends AuthController
 
     private function getCookbook(int $id): Cookbook
     {
-        if ($id > 2147483647) {
-            throw new NotFoundHttpException('Dit kookboek bestaat niet.');
-        }
-
         return $this->cookbookRepository->getFromUser($id, $this->getUser()->getId());
     }
 }

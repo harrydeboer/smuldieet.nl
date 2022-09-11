@@ -63,7 +63,7 @@ class RecipeController extends Controller
 
         if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
             try {
-                if (count($recipe->getFoodstuffWeights()) === 0 && count($recipe->getFoodstuffChoices()) === 0) {
+                if (count($recipe->getFoodstuffWeights()) === 0 && count($recipe->getFoodstuffUnits()) === 0) {
                     throw new Exception('De voedingsmiddelen van het gerecht mogen niet leeg zijn.');
                 }
                 $this->recipeRepository->update($recipe);
@@ -98,7 +98,7 @@ class RecipeController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                if (count($recipe->getFoodstuffWeights()) === 0 && count($recipe->getFoodstuffChoices()) === 0) {
+                if (count($recipe->getFoodstuffWeights()) === 0 && count($recipe->getFoodstuffUnits()) === 0) {
                     throw new Exception('De voedingsmiddelen van het gerecht mogen niet leeg zijn.');
                 }
                 $this->recipeRepository->create($recipe);
@@ -202,10 +202,6 @@ class RecipeController extends Controller
 
     private function getRecipe(int $id): Recipe
     {
-        if ($id > 2147483647) {
-            throw new NotFoundHttpException('Dit recept bestaat niet.');
-        }
-
         return $this->recipeRepository->getFromUser($id, $this->getUser()->getId());
     }
 }

@@ -4,14 +4,10 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Entity\FoodstuffsInterface;
 use App\Entity\Foodstuff;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use InvalidArgumentException;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Exception;
 
@@ -90,6 +86,17 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
         return $foodstuff;
     }
 
+    public function getFromUser(int $id, int $userId): Foodstuff
+    {
+        $foodstuff = $this->findOneBy(['id' => $id, 'user' => $userId]);
+
+        if (is_null($foodstuff)) {
+            throw new NotFoundHttpException('Dit voedingsmiddel bestaat niet.');
+        }
+
+        return $foodstuff;
+    }
+
     public function getByName(string $name): Foodstuff
     {
         $foodstuff = $this->findOneBy(['name' => $name]);
@@ -115,29 +122,10 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
     }
 
     /**
-     * When a foodstuff gets a piece weight or loses a piece weight the day and recipe weight and choices are updated.
      * @throws Exception
      */
     public function update(Foodstuff $foodstuff, ?float $pieceWeightOld): void
     {
-        if (is_null($pieceWeightOld) && !is_null($foodstuff->getPieceWeight())) {
-            foreach ($foodstuff->getDays() as $day) {
-                $this->replaceWeightWithChoice($day, $foodstuff);
-            }
-            foreach ($foodstuff->getRecipes() as $recipe) {
-                $this->replaceWeightWithChoice($recipe, $foodstuff);
-            }
-        } elseif (!is_null($pieceWeightOld) && is_null($foodstuff->getPieceWeight())) {
-            if (!is_null($foodstuff->getPieceName())) {
-                throw new Exception('No piece name allowed when there is no piece weight.');
-            }
-            foreach ($foodstuff->getDays() as $day) {
-                $this->replaceChoiceWithWeight($day, $foodstuff, $pieceWeightOld);
-            }
-            foreach ($foodstuff->getRecipes() as $recipe) {
-                $this->replaceChoiceWithWeight($recipe, $foodstuff, $pieceWeightOld);
-            }
-        }
         $this->checkFirstChar($foodstuff->getName());
         $this->checkWeightsAndEnergy($foodstuff);
         $this->em->flush();
@@ -152,17 +140,17 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
             $weights = $day->getFoodstuffWeights();
             unset($weights[$foodstuff->getId()]);
             $day->setFoodstuffWeights($weights);
-            $choices = $day->getFoodstuffChoices();
-            unset($choices[$foodstuff->getId()]);
-            $day->setFoodstuffChoices($choices);
+            $units = $day->getFoodstuffUnits();
+            unset($units[$foodstuff->getId()]);
+            $day->setFoodstuffChoices($units);
         }
         foreach ($foodstuff->getRecipes() as $recipe) {
             $weights = $recipe->getFoodstuffWeights();
             unset($weights[$recipe->getId()]);
             $recipe->setFoodstuffWeights($weights);
-            $choices = $recipe->getFoodstuffChoices();
-            unset($choices[$recipe->getId()]);
-            $recipe->setFoodstuffChoices($choices);
+            $units = $recipe->getFoodstuffUnits();
+            unset($units[$recipe->getId()]);
+            $recipe->setFoodstuffChoices($units);
         }
         $this->em->remove($foodstuff);
         $this->em->flush();
@@ -204,47 +192,6 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
             throw new Exception('De totale energy klopt niet met de energieën uit ' .
                 ' koolhydraten, eiwit, vet, alcohol  en vezels.');
         }
-    }
-
-    private function replaceWeightWithChoice(FoodstuffsInterface $entity, Foodstuff $foodstuff): void
-    {
-        $weights = $entity->getFoodstuffWeights();
-        $entity->setFoodstuffChoices($this->roundToNearest($weights[$foodstuff->getId()] /
-            $foodstuff->getPieceWeight(), $entity->getFoodstuffChoices(), $foodstuff->getId()));
-        unset($weights[$foodstuff->getId()]);
-        $entity->setFoodstuffWeights($weights);
-    }
-
-    private function replaceChoiceWithWeight(
-        FoodstuffsInterface $entity,
-        Foodstuff           $foodstuff,
-        float               $pieceWeightOld,
-    ): void
-    {
-        $choices = $entity->getFoodstuffChoices();
-        $weights = $entity->getFoodstuffWeights();
-        $weights[$foodstuff->getId()] = $pieceWeightOld * $choices[$foodstuff->getId()];
-        $entity->setFoodstuffWeights($weights);
-        unset($choices[$foodstuff->getId()]);
-        $entity->setFoodstuffChoices($choices);
-    }
-
-    private function roundToNearest(float $number, ArrayCollection $numberOfPieces, int $id): ArrayCollection
-    {
-        if ($number < 0.125) {
-            $numberOfPieces[$id] = 0.25;
-        } elseif ($number < 1) {
-            $numberOfPieces[$id] = round($number * 4) / 4;
-        } elseif ($number <= 2) {
-            $numberOfPieces[$id] = round($number * 2) / 2;
-        } else {
-            $numberOfPieces[$id] = round($number);
-        }
-        if (!in_array($numberOfPieces[$id], Foodstuff::$foodstuffChoicesArray)) {
-            throw new InvalidArgumentException('The rounded value must exist in the piece choices.');
-        }
-
-        return $numberOfPieces;
     }
 
     /**

@@ -173,10 +173,6 @@ class DayController extends AuthController
 
     private function getDay(int $id): Day
     {
-        if ($id > 2147483647) {
-            throw new NotFoundHttpException('Deze dag bestaat niet.');
-        }
-
         return $this->dayRepository->getFromUser($id, $this->getUser()->getId());
     }
 }

@@ -161,10 +161,6 @@ class RatingController extends AuthController
 
     private function getRating(int $id): Rating
     {
-        if ($id > 2147483647) {
-            throw new NotFoundHttpException('Deze waardering bestaat niet.');
-        }
-
         return $this->ratingRepository->getFromUser($id, $this->getUser()->getId());
     }
 }

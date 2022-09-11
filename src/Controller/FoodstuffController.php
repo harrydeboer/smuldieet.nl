@@ -128,7 +128,7 @@ class FoodstuffController extends Controller
     #[Route('/voedingsmiddel/enkel/{id}', name: 'foodstuff_single')]
     public function single(int $id): Response
     {
-        $foodstuff = $this->getFoodstuff($id);
+        $foodstuff = $this->foodstuffRepository->get($id);
         if (is_null($foodstuff->getUser()) || $foodstuff->getUser()->getId() === $this->getUser()?->getId()) {
             return $this->render('foodstuff/single.html.twig', [
                 'foodstuff' => $foodstuff,
@@ -145,8 +145,10 @@ class FoodstuffController extends Controller
         if (strlen($name) > 255) {
             $foodstuffs = [];
         } else {
-            $foodstuffs = $this->foodstuffRepository->search($this->transformDiacriticChars($name),
-                $this->getUser()->getId());
+            $foodstuffs = $this->foodstuffRepository->search(
+                $this->transformDiacriticChars($name),
+                $this->getUser()->getId(),
+            );
         }
 
         return $this->render('foodstuff/search.html.twig', [
@@ -156,11 +158,7 @@ class FoodstuffController extends Controller
 
     private function getFoodstuff(int $id): Foodstuff
     {
-        if ($id > 2147483647) {
-            throw new NotFoundHttpException('Dit voedingsmiddel bestaat niet.');
-        }
-
-        return $this->foodstuffRepository->get($id);
+        return $this->foodstuffRepository->getFromUser($id, $this->getUser()->getId());
     }
 
     private function checkCanEdit(Foodstuff $foodstuff): bool
