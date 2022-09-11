@@ -6,7 +6,6 @@ namespace App\Tests\Functional\Controller;
 
 use App\Tests\Factory\RecipeFactory;
 use App\Repository\CookbookRepositoryInterface;
-use App\Repository\RecipeRepositoryInterface;
 use App\Tests\Functional\AuthAdminWebTestCase;
 
 class CookbookControllerTest extends AuthAdminWebTestCase
@@ -15,8 +14,6 @@ class CookbookControllerTest extends AuthAdminWebTestCase
     {
         $recipe1 = static::getContainer()->get(RecipeFactory::class)->create();
         $recipe2 = static::getContainer()->get(RecipeFactory::class)->create();
-        $timesSavedOld1 = $recipe1->getTimesSaved();
-        $timesSavedOld2 = $recipe2->getTimesSaved();
 
         $this->client->request('GET', '/kookboeken');
 
@@ -41,12 +38,6 @@ class CookbookControllerTest extends AuthAdminWebTestCase
         $cookbook = $cookbookRepository->findOneBy(['title' => 'test']);
         $id = $cookbook->getId();
 
-        $recipeRepository = $this->getContainer()->get(RecipeRepositoryInterface::class);
-        $recipe1 = $recipeRepository->get($recipe1->getId());
-        $recipe2 = $recipeRepository->get($recipe2->getId());
-        $this->assertEquals(1 + $timesSavedOld1, $recipe1->getTimesSaved());
-        $this->assertEquals(1 + $timesSavedOld2, $recipe2->getTimesSaved());
-
         $this->client->request('GET', '/kookboek/enkel/' . $id);
 
         $this->assertResponseIsSuccessful();
@@ -66,12 +57,6 @@ class CookbookControllerTest extends AuthAdminWebTestCase
 
         $this->assertResponseRedirects('/kookboeken');
 
-        $recipeRepository = $this->getContainer()->get(RecipeRepositoryInterface::class);
-        $recipe1 = $recipeRepository->get($recipe1->getId());
-        $recipe2 = $recipeRepository->get($recipe2->getId());
-        $this->assertEquals($timesSavedOld1 + 1, $recipe1->getTimesSaved());
-        $this->assertEquals($timesSavedOld2, $recipe2->getTimesSaved());
-
         $cookbook = $cookbookRepository->findOneBy(['title' => $updatedTitle]);
 
         $this->assertEquals($updatedTitle, $cookbook->getTitle());
@@ -85,12 +70,6 @@ class CookbookControllerTest extends AuthAdminWebTestCase
         $this->client->submit($form);
 
         $this->assertResponseRedirects('/kookboeken');
-
-        $recipeRepository = $this->getContainer()->get(RecipeRepositoryInterface::class);
-        $recipe1 = $recipeRepository->get($recipe1->getId());
-        $recipe2 = $recipeRepository->get($recipe2->getId());
-        $this->assertEquals($timesSavedOld1, $recipe1->getTimesSaved());
-        $this->assertEquals($timesSavedOld2, $recipe2->getTimesSaved());
 
         $cookbookRepository = $this->getContainer()->get(CookbookRepositoryInterface::class);
 

@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Entity\Foodstuff;
 use App\Entity\Recipe;
 use App\Pagination\Paginator;
+use App\Service\AddFoodstuffsService;
 use App\Service\ProfanityCheckService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Exception;
 
@@ -25,7 +24,7 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
 {
     public function __construct(
         private readonly ProfanityCheckService $profanityCheckService,
-        private readonly FoodstuffRepositoryInterface $foodstuffRepository,
+        private readonly AddFoodstuffsService $addFoodstuffsService,
         private readonly EntityManagerInterface $em,
         ManagerRegistry $registry,
     ) {
@@ -87,7 +86,7 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
     public function create(Recipe $recipe): Recipe
     {
         $this->checkProfanitiesRecipe($recipe);
-        $this->addFoodstuffsFromWeights($recipe);
+        $this->addFoodstuffsService->addFoodstuffsAndValidate($recipe);
         $recipe->setTimestamp(time());
         $this->em->persist($recipe);
         $this->em->flush();
@@ -104,7 +103,7 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
         foreach ($recipe->getFoodstuffs() as $foodstuff) {
             $recipe->removeFoodstuff($foodstuff);
         }
-        $this->addFoodstuffsFromWeights($recipe);
+        $this->addFoodstuffsService->addFoodstuffsAndValidate($recipe);
         $this->em->flush();
     }
 
@@ -178,31 +177,6 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
         }
 
         return (new Paginator($qb))->paginate($page);
-    }
-
-    private function addFoodstuffsFromWeights(Recipe $recipe): void
-    {
-        if (count($recipe->getFoodstuffWeights()) !== count($recipe->getFoodstuffUnits())) {
-            throw new BadRequestException('There must be an equal amount of weights and units.');
-        }
-
-        foreach ($recipe->getFoodstuffWeights() as $id => $weight) {
-            $foodstuff = $this->foodstuffRepository->get($id);
-            if (!is_numeric($weight)) {
-                throw new BadRequestException('Weight must be a number.');
-            }
-            $recipe->addFoodstuff($foodstuff);
-        }
-
-        foreach ($recipe->getFoodstuffs() as $id => $foodstuff) {
-            $unit = $recipe->getFoodstuffUnits()[$id];
-            if (!in_array($unit, Foodstuff::$foodstuffUnits)) {
-                throw new BadRequestException('Invalid unit.');
-            }
-            if (!$foodstuff->getIsLiquid() && in_array($unit, Foodstuff::$foodstuffUnitsLiquid)) {
-                throw new BadRequestException('Solid foodstuffs cannot have a liquid unit.');
-            }
-        }
     }
 
     /**

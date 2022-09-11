@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Day;
-use App\Entity\Foodstuff;
 use App\Pagination\Paginator;
+use App\Service\AddFoodstuffsService;
+use App\Service\AddRecipesService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use DateTime;
 
@@ -25,8 +25,8 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
 {
     public function __construct(
         private readonly EntityManagerInterface $em,
-        private readonly FoodstuffRepositoryInterface $foodstuffRepository,
-        private readonly RecipeRepositoryInterface $recipeRepository,
+        private readonly AddRecipesService $addRecipesService,
+        private readonly AddFoodstuffsService $addFoodstuffsService,
         ManagerRegistry $registry,
     ) {
         parent::__construct($registry, Day::class);
@@ -45,7 +45,8 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
 
     public function create(Day $day): Day
     {
-        $this->addFoodstuffsAndRecipesFromWeights($day);
+        $this->addRecipesService->addRecipesAndValidate($day);
+        $this->addFoodstuffsService->addFoodstuffsAndValidate($day);
         $this->em->persist($day);
         $this->em->flush();
 
@@ -60,7 +61,8 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
         foreach ($day->getFoodstuffs() as $foodstuff) {
             $day->removeFoodstuff($foodstuff);
         }
-        $this->addFoodstuffsAndRecipesFromWeights($day);
+        $this->addRecipesService->addRecipesAndValidate($day);
+        $this->addFoodstuffsService->addFoodstuffsAndValidate($day);
         $this->em->flush();
     }
 
@@ -92,37 +94,5 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
             ->orderBy('d.timestamp', 'DESC');
 
         return (new Paginator($qb))->paginate($page);
-    }
-
-    private function addFoodstuffsAndRecipesFromWeights(Day $day): void
-    {
-        if (count($day->getFoodstuffWeights()) !== count($day->getFoodstuffUnits())) {
-            throw new BadRequestException('There must be an equal amount of weights and units.');
-        }
-
-        foreach ($day->getFoodstuffWeights() as $id => $weight) {
-            $foodstuff = $this->foodstuffRepository->get($id);
-            if (!is_numeric($weight)) {
-                throw new BadRequestException('Weight must be a number.');
-            }
-            $day->addFoodstuff($foodstuff);
-        }
-        foreach ($day->getRecipeWeights() as $id => $weight) {
-            $recipe = $this->recipeRepository->get($id);
-            if (!is_numeric($weight)) {
-                throw new BadRequestException('Weight must be a number.');
-            }
-            $day->addRecipe($recipe);
-        }
-
-        foreach ($day->getFoodstuffs() as $id => $foodstuff) {
-            $unit = $day->getFoodstuffUnits()[$id];
-            if (!in_array($unit, Foodstuff::$foodstuffUnits)) {
-                throw new BadRequestException('Invalid unit.');
-            }
-            if (!$foodstuff->getIsLiquid() && in_array($unit, Foodstuff::$foodstuffUnitsLiquid)) {
-                throw new BadRequestException('Solid foodstuffs cannot have a liquid unit.');
-            }
-        }
     }
 }
