@@ -10,6 +10,8 @@ use App\Form\DeleteType;
 use App\Form\StandardDayType;
 use App\Repository\DayRepositoryInterface;
 use App\Repository\PageRepositoryInterface;
+use App\Service\AddFoodstuffsService;
+use App\Service\AddRecipesService;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,6 +23,8 @@ class DayController extends AuthController
     public function __construct(
         private readonly DayRepositoryInterface $dayRepository,
         private readonly PageRepositoryInterface $pageRepository,
+        private readonly AddRecipesService $addRecipesService,
+        private readonly AddFoodstuffsService $addFoodstuffsService,
     ) {
     }
 
@@ -77,6 +81,9 @@ class DayController extends AuthController
             $this->dayRepository->update($day);
 
             return $this->redirectToRoute('diary');
+        } else {
+            $this->addRecipesService->addRecipesAndValidate($day);
+            $this->addFoodstuffsService->addFoodstuffsAndValidate($day);
         }
 
         return $this->render('day/edit.html.twig', [
@@ -107,7 +114,8 @@ class DayController extends AuthController
 
             return $this->redirectToRoute('diary');
         } else {
-            $form = $this->createForm(DayType::class, $dayStandard);
+            $this->addRecipesService->addRecipesAndValidate($day);
+            $this->addFoodstuffsService->addFoodstuffsAndValidate($day);
         }
 
         return $this->render('day/new.html.twig', [
@@ -137,6 +145,9 @@ class DayController extends AuthController
             $this->dayRepository->create($day);
 
             return $this->redirectToRoute('diary');
+        } else {
+            $this->addRecipesService->addRecipesAndValidate($day);
+            $this->addFoodstuffsService->addFoodstuffsAndValidate($day);
         }
 
         return $this->render('day/new_standard_day.html.twig', [

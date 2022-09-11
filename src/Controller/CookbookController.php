@@ -9,6 +9,7 @@ use App\Form\CookbookType;
 use App\Form\DeleteType;
 use App\Repository\CookbookRepositoryInterface;
 use App\Repository\PageRepositoryInterface;
+use App\Service\AddRecipesService;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,6 +20,7 @@ class CookbookController extends AuthController
     public function __construct(
         private readonly CookbookRepositoryInterface $cookbookRepository,
         private readonly PageRepositoryInterface $pageRepository,
+        private readonly AddRecipesService $addRecipesService,
     ) {
     }
 
@@ -55,6 +57,8 @@ class CookbookController extends AuthController
             $this->cookbookRepository->update($cookbook);
 
             return $this->redirectToRoute('cookbook');
+        } else {
+            $this->addRecipesService->addRecipesAndValidate($cookbook);
         }
 
         return $this->render('cookbook/edit.html.twig', [
@@ -78,6 +82,8 @@ class CookbookController extends AuthController
             $this->cookbookRepository->create($cookbook);
 
             return $this->redirectToRoute('cookbook');
+        } else {
+            $this->addRecipesService->addRecipesAndValidate($cookbook);
         }
 
         return $this->render('cookbook/new.html.twig', [

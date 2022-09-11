@@ -11,6 +11,7 @@ use App\Form\DeleteType;
 use App\Repository\PageRepositoryInterface;
 use App\Repository\RatingRepositoryInterface;
 use App\Repository\RecipeRepositoryInterface;
+use App\Service\AddFoodstuffsService;
 use App\Service\UploadedImageService;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -27,6 +28,7 @@ class RecipeController extends Controller
         private readonly RecipeRepositoryInterface $recipeRepository,
         private readonly PageRepositoryInterface   $pageRepository,
         private readonly UploadedImageService      $uploadedImageService,
+        private readonly AddFoodstuffsService      $addFoodstuffsService,
     ) {
     }
 
@@ -78,6 +80,8 @@ class RecipeController extends Controller
             } catch (Exception $exception) {
                 $formUpdate->addError(new FormError($exception->getMessage()));
             }
+        } else {
+            $this->addFoodstuffsService->addFoodstuffsAndValidate($recipe);
         }
 
         return $this->render('recipe/edit.html.twig', [
@@ -108,6 +112,8 @@ class RecipeController extends Controller
             } catch (Exception $exception) {
                 $form->addError(new FormError($exception->getMessage()));
             }
+        } else {
+            $this->addFoodstuffsService->addFoodstuffsAndValidate($recipe);
         }
 
         return $this->render('recipe/new.html.twig', [
