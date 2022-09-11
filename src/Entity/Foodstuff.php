@@ -23,30 +23,15 @@ use App\Repository\FoodstuffRepository;
 class Foodstuff
 {
     public static array $foodstuffChoicesArray = [
-        '¼' => 0.25,
-        '½' => 0.5,
-        '¾' => 0.75,
-        '1' => 1,
-        '1½' => 1.5,
-        '2' => 2,
-        '3' => 3,
-        '4' => 4,
-        '5' => 5,
-        '6' => 6,
-        '7' => 7,
-        '8' => 8,
-        '9' => 9,
-        '10' => 10,
-        '11' => 11,
-        '12' => 12,
-        '13' => 13,
-        '14' => 14,
-        '15' => 15,
-        '16' => 16,
-        '17' => 17,
-        '18' => 18,
-        '19' => 19,
-        '20' => 20,
+        'g' => 'g',
+        'kg' => 'kg',
+        'stuks' => 'stuks',
+        'el' => 'el',
+        'tl' => 'tl',
+        'ml' => 'ml',
+        'cl' => 'cl',
+        'dl' => 'dl',
+        'l' => 'l',
     ];
 
     #[
@@ -84,6 +69,15 @@ class Foodstuff
         Assert\GreaterThanOrEqual(0, message: 'Gewicht per stuk moet groter of gelijk aan 0 zijn.'),
     ]
     private ?float $pieceWeight = null;
+
+    #[ORM\Column(type: "boolean")]
+    private bool $isLiquid = false;
+
+    #[
+        ORM\Column(type: "float", nullable: true),
+        Assert\GreaterThanOrEqual(0, message: 'Dichtheid moet groter of gelijk aan 0 zijn.'),
+    ]
+    private ?float $density = null;
 
     #[
         ORM\Column(type: "float", nullable: true),
@@ -433,6 +427,26 @@ class Foodstuff
     public function setUser(?User $user): void
     {
         $this->user = $user;
+    }
+
+    public function getIsLiquid(): bool
+    {
+        return $this->isLiquid;
+    }
+
+    public function setIsLiquid(bool $isLiquid): void
+    {
+        $this->isLiquid = $isLiquid;
+    }
+
+    public function getDensity(): ?float
+    {
+        return $this->density;
+    }
+
+    public function setDensity(?float $density): void
+    {
+        $this->density = $density;
     }
 
     public function getEnergyKcal(): ?float

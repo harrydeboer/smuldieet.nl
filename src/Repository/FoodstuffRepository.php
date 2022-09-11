@@ -248,27 +248,6 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
     }
 
     /**
-     * @throws BadRequestException;
-     */
-    public function checkPieces(FoodstuffsInterface $entity): void
-    {
-        foreach ($entity->getFoodstuffWeights() as $id => $weight) {
-            $foodstuff = $entity->getFoodstuffs()[$id];
-            if (!is_null($foodstuff->getPieceWeight())) {
-                throw new BadRequestException('The weight foodstuff can not have a piece weight.');
-            }
-        }
-        foreach ($entity->getFoodstuffChoices() as $id => $choice) {
-            $foodstuff = $entity->getFoodstuffs()[$id];
-            if (!is_null($foodstuff->getPieceWeight()) && $choice > 20) {
-                throw new BadRequestException('The number of pieces can not be greater than 20.');
-            } elseif (is_null($foodstuff->getPieceWeight())) {
-                throw new BadRequestException('The choice foodstuff must have a piece weight.');
-            }
-        }
-    }
-
-    /**
      * @throws Exception
      */
     private function checkFirstChar(string $name)

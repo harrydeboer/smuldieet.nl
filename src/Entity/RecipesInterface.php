@@ -9,9 +9,9 @@ use Doctrine\Common\Collections\Collection;
 
 interface RecipesInterface
 {
-    public function getRecipeChoices(): ArrayCollection;
+    public function getRecipeWeights(): ArrayCollection;
 
-    public function setRecipeChoices(ArrayCollection $collection): void;
+    public function setRecipeWeights(ArrayCollection $collection): void;
 
     public function getRecipes(): Collection;
 

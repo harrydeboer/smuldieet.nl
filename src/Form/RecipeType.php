@@ -58,29 +58,7 @@ class RecipeType extends AbstractType
                 'class' => 'form-control',
                 'rows' => 10,
             ]])
-            ->add('nice_story', TextareaType::class, [
-                'required' => false,
-                'attr' => [
-                    'class' => 'form-control',
-                    'rows' => 10,
-                ]])
-            ->add('nice_tips', TextareaType::class, [
-                'required' => false,
-                'attr' => [
-                    'class' => 'form-control',
-                    'rows' => 10,
-                ]])
-            ->add('tools_and_kitchenware', TextareaType::class, [
-                'required' => false,
-                'attr' => [
-                    'class' => 'form-control',
-                    'rows' => 10,
-                ]])
             ->add('number_of_persons', IntegerType::class, [
-                'attr' => ['class' => 'form-control'],
-            ])
-            ->add('number_of_pieces', IntegerType::class, [
-                'required' => false,
                 'attr' => ['class' => 'form-control'],
             ])
             ->add('source', TextType::class, [
@@ -126,19 +104,19 @@ class RecipeType extends AbstractType
             'allow_add' => true,
             'entry_options' => [
                 'attr' => [
+                    'placeholder' => 'gewicht',
                     'class' => 'form-control food-weight',
-                    'placeholder' => 'g/ml',
                 ],
             ],
             'allow_delete' => true,
             'delete_empty' => true,
-        ])->add('foodstuff_choices', CollectionType::class, [
+        ])->add('foodstuff_units', CollectionType::class, [
             'entry_type' => ChoiceType::class,
             'allow_add' => true,
             'entry_options' => [
                 'choices' => Foodstuff::$foodstuffChoicesArray,
                 'attr' => [
-                    'class' => 'form-control food-weight form-select',
+                    'class' => 'form-control food-unit form-select',
                 ],
             ],
             'allow_delete' => true,

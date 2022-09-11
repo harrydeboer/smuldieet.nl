@@ -20,18 +20,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 ]
 class Day implements FoodstuffsInterface, RecipesInterface
 {
-    public static array $recipeChoicesArray = [
-        '¼' => 0.25,
-        '½' => 0.5,
-        '¾' => 0.75,
-        '1' => 1,
-        '1½' => 1.5,
-        '2' => 2,
-        '3' => 3,
-        '4' => 4,
-        '5' => 5,
-    ];
-
     #[
         ORM\Id,
         ORM\Column(type: "integer"),
@@ -67,13 +55,13 @@ class Day implements FoodstuffsInterface, RecipesInterface
     private Collection $recipes;
 
     #[ORM\Column(type: "string")]
-    private string $recipeChoices = 'a:0:{}';
+    private string $recipeWeights = 'a:0:{}';
 
     #[ORM\Column(type: "string")]
     protected string $foodstuffWeights = 'a:0:{}';
 
     #[ORM\Column(type: "string")]
-    protected string $foodstuffChoices = 'a:0:{}';
+    protected string $foodstuffUnits = 'a:0:{}';
 
     #[Pure] public function __construct()
     {
@@ -192,19 +180,14 @@ class Day implements FoodstuffsInterface, RecipesInterface
         $recipe->removeDay($this);
     }
 
-    public function getRecipeChoices(): ArrayCollection
+    public function getRecipeWeights(): ArrayCollection
     {
-        $collection = new ArrayCollection();
-        foreach (unserialize($this->recipeChoices) as $key => $value) {
-            $collection->set($key, $value);
-        }
-
-        return $collection;
+        return new ArrayCollection(unserialize($this->recipeWeights));
     }
 
-    public function setRecipeChoices(ArrayCollection $collection): void
+    public function setRecipeWeights(ArrayCollection $collection): void
     {
-        $this->recipeChoices = serialize($collection->toArray());
+        $this->recipeWeights = serialize($collection->toArray());
     }
 
     public function getFoodstuffWeights(): ArrayCollection
@@ -217,13 +200,13 @@ class Day implements FoodstuffsInterface, RecipesInterface
         $this->foodstuffWeights = serialize($collection->toArray());
     }
 
-    public function getFoodstuffChoices(): ArrayCollection
+    public function getFoodstuffUnits(): ArrayCollection
     {
-        return new ArrayCollection(unserialize($this->foodstuffChoices));
+        return new ArrayCollection(unserialize($this->foodstuffUnits));
     }
 
-    public function setFoodstuffChoices(ArrayCollection $collection): void
+    public function setFoodstuffUnits(ArrayCollection $collection): void
     {
-        $this->foodstuffChoices = serialize($collection->toArray());
+        $this->foodstuffUnits = serialize($collection->toArray());
     }
 }

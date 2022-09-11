@@ -20,8 +20,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 ]
 class Cookbook implements RecipesInterface
 {
-    public static array $recipeChoicesArray = ['1' => 1];
-
     #[
         ORM\Id,
         ORM\Column(type: "integer"),
@@ -134,12 +132,12 @@ class Cookbook implements RecipesInterface
         $recipe->removeCookbook($this);
     }
 
-    public function getRecipeChoices(): ArrayCollection
+    public function getRecipeWeights(): ArrayCollection
     {
         return new ArrayCollection(unserialize($this->recipeChoices));
     }
 
-    public function setRecipeChoices(ArrayCollection $collection): void
+    public function setRecipeWeights(ArrayCollection $collection): void
     {
         $this->recipeChoices = serialize($collection->toArray());
     }

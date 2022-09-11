@@ -92,34 +92,12 @@
             {% for id, weight in recipe.foodstuffWeights %}
                 <tr>
                     <td>{{ recipe.foodstuffs()[id].name }}</td>
-                    <td>{{ weight|number_format }} g</td>
-                </tr>
-            {% endfor %}
-            {% for id, weight in recipe.foodstuffChoices %}
-                <tr>
-                    <td>{{ recipe.foodstuffs()[id].name }}</td>
-                    <td>{{ weight }} {{ recipe.foodstuffs()[id].pieceName }}</td>
+                    <td>{{ weight|number_format }} {{ recipe.foodstuffUnits()[id] }}</td>
                 </tr>
             {% endfor %}
         </table>
         <div class="fw-bold">Bereidingswijze</div>
         {{ recipe.preparationMethod|nl2br }}
-        {% if recipe.niceStory is not null %}
-            <div class="fw-bold">Vertel iets leuks over dit recept</div>
-            {{ recipe.niceStory|nl2br }}
-        {% endif %}
-        {% if recipe.niceTips is not null %}
-            <div class="fw-bold">Leuke tips</div>
-            {{ recipe.niceTips|nl2br }}
-        {% endif %}
-        {% if recipe.toolsAndKitchenware is not null %}
-            <div class="fw-bold">Hulpmiddelen en keukengerei</div
-            {{ recipe.toolsAndKitchenware|nl2br }}
-        {% endif %}
-        {% if recipe.numberOfPieces is not null %}
-            <div class="fw-bold">Aantal stuks</div>
-            {{ recipe.numberOfPieces }}
-        {% endif %}
         {% if recipe.source is not null %}
             <br>
             <br>
@@ -136,8 +114,8 @@
             <br>
             <div class="fw-bold">Dieet</div>
         {% endif %}
-        {% for item in diet  %}
-            <div>{{ item }}</div>
+        {% for choice in diet  %}
+            <div>{{ choice }}</div>
         {% endfor %}
         <br>
         {% if currentUserId == recipe.user.id %}

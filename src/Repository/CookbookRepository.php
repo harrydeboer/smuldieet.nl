@@ -90,7 +90,7 @@ class CookbookRepository extends ServiceEntityRepository implements CookbookRepo
      */
     private function addRecipesFromWeights(Cookbook $cookbook): void
     {
-        foreach ($cookbook->getRecipeChoices() as $id => $weight) {
+        foreach ($cookbook->getRecipeWeights() as $id => $weight) {
             $recipe = $this->recipeRepository->get($id);
             $timesSaved = $recipe->getTimesSaved();
             $recipe->setTimesSaved($timesSaved + 1);

@@ -22,18 +22,24 @@ class RDAServiceTest extends KernelTestCase
         $arrayCollection1->set($foodstuff1->getId(), $foodstuff1);
         $weightCollection1 = new ArrayCollection();
         $weightCollection1->set($foodstuff1->getId(), 100);
+        $unitCollection1 = new ArrayCollection();
+        $unitCollection1->set($foodstuff1->getId(), 'g');
         $foodstuff2 = static::getContainer()->get(FoodstuffFactory::class)->create();
         $arrayCollection2 = new ArrayCollection();
         $arrayCollection2->set($foodstuff2->getId(), $foodstuff2);
         $weightCollection2 = new ArrayCollection();
         $weightCollection2->set($foodstuff2->getId(), 100);
+        $unitCollection2 = new ArrayCollection();
+        $unitCollection2->set($foodstuff2->getId(), 'g');
         $day1 = static::getContainer()->get(DayFactory::class)->create([
             'foodstuffs' => $arrayCollection1,
             'foodstuffWeights' => $weightCollection1,
+            'foodstuffUnits' => $unitCollection1,
         ]);
         $day2 = static::getContainer()->get(DayFactory::class)->create([
             'foodstuffs' => $arrayCollection2,
             'foodstuffWeights' => $weightCollection2,
+            'foodstuffUnits' => $unitCollection2,
         ]);
         $rdaService = static::getContainer()->get(RDAService::class);
         $nutrients = $rdaService->daysStats([$day1, $day2], $user);
@@ -51,7 +57,7 @@ class RDAServiceTest extends KernelTestCase
         foreach ($day->getRecipes() as $recipe) {
             foreach ($recipe->getFoodstuffs() as $foodstuff) {
                 $total += $foodstuff->getCalcium() / 2 *
-                    $day->getRecipeChoices()[$recipe->getId()] / 100 *
+                    $day->getRecipeWeights()[$recipe->getId()] / 100 *
                     $recipe->getFoodstuffWeights()[$foodstuff->getId()];
             }
         }

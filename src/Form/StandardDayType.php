@@ -23,33 +23,32 @@ class StandardDayType extends AbstractType
                 'allow_add' => true,
                 'entry_options' => [
                     'attr' => [
-                        'placeholder' => 'g/ml',
+                        'placeholder' => 'gewicht',
                         'class' => 'form-control food-weight',
                     ],
                 ],
                 'allow_delete' => true,
                 'delete_empty' => true,
             ])
-            ->add('foodstuff_choices', CollectionType::class, [
+            ->add('foodstuff_units', CollectionType::class, [
                 'entry_type' => ChoiceType::class,
                 'allow_add' => true,
                 'entry_options' => [
                     'choices' => Foodstuff::$foodstuffChoicesArray,
                     'attr' => [
-                        'class' => 'form-control food-weight form-select',
+                        'class' => 'form-control food-unit form-select',
                     ],
                 ],
                 'allow_delete' => true,
                 'delete_empty' => true,
             ])
-            ->add('recipe_choices', CollectionType::class, [
-                'entry_type' => ChoiceType::class,
+            ->add('recipe_weights', CollectionType::class, [
+                'entry_type' => NumberType::class,
                 'allow_add' => true,
                 'entry_options' => [
-                    'choices' => Day::$recipeChoicesArray,
                     'attr' => [
                         'placeholder' => 'aantal keer',
-                        'class' => 'form-control food-weight form-select',
+                        'class' => 'form-control food-weight',
                     ],
                 ],
                 'allow_delete' => true,

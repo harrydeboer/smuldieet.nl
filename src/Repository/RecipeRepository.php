@@ -184,11 +184,6 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
             $foodstuff = $this->foodstuffRepository->get($id);
             $recipe->addFoodstuff($foodstuff);
         }
-
-        foreach ($recipe->getFoodstuffChoices() as $id => $weight) {
-            $foodstuff = $this->foodstuffRepository->get($id);
-            $recipe->addFoodstuff($foodstuff);
-        }
     }
 
     /**
@@ -198,11 +193,8 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
     {
         $this->profanityCheckService->check($recipe->getTitle());
         $this->profanityCheckService->check($recipe->getIngredients());
-        $this->profanityCheckService->check($recipe->getNiceStory());
-        $this->profanityCheckService->check($recipe->getNiceTips());
         $this->profanityCheckService->check($recipe->getPreparationMethod());
         $this->profanityCheckService->check($recipe->getSource());
-        $this->profanityCheckService->check($recipe->getToolsAndKitchenware());
         foreach ($recipe->getTags() as $tag) {
             $this->profanityCheckService->check($tag->getName());
         }

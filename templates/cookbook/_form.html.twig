@@ -2,7 +2,7 @@
 <div id="form_errors_server">
     {{ form_errors(form) }}
     {{ form_errors(form.title) }}
-    {{ form_errors(form.recipe_choices) }}
+    {{ form_errors(form.recipe_weights) }}
 </div>
 {{ form_start(form, { 'attr' : { 'class': 'food-form' }}) }}
 <table class="food-table table table-small">
@@ -13,9 +13,8 @@
     {{ include('_food_row.html.twig', {
         'form_name': 'cookbook',
         'entities': cookbook.recipes,
-        'weights': form.recipe_choices,
+        'weights': form.recipe_weights,
         'food_type': 'recipe',
-        'weights_or_choices': 'choices',
         'placeholder': 'recept'
     }) }}
     <tr id="add_foodstuff_recipe_button_row">

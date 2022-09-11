@@ -13,9 +13,9 @@ interface FoodstuffsInterface
 
     public function setFoodstuffWeights(ArrayCollection $collection): void;
 
-    public function getFoodstuffChoices(): ArrayCollection;
+    public function getFoodstuffUnits(): ArrayCollection;
 
-    public function setFoodstuffChoices(ArrayCollection $collection): void;
+    public function setFoodstuffUnits(ArrayCollection $collection): void;
 
     public function getFoodstuffs(): Collection;
 

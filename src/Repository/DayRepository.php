@@ -44,7 +44,6 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
     public function create(Day $day): Day
     {
         $this->addFoodstuffsAndRecipesFromWeights($day);
-        $this->foodstuffRepository->checkPieces($day);
         $this->em->persist($day);
         $this->em->flush();
 
@@ -60,7 +59,6 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
             $day->removeFoodstuff($foodstuff);
         }
         $this->addFoodstuffsAndRecipesFromWeights($day);
-        $this->foodstuffRepository->checkPieces($day);
         $this->em->flush();
     }
 
@@ -100,11 +98,7 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
             $foodstuff = $this->foodstuffRepository->get($id);
             $day->addFoodstuff($foodstuff);
         }
-        foreach ($day->getFoodstuffChoices() as $id => $weight) {
-            $foodstuff = $this->foodstuffRepository->get($id);
-            $day->addFoodstuff($foodstuff);
-        }
-        foreach ($day->getRecipeChoices() as $id => $weight) {
+        foreach ($day->getRecipeWeights() as $id => $weight) {
             $recipe = $this->recipeRepository->get($id);
             $day->addRecipe($recipe);
         }

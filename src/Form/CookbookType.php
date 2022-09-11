@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Form;
 
-use App\Entity\Cookbook;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -18,12 +17,11 @@ class CookbookType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, ['attr' => ['class' => 'form-control']])
-            ->add('recipe_choices', CollectionType::class, [
-                'entry_type' => ChoiceType::class,
+            ->add('recipe_weights', CollectionType::class, [
+                'entry_type' => NumberType::class,
                 'allow_add' => true,
                 'entry_options' => [
-                    'choices' => Cookbook::$recipeChoicesArray,
-                    'attr' => ['class' => 'form-control food-weight form-select hidden-input'],
+                    'attr' => ['class' => 'form-control food-weight hidden-input'],
                 ],
                 'allow_delete' => true,
                 'delete_empty' => true,

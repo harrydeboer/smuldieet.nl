@@ -32,7 +32,6 @@ class RecipeControllerTest extends AuthAdminWebTestCase
         $form['recipe[title]'] = 'test title';
         $form['recipe[ingredients]'] = 'test ingredient';
         $form['recipe[preparation_method]'] = 'test preparation';
-        $form['recipe[nice_story]'] = 'test story';
         $form['recipe[is_self_invented]'] = 0;
         $form['recipe[number_of_persons]'] = 1;
         $form['recipe[cooking_time]'] = '0-10 min.';
@@ -41,6 +40,7 @@ class RecipeControllerTest extends AuthAdminWebTestCase
 
         $values = $form->getPhpValues();
         $values['recipe']['foodstuff_weights'] = [$foodstuff->getId() => 10];
+        $values['recipe']['foodstuff_units'] = [$foodstuff->getId() => 'g'];
         $this->client->request($form->getMethod(), $form->getUri(), $values, $form->getPhpFiles());
 
         $this->assertResponseRedirects('/recepten');

@@ -11,12 +11,10 @@ use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[
     ORM\Entity(repositoryClass: RecipeRepository::class),
     ORM\Table(name: "recipe"),
-    UniqueEntity(fields: ["title"], message: "Er is al een recept met deze titel."),
 ]
 class Recipe implements FoodstuffsInterface, UploadImageInterface
 {
@@ -141,7 +139,7 @@ class Recipe implements FoodstuffsInterface, UploadImageInterface
     private int $timestamp;
 
     #[
-        ORM\Column(type: "string", unique: true),
+        ORM\Column(type: "string"),
         Assert\NotBlank(message: 'De titel mag niet leeg zijn.'),
         Assert\Length(max: 255, maxMessage: 'De titel mag niet meer dan 255 tekens hebben.'),
         Assert\Regex(pattern: "/^[A-Za-zÀ-ÿ0-9\s_\-,.%&\/\(\)\+<>'\"]+$/",
@@ -150,7 +148,7 @@ class Recipe implements FoodstuffsInterface, UploadImageInterface
     private string $title;
 
     #[
-        ORM\Column(type: "string", unique: true, nullable: true),
+        ORM\Column(type: "string", nullable: true),
     ]
     private ?string $url = null;
 
@@ -168,36 +166,11 @@ class Recipe implements FoodstuffsInterface, UploadImageInterface
     private string $preparationMethod;
 
     #[
-        ORM\Column(type: "text", nullable: true),
-        Assert\Length(max: 65535, maxMessage: 'De leuke verhaal mag niet meer dan 65535 tekens hebben.'),
-    ]
-    private ?string $niceStory = null;
-
-    #[
-        ORM\Column(type: "text", nullable: true),
-        Assert\Length(max: 65535, maxMessage: 'De leuke tips mogen niet meer dan 65535 tekens hebben.'),
-    ]
-    private ?string $niceTips = null;
-
-    #[
-        ORM\Column(type: "text", nullable: true),
-        Assert\Length(max: 65535, maxMessage: 'De hulpmiddelen/keukengerei mogen niet meer dan 65535 tekens hebben.'),
-    ]
-    private ?string $toolsAndKitchenware = null;
-
-    #[
         ORM\Column(type: "integer"),
         Assert\GreaterThanOrEqual(1, message: 'Het aantal personen moet groter of gelijk zijn aan 1.'),
         Assert\LessThanOrEqual(2147483647, message: 'Het aantal personen moet kleiner of gelijk zijn aan 2147483647.'),
     ]
     private int $numberOfPersons;
-
-    #[
-        ORM\Column(type: "integer", nullable: true),
-        Assert\GreaterThanOrEqual(1, message: 'Het aantal stuks moet groter of gelijk zijn aan 1.'),
-        Assert\LessThanOrEqual(2147483647, message: 'Het aantal stuks moet kleiner of gelijk zijn aan 2147483647.'),
-    ]
-    private ?int $numberOfPieces = null;
 
     #[
         ORM\Column(type: "float", nullable: true),
@@ -322,7 +295,7 @@ class Recipe implements FoodstuffsInterface, UploadImageInterface
     protected string $foodstuffWeights = 'a:0:{}';
 
     #[ORM\Column(type: "string")]
-    protected string $foodstuffChoices = 'a:0:{}';
+    protected string $foodstuffUnits = 'a:0:{}';
 
     #[ORM\Column(type: "string", nullable: true)]
     protected ?string $imageExtension = null;
@@ -746,44 +719,6 @@ class Recipe implements FoodstuffsInterface, UploadImageInterface
         $this->isSelfInvented = $isSelfInvented;
     }
 
-    public function getNiceStory(): ?string
-    {
-        return $this->niceStory;
-    }
-
-    public function setNiceStory(?string $niceStory): void
-    {
-        if (is_null($niceStory)) {
-            $this->niceStory = null;
-        } else {
-            $this->niceStory = strip_tags($niceStory);
-        }
-    }
-
-    public function getNumberOfPieces(): ?int
-    {
-        return $this->numberOfPieces;
-    }
-
-    public function setNumberOfPieces(?int $numberOfPieces): void
-    {
-        $this->numberOfPieces = $numberOfPieces;
-    }
-
-    public function getToolsAndKitchenware(): ?string
-    {
-        return $this->toolsAndKitchenware;
-    }
-
-    public function setToolsAndKitchenware(?string $toolsAndKitchenware): void
-    {
-        if (is_null($toolsAndKitchenware)) {
-            $this->toolsAndKitchenware = null;
-        } else {
-            $this->toolsAndKitchenware = strip_tags($toolsAndKitchenware);
-        }
-    }
-
     public function getUrl(): ?string
     {
         return $this->url;
@@ -806,20 +741,6 @@ class Recipe implements FoodstuffsInterface, UploadImageInterface
     public function setSource(?string $source): void
     {
         $this->source = $source;
-    }
-
-    public function getNiceTips(): ?string
-    {
-        return $this->niceTips;
-    }
-
-    public function setNiceTips(?string $niceTips): void
-    {
-        if (is_null($niceTips)) {
-            $this->niceTips = null;
-        } else {
-            $this->niceTips = strip_tags($niceTips);
-        }
     }
 
     public function getTags(): Collection
@@ -862,14 +783,14 @@ class Recipe implements FoodstuffsInterface, UploadImageInterface
         $this->foodstuffWeights = serialize($collection->toArray());
     }
 
-    public function getFoodstuffChoices(): ArrayCollection
+    public function getFoodstuffUnits(): ArrayCollection
     {
-        return new ArrayCollection(unserialize($this->foodstuffChoices));
+        return new ArrayCollection(unserialize($this->foodstuffUnits));
     }
 
-    public function setFoodstuffChoices(ArrayCollection $collection): void
+    public function setFoodstuffUnits(ArrayCollection $collection): void
     {
-        $this->foodstuffChoices = serialize($collection->toArray());
+        $this->foodstuffUnits = serialize($collection->toArray());
     }
 
     public function getImageExtension(): ?string

@@ -37,7 +37,6 @@ class RecipeFactory extends AbstractFactory
         $recipe = new Recipe();
         $recipe->setTitle(uniqid('recipe'));
         $recipe->setIngredients(uniqid('ingredients'));
-        $recipe->setNiceStory(uniqid('story'));
         $recipe->setUser($paramsParent['user']);
         $recipe->setTimestamp(time());
         $recipe->setPreparationMethod('test');
@@ -48,6 +47,11 @@ class RecipeFactory extends AbstractFactory
             $weights->set($foodstuff->getId(), rand(1,10));
         }
         $recipe->setFoodstuffWeights($weights);
+        $units = new ArrayCollection();
+        foreach ($paramsParent['foodstuffs'] as $foodstuff) {
+            $units->set($foodstuff->getId(), 'g');
+        }
+        $recipe->setFoodstuffUnits($units);
         $recipe->setRating(null);
         $recipe->setVotes(0);
         $recipe->setTimesSaved(0);

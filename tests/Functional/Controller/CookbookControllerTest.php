@@ -31,7 +31,7 @@ class CookbookControllerTest extends AuthAdminWebTestCase
         $form['cookbook[title]'] = 'test';
 
         $values = $form->getPhpValues();
-        $values['cookbook']['recipe_choices'] = [$recipe1->getId() => 1, $recipe2->getId() => 1];
+        $values['cookbook']['recipe_weights'] = [$recipe1->getId() => 1, $recipe2->getId() => 1];
         $this->client->request($form->getMethod(), $form->getUri(), $values, $form->getPhpFiles());
 
         $this->assertResponseRedirects('/kookboeken');
@@ -61,7 +61,7 @@ class CookbookControllerTest extends AuthAdminWebTestCase
         $form['cookbook[title]'] = $updatedTitle;
 
         $values = $form->getPhpValues();
-        $values['cookbook']['recipe_choices'] = [$recipe1->getId() => 1];
+        $values['cookbook']['recipe_weights'] = [$recipe1->getId() => 1];
         $this->client->request($form->getMethod(), $form->getUri(), $values, $form->getPhpFiles());
 
         $this->assertResponseRedirects('/kookboeken');

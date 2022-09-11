@@ -169,7 +169,7 @@ class RecipeController extends Controller
         foreach ($recipe::getDietChoices() as $choice => $label) {
             if ($recipe->{'get' . ucwords($choice)}() === true) {
                 $hasDiet = true;
-                $diet[] = $choice;
+                $diet[] = $label;
             }
         }
 
