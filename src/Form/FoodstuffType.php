@@ -6,6 +6,7 @@ namespace App\Form;
 
 use App\Entity\Foodstuff;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -24,6 +25,15 @@ class FoodstuffType extends AbstractType
                 'attr' => ['class' => 'form-control'],
             ])
             ->add('piece_name', TextType::class, [
+                'required' => false,
+                'attr' => ['class' => 'form-control'],
+            ])
+            ->add('is_liquid', ChoiceType::class, [
+                'choices' => ['ja' => true, 'nee' => false],
+                'expanded' => true,
+                'attr' => ['class' => 'form-control'],
+            ])
+            ->add('density', NumberType::class, [
                 'required' => false,
                 'attr' => ['class' => 'form-control'],
             ]);

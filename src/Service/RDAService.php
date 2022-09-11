@@ -78,32 +78,42 @@ class RDAService
     {
         $unit = $day->getFoodstuffUnits()[$foodstuff->getId()];
         $nutrient = $nutrients[$nutrientName];
+        $density = $foodstuff->getDensity() ?? 1;
+        $factor = 1;
+
+        switch ($unit) {
+            case 'stuks':
+                $factor = $foodstuff->getPieceWeight();
+                break;
+            case 'l':
+                $factor = 1000 * $density;
+                break;
+            case 'dl':
+                $factor = 100 * $density;
+                break;
+            case 'el':
+            case 'cl':
+                $factor = 10 * $density;
+                break;
+            case 'ml':
+                $factor = $density;
+                break;
+            case 'tl':
+                $factor = 2 * $density;
+                break;
+            case 'kg':
+                $factor = 1000;
+                break;
+        }
 
         $realised = $foodstuff->{'get' . ucfirst($nutrientName)}()
             / $numberOfDays
             * $foodstuffWeight
             * $recipeWeight
+            * $factor
             / 100;
 
-        if ($unit === 'stuks') {
-            $factor = $foodstuff->getPieceWeight();
-        } elseif ($unit === 'l') {
-            $factor = 1000;
-        } elseif ($unit === 'dl') {
-            $factor = 100;
-        } elseif ($unit === 'cl') {
-            $factor = 10;
-        } elseif ($unit === 'kg') {
-            $factor = 1000;
-        } elseif ($unit === 'el') {
-            $factor = 10;
-        } elseif ($unit === 'tl') {
-            $factor = 2;
-        } else {
-            $factor = 1;
-        }
-
-        $nutrient->setRealised($nutrient->getRealised() + $realised * $factor);
+        $nutrient->setRealised($nutrient->getRealised() + $realised);
         $nutrients[$nutrientName] = $nutrient;
 
         return $nutrients;

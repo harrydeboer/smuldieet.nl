@@ -15,6 +15,7 @@ class FoodstuffTypeTest extends TypeTestCase
         $name =  'test';
         $formData = [
             'name' => $name,
+            'is_liquid' => 0,
         ];
 
         $foodstuff = new Foodstuff();
@@ -23,6 +24,7 @@ class FoodstuffTypeTest extends TypeTestCase
 
         $expected = new Foodstuff();
         $expected->setName($name);
+        $expected->setIsLiquid(false);
 
         $form->submit($formData);
 

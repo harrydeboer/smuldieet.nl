@@ -2,6 +2,10 @@
 <div id="form_errors_server">
     {{ form_errors(form) }}
     {{ form_errors(form.name) }}
+    {{ form_errors(form.piece_name) }}
+    {{ form_errors(form.piece_weight) }}
+    {{ form_errors(form.is_liquid) }}
+    {{ form_errors(form.density) }}
     {% for key,property in foodstuff.nutrients('snake') %}
         {{ form_errors(attribute(form, key)) }}
     {% endfor %}
@@ -15,12 +19,20 @@
         <td>{{ form_widget(form.name) }}</td>
     </tr>
     <tr>
+        <td>Naam per stuk</td>
+        <td>{{ form_widget(form.piece_name) }}</td>
+    </tr>
+    <tr>
         <td>Gewicht per stuk</td>
         <td>{{ form_widget(form.piece_weight) }}</td>
     </tr>
     <tr>
-        <td>Naam per stuk</td>
-        <td>{{ form_widget(form.piece_name) }}</td>
+        <td>Vloeibaar</td>
+        <td>{{ form_widget(form.is_liquid) }}</td>
+    </tr>
+    <tr>
+        <td>Dichtheid kg/l</td>
+        <td>{{ form_widget(form.density) }}</td>
     </tr>
     {% for key,nutrient in foodstuff.nutrients('snake') %}
         <tr>
