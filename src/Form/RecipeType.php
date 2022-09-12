@@ -15,7 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\File;
 
-class RecipeType extends FoodstuffWeightsType
+class RecipeType extends AbstractFoodstuffWeightsType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

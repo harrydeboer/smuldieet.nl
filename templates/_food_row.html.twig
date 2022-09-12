@@ -6,18 +6,13 @@
         {% if food_type == 'foodstuff' %}
             {% set classes = units[id].vars.attr.class %}
             <td>{{ form_widget(weight) }}</td>
-            {% if entities[id].isLiquid and entities[id].pieceWeight is null %}
-                <td>{{ form_widget(units[id],
-                        {'attr': {'class': classes~' not-piece'}}) }}</td>
-            {% elseif not entities[id].isLiquid and entities[id].pieceWeight is null %}
-                <td>{{ form_widget(units[id],
-                        {'attr': {'class': classes~' not-liquid not-piece'}}) }}</td>
-            {% elseif entities[id].isLiquid and entities[id].pieceWeight is not null %}
-                <td>{{ form_widget(units[id]) }}</td>
-            {% else %}
-                <td>{{ form_widget(units[id],
-                        {'attr': {'class': classes~' not-piece not-liquid'}}) }}</td>
+            {% if not entities[id].isLiquid %}
+                {% set classes = classes~' not-liquid' %}
             {% endif %}
+            {% if entities[id].pieceWeight is null %}
+                {% set classes = classes~' not-piece' %}
+            {% endif %}
+            <td>{{ form_widget(units[id], {'attr': {'class': classes}}) }}</td>
         {% else %}
             <td colspan="2">{{ form_widget(weight) }}</td>
         {% endif %}
