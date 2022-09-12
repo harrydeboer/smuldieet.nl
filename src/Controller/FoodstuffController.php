@@ -48,7 +48,7 @@ class FoodstuffController extends Controller
     public function edit(Request $request, int $id): Response
     {
         $foodstuff = $this->getFoodstuff($id);
-        $pieceWeightOld = $foodstuff->getPieceWeight();
+        $isLiquidOld = $foodstuff->getIsLiquid();
 
         $formUpdate = $this->createForm(FoodstuffType::class, $foodstuff, [
             'method' => 'POST',
@@ -63,7 +63,7 @@ class FoodstuffController extends Controller
 
         if ($formUpdate->isSubmitted() && $formUpdate->isValid() && $this->checkCanEdit($foodstuff)) {
             try {
-                $this->foodstuffRepository->update($foodstuff, $pieceWeightOld);
+                $this->foodstuffRepository->update($foodstuff, $isLiquidOld);
 
                 return $this->redirectToRoute('foodstuff');
             } catch (Exception $exception) {

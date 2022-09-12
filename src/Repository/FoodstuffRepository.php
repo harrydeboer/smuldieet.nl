@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Foodstuff;
+use App\Entity\FoodstuffWeightsInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
@@ -124,10 +125,18 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
     /**
      * @throws Exception
      */
-    public function update(Foodstuff $foodstuff, ?float $pieceWeightOld): void
+    public function update(Foodstuff $foodstuff, bool $isLiquidOld): void
     {
         $this->checkFirstChar($foodstuff->getName());
         $this->checkWeightsAndEnergy($foodstuff);
+        if ($isLiquidOld && !$foodstuff->getIsLiquid()) {
+            foreach ($foodstuff->getDays() as $day) {
+                $this->transformLiquidUnitsToSolid($day, $foodstuff->getDensity());
+            }
+            foreach ($foodstuff->getRecipes() as $recipe) {
+                $this->transformLiquidUnitsToSolid($recipe, $foodstuff->getDensity());
+            }
+        }
         $this->em->flush();
     }
 
@@ -202,5 +211,36 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
         if (!preg_match('/[A-Za-zÀ-ÿ]/', substr($name, 0, 1))) {
             throw new Exception('De naam moet beginnen met een letter.');
         }
+    }
+
+    private function transformLiquidUnitsToSolid(FoodstuffWeightsInterface $entity, ?float $density)
+    {
+        $units = $entity->getFoodstuffUnits();
+        $weights = $entity->getFoodstuffWeights();
+        if (is_null($density)) {
+            $density = 1;
+        }
+
+        foreach ($units as $key => $unit) {
+            if ($unit === 'l') {
+                $units[$key] = 'kg';
+                $weights[$key] = $density * $weights[$key];
+            }
+            if ($unit === 'dl') {
+                $units[$key] = 'g';
+                $weights[$key] = $density * $weights[$key] * 100;
+            }
+            if ($unit === 'cl') {
+                $units[$key] = 'g';
+                $weights[$key] = $density * $weights[$key] * 10;
+            }
+            if ($unit === 'ml') {
+                $units[$key] = 'g';
+                $weights[$key] = $density * $weights[$key];
+            }
+        }
+
+        $entity->setFoodstuffUnits($units);
+        $entity->setFoodstuffWeights($weights);
     }
 }
