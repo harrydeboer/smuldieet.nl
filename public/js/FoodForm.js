@@ -30,6 +30,7 @@ class FoodForm {
         html = this.removeLabels(html);
         $('#add_foodstuff_recipe_button_row').before(html);
         $('#' + this.formName + '_foodstuff_weights___name__').removeAttr('id');
+        $('#' + this.formName + '_foodstuff_units___name__').removeAttr('id');
         event.preventDefault();
     }
 
@@ -87,8 +88,7 @@ class FoodForm {
                         let name = $(element).text().toLowerCase().normalize("NFD")
                             .replace(/[\u0300-\u036f]/g, "");
                         if (valueInput === name) {
-                            row.getWeight().attr('name', this.formName + '[' + foodType + '_weights][' + id + ']');
-                            row.getUnit().attr('name', this.formName + '[' + foodType + '_units][' + id + ']');
+                            this.setWeightAndUnit(foodType, row, id, $(element))
                         }
                     });
                 },
@@ -97,6 +97,30 @@ class FoodForm {
                 }
             });
         }, 1000);
+    }
+
+    setWeightAndUnit(foodType, row, id, element) {
+        row.getWeight().attr('name', this.formName + '[' + foodType + '_weights][' + id + ']');
+        if (foodType === 'foodstuff') {
+            let pieceName = element.data('piece-name');
+            row.getUnit().attr('name', this.formName + '[' + foodType + '_units][' + id + ']');
+            row.getUnit().val('g');
+            if (element.data('is-liquid') === 0) {
+                row.getUnit().children().each((index, element) => {
+                    if ($(element).val() === pieceName) {
+                        row.getUnit().val(pieceName);
+                    }
+                });
+                row.getUnit().addClass('not-liquid')
+            } else {
+                row.getUnit().children().each((index, element) => {
+                    if ($(element).val() === pieceName) {
+                        row.getUnit().val(pieceName);
+                    }
+                });
+                row.getUnit().removeClass('not-liquid')
+            }
+        }
     }
 
     /**
@@ -108,8 +132,7 @@ class FoodForm {
         let id = thisElement.attr('id').replace(foodType + '_result_', '');
         let name = thisElement.text();
         row.getName().val(name);
-        row.getWeight().attr('name', this.formName + '[' + foodType + '_weights][' + id + ']');
-        row.getUnit().attr('name', this.formName + '[' + foodType + '_units][' + id + ']');
+        this.setWeightAndUnit(foodType, row, id, thisElement)
     }
 
     removeRow(event) {

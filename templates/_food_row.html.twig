@@ -5,7 +5,12 @@
             }) }}</td>
         {% if food_type == 'foodstuff' %}
             <td>{{ form_widget(weight) }}</td>
-            <td>{{ form_widget(units[id]) }}</td>
+            {% if entities[id].isLiquid %}
+                <td>{{ form_widget(units[id]) }}</td>
+            {% else %}
+                <td>{{ form_widget(units[id],
+                        {'attr': {'class': 'form-control food-unit form-select not-liquid'}}) }}</td>
+            {% endif %}
         {% else %}
             <td colspan="2">{{ form_widget(weight) }}</td>
         {% endif %}

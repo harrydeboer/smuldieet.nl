@@ -17,3 +17,7 @@
   height: 0;
   float: left;
 }
+
+.not-liquid .liquid-option {
+  display: none;
+}
