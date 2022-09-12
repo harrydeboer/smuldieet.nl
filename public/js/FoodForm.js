@@ -57,8 +57,8 @@ class FoodForm {
     foodNameInput(foodType, event) {
         let thisElement = $(event.target);
         let row = new this.FoodRow(event.target);
-        let valueInput = thisElement.val().toLowerCase().normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "");
+        let valueInput = encodeURI(thisElement.val().toLowerCase().normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, ""));
         let searchResults = row.getSearchResults();
         searchResults.html('');
         let url;
