@@ -374,6 +374,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, UploadI
 
     public function setImage(?UploadedFile $image): void
     {
+        if (!is_null($image)) {
+            $this->setImageExtension($image->getClientOriginalExtension());
+        }
         $this->image = $image;
     }
 

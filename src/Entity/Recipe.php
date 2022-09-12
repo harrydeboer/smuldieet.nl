@@ -813,6 +813,9 @@ class Recipe implements FoodstuffWeightsInterface, UploadImageInterface
 
     public function setImage(?UploadedFile $image): void
     {
+        if (!is_null($image)) {
+            $this->setImageExtension($image->getClientOriginalExtension());
+        }
         $this->image = $image;
     }
 

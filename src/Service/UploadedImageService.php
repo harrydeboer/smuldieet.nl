@@ -40,7 +40,6 @@ class UploadedImageService
     {
         $image = $entity->getImage();
         if (!is_null($image)) {
-            $entity->setImageExtension($image->getClientOriginalExtension());
             $id = (string) $entity->getId();
             $extraPath = '';
             if ($this->kernel->getEnvironment() === 'test') {
