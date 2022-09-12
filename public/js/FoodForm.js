@@ -103,22 +103,24 @@ class FoodForm {
         row.getWeight().attr('name', this.formName + '[' + foodType + '_weights][' + id + ']');
         if (foodType === 'foodstuff') {
             let pieceName = element.data('piece-name');
+            let pieceWeight = element.data('piece-weight');
             row.getUnit().attr('name', this.formName + '[' + foodType + '_units][' + id + ']');
             row.getUnit().val('g');
             if (element.data('is-liquid') === 0) {
-                row.getUnit().children().each((index, element) => {
-                    if ($(element).val() === pieceName) {
-                        row.getUnit().val(pieceName);
-                    }
-                });
                 row.getUnit().addClass('not-liquid')
             } else {
-                row.getUnit().children().each((index, element) => {
-                    if ($(element).val() === pieceName) {
-                        row.getUnit().val(pieceName);
-                    }
-                });
                 row.getUnit().removeClass('not-liquid')
+            }
+            if (element.data('piece-weight') === '') {
+                row.getUnit().addClass('not-piece');
+            } else {
+                row.getUnit().removeClass('not-piece');
+            }
+            if (pieceName !== '') {
+                row.getUnitPiece().text(pieceName);
+                row.getUnit().val('stuks');
+            } else if (pieceWeight !== '') {
+                row.getUnit().val('stuks');
             }
         }
     }
@@ -201,6 +203,11 @@ class FoodForm {
         getUnit() {
             // noinspection JSCheckFunctionSignatures
             return this.row.find('.food-unit');
+        }
+
+        getUnitPiece() {
+            // noinspection JSCheckFunctionSignatures
+            return this.row.find('.food-unit .piece-option');
         }
 
         getSearchResults() {

@@ -15,7 +15,7 @@ class FoodstuffWeightsType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $choiceAttr = [];
+        $choiceAttr = ['stuks' => ['class' => 'piece-option']];
         foreach (Foodstuff::$foodstuffUnitsLiquid as $unit) {
             $choiceAttr[$unit] = ['class' => 'liquid-option'];
         }
