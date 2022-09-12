@@ -15,7 +15,7 @@ class RegisterSecurityChangePasswordTest extends WebTestCase
     {
         $crawler = $this->client->request('GET', '/registreren');
 
-        $buttonCrawlerNode = $crawler->selectButton('Registreer');
+        $buttonCrawlerNode = $crawler->selectButton('Registreren');
 
         $form = $buttonCrawlerNode->form();
 

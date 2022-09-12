@@ -292,13 +292,15 @@ class Recipe implements FoodstuffWeightsInterface, UploadImageInterface
     private bool $isPending = true;
 
     #[ORM\Column(type: "string")]
-    protected string $foodstuffWeights = 'a:0:{}';
+    private string $foodstuffWeights = 'a:0:{}';
 
     #[ORM\Column(type: "string")]
-    protected string $foodstuffUnits = 'a:0:{}';
+    private string $foodstuffUnits = 'a:0:{}';
 
     #[ORM\Column(type: "string", nullable: true)]
-    protected ?string $imageExtension = null;
+    private ?string $imageExtension = null;
+
+    private ?UploadedFile $image = null;
 
     public function __construct()
     {
@@ -803,19 +805,15 @@ class Recipe implements FoodstuffWeightsInterface, UploadImageInterface
         $this->imageExtension = $imageExtension;
     }
 
-    /**
-     * The image getter and setter have to exist for the form to work,
-     * but the value of getImage is never used because a html input of type file cannot be prefilled.
-     * The setter only sets the imageExtension, because it does not save the image.
-     */
-    public function getImage(): void
+
+    public function getImage(): ?UploadedFile
     {
+        return $this->image;
     }
+
     public function setImage(?UploadedFile $image): void
     {
-        if (!is_null($image)) {
-            $this->setImageExtension($image->getClientOriginalExtension());
-        }
+        $this->image = $image;
     }
 
     public function getImageWidths(): array

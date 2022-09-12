@@ -25,8 +25,9 @@ class UploadedImageServiceTest extends KernelTestCase
         $recipe = new Recipe();
         $recipe->setId(1);
         $recipe->setImageExtension('jpg');
+        $recipe->setImage($image);
 
-        $uploadedImageService->moveImage($image, $recipe);
+        $uploadedImageService->moveImage($recipe);
 
         rename(__DIR__ . '/test_tmp.jpg', __DIR__ . '/test.jpg');
 

@@ -64,7 +64,6 @@ class UserController extends AuthController
                 }
 
                 $this->uploadedImageService->moveImage(
-                    $formUpdate->get('image')->getData(),
                     $user,
                     $oldExtension,
                 );
@@ -91,7 +90,7 @@ class UserController extends AuthController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $this->userRepository->create($user, $form->get('plain_password')->getData());
-                $this->uploadedImageService->moveImage($form->get('image')->getData(), $user);
+                $this->uploadedImageService->moveImage($user);
 
                 return $this->redirectToRoute('admin_user');
             } catch (Exception $exception) {

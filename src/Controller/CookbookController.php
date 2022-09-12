@@ -58,6 +58,11 @@ class CookbookController extends AuthController
 
             return $this->redirectToRoute('cookbook');
         } else {
+
+            /**
+             * When the form is not valid it only has recipe weights but not the recipes
+             * themselves. These are added in order to fill in the names in the form.
+             */
             $this->addRecipesService->addRecipesAndValidate($cookbook);
         }
 
@@ -83,6 +88,11 @@ class CookbookController extends AuthController
 
             return $this->redirectToRoute('cookbook');
         } else {
+
+            /**
+             * When the form is not valid it only has recipe weights but not the recipes
+             * themselves. These are added in order to fill in the names in the form.
+             */
             $this->addRecipesService->addRecipesAndValidate($cookbook);
         }
 

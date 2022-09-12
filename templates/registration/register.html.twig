@@ -9,5 +9,5 @@
             {{ message }}
         </div>
     {% endfor %}
-    {{ include('registration/_form.html.twig') }}
+    {{ include('registration/_form.html.twig', {submit_label: 'Registreren'}) }}
 {% endblock %}

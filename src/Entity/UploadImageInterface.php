@@ -14,7 +14,7 @@ interface UploadImageInterface
 
     public function setImageExtension(?string $imageExtension): void;
 
-    public function getImage(): void;
+    public function getImage(): ?UploadedFile;
 
     public function setImage(?UploadedFile $image): void;
 

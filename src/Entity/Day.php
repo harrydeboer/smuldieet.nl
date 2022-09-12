@@ -58,10 +58,10 @@ class Day implements FoodstuffWeightsInterface, RecipeWeightsInterface
     private string $recipeWeights = 'a:0:{}';
 
     #[ORM\Column(type: "string")]
-    protected string $foodstuffWeights = 'a:0:{}';
+    private string $foodstuffWeights = 'a:0:{}';
 
     #[ORM\Column(type: "string")]
-    protected string $foodstuffUnits = 'a:0:{}';
+    private string $foodstuffUnits = 'a:0:{}';
 
     #[Pure] public function __construct()
     {

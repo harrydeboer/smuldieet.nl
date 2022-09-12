@@ -6,7 +6,6 @@ namespace App\Service;
 
 use App\Entity\UploadImageInterface;
 use Exception;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 class UploadedImageService
@@ -35,12 +34,13 @@ class UploadedImageService
      * @throws Exception
      */
     public function moveImage(
-        ?UploadedFile $image,
         UploadImageInterface $entity,
-        $oldExtension = null,
+        string $oldExtension = null,
     ): void
     {
+        $image = $entity->getImage();
         if (!is_null($image)) {
+            $entity->setImageExtension($image->getClientOriginalExtension());
             $id = (string) $entity->getId();
             $extraPath = '';
             if ($this->kernel->getEnvironment() === 'test') {
@@ -98,5 +98,7 @@ class UploadedImageService
             }
             imagedestroy($image);
         }
+
+        $entity->setImage(null);
     }
 }

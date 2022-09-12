@@ -82,6 +82,11 @@ class DayController extends AuthController
 
             return $this->redirectToRoute('diary');
         } else {
+
+            /**
+             * When the form is not valid it only has recipe and foodstuff weights but not the recipes and foodstuffs
+             * themselves. These are added in order to fill in the names in the form.
+             */
             $this->addRecipesService->addRecipesAndValidate($day);
             $this->addFoodstuffsService->addFoodstuffsAndValidate($day);
         }
@@ -114,6 +119,11 @@ class DayController extends AuthController
 
             return $this->redirectToRoute('diary');
         } else {
+
+            /**
+             * When the form is not valid it only has recipe and foodstuff weights but not the recipes and foodstuffs
+             * themselves. These are added in order to fill in the names in the form.
+             */
             $this->addRecipesService->addRecipesAndValidate($day);
             $this->addFoodstuffsService->addFoodstuffsAndValidate($day);
         }
@@ -146,6 +156,11 @@ class DayController extends AuthController
 
             return $this->redirectToRoute('diary');
         } else {
+
+            /**
+             * When the form is not valid it only has recipe and foodstuff weights but not the recipes and foodstuffs
+             * themselves. These are added in order to fill in the names in the form.
+             */
             $this->addRecipesService->addRecipesAndValidate($day);
             $this->addFoodstuffsService->addFoodstuffsAndValidate($day);
         }

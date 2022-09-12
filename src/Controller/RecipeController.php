@@ -71,7 +71,6 @@ class RecipeController extends Controller
                 $this->recipeRepository->update($recipe);
 
                 $this->uploadedImageService->moveImage(
-                    $formUpdate->get('image')->getData(),
                     $recipe,
                     $oldExtension,
                 );
@@ -81,6 +80,11 @@ class RecipeController extends Controller
                 $formUpdate->addError(new FormError($exception->getMessage()));
             }
         } else {
+
+            /**
+             * When the form is not valid it only has foodstuff weights but not the foodstuffs
+             * themselves. These are added in order to fill in the names in the form.
+             */
             $this->addFoodstuffsService->addFoodstuffsAndValidate($recipe);
         }
 
@@ -106,13 +110,18 @@ class RecipeController extends Controller
                     throw new Exception('De voedingsmiddelen van het gerecht mogen niet leeg zijn.');
                 }
                 $this->recipeRepository->create($recipe);
-                $this->uploadedImageService->moveImage($form->get('image')->getData(), $recipe);
+                $this->uploadedImageService->moveImage($recipe);
 
                 return $this->redirectToRoute('recipe');
             } catch (Exception $exception) {
                 $form->addError(new FormError($exception->getMessage()));
             }
         } else {
+
+            /**
+             * When the form is not valid it only has foodstuff weights but not the foodstuffs
+             * themselves. These are added in order to fill in the names in the form.
+             */
             $this->addFoodstuffsService->addFoodstuffsAndValidate($recipe);
         }
 

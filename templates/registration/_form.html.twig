@@ -3,10 +3,22 @@
     {{ form_errors(form) }}
     {{ form_errors(form.image) }}
     {{ form_errors(form.username) }}
+    {% if form.first_name is defined %}
+        {{ form_errors(form.first_name) }}
+    {% endif %}
+    {% if form.last_name is defined %}
+        {{ form_errors(form.last_name) }}
+    {% endif %}
     {{ form_errors(form.email) }}
     {{ form_errors(form.birthdate) }}
     {{ form_errors(form.gender) }}
     {{ form_errors(form.weight) }}
+    {% if form.roles is defined %}
+        {{ form_errors(form.roles) }}
+    {% endif %}
+    {% if form.is_verified is defined %}
+        {{ form_errors(form.is_verified) }}
+    {% endif %}
     {{ form_errors(form.plain_password) }}
     {{ form_errors(form.plain_password.children.first) }}
     {{ form_errors(form.plain_password.children.second) }}
@@ -15,22 +27,32 @@
 <table class="table table-small">
     <tr>
         <td colspan="2">
-            <button id="upload_file_button" class="btn btn-primary">Upload foto</button>
-            {{ form_widget(form.image) }}
+            <button id="upload_file_button" class="btn btn-primary">Upload foto</button>{{ form_widget(form.image) }}
         </td>
     </tr>
     <tr>
         <td>Gebruikersnaam</td>
         <td>{{ form_widget(form.username) }}</td>
     </tr>
+    {% if form.first_name is defined %}
+        <tr>
+            <td>Voornaam</td>
+            <td>{{ form_widget(form.first_name) }}</td>
+        </tr>
+    {% endif %}
+    {% if form.last_name is defined %}
+        <tr>
+            <td>Achternaam</td>
+            <td>{{ form_widget(form.last_name) }}</td>
+        </tr>
+    {% endif %}
     <tr>
         <td>E-mail</td>
         <td>{{ form_widget(form.email) }}</td>
     </tr>
     <tr>
         <td>Geboortedatum</td>
-        <td>
-            {{ form_widget(form.birthdate.day, {'attr': {'class': 'date-field form-control form-select'}}) }}
+        <td>{{ form_widget(form.birthdate.day, {'attr': {'class': 'date-field form-control form-select'}}) }}
             {{ form_widget(form.birthdate.month, {'attr': {'class': 'date-field form-control form-select'}}) }}
             {{ form_widget(form.birthdate.year, {'attr': {'class': 'date-field form-control form-select'}}) }}
         </td>
@@ -43,6 +65,18 @@
         <td>Gewicht</td>
         <td>{{ form_widget(form.weight) }}</td>
     </tr>
+    {% if form.roles is defined %}
+        <tr>
+            <td>Rollen</td>
+            <td>{{ form_widget(form.roles) }}</td>
+        </tr>
+    {% endif %}
+    {% if form.is_verified is defined %}
+        <tr>
+            <td>Is geverifieerd</td>
+            <td>{{ form_widget(form.is_verified) }}</td>
+        </tr>
+    {% endif %}
     <tr>
         <td>Wachtwoord</td>
         <td>{{ form_widget(form.plain_password.children.first) }}</td>
@@ -51,8 +85,7 @@
         <td>Herhaal wachtwoord</td>
         <td>{{ form_widget(form.plain_password.children.second) }}</td>
     </tr>
-    <tr>
-        <td colspan="2">{{ form_widget(form.register, {'label': 'Registreer'}) }}</td>
+    <tr><td colspan="2">{{ form_widget(form.register, { 'label': submit_label }) }}</td>
     </tr>
 </table>
 {{ form_end(form) }}
