@@ -12,7 +12,10 @@
             {% if entities[id].pieceWeight is null %}
                 {% set classes = classes~' not-piece' %}
             {% endif %}
-            <td>{{ form_widget(units[id], {'attr': {'class': classes}}) }}</td>
+            <td>{{ form_widget(units[id], {'attr': {
+                    'class': classes,
+                    'data-piece-name':entities[id].pieceName,
+                }}) }}</td>
         {% else %}
             <td colspan="2">{{ form_widget(weight) }}</td>
         {% endif %}

@@ -9,7 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class StandardDayType extends AbstractFoodstuffWeightsType
+class StandardDayType extends AbstractFoodstuffUnitsType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -21,6 +21,18 @@ class StandardDayType extends AbstractFoodstuffWeightsType
                 'entry_options' => [
                     'attr' => [
                         'placeholder' => 'aantal keer',
+                        'class' => 'form-control food-weight',
+                    ],
+                ],
+                'allow_delete' => true,
+                'delete_empty' => true,
+            ])
+            ->add('foodstuff_weights', CollectionType::class, [
+                'entry_type' => NumberType::class,
+                'allow_add' => true,
+                'entry_options' => [
+                    'attr' => [
+                        'placeholder' => 'gewicht',
                         'class' => 'form-control food-weight',
                     ],
                 ],

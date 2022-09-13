@@ -4,6 +4,14 @@ class FoodForm {
         this.formName = form.attr('name');
         this.errors = $('#form_errors_client');
         this.options = $('#' + this.formName + '_foodstuffs option');
+        $('.food-unit').each((index, element) => {
+            let pieceName = $(element).data('piece-name');
+            $(element).children().each((choiceIndex, choice) => {
+                if ($(choice).val() === 'stuks' && pieceName !== '') {
+                    $(choice).text(pieceName);
+                }
+            });
+        });
 
         $('#add_foodstuff').on('click', this.addFoodstuff.bind(this));
         $('#add_recipe').on('click', this.addRecipe.bind(this));

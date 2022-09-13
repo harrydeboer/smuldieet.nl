@@ -7,20 +7,34 @@ namespace App\Form;
 use App\Entity\Recipe;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\File;
 
-class RecipeType extends AbstractFoodstuffWeightsType
+class RecipeType extends AbstractFoodstuffUnitsType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         parent::buildForm($builder, $options);
         $builder
+            ->add('foodstuff_weights', CollectionType::class, [
+                'entry_type' => NumberType::class,
+                'allow_add' => true,
+                'entry_options' => [
+                    'attr' => [
+                        'placeholder' => 'gewicht',
+                        'class' => 'form-control food-weight',
+                    ],
+                ],
+                'allow_delete' => true,
+                'delete_empty' => true,
+            ])
             ->add('image', FileType::class, [
                 'attr' => [
                     'accept' => 'image/png, image/jpg, image/jpeg, image/gif, image/bmp, image/webp',
