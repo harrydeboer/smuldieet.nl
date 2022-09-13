@@ -41,7 +41,7 @@ class ContactController extends Controller
         $error = null;
         $success = null;
         if ($form->isSubmitted() && $form->isValid() && $this->kernel->getEnvironment() === 'prod') {
-            if (is_null($error = $this->validateReCaptcha($form->get('reCaptchaToken')->getData()))) {
+            if (is_null($error = $this->validateReCaptcha($form->get('re_captcha_token')->getData()))) {
 
                 try {
                     $this->profanityCheckService->check($form->get('name')->getData());
