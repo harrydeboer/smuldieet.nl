@@ -68,6 +68,14 @@ class Foodstuff
     private ?string $pieceName = null;
 
     #[
+        ORM\Column(type: "string", nullable: true),
+        Assert\Length(max: 255, maxMessage: 'De naam mag niet meer dan 255 tekens hebben.'),
+        Assert\Regex(pattern: "/^[A-Za-zÀ-ÿ0-9\s_\-,.%\/\(\)\+<>'\"]+$/",
+            message: "Toegestane tekens zijn letters, cijfers, spaties en _-,.%/()+<>'\"."),
+    ]
+    private ?string $piecesName = null;
+
+    #[
         ORM\Column(type: "float", nullable: true),
         Assert\GreaterThanOrEqual(0, message: 'Gewicht per stuk moet groter of gelijk aan 0 zijn.'),
     ]
@@ -410,6 +418,16 @@ class Foodstuff
     public function setPieceName(?string $pieceName): void
     {
         $this->pieceName = $pieceName;
+    }
+
+    public function getPiecesName(): ?string
+    {
+        return $this->piecesName;
+    }
+
+    public function setPiecesName(?string $piecesName): void
+    {
+        $this->piecesName = $piecesName;
     }
 
     public function getPieceWeight(): ?float

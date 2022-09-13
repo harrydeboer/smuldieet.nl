@@ -28,6 +28,10 @@ class FoodstuffType extends AbstractType
                 'required' => false,
                 'attr' => ['class' => 'form-control'],
             ])
+            ->add('pieces_name', TextType::class, [
+                'required' => false,
+                'attr' => ['class' => 'form-control'],
+            ])
             ->add('is_liquid', ChoiceType::class, [
                 'choices' => ['ja' => true, 'nee' => false],
                 'expanded' => true,

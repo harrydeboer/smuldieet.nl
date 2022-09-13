@@ -93,7 +93,9 @@
                 <tr>
                     <td>{{ recipe.foodstuffs()[id].name }}</td>
                     <td>{{ weight|number_format }}
-                        {% if recipe.foodstuffs()[id].pieceName is not null %}
+                        {% if recipe.foodstuffs()[id].pieceName is not null and weight >= 2 %}
+                            {{ recipe.foodstuffs()[id].piecesName }}
+                        {% elseif recipe.foodstuffs()[id].pieceName is not null and weight < 2 %}
                             {{ recipe.foodstuffs()[id].pieceName }}
                         {% else %}
                             {{ recipe.foodstuffUnits()[id] }}

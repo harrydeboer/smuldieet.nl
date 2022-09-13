@@ -6,6 +6,7 @@
     {% endif %}
     {{ form_errors(form.name) }}
     {{ form_errors(form.piece_name) }}
+    {{ form_errors(form.pieces_name) }}
     {{ form_errors(form.piece_weight) }}
     {{ form_errors(form.is_liquid) }}
     {{ form_errors(form.density) }}
@@ -32,8 +33,12 @@
         <td>{{ form_widget(form.piece_weight) }}</td>
     </tr>
     <tr>
-        <td>Naam per stuk</td>
+        <td>Naam per stuk enkelvoud</td>
         <td>{{ form_widget(form.piece_name) }}</td>
+    </tr>
+    <tr>
+        <td>Naam per stuk meervoud</td>
+        <td>{{ form_widget(form.pieces_name) }}</td>
     </tr>
     <tr>
         <td>Vloeibaar</td>

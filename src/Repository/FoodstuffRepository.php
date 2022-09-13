@@ -116,6 +116,7 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
     {
         $this->checkFirstChar($foodstuff->getName());
         $this->checkWeightsAndEnergy($foodstuff);
+        $this->checkPieceAndPiecesName($foodstuff);
         $this->em->persist($foodstuff);
         $this->em->flush();
 
@@ -129,6 +130,7 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
     {
         $this->checkFirstChar($foodstuff->getName());
         $this->checkWeightsAndEnergy($foodstuff);
+        $this->checkPieceAndPiecesName($foodstuff);
         if ($isLiquidOld && !$foodstuff->getIsLiquid()) {
             foreach ($foodstuff->getDays() as $day) {
                 $this->transformLiquidUnitsToSolid($day, $foodstuff->getDensity());
@@ -210,6 +212,24 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
     {
         if (!preg_match('/[A-Za-zÀ-ÿ]/', substr($name, 0, 1))) {
             throw new Exception('De naam moet beginnen met een letter.');
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function checkPieceAndPiecesName(Foodstuff $foodstuff)
+    {
+        if (!is_null($foodstuff->getPieceName()) && is_null($foodstuff->getPiecesName())) {
+            throw new Exception('Stuks naam moet zowel in enkelvoud als meervoud.');
+        } elseif (is_null($foodstuff->getPieceName()) && !is_null($foodstuff->getPiecesName())) {
+            throw new Exception('Stuks naam moet zowel in enkelvoud als meervoud.');
+        } elseif (
+            !is_null($foodstuff->getPieceName())
+            && !is_null($foodstuff->getPiecesName())
+            && is_null($foodstuff->getPieceWeight())
+        ) {
+            throw new Exception('Stuks naam mag alleen met stuks gewicht.');
         }
     }
 
