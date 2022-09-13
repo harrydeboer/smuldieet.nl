@@ -25,11 +25,6 @@ class SitemapController extends Controller
     #[Route('/sitemap', name: 'sitemap')]
     public function view(): Response
     {
-        /**
-         * @noinspection HttpUrlsUsage
-         * Using https directly does not work.
-         * The http link redirects to https so is safe.
-         */
         $sitemap = new SimpleXMLElement(
             '<?xml version="1.0" encoding="UTF-8"?>' .
             '<?xml-stylesheet type="text/xsl" href="/css/sitemap.xsl' . '"?>' .

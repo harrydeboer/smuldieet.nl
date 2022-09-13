@@ -16,7 +16,7 @@ class FoodstuffRepositoryTest extends KernelTestCase
     {
         $user = static::getContainer()->get(UserFactory::class)->create();
         $foodstuff = static::getContainer()->get(FoodstuffFactory::class)->create(['user' => $user]);
-        $pieceWeightOld = $foodstuff->getPieceWeight();
+        $isLiquid = $foodstuff->getIsLiquid();
 
         $foodstuffRepository = static::getContainer()->get(FoodstuffRepositoryInterface::class);
 
@@ -25,7 +25,7 @@ class FoodstuffRepositoryTest extends KernelTestCase
         $updatedName = 'Test2';
         $foodstuff->setName($updatedName);
 
-        $foodstuffRepository->update($foodstuff, $pieceWeightOld);
+        $foodstuffRepository->update($foodstuff, $isLiquid);
         $userId = $foodstuff->getUser()->getId();
 
         $this->assertSame($updatedName, $foodstuffRepository->getByName($updatedName)->getName());

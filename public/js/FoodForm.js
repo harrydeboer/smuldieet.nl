@@ -25,7 +25,11 @@ class FoodForm {
     addFoodstuff(event) {
         let html = '<tr><td>' + $('#' + this.formName + '_foodstuff_dropdown').data('prototype') + '</td>';
         html += '<td>' + $('#' + this.formName + '_foodstuff_weights').data('prototype') + '</td>';
-        html += '<td>' + $('#' + this.formName + '_foodstuff_units').data('prototype') + '</td>';
+        if (this.formName === 'foodstuff_from_foodstuffs') {
+            html += '<td></td>';
+        } else {
+            html += '<td>' + $('#' + this.formName + '_foodstuff_units').data('prototype') + '</td>';
+        }
         html += '<td><i class="remove-row fa fa-minus"></i></td></tr>';
         html = this.removeLabels(html);
         $('#add_foodstuff_recipe_button_row').before(html);
