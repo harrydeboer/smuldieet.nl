@@ -11,25 +11,17 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class FoodstuffFromFoodstuffsType extends AbstractType
+class FoodstuffFromFoodstuffsType extends AbstractFoodstuffWeightsType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        parent::buildForm($builder, $options);
+        $builder->remove('foodstuff_units');
         $builder
             ->add('name', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
                     'maxlength' => 255,
-                ],
-            ])
-            ->add('foodstuff_weights', CollectionType::class, [
-                'entry_type' => NumberType::class,
-                'allow_add' => true,
-                'entry_options' => [
-                    'attr' => [
-                        'class' => 'form-control food-weight',
-                        'placeholder' => 'procent',
-                    ],
                 ],
             ])
             ->add('submit', SubmitType::class, [

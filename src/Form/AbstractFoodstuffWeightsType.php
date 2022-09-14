@@ -8,9 +8,10 @@ use App\Entity\Foodstuff;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-abstract class AbstractFoodstuffUnitsType extends AbstractType
+abstract class AbstractFoodstuffWeightsType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -18,7 +19,18 @@ abstract class AbstractFoodstuffUnitsType extends AbstractType
         foreach (Foodstuff::$foodstuffUnitsLiquid as $unit) {
             $choiceAttr[$unit] = ['class' => 'liquid-option'];
         }
-        $builder->add('foodstuff_units', CollectionType::class, [
+
+        $builder->add('foodstuff_weights', CollectionType::class, [
+            'entry_type' => NumberType::class,
+            'allow_add' => true,
+            'entry_options' => [
+                'attr' => [
+                    'class' => 'form-control food-weight',
+                ],
+            ],
+            'allow_delete' => true,
+            'delete_empty' => true,
+        ])->add('foodstuff_units', CollectionType::class, [
             'entry_type' => ChoiceType::class,
             'allow_add' => true,
             'entry_options' => [

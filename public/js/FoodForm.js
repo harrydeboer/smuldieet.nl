@@ -34,7 +34,7 @@ class FoodForm {
         let html = '<tr><td>' + $('#' + this.formName + '_foodstuff_dropdown').data('prototype') + '</td>';
         html += '<td>' + $('#' + this.formName + '_foodstuff_weights').data('prototype') + '</td>';
         if (this.formName === 'foodstuff_from_foodstuffs') {
-            html += '<td></td>';
+            html += '<td>%</td>';
         } else {
             html += '<td>' + $('#' + this.formName + '_foodstuff_units').data('prototype') + '</td>';
         }
@@ -184,7 +184,7 @@ class FoodForm {
                 sum = sum + parseFloat($(element).val().replace(',', '.'));
             });
             if (Math.round(sum * 100) !== 10000) {
-                text = text + 'De gewichten zijn samen niet gelijk aan 100 procent. <br>';
+                text = text + 'De gewichten zijn samen niet gelijk aan 100%. <br>';
                 event.preventDefault();
             }
         }
