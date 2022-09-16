@@ -11,6 +11,8 @@ services:
       smuldieet:
         ipv4_address: 172.20.0.6
   database:
+    ports:
+      - 127.0.0.1:${DB_PORT}:${DB_PORT}
     restart: always
     networks:
       smuldieet:
