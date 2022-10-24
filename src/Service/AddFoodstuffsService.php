@@ -38,7 +38,10 @@ class AddFoodstuffsService
             if (!$foodstuff->getIsLiquid() && in_array($unit, Foodstuff::$foodstuffUnitsLiquid)) {
                 throw new BadRequestException('Solid foodstuffs cannot have a liquid unit.');
             }
-            if ($unit === 'stuks' && is_null($foodstuff->getPieceWeight())) {
+            if ($unit === 'stuks'
+                && is_null($foodstuff->getPieceWeight())
+                && !in_array($foodstuff->getPieceName(), Foodstuff::$foodstuffUnits)
+                && !in_array($foodstuff->getPieceName(), Foodstuff::$foodstuffUnitsLiquid)) {
                 throw new BadRequestException('Unit stuks allowed only when piece weight is not null.');
             }
         }
