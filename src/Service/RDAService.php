@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Entity\Day;
 use App\Entity\Foodstuff;
 use App\Entity\User;
 use App\Entity\Nutrient;
@@ -37,7 +36,7 @@ class RDAService
                 foreach ($day->getFoodstuffWeights() as $id => $foodstuffWeight) {
                     $foodstuff = $day->getFoodstuffs()[$id];
                     $nutrients = $this->setNutrientRealised(
-                        $day,
+                        $day->getFoodstuffUnits()[$foodstuff->getId()],
                         $foodstuff,
                         $nutrients,
                         $nutrientName,
@@ -50,7 +49,7 @@ class RDAService
                     foreach ($recipe->getFoodstuffWeights() as $id => $foodstuffWeight) {
                         $foodstuff = $recipe->getFoodstuffs()[$id];
                         $nutrients = $this->setNutrientRealised(
-                            $day,
+                            $recipe->getFoodstuffUnits()[$foodstuff->getId()],
                             $foodstuff,
                             $nutrients,
                             $nutrientName,
@@ -67,7 +66,7 @@ class RDAService
     }
 
     private function setNutrientRealised(
-        Day $day,
+        string $unit,
         Foodstuff $foodstuff,
         array $nutrients,
         string $nutrientName,
@@ -76,14 +75,15 @@ class RDAService
         float $recipeWeight = 1
     ): array
     {
-        $unit = $day->getFoodstuffUnits()[$foodstuff->getId()];
+        if ($unit === 'stuks' && is_null($foodstuff->getPieceWeight())) {
+            $unit = $foodstuff->getPieceName();
+        }
         $nutrient = $nutrients[$nutrientName];
         $density = $foodstuff->getDensity() ?? 1;
         $factor = 1;
 
         switch ($unit) {
             case 'stuks':
-                $factor = $foodstuff->getPieceWeight();
                 break;
             case 'l':
                 $factor = 1000 * $density;
