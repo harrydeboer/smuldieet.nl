@@ -8,6 +8,10 @@
             <a href="{{ path('app_logout') }}">klik hier</a> om uit te loggen.</div>
         <div class="no-wrap">Verander <a href="{{ path('change_password') }}">hier</a> je wachtwoord.</div>
 
+        {% if 'ROLE_USER' in roles  %}
+            <div class="no-wrap">Ga naar het <a href="{{ path('user_homepage') }}">User Panel</a>.</div>
+        {% endif %}
+
         {% if 'ROLE_ADMIN' in roles  %}
             <div class="no-wrap">Ga naar het <a href="{{ path('admin_homepage') }}">Admin Panel</a>.</div>
         {% endif %}

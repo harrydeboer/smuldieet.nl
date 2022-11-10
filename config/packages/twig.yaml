@@ -3,6 +3,7 @@ twig:
 
     paths:
         'src/AdminBundle/Resources/views': 'AdminBundle'
+        'src/UserBundle/Resources/views': 'UserBundle'
 
     number_format:
         decimals: 0

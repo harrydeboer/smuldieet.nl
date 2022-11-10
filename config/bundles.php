@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\AdminBundle\AdminBundle;
+use App\UserBundle\UserBundle;
 
 return [
     Symfony\Bundle\FrameworkBundle\FrameworkBundle::class => ['all' => true],
@@ -18,4 +19,5 @@ return [
     Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle::class => ['all' => true],
     SymfonyCasts\Bundle\VerifyEmail\SymfonyCastsVerifyEmailBundle::class => ['all' => true],
     AdminBundle::class => ['all' => true],
+    UserBundle::class => ['all' => true],
 ];

@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends '@UserBundle/base.html.twig' %}
 
 {% block title %}Kookboek{% endblock %}
 
@@ -15,7 +15,7 @@
         {% endfor %}
         <tr>
             <td colspan="2">
-                <a href="{{ path('cookbook_edit', {'id': cookbook.id}) }}">wijzig</a>
+                <a href="{{ path('user_cookbook_edit', {'id': cookbook.id}) }}">wijzig</a>
             </td>
         </tr>
     </table>

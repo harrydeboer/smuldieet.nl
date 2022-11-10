@@ -1,10 +1,10 @@
-{% extends 'base.html.twig' %}
+{% extends '@UserBundle/base.html.twig' %}
 
 {% block title %}{{ page is not null ? page.title : '' }}{% endblock %}
 
 {% block body %}
     {{ page is not null ? page.content|raw : '' }}
-    <a href="{{ path('cookbook_create') }}">Maak een kookboek</a>
+    <a href="{{ path('user_cookbook_create') }}">Maak een kookboek</a>
     {% if cookbooks is empty %}
         <p>Je hebt nog geen kookboeken gemaakt.</p>
     {% else %}
@@ -17,8 +17,8 @@
             </thead>
             {% for cookbook in cookbooks %}
                 <tr>
-                    <td><a href="{{ path('cookbook_single', {'id': cookbook.id}) }}">{{ cookbook.title }}</a></td>
-                    <td><a href="{{ path('cookbook_edit', {'id': cookbook.id }) }}">wijzig</a></td>
+                    <td><a href="{{ path('user_cookbook_single', {'id': cookbook.id}) }}">{{ cookbook.title }}</a></td>
+                    <td><a href="{{ path('user_cookbook_edit', {'id': cookbook.id }) }}">wijzig</a></td>
                 </tr>
             {% endfor %}
         </table>

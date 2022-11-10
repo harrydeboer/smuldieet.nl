@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Functional\Controller;
+namespace App\Tests\UserBundle\Functional\Controller;
 
 use App\Tests\Factory\RecipeFactory;
 use App\Repository\CookbookRepositoryInterface;
@@ -15,11 +15,11 @@ class CookbookControllerTest extends AuthAdminWebTestCase
         $recipe1 = static::getContainer()->get(RecipeFactory::class)->create();
         $recipe2 = static::getContainer()->get(RecipeFactory::class)->create();
 
-        $this->client->request('GET', '/kookboeken');
+        $this->client->request('GET', '/user/kookboeken');
 
         $this->assertResponseIsSuccessful();
 
-        $crawler = $this->client->request('GET', '/kookboek/toevoegen');
+        $crawler = $this->client->request('GET', '/user/kookboek/toevoegen');
 
         $buttonCrawlerNode = $crawler->selectButton('Kookboek opslaan');
 
@@ -31,18 +31,18 @@ class CookbookControllerTest extends AuthAdminWebTestCase
         $values['cookbook']['recipe_weights'] = [$recipe1->getId() => 1, $recipe2->getId() => 1];
         $this->client->request($form->getMethod(), $form->getUri(), $values, $form->getPhpFiles());
 
-        $this->assertResponseRedirects('/kookboeken');
+        $this->assertResponseRedirects('/user/kookboeken');
 
         $cookbookRepository = $this->getContainer()->get(CookbookRepositoryInterface::class);
 
         $cookbook = $cookbookRepository->findOneBy(['title' => 'test']);
         $id = $cookbook->getId();
 
-        $this->client->request('GET', '/kookboek/enkel/' . $id);
+        $this->client->request('GET', '/user/kookboek/enkel/' . $id);
 
         $this->assertResponseIsSuccessful();
 
-        $crawler = $this->client->request('GET', '/kookboek/wijzig/' . $id);
+        $crawler = $this->client->request('GET', '/user/kookboek/wijzig/' . $id);
 
         $buttonCrawlerNode = $crawler->selectButton('Wijzig kookboek');
 
@@ -55,13 +55,13 @@ class CookbookControllerTest extends AuthAdminWebTestCase
         $values['cookbook']['recipe_weights'] = [$recipe1->getId() => 1];
         $this->client->request($form->getMethod(), $form->getUri(), $values, $form->getPhpFiles());
 
-        $this->assertResponseRedirects('/kookboeken');
+        $this->assertResponseRedirects('/user/kookboeken');
 
         $cookbook = $cookbookRepository->findOneBy(['title' => $updatedTitle]);
 
         $this->assertEquals($updatedTitle, $cookbook->getTitle());
 
-        $crawler = $this->client->request('GET', '/kookboek/wijzig/' . $id);
+        $crawler = $this->client->request('GET', '/user/kookboek/wijzig/' . $id);
 
         $buttonCrawlerNode = $crawler->selectButton('Verwijder');
 
@@ -69,7 +69,7 @@ class CookbookControllerTest extends AuthAdminWebTestCase
 
         $this->client->submit($form);
 
-        $this->assertResponseRedirects('/kookboeken');
+        $this->assertResponseRedirects('/user/kookboeken');
 
         $cookbookRepository = $this->getContainer()->get(CookbookRepositoryInterface::class);
 

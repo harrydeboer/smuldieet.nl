@@ -1,6 +1,9 @@
 admin_bundle:
     resource: '@AdminBundle/Resources/config/routing.yaml'
 
+user_bundle:
+    resource: '@UserBundle/Resources/config/routing.yaml'
+
 controllers:
     resource: ../src/Controller/
     type: attribute

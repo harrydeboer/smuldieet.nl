@@ -1,9 +1,9 @@
-{% extends 'base.html.twig' %}
+{% extends '@UserBundle/base.html.twig' %}
 
 {% block title %}Wijzig{% endblock %}
 
 {% block body %}
-    {{ include('cookbook/_form.html.twig', {form: formUpdate, submit_label: 'Wijzig kookboek'}) }}
+    {{ include('@UserBundle/cookbook/_form.html.twig', {form: formUpdate, submit_label: 'Wijzig kookboek'}) }}
     <br>
     {{ include('_delete_confirmation.html.twig', {
         entityName: 'kookboek',

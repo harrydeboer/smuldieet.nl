@@ -1,0 +1,8 @@
+controllers:
+  resource: ../../Controller/
+  prefix: /user
+  type: annotation
+
+kernel:
+  resource: ../../../Kernel.php
+  type: annotation

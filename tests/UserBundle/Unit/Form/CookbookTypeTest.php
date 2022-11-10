@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Form;
+namespace App\Tests\UserBundle\Unit\Form;
 
 use App\Entity\Cookbook;
-use App\Form\CookbookType;
+use App\UserBundle\Form\CookbookType;
 use Symfony\Component\Form\Test\TypeTestCase;
 
 class CookbookTypeTest extends TypeTestCase

@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\UserBundle\Controller;
 
+use App\Controller\AuthController;
 use App\Entity\Cookbook;
-use App\Form\CookbookType;
+use App\UserBundle\Form\CookbookType;
 use App\Form\DeleteType;
 use App\Repository\CookbookRepositoryInterface;
 use App\Repository\PageRepositoryInterface;
@@ -25,19 +26,19 @@ class CookbookController extends AuthController
     }
 
     #[
-        Route('/kookboeken', name: 'cookbook'),
+        Route('/kookboeken', name: 'user_cookbook'),
     ]
     public function view(): Response
     {
         $cookbooks = $this->getUser()->getCookbooks();
 
-        return $this->render('cookbook/view.html.twig', [
+        return $this->render('@UserBundle/cookbook/view.html.twig', [
             'cookbooks' => $cookbooks,
             'page' => $this->pageRepository->findOneBy(['title' => 'Kookboeken']),
         ]);
     }
 
-    #[Route('/kookboek/wijzig/{id}', name: 'cookbook_edit')]
+    #[Route('/kookboek/wijzig/{id}', name: 'user_cookbook_edit')]
     public function edit(Request $request, int $id): Response
     {
         $cookbook = $this->getCookbook($id);
@@ -47,7 +48,7 @@ class CookbookController extends AuthController
         ]);
 
         $formDelete = $this->createForm(DeleteType::class, $cookbook, [
-            'action' => $this->generateUrl('cookbook_delete', ['id' => $cookbook->getId()]),
+            'action' => $this->generateUrl('user_cookbook_delete', ['id' => $cookbook->getId()]),
             'method' => 'POST',
         ]);
 
@@ -56,7 +57,7 @@ class CookbookController extends AuthController
         if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
             $this->cookbookRepository->update($cookbook);
 
-            return $this->redirectToRoute('cookbook');
+            return $this->redirectToRoute('user_cookbook');
         } else {
 
             /**
@@ -66,14 +67,14 @@ class CookbookController extends AuthController
             $this->addRecipesService->addRecipesAndValidate($cookbook);
         }
 
-        return $this->render('cookbook/edit.html.twig', [
+        return $this->render('@UserBundle/cookbook/edit.html.twig', [
             'cookbook' => $cookbook,
             'formUpdate' => $formUpdate->createView(),
             'formDelete' => $formDelete->createView(),
         ]);
     }
 
-    #[Route('/kookboek/toevoegen', name: 'cookbook_create')]
+    #[Route('/kookboek/toevoegen', name: 'user_cookbook_create')]
     public function new(Request $request): Response
     {
         $cookbook = new Cookbook();
@@ -86,7 +87,7 @@ class CookbookController extends AuthController
 
             $this->cookbookRepository->create($cookbook);
 
-            return $this->redirectToRoute('cookbook');
+            return $this->redirectToRoute('user_cookbook');
         } else {
 
             /**
@@ -96,13 +97,13 @@ class CookbookController extends AuthController
             $this->addRecipesService->addRecipesAndValidate($cookbook);
         }
 
-        return $this->render('cookbook/new.html.twig', [
+        return $this->render('@UserBundle/cookbook/new.html.twig', [
             'cookbook' => $cookbook,
             'form' => $form->createView(),
         ]);
     }
 
-    #[Route('/kookboek/verwijder/{id}', name: 'cookbook_delete')]
+    #[Route('/kookboek/verwijder/{id}', name: 'user_cookbook_delete')]
     public function delete(Request $request, int $id): RedirectResponse
     {
         $cookbook = $this->getCookbook($id);
@@ -114,15 +115,15 @@ class CookbookController extends AuthController
             $this->cookbookRepository->delete($cookbook);
         }
 
-        return $this->redirectToRoute('cookbook');
+        return $this->redirectToRoute('user_cookbook');
     }
 
-    #[Route('/kookboek/enkel/{id}', name: 'cookbook_single')]
+    #[Route('/kookboek/enkel/{id}', name: 'user_cookbook_single')]
     public function single(int $id): Response
     {
         $cookbook = $this->getCookbook($id);
 
-        return $this->render('cookbook/single.html.twig', [
+        return $this->render('@UserBundle/cookbook/single.html.twig', [
             'cookbook' => $cookbook,
         ]);
     }
