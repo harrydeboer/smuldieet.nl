@@ -3,5 +3,25 @@
 {% block title %}Home{% endblock %}
 
 {% block body %}
-    <h3>Welkom gebruiker</h3>
+    <img src="{{ asset('uploads/user/images/' ~ user.id ~ '_.png') }}">
+    <h3>Welkom {{ user.username }}</h3>
+    <div id="form_errors_client"></div>
+    <div id="form_errors_server">
+        {{ form_errors(form) }}
+        {{ form_errors(form.first_name) }}
+        {{ form_errors(form.last_name) }}
+    </div>
+    {{ form_start(form) }}
+    <table class="table table-small">
+        <tr>
+            <td>Voornaam</td><td>{{ form_widget(form.first_name) }}</td>
+        </tr>
+        <tr>
+            <td>Achternaam</td><td>{{ form_widget(form.last_name) }}</td>
+        </tr>
+        <tr>
+            <td colspan="2">{{ form_widget(form.submit, { 'label': 'Wijzig' }) }}</td>
+        </tr>
+    </table>
+    {{ form_end(form) }}
 {% endblock %}
