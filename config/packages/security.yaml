@@ -33,6 +33,7 @@ security:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/user, roles: ROLE_VERIFIED }
         - { path: ^/dag, roles: ROLE_VERIFIED }
         - { path: ^/kookboek, roles: ROLE_VERIFIED }
         - { path: ^/overzicht, roles: ROLE_VERIFIED }
