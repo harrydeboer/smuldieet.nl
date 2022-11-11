@@ -27,6 +27,22 @@
         <i class="far fa-user"></i>
         {{ recipe.numberOfPersons }}
     </span>
+    <div id="form_errors_client"></div>
+    {% if formLoseRecipe is not null %}
+        <div id="form_errors_server">
+            {{ form_errors(formLoseRecipe) }}
+        </div>
+        {{ form_start(formLoseRecipe) }}
+        {{ form_widget(formLoseRecipe.submit, { 'label': 'Verlies' }) }}
+        {{ form_end(formLoseRecipe) }}
+    {% elseif formSaveRecipe is not null %}
+        <div id="form_errors_server">
+            {{ form_errors(formSaveRecipe) }}
+        </div>
+        {{ form_start(formSaveRecipe) }}
+        {{ form_widget(formSaveRecipe.submit, { 'label': 'Bewaar' }) }}
+        {{ form_end(formSaveRecipe) }}
+    {% endif %}
     <br>
     <br>
     <table>

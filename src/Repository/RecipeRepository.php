@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Recipe;
+use App\Entity\User;
 use App\Pagination\Paginator;
 use App\Service\AddFoodstuffsService;
 use App\Service\ProfanityCheckService;
@@ -115,6 +116,18 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
             $day->setRecipeWeights($weights);
         }
         $this->em->remove($recipe);
+        $this->em->flush();
+    }
+
+    public function addUser(Recipe $recipe, User $user): void
+    {
+        $recipe->addUser($user);
+        $this->em->flush();
+    }
+
+    public function removeUser(Recipe $recipe, User $user): void
+    {
+        $recipe->removeUser($user);
         $this->em->flush();
     }
 

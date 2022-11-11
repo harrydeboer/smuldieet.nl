@@ -1,0 +1,22 @@
+{% extends '@UserBundle/base.html.twig' %}
+
+{% block title %}Bewaarde Recepten{% endblock %}
+
+{% block body %}
+    {% if savedRecipes is empty %}
+        <p>Je hebt nog geen recepten bewaard.</p>
+    {% else %}
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Titel</th>
+            </tr>
+            </thead>
+            {% for savedRecipe in savedRecipes %}
+                <tr>
+                    <td><a href="{{ path('recipe_single', {'id': savedRecipe.id}) }}">{{ savedRecipe.title }}</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+{% endblock %}

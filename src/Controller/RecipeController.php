@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Recipe;
+use App\Form\LoseRecipeType;
 use App\Form\RatingType;
 use App\Form\RecipeType;
 use App\Form\DeleteType;
+use App\Form\SaveRecipeType;
 use App\Repository\PageRepositoryInterface;
 use App\Repository\RatingRepositoryInterface;
 use App\Repository\RecipeRepositoryInterface;
@@ -29,7 +31,8 @@ class RecipeController extends Controller
         private readonly PageRepositoryInterface   $pageRepository,
         private readonly UploadedImageService      $uploadedImageService,
         private readonly AddFoodstuffsService      $addFoodstuffsService,
-    ) {
+    )
+    {
     }
 
     #[
@@ -148,6 +151,36 @@ class RecipeController extends Controller
         return $this->redirectToRoute('recipe');
     }
 
+    #[Route('/recept/bewaar/{id}', name: 'recipe_save')]
+    public function save(Request $request, int $id): RedirectResponse
+    {
+        $recipe = $this->getRecipe($id);
+
+        $form = $this->createForm(SaveRecipeType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->recipeRepository->addUser($recipe, $this->getUser());
+        }
+
+        return $this->redirectToRoute('recipe_single', ['id' => $id]);
+    }
+
+    #[Route('/recept/verlies/{id}', name: 'recipe_lose')]
+    public function lose(Request $request, int $id): RedirectResponse
+    {
+        $recipe = $this->getRecipe($id);
+
+        $form = $this->createForm(LoseRecipeType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->recipeRepository->removeUser($recipe, $this->getUser());
+        }
+
+        return $this->redirectToRoute('recipe_single', ['id' => $id]);
+    }
+
     /**
      * The single recipe page is visible if the recipe is not pending except when the current user owns it.
      * It contains a rating form. It also contains a deletion form when the user already rated this recipe.
@@ -165,6 +198,8 @@ class RecipeController extends Controller
             'user' => $this->getUser()?->getId(),
         ]);
         $formDelete = null;
+        $formSaveRecipe = null;
+        $formLoseRecipe = null;
 
         if (is_null($rating)) {
             $form = $this->createForm(RatingType::class, null, [
@@ -177,6 +212,18 @@ class RecipeController extends Controller
             $formDelete = $this->createForm(DeleteType::class, null, [
                 'action' => $this->generateUrl('recipe_rating_delete', ['id' => $rating->getId()]),
             ]);
+        }
+
+        if (!is_null($this->getUser())) {
+            if ($this->getUser()->getSavedRecipes()->contains($recipe)) {
+                $formLoseRecipe = $this->createForm(LoseRecipeType::class, null, [
+                    'action' => $this->generateUrl('recipe_lose', ['id' => $recipe->getId()]),
+                ]);
+            } else {
+                $formSaveRecipe = $this->createForm(SaveRecipeType::class, null, [
+                    'action' => $this->generateUrl('recipe_save', ['id' => $recipe->getId()]),
+                ]);
+            }
         }
 
         $hasDiet = false;
@@ -197,6 +244,8 @@ class RecipeController extends Controller
             'hasDiet' => $hasDiet,
             'diet' => $diet,
             'formDelete' => $formDelete?->createView(),
+            'formSaveRecipe' => $formSaveRecipe?->createView(),
+            'formLoseRecipe' => $formLoseRecipe?->createView(),
         ]);
     }
 

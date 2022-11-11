@@ -288,6 +288,9 @@ class Recipe implements FoodstuffWeightsInterface, UploadImageInterface
     #[ORM\ManyToMany(targetEntity: "Tag", mappedBy: "recipes")]
     private Collection $tags;
 
+    #[ORM\ManyToMany(targetEntity: "User", mappedBy: "savedRecipes")]
+    private Collection $users;
+
     #[ORM\Column(type: "boolean")]
     private bool $isPending = true;
 
@@ -310,6 +313,7 @@ class Recipe implements FoodstuffWeightsInterface, UploadImageInterface
         $this->cookbooks = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->tags = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public static function getDietChoices(string $camelOrSnake = 'camel'): array
@@ -773,6 +777,36 @@ class Recipe implements FoodstuffWeightsInterface, UploadImageInterface
 
         $this->tags->removeElement($tag);
         $tag->removeRecipe($this);
+    }
+
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function setUsers(Collection $users): void
+    {
+        $this->users = $users;
+    }
+
+    public function addUser(User $user): void
+    {
+        if ($this->users->contains($user)) {
+            return;
+        }
+
+        $this->users->add($user);
+        $user->addSavedRecipe($this);
+    }
+
+    public function removeUser(User $user): void
+    {
+        if (!$this->users->contains($user)) {
+            return;
+        }
+
+        $this->users->removeElement($user);
+        $user->removeSavedRecipe($this);
     }
 
     public function getFoodstuffWeights(): ArrayCollection

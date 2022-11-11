@@ -107,6 +107,30 @@ class RecipeControllerTest extends AuthAdminWebTestCase
 
         $crawler = $this->client->request('GET', '/recept/enkel/' . $recipe->getId());
 
+        $this->assertResponseIsSuccessful();
+
+        $buttonCrawlerNode = $crawler->selectButton('Bewaar');
+
+        $form = $buttonCrawlerNode->form();
+
+        $this->client->submit($form);
+
+        $this->assertResponseRedirects('/recept/enkel/' . $recipe->getId());
+
+        $crawler = $this->client->request('GET', '/recept/enkel/' . $recipe->getId());
+
+        $this->assertResponseIsSuccessful();
+
+        $buttonCrawlerNode = $crawler->selectButton('Verlies');
+
+        $form = $buttonCrawlerNode->form();
+
+        $this->client->submit($form);
+
+        $this->assertResponseRedirects('/recept/enkel/' . $recipe->getId());
+
+        $crawler = $this->client->request('GET', '/recept/enkel/' . $recipe->getId());
+
         $recipeRepository = $this->getContainer()->get(RecipeRepositoryInterface::class);
         $recipe = $recipeRepository->findOneBy(['title' => $updatedTitle]);
         $recipeRating = $recipe->getRating();

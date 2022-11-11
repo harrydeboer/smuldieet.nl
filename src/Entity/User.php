@@ -105,6 +105,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, UploadI
     #[ORM\OneToMany(mappedBy: "user", targetEntity: "App\Entity\Recipe", cascade: ["remove"])]
     private Collection $recipes;
 
+    #[
+        ORM\ManyToMany(targetEntity: "Recipe", inversedBy: "users"),
+        ORM\JoinTable(name: "user_saved_recipe"),
+        ORM\JoinColumn(name: "user_id", referencedColumnName: "id", onDelete: "CASCADE"),
+        ORM\InverseJoinColumn(name: "recipe_id", referencedColumnName: "id", onDelete: "CASCADE"),
+    ]
+    private Collection $savedRecipes;
+
     #[ORM\OneToMany(mappedBy: "user", targetEntity: "App\Entity\Cookbook", cascade: ["remove"])]
     private Collection $cookbooks;
 
@@ -127,6 +135,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, UploadI
         $this->days = new ArrayCollection();
         $this->foodstuffs = new ArrayCollection();
         $this->recipes = new ArrayCollection();
+        $this->savedRecipes = new ArrayCollection();
         $this->cookbooks = new ArrayCollection();
         $this->ratings = new ArrayCollection();
         $this->pages = new ArrayCollection();
@@ -355,6 +364,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, UploadI
     public function setPages(Collection $pages): void
     {
         $this->pages = $pages;
+    }
+
+    public function getSavedRecipes(): Collection
+    {
+        return $this->savedRecipes;
+    }
+
+    public function setSavedRecipes(Collection $recipes): void
+    {
+        $this->savedRecipes = $recipes;
+    }
+
+    public function addSavedRecipe(Recipe $recipe): void
+    {
+        if ($this->savedRecipes->contains($recipe)) {
+            return;
+        }
+
+        $this->savedRecipes->add($recipe);
+        $recipe->addUser($this);
+    }
+
+    public function removeSavedRecipe(Recipe $recipe): void
+    {
+        if (!$this->savedRecipes->contains($recipe)) {
+            return;
+        }
+
+        $this->savedRecipes->removeElement($recipe);
+        $recipe->removeUser($this);
     }
 
     public function getImageExtension(): ?string
