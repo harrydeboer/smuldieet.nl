@@ -122,12 +122,14 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
     public function addUser(Recipe $recipe, User $user): void
     {
         $recipe->addUser($user);
+        $recipe->setTimesSaved($recipe->getTimesSaved() + 1);
         $this->em->flush();
     }
 
     public function removeUser(Recipe $recipe, User $user): void
     {
         $recipe->removeUser($user);
+        $recipe->setTimesSaved($recipe->getTimesSaved() - 1);
         $this->em->flush();
     }
 
