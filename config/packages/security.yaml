@@ -49,7 +49,9 @@ security:
         - { path: ^/voedingsmiddel/verwijder, roles: ROLE_VERIFIED }
         - { path: ^/voedingsmiddel/wijzig, roles: ROLE_VERIFIED }
         - { path: ^/voedingsmiddel/zoeken, roles: ROLE_VERIFIED }
-
+        - { path: ^/waardering/[0-9]+, roles: ROLE_VERIFIED }
+        - { path: ^/waardering/verwijder/[0-9]+, roles: ROLE_VERIFIED }
+        - { path: ^/waardering/wijzig/[0-9]+, roles: ROLE_VERIFIED }
 when@test:
     security:
         password_hashers:

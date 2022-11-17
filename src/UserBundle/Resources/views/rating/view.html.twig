@@ -13,9 +13,14 @@
         </thead>
         {% for rating in ratings %}
             <tr>
-                <td><a href="{{ path('rating_single', {'id': rating.id}) }}">
-                        {{ rating.recipe.title }}</a> {{ rating.rating }} <i class="fas fa-star fa-star-gold"></i></td>
-                <td><a href="{{ path('user_rating_edit', {'id': rating.id }) }}">wijzig</a></td>
+                <td>
+                    {% if rating.content is null %}
+                        <a href="{{ path('recipe_single', {'id': rating.recipe.id}) }}">{{ rating.recipe.title }}</a>
+                    {% else %}
+                        <a href="{{ path('user_review_single', {'id': rating.id}) }}">{{ rating.recipe.title }}</a>
+                    {% endif %}
+                    {{ rating.rating }} <i class="fas fa-star fa-star-gold"></i></td>
+                <td><a href="{{ path('user_review_edit', {'id': rating.id }) }}">wijzig</a></td>
             </tr>
         {% endfor %}
     </table>

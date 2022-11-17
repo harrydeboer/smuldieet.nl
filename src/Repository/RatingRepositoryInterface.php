@@ -23,6 +23,8 @@ interface RatingRepositoryInterface extends ServiceEntityRepositoryInterface
 
     public function getFromUser(int $id, int $userId): Rating;
 
+    public function getNotPending(int $id): Rating;
+
     /**
      * @throws Exception
      */

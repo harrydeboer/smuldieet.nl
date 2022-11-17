@@ -147,7 +147,7 @@
         <br>
         Reviews {{ paginator.results|length }}
         {% if isLoggedIn %}
-            <a href="{{ path('user_rating_create', {'recipeId': recipe.id}) }}">schrijf een recensie</a>.
+            <a href="{{ path('user_review_create', {'recipeId': recipe.id}) }}">schrijf een recensie</a>.
         {% endif %}
         <table class="table table-striped">
             {% for review in paginator.results %}

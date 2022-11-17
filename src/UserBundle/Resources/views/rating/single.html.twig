@@ -1,6 +1,6 @@
-{% extends 'base.html.twig' %}
+{% extends '@UserBundle/base.html.twig' %}
 
-{% block title %}Waardering{% endblock %}
+{% block title %}Recensie{% endblock %}
 
 {% block body %}
     <table class="table table-small">
@@ -11,6 +11,9 @@
         <tr>
             <td>Recensie</td>
             <td>{{ rating.content }}</td>
+        </tr>
+        <tr>
+            <td colspan="2"><a href="{{ path('user_review_edit', {'id': rating.id}) }}">wijzig</a></td>
         </tr>
     </table>
 {% endblock %}

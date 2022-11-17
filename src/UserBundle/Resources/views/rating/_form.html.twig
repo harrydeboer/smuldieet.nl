@@ -5,11 +5,11 @@
     {{ form_errors(form.content) }}
 </div>
 {{ form_start(form) }}
-<div class="fw-bold">Waardering</div>
+<div class="fw-bold">Recept</div>
 {{ rating.recipe.title }}
 <div class="fw-bold">Waardering</div>
 {{ form_widget(form.rating) }}
-<div class="fw-bold">Review</div>
+<div class="fw-bold">Recensie</div>
 {{ form_widget(form.content) }}
 <div>{{ form_widget(form.submit, { 'label': submit_label }) }}</div>
 {{ form_end(form) }}

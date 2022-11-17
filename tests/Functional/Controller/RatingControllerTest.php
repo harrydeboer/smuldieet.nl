@@ -11,9 +11,10 @@ class RatingControllerTest extends WebTestCase
 {
     public function testSingle(): void
     {
-        $rating = static::getContainer()->get(RatingFactory::class)->create();
+        $review = static::getContainer()->get(RatingFactory::class)
+            ->create(['isPending' => false, 'content' => 'test']);
 
-        $this->client->request('GET', '/waardering/enkel/' . $rating->getId());
+        $this->client->request('GET', '/recensie/enkel/' . $review->getId());
 
         $this->assertResponseIsSuccessful();
     }

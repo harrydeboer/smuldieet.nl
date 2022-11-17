@@ -6,7 +6,6 @@ namespace App\UserBundle\Controller;
 
 use App\Controller\AuthController;
 use App\Entity\Rating;
-use App\UserBundle\Form\RatingType;
 use App\UserBundle\Form\ReviewType;
 use App\Repository\RatingRepositoryInterface;
 use App\Form\DeleteType;
@@ -40,20 +39,16 @@ class RatingController extends AuthController
     }
 
 
-    #[Route('/waardering/{recipeId}', name: 'user_rating_create')]
+    #[Route('/recensie/{recipeId}', name: 'user_review_create')]
     public function new(Request $request, int $recipeId): Response
     {
         $rating = new Rating();
         $recipe = $this->recipeRepository->get($recipeId);
         $rating->setRecipe($recipe);
-        if ($request->get('rating')) {
-            $form = $this->createForm(RatingType::class, $rating);
-        } else {
-            $form = $this->createForm(ReviewType::class, $rating);
-        }
+        $form = $this->createForm(ReviewType::class, $rating);
 
         /**
-         * When creating a rating it is checked that the recipe is not pending except when the current user owns it.
+         * When creating a review it is checked that the recipe is not pending except when the current user owns it.
          */
         if ($recipe->getIsPending() && $recipe->getUser()->getId() !== $this->getUser()->getId()) {
             throw new NotFoundHttpException('Dit recept can niet worden getoond.');
@@ -63,19 +58,10 @@ class RatingController extends AuthController
         if ($form->isSubmitted() && $form->isValid()) {
             $rating->setUser($this->getUser());
             $rating->setTimestamp(time());
-            if (is_null($rating->getContent())) {
-                $rating->setIsPending(false);
-            } else {
-                $rating->setIsPending(true);
-            }
-            $rating->setRecipe($recipe);
+            $rating->setIsPending(true);
 
             try {
                 $this->ratingRepository->create($rating);
-
-                if ($request->get('rating')) {
-                    return $this->redirectToRoute('recipe_single', ['id' => $recipe->getId()]);
-                }
 
                 return $this->redirectToRoute('user_ratings');
             } catch (Exception $exception) {
@@ -89,18 +75,18 @@ class RatingController extends AuthController
         ]);
     }
 
-    #[Route('/waardering/wijzig/{id}', name: 'user_rating_edit')]
+    #[Route('/recensie/wijzig/{id}', name: 'user_review_edit')]
     public function edit(Request $request, int $id): Response
     {
         $rating = $this->getRating($id);
         $oldRating = $rating->getRating();
 
-        $formUpdate = $this->createForm(RatingType::class, $rating, [
+        $formUpdate = $this->createForm(ReviewType::class, $rating, [
             'method' => 'POST',
         ]);
 
         $formDelete = $this->createForm(DeleteType::class, $rating, [
-            'action' => $this->generateUrl('user_rating_delete', ['id' => $rating->getId()]),
+            'action' => $this->generateUrl('user_review_delete', ['id' => $rating->getId()]),
             'method' => 'POST',
         ]);
 
@@ -110,7 +96,7 @@ class RatingController extends AuthController
             try {
                 $this->ratingRepository->update($oldRating, $rating);
 
-                return $this->redirectToRoute('recipe_single', ['id' => $rating->getRecipe()->getId()]);
+                return $this->redirectToRoute('user_ratings');
             } catch (Exception $exception) {
                 $formUpdate->addError(new FormError($exception->getMessage()));
             }
@@ -123,7 +109,15 @@ class RatingController extends AuthController
         ]);
     }
 
-    #[Route('/waardering/verwijder/{id}', name: 'user_rating_delete')]
+    #[Route('/recensie/enkel/{id}', name: 'user_review_single')]
+    public function single(int $id): Response
+    {
+        return $this->render('@UserBundle/rating/single.html.twig', [
+            'rating' => $this->getRating($id),
+        ]);
+    }
+
+    #[Route('/recensie/verwijder/{id}', name: 'user_review_delete')]
     public function delete(Request $request, int $id): RedirectResponse
     {
         $rating = $this->getRating($id);

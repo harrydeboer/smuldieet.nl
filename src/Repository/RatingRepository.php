@@ -89,6 +89,24 @@ class RatingRepository extends ServiceEntityRepository implements RatingReposito
         return $day;
     }
 
+    public function getNotPending(int $id): Rating
+    {
+        $qb = $this->createQueryBuilder('r');
+        $qb->where('r.content IS NOT NULL');
+        $qb->andWhere('r.id = ' . $id);
+        $qb->andWhere('r.isPending = 0');
+
+        $query = $qb->getQuery();
+
+        $reviews = $query->execute();
+
+        if ($reviews === []) {
+            throw new NotFoundHttpException('Deze recensie bestaat niet of hoort niet bij jou.');
+        }
+
+        return $reviews[0];
+    }
+
     /**
      * @throws Exception
      */
