@@ -6,7 +6,7 @@ namespace App\Tests\UserBundle\Functional\Controller;
 
 use App\Tests\Functional\AuthAdminWebTestCase;
 
-class HomepageController extends AuthAdminWebTestCase
+class HomepageControllerTest extends AuthAdminWebTestCase
 {
     public function testHomepage(): void
     {

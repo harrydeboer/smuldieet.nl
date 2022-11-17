@@ -26,7 +26,7 @@ class CookbookController extends AuthController
     }
 
     #[
-        Route('/kookboeken', name: 'user_cookbook'),
+        Route('/kookboeken', name: 'user_cookbooks'),
     ]
     public function view(): Response
     {
@@ -57,7 +57,7 @@ class CookbookController extends AuthController
         if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
             $this->cookbookRepository->update($cookbook);
 
-            return $this->redirectToRoute('user_cookbook');
+            return $this->redirectToRoute('user_cookbooks');
         } else {
 
             /**
@@ -87,7 +87,7 @@ class CookbookController extends AuthController
 
             $this->cookbookRepository->create($cookbook);
 
-            return $this->redirectToRoute('user_cookbook');
+            return $this->redirectToRoute('user_cookbooks');
         } else {
 
             /**
@@ -115,7 +115,7 @@ class CookbookController extends AuthController
             $this->cookbookRepository->delete($cookbook);
         }
 
-        return $this->redirectToRoute('user_cookbook');
+        return $this->redirectToRoute('user_cookbooks');
     }
 
     #[Route('/kookboek/enkel/{id}', name: 'user_cookbook_single')]

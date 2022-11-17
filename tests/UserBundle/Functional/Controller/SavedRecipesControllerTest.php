@@ -6,7 +6,7 @@ namespace App\Tests\UserBundle\Functional\Controller;
 
 use App\Tests\Functional\AuthAdminWebTestCase;
 
-class SavedRecipesController extends AuthAdminWebTestCase
+class SavedRecipesControllerTest extends AuthAdminWebTestCase
 {
     public function testSavedRecipesPage(): void
     {

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Rating;
+use App\Pagination\Paginator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface;
 use Exception;
 
@@ -12,7 +13,13 @@ interface RatingRepositoryInterface extends ServiceEntityRepositoryInterface
 {
     public function findAllPendingReviews(): array;
 
+    public function findReviewsFromRecipe(int $recipeId, int $page): Paginator|array;
+
+    public function findReviewsFromUser(int $userId): array;
+
     public function findAllFromUser(int $userId): array;
+
+    public function get(int $id): Rating;
 
     public function getFromUser(int $id, int $userId): Rating;
 

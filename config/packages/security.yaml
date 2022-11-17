@@ -49,8 +49,6 @@ security:
         - { path: ^/voedingsmiddel/verwijder, roles: ROLE_VERIFIED }
         - { path: ^/voedingsmiddel/wijzig, roles: ROLE_VERIFIED }
         - { path: ^/voedingsmiddel/zoeken, roles: ROLE_VERIFIED }
-        - { path: ^/waardering, roles: ROLE_VERIFIED }
-
 
 when@test:
     security:

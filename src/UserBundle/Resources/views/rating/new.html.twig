@@ -1,0 +1,7 @@
+{% extends '@UserBundle/base.html.twig' %}
+
+{% block title %}Maak waardering{% endblock %}
+
+{% block body %}
+    {{ include('@UserBundle/rating/_form.html.twig', {submit_label: 'Waardering opslaan'}) }}
+{% endblock %}

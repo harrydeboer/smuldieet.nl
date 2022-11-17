@@ -6,7 +6,7 @@ namespace App\Controller;
 
 use App\Entity\Recipe;
 use App\Form\LoseRecipeType;
-use App\Form\RatingType;
+use App\UserBundle\Form\RatingType;
 use App\Form\RecipeType;
 use App\Form\DeleteType;
 use App\Form\SaveRecipeType;
@@ -185,8 +185,11 @@ class RecipeController extends Controller
      * The single recipe page is visible if the recipe is not pending except when the current user owns it.
      * It contains a rating form. It also contains a deletion form when the user already rated this recipe.
      */
-    #[Route('/recept/enkel/{id}', name: 'recipe_single')]
-    public function single(int $id): Response
+    #[
+        Route('/recept/enkel/{id}', name: 'recipe_single', defaults: ['page' => '1']),
+        Route('/recept/enkel/pagina/{page<[1-9]\d*>}', name: 'review_index_paginated'),
+    ]
+    public function single(int $id, int $page): Response
     {
         $recipe = $this->recipeRepository->get($id);
         if ($recipe->getIsPending() && $recipe->getUser()->getId() !== $this->getUser()?->getId()) {
@@ -203,14 +206,14 @@ class RecipeController extends Controller
 
         if (is_null($rating)) {
             $form = $this->createForm(RatingType::class, null, [
-                'action' => $this->generateUrl('rating_create', ['recipeId' => $id]),
+                'action' => $this->generateUrl('user_rating_create', ['recipeId' => $id]),
             ]);
         } else {
             $form = $this->createForm(RatingType::class, $rating, [
-                'action' => $this->generateUrl('rating_edit', ['id' => $rating->getId()]),
+                'action' => $this->generateUrl('user_rating_edit', ['id' => $rating->getId()]),
             ]);
             $formDelete = $this->createForm(DeleteType::class, null, [
-                'action' => $this->generateUrl('recipe_rating_delete', ['id' => $rating->getId()]),
+                'action' => $this->generateUrl('user_rating_delete', ['id' => $rating->getId()]),
             ]);
         }
 
@@ -238,6 +241,7 @@ class RecipeController extends Controller
         return $this->render('recipe/single.html.twig', [
             'recipe' => $recipe,
             'rating' => $rating,
+            'paginator' => $this->ratingRepository->findReviewsFromRecipe($recipe->getId(), $page),
             'isLoggedIn' => !is_null($this->getUser()),
             'currentUserId' => $this->getUser()?->getId(),
             'form' => $form->createView(),

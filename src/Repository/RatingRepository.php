@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Rating;
+use App\Pagination\Paginator;
 use App\Service\ProfanityCheckService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -40,9 +41,41 @@ class RatingRepository extends ServiceEntityRepository implements RatingReposito
         return $query->execute();
     }
 
+    public function findReviewsFromRecipe(int $recipeId, int $page): Paginator|array
+    {
+        $qb = $this->createQueryBuilder('r');
+        $qb->where('r.content IS NOT NULL');
+        $qb->andWhere('r.recipe = ' . $recipeId);
+        $qb->andWhere('r.isPending = 0');
+
+        return (new Paginator($qb))->paginate($page);
+    }
+
+    public function findReviewsFromUser(int $userId): array
+    {
+        $qb = $this->createQueryBuilder('r');
+        $qb->where('r.content IS NOT NULL');
+        $qb->andWhere('r.user = ' . $userId);
+
+        $query = $qb->getQuery();
+
+        return $query->execute();
+    }
+
     public function findAllFromUser(int $userId): array
     {
         return $this->findBy(['user' => $userId]);
+    }
+
+    public function get(int $id): Rating
+    {
+        $rating = $this->findOneBy(['id' => $id]);
+
+        if (is_null($rating)) {
+            throw new NotFoundHttpException('Deze waardering bestaat niet.');
+        }
+
+        return $rating;
     }
 
     public function getFromUser(int $id, int $userId): Rating

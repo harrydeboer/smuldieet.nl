@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends '@UserBundle/base.html.twig' %}
 
 {% block title %}Waarderingen{% endblock %}
 
@@ -13,8 +13,9 @@
         </thead>
         {% for rating in ratings %}
             <tr>
-                <td><a href="{{ path('rating_single', {'id': rating.id}) }}">{{ rating.rating }}</a></td>
-                <td><a href="{{ path('rating_edit', {'id': rating.id }) }}">wijzig</a></td>
+                <td><a href="{{ path('rating_single', {'id': rating.id}) }}">
+                        {{ rating.recipe.title }}</a> {{ rating.rating }} <i class="fas fa-star fa-star-gold"></i></td>
+                <td><a href="{{ path('user_rating_edit', {'id': rating.id }) }}">wijzig</a></td>
             </tr>
         {% endfor %}
     </table>
