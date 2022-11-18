@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Comment;
+use App\Pagination\Paginator;
 use App\Service\ProfanityCheckService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -29,12 +30,32 @@ class CommentRepository extends ServiceEntityRepository implements CommentReposi
         parent::__construct($registry, Comment::class);
     }
 
+    public function findAllPendingComments(): array
+    {
+        $qb = $this->createQueryBuilder('c');
+        $qb->andWhere('c.isPending = 1');
+
+        $query = $qb->getQuery();
+
+        return $query->execute();
+    }
+
+    public function findCommentsFromRecipe(int $recipeId, int $page): Paginator|array
+    {
+        $qb = $this->createQueryBuilder('c');
+        $qb->andWhere('c.recipe = ' . $recipeId);
+        $qb->andWhere('c.isPending = 0');
+
+        return (new Paginator($qb, 5))->paginate($page);
+    }
+
     /**
      * When the comment is created the times reacted of its recipe is upped by 1.
      * @throws Exception
      */
     public function create(Comment $comment): Comment
     {
+        $this->profanityCheckService->check($comment->getContent());
         if (!is_null($comment->getPage()) && !is_null($comment->getRecipe())) {
             throw new InvalidArgumentException('A comment cannot have both a page and a recipe.');
         }

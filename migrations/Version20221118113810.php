@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20221111131426 extends AbstractMigration
+final class Version20221118113810 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,7 +20,7 @@ final class Version20221111131426 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE TABLE comment (id INT AUTO_INCREMENT NOT NULL, user_id INT NOT NULL, recipe_id INT DEFAULT NULL, page_id INT DEFAULT NULL, timestamp BIGINT NOT NULL, content LONGTEXT NOT NULL, INDEX IDX_9474526CA76ED395 (user_id), INDEX IDX_9474526C59D8A214 (recipe_id), INDEX IDX_9474526CC4663E4 (page_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE comment (id INT AUTO_INCREMENT NOT NULL, user_id INT NOT NULL, recipe_id INT DEFAULT NULL, page_id INT DEFAULT NULL, timestamp BIGINT NOT NULL, content LONGTEXT NOT NULL, is_pending TINYINT(1) NOT NULL, INDEX IDX_9474526CA76ED395 (user_id), INDEX IDX_9474526C59D8A214 (recipe_id), INDEX IDX_9474526CC4663E4 (page_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE cookbook (id INT AUTO_INCREMENT NOT NULL, user_id INT NOT NULL, title VARCHAR(255) NOT NULL, timestamp BIGINT NOT NULL, INDEX IDX_BB59C3C3A76ED395 (user_id), UNIQUE INDEX title_unique (user_id, title), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE cookbook_recipe (cookbook_id INT NOT NULL, recipe_id INT NOT NULL, INDEX IDX_B642DB997C8804F (cookbook_id), INDEX IDX_B642DB9959D8A214 (recipe_id), PRIMARY KEY(cookbook_id, recipe_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE day (id INT AUTO_INCREMENT NOT NULL, user_id INT NOT NULL, timestamp BIGINT DEFAULT NULL, recipe_weights VARCHAR(255) NOT NULL, foodstuff_weights VARCHAR(255) NOT NULL, foodstuff_units VARCHAR(255) NOT NULL, INDEX IDX_E5A02990A76ED395 (user_id), UNIQUE INDEX timestamp_unique (user_id, timestamp), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');

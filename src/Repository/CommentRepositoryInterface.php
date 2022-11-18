@@ -5,10 +5,15 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Comment;
+use App\Pagination\Paginator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface;
 
 interface CommentRepositoryInterface extends ServiceEntityRepositoryInterface
 {
+    public function findAllPendingComments(): array;
+
+    public function findCommentsFromRecipe(int $recipeId, int $page): Paginator|array;
+
     public function create(Comment $comment): Comment;
 
     public function update(Comment $comment): void;

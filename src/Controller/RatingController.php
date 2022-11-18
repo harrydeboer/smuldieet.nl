@@ -8,7 +8,7 @@ use App\Entity\Rating;
 use App\Form\DeleteType;
 use App\Repository\RatingRepositoryInterface;
 use App\Repository\RecipeRepositoryInterface;
-use App\UserBundle\Form\RatingType;
+use App\Form\RatingType;
 use Exception;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;

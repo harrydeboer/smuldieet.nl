@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Recipe;
+use App\Form\CommentType;
 use App\Form\LoseRecipeType;
-use App\UserBundle\Form\RatingType;
+use App\Form\RatingType;
 use App\Form\RecipeType;
 use App\Form\DeleteType;
 use App\Form\SaveRecipeType;
+use App\Repository\CommentRepositoryInterface;
 use App\Repository\PageRepositoryInterface;
 use App\Repository\RatingRepositoryInterface;
 use App\Repository\RecipeRepositoryInterface;
@@ -28,6 +30,7 @@ class RecipeController extends Controller
     public function __construct(
         private readonly RatingRepositoryInterface $ratingRepository,
         private readonly RecipeRepositoryInterface $recipeRepository,
+        private readonly CommentRepositoryInterface $commentRepository,
         private readonly PageRepositoryInterface   $pageRepository,
         private readonly UploadedImageService      $uploadedImageService,
         private readonly AddFoodstuffsService      $addFoodstuffsService,
@@ -186,10 +189,11 @@ class RecipeController extends Controller
      * It contains a rating form. It also contains a deletion form when the user already rated this recipe.
      */
     #[
-        Route('/recept/enkel/{id}', name: 'recipe_single', defaults: ['page' => '1']),
-        Route('/recept/enkel/pagina/{page<[1-9]\d*>}', name: 'review_index_paginated'),
+        Route('/recept/enkel/{id}', name: 'recipe_single', defaults: ['pageReview' => '1', 'pageComment' => 1]),
+        Route('/recept/enkel/pagina-recensie/{page<[1-9]\d*>}', name: 'review_index_paginated'),
+        Route('/recept/enkel/pagina-commentaar/{page<[1-9]\d*>}', name: 'comment_index_paginated'),
     ]
-    public function single(int $id, int $page): Response
+    public function single(int $id, int $pageReview, int $pageComment): Response
     {
         $recipe = $this->recipeRepository->get($id);
         if ($recipe->getIsPending() && $recipe->getUser()->getId() !== $this->getUser()?->getId()) {
@@ -203,6 +207,7 @@ class RecipeController extends Controller
         $formDelete = null;
         $formSaveRecipe = null;
         $formLoseRecipe = null;
+        $formComment = null;
 
         if (is_null($rating)) {
             $form = $this->createForm(RatingType::class, null, [
@@ -214,6 +219,11 @@ class RecipeController extends Controller
             ]);
             $formDelete = $this->createForm(DeleteType::class, null, [
                 'action' => $this->generateUrl('rating_delete', ['id' => $rating->getId()]),
+            ]);
+        }
+        if (!is_null($this->getUser())) {
+            $formComment = $this->createForm(CommentType::class, null, [
+                'action' => $this->generateUrl('comment_create', ['recipeId' => $id]),
             ]);
         }
 
@@ -241,12 +251,14 @@ class RecipeController extends Controller
         return $this->render('recipe/single.html.twig', [
             'recipe' => $recipe,
             'rating' => $rating,
-            'paginator' => $this->ratingRepository->findReviewsFromRecipe($recipe->getId(), $page),
+            'paginatorReviews' => $this->ratingRepository->findReviewsFromRecipe($recipe->getId(), $pageReview),
+            'paginatorComments' => $this->commentRepository->findCommentsFromRecipe($recipe->getId(), $pageComment),
             'isLoggedIn' => !is_null($this->getUser()),
             'currentUserId' => $this->getUser()?->getId(),
             'form' => $form->createView(),
             'hasDiet' => $hasDiet,
             'diet' => $diet,
+            'formComment' => $formComment?->createView(),
             'formDelete' => $formDelete?->createView(),
             'formSaveRecipe' => $formSaveRecipe?->createView(),
             'formLoseRecipe' => $formLoseRecipe?->createView(),

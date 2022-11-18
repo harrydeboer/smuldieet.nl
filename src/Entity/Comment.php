@@ -33,6 +33,9 @@ class Comment
     ]
     private string $content;
 
+    #[ORM\Column(type: "boolean")]
+    private bool $isPending = true;
+
     #[
         ORM\ManyToOne(targetEntity: "App\Entity\User", inversedBy: "comments"),
         ORM\JoinColumn(name: "user_id", referencedColumnName: "id", nullable: false),
@@ -79,6 +82,16 @@ class Comment
     public function setContent(string $content): void
     {
         $this->content = strip_tags($content);
+    }
+
+    public function getIsPending(): bool
+    {
+        return $this->isPending;
+    }
+
+    public function setIsPending(bool $isPending): void
+    {
+        $this->isPending = $isPending;
     }
 
     public function getUser(): User

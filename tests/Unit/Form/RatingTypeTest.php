@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Unit\Form;
 
 use App\Entity\Rating;
-use App\UserBundle\Form\RatingType;
+use App\Form\RatingType;
 use Symfony\Component\Form\Test\TypeTestCase;
 
 class RatingTypeTest extends TypeTestCase
