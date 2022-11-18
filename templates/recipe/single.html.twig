@@ -33,7 +33,7 @@
             {{ form_errors(formLoseRecipe) }}
         </div>
         {{ form_start(formLoseRecipe) }}
-        {{ form_widget(formLoseRecipe.submit, { 'label': 'Verlies' }) }}
+        {{ form_widget(formLoseRecipe.submit, { 'label': 'Verwijder' }) }}
         {{ form_end(formLoseRecipe) }}
     {% elseif formSaveRecipe is not null %}
         <div id="form_errors_server">
@@ -147,13 +147,19 @@
         <br>
         Reviews {{ paginator.results|length }}
         {% if isLoggedIn %}
-            <a href="{{ path('user_review_create', {'recipeId': recipe.id}) }}">schrijf een recensie</a>.
+            {% if rating is null %}
+                <a href="{{ path('user_review_create', {'recipeId': recipe.id}) }}">schrijf een recensie</a>.
+            {% else %}
+                <a href="{{ path('user_review_edit', {'id': rating.id}) }}">schrijf een recensie</a>.
+            {% endif %}
         {% endif %}
         <table class="table table-striped">
             {% for review in paginator.results %}
-                <tr><td>{{ review.recipe.title }}</td>
+                <tr>
+                    <td><a href="{{ path('review_single', {'id' : review.id}) }}">{{ review.recipe.title }}</a></td>
                     <td>{{ review.rating }} <i class="fas fa-star fa-star-gold"></i></td>
-                    <td>{{ review.content }}</td></tr>
+                    <td>{{ review.content|length > 10 ? review.content|slice(0, 10) ~ '...' : review.content }}</td>
+                </tr>
             {% endfor %}
         </table>
         {{ include('pagination/view.html.twig', {route: 'review_index_paginated'}) }}

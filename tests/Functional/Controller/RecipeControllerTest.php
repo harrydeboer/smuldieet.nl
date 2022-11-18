@@ -83,6 +83,30 @@ class RecipeControllerTest extends AuthAdminWebTestCase
 
         $this->assertResponseIsSuccessful();
 
+        $crawler = $this->client->request('GET', '/recept/enkel/' . $recipe->getId());
+
+        $this->assertResponseIsSuccessful();
+
+        $buttonCrawlerNode = $crawler->selectButton('Bewaar');
+
+        $form = $buttonCrawlerNode->form();
+
+        $this->client->submit($form);
+
+        $this->assertResponseRedirects('/recept/enkel/' . $recipe->getId());
+
+        $crawler = $this->client->request('GET', '/recept/enkel/' . $recipe->getId());
+
+        $this->assertResponseIsSuccessful();
+
+        $buttonCrawlerNode = $crawler->selectButton('Verwijder');
+
+        $form = $buttonCrawlerNode->form();
+
+        $this->client->submit($form);
+
+        $this->assertResponseRedirects('/recept/enkel/' . $recipe->getId());
+
         $recipe = $recipeRepository->findOneBy(['title' => $updatedTitle]);
 
         $ratingOld = $recipe->getRating();
@@ -100,30 +124,6 @@ class RecipeControllerTest extends AuthAdminWebTestCase
 
         $rating = 9;
         $form['rating[rating]'] = $rating;
-
-        $this->client->submit($form);
-
-        $this->assertResponseRedirects('/recept/enkel/' . $recipe->getId());
-
-        $crawler = $this->client->request('GET', '/recept/enkel/' . $recipe->getId());
-
-        $this->assertResponseIsSuccessful();
-
-        $buttonCrawlerNode = $crawler->selectButton('Bewaar');
-
-        $form = $buttonCrawlerNode->form();
-
-        $this->client->submit($form);
-
-        $this->assertResponseRedirects('/recept/enkel/' . $recipe->getId());
-
-        $crawler = $this->client->request('GET', '/recept/enkel/' . $recipe->getId());
-
-        $this->assertResponseIsSuccessful();
-
-        $buttonCrawlerNode = $crawler->selectButton('Verlies');
-
-        $form = $buttonCrawlerNode->form();
 
         $this->client->submit($form);
 
