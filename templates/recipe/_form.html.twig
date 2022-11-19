@@ -56,6 +56,19 @@
     <div class="fw-bold d-none" id="recipe_source_title">Bron</div>
     {{ form_widget(form.source, {'attr': {'class': 'd-none form-control'}}) }}
 {% endif %}
+<div class="fw-bold">Tags</div>
+<table>
+    {% for form_tag in form.tags_array %}
+        <tr><td>{{ form_widget(form_tag) }}</td><td><i class="remove-tag-row fa fa-minus"></i></td></tr>
+    {% endfor %}
+    <tr id="add_tag_button_row"><td colspan="2"><div class="btn btn-primary" id="add_tag">Tag toevoegen</div></td></tr>
+</table>
+{% if form.tags_array|length == 0 %}
+    {{ form_widget(form.tags_array) }}
+{% else %}
+    <div id="recipe_tags_array"
+         data-prototype="{{ form_widget(form.tags_array.vars.prototype)|e('html') }}"></div>
+{% endif %}
 <div class="fw-bold">Bereidingstijd *</div>
 {{ form_widget(form.cooking_time) }}
 <div class="fw-bold">Keuken *</div>

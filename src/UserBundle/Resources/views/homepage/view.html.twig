@@ -3,7 +3,7 @@
 {% block title %}Home{% endblock %}
 
 {% block body %}
-    <img src="{{ asset(user.imageUrl) }}" alt="Image">
+    <img src="{{ asset(user.imageUrl) }}" id="user-panel-avatar" alt="Image">
     <h3>Welkom {{ user.username }}</h3>
     <div id="form_errors_client"></div>
     <div id="form_errors_server">

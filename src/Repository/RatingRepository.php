@@ -23,7 +23,6 @@ class RatingRepository extends ServiceEntityRepository implements RatingReposito
 {
     public function __construct(
         private readonly EntityManagerInterface $em,
-        private readonly RecipeRepositoryInterface $recipeRepository,
         private readonly ProfanityCheckService $profanityCheckService,
         ManagerRegistry $registry,
     ) {
@@ -118,7 +117,6 @@ class RatingRepository extends ServiceEntityRepository implements RatingReposito
         $votes = $recipe->getVotes();
         $recipe->setRating(($recipeRating * $votes + $rating->getRating()) / ($votes + 1));
         $recipe->setVotes($votes + 1);
-        $this->recipeRepository->update($recipe);
 
         $this->em->persist($rating);
         $this->em->flush();
@@ -137,7 +135,6 @@ class RatingRepository extends ServiceEntityRepository implements RatingReposito
         $votes = $recipe->getVotes();
         $recipe->setRating(($recipeRating * $votes + $rating->getRating() - $oldRating) / $votes);
         $this->em->flush();
-        $this->recipeRepository->update($recipe);
     }
 
     public function delete(Rating $rating): void
@@ -149,11 +146,6 @@ class RatingRepository extends ServiceEntityRepository implements RatingReposito
             $recipe->setRating(null);
         } else {
             $recipe->setRating(($recipe->getRating() * $votes - $rating->getRating()) / ($votes - 1));
-        }
-
-        try {
-            $this->recipeRepository->update($recipe);
-        } catch (Exception) {
         }
 
         $this->em->remove($rating);

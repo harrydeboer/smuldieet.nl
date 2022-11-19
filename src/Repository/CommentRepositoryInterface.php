@@ -14,6 +14,8 @@ interface CommentRepositoryInterface extends ServiceEntityRepositoryInterface
 
     public function findCommentsFromRecipe(int $recipeId, int $page): Paginator|array;
 
+    public function findCommentsFromPage(int $pageId, int $page): Paginator|array;
+
     public function create(Comment $comment): Comment;
 
     public function update(Comment $comment): void;

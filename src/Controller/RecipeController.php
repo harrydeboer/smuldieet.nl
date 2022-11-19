@@ -34,8 +34,7 @@ class RecipeController extends Controller
         private readonly PageRepositoryInterface   $pageRepository,
         private readonly UploadedImageService      $uploadedImageService,
         private readonly AddFoodstuffsService      $addFoodstuffsService,
-    )
-    {
+    ) {
     }
 
     #[
@@ -190,8 +189,8 @@ class RecipeController extends Controller
      */
     #[
         Route('/recept/enkel/{id}', name: 'recipe_single', defaults: ['pageReview' => '1', 'pageComment' => 1]),
-        Route('/recept/enkel/pagina-recensie/{page<[1-9]\d*>}', name: 'review_index_paginated'),
-        Route('/recept/enkel/pagina-commentaar/{page<[1-9]\d*>}', name: 'comment_index_paginated'),
+        Route('/recept/enkel/pagina-recensie/{page<[1-9]\d*>}', name: 'recipe_review_index_paginated'),
+        Route('/recept/enkel/pagina-commentaar/{page<[1-9]\d*>}', name: 'recipe_comment_index_paginated'),
     ]
     public function single(int $id, int $pageReview, int $pageComment): Response
     {
@@ -223,7 +222,7 @@ class RecipeController extends Controller
         }
         if (!is_null($this->getUser())) {
             $formComment = $this->createForm(CommentType::class, null, [
-                'action' => $this->generateUrl('comment_create', ['recipeId' => $id]),
+                'action' => $this->generateUrl('recipe_comment_create', ['recipeId' => $id]),
             ]);
         }
 

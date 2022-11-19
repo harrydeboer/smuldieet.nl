@@ -24,7 +24,6 @@ class TagRepository extends ServiceEntityRepository implements TagRepositoryInte
         parent::__construct($registry, Tag::class);
     }
 
-
     public function create(Tag $tag): Tag
     {
         $this->em->persist($tag);

@@ -9,7 +9,7 @@ use App\Tests\Functional\WebTestCase;
 
 class PageControllerTest extends WebTestCase
 {
-    public function testOverview(): void
+    public function testCMSPage(): void
     {
         $this->client->request('GET', '/test');
 
@@ -17,7 +17,7 @@ class PageControllerTest extends WebTestCase
 
         $page = static::getContainer()->get(PageFactory::class)->create(['title' => 'Test', 'slug' => 'test']);
 
-        $this->client->request('GET', '/' . $page->getSlug());
+        $this->client->request('GET', '/pagina-cms/' . $page->getSlug());
 
         $this->assertResponseIsSuccessful();
     }

@@ -23,7 +23,6 @@ class CommentRepository extends ServiceEntityRepository implements CommentReposi
 {
     public function __construct(
         private readonly EntityManagerInterface $em,
-        private readonly RecipeRepositoryInterface $recipeRepository,
         private readonly ProfanityCheckService $profanityCheckService,
         ManagerRegistry $registry,
     ) {
@@ -49,6 +48,15 @@ class CommentRepository extends ServiceEntityRepository implements CommentReposi
         return (new Paginator($qb, 5))->paginate($page);
     }
 
+    public function findCommentsFromPage(int $pageId, int $page): Paginator|array
+    {
+        $qb = $this->createQueryBuilder('c');
+        $qb->andWhere('c.page = ' . $pageId);
+        $qb->andWhere('c.isPending = 0');
+
+        return (new Paginator($qb, 5))->paginate($page);
+    }
+
     /**
      * When the comment is created the times reacted of its recipe is upped by 1.
      * @throws Exception
@@ -63,7 +71,6 @@ class CommentRepository extends ServiceEntityRepository implements CommentReposi
 
         if (!is_null($recipe = $comment->getRecipe())) {
             $recipe->setTimesReacted($recipe->getTimesReacted() + 1);
-            $this->recipeRepository->update($recipe);
         }
 
         $this->em->persist($comment);
@@ -88,10 +95,6 @@ class CommentRepository extends ServiceEntityRepository implements CommentReposi
     {
         if (!is_null($recipe = $comment->getRecipe())) {
             $recipe->setTimesReacted($recipe->getTimesReacted() - 1);
-            try {
-                $this->recipeRepository->update($recipe);
-            } catch (Exception) {
-            }
         }
 
         $this->em->remove($comment);

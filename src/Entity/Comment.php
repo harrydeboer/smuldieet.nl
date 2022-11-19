@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\CommentRepository;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -72,6 +73,13 @@ class Comment
     public function setTimestamp(int $timestamp): void
     {
         $this->timestamp = $timestamp;
+    }
+
+    public function getDate(): DateTime
+    {
+        $date = new DateTime();
+        $date->setTimestamp($this->timestamp);
+        return $date;
     }
 
     public function getContent(): string

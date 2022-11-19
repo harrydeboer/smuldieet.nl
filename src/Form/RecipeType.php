@@ -7,6 +7,7 @@ namespace App\Form;
 use App\Entity\Recipe;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -61,6 +62,17 @@ class RecipeType extends AbstractFoodstuffWeightsType
             ->add('source', TextType::class, [
                 'required' => false,
                 'attr' => ['class' => 'form-control d-none'],
+            ])
+            ->add('tags_array', CollectionType::class, [
+                'entry_type' => TextType::class,
+                'allow_add' => true,
+                'entry_options' => [
+                    'attr' => [
+                        'class' => 'form-control recipe-tag',
+                    ],
+                ],
+                'allow_delete' => true,
+                'delete_empty' => true,
             ])
             ->add('is_self_invented', ChoiceType::class, [
                 'choices' => ['ja' => true, 'nee' => false],

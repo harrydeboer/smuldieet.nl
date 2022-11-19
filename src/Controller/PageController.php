@@ -4,31 +4,46 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Form\CommentType;
+use App\Repository\CommentRepositoryInterface;
 use App\Repository\PageRepositoryInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 
 class PageController extends Controller
 {
     public function __construct(
         private readonly PageRepositoryInterface $pageRepository,
+        private readonly CommentRepositoryInterface $commentRepository,
     ) {
     }
 
-    public function catchAll(Request $request): Response
+    #[
+        Route('/pagina-cms/{slug}', name: 'page_cms', defaults: ['pageComment' => '1']),
+        Route('/pagina-cms/{slug}/{page<[1-9]\d*>}', name: 'page_comment_index_paginated'),
+    ]
+    public function viewPage(string $slug, int $pageComment): Response
     {
-        $uri = explode('/', $request->getUri())[3];
-        if ($uri) {
-            if ($uri === 'home') {
-                return $this->redirectToRoute('homepage');
-            }
+        $page = $this->pageRepository->getBySlug($slug);
 
-            return $this->render('page/view.html.twig', [
-                'page' => $this->pageRepository->getBySlug($uri),
+        $formComment = null;
+        if (!is_null($this->getUser())) {
+            $formComment = $this->createForm(CommentType::class, null, [
+                'action' => $this->generateUrl('page_comment_create', ['pageId' => $page->getId()]),
             ]);
         }
 
+        return $this->render('page/view.html.twig', [
+            'formComment' => $formComment?->createView(),
+            'page' => $page,
+            'paginatorComments' => $this->commentRepository->findCommentsFromPage($page->getId(), $pageComment),
+            'isLoggedIn' => !is_null($this->getUser()),
+        ]);
+    }
+
+    public function catchAll(): void
+    {
         throw new NotFoundHttpException('Deze pagina bestaat niet.');
     }
 }

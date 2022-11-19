@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Recipe;
+use App\Entity\Tag;
 use App\Entity\User;
 use App\Pagination\Paginator;
 use App\Service\AddFoodstuffsService;
@@ -24,6 +25,9 @@ use Exception;
 class RecipeRepository extends ServiceEntityRepository implements RecipeRepositoryInterface
 {
     public function __construct(
+        private readonly RatingRepositoryInterface $ratingRepository,
+        private readonly CommentRepositoryInterface $commentRepository,
+        private readonly TagRepositoryInterface $tagRepository,
         private readonly ProfanityCheckService $profanityCheckService,
         private readonly AddFoodstuffsService $addFoodstuffsService,
         private readonly EntityManagerInterface $em,
@@ -87,6 +91,7 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
     public function create(Recipe $recipe): Recipe
     {
         $this->checkProfanitiesRecipe($recipe);
+        $this->addTags($recipe);
         $this->addFoodstuffsService->addFoodstuffsAndValidate($recipe);
         $recipe->setTimestamp(time());
         $this->em->persist($recipe);
@@ -101,6 +106,7 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
     public function update(Recipe $recipe): void
     {
         $this->checkProfanitiesRecipe($recipe);
+        $this->addTags($recipe);
         foreach ($recipe->getFoodstuffs() as $foodstuff) {
             $recipe->removeFoodstuff($foodstuff);
         }
@@ -114,6 +120,12 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
             $weights = $day->getRecipeWeights();
             unset($weights[$recipe->getId()]);
             $day->setRecipeWeights($weights);
+        }
+        foreach ($recipe->getRatings() as $rating) {
+            $this->ratingRepository->delete($rating);
+        }
+        foreach ($recipe->getComments() as $comment) {
+            $this->commentRepository->delete($comment);
         }
         $this->em->remove($recipe);
         $this->em->flush();
@@ -192,6 +204,24 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
         }
 
         return (new Paginator($qb))->paginate($page);
+    }
+
+    private function addTags(Recipe $recipe): void
+    {
+        $tags = $recipe->getTagsArray();
+        foreach ($recipe->getTags() as $tag) {
+            $recipe->removeTag($tag);
+        }
+
+        foreach ($tags as $tagName) {
+            $tag = $this->tagRepository->findOneBy(['name' => $tagName]);
+            if (is_null($tag)) {
+                $tag = new Tag();
+                $tag->setName(strtolower($tagName));
+                $this->tagRepository->create($tag);
+            }
+            $recipe->addTag($tag);
+        }
     }
 
     /**

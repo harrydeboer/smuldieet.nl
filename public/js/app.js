@@ -91,4 +91,20 @@ $(function() {
     if (form.length > 0) {
         new FoodForm(form);
     }
+
+    $('#add_tag').on('click', function (event) {
+        let html = '<tr><td>' + $('#recipe_tags_array').data('prototype') +
+            '</td><td><i class="remove-tag-row fa fa-minus"></i></td></tr>';
+        html = html.replaceAll(/<label[\s\S]+?<\/label>/g, '');
+        $('#add_tag_button_row').before(html);
+        let prototype = $('#recipe_tags_array___name__');
+        prototype.attr('name', 'recipe[tags_array][]')
+        prototype.removeAttr('id');
+        event.preventDefault();
+    });
+
+    form.on('click', '.remove-tag-row', function (event) {
+        let row = $(event.target).closest('tr');
+        row.remove();
+    });
 });

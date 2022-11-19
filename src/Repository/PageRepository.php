@@ -25,6 +25,17 @@ class PageRepository extends ServiceEntityRepository implements PageRepositoryIn
         parent::__construct($registry, Page::class);
     }
 
+    public function get(int $id): Page
+    {
+        $page = $this->findOneBy(['id' => $id]);
+
+        if (is_null($page)) {
+            throw new NotFoundHttpException('Deze pagina bestaat niet of hoort niet bij jou.');
+        }
+
+        return $page;
+    }
+
     public function getByTitle(string $title): Page
     {
         $page = $this->findOneBy(['title' => $title]);

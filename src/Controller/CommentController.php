@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Form\CommentType;
 use App\Repository\CommentRepositoryInterface;
+use App\Repository\PageRepositoryInterface;
 use App\Repository\RecipeRepositoryInterface;
 use Exception;
 use Symfony\Component\Form\FormError;
@@ -20,11 +21,12 @@ class CommentController extends Controller
     public function __construct(
         private readonly CommentRepositoryInterface $commentRepository,
         private readonly RecipeRepositoryInterface $recipeRepository,
+        private readonly PageRepositoryInterface $pageRepository,
     ) {
     }
 
-    #[Route('/commentaar/{recipeId}', name: 'comment_create')]
-    public function new(Request $request, int $recipeId): RedirectResponse
+    #[Route('/commentaar/recipe/{recipeId}', name: 'recipe_comment_create')]
+    public function newRecipeComment(Request $request, int $recipeId): RedirectResponse
     {
         $comment = new Comment();
         $recipe = $this->recipeRepository->get($recipeId);
@@ -52,5 +54,28 @@ class CommentController extends Controller
         }
 
         return $this->redirectToRoute('recipe_single', ['id' => $recipe->getId()]);
+    }
+
+    #[Route('/commentaar/page/{pageId}', name: 'page_comment_create')]
+    public function newPageComment(Request $request, int $pageId): RedirectResponse
+    {
+        $comment = new Comment();
+        $page = $this->pageRepository->get($pageId);
+        $comment->setPage($page);
+        $form = $this->createForm(CommentType::class, $comment);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $comment->setUser($this->getUser());
+            $comment->setTimestamp(time());
+
+            try {
+                $this->commentRepository->create($comment);
+            } catch (Exception $exception) {
+                $this->addFlash('comment_exception', $exception->getMessage());
+            }
+        }
+
+        return $this->redirectToRoute('page_cms', ['slug' => $page->getSlug()]);
     }
 }

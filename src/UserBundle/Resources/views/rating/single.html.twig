@@ -5,6 +5,14 @@
 {% block body %}
     <table class="table table-small">
         <tr>
+            <td>Username</td>
+            <td>{{ rating.user.username }}</td>
+        </tr>
+        <tr>
+            <td>Datum</td>
+            <td>{{ rating.date|date('d-M-Y') }}</td>
+        </tr>
+        <tr>
             <td>Waardering</td>
             <td>{{ rating.rating }}</td>
         </tr>
