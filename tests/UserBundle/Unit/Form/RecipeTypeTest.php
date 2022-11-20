@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Form;
+namespace App\Tests\UserBundle\Unit\Form;
 
 use App\Entity\Recipe;
-use App\Form\RecipeType;
+use App\UserBundle\Form\RecipeType;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\Test\TypeTestCase;
 use Symfony\Component\Validator\Validation;

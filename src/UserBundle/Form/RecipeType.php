@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Form;
+namespace App\UserBundle\Form;
 
 use App\Entity\Recipe;
+use App\Form\AbstractFoodstuffWeightsType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;

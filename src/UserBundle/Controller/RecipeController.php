@@ -7,7 +7,7 @@ namespace App\UserBundle\Controller;
 use App\Controller\Controller;
 use App\Entity\Recipe;
 use App\Form\DeleteType;
-use App\Form\RecipeType;
+use App\UserBundle\Form\RecipeType;
 use App\Repository\PageRepositoryInterface;
 use App\Repository\RecipeRepositoryInterface;
 use App\Service\AddFoodstuffsService;

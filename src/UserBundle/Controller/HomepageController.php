@@ -7,7 +7,10 @@ namespace App\UserBundle\Controller;
 use App\Controller\AuthController;
 use App\Entity\User;
 use App\Repository\UserRepositoryInterface;
+use App\Service\UploadedImageService;
 use App\UserBundle\Form\UserType;
+use Exception;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,33 +18,30 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomepageController extends AuthController
 {
     public function __construct(
-        private readonly UserRepositoryInterface $userRepository,
+        private readonly UserRepositoryInterface   $userRepository,
+        private readonly UploadedImageService      $uploadedImageService,
     ) {
     }
 
     #[Route('/', name: 'user_homepage')]
-    public function view(Request $request): Response
+    public function view(): Response
     {
         $form = $this->createForm(UserType::class, $this->getUser(), [
             'action' => $this->generateUrl('user_edit', ['id' => $this->getUser()->getId()]),
             'method' => 'POST',
         ]);
 
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->userRepository->update();
-        }
-
         return $this->render('@UserBundle/homepage/view.html.twig', [
             'form' => $form->createView(),
             'user' => $this->getUser(),
-            ]);
+        ]);
     }
 
-    #[Route('/user/wijzig/{id}', name: 'user_edit')]
+    #[Route('/wijzig/{id}', name: 'user_edit')]
     public function edit(Request $request, User $user): Response
     {
+        $oldExtension = $this->getUser()->getImageExtension();
+
         $formUpdate = $this->createForm(UserType::class, $user, [
             'method' => 'POST',
         ]);
@@ -49,7 +49,17 @@ class HomepageController extends AuthController
         $formUpdate->handleRequest($request);
 
         if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
-            $this->userRepository->update();
+            try {
+                $this->userRepository->update();
+
+                $this->uploadedImageService->moveImage(
+                    $this->getUser(),
+                    $oldExtension,
+                );
+
+            } catch (Exception $exception) {
+                $this->addFlash('user_form_exception', $exception->getMessage());
+            }
         }
 
         return $this->redirectToRoute('user_homepage');

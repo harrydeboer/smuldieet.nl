@@ -5,14 +5,17 @@
 {% block body %}
     <img src="{{ asset(user.imageUrl) }}" id="user-panel-avatar" alt="Image">
     <h3>Welkom {{ user.username }}</h3>
-    <div id="form_errors_client"></div>
-    <div id="form_errors_server">
-        {{ form_errors(form) }}
-        {{ form_errors(form.first_name) }}
-        {{ form_errors(form.last_name) }}
-    </div>
+    {% for message in app.flashes('user_form_exception') %}
+        <div class="error-message">
+            {{ message }}
+        </div>
+    {% endfor %}
     {{ form_start(form) }}
     <table class="table table-small">
+        <tr>
+            <td><div id="upload_file_button" class="btn btn-primary">Upload foto</div>
+                {{ form_widget(form.image) }}</td>
+        </tr>
         <tr>
             <td>Voornaam</td><td>{{ form_widget(form.first_name) }}</td>
         </tr>
