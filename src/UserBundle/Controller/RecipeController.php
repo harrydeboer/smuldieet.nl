@@ -31,7 +31,7 @@ class RecipeController extends Controller
 
     #[
         Route('/recepten', name: 'user_recipes', defaults: ['page' => '1']),
-        Route('/recepten/pagina/{page<[1-9]\d*>}', name: 'recipe_index_paginated'),
+        Route('/recepten/pagina/{page<[1-9]\d*>}', name: 'user_recipe_index_paginated'),
     ]
     public function view(int $page): Response
     {
