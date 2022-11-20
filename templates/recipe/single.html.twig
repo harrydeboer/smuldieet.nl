@@ -168,15 +168,20 @@
         {{ include('pagination/view.html.twig',
             {paginator: paginatorReviews, route: 'recipe_review_index_paginated'}) }}
         <br>
-        Reacties {{ paginatorComments.results|length }}
+        <div id="comments">Reacties {{ paginatorComments.results|length }}</div>
         {% if isLoggedIn %}
             <div id="form_errors_client"></div>
             <div id="form_errors_server">
                 {{ form_errors(formComment) }}
                 {{ form_errors(formComment.content) }}
             </div>
+            {% for message in app.flashes('comment_pending') %}
+                <div class="success-message">
+                    {{ message }}
+                </div>
+            {% endfor %}
             {% for message in app.flashes('comment_exception') %}
-                <div class="flash-notice">
+                <div class="error-message">
                     {{ message }}
                 </div>
             {% endfor %}

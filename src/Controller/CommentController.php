@@ -47,12 +47,14 @@ class CommentController extends Controller
 
             try {
                 $this->commentRepository->create($comment);
+
+                $this->addFlash('comment_pending', 'Je commentaar wacht op goedkeuring.');
             } catch (Exception $exception) {
                 $this->addFlash('comment_exception', $exception->getMessage());
             }
         }
 
-        return $this->redirectToRoute('recipe_single', ['id' => $recipe->getId()]);
+        return $this->redirectToRoute('recipe_single', ['_fragment' => 'comments', 'id' => $recipe->getId()]);
     }
 
     #[Route('/commentaar/page/{pageId}', name: 'page_comment_create')]

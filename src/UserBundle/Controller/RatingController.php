@@ -63,6 +63,8 @@ class RatingController extends AuthController
             try {
                 $this->ratingRepository->create($rating);
 
+                $this->addFlash('review_pending', 'Je recensie wacht op goedkeuring');
+
                 return $this->redirectToRoute('user_ratings');
             } catch (Exception $exception) {
                 $form->addError(new FormError($exception->getMessage()));
@@ -80,6 +82,7 @@ class RatingController extends AuthController
     {
         $rating = $this->getRating($id);
         $oldRating = $rating->getRating();
+        $oldContent = $rating->getContent();
 
         $formUpdate = $this->createForm(ReviewType::class, $rating, [
             'method' => 'POST',
@@ -94,6 +97,11 @@ class RatingController extends AuthController
 
         if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
             try {
+                if ($rating->getContent() !== $oldContent) {
+                    $rating->setIsPending(true);
+
+                    $this->addFlash('review_pending', 'Je recensie wacht op goedkeuring');
+                }
                 $this->ratingRepository->update($oldRating, $rating);
 
                 return $this->redirectToRoute('user_ratings');

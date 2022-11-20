@@ -11,6 +11,11 @@
             <th scope="col">Wijzig</th>
         </tr>
         </thead>
+        {% for message in app.flashes('review_pending') %}
+            <div class="success-message">
+                {{ message }}
+            </div>
+        {% endfor %}
         {% for rating in ratings %}
             <tr>
                 <td>
