@@ -3,7 +3,7 @@
 {% block title %}Wijzig{% endblock %}
 
 {% block body %}
-    {{ include('recipe/_form.html.twig', {form: formUpdate, submit_label: 'Wijzig recept'}) }}
+    {{ include('@UserBundle/recipe/_form.html.twig', {form: formUpdate, submit_label: 'Wijzig recept'}) }}
     <br>
     {{ include('_delete_confirmation.html.twig', {
         entityName: 'recept',

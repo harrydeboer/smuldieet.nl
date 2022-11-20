@@ -5,58 +5,23 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller;
 
 use App\Repository\RecipeRepositoryInterface;
-use App\Tests\Factory\FoodstuffFactory;
 use App\Tests\Factory\RecipeFactory;
 use App\Tests\Functional\AuthAdminWebTestCase;
-use Symfony\Component\HttpFoundation\File\File;
 
 class RecipeControllerTest extends AuthAdminWebTestCase
 {
     public function testCreateUpdateDelete(): void
     {
+        $recipePending = static::getContainer()->get(RecipeFactory::class)->create(['isPending' => true]);
         $recipeNotPending = static::getContainer()->get(RecipeFactory::class)->create(['isPending' => false]);
-        $foodstuff = static::getContainer()->get(FoodstuffFactory::class)->create();
 
-        $this->client->request('GET', '/recepten');
-
-        $this->assertResponseIsSuccessful();
-
-        $crawler = $this->client->request('GET', '/recept/toevoegen');
-
-        $buttonCrawlerNode = $crawler->selectButton('Recept opslaan');
-
-        $form = $buttonCrawlerNode->form();
-
-        $testImagePath = __DIR__ . '/test.jpg';
-        $form['recipe[image]'] = new File($testImagePath);
-        $form['recipe[title]'] = 'test title';
-        $form['recipe[ingredients]'] = 'test ingredient';
-        $form['recipe[preparation_method]'] = 'test preparation';
-        $form['recipe[is_self_invented]'] = 0;
-        $form['recipe[number_of_persons]'] = 1;
-        $form['recipe[cooking_time]'] = '0-10 min.';
-        $form['recipe[kitchen]'] = 'Afrikaans';
-        $form['recipe[type_of_dish]'] = 'Hoofdgerecht';
-
-        $values = $form->getPhpValues();
-        $values['recipe']['foodstuff_weights'] = [$foodstuff->getId() => 10];
-        $values['recipe']['foodstuff_units'] = [$foodstuff->getId() => 'g'];
-        $this->client->request($form->getMethod(), $form->getUri(), $values, $form->getPhpFiles());
-
-        $this->assertResponseRedirects('/recepten');
-
-        $recipeRepository = $this->getContainer()->get(RecipeRepositoryInterface::class);
-
-        $recipe = $recipeRepository->findOneBy(['title' => 'test title']);
-        $id = $recipe->getId();
-
-        $this->client->xmlHttpRequest('GET', '/recept/zoeken/' . $recipe->getTitle());
+        $this->client->xmlHttpRequest('GET', '/recept/zoeken/' . $recipeNotPending->getTitle());
 
         $this->assertResponseIsSuccessful();
 
         $this->client->request('GET', '/uitloggen');
 
-        $this->client->request('GET', '/recept/enkel/' . $id);
+        $this->client->request('GET', '/recept/enkel/' . $recipePending->getId());
 
         $this->assertResponseStatusCodeSame(404);
 
@@ -66,24 +31,7 @@ class RecipeControllerTest extends AuthAdminWebTestCase
 
         $this->client->loginUser($this->user);
 
-        $crawler = $this->client->request('GET', '/recept/wijzig/' . $id);
-
-        $buttonCrawlerNode = $crawler->selectButton('Wijzig recept');
-
-        $form = $buttonCrawlerNode->form();
-
-        $updatedTitle = 'test2';
-        $form['recipe[title]'] = $updatedTitle;
-
-        $this->client->submit($form);
-
-        $this->assertResponseRedirects('/recepten');
-
-        $this->client->request('GET', '/recepten/pagina/1');
-
-        $this->assertResponseIsSuccessful();
-
-        $crawler = $this->client->request('GET', '/recept/enkel/' . $recipe->getId());
+        $crawler = $this->client->request('GET', '/recept/enkel/' . $recipeNotPending->getId());
 
         $this->assertResponseIsSuccessful();
 
@@ -93,9 +41,9 @@ class RecipeControllerTest extends AuthAdminWebTestCase
 
         $this->client->submit($form);
 
-        $this->assertResponseRedirects('/recept/enkel/' . $recipe->getId());
+        $this->assertResponseRedirects('/recept/enkel/' . $recipeNotPending->getId());
 
-        $crawler = $this->client->request('GET', '/recept/enkel/' . $recipe->getId());
+        $crawler = $this->client->request('GET', '/recept/enkel/' . $recipeNotPending->getId());
 
         $this->assertResponseIsSuccessful();
 
@@ -105,16 +53,12 @@ class RecipeControllerTest extends AuthAdminWebTestCase
 
         $this->client->submit($form);
 
-        $this->assertResponseRedirects('/recept/enkel/' . $recipe->getId());
+        $this->assertResponseRedirects('/recept/enkel/' . $recipeNotPending->getId());
 
-        $recipe = $recipeRepository->findOneBy(['title' => $updatedTitle]);
+        $ratingOld = $recipeNotPending->getRating();
+        $votesOld = $recipeNotPending->getVotes();
 
-        $ratingOld = $recipe->getRating();
-        $votesOld = $recipe->getVotes();
-
-        $this->assertEquals($updatedTitle, $recipe->getTitle());
-
-        $crawler = $this->client->request('GET', '/recept/enkel/' . $recipe->getId());
+        $crawler = $this->client->request('GET', '/recept/enkel/' . $recipeNotPending->getId());
 
         $this->assertResponseIsSuccessful();
 
@@ -127,12 +71,12 @@ class RecipeControllerTest extends AuthAdminWebTestCase
 
         $this->client->submit($form);
 
-        $this->assertResponseRedirects('/recept/enkel/' . $recipe->getId());
+        $this->assertResponseRedirects('/recept/enkel/' . $recipeNotPending->getId());
 
-        $crawler = $this->client->request('GET', '/recept/enkel/' . $recipe->getId());
+        $crawler = $this->client->request('GET', '/recept/enkel/' . $recipeNotPending->getId());
 
         $recipeRepository = $this->getContainer()->get(RecipeRepositoryInterface::class);
-        $recipe = $recipeRepository->findOneBy(['title' => $updatedTitle]);
+        $recipe = $recipeRepository->findOneBy(['title' => $recipeNotPending->getTitle()]);
         $recipeRating = $recipe->getRating();
 
         $this->assertEquals(($rating + $votesOld * $ratingOld) / ($votesOld + 1), $recipeRating);
@@ -150,23 +94,9 @@ class RecipeControllerTest extends AuthAdminWebTestCase
         $this->assertResponseRedirects('/recept/enkel/' . $recipe->getId());
 
         $recipeRepository = $this->getContainer()->get(RecipeRepositoryInterface::class);
-        $recipeUpdate = $recipeRepository->findOneBy(['title' => $updatedTitle]);
+        $recipeUpdate = $recipeRepository->findOneBy(['title' => $recipe->getTitle()]);
 
         $this->assertEquals($ratingUpdate - $rating + $recipeRating, $recipeUpdate->getRating());
         $this->assertEquals($votesOld + 1, $recipe->getVotes());
-
-        $crawler = $this->client->request('GET', '/recept/wijzig/' . $recipeUpdate->getId());
-
-        $buttonCrawlerNode = $crawler->selectButton('Verwijder');
-
-        $form = $buttonCrawlerNode->form();
-
-        $this->client->submit($form);
-
-        $this->assertResponseRedirects('/recepten');
-
-        $recipeRepository = $this->getContainer()->get(RecipeRepositoryInterface::class);
-
-        $this->assertNull($recipeRepository->find($id));
     }
 }

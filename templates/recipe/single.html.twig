@@ -192,7 +192,7 @@
         {{ include('pagination/view.html.twig',
             {paginator: paginatorComments, route: 'recipe_comment_index_paginated'}) }}
         {% if currentUserId == recipe.user.id %}
-            <div><a href="{{ path('recipe_edit', {'id': recipe.id}) }}">wijzig</a></div>
+            <div><a href="{{ path('user_recipe_edit', {'id': recipe.id}) }}">wijzig</a></div>
         {% endif %}
     </div>
 {% endblock %}

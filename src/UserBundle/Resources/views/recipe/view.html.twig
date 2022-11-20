@@ -4,7 +4,7 @@
 
 {% block body %}
     {{ page is not null ? page.content|raw : '' }}
-    <a href="{{ path('recipe_create') }}">Maak een recept</a>
+    <a href="{{ path('user_recipe_create') }}">Maak een recept</a>
     {% if paginator.results is empty %}
         <p>Je hebt nog geen recepten gemaakt.</p>
     {% else %}
@@ -25,7 +25,7 @@
                         {% endif %}
                     </td>
                     <td><a href="{{ path('recipe_single', {'id': recipe.id}) }}">{{ recipe.title }}</a></td>
-                    <td><a href="{{ path('recipe_edit', {'id': recipe.id }) }}">wijzig</a></td>
+                    <td><a href="{{ path('user_recipe_edit', {'id': recipe.id }) }}">wijzig</a></td>
                 </tr>
             {% endfor %}
         </table>
