@@ -106,7 +106,7 @@ class DayController extends AuthController
             'user' => $this->getUser()->getId(),
             'timestamp' => null,
         ]);
-        $form = $this->createForm(DayType::class, $day);
+        $form = $this->createForm(DayType::class, $dayStandard ?? $day);
         $day->setUser($this->getUser());
         $form->handleRequest($request);
 
