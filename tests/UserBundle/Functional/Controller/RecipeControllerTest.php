@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\UseBundle\Functional\Controller;
+namespace App\Tests\UserBundle\Functional\Controller;
 
 use App\Repository\RecipeRepositoryInterface;
 use App\Tests\Factory\FoodstuffFactory;
