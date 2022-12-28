@@ -14,12 +14,11 @@
     {{ form_errors(form.type_of_dish) }}
     {{ form_errors(form.occasion) }}
     {{ form_errors(form.foodstuff_weights) }}
-    {{ form_errors(form.foodstuff_units) }}
     {% for choice,label in recipe.dietChoices('snake') %}
         {{ form_errors(attribute(form, choice)) }}
     {% endfor %}
 </div>
-{{ form_start(form, { 'attr' : { 'class': 'food-form' }}) }}
+{{ form_start(form, { 'attr' : { 'class': 'foodstuffs-form' }}) }}
 {{ page is not null ? page.content|raw : '' }}
 <div id="upload_file_button" class="btn btn-primary">Upload afbeelding</div>
 {{ form_widget(form.image) }}
@@ -31,12 +30,10 @@
 {{ form_widget(form.ingredients) }}
 <h4 class="no-wrap">Voedingsmiddelen gerecht</h4>
 <table class="table">
-    {{ include('_food_row.html.twig', {
+    {{ include('_foodstuff_rows.html.twig', {
         'form_name': 'recipe',
-        'entities': recipe.foodstuffs,
+        'foodstuff_weights': recipe.foodstuffWeights,
         'weights': form.foodstuff_weights,
-        'units': form.foodstuff_units,
-        'food_type': 'foodstuff',
         'placeholder': 'voedingsmiddel'
     }) }}
     <tr id="add_foodstuff_recipe_button_row">

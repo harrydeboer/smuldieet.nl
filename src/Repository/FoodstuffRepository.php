@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Foodstuff;
-use App\Entity\FoodstuffWeightsInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
@@ -260,7 +259,6 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
             }
         }
 
-        $entity->setFoodstuffUnits($units);
         $entity->setFoodstuffWeights($weights);
     }
 }

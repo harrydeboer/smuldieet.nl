@@ -87,9 +87,14 @@ $(function() {
         }
     });
 
-    let form = $('.food-form');
-    if (form.length > 0) {
-        new FoodForm(form);
+    let foodstuffsForm = $('.foodstuffs-form');
+    if (foodstuffsForm.length > 0) {
+        new FoodstuffsForm(foodstuffsForm);
+    }
+
+    let recipesForm = $('.recipes-form');
+    if (recipesForm.length > 0) {
+        new RecipesForm(recipesForm);
     }
 
     $('#add_tag').on('click', function (event) {
@@ -103,7 +108,7 @@ $(function() {
         event.preventDefault();
     });
 
-    form.on('click', '.remove-tag-row', function (event) {
+    foodstuffsForm.on('click', '.remove-tag-row', function (event) {
         let row = $(event.target).closest('tr');
         row.remove();
     });

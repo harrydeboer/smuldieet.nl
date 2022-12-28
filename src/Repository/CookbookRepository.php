@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Cookbook;
-use App\Service\AddRecipesService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
@@ -21,7 +20,6 @@ class CookbookRepository extends ServiceEntityRepository implements CookbookRepo
 {
     public function __construct(
         private readonly EntityManagerInterface $em,
-        private readonly AddRecipesService $addRecipesService,
         ManagerRegistry $registry,
     ) {
         parent::__construct($registry, Cookbook::class);
@@ -42,7 +40,6 @@ class CookbookRepository extends ServiceEntityRepository implements CookbookRepo
     {
         $this->em->persist($cookbook);
         $this->em->flush();
-        $this->addRecipesService->addRecipesAndValidate($cookbook);
         $this->em->flush();
 
         return $cookbook;
@@ -54,7 +51,6 @@ class CookbookRepository extends ServiceEntityRepository implements CookbookRepo
      */
     public function update(Cookbook $cookbook): void
     {
-        $this->addRecipesService->addRecipesAndValidate($cookbook);
         $this->em->flush();
     }
 

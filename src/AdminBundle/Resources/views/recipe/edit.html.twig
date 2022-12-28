@@ -6,7 +6,7 @@
     {{ include('@AdminBundle/recipe/_form.html.twig', {form: formUpdate, submit_label: 'Wijzig'}) }}
     <br>
     {{ include('_delete_confirmation.html.twig', {
-        entityName: 'recipe',
+        entityName: 'recept',
         warning: 'Weet je zeker dat je dit recept wilt verwijderen?'
     }) }}
 {% endblock %}

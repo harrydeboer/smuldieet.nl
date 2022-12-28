@@ -24,22 +24,26 @@ class CombineFoodstuffsService
         $foodstuff = new Foodstuff();
         $foodstuff->setName($formData['name']);
         $foodstuff->setUser($user);
-        $sum = array_sum($formData['foodstuff_weights']);
 
-        if ((int) round(($sum * 100)) !== 10000) {
+        $totalWeight = 0;
+        foreach ($formData['foodstuff_weights'] as $weight) {
+            $totalWeight += $weight->getValue();
+        }
+
+        if ((int) round(($totalWeight * 100)) !== 10000) {
             throw new InvalidArgumentException('Weights must add up to 100 percent.');
         }
 
         $properties = array_keys(Foodstuff::getNutrients());
-        foreach ($formData['foodstuff_weights'] as $id => $weight) {
-            $foodstuffForm = $this->foodstuffRepository->get($id);
+        foreach ($formData['foodstuff_weights'] as $weight) {
+            $foodstuffForm = $this->foodstuffRepository->get($weight->getFoodstuffId());
             foreach ($properties as $property) {
                 if (is_null($foodstuffForm->{'get' . ucfirst($property)}())) {
                     continue;
                 } else {
                     $foodstuff->{'set' . ucfirst($property)}($foodstuff->{'get' . ucfirst($property)}() +
                         $foodstuffForm->{'get' . ucfirst($property)}()
-                        * $formData['foodstuff_weights'][$id] / $sum);
+                        * $weight->getValue() / $totalWeight);
                 }
             }
         }

@@ -110,18 +110,18 @@
         <table class="table">
             {% for id, weight in recipe.foodstuffWeights %}
                 <tr>
-                    <td>{{ recipe.foodstuffs()[id].name }}</td>
-                    <td>{{ weight|number_format }}
-                        {% if recipe.foodstuffs()[id].pieceName is not null
-                            and weight >= 2
-                            and recipe.foodstuffUnits()[id] == 'stuks' %}
-                            {{ recipe.foodstuffs()[id].piecesName }}
-                        {% elseif recipe.foodstuffs()[id].pieceName is not null
-                            and weight < 2
-                            and recipe.foodstuffUnits()[id] == 'stuks' %}
-                            {{ recipe.foodstuffs()[id].pieceName }}
+                    <td>{{ weight.foodstuff.name }}</td>
+                    <td>{{ weight.value|number_format }}
+                        {% if weight.foodstuff.pieceName is not null
+                            and weight.value >= 2
+                            and weight.unit == 'stuks' %}
+                            {{ weight.foodstuff.piecesName }}
+                        {% elseif weight.foodstuff.pieceName is not null
+                            and weight.value < 2
+                            and weight.unit == 'stuks' %}
+                            {{ weight.foodstuff.pieceName }}
                         {% else %}
-                            {{ recipe.foodstuffUnits()[id] }}
+                            {{ weight.unit }}
                         {% endif %}</td>
                 </tr>
             {% endfor %}

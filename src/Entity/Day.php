@@ -38,35 +38,16 @@ class Day implements FoodstuffWeightsInterface, RecipeWeightsInterface
     ]
     private User $user;
 
-    #[
-        ORM\ManyToMany(targetEntity: "Foodstuff", inversedBy: "days", indexBy: "id"),
-        ORM\JoinTable(name: "day_foodstuff"),
-        ORM\JoinColumn(name: "day_id", referencedColumnName: "id", onDelete: "CASCADE"),
-        ORM\InverseJoinColumn(name: "foodstuff_id", referencedColumnName: "id", onDelete: "CASCADE"),
-    ]
-    private Collection $foodstuffs;
+    #[ORM\OneToMany(mappedBy: "day", targetEntity: "App\Entity\FoodstuffWeight", cascade: ["persist", "remove"])]
+    private Collection $foodstuffWeights;
 
-    #[
-        ORM\ManyToMany(targetEntity: "Recipe", inversedBy: "days", indexBy: "id"),
-        ORM\JoinTable(name: "day_recipe"),
-        ORM\JoinColumn(name: "day_id", referencedColumnName: "id", onDelete: "CASCADE"),
-        ORM\InverseJoinColumn(name: "recipe_id", referencedColumnName: "id", onDelete: "CASCADE"),
-    ]
-    private Collection $recipes;
-
-    #[ORM\Column(type: "string")]
-    private string $recipeWeights = 'a:0:{}';
-
-    #[ORM\Column(type: "string")]
-    private string $foodstuffWeights = 'a:0:{}';
-
-    #[ORM\Column(type: "string")]
-    private string $foodstuffUnits = 'a:0:{}';
+    #[ORM\OneToMany(mappedBy: "day", targetEntity: "RecipeWeight", cascade: ["remove"])]
+    private Collection $recipeWeights;
 
     #[Pure] public function __construct()
     {
-        $this->foodstuffs = new ArrayCollection();
-        $this->recipes = new ArrayCollection();
+        $this->foodstuffWeights = new ArrayCollection();
+        $this->recipeWeights = new ArrayCollection();
     }
 
     public function getId(): int
@@ -120,93 +101,45 @@ class Day implements FoodstuffWeightsInterface, RecipeWeightsInterface
         $this->user = $user;
     }
 
-    public function getFoodstuffs(): Collection
+    public function getFoodstuffWeights(): Collection
     {
-        return $this->foodstuffs;
+        return $this->foodstuffWeights;
     }
 
-    public function setFoodstuffs(Collection $foodstuffs): void
+    public function setFoodstuffWeights(Collection $foodstuffWeights): void
     {
-        $this->foodstuffs = $foodstuffs;
+        $this->foodstuffWeights = $foodstuffWeights;
     }
 
-    public function addFoodstuff(Foodstuff $foodstuff): void
+    public function addFoodstuffWeight(FoodstuffWeight $foodstuffWeight): void
     {
-        if ($this->foodstuffs->contains($foodstuff)) {
-            return;
-        }
-
-        $this->foodstuffs->set($foodstuff->getId(), $foodstuff);
-        $foodstuff->addDay($this);
+        $foodstuffWeight->setDay($this);
+        $this->foodstuffWeights->add($foodstuffWeight);
     }
 
-    public function removeFoodstuff(Foodstuff $foodstuff): void
+    public function removeFoodstuffWeight(FoodstuffWeight $foodstuffWeight): void
     {
-        if (!$this->foodstuffs->contains($foodstuff)) {
-            return;
-        }
-
-        $this->foodstuffs->removeElement($foodstuff);
-        $foodstuff->removeDay($this);
+        $this->foodstuffWeights->removeElement($foodstuffWeight);
     }
 
-    public function getRecipes(): Collection
+    public function getRecipeWeights(): Collection
     {
-        return $this->recipes;
+        return $this->recipeWeights;
     }
 
-    public function setRecipes(Collection $recipes): void
+    public function setRecipeWeights(Collection $recipeWeights): void
     {
-        $this->recipes = $recipes;
+        $this->recipeWeights = $recipeWeights;
     }
 
-    public function addRecipe(Recipe $recipe): void
+    public function addRecipeWeight(RecipeWeight $recipeWeight): void
     {
-        if ($this->recipes->contains($recipe)) {
-            return;
-        }
-
-        $this->recipes->set($recipe->getId(), $recipe);
-        $recipe->addDay($this);
+        $recipeWeight->setDay($this);
+        $this->recipeWeights->add($recipeWeight);
     }
 
-    public function removeRecipe(Recipe $recipe): void
+    public function removeRecipeWeight(RecipeWeight $recipeWeight): void
     {
-        if (!$this->recipes->contains($recipe)) {
-            return;
-        }
-
-        $this->recipes->removeElement($recipe);
-        $recipe->removeDay($this);
-    }
-
-    public function getRecipeWeights(): ArrayCollection
-    {
-        return new ArrayCollection(unserialize($this->recipeWeights));
-    }
-
-    public function setRecipeWeights(ArrayCollection $collection): void
-    {
-        $this->recipeWeights = serialize($collection->toArray());
-    }
-
-    public function getFoodstuffWeights(): ArrayCollection
-    {
-        return new ArrayCollection(unserialize($this->foodstuffWeights));
-    }
-
-    public function setFoodstuffWeights(ArrayCollection $collection): void
-    {
-        $this->foodstuffWeights = serialize($collection->toArray());
-    }
-
-    public function getFoodstuffUnits(): ArrayCollection
-    {
-        return new ArrayCollection(unserialize($this->foodstuffUnits));
-    }
-
-    public function setFoodstuffUnits(ArrayCollection $collection): void
-    {
-        $this->foodstuffUnits = serialize($collection->toArray());
+        $this->recipeWeights->removeElement($recipeWeight);
     }
 }

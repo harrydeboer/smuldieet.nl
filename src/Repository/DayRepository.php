@@ -6,8 +6,6 @@ namespace App\Repository;
 
 use App\Entity\Day;
 use App\Pagination\Paginator;
-use App\Service\AddFoodstuffsService;
-use App\Service\AddRecipesService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,8 +23,6 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
 {
     public function __construct(
         private readonly EntityManagerInterface $em,
-        private readonly AddRecipesService $addRecipesService,
-        private readonly AddFoodstuffsService $addFoodstuffsService,
         ManagerRegistry $registry,
     ) {
         parent::__construct($registry, Day::class);
@@ -45,8 +41,6 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
 
     public function create(Day $day): Day
     {
-        $this->addRecipesService->addRecipesAndValidate($day);
-        $this->addFoodstuffsService->addFoodstuffsAndValidate($day);
         $this->em->persist($day);
         $this->em->flush();
 
@@ -55,14 +49,6 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
 
     public function update(Day $day): void
     {
-        foreach ($day->getRecipes() as $recipe) {
-            $day->removeRecipe($recipe);
-        }
-        foreach ($day->getFoodstuffs() as $foodstuff) {
-            $day->removeFoodstuff($foodstuff);
-        }
-        $this->addRecipesService->addRecipesAndValidate($day);
-        $this->addFoodstuffsService->addFoodstuffsAndValidate($day);
         $this->em->flush();
     }
 

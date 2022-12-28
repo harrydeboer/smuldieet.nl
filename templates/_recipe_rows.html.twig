@@ -1,0 +1,24 @@
+{% for id, weight in weights %}
+    <tr>
+        <td>{{ include('_recipe_dropdown.html.twig', {'title': recipe_weights[id].recipe.title}) }}</td>
+        <td colspan="2">{{ form_widget(weight.recipe_id, {'value': recipe_weights[id].recipe.id}) }}
+            {{ form_widget(weight.value) }}</td>
+        <td><i class="remove-row fa fa-minus"></i></td>
+    </tr>
+{% endfor %}
+<tr class="d-none">
+    <td>
+        <div id="{{ form_name }}_recipe_dropdown"
+             data-prototype="{{ include('_recipe_dropdown.html.twig', {'title': ''})|e('html') }}">
+        </div>
+    </td>
+    <td colspan="2">
+        <div id="{{ form_name }}_recipe_weights__name___recipe_id"
+             data-prototype="{{ form_widget(weights.vars.prototype.recipe_id)|e('html') }}"></div>
+        <div id="{{ form_name }}_recipe_weights__name___value"
+             data-prototype="{{ form_widget(weights.vars.prototype.value)|e('html') }}"></div>
+    </td>
+    <td>
+        <div id="recipe_search" data-search="{{ path('recipe_search', {'title': '__title__'}) }}"></div>
+    </td>
+</tr>

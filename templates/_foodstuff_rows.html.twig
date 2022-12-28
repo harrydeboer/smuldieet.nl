@@ -1,0 +1,38 @@
+{% for id, weight in weights %}
+    <tr>
+        <td>{{ include('_foodstuff_dropdown.html.twig', {'name': foodstuff_weights[id].foodstuff.name}) }}</td>
+
+        {% set classes = weight.unit.vars.attr.class %}
+        <td>{{ form_widget(weight.foodstuff_id, {'value': foodstuff_weights[id].foodstuff.id}) }}
+            {{ form_widget(weight.value) }}</td>
+        {% if not foodstuff_weights[id].foodstuff.isLiquid %}
+            {% set classes = classes~' not-liquid' %}
+        {% endif %}
+        {% if foodstuff_weights[id].foodstuff.pieceWeight is null %}
+            {% set classes = classes~' not-piece' %}
+        {% endif %}
+        <td>{{ form_widget(weight.unit, {'attr': {
+                'class': classes,
+                'data-piece-name':foodstuff_weights[id].foodstuff.pieceName,
+            }}) }}</td>
+        <td><i class="remove-row fa fa-minus"></i></td>
+    </tr>
+{% endfor %}
+<tr class="d-none">
+    <td>
+        <div id="{{ form_name }}_foodstuff_dropdown"
+             data-prototype="{{ include('_foodstuff_dropdown.html.twig', {'name': ''})|e('html') }}">
+        </div>
+    </td>
+    <td colspan="2">
+        <div id="{{ form_name }}_foodstuff_weights__name___foodstuff_id"
+             data-prototype="{{ form_widget(weights.vars.prototype.foodstuff_id)|e('html') }}"></div>
+        <div id="{{ form_name }}_foodstuff_weights__name___value"
+             data-prototype="{{ form_widget(weights.vars.prototype.value)|e('html') }}"></div>
+        <div id="{{ form_name }}_foodstuff_weights__name___unit"
+             data-prototype="{{ form_widget(weights.vars.prototype.unit)|e('html') }}"></div>
+    </td>
+    <td>
+        <div id="foodstuff_search" data-search="{{ path('foodstuff_search', {'name': '__name__'}) }}"></div>
+    </td>
+</tr>

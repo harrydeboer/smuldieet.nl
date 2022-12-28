@@ -47,19 +47,12 @@ class Cookbook implements RecipeWeightsInterface
     ]
     private User $user;
 
-    #[
-        ORM\ManyToMany(targetEntity: "Recipe", inversedBy: "cookbooks", indexBy: "id"),
-        ORM\JoinTable(name: "cookbook_recipe"),
-        ORM\JoinColumn(name: "cookbook_id", referencedColumnName: "id", onDelete: "CASCADE"),
-        ORM\InverseJoinColumn(name: "recipe_id", referencedColumnName: "id", onDelete: "CASCADE"),
-    ]
-    private Collection $recipes;
-
-    private string $recipeChoices = 'a:0:{}';
+    #[ORM\OneToMany(mappedBy: "cookbook", targetEntity: "RecipeWeight", cascade: ["persist", "remove"])]
+    private Collection $recipeWeights;
 
     #[Pure] public function __construct()
     {
-        $this->recipes = new ArrayCollection();
+        $this->recipeWeights = new ArrayCollection();
     }
 
     public function getId(): int
@@ -102,43 +95,24 @@ class Cookbook implements RecipeWeightsInterface
         $this->user = $user;
     }
 
-    public function getRecipes(): Collection
+    public function getRecipeWeights(): Collection
     {
-        return $this->recipes;
+        return $this->recipeWeights;
     }
 
-    public function setRecipes(Collection $recipes): void
+    public function setRecipeWeights(Collection $recipeWeights): void
     {
-        $this->recipes = $recipes;
+        $this->recipeWeights = $recipeWeights;
     }
 
-    public function addRecipe(Recipe $recipe): void
+    public function addRecipeWeight(RecipeWeight $recipeWeight): void
     {
-        if ($this->recipes->contains($recipe)) {
-            return;
-        }
-
-        $this->recipes->set($recipe->getId(), $recipe);
-        $recipe->addCookbook($this);
+        $recipeWeight->setCookbook($this);
+        $this->recipeWeights->add($recipeWeight);
     }
 
-    public function removeRecipe(Recipe $recipe): void
+    public function removeRecipeWeight(RecipeWeight $recipeWeight): void
     {
-        if (!$this->recipes->contains($recipe)) {
-            return;
-        }
-
-        $this->recipes->removeElement($recipe);
-        $recipe->removeCookbook($this);
-    }
-
-    public function getRecipeWeights(): ArrayCollection
-    {
-        return new ArrayCollection(unserialize($this->recipeChoices));
-    }
-
-    public function setRecipeWeights(ArrayCollection $collection): void
-    {
-        $this->recipeChoices = serialize($collection->toArray());
+        $this->recipeWeights->removeElement($recipeWeight);
     }
 }

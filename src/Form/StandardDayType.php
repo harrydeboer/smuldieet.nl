@@ -4,30 +4,33 @@ declare(strict_types=1);
 
 namespace App\Form;
 
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class StandardDayType extends AbstractFoodstuffWeightsType
+class StandardDayType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        parent::buildForm($builder, $options);
         $builder
-            ->add('recipe_weights', CollectionType::class, [
-                'entry_type' => NumberType::class,
+            ->add('foodstuff_weights', CollectionType::class, [
+                'entry_type' => FoodstuffWeightType::class,
+                'entry_options' => ['label' => false],
                 'allow_add' => true,
-                'entry_options' => [
-                    'attr' => [
-                        'placeholder' => 'aantal keer',
-                        'class' => 'form-control food-weight',
-                    ],
-                ],
                 'allow_delete' => true,
                 'delete_empty' => true,
-            ])
-            ->add('submit', SubmitType::class, [
+                'label' => false,
+                'by_reference' => false,
+            ])->add('recipe_weights', CollectionType::class, [
+                'entry_type' => RecipeWeightType::class,
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'delete_empty' => true,
+                'label' => false,
+                'by_reference' => false,
+            ])->add('submit', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-success'],
             ]);
     }

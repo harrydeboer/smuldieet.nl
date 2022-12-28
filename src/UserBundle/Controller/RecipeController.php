@@ -7,10 +7,10 @@ namespace App\UserBundle\Controller;
 use App\Controller\Controller;
 use App\Entity\Recipe;
 use App\Form\DeleteType;
+use App\Service\AddFoodstuffsService;
 use App\UserBundle\Form\RecipeType;
 use App\Repository\PageRepositoryInterface;
 use App\Repository\RecipeRepositoryInterface;
-use App\Service\AddFoodstuffsService;
 use App\Service\UploadedImageService;
 use Exception;
 use Symfony\Component\Form\FormError;
@@ -25,7 +25,7 @@ class RecipeController extends Controller
         private readonly RecipeRepositoryInterface $recipeRepository,
         private readonly PageRepositoryInterface   $pageRepository,
         private readonly UploadedImageService      $uploadedImageService,
-        private readonly AddFoodstuffsService      $addFoodstuffsService,
+        private readonly AddFoodstuffsService $addFoodstuffsService,
     ) {
     }
 
@@ -60,9 +60,9 @@ class RecipeController extends Controller
 
         $formUpdate->handleRequest($request);
 
-        if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
+        if ($formUpdate->isSubmitted() && $this->addFoodstuffsService->add($recipe) && $formUpdate->isValid()) {
             try {
-                if (count($recipe->getFoodstuffWeights()) === 0 && count($recipe->getFoodstuffUnits()) === 0) {
+                if (count($recipe->getFoodstuffWeights()) === 0) {
                     throw new Exception('De voedingsmiddelen van het gerecht mogen niet leeg zijn.');
                 }
                 $this->recipeRepository->update($recipe);
@@ -76,13 +76,6 @@ class RecipeController extends Controller
             } catch (Exception $exception) {
                 $formUpdate->addError(new FormError($exception->getMessage()));
             }
-        } else {
-
-            /**
-             * When the form is not valid it only has foodstuff weights but not the foodstuffs
-             * themselves. These are added in order to fill in the names in the form.
-             */
-            $this->addFoodstuffsService->addFoodstuffsAndValidate($recipe);
         }
 
         return $this->render('@UserBundle/recipe/edit.html.twig', [
@@ -101,9 +94,9 @@ class RecipeController extends Controller
         $recipe->setUser($this->getUser());
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $this->addFoodstuffsService->add($recipe) && $form->isValid()) {
             try {
-                if (count($recipe->getFoodstuffWeights()) === 0 && count($recipe->getFoodstuffUnits()) === 0) {
+                if (count($recipe->getFoodstuffWeights()) === 0) {
                     throw new Exception('De voedingsmiddelen van het gerecht mogen niet leeg zijn.');
                 }
                 $this->recipeRepository->create($recipe);
@@ -113,13 +106,6 @@ class RecipeController extends Controller
             } catch (Exception $exception) {
                 $form->addError(new FormError($exception->getMessage()));
             }
-        } else {
-
-            /**
-             * When the form is not valid it only has foodstuff weights but not the foodstuffs
-             * themselves. These are added in order to fill in the names in the form.
-             */
-            $this->addFoodstuffsService->addFoodstuffsAndValidate($recipe);
         }
 
         return $this->render('@UserBundle/recipe/new.html.twig', [

@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\UserBundle\Form;
 
 use App\Entity\Recipe;
-use App\Form\AbstractFoodstuffWeightsType;
+use App\Form\FoodstuffWeightType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -17,11 +18,10 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\File;
 
-class RecipeType extends AbstractFoodstuffWeightsType
+class RecipeType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        parent::buildForm($builder, $options);
         $builder
             ->add('image', FileType::class, [
                 'attr' => [
@@ -100,6 +100,14 @@ class RecipeType extends AbstractFoodstuffWeightsType
                 'attr' => ['class' => 'form-control form-select'],
                 'choices' => array_combine(Recipe::OCCASION,Recipe::OCCASION),
                 'required' => false,
+            ])->add('foodstuff_weights', CollectionType::class, [
+                'entry_type' => FoodstuffWeightType::class,
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'delete_empty' => true,
+                'label' => false,
+                'by_reference' => false,
             ]);
         foreach (Recipe::getDietChoices('snake') as $choice => $label) {
             $builder->add($choice, CheckboxType::class, [

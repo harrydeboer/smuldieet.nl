@@ -13,31 +13,33 @@ class CookbookFactory extends AbstractFactory
     public function __construct(
         private readonly CookbookRepositoryInterface $cookbookRepository,
         private readonly UserFactory $userFactory,
-        private readonly RecipeFactory $recipeFactory,
+        private readonly RecipeWeightFactory $recipeWeightFactory,
     ) {
     }
 
     public function create(array $params = []): Cookbook
     {
+        $cookbook = new Cookbook();
+
         $paramsParent = [];
         if (isset($params['user'])) {
             $paramsParent['user'] = $params['user'];
         } else {
             $paramsParent['user'] = $this->userFactory->create();
         }
-        if (isset($params['recipes'])) {
-            $paramsParent['recipes'] = $params['recipes'];
+        if (isset($params['recipeWeights'])) {
+            $paramsParent['recipeWeights'] = $params['recipeWeights'];
         } else {
             $arrayCollection = new ArrayCollection();
-            $recipe = $this->recipeFactory->create();
-            $arrayCollection->set($recipe->getId(), $recipe);
-            $paramsParent['recipes'] = $arrayCollection;
+            $weight = $this->recipeWeightFactory->create(['cookbook' => $cookbook]);
+            $arrayCollection->add($weight);
+            $paramsParent['recipeWeights'] = $arrayCollection;
         }
-        $cookbook = new Cookbook();
+
         $cookbook->setTitle(uniqid('cookbook'));
         $cookbook->setTimestamp(time());
         $cookbook->setUser($paramsParent['user']);
-        $cookbook->setRecipes($paramsParent['recipes']);
+        $cookbook->setRecipeWeights($paramsParent['recipeWeights']);
 
         $this->setParams($params, $cookbook);
 

@@ -6,11 +6,11 @@ namespace App\UserBundle\Controller;
 
 use App\Controller\AuthController;
 use App\Entity\Cookbook;
+use App\Service\AddRecipesService;
 use App\UserBundle\Form\CookbookType;
 use App\Form\DeleteType;
 use App\Repository\CookbookRepositoryInterface;
 use App\Repository\PageRepositoryInterface;
-use App\Service\AddRecipesService;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -54,17 +54,10 @@ class CookbookController extends AuthController
 
         $formUpdate->handleRequest($request);
 
-        if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
+        if ($formUpdate->isSubmitted() && $this->addRecipesService->add($cookbook) && $formUpdate->isValid()) {
             $this->cookbookRepository->update($cookbook);
 
             return $this->redirectToRoute('user_cookbooks');
-        } else {
-
-            /**
-             * When the form is not valid it only has recipe weights but not the recipes
-             * themselves. These are added in order to fill in the names in the form.
-             */
-            $this->addRecipesService->addRecipesAndValidate($cookbook);
         }
 
         return $this->render('@UserBundle/cookbook/edit.html.twig', [
@@ -82,19 +75,12 @@ class CookbookController extends AuthController
         $cookbook->setUser($this->getUser());
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $this->addRecipesService->add($cookbook) && $form->isValid()) {
             $cookbook->setTimestamp(time());
 
             $this->cookbookRepository->create($cookbook);
 
             return $this->redirectToRoute('user_cookbooks');
-        } else {
-
-            /**
-             * When the form is not valid it only has recipe weights but not the recipes
-             * themselves. These are added in order to fill in the names in the form.
-             */
-            $this->addRecipesService->addRecipesAndValidate($cookbook);
         }
 
         return $this->render('@UserBundle/cookbook/new.html.twig', [

@@ -14,44 +14,36 @@ class RecipeFactory extends AbstractFactory
     public function __construct(
         private readonly RecipeRepositoryInterface $recipeRepository,
         private readonly UserFactory $userFactory,
-        private readonly FoodstuffFactory $foodstuffFactory,
+        private readonly FoodstuffWeightFactory $foodstuffWeightFactory,
     ) {
     }
 
     public function create(array $params = []): Recipe
     {
+        $recipe = new Recipe();
+
         $paramsParent = [];
         if (isset($params['user'])) {
             $paramsParent['user'] = $params['user'];
         } else {
             $paramsParent['user'] = $this->userFactory->create();
         }
-        if (isset($params['foodstuffs'])) {
-            $paramsParent['foodstuffs'] = $params['foodstuffs'];
+        if (isset($params['foodstuffWeights'])) {
+            $paramsParent['foodstuffWeights'] = $params['foodstuffWeights'];
         } else {
             $arrayCollection = new ArrayCollection();
-            $foodstuff = $this->foodstuffFactory->create();
-            $arrayCollection->set($foodstuff->getId(), $foodstuff);
-            $paramsParent['foodstuffs'] = $arrayCollection;
+            $weight = $this->foodstuffWeightFactory->create(['recipe' => $recipe]);
+            $arrayCollection->add($weight);
+            $paramsParent['foodstuffWeights'] = $arrayCollection;
         }
-        $recipe = new Recipe();
+
         $recipe->setTitle(uniqid('recipe'));
         $recipe->setIngredients(uniqid('ingredients'));
         $recipe->setUser($paramsParent['user']);
         $recipe->setTimestamp(time());
         $recipe->setPreparationMethod('test');
         $recipe->setNumberOfPersons(rand(1,100));
-        $recipe->setFoodstuffs($paramsParent['foodstuffs']);
-        $weights = new ArrayCollection();
-        foreach ($paramsParent['foodstuffs'] as $foodstuff) {
-            $weights->set($foodstuff->getId(), rand(1,10));
-        }
-        $recipe->setFoodstuffWeights($weights);
-        $units = new ArrayCollection();
-        foreach ($paramsParent['foodstuffs'] as $foodstuff) {
-            $units->set($foodstuff->getId(), 'g');
-        }
-        $recipe->setFoodstuffUnits($units);
+        $recipe->setFoodstuffWeights($paramsParent['foodstuffWeights']);
         $recipe->setRating(null);
         $recipe->setVotes(0);
         $recipe->setTimesSaved(0);

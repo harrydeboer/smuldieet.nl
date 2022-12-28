@@ -9,16 +9,15 @@
         {{ form_errors(form.name) }}
         {{ form_errors(form.foodstuff_weights) }}
     </div>
-    {{ form_start(form, { 'attr' : { 'class': 'food-form' }}) }}
+    {{ form_start(form, { 'attr' : { 'class': 'foodstuffs-form' }}) }}
     <table class="food-table table table-small">
         <tr>
             <td>Naam</td>
             <td colspan="3">{{ form_widget(form.name) }}</td>
         </tr>
-        {{ include('_food_row.html.twig', {
+        {{ include('_foodstuff_rows.html.twig', {
             'form_name': 'foodstuff_from_foodstuffs',
             'weights': form.foodstuff_weights,
-            'food_type': 'foodstuff',
             'placeholder': 'voedingsmiddel'
         }) }}
         <tr id="add_foodstuff_recipe_button_row">

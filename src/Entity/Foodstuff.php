@@ -318,76 +318,12 @@ class Foodstuff
     ]
     private ?float $caffeine = null;
 
-    #[ORM\ManyToMany(targetEntity: "Day", mappedBy: "foodstuffs")]
-    private Collection $days;
-
-    #[ORM\ManyToMany(targetEntity: "Recipe", mappedBy: "foodstuffs")]
-    private Collection $recipes;
+    #[ORM\OneToMany(mappedBy: "foodstuff", targetEntity: "App\Entity\FoodstuffWeight", cascade: ["remove"])]
+    private Collection $foodstuffWeights;
 
     #[Pure] public function __construct()
     {
-        $this->days = new ArrayCollection();
-        $this->recipes = new ArrayCollection();
-    }
-
-    public function getDays(): Collection
-    {
-        return $this->days;
-    }
-
-    public function setDays(ArrayCollection $days): void
-    {
-        $this->days = $days;
-    }
-
-    public function addDay(Day $day): void
-    {
-        if ($this->days->contains($day)) {
-            return;
-        }
-
-        $this->days->add($day);
-        $day->addFoodstuff($this);
-    }
-
-    public function removeDay(Day $day): void
-    {
-        if (!$this->days->contains($day)) {
-            return;
-        }
-
-        $this->days->removeElement($day);
-        $day->removeFoodstuff($this);
-    }
-
-    public function getRecipes(): Collection
-    {
-        return $this->recipes;
-    }
-
-    public function setRecipes(Collection $recipes): void
-    {
-        $this->recipes = $recipes;
-    }
-
-    public function addRecipe(Recipe $recipe): void
-    {
-        if ($this->recipes->contains($recipe)) {
-            return;
-        }
-
-        $this->recipes->add($recipe);
-        $recipe->addFoodstuff($this);
-    }
-
-    public function removeRecipe(Recipe $recipe): void
-    {
-        if (!$this->recipes->contains($recipe)) {
-            return;
-        }
-
-        $this->recipes->removeElement($recipe);
-        $recipe->removeFoodstuff($this);
+        $this->foodstuffWeights = new ArrayCollection();
     }
 
     public function getId(): int
@@ -866,6 +802,16 @@ class Foodstuff
         }
 
         return $this->salt * 400;
+    }
+
+    public function getFoodstuffWeights(): Collection
+    {
+        return $this->foodstuffWeights;
+    }
+
+    public function setFoodstuffWeights(Collection $foodstuffWeights): void
+    {
+        $this->foodstuffWeights = $foodstuffWeights;
     }
 
     /**

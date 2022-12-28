@@ -40,7 +40,7 @@ class Recipe implements FoodstuffWeightsInterface, UploadImageInterface
     public const KITCHEN = [
         'Afrikaans',
         'Amerikaans',
-        'Antiliaans',
+        'Antilliaans',
         'Arabisch',
         'Argentijns',
         'Australisch',
@@ -57,7 +57,7 @@ class Recipe implements FoodstuffWeightsInterface, UploadImageInterface
         'Duits',
         'Engels',
         'Europees',
-        'Filippijns',
+        'Filipijns',
         'Frans',
         'Fusion',
         'Ghanees',
@@ -265,25 +265,17 @@ class Recipe implements FoodstuffWeightsInterface, UploadImageInterface
     ]
     private User $user;
 
-    #[
-        ORM\ManyToMany(targetEntity: "Foodstuff", inversedBy: "recipes", indexBy: "id"),
-        ORM\JoinTable(name: "recipe_foodstuff"),
-        ORM\JoinColumn(name: "recipe_id", referencedColumnName: "id", onDelete: "CASCADE"),
-        ORM\InverseJoinColumn(name: "foodstuff_id", referencedColumnName: "id", onDelete: "CASCADE"),
-    ]
-    private Collection $foodstuffs;
+    #[ORM\OneToMany(mappedBy: "recipe", targetEntity: "App\Entity\FoodstuffWeight", cascade: ["persist", "remove"])]
+    private Collection $foodstuffWeights;
 
-    #[ORM\ManyToMany(targetEntity: "Day", mappedBy: "recipes")]
-    private Collection $days;
+    #[ORM\OneToMany(mappedBy: "recipe", targetEntity: "App\Entity\RecipeWeight", cascade: ["persist", "remove"])]
+    private Collection $recipeWeights;
 
     #[ORM\OneToMany(mappedBy: "recipe", targetEntity: "Rating", cascade: ["remove"])]
     private Collection $ratings;
 
     #[ORM\OneToMany(mappedBy: "recipe", targetEntity: "Comment", cascade: ["remove"])]
     private Collection $comments;
-
-    #[ORM\ManyToMany(targetEntity: "Cookbook", mappedBy: "recipes")]
-    private Collection $cookbooks;
 
     #[ORM\ManyToMany(targetEntity: "Tag", mappedBy: "recipes")]
     private Collection $tags;
@@ -294,12 +286,6 @@ class Recipe implements FoodstuffWeightsInterface, UploadImageInterface
     #[ORM\Column(type: "boolean")]
     private bool $isPending = true;
 
-    #[ORM\Column(type: "string")]
-    private string $foodstuffWeights = 'a:0:{}';
-
-    #[ORM\Column(type: "string")]
-    private string $foodstuffUnits = 'a:0:{}';
-
     #[ORM\Column(type: "string", nullable: true)]
     private ?string $imageExtension = null;
 
@@ -309,10 +295,9 @@ class Recipe implements FoodstuffWeightsInterface, UploadImageInterface
 
     public function __construct()
     {
-        $this->foodstuffs = new ArrayCollection();
-        $this->days = new ArrayCollection();
+        $this->foodstuffWeights = new ArrayCollection();
+        $this->recipeWeights = new ArrayCollection();
         $this->ratings = new ArrayCollection();
-        $this->cookbooks = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->tags = new ArrayCollection();
         $this->users = new ArrayCollection();
@@ -597,86 +582,6 @@ class Recipe implements FoodstuffWeightsInterface, UploadImageInterface
         $this->isWithoutPackagesAndBags = $isWithoutPackagesAndBags;
     }
 
-    public function getFoodstuffs(): Collection
-    {
-        return $this->foodstuffs;
-    }
-
-    public function setFoodstuffs(Collection $foodstuffs): void
-    {
-        $this->foodstuffs = $foodstuffs;
-    }
-
-    public function addFoodstuff(Foodstuff $foodstuff): void
-    {
-        if ($this->foodstuffs->contains($foodstuff)) {
-            return;
-        }
-
-        $this->foodstuffs->set($foodstuff->getId(), $foodstuff);
-        $foodstuff->addRecipe($this);
-    }
-
-    public function removeFoodstuff(Foodstuff $foodstuff): void
-    {
-        if (!$this->foodstuffs->contains($foodstuff)) {
-            return;
-        }
-
-        $this->foodstuffs->removeElement($foodstuff);
-        $foodstuff->removeRecipe($this);
-    }
-
-    public function getDays(): Collection
-    {
-        return $this->days;
-    }
-
-    public function setDays(Collection $days): void
-    {
-        $this->days = $days;
-    }
-
-    public function addDay(Day $day): void
-    {
-        if ($this->days->contains($day)) {
-            return;
-        }
-
-        $this->days->add($day);
-        $day->addRecipe($this);
-    }
-
-    public function removeDay(Day $day): void
-    {
-        if (!$this->days->contains($day)) {
-            return;
-        }
-
-        $this->days->removeElement($day);
-        $day->removeRecipe($this);
-    }
-
-    public function addCookbook(Cookbook $cookbook): void
-    {
-        if ($this->cookbooks->contains($cookbook)) {
-            return;
-        }
-
-        $this->cookbooks->add($cookbook);
-        $cookbook->addRecipe($this);
-    }
-
-    public function removeCookbook(Cookbook $cookbook): void
-    {
-        if (!$this->cookbooks->contains($cookbook)) {
-            return;
-        }
-
-        $this->cookbooks->removeElement($cookbook);
-        $cookbook->removeRecipe($this);
-    }
-
     public function getRatings(): Collection
     {
         return $this->ratings;
@@ -695,16 +600,6 @@ class Recipe implements FoodstuffWeightsInterface, UploadImageInterface
     public function setComments(Collection $comments): void
     {
         $this->comments = $comments;
-    }
-
-    public function getCookbooks(): Collection
-    {
-        return $this->cookbooks;
-    }
-
-    public function setCookbooks(Collection $cookbooks): void
-    {
-        $this->cookbooks = $cookbooks;
     }
 
     public function getIsPending(): bool
@@ -826,24 +721,35 @@ class Recipe implements FoodstuffWeightsInterface, UploadImageInterface
         $user->removeSavedRecipe($this);
     }
 
-    public function getFoodstuffWeights(): ArrayCollection
+    public function getFoodstuffWeights(): Collection
     {
-        return new ArrayCollection(unserialize($this->foodstuffWeights));
+        return $this->foodstuffWeights;
     }
 
-    public function setFoodstuffWeights(ArrayCollection $collection): void
+    public function setFoodstuffWeights(Collection $foodstuffWeights): void
     {
-        $this->foodstuffWeights = serialize($collection->toArray());
+        $this->foodstuffWeights = $foodstuffWeights;
     }
 
-    public function getFoodstuffUnits(): ArrayCollection
+    public function addFoodstuffWeight(FoodstuffWeight $foodstuffWeight): void
     {
-        return new ArrayCollection(unserialize($this->foodstuffUnits));
+        $foodstuffWeight->setRecipe($this);
+        $this->foodstuffWeights->add($foodstuffWeight);
     }
 
-    public function setFoodstuffUnits(ArrayCollection $collection): void
+    public function removeFoodstuffWeight(FoodstuffWeight $foodstuffWeight): void
     {
-        $this->foodstuffUnits = serialize($collection->toArray());
+        $this->foodstuffWeights->removeElement($foodstuffWeight);
+    }
+
+    public function getRecipeWeights(): Collection
+    {
+        return $this->recipeWeights;
+    }
+
+    public function setRecipeWeights(Collection $recipeWeights): void
+    {
+        $this->recipeWeights = $recipeWeights;
     }
 
     public function getImageExtension(): ?string

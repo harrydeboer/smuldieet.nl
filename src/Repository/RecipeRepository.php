@@ -8,7 +8,6 @@ use App\Entity\Recipe;
 use App\Entity\Tag;
 use App\Entity\User;
 use App\Pagination\Paginator;
-use App\Service\AddFoodstuffsService;
 use App\Service\ProfanityCheckService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -29,7 +28,6 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
         private readonly CommentRepositoryInterface $commentRepository,
         private readonly TagRepositoryInterface $tagRepository,
         private readonly ProfanityCheckService $profanityCheckService,
-        private readonly AddFoodstuffsService $addFoodstuffsService,
         private readonly EntityManagerInterface $em,
         ManagerRegistry $registry,
     ) {
@@ -92,7 +90,6 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
     {
         $this->checkProfanitiesRecipe($recipe);
         $this->addTags($recipe);
-        $this->addFoodstuffsService->addFoodstuffsAndValidate($recipe);
         $recipe->setTimestamp(time());
         $this->em->persist($recipe);
         $this->em->flush();
@@ -107,20 +104,11 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
     {
         $this->checkProfanitiesRecipe($recipe);
         $this->addTags($recipe);
-        foreach ($recipe->getFoodstuffs() as $foodstuff) {
-            $recipe->removeFoodstuff($foodstuff);
-        }
-        $this->addFoodstuffsService->addFoodstuffsAndValidate($recipe);
         $this->em->flush();
     }
 
     public function delete(Recipe $recipe): void
     {
-        foreach ($recipe->getDays() as $day) {
-            $weights = $day->getRecipeWeights();
-            unset($weights[$recipe->getId()]);
-            $day->setRecipeWeights($weights);
-        }
         foreach ($recipe->getRatings() as $rating) {
             $this->ratingRepository->delete($rating);
         }
