@@ -28,8 +28,11 @@ class FoodstuffsForm {
      */
     addFoodstuff(event) {
         this.weightsNumber = this.weightsNumber + 1;
-        let html = '<tr><td>' + $('#' + this.formName + '_foodstuff_dropdown').data('prototype') +
-            $('#' + this.formName + '_foodstuff_weights__name___foodstuff_id').data('prototype') + '</td>';
+        let html = '<tr><td><div class="dropdown">' +
+            $('#' + this.formName + '_foodstuff_weights__name___name').data('prototype') +
+            '<div class="dropdown-menu dropdown-menu-foodstuff"></div></div>' +
+            $('#' + this.formName + '_foodstuff_weights__name___foodstuff_id').data('prototype') +
+            '</td>';
         html += '<td>' + $('#' + this.formName + '_foodstuff_weights__name___value').data('prototype') + '</td>';
         if (this.formName === 'foodstuff_from_foodstuffs') {
             html += '<td>%</td>';
@@ -40,6 +43,9 @@ class FoodstuffsForm {
         $('#add_foodstuff_recipe_button_row').before(html);
         $('[name="' + this.formName + '[foodstuff_weights][__name__][foodstuff_id]"]')
             .attr('name', this.formName + '[foodstuff_weights][' + this.weightsNumber + '][foodstuff_id]')
+            .removeAttr('id');
+        $('[name="' + this.formName + '[foodstuff_weights][__name__][name]"]')
+            .attr('name', this.formName + '[foodstuff_weights][' + this.weightsNumber + '][name]')
             .removeAttr('id');
         $('[name="' + this.formName + '[foodstuff_weights][__name__][value]"]')
             .attr('name', this.formName + '[foodstuff_weights][' + this.weightsNumber + '][value]')

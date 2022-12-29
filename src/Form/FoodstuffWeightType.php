@@ -9,6 +9,7 @@ use App\Entity\FoodstuffWeight;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -22,6 +23,15 @@ class FoodstuffWeightType extends AbstractType
         }
         $builder->add('foodstuff_id', NumberType::class, [
             'attr' => ['class' => 'form-control foodstuff-id hidden-input'],
+        ])->add('name', TextType::class, [
+            'attr' => [
+                'class' => 'foodstuff-name form-control dropdown-toggle',
+                'placeholder' => 'voedingsmiddel',
+                'maxlength' => 255,
+                'role' => 'searchbox',
+                'data-bs-toggle' => 'dropdown',
+                ],
+            'mapped' => false,
         ])->add('value', NumberType::class, [
             'attr' => ['class' => 'form-control foodstuff-weight'],
         ])->add('unit', ChoiceType::class, [

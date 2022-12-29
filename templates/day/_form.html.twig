@@ -21,14 +21,12 @@
     {{ include('_foodstuff_rows.html.twig', {
         'form_name': formName,
         'foodstuff_weights': day.foodstuffWeights,
-        'weights': form.foodstuff_weights,
-        'placeholder': 'voedingsmiddel',
+        'weights': form.foodstuff_weights
     }) }}
     {{ include('_recipe_rows.html.twig', {
         'form_name': formName,
         'recipe_weights': day.recipeWeights,
-        'weights': form.recipe_weights,
-        'placeholder': 'gerecht'
+        'weights': form.recipe_weights
     }) }}
     <tr id="add_foodstuff_recipe_button_row">
         <td colspan="4">
