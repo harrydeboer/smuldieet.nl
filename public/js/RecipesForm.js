@@ -19,14 +19,17 @@ class RecipesForm {
         html += '<td colspan="2">' + $('#' + this.formName + '_recipe_weights__name___value').data('prototype') + '</td>';
         html += '<td><i class="remove-row fa fa-minus"></i></td></tr>';
         $('#add_foodstuff_recipe_button_row').before(html);
-        let options = $('#' + this.formName + '_recipe_weights___name__');
-        options.val(1);
         $('[name="' + this.formName + '[recipe_weights][__name__][recipe_id]' + '"]')
             .attr('name', this.formName + '[recipe_weights][' + this.weightsNumber + '][recipe_id]')
             .removeAttr('id');
         $('[name="' + this.formName + '[recipe_weights][__name__][value]' + '"]')
             .attr('name', this.formName + '[recipe_weights][' + this.weightsNumber + '][value]')
             .removeAttr('id');
+        if (this.formName === 'cookbook') {
+            let value = $('[name="' + this.formName + '[recipe_weights][' + this.weightsNumber + '][value]' + '"]');
+            value.val(1);
+            value.addClass('hidden-input');
+        }
         event.preventDefault();
     }
 

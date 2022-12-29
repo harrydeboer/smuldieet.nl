@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\AdminBundle\Functional\Controller;
 
-use App\Tests\Factory\RatingFactory;
 use App\Repository\RatingRepositoryInterface;
-use App\Tests\Functional\AuthAdminWebTestCase;
+use App\Tests\AdminBundle\Functional\AuthAdminWebTestCase;
+use App\Tests\Factory\RatingFactory;
 
 class RatingControllerTest extends AuthAdminWebTestCase
 {

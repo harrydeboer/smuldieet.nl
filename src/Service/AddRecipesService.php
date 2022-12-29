@@ -20,7 +20,7 @@ class AddRecipesService
         foreach ($entity->getRecipeWeights() as $weight) {
             $recipe = $this->recipeRepository->get($weight->getRecipeId());
             $weight->setRecipe($recipe);
-            if (!is_numeric($weight)) {
+            if (!is_numeric($weight->getValue())) {
                 throw new BadRequestException('Weight must be a number.');
             }
         }

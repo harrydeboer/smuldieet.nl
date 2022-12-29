@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller;
 
-use App\Tests\Functional\AuthWebTestCase;
+use App\Tests\Functional\AuthUserWebTestCase;
 
-class OverviewControllerTest extends AuthWebTestCase
+class OverviewControllerTest extends AuthUserWebTestCase
 {
     public function testOverview(): void
     {

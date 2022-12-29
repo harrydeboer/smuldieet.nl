@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\Entity\Foodstuff;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -21,6 +22,7 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
 {
     public function __construct(
         private readonly EntityManagerInterface $em,
+        private readonly FoodstuffWeightRepositoryInterface $foodstuffWeightRepository,
         ManagerRegistry $registry,
     ) {
         parent::__construct($registry, Foodstuff::class);
@@ -75,15 +77,23 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
         return $query->execute();
     }
 
-    public function get(int $id): Foodstuff
+    public function get(int $id, ?int $userId): Foodstuff
     {
-        $foodstuff = $this->findOneBy(['id' => $id]);
+        $qb = $this->createQueryBuilder('f');
+        $qb->where('f.id = ' . $id);
+        if (is_null($userId)) {
+            $qb->andWhere('f.user IS NULL');
+        } else {
+            $qb->andWhere('f.user = :userId or f.user IS NULL')
+                ->setParameter('userId', $userId);
+        }
+        $foodstuffs = $qb->getQuery()->execute();
 
-        if (is_null($foodstuff)) {
+        if (empty($foodstuffs)) {
             throw new NotFoundHttpException('Dit voedingsmiddel bestaat niet.');
         }
 
-        return $foodstuff;
+        return $foodstuffs[0];
     }
 
     public function getFromUser(int $id, int $userId): Foodstuff
@@ -131,12 +141,7 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
         $this->checkWeightsAndEnergy($foodstuff);
         $this->checkPieceAndPiecesName($foodstuff);
         if ($isLiquidOld && !$foodstuff->getIsLiquid()) {
-            foreach ($foodstuff->getDays() as $day) {
-                $this->transformLiquidUnitsToSolid($day, $foodstuff->getDensity());
-            }
-            foreach ($foodstuff->getRecipes() as $recipe) {
-                $this->transformLiquidUnitsToSolid($recipe, $foodstuff->getDensity());
-            }
+            $this->transformLiquidUnitsToSolid($foodstuff->getFoodstuffWeights(), $foodstuff->getDensity());
         }
         $this->em->flush();
     }
@@ -146,21 +151,8 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
      */
     public function delete(Foodstuff $foodstuff): void
     {
-        foreach ($foodstuff->getDays() as $day) {
-            $weights = $day->getFoodstuffWeights();
-            unset($weights[$foodstuff->getId()]);
-            $day->setFoodstuffWeights($weights);
-            $units = $day->getFoodstuffUnits();
-            unset($units[$foodstuff->getId()]);
-            $day->setFoodstuffChoices($units);
-        }
-        foreach ($foodstuff->getRecipes() as $recipe) {
-            $weights = $recipe->getFoodstuffWeights();
-            unset($weights[$recipe->getId()]);
-            $recipe->setFoodstuffWeights($weights);
-            $units = $recipe->getFoodstuffUnits();
-            unset($units[$recipe->getId()]);
-            $recipe->setFoodstuffChoices($units);
+        foreach ($foodstuff->getFoodstuffWeights() as $weight) {
+            $this->foodstuffWeightRepository->delete($weight);
         }
         $this->em->remove($foodstuff);
         $this->em->flush();
@@ -232,33 +224,30 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
         }
     }
 
-    private function transformLiquidUnitsToSolid(FoodstuffWeightsInterface $entity, ?float $density)
+    private function transformLiquidUnitsToSolid(Collection $weights, ?float $density)
     {
-        $units = $entity->getFoodstuffUnits();
-        $weights = $entity->getFoodstuffWeights();
         if (is_null($density)) {
             $density = 1;
         }
 
-        foreach ($units as $key => $unit) {
+        foreach ($weights as $weight) {
+            $unit = $weight->getUnit();
             if ($unit === 'l') {
-                $units[$key] = 'kg';
-                $weights[$key] = $density * $weights[$key];
+                $weight->setUnit('kg');
+                $weight->setValue($density * $weight->getValue());
             }
             if ($unit === 'dl') {
-                $units[$key] = 'g';
-                $weights[$key] = $density * $weights[$key] * 100;
+                $weight->setUnit('g');
+                $weight->setValue($density * $weight->getValue() * 100);
             }
             if ($unit === 'cl') {
-                $units[$key] = 'g';
-                $weights[$key] = $density * $weights[$key] * 10;
+                $weight->setUnit('g');
+                $weight->setValue($density * $weight->getValue() * 10);
             }
             if ($unit === 'ml') {
-                $units[$key] = 'g';
-                $weights[$key] = $density * $weights[$key];
+                $weight->setUnit('g');
+                $weight->setValue($density * $weight->getValue());
             }
         }
-
-        $entity->setFoodstuffWeights($weights);
     }
 }

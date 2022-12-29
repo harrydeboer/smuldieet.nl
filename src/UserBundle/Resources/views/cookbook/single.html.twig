@@ -8,9 +8,9 @@
             <td>Titel</td>
             <td>{{ cookbook.title }}</td>
         </tr>
-        {% for rowNumber, recipe in cookbook.recipes %}
+        {% for weight in cookbook.recipeWeights %}
             <tr>
-                <td colspan="2">{{ recipe.title }}</td>
+                <td colspan="2">{{ weight.recipe.title }}</td>
             </tr>
         {% endfor %}
         <tr>

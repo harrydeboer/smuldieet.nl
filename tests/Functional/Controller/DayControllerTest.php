@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller;
 
-use App\Tests\Factory\PageFactory;
 use App\Repository\DayRepositoryInterface;
-use App\Tests\Functional\AuthAdminWebTestCase;
+use App\Tests\Factory\PageFactory;
+use App\Tests\Functional\AuthVerifiedWebTestCase;
 use DateTime;
 
-class DayControllerTest extends AuthAdminWebTestCase
+class DayControllerTest extends AuthVerifiedWebTestCase
 {
     public function testCreateUpdateDelete(): void
     {

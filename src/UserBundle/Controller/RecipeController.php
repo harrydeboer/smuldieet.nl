@@ -60,7 +60,9 @@ class RecipeController extends Controller
 
         $formUpdate->handleRequest($request);
 
-        if ($formUpdate->isSubmitted() && $this->addFoodstuffsService->add($recipe) && $formUpdate->isValid()) {
+        if ($formUpdate->isSubmitted()
+            && $this->addFoodstuffsService->add($recipe, $this->getUser()->getId())
+            && $formUpdate->isValid()) {
             try {
                 if (count($recipe->getFoodstuffWeights()) === 0) {
                     throw new Exception('De voedingsmiddelen van het gerecht mogen niet leeg zijn.');
@@ -94,7 +96,9 @@ class RecipeController extends Controller
         $recipe->setUser($this->getUser());
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $this->addFoodstuffsService->add($recipe) && $form->isValid()) {
+        if ($form->isSubmitted()
+            && $this->addFoodstuffsService->add($recipe, $this->getUser()->getId())
+            && $form->isValid()) {
             try {
                 if (count($recipe->getFoodstuffWeights()) === 0) {
                     throw new Exception('De voedingsmiddelen van het gerecht mogen niet leeg zijn.');

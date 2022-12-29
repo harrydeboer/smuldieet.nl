@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Command;
 
 use App\Repository\UserRepositoryInterface;
-use App\Tests\Functional\AuthWebTestCase;
+use App\Tests\Functional\AuthUserWebTestCase;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class MakeAdminCommandTest extends AuthWebTestCase
+class MakeAdminCommandTest extends AuthUserWebTestCase
 {
     public function testExecute(): void
     {

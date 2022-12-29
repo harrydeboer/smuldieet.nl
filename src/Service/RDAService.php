@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\Foodstuff;
+use App\Entity\FoodstuffWeight;
 use App\Entity\User;
 use App\Entity\Nutrient;
 
@@ -33,29 +34,23 @@ class RDAService
          */
         foreach ($days as $day) {
             foreach ($nutrients as $nutrientName => $nutrient) {
-                foreach ($day->getFoodstuffWeights() as $id => $foodstuffWeight) {
-                    $foodstuff = $day->getFoodstuffs()[$id];
+                foreach ($day->getFoodstuffWeights() as $foodstuffWeight) {
                     $nutrients = $this->setNutrientRealised(
-                        $day->getFoodstuffUnits()[$foodstuff->getId()],
-                        $foodstuff,
+                        $foodstuffWeight,
                         $nutrients,
                         $nutrientName,
                         $numberOfDays,
-                        $foodstuffWeight,
                     );
                 }
 
-                foreach ($day->getRecipes() as $recipe) {
-                    foreach ($recipe->getFoodstuffWeights() as $id => $foodstuffWeight) {
-                        $foodstuff = $recipe->getFoodstuffs()[$id];
+                foreach ($day->getRecipeWeights() as $recipeWeight) {
+                    foreach ($recipeWeight->getRecipe()->getFoodstuffWeights() as $foodstuffWeight) {
                         $nutrients = $this->setNutrientRealised(
-                            $recipe->getFoodstuffUnits()[$foodstuff->getId()],
-                            $foodstuff,
+                            $foodstuffWeight,
                             $nutrients,
                             $nutrientName,
                             $numberOfDays,
-                            $foodstuffWeight,
-                            $day->getRecipeWeights()[$recipe->getId()],
+                            $recipeWeight->getValue(),
                         );
                     }
                 }
@@ -66,15 +61,15 @@ class RDAService
     }
 
     private function setNutrientRealised(
-        string $unit,
-        Foodstuff $foodstuff,
+        FoodstuffWeight $foodstuffWeight,
         array $nutrients,
         string $nutrientName,
         int $numberOfDays,
-        float $foodstuffWeight,
         float $recipeWeight = 1
     ): array
     {
+        $unit = $foodstuffWeight->getUnit();
+        $foodstuff = $foodstuffWeight->getFoodstuff();
         if ($unit === 'stuks' && is_null($foodstuff->getPieceWeight())) {
             $unit = $foodstuff->getPieceName();
         }
@@ -108,7 +103,7 @@ class RDAService
 
         $realised = $foodstuff->{'get' . ucfirst($nutrientName)}()
             / $numberOfDays
-            * $foodstuffWeight
+            * $foodstuffWeight->getValue()
             * $recipeWeight
             * $factor
             / 100;

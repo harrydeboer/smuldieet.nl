@@ -27,6 +27,15 @@ class CookbookFactory extends AbstractFactory
         } else {
             $paramsParent['user'] = $this->userFactory->create();
         }
+
+        $cookbook->setTitle(uniqid('cookbook'));
+        $cookbook->setTimestamp(time());
+        $cookbook->setUser($paramsParent['user']);
+
+        $this->setParams($params, $cookbook);
+
+        $this->cookbookRepository->create($cookbook);
+
         if (isset($params['recipeWeights'])) {
             $paramsParent['recipeWeights'] = $params['recipeWeights'];
         } else {
@@ -36,13 +45,9 @@ class CookbookFactory extends AbstractFactory
             $paramsParent['recipeWeights'] = $arrayCollection;
         }
 
-        $cookbook->setTitle(uniqid('cookbook'));
-        $cookbook->setTimestamp(time());
-        $cookbook->setUser($paramsParent['user']);
         $cookbook->setRecipeWeights($paramsParent['recipeWeights']);
+        $this->cookbookRepository->update($cookbook);
 
-        $this->setParams($params, $cookbook);
-
-        return $this->cookbookRepository->create($cookbook);
+        return $cookbook;
     }
 }

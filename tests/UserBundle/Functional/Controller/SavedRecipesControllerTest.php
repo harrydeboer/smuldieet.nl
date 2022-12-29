@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\UserBundle\Functional\Controller;
 
-use App\Tests\Functional\AuthAdminWebTestCase;
+use App\Tests\Functional\AuthVerifiedWebTestCase;
 
-class SavedRecipesControllerTest extends AuthAdminWebTestCase
+class SavedRecipesControllerTest extends AuthVerifiedWebTestCase
 {
     public function testSavedRecipesPage(): void
     {

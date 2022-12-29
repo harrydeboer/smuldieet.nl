@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Tests\AdminBundle\Functional\Form;
 
 use App\AdminBundle\Form\RecipeType;
-use App\Tests\Functional\AuthWebTestCase;
+use App\Tests\Functional\AuthUserWebTestCase;
 
-class RecipeTypeTest extends AuthWebTestCase
+class RecipeTypeTest extends AuthUserWebTestCase
 {
     public function testSubmitModel(): void
     {

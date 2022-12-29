@@ -7,7 +7,7 @@ namespace App\Tests\Functional;
 use App\Entity\User;
 use App\Tests\Factory\UserFactory;
 
-class AuthAdminWebTestCase extends WebTestCase
+class AuthUserWebTestCase extends WebTestCase
 {
     protected User $user;
 
@@ -15,7 +15,7 @@ class AuthAdminWebTestCase extends WebTestCase
     {
         parent::setUp();
 
-        $this->user = $this->getContainer()->get(UserFactory::class)->create(['roles' => ['ROLE_ADMIN']]);
+        $this->user = $this->getContainer()->get(UserFactory::class)->create();
 
         $this->client->loginUser($this->user);
     }

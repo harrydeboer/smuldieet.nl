@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Tests\UserBundle\Functional\Controller;
 
 use App\Tests\Factory\RatingFactory;
-use App\Tests\Functional\AuthAdminWebTestCase;
+use App\Tests\Functional\AuthVerifiedWebTestCase;
 
-class RatingControllerTest extends AuthAdminWebTestCase
+class RatingControllerTest extends AuthVerifiedWebTestCase
 {
     public function testRatings(): void
     {

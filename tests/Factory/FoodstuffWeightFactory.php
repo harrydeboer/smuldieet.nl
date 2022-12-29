@@ -24,7 +24,7 @@ class FoodstuffWeightFactory extends AbstractFactory
         } else {
             $paramsParent['foodstuff'] = $this->foodstuffFactory->create();
         }
-        $foodstuffWeight->setRecipe($paramsParent['recipe']);
+        $foodstuffWeight->setFoodstuff($paramsParent['foodstuff']);
         $foodstuffWeight->setValue(rand(0, 1000));
         $foodstuffWeight->setUnit(array_rand(Foodstuff::$foodstuffUnits));
 

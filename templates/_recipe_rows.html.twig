@@ -1,8 +1,12 @@
 {% for id, weight in weights %}
+    {% set classes = weight.value.vars.attr.class %}
+    {% if form_name == 'cookbook' %}
+        {% set classes = classes~' hidden-input' %}
+    {% endif %}
     <tr>
         <td>{{ include('_recipe_dropdown.html.twig', {'title': recipe_weights[id].recipe.title}) }}</td>
         <td colspan="2">{{ form_widget(weight.recipe_id, {'value': recipe_weights[id].recipe.id}) }}
-            {{ form_widget(weight.value) }}</td>
+            {{ form_widget(weight.value, {'attr': {'class': classes}}) }}</td>
         <td><i class="remove-row fa fa-minus"></i></td>
     </tr>
 {% endfor %}

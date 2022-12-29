@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\AdminBundle\Functional\Controller;
 
-use App\Tests\Factory\FoodstuffFactory;
 use App\Repository\FoodstuffRepositoryInterface;
-use App\Tests\Functional\AuthAdminWebTestCase;
+use App\Tests\AdminBundle\Functional\AuthAdminWebTestCase;
+use App\Tests\Factory\FoodstuffFactory;
 
 class FoodstuffControllerTest extends AuthAdminWebTestCase
 {

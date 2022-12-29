@@ -16,11 +16,11 @@ class AddFoodstuffsService
     ) {
     }
 
-    public function add(FoodstuffWeightsInterface $entity): bool
+    public function add(FoodstuffWeightsInterface $entity, $userId): bool
     {
         foreach ($entity->getFoodstuffWeights() as $weight) {
             $unit = $weight->getUnit();
-            $foodstuff = $this->foodstuffRepository->get($weight->getFoodstuffId());
+            $foodstuff = $this->foodstuffRepository->get($weight->getFoodstuffId(), $userId);
             $weight->setFoodstuff($foodstuff);
             if (!$foodstuff->getIsLiquid() && in_array($unit, Foodstuff::$foodstuffUnitsLiquid)) {
                 throw new BadRequestException('Solid foodstuffs cannot have a liquid unit.');
@@ -30,6 +30,9 @@ class AddFoodstuffsService
                 && !in_array($foodstuff->getPieceName(), Foodstuff::$foodstuffUnits)
                 && !in_array($foodstuff->getPieceName(), Foodstuff::$foodstuffUnitsLiquid)) {
                 throw new BadRequestException('Unit stuks allowed only when piece weight is not null.');
+            }
+            if (!is_numeric($weight->getValue())) {
+                throw new BadRequestException('Weight must be a number.');
             }
         }
 

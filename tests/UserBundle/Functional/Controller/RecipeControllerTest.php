@@ -7,10 +7,10 @@ namespace App\Tests\UserBundle\Functional\Controller;
 use App\Repository\RecipeRepositoryInterface;
 use App\Tests\Factory\FoodstuffFactory;
 use App\Tests\Factory\RecipeFactory;
-use App\Tests\Functional\AuthAdminWebTestCase;
+use App\Tests\Functional\AuthVerifiedWebTestCase;
 use Symfony\Component\HttpFoundation\File\File;
 
-class RecipeControllerTest extends AuthAdminWebTestCase
+class RecipeControllerTest extends AuthVerifiedWebTestCase
 {
     public function testCreateUpdateDelete(): void
     {
@@ -39,8 +39,9 @@ class RecipeControllerTest extends AuthAdminWebTestCase
         $form['recipe[type_of_dish]'] = 'Hoofdgerecht';
 
         $values = $form->getPhpValues();
-        $values['recipe']['foodstuff_weights'] = [$foodstuff->getId() => 10];
-        $values['recipe']['foodstuff_units'] = [$foodstuff->getId() => 'g'];
+        $values['recipe']['foodstuff_weights'][0]['foodstuff_id'] = $foodstuff->getId();
+        $values['recipe']['foodstuff_weights'][0]['value'] = 10;
+        $values['recipe']['foodstuff_weights'][0]['unit'] = 'g';
         $this->client->request($form->getMethod(), $form->getUri(), $values, $form->getPhpFiles());
 
         $this->assertResponseRedirects('/user/recepten');

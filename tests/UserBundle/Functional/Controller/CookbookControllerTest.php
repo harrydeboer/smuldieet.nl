@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Tests\UserBundle\Functional\Controller;
 
-use App\Tests\Factory\RecipeFactory;
 use App\Repository\CookbookRepositoryInterface;
-use App\Tests\Functional\AuthAdminWebTestCase;
+use App\Tests\Factory\RecipeFactory;
+use App\Tests\Functional\AuthVerifiedWebTestCase;
 
-class CookbookControllerTest extends AuthAdminWebTestCase
+class CookbookControllerTest extends AuthVerifiedWebTestCase
 {
     public function testCreateUpdateDelete(): void
     {
-        $recipe1 = static::getContainer()->get(RecipeFactory::class)->create();
-        $recipe2 = static::getContainer()->get(RecipeFactory::class)->create();
+        $recipe1 = static::getContainer()->get(RecipeFactory::class)->create(['isPending' => false]);
+        $recipe2 = static::getContainer()->get(RecipeFactory::class)->create(['isPending' => false]);
 
         $this->client->request('GET', '/user/kookboeken');
 
@@ -28,7 +28,10 @@ class CookbookControllerTest extends AuthAdminWebTestCase
         $form['cookbook[title]'] = 'test';
 
         $values = $form->getPhpValues();
-        $values['cookbook']['recipe_weights'] = [$recipe1->getId() => 1, $recipe2->getId() => 1];
+        $values['cookbook']['recipe_weights'][0]['recipe_id'] = $recipe1->getId();
+        $values['cookbook']['recipe_weights'][0]['value'] = 1;
+        $values['cookbook']['recipe_weights'][1]['recipe_id'] = $recipe2->getId();
+        $values['cookbook']['recipe_weights'][1]['value'] = 1;
         $this->client->request($form->getMethod(), $form->getUri(), $values, $form->getPhpFiles());
 
         $this->assertResponseRedirects('/user/kookboeken');
@@ -52,7 +55,8 @@ class CookbookControllerTest extends AuthAdminWebTestCase
         $form['cookbook[title]'] = $updatedTitle;
 
         $values = $form->getPhpValues();
-        $values['cookbook']['recipe_weights'] = [$recipe1->getId() => 1];
+        $values['cookbook']['recipe_weights'][0]['recipe_id'] = $recipe1->getId();
+        $values['cookbook']['recipe_weights'][0]['value'] = 1;
         $this->client->request($form->getMethod(), $form->getUri(), $values, $form->getPhpFiles());
 
         $this->assertResponseRedirects('/user/kookboeken');

@@ -54,7 +54,9 @@ class CookbookController extends AuthController
 
         $formUpdate->handleRequest($request);
 
-        if ($formUpdate->isSubmitted() && $this->addRecipesService->add($cookbook) && $formUpdate->isValid()) {
+        if ($formUpdate->isSubmitted()
+            && $this->addRecipesService->add($cookbook)
+            && $formUpdate->isValid()) {
             $this->cookbookRepository->update($cookbook);
 
             return $this->redirectToRoute('user_cookbooks');
@@ -75,7 +77,9 @@ class CookbookController extends AuthController
         $cookbook->setUser($this->getUser());
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $this->addRecipesService->add($cookbook) && $form->isValid()) {
+        if ($form->isSubmitted()
+            && $this->addRecipesService->add($cookbook)
+            && $form->isValid()) {
             $cookbook->setTimestamp(time());
 
             $this->cookbookRepository->create($cookbook);

@@ -6,6 +6,7 @@ namespace App\Tests\Unit\Form;
 
 use App\Entity\Day;
 use App\Entity\Foodstuff;
+use App\Entity\FoodstuffWeight;
 use App\Form\StandardDayType;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\Test\TypeTestCase;
@@ -17,7 +18,7 @@ class StandardDayTypeTest extends TypeTestCase
         $foodstuff = new Foodstuff();
         $foodstuff->setId(1);
         $formData = [
-            'foodstuff_weights' => [$foodstuff->getId() => 20],
+            'foodstuff_weights' => [0 => ['foodstuff_id' => $foodstuff->getId(), 'value' => 20, 'unit' => 'g']],
         ];
 
         $day = new Day();
@@ -26,7 +27,12 @@ class StandardDayTypeTest extends TypeTestCase
 
         $expected = new Day();
         $collection = new ArrayCollection();
-        $collection->set((string) ($foodstuff->getId()), 20.0);
+        $weight = new FoodstuffWeight();
+        $weight->setDay($expected);
+        $weight->setFoodstuffId($foodstuff->getId());
+        $weight->setUnit('g');
+        $weight->setValue(20);
+        $collection->add($weight);
         $expected->setFoodstuffWeights($collection);
 
         $form->submit($formData);

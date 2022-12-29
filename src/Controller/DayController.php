@@ -74,7 +74,7 @@ class DayController extends AuthController
         $formUpdate->handleRequest($request);
 
         if ($formUpdate->isSubmitted()
-            && $this->addFoodstuffsService->add($day)
+            && $this->addFoodstuffsService->add($day, $this->getUser()->getId())
             && $this->addRecipesService->add($day)
             && $formUpdate->isValid()) {
             if ($dayStandard?->getId() !== $day->getId() && is_null($day->getTimestamp())) {
@@ -106,7 +106,7 @@ class DayController extends AuthController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()
-            && $this->addFoodstuffsService->add($day)
+            && $this->addFoodstuffsService->add($day, $this->getUser()->getId())
             && $this->addRecipesService->add($day)
             && $form->isValid()) {
             if (is_null($day->getTimestamp())) {
@@ -133,7 +133,7 @@ class DayController extends AuthController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()
-            && $this->addFoodstuffsService->add($day)
+            && $this->addFoodstuffsService->add($day, $this->getUser()->getId())
             && $this->addRecipesService->add($day)
             && $form->isValid()) {
             $dayStandard = $this->dayRepository->findOneBy([

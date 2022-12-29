@@ -23,6 +23,19 @@ class DayFactory extends AbstractFactory
         $day = new Day();
 
         $paramsParent = [];
+        if (isset($params['user'])) {
+            $paramsParent['user'] = $params['user'];
+        } else {
+            $paramsParent['user'] = $this->userFactory->create();
+        }
+
+        $day->setDate($this->randomDate());
+        $day->setUser($paramsParent['user']);
+
+        $this->setParams($params, $day);
+
+        $this->dayRepository->create($day);
+
         if (isset($params['recipeWeights'])) {
             $paramsParent['recipeWeights'] = $params['recipeWeights'];
         } else {
@@ -39,19 +52,12 @@ class DayFactory extends AbstractFactory
             $arrayCollection->add($weight);
             $paramsParent['foodstuffWeights'] = $arrayCollection;
         }
-        if (isset($params['user'])) {
-            $paramsParent['user'] = $params['user'];
-        } else {
-            $paramsParent['user'] = $this->userFactory->create();
-        }
 
-        $day->setDate($this->randomDate());
-        $day->setUser($paramsParent['user']);
-        $day->setRecipeWeights($paramsParent['recipeWeights']);
         $day->setFoodstuffWeights($paramsParent['foodstuffWeights']);
+        $day->setRecipeWeights($paramsParent['recipeWeights']);
 
-        $this->setParams($params, $day);
+        $this->dayRepository->update($day);
 
-        return $this->dayRepository->create($day);
+        return $day;
     }
 }

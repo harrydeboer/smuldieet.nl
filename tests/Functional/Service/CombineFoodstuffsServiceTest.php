@@ -4,24 +4,38 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Service;
 
+use App\Entity\FoodstuffWeight;
 use App\Tests\Factory\FoodstuffFactory;
 use App\Service\CombineFoodstuffsService;
-use App\Tests\Functional\AuthWebTestCase;
+use App\Tests\Functional\AuthUserWebTestCase;
 
-class CombineFoodstuffsServiceTest extends AuthWebTestCase
+class CombineFoodstuffsServiceTest extends AuthUserWebTestCase
 {
     public function testCombine(): void
     {
         $foodstuff1 = static::getContainer()->get(FoodstuffFactory::class)->create();
         $foodstuff2 = static::getContainer()->get(FoodstuffFactory::class)->create();
         $foodstuff3 = static::getContainer()->get(FoodstuffFactory::class)->create();
-        $weights = [];
-        $weights[$foodstuff1->getId()] = 30;
-        $weights[$foodstuff2->getId()] = 30;
-        $weights[$foodstuff3->getId()] = 40;
+        $weight1 = new FoodstuffWeight();
+        $weight1->setFoodstuffId($foodstuff1->getId());
+        $weight1->setValue(30);
+        $weight1->setUnit('g');
+        $weight2 = new FoodstuffWeight();
+        $weight2->setFoodstuffId($foodstuff2->getId());
+        $weight2->setValue(30);
+        $weight2->setUnit('g');
+        $weight3 = new FoodstuffWeight();
+        $weight3->setFoodstuffId($foodstuff3->getId());
+        $weight3->setValue(40);
+        $weight3->setUnit('g');
+
         $formData = [
             'name' => 'newFoodstuff',
-            'foodstuff_weights' => $weights,
+            'foodstuff_weights' => [
+                0 => $weight1,
+                1 => $weight2,
+                2 => $weight3,
+                ],
         ];
         $combineFoodstuffsService = static::getContainer()->get(CombineFoodstuffsService::class);
         $foodstuff = $combineFoodstuffsService->combine($this->user, $formData);

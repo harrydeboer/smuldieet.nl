@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\AdminBundle\Functional\Controller;
 
 use App\Repository\UserRepositoryInterface;
-use App\Tests\Functional\AuthAdminWebTestCase;
+use App\Tests\AdminBundle\Functional\AuthAdminWebTestCase;
 
 class UserControllerTest extends AuthAdminWebTestCase
 {

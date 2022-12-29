@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller;
 
+use App\Repository\FoodstuffRepositoryInterface;
 use App\Tests\Factory\FoodstuffFactory;
 use App\Tests\Factory\PageFactory;
-use App\Repository\FoodstuffRepositoryInterface;
-use App\Tests\Functional\AuthAdminWebTestCase;
+use App\Tests\Functional\AuthVerifiedWebTestCase;
 
-class FoodstuffControllerTest extends AuthAdminWebTestCase
+class FoodstuffControllerTest extends AuthVerifiedWebTestCase
 {
     public function testCreateUpdateDelete(): void
     {
@@ -32,9 +32,8 @@ class FoodstuffControllerTest extends AuthAdminWebTestCase
         $form['foodstuff_from_foodstuffs[name]'] = 'test2';
 
         $values = $form->getPhpValues();
-        $weights = [];
-        $weights[$foodstuff->getId()] = 100;
-        $values['foodstuff_from_foodstuffs']['foodstuff_weights'] = $weights;
+        $values['foodstuff_from_foodstuffs']['foodstuff_weights'][0]['foodstuff_id'] = $foodstuff->getId();
+        $values['foodstuff_from_foodstuffs']['foodstuff_weights'][0]['value'] = 100;
         $this->client->request($form->getMethod(), $form->getUri(), $values, $form->getPhpFiles());
 
         $foodstuffRepository = $this->getContainer()->get(FoodstuffRepositoryInterface::class);

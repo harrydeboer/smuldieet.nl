@@ -6,9 +6,9 @@ namespace App\Tests\Functional\Controller;
 
 use App\Repository\RecipeRepositoryInterface;
 use App\Tests\Factory\RecipeFactory;
-use App\Tests\Functional\AuthAdminWebTestCase;
+use App\Tests\Functional\AuthVerifiedWebTestCase;
 
-class RecipeControllerTest extends AuthAdminWebTestCase
+class RecipeControllerTest extends AuthVerifiedWebTestCase
 {
     public function testCreateUpdateDelete(): void
     {
