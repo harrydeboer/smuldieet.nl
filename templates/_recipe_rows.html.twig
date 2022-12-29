@@ -5,8 +5,8 @@
     {% endif %}
     <tr>
         <td>{{ include('_recipe_dropdown.html.twig', {'title': recipe_weights[id].recipe.title}) }}</td>
-        <td colspan="2">{{ form_widget(weight.recipe_id, {'value': recipe_weights[id].recipe.id}) }}
-            {{ form_widget(weight.value, {'attr': {'class': classes}}) }}</td>
+        <td colspan="2">{{ form_widget(weight.value, {'attr': {'class': classes}}) }}{{ form_widget(weight.recipe_id,
+                {'value': recipe_weights[id].recipe.id}) }}</td>
         <td><i class="remove-row fa fa-minus"></i></td>
     </tr>
 {% endfor %}

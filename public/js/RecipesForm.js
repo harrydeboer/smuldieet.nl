@@ -16,7 +16,8 @@ class RecipesForm {
         this.weightsNumber = this.weightsNumber + 1;
         let html = '<tr><td>' + $('#' + this.formName + '_recipe_dropdown').data('prototype') +
             $('#' + this.formName + '_recipe_weights__name___recipe_id').data('prototype') + '</td>';
-        html += '<td colspan="2">' + $('#' + this.formName + '_recipe_weights__name___value').data('prototype') + '</td>';
+        html += '<td colspan="2">' + $('#' + this.formName + '_recipe_weights__name___value').data('prototype')
+            + '</td>';
         html += '<td><i class="remove-row fa fa-minus"></i></td></tr>';
         $('#add_foodstuff_recipe_button_row').before(html);
         $('[name="' + this.formName + '[recipe_weights][__name__][recipe_id]' + '"]')
@@ -113,7 +114,7 @@ class RecipesForm {
 
     /**
      * The FoodForm has a FoodRow class in which the current element can be put and the row of the element is returned.
-     * From this row the name, weight, piece name and search results can be retrieved.
+     * From this row the id, name, weight and search results can be retrieved.
      * The inspection JSCheckFunctionSignatures is disabled because the find method works for class names.
      */
     FoodRow = class {
@@ -138,7 +139,7 @@ class RecipesForm {
 
         getSearchResults() {
             // noinspection JSCheckFunctionSignatures
-            return this.row.find('.dropdown-menu-food')
+            return this.row.find('.dropdown-menu-recipe')
         }
     }
 }

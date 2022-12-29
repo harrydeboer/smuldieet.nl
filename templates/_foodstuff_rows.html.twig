@@ -3,8 +3,8 @@
         <td>{{ include('_foodstuff_dropdown.html.twig', {'name': foodstuff_weights[id].foodstuff.name}) }}</td>
 
         {% set classes = weight.unit.vars.attr.class %}
-        <td>{{ form_widget(weight.foodstuff_id, {'value': foodstuff_weights[id].foodstuff.id}) }}
-            {{ form_widget(weight.value) }}</td>
+        <td>{{ form_widget(weight.value) }}{{ form_widget(weight.foodstuff_id,
+                {'value': foodstuff_weights[id].foodstuff.id}) }}</td>
         {% if not foodstuff_weights[id].foodstuff.isLiquid %}
             {% set classes = classes~' not-liquid' %}
         {% endif %}

@@ -166,7 +166,7 @@ class FoodstuffsForm {
 
     /**
      * The FoodForm has a FoodRow class in which the current element can be put and the row of the element is returned.
-     * From this row the name, weight, piece name and search results can be retrieved.
+     * From this row the id, name, weight, unit, piece option and search results can be retrieved.
      * The inspection JSCheckFunctionSignatures is disabled because the find method works for class names.
      */
     FoodstuffRow = class {
@@ -201,7 +201,7 @@ class FoodstuffsForm {
 
         getSearchResults() {
             // noinspection JSCheckFunctionSignatures
-            return this.row.find('.dropdown-menu-food')
+            return this.row.find('.dropdown-menu-foodstuff')
         }
     }
 }
