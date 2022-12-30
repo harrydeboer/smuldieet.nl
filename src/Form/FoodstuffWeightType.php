@@ -40,7 +40,7 @@ class FoodstuffWeightType extends AbstractType
                 'class' => 'form-control foodstuff-unit form-select',
             ],
             'choice_attr' => $choiceAttr,
-            'required' => false,
+            'placeholder' => 'selecteer eenheid',
         ]);
     }
 

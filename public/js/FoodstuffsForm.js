@@ -4,14 +4,6 @@ class FoodstuffsForm {
         this.formName = form.attr('name');
         this.errors = $('#form_errors_client');
         this.weightsNumber = $('.foodstuff-weight').length - 1.
-        $('.food-unit').each((index, element) => {
-            let pieceName = $(element).data('piece-name');
-            $(element).children().each((choiceIndex, choice) => {
-                if ($(choice).val() === 'stuks' && pieceName !== '') {
-                    $(choice).text(pieceName);
-                }
-            });
-        });
 
         $('#add_foodstuff').on('click', this.addFoodstuff.bind(this));
         form.on('input', ".foodstuff-name", this.foodstuffNameInput.bind(this));

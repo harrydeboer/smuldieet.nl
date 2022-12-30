@@ -15,10 +15,13 @@
         {% if foodstuff_weights[id].foodstuff.pieceWeight is null %}
             {% set classes = classes~' not-piece' %}
         {% endif %}
-        <td>{{ form_widget(weight.unit, {'attr': {
-                'class': classes,
-                'data-piece-name':foodstuff_weights[id].foodstuff.pieceName,
-            }}) }}</td>
+        <td>{{ form_widget(weight.unit, {
+                'choices': foodstuff_weights[id].foodstuff.units(),
+                'value': foodstuff_weights[id].unit,
+                'attr': {
+                    'class': classes,
+                    'data-piece-name':foodstuff_weights[id].foodstuff.pieceName,
+                }}) }}</td>
         <td><i class="remove-row fa fa-minus"></i></td>
     </tr>
 {% endfor %}
