@@ -19,35 +19,23 @@ class CommentFactory extends AbstractFactory
 
     public function create(array $params = []): Comment
     {
-        $paramsParent = [];
-        if (isset($params['user'])) {
-            $paramsParent['user'] = $params['user'];
-        } else {
-            $paramsParent['user'] = $this->userFactory->create();
-        }
-        if (isset($params['page'])) {
-            $paramsParent['page'] = $params['page'];
-        } else {
-            $paramsParent['page'] = $this->pageFactory->create();
-        }
-        if (isset($params['recipe'])) {
-            $paramsParent['recipe'] = $params['recipe'];
-        } else {
-            $paramsParent['recipe'] = $this->recipeFactory->create();
-        }
+        $user = $params['user'] ?? $this->userFactory->create();
+        $page = $params['page'] ?? $this->pageFactory->create();
+        $recipe = $params['recipe'] ?? $this->recipeFactory->create();
+
         $comment = new Comment();
-        $comment->setUser($paramsParent['user']);
+        $comment->setUser($user);
         $comment->setContent(uniqid('content'));
         $comment->setTimestamp(time());
         $isOnPage = rand(0,1);
         if (isset($params['page'])) {
-            $comment->setPage($paramsParent['page']);
+            $comment->setPage($page);
         } elseif (isset($params['recipe'])) {
-            $comment->setRecipe($paramsParent['recipe']);
+            $comment->setRecipe($recipe);
         } elseif ($isOnPage === 1) {
-            $comment->setPage($paramsParent['page']);
+            $comment->setPage($page);
         } else {
-            $comment->setRecipe($paramsParent['recipe']);
+            $comment->setRecipe($recipe);
         }
 
         $this->setParams($params, $comment);

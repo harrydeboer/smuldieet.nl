@@ -23,7 +23,6 @@ class FoodstuffFactory extends AbstractFactory
     {
         $foodstuff = new Foodstuff();
         $foodstuff->setName(uniqid('foodstuff'));
-
         foreach (Foodstuff::getNutrients() as $key => $property) {
             $foodstuff->{'set' . ucfirst($key)}($this->randomNutritionalValue());
         }

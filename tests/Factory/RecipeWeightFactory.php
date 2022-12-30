@@ -17,13 +17,10 @@ class RecipeWeightFactory extends AbstractFactory
 
     public function create(array $params = []): RecipeWeight
     {
+        $recipe = $params['recipe'] ?? $this->recipeFactory->create();
+
         $recipeWeight = new RecipeWeight();
-        if (isset($params['recipe'])) {
-            $paramsParent['recipe'] = $params['recipe'];
-        } else {
-            $paramsParent['recipe'] = $this->recipeFactory->create();
-        }
-        $recipeWeight->setRecipe($paramsParent['recipe']);
+        $recipeWeight->setRecipe($recipe);
         $recipeWeight->setValue(rand(0, 1000));
 
         $this->setParams($params, $recipeWeight);

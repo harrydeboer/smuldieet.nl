@@ -19,33 +19,27 @@ class CookbookFactory extends AbstractFactory
 
     public function create(array $params = []): Cookbook
     {
+        $user = $params['user'] ?? $this->userFactory->create();
+
         $cookbook = new Cookbook();
-
-        $paramsParent = [];
-        if (isset($params['user'])) {
-            $paramsParent['user'] = $params['user'];
-        } else {
-            $paramsParent['user'] = $this->userFactory->create();
-        }
-
         $cookbook->setTitle(uniqid('cookbook'));
         $cookbook->setTimestamp(time());
-        $cookbook->setUser($paramsParent['user']);
+        $cookbook->setUser($user);
 
         $this->setParams($params, $cookbook);
 
         $this->cookbookRepository->create($cookbook);
 
         if (isset($params['recipeWeights'])) {
-            $paramsParent['recipeWeights'] = $params['recipeWeights'];
+            $recipeWeights = $params['recipeWeights'];
         } else {
             $arrayCollection = new ArrayCollection();
             $weight = $this->recipeWeightFactory->create(['cookbook' => $cookbook]);
             $arrayCollection->add($weight);
-            $paramsParent['recipeWeights'] = $arrayCollection;
+            $recipeWeights = $arrayCollection;
         }
 
-        $cookbook->setRecipeWeights($paramsParent['recipeWeights']);
+        $cookbook->setRecipeWeights($recipeWeights);
         $this->cookbookRepository->update($cookbook);
 
         return $cookbook;

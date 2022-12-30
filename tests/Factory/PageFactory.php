@@ -18,14 +18,10 @@ class PageFactory extends AbstractFactory
 
     public function create(array $params = []): Page
     {
-        $paramsParent = [];
-        if (isset($params['user'])) {
-            $paramsParent['user'] = $params['user'];
-        } else {
-            $paramsParent['user'] = $this->userFactory->create();
-        }
+        $user = $params['user'] ?? $this->userFactory->create();
+
         $page = new Page();
-        $page->setUser($paramsParent['user']);
+        $page->setUser($user);
         $page->setTitle(uniqid('title'));
         $page->setSlug(uniqid('slug'));
         $page->setTimestamp(time());

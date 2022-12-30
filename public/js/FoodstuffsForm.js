@@ -28,31 +28,21 @@ class FoodstuffsForm {
      */
     addFoodstuff(event) {
         this.weightsNumber = this.weightsNumber + 1;
+        let selector = '#' + this.formName + '_foodstuff_weights__name__';
         let html = '<tr><td><div class="dropdown">' +
-            $('#' + this.formName + '_foodstuff_weights__name___name').data('prototype') +
+            $(selector + '_name').data('prototype') +
             '<div class="dropdown-menu dropdown-menu-foodstuff"></div></div>' +
-            $('#' + this.formName + '_foodstuff_weights__name___foodstuff_id').data('prototype') +
+            $(selector + '_foodstuff_id').data('prototype') +
             '</td>';
-        html += '<td>' + $('#' + this.formName + '_foodstuff_weights__name___value').data('prototype') + '</td>';
+        html += '<td>' + $(selector + '_value').data('prototype') + '</td>';
         if (this.formName === 'foodstuff_from_foodstuffs') {
             html += '<td>%</td>';
         } else {
-            html += '<td>' + $('#' + this.formName + '_foodstuff_weights__name___unit').data('prototype') + '</td>';
+            html += '<td>' + $(selector + '_unit').data('prototype') + '</td>';
         }
         html += '<td><i class="remove-row fa fa-minus"></i></td></tr>';
+        html = html.replaceAll('__name__', this.weightsNumber);
         $('#add_foodstuff_recipe_button_row').before(html);
-        $('[name="' + this.formName + '[foodstuff_weights][__name__][foodstuff_id]"]')
-            .attr('name', this.formName + '[foodstuff_weights][' + this.weightsNumber + '][foodstuff_id]')
-            .removeAttr('id');
-        $('[name="' + this.formName + '[foodstuff_weights][__name__][name]"]')
-            .attr('name', this.formName + '[foodstuff_weights][' + this.weightsNumber + '][name]')
-            .removeAttr('id');
-        $('[name="' + this.formName + '[foodstuff_weights][__name__][value]"]')
-            .attr('name', this.formName + '[foodstuff_weights][' + this.weightsNumber + '][value]')
-            .removeAttr('id');
-        $('[name="' + this.formName + '[foodstuff_weights][__name__][unit]"]')
-            .attr('name', this.formName + '[foodstuff_weights][' + this.weightsNumber + '][unit]')
-            .removeAttr('id');
         event.preventDefault();
     }
 
@@ -188,11 +178,6 @@ class FoodstuffsForm {
         getName() {
             // noinspection JSCheckFunctionSignatures
             return this.row.find('.dropdown-toggle');
-        }
-
-        getWeight() {
-            // noinspection JSCheckFunctionSignatures
-            return this.row.find('.foodstuff-weight');
         }
 
         getUnit() {

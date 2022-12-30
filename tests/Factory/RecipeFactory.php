@@ -20,18 +20,12 @@ class RecipeFactory extends AbstractFactory
 
     public function create(array $params = []): Recipe
     {
+        $user = $params['user'] ?? $this->userFactory->create();
+
         $recipe = new Recipe();
-
-        $paramsParent = [];
-        if (isset($params['user'])) {
-            $paramsParent['user'] = $params['user'];
-        } else {
-            $paramsParent['user'] = $this->userFactory->create();
-        }
-
         $recipe->setTitle(uniqid('recipe'));
         $recipe->setIngredients(uniqid('ingredients'));
-        $recipe->setUser($paramsParent['user']);
+        $recipe->setUser($user);
         $recipe->setTimestamp(time());
         $recipe->setPreparationMethod('test');
         $recipe->setNumberOfPersons(rand(1,100));
@@ -68,14 +62,14 @@ class RecipeFactory extends AbstractFactory
         $this->recipeRepository->create($recipe);
 
         if (isset($params['foodstuffWeights'])) {
-            $paramsParent['foodstuffWeights'] = $params['foodstuffWeights'];
+            $foodstuffWeights = $params['foodstuffWeights'];
         } else {
             $arrayCollection = new ArrayCollection();
             $weight = $this->foodstuffWeightFactory->create(['recipe' => $recipe]);
             $arrayCollection->add($weight);
-            $paramsParent['foodstuffWeights'] = $arrayCollection;
+            $foodstuffWeights = $arrayCollection;
         }
-        $recipe->setFoodstuffWeights($paramsParent['foodstuffWeights']);
+        $recipe->setFoodstuffWeights($foodstuffWeights);
 
         $this->recipeRepository->update($recipe);
 

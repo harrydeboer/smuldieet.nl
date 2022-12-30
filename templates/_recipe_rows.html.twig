@@ -1,24 +1,17 @@
 {% for id, weight in weights %}
-    {% set classes = weight.value.vars.attr.class %}
+    {% set weight_value_classes = weight.value.vars.attr.class %}
     {% if form_name == 'cookbook' %}
-        {% set classes = classes~' hidden-input' %}
-    {% endif %}
-    {% if form_name == 'cookbook' %}
-        {% set placeholder = 'recept' %}
-    {% else %}
-        {% set placeholder = 'gerecht' %}
+        {% set weight_value_classes = weight_value_classes~' hidden-input' %}
     {% endif %}
     <tr>
         <td>
-            <div class="dropdown">{{ form_widget(weight.name, {
-                    'value': recipe_weights[id].recipe.title,
-                    'placeholder': placeholder}) }}
+            <div class="dropdown">{{ form_widget(weight.name, {'value': recipe_weights[id].recipe.title}) }}
                 <div class="dropdown-menu dropdown-menu-recipe">
                 </div>
             </div>
         </td>
-        <td colspan="2">{{ form_widget(weight.value, {'attr': {'class': classes}}) }}{{ form_widget(weight.recipe_id,
-                {'value': recipe_weights[id].recipe.id}) }}</td>
+        <td colspan="2">{{ form_widget(weight.value, {'attr': {'class': weight_value_classes}}) }}
+            {{ form_widget(weight.recipe_id, {'value': recipe_weights[id].recipe.id}) }}</td>
         <td><i class="remove-row fa fa-minus"></i></td>
     </tr>
 {% endfor %}

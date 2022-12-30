@@ -18,13 +18,10 @@ class FoodstuffWeightFactory extends AbstractFactory
 
     public function create(array $params = []): FoodstuffWeight
     {
+        $foodstuff = $params['foodstuff'] ?? $this->foodstuffFactory->create();
+
         $foodstuffWeight = new FoodstuffWeight();
-        if (isset($params['foodstuff'])) {
-            $paramsParent['foodstuff'] = $params['foodstuff'];
-        } else {
-            $paramsParent['foodstuff'] = $this->foodstuffFactory->create();
-        }
-        $foodstuffWeight->setFoodstuff($paramsParent['foodstuff']);
+        $foodstuffWeight->setFoodstuff($foodstuff);
         $foodstuffWeight->setValue(rand(0, 1000));
         $foodstuffWeight->setUnit(array_rand(Foodstuff::$foodstuffUnits));
 

@@ -14,31 +14,17 @@ class RecipesForm {
 
     addRecipe(event) {
         this.weightsNumber = this.weightsNumber + 1;
-        let placeholder;
-        if (this.formName === 'cookbook') {
-            placeholder = 'recept';
-        } else {
-            placeholder = 'gerecht'
-        }
+        let selector = '#' + this.formName + '_recipe_weights__name__';
         let html = '<tr><td><div class="dropdown">' +
-            $('#' + this.formName + '_recipe_weights__name___name').data('prototype') +
+            $(selector + '_name').data('prototype') +
             '<div class="dropdown-menu dropdown-menu-recipe"></div></div>' +
-            $('#' + this.formName + '_recipe_weights__name___recipe_id').data('prototype') +
+            $(selector + '_recipe_id').data('prototype') +
             '</td>';
-        html += '<td colspan="2">' + $('#' + this.formName + '_recipe_weights__name___value').data('prototype')
+        html += '<td colspan="2">' + $(selector + '_value').data('prototype')
             + '</td>';
         html += '<td><i class="remove-row fa fa-minus"></i></td></tr>';
+        html = html.replaceAll('__name__', this.weightsNumber);
         $('#add_foodstuff_recipe_button_row').before(html);
-        $('[name="' + this.formName + '[recipe_weights][__name__][recipe_id]' + '"]')
-            .attr('name', this.formName + '[recipe_weights][' + this.weightsNumber + '][recipe_id]')
-            .removeAttr('id');
-        $('[name="' + this.formName + '[recipe_weights][__name__][name]' + '"]')
-            .attr('name', this.formName + '[recipe_weights][' + this.weightsNumber + '][name]')
-            .attr('placeholder', placeholder)
-            .removeAttr('id');
-        $('[name="' + this.formName + '[recipe_weights][__name__][value]' + '"]')
-            .attr('name', this.formName + '[recipe_weights][' + this.weightsNumber + '][value]')
-            .removeAttr('id');
         if (this.formName === 'cookbook') {
             let value = $('[name="' + this.formName + '[recipe_weights][' + this.weightsNumber + '][value]' + '"]');
             value.val(1);
@@ -143,11 +129,6 @@ class RecipesForm {
         getName() {
             // noinspection JSCheckFunctionSignatures
             return this.row.find('.dropdown-toggle');
-        }
-
-        getWeight() {
-            // noinspection JSCheckFunctionSignatures
-            return this.row.find('.recipe-weight');
         }
 
         getSearchResults() {

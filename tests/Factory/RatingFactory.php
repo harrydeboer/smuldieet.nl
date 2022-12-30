@@ -18,23 +18,15 @@ class RatingFactory extends AbstractFactory
 
     public function create(array $params = []): Rating
     {
-        $paramsParent = [];
-        if (isset($params['user'])) {
-            $paramsParent['user'] = $params['user'];
-        } else {
-            $paramsParent['user'] = $this->userFactory->create();
-        }
-        if (isset($params['recipe'])) {
-            $paramsParent['recipe'] = $params['recipe'];
-        } else {
-            $paramsParent['recipe'] = $this->recipeFactory->create();
-        }
+        $user = $params['user'] ?? $this->userFactory->create();
+        $recipe = $params['recipe'] ?? $this->recipeFactory->create();
+
         $rating = new Rating();
         $rating->setRating(rand(10, 100) / 10);
         $rating->setTimestamp(time());
         $rating->setIsPending(rand(0, 1) === 1);
-        $rating->setUser($paramsParent['user']);
-        $rating->setRecipe($paramsParent['recipe']);
+        $rating->setUser($user);
+        $rating->setRecipe($recipe);
 
         $this->setParams($params, $rating);
 

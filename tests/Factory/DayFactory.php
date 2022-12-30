@@ -20,41 +20,35 @@ class DayFactory extends AbstractFactory
 
     public function create(array $params = []): Day
     {
+        $user = $params['user'] ?? $this->userFactory->create();
+
         $day = new Day();
-
-        $paramsParent = [];
-        if (isset($params['user'])) {
-            $paramsParent['user'] = $params['user'];
-        } else {
-            $paramsParent['user'] = $this->userFactory->create();
-        }
-
         $day->setDate($this->randomDate());
-        $day->setUser($paramsParent['user']);
+        $day->setUser($user);
 
         $this->setParams($params, $day);
 
         $this->dayRepository->create($day);
 
-        if (isset($params['recipeWeights'])) {
-            $paramsParent['recipeWeights'] = $params['recipeWeights'];
-        } else {
-            $arrayCollection = new ArrayCollection();
-            $weight = $this->recipeWeightFactory->create(['day' => $day]);
-            $arrayCollection->add($weight);
-            $paramsParent['recipeWeights'] = $arrayCollection;
-        }
         if (isset($params['foodstuffWeights'])) {
-            $paramsParent['foodstuffWeights'] = $params['foodstuffWeights'];
+            $foodstuffWeights = $params['foodstuffWeights'];
         } else {
             $arrayCollection = new ArrayCollection();
             $weight = $this->foodstuffWeightFactory->create(['day' => $day]);
             $arrayCollection->add($weight);
-            $paramsParent['foodstuffWeights'] = $arrayCollection;
+            $foodstuffWeights = $arrayCollection;
+        }
+        if (isset($params['recipeWeights'])) {
+            $recipeWeights = $params['recipeWeights'];
+        } else {
+            $arrayCollection = new ArrayCollection();
+            $weight = $this->recipeWeightFactory->create(['day' => $day]);
+            $arrayCollection->add($weight);
+            $recipeWeights = $arrayCollection;
         }
 
-        $day->setFoodstuffWeights($paramsParent['foodstuffWeights']);
-        $day->setRecipeWeights($paramsParent['recipeWeights']);
+        $day->setFoodstuffWeights($foodstuffWeights);
+        $day->setRecipeWeights($recipeWeights);
 
         $this->dayRepository->update($day);
 
