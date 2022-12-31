@@ -10,7 +10,6 @@ use App\Repository\UserRepositoryInterface;
 use App\Service\UploadedImageService;
 use App\UserBundle\Form\UserType;
 use Exception;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

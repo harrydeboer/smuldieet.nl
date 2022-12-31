@@ -8,10 +8,10 @@ use Symfony\Component\Asset\VersionStrategy\VersionStrategyInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Exception;
 
-class FileMTime implements VersionStrategyInterface
+readonly class FileMTime implements VersionStrategyInterface
 {
     public function __construct(
-        private readonly KernelInterface $kernel,
+        private KernelInterface $kernel,
     ) {
     }
 

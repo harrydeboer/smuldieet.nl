@@ -12,10 +12,10 @@ use App\Entity\User;
 /**
  * The submitted foodstuffs are combined to one foodstuff with averaged values.
  */
-class CombineFoodstuffsService
+readonly class CombineFoodstuffsService
 {
     public function __construct(
-        private readonly FoodstuffRepositoryInterface $foodstuffRepository,
+        private FoodstuffRepositoryInterface $foodstuffRepository,
     ) {
     }
 

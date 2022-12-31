@@ -15,7 +15,6 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class RatingController extends AuthController
@@ -51,7 +50,7 @@ class RatingController extends AuthController
          * When creating a review it is checked that the recipe is not pending except when the current user owns it.
          */
         if ($recipe->getIsPending() && $recipe->getUser()->getId() !== $this->getUser()->getId()) {
-            throw new NotFoundHttpException('Dit recept can niet worden getoond.');
+            throw $this->createNotFoundException('Dit recept can niet worden getoond.');
         }
 
         $form->handleRequest($request);

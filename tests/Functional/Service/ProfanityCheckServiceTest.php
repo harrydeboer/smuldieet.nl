@@ -17,7 +17,7 @@ class ProfanityCheckServiceTest extends KernelTestCase
 
         $profanityCheckService = static::getContainer()->get(ProfanityCheckService::class);
 
-        $this->assertEmpty($profanityCheckService->check('test'));
+        $profanityCheckService->check('test');
 
         $this->expectException(Exception::class);
 

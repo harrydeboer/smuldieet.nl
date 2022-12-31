@@ -12,21 +12,21 @@
         {% endif %}
         {% for id, weight in day.foodstuffWeights %}
             <tr>
-                <td>{{ day.foodstuffs()[id].name }}</td>
-                <td>{{ weight|number_format }}
-                    {% if day.foodstuffs()[id].pieceName is not null and weight >= 2 %}
-                        {{ day.foodstuffs()[id].piecesName }}
-                    {% elseif day.foodstuffs()[id].pieceName is not null and weight < 2 %}
-                        {{ day.foodstuffs()[id].pieceName }}
+                <td>{{ weight.foodstuff.name }}</td>
+                <td>{{ weight.value|number_format }}
+                    {% if weight.foodstuff.pieceName is not null and weight.value >= 2 %}
+                        {{ weight.foodstuff.piecesName }}
+                    {% elseif weight.foodstuff.pieceName is not null and weight.value < 2 %}
+                        {{ weight.foodstuff.pieceName }}
                     {% else %}
-                        {{ day.foodstuffUnits()[id] }}
+                        {{ weight.unit }}
                     {% endif %}</td>
             </tr>
         {% endfor %}
         {% for id, weight in day.recipeWeights %}
             <tr>
-                <td>{{ day.recipes()[id].title }}</td>
-                <td>{{ weight|number_format }}</td>
+                <td>{{ weight.recipe.title }}</td>
+                <td>{{ weight.value|number_format }}</td>
             </tr>
         {% endfor %}
         <tr>

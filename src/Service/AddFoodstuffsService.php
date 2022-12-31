@@ -9,10 +9,10 @@ use App\Entity\FoodstuffWeightsInterface;
 use App\Repository\FoodstuffRepositoryInterface;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
-class AddFoodstuffsService
+readonly class AddFoodstuffsService
 {
     public function __construct(
-        private readonly FoodstuffRepositoryInterface $foodstuffRepository,
+        private FoodstuffRepositoryInterface $foodstuffRepository,
     ) {
     }
 

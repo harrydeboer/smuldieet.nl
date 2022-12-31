@@ -8,10 +8,10 @@ use App\Entity\UploadImageInterface;
 use Exception;
 use Symfony\Component\HttpKernel\KernelInterface;
 
-class UploadedImageService
+readonly class UploadedImageService
 {
     public function __construct(
-        private readonly KernelInterface $kernel,
+        private KernelInterface $kernel,
     ) {
     }
 

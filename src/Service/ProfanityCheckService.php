@@ -7,10 +7,10 @@ namespace App\Service;
 use App\Repository\ProfanityRepositoryInterface;
 use Exception;
 
-class ProfanityCheckService
+readonly class ProfanityCheckService
 {
     public function __construct(
-        private readonly ProfanityRepositoryInterface $profanityRepository,
+        private ProfanityRepositoryInterface $profanityRepository,
     ) {
     }
 

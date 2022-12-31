@@ -17,7 +17,6 @@
         {% endif %}
         <td>{{ form_widget(weight.unit, {
                 'choices': foodstuff_weights[id].foodstuff.units(),
-                'value': foodstuff_weights[id].unit,
                 'attr': {
                     'class': classes,
                     'data-piece-name':foodstuff_weights[id].foodstuff.pieceName,

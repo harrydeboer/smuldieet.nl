@@ -41,7 +41,7 @@ class Day implements FoodstuffWeightsInterface, RecipeWeightsInterface
     #[ORM\OneToMany(mappedBy: "day", targetEntity: "App\Entity\FoodstuffWeight", cascade: ["persist", "remove"])]
     private Collection $foodstuffWeights;
 
-    #[ORM\OneToMany(mappedBy: "day", targetEntity: "RecipeWeight", cascade: ["remove"])]
+    #[ORM\OneToMany(mappedBy: "day", targetEntity: "RecipeWeight", cascade: ["persist", "remove"])]
     private Collection $recipeWeights;
 
     #[Pure] public function __construct()
