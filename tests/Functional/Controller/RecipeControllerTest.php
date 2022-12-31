@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller;
 
+use App\Repository\CommentRepositoryInterface;
 use App\Repository\RecipeRepositoryInterface;
 use App\Tests\Factory\RecipeFactory;
 use App\Tests\Functional\AuthVerifiedWebTestCase;
@@ -98,5 +99,22 @@ class RecipeControllerTest extends AuthVerifiedWebTestCase
 
         $this->assertEquals($ratingUpdate - $rating + $recipeRating, $recipeUpdate->getRating());
         $this->assertEquals($votesOld + 1, $recipe->getVotes());
+
+        $buttonCrawlerNode = $crawler->selectButton('Plaatsen');
+
+        $form = $buttonCrawlerNode->form();
+
+        $content = 'test';
+        $form['comment[content]'] = $content;
+
+        $this->client->submit($form);
+
+        $this->assertResponseRedirects('/recept/enkel/' . $recipe->getId() . '#comments');
+
+        $commentRepository = $this->getContainer()->get(CommentRepositoryInterface::class);
+
+        $comment = $commentRepository->findOneBy(['content' => $content, 'isPending' => true]);
+
+        $this->assertEquals($content, $comment->getContent());
     }
 }

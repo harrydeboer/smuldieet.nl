@@ -11,7 +11,7 @@ use Exception;
 
 class ProfanityCheckServiceTest extends KernelTestCase
 {
-    public function testCombine(): void
+    public function testCheck(): void
     {
         $profanity = static::getContainer()->get(ProfanityFactory::class)->create(['name' => 'scheldwoord']);
 
