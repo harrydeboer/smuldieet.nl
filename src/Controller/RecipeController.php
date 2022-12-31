@@ -16,7 +16,6 @@ use App\Repository\RecipeRepositoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class RecipeController extends Controller
@@ -71,7 +70,7 @@ class RecipeController extends Controller
     {
         $recipe = $this->recipeRepository->get($id);
         if ($recipe->getIsPending() && $recipe->getUser()->getId() !== $this->getUser()?->getId()) {
-            throw new NotFoundHttpException('Dit recept can niet worden getoond.');
+            throw $this->createNotFoundException('Dit recept can niet worden getoond.');
         }
 
         $rating = $this->ratingRepository->findOneBy([

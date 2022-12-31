@@ -8,7 +8,6 @@ use App\Form\CommentType;
 use App\Repository\CommentRepositoryInterface;
 use App\Repository\PageRepositoryInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PageController extends Controller
@@ -44,6 +43,6 @@ class PageController extends Controller
 
     public function catchAll(): void
     {
-        throw new NotFoundHttpException('Deze pagina bestaat niet.');
+        throw $this->createNotFoundException('Deze pagina bestaat niet.');
     }
 }

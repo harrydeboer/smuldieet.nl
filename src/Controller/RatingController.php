@@ -13,7 +13,6 @@ use Exception;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class RatingController extends Controller
@@ -36,7 +35,7 @@ class RatingController extends Controller
          * When creating a rating it is checked that the recipe is not pending except when the current user owns it.
          */
         if ($recipe->getIsPending() && $recipe->getUser()->getId() !== $this->getUser()->getId()) {
-            throw new NotFoundHttpException('Dit recept can niet worden getoond.');
+            throw $this->createNotFoundException('Dit recept can niet worden getoond.');
         }
 
         $form->handleRequest($request);
