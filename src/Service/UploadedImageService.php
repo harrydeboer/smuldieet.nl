@@ -6,25 +6,27 @@ namespace App\Service;
 
 use App\Entity\UploadImageInterface;
 use Exception;
-use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 readonly class UploadedImageService
 {
     public function __construct(
-        private KernelInterface $kernel,
+        private ParameterBagInterface $parameterBag,
     ) {
     }
 
     public function unlinkImage(UploadImageInterface $entity): void
     {
         $extraPath = '';
-        if ($this->kernel->getEnvironment() === 'test') {
+        if ($this->parameterBag->get('kernel.environment') === 'test') {
             $extraPath = 'test/';
         }
         if (!is_null($entity->getImageUrl())) {
-            @unlink($this->kernel->getProjectDir() . '/public/' . $entity->getImageUrl(null, $extraPath));
+            @unlink($this->parameterBag->get('kernel.project_dir') . '/public/' .
+                $entity->getImageUrl(null, $extraPath));
             foreach ($entity->getImageWidths() as $width) {
-                @unlink($this->kernel->getProjectDir() . '/public/' . $entity->getImageUrl($width, $extraPath));
+                @unlink($this->parameterBag->get('kernel.project_dir') . '/public/' .
+                    $entity->getImageUrl($width, $extraPath));
             }
         }
     }
@@ -42,7 +44,7 @@ readonly class UploadedImageService
         if (!is_null($image)) {
             $id = (string) $entity->getId();
             $extraPath = '';
-            if ($this->kernel->getEnvironment() === 'test') {
+            if ($this->parameterBag->get('kernel.environment') === 'test') {
                 $extraPath = 'test/';
             }
             if (!is_null($oldExtension)) {
@@ -51,11 +53,12 @@ readonly class UploadedImageService
                 $this->unlinkImage($entity);
                 $entity->setImageExtension($newExtension);
             }
-            $image->move(dirname($this->kernel->getProjectDir() . '/public/' .
+            $image->move(dirname($this->parameterBag->get('kernel.project_dir') . '/public/' .
                 $entity->getImageUrl(null, $extraPath)),$id . '_.' . $image->getClientOriginalExtension());
 
             $extension = $image->getClientOriginalExtension();
-            $path = $this->kernel->getProjectDir() . '/public/' . $entity->getImageUrl(null, $extraPath);
+            $path = $this->parameterBag->get('kernel.project_dir') . '/public/' .
+                $entity->getImageUrl(null, $extraPath);
             if ($extension === 'png') {
                 $image = imagecreatefrompng($path);
             } elseif ($extension === 'jpg' || $extension === 'jpeg' || $extension === 'jpe'
@@ -77,7 +80,8 @@ readonly class UploadedImageService
                 $dst = imagecreatetruecolor($width, (int)($y * $width / $x));
                 imagecopyresampled($dst, $image, 0, 0, 0, 0,
                     $width, (int)($y * $width / $x), $x, $y);
-                $path = $this->kernel->getProjectDir() . '/public/' . $entity->getImageUrl($width, $extraPath);
+                $path = $this->parameterBag->get('kernel.project_dir') . '/public/' .
+                    $entity->getImageUrl($width, $extraPath);
                 if ($extension === 'png') {
                     imagepng($dst, $path);
                 } elseif ($extension === 'jpg' || $extension === 'jpeg' || $extension === 'jpe'

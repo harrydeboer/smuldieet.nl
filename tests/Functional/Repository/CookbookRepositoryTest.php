@@ -7,6 +7,7 @@ namespace App\Tests\Functional\Repository;
 use App\Tests\Factory\CookbookFactory;
 use App\Repository\CookbookRepositoryInterface;
 use App\Tests\Functional\KernelTestCase;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class CookbookRepositoryTest extends KernelTestCase
 {
@@ -18,10 +19,15 @@ class CookbookRepositoryTest extends KernelTestCase
 
         $this->assertSame($cookbook, $cookbookRepository->find($cookbook->getId()));
 
+        $oldRecipeWeights = new ArrayCollection();
+        foreach ($cookbook->getRecipeWeights() as $weight) {
+            $oldRecipeWeights->add($weight);
+        }
+
         $updatedTitle = 'Test';
         $cookbook->setTitle($updatedTitle);
 
-        $cookbookRepository->update($cookbook);
+        $cookbookRepository->update($cookbook, $oldRecipeWeights);
 
         $this->assertSame($updatedTitle, $cookbookRepository->findOneBy(['title' => $updatedTitle])->getTitle());
 

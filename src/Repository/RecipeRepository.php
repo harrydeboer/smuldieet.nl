@@ -14,6 +14,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Exception;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * @method Recipe|null find($id, $lockMode = null, $lockVersion = null)
@@ -99,8 +100,13 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
     /**
      * @throws Exception
      */
-    public function update(Recipe $recipe): void
+    public function update(Recipe $recipe, Collection $oldFoodstuffWeights): void
     {
+        foreach ($oldFoodstuffWeights as $weight) {
+            if (!$recipe->getFoodstuffWeights()->contains($weight)) {
+                $this->em->remove($weight);
+            }
+        }
         $this->checkProfanitiesRecipe($recipe);
         $this->addTags($recipe);
         $this->em->flush();

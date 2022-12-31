@@ -9,6 +9,7 @@ use App\Entity\User;
 use App\Pagination\Paginator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface;
 use Exception;
+use Doctrine\Common\Collections\Collection;
 
 interface RecipeRepositoryInterface extends ServiceEntityRepositoryInterface
 {
@@ -28,7 +29,7 @@ interface RecipeRepositoryInterface extends ServiceEntityRepositoryInterface
     /**
      * @throws Exception
      */
-    public function update(Recipe $recipe): void;
+    public function update(Recipe $recipe, Collection $oldFoodstuffWeights): void;
 
     public function delete(Recipe $recipe): void;
 

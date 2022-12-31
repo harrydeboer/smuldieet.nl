@@ -50,7 +50,7 @@ class DayFactory extends AbstractFactory
         $day->setFoodstuffWeights($foodstuffWeights);
         $day->setRecipeWeights($recipeWeights);
 
-        $this->dayRepository->update($day);
+        $this->dayRepository->update($day, new ArrayCollection(), new ArrayCollection());
 
         return $day;
     }

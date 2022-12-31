@@ -7,6 +7,7 @@ namespace App\Tests\Functional\Repository;
 use App\Tests\Factory\RecipeFactory;
 use App\Repository\RecipeRepositoryInterface;
 use App\Tests\Functional\KernelTestCase;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class RecipeRepositoryTest extends KernelTestCase
@@ -20,10 +21,15 @@ class RecipeRepositoryTest extends KernelTestCase
 
         $this->assertSame($recipe, $recipeRepository->find($recipe->getId()));
 
+        $oldFoodstuffWeights = new ArrayCollection();
+        foreach ($recipe->getFoodstuffWeights() as $weight) {
+            $oldFoodstuffWeights->add($weight);
+        }
+
         $updatedTitle = 'test';
         $recipe->setTitle($updatedTitle);
 
-        $recipeRepository->update($recipe);
+        $recipeRepository->update($recipe, $oldFoodstuffWeights);
         $userId = $recipe->getUser()->getId();
 
         $this->assertSame($updatedTitle, $recipeRepository->findOneBy(['title' => $updatedTitle])->getTitle());

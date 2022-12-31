@@ -11,6 +11,7 @@ use App\UserBundle\Form\CookbookType;
 use App\Form\DeleteType;
 use App\Repository\CookbookRepositoryInterface;
 use App\Repository\PageRepositoryInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -52,12 +53,17 @@ class CookbookController extends AuthController
             'method' => 'POST',
         ]);
 
+        $oldRecipeWeights = new ArrayCollection();
+        foreach ($cookbook->getRecipeWeights() as $weight) {
+            $oldRecipeWeights->add($weight);
+        }
+
         $formUpdate->handleRequest($request);
 
         if ($formUpdate->isSubmitted()
             && $this->addRecipesService->add($cookbook)
             && $formUpdate->isValid()) {
-            $this->cookbookRepository->update($cookbook);
+            $this->cookbookRepository->update($cookbook, $oldRecipeWeights);
 
             return $this->redirectToRoute('user_cookbooks');
         }

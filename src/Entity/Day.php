@@ -9,7 +9,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\DayRepository;
-use JetBrains\PhpStorm\Pure;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[
@@ -44,7 +43,7 @@ class Day implements FoodstuffWeightsInterface, RecipeWeightsInterface
     #[ORM\OneToMany(mappedBy: "day", targetEntity: "RecipeWeight", cascade: ["persist", "remove"])]
     private Collection $recipeWeights;
 
-    #[Pure] public function __construct()
+    public function __construct()
     {
         $this->foodstuffWeights = new ArrayCollection();
         $this->recipeWeights = new ArrayCollection();

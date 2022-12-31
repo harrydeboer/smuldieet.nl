@@ -8,6 +8,7 @@ use App\Tests\Factory\DayFactory;
 use App\Repository\DayRepositoryInterface;
 use App\Tests\Functional\KernelTestCase;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class DayRepositoryTest extends KernelTestCase
 {
@@ -19,11 +20,21 @@ class DayRepositoryTest extends KernelTestCase
 
         $this->assertSame($day, $dayRepository->find($day->getId()));
 
+        $oldFoodstuffWeights = new ArrayCollection();
+        foreach ($day->getFoodstuffWeights() as $weight) {
+            $oldFoodstuffWeights->add($weight);
+        }
+
+        $oldRecipeWeights = new ArrayCollection();
+        foreach ($day->getRecipeWeights() as $weight) {
+            $oldRecipeWeights->add($weight);
+        }
+
         $updatedDate = new DateTime();
         $updatedDate->setTimestamp(strtotime('03-02-' . date('Y')));
         $day->setDate($updatedDate);
 
-        $dayRepository->update($day);
+        $dayRepository->update($day, $oldFoodstuffWeights, $oldRecipeWeights);
         $date = $dayRepository->findOneBy(['timestamp' => $updatedDate->getTimestamp()])->getDate();
         $this->assertEquals($updatedDate->getTimestamp(), $date->getTimestamp());
 

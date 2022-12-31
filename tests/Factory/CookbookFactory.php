@@ -40,7 +40,7 @@ class CookbookFactory extends AbstractFactory
         }
 
         $cookbook->setRecipeWeights($recipeWeights);
-        $this->cookbookRepository->update($cookbook);
+        $this->cookbookRepository->update($cookbook, new ArrayCollection());
 
         return $cookbook;
     }

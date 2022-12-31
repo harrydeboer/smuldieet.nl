@@ -12,6 +12,7 @@ use App\Repository\DayRepositoryInterface;
 use App\Repository\PageRepositoryInterface;
 use App\Service\AddFoodstuffsService;
 use App\Service\AddRecipesService;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -56,6 +57,16 @@ class DayController extends AuthController
             'timestamp' => null,
         ]);
 
+        $oldFoodstuffWeights = new ArrayCollection();
+        foreach ($day->getFoodstuffWeights() as $weight) {
+            $oldFoodstuffWeights->add($weight);
+        }
+
+        $oldRecipeWeights = new ArrayCollection();
+        foreach ($day->getRecipeWeights() as $weight) {
+            $oldRecipeWeights->add($weight);
+        }
+
         if (is_null($day->getTimestamp())) {
             $formUpdate = $this->createForm(StandardDayType::class, $day, [
                 'method' => 'POST',
@@ -81,7 +92,7 @@ class DayController extends AuthController
                 throw new BadRequestException('The day cannot become the standard day.');
             }
 
-            $this->dayRepository->update($day);
+            $this->dayRepository->update($day, $oldFoodstuffWeights, $oldRecipeWeights);
 
             return $this->redirectToRoute('diary');
         }
@@ -97,11 +108,7 @@ class DayController extends AuthController
     public function new(Request $request): Response
     {
         $day = new Day();
-        $dayStandard = $this->dayRepository->findOneBy([
-            'user' => $this->getUser()->getId(),
-            'timestamp' => null,
-        ]);
-        $form = $this->createForm(DayType::class, $dayStandard ?? $day);
+        $form = $this->createForm(DayType::class, $day);
         $day->setUser($this->getUser());
         $form->handleRequest($request);
 
@@ -119,7 +126,7 @@ class DayController extends AuthController
         }
 
         return $this->render('day/new.html.twig', [
-            'day' => $dayStandard ?? $day,
+            'day' => $day,
             'form' => $form->createView(),
         ]);
     }

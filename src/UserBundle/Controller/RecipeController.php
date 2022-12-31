@@ -12,6 +12,7 @@ use App\UserBundle\Form\RecipeType;
 use App\Repository\PageRepositoryInterface;
 use App\Repository\RecipeRepositoryInterface;
 use App\Service\UploadedImageService;
+use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -58,6 +59,11 @@ class RecipeController extends Controller
             'method' => 'POST',
         ]);
 
+        $oldFoodstuffWeights = new ArrayCollection();
+        foreach ($recipe->getFoodstuffWeights() as $weight) {
+            $oldFoodstuffWeights->add($weight);
+        }
+
         $formUpdate->handleRequest($request);
 
         if ($formUpdate->isSubmitted()
@@ -67,7 +73,7 @@ class RecipeController extends Controller
                 if (count($recipe->getFoodstuffWeights()) === 0) {
                     throw new Exception('De voedingsmiddelen van het gerecht mogen niet leeg zijn.');
                 }
-                $this->recipeRepository->update($recipe);
+                $this->recipeRepository->update($recipe, $oldFoodstuffWeights);
 
                 $this->uploadedImageService->moveImage(
                     $recipe,

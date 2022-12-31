@@ -9,6 +9,7 @@ use App\AdminBundle\Form\RecipeType;
 use App\Controller\AuthController;
 use App\Entity\Recipe;
 use App\Repository\RecipeRepositoryInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,11 +49,16 @@ class RecipeController extends AuthController
             'method' => 'POST',
         ]);
 
+        $oldFoodstuffWeights = new ArrayCollection();
+        foreach ($recipe->getFoodstuffWeights() as $weight) {
+            $oldFoodstuffWeights->add($weight);
+        }
+
         $formUpdate->handleRequest($request);
 
         if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
             try {
-                $this->recipeRepository->update($recipe);
+                $this->recipeRepository->update($recipe, $oldFoodstuffWeights);
 
                 return $this->redirectToRoute('admin_recipe');
             } catch (Exception $exception) {

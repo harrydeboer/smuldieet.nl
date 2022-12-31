@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\Entity\Cookbook;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -49,8 +50,13 @@ class CookbookRepository extends ServiceEntityRepository implements CookbookRepo
      * When the cookbook updates its old recipes are removed and times saved is lowered by 1.
      * Then the new recipes are added to the cookbook.
      */
-    public function update(Cookbook $cookbook): void
+    public function update(Cookbook $cookbook, Collection $oldRecipeWeights): void
     {
+        foreach ($oldRecipeWeights as $weight) {
+            if (!$cookbook->getRecipeWeights()->contains($weight)) {
+                $this->em->remove($weight);
+            }
+        }
         $this->em->flush();
     }
 

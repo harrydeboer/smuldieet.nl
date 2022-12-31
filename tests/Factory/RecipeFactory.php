@@ -71,7 +71,7 @@ class RecipeFactory extends AbstractFactory
         }
         $recipe->setFoodstuffWeights($foodstuffWeights);
 
-        $this->recipeRepository->update($recipe);
+        $this->recipeRepository->update($recipe, new ArrayCollection());
 
         return $recipe;
     }

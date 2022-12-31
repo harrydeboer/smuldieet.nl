@@ -47,8 +47,18 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
         return $day;
     }
 
-    public function update(Day $day): void
+    public function update(Day $day, Collection $oldFoodstuffWeights, Collection $oldRecipeWeights): void
     {
+        foreach ($oldFoodstuffWeights as $weight) {
+            if (!$day->getFoodstuffWeights()->contains($weight)) {
+                $this->em->remove($weight);
+            }
+        }
+        foreach ($oldRecipeWeights as $weight) {
+            if (!$day->getRecipeWeights()->contains($weight)) {
+                $this->em->remove($weight);
+            }
+        }
         $this->em->flush();
     }
 

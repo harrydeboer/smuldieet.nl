@@ -5,20 +5,20 @@ declare(strict_types=1);
 namespace App\Asset\VersionStrategy;
 
 use Symfony\Component\Asset\VersionStrategy\VersionStrategyInterface;
-use Symfony\Component\HttpKernel\KernelInterface;
 use Exception;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 readonly class FileMTime implements VersionStrategyInterface
 {
     public function __construct(
-        private KernelInterface $kernel,
+        private ParameterBagInterface $parameterBag,
     ) {
     }
 
     public function getVersion(string $path): string
     {
         try {
-            $version = (string) filemtime($this->kernel->getProjectDir() . '/public/' . $path);
+            $version = (string) filemtime($this->parameterBag->get('kernel.project_dir') . '/public/' . $path);
         } catch (Exception) {
             return '';
         }

@@ -9,7 +9,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
-use JetBrains\PhpStorm\Pure;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Form\ChoiceList\View\ChoiceView;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -322,7 +321,7 @@ class Foodstuff
     #[ORM\OneToMany(mappedBy: "foodstuff", targetEntity: "App\Entity\FoodstuffWeight", cascade: ["remove"])]
     private Collection $foodstuffWeights;
 
-    #[Pure] public function __construct()
+    public function __construct()
     {
         $this->foodstuffWeights = new ArrayCollection();
     }

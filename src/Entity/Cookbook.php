@@ -8,7 +8,6 @@ use App\Repository\CookbookRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JetBrains\PhpStorm\Pure;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -50,7 +49,7 @@ class Cookbook implements RecipeWeightsInterface
     #[ORM\OneToMany(mappedBy: "cookbook", targetEntity: "RecipeWeight", cascade: ["persist", "remove"])]
     private Collection $recipeWeights;
 
-    #[Pure] public function __construct()
+    public function __construct()
     {
         $this->recipeWeights = new ArrayCollection();
     }
