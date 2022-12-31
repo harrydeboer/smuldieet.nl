@@ -41,7 +41,7 @@ class FoodstuffsForm {
     /**
      * When the input of the search dropdown changes an Ajax call is sent to the server.
      * When the call is successful the search dropdown is filled with search result.
-     * If the search string is equal to a search result then the weight name id is set.
+     * If the search string is equal to a search result then the weight its id and unit is set.
      */
     foodstuffNameInput(event) {
         let thisElement = $(event.target);
@@ -107,7 +107,8 @@ class FoodstuffsForm {
     }
 
     /**
-     * When a search result is clicked upon the weight name id gets set and the search input value is set.
+     * When a search result is clicked upon the weight its name, id, and unit gets set
+     * and the search input value is set.
      */
     foodstuffSearchResultClick(event) {
         let thisElement = $(event.target);
@@ -153,9 +154,9 @@ class FoodstuffsForm {
     }
 
     /**
-     * The FoodForm has a FoodRow class in which the current element can be put and the row of the element is returned.
-     * From this row the id, name, weight, unit, piece option and search results can be retrieved.
-     * The inspection JSCheckFunctionSignatures is disabled because the find method works for class names.
+     * The FoodstuffsForm has a FoodstuffRow class in which the current element can be put
+     * and the row of the element is returned.
+     * From this row the id, name, unit, piece option and search results can be retrieved.
      */
     FoodstuffRow = class {
         constructor(thisElement) {

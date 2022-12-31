@@ -5,7 +5,7 @@
     {% endif %}
     <tr>
         <td>
-            <div class="dropdown">{{ form_widget(weight.name, {'value': recipe_weights[id].recipe.title}) }}
+            <div class="dropdown">{{ form_widget(weight.title, {'value': recipe_weights[id].recipe.title}) }}
                 <div class="dropdown-menu dropdown-menu-recipe">
                 </div>
             </div>
@@ -19,8 +19,8 @@
     <td colspan="3">
         <div id="{{ form_name }}_recipe_weights__name___recipe_id"
              data-prototype="{{ form_widget(weights.vars.prototype.recipe_id)|e('html') }}"></div>
-        <div id="{{ form_name }}_recipe_weights__name___name"
-             data-prototype="{{ form_widget(weights.vars.prototype.name)|e('html') }}"></div>
+        <div id="{{ form_name }}_recipe_weights__name___title"
+             data-prototype="{{ form_widget(weights.vars.prototype.title)|e('html') }}"></div>
         <div id="{{ form_name }}_recipe_weights__name___value"
              data-prototype="{{ form_widget(weights.vars.prototype.value)|e('html') }}"></div>
     </td>

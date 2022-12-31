@@ -17,9 +17,9 @@ class RecipeWeightType extends AbstractType
     {
         $builder->add('recipe_id', NumberType::class, [
             'attr' => ['class' => 'form-control recipe-id hidden-input'],
-        ])->add('name', TextType::class, [
+        ])->add('title', TextType::class, [
             'attr' => [
-                'class' => 'recipe-name form-control dropdown-toggle',
+                'class' => 'recipe-title form-control dropdown-toggle',
                 'placeholder' => 'recept',
                 'maxlength' => 255,
                 'role' => 'searchbox',

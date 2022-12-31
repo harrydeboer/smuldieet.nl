@@ -6,7 +6,7 @@ class RecipesForm {
         this.weightsNumber = $('.recipe-weight').length - 1.
 
         $('#add_recipe').on('click', this.addRecipe.bind(this));
-        form.on('input', ".recipe-name", this.recipeNameInput.bind(this));
+        form.on('input', ".recipe-title", this.recipeTitleInput.bind(this));
         form.on('click', ".recipe-result", this.recipeSearchResultClick.bind(this));
         form.on('click', ".remove-row", this.removeRow.bind(this));
         form.on('submit', this.submit.bind(this));
@@ -16,7 +16,7 @@ class RecipesForm {
         this.weightsNumber = this.weightsNumber + 1;
         let selector = '#' + this.formName + '_recipe_weights__name__';
         let html = '<tr><td><div class="dropdown">' +
-            $(selector + '_name').data('prototype') +
+            $(selector + '_title').data('prototype') +
             '<div class="dropdown-menu dropdown-menu-recipe"></div></div>' +
             $(selector + '_recipe_id').data('prototype') +
             '</td>';
@@ -36,11 +36,11 @@ class RecipesForm {
     /**
      * When the input of the search dropdown changes an Ajax call is sent to the server.
      * When the call is successful the search dropdown is filled with search result.
-     * If the search string is equal to a search result then the weight name id is set.
+     * If the search string is equal to a search result then the weight id is set.
      */
-    recipeNameInput(event) {
+    recipeTitleInput(event) {
         let thisElement = $(event.target);
-        let row = new this.FoodRow(event.target);
+        let row = new this.RecipeRow(event.target);
         let valueInput = encodeURI(thisElement.val().toLowerCase().normalize("NFD")
             .replace(/[\u0300-\u036f]/g, ""));
         let searchResults = row.getSearchResults();
@@ -63,9 +63,9 @@ class RecipesForm {
                     }
                     $('.recipe-result').each((index, element) => {
                         let id = $(element).attr('id').replace('recipe_result_', '');
-                        let name = $(element).text().toLowerCase().normalize("NFD")
+                        let title = $(element).text().toLowerCase().normalize("NFD")
                             .replace(/[\u0300-\u036f]/g, "");
-                        if (valueInput === name) {
+                        if (valueInput === title) {
                             row.getRecipeId().val(id);
                         }
                     });
@@ -78,19 +78,19 @@ class RecipesForm {
     }
 
     /**
-     * When a search result is clicked upon the weight name id gets set and the search input value is set.
+     * When a search result is clicked upon the weight its id gets set and the search input value is set.
      */
     recipeSearchResultClick(event) {
         let thisElement = $(event.target);
-        let row = new this.FoodRow(event.target);
+        let row = new this.RecipeRow(event.target);
         let id = thisElement.attr('id').replace('recipe_result_', '');
-        let name = thisElement.text();
-        row.getName().val(name);
+        let title = thisElement.text();
+        row.getTitle().val(title);
         row.getRecipeId().val(id);
     }
 
     removeRow(event) {
-        new this.FoodRow(event.target).row.remove();
+        new this.RecipeRow(event.target).row.remove();
     }
 
     /**
@@ -99,24 +99,24 @@ class RecipesForm {
     submit(event) {
         let text = '';
 
-        let recipeNames = [];
-        $('.recipe-name').each((index, element) => {
-            if (recipeNames.includes($(element).val())) {
+        let recipeTitles = [];
+        $('.recipe-title').each((index, element) => {
+            if (recipeTitles.includes($(element).val())) {
                 text = text + 'Dubbel recept.';
                 event.preventDefault();
             }
-            recipeNames.push($(element).val());
+            recipeTitles.push($(element).val());
         });
 
         this.errors.html(text);
     }
 
     /**
-     * The FoodForm has a FoodRow class in which the current element can be put and the row of the element is returned.
-     * From this row the id, name, weight and search results can be retrieved.
-     * The inspection JSCheckFunctionSignatures is disabled because the find method works for class names.
+     * The RecipesForm has a RecipeRow class in which the current element can be
+     * put and the row of the element is returned.
+     * From this row the id, title and search results can be retrieved.
      */
-    FoodRow = class {
+    RecipeRow = class {
         constructor(thisElement) {
             this.row = $(thisElement).closest('tr');
         }
@@ -126,7 +126,7 @@ class RecipesForm {
             return this.row.find('.recipe-id');
         }
 
-        getName() {
+        getTitle() {
             // noinspection JSCheckFunctionSignatures
             return this.row.find('.dropdown-toggle');
         }
