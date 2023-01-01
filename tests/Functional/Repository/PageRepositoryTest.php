@@ -16,7 +16,7 @@ class PageRepositoryTest extends KernelTestCase
 
         $pageRepository = static::getContainer()->get(PageRepositoryInterface::class);
 
-        $this->assertSame($page, $pageRepository->find($page->getId()));
+        $this->assertSame($page, $pageRepository->get($page->getId()));
 
         $updatedTitle = 'Test';
         $updatedSlug = 'test';

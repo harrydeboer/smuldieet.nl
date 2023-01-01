@@ -15,13 +15,18 @@ class RatingRepositoryTest extends KernelTestCase
         $rating = static::getContainer()->get(RatingFactory::class)->create(['isPending' => false]);
         $reviewPending = static::getContainer()->get(RatingFactory::class)->create([
             'isPending' => true,
-            'content' => 'test',
+            'content' => 'test1',
+        ]);
+        $reviewNotPending = static::getContainer()->get(RatingFactory::class)->create([
+            'isPending' => false,
+            'content' => 'test2',
         ]);
         $oldRating = $rating->getRating();
 
         $ratingRepository = static::getContainer()->get(RatingRepositoryInterface::class);
 
-        $this->assertSame($rating, $ratingRepository->find($rating->getId()));
+        $this->assertSame($rating, $ratingRepository->get($rating->getId()));
+        $this->assertSame($reviewNotPending, $ratingRepository->getNotPending($reviewNotPending->getId()));
 
         $updatedRating = 9.0;
         $rating->setRating($updatedRating);
@@ -31,6 +36,11 @@ class RatingRepositoryTest extends KernelTestCase
         $this->assertSame($updatedRating, $ratingRepository->findOneBy(['rating' => $updatedRating * 10])->getRating());
         $this->assertSame($rating, $ratingRepository->getFromUser($rating->getId(), $rating->getUser()->getId()));
         $this->assertSame([$reviewPending], $ratingRepository->findAllPendingReviews());
+        $this->assertSame([$reviewNotPending],
+            $ratingRepository->findReviewsFromUser($reviewNotPending->getUser()->getId()));
+        $this->assertSame($reviewNotPending, $ratingRepository->findReviewsFromRecipe(
+            $reviewNotPending->getRecipe()->getId(), 1)->getResults()[0]);
+        $this->assertSame([$reviewNotPending], $ratingRepository->findAllFromUser($reviewNotPending->getUser()->getId()));
 
         $id = $rating->getId();
         $ratingRepository->delete($rating);

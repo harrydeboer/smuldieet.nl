@@ -19,7 +19,7 @@ class RecipeRepositoryTest extends KernelTestCase
 
         $recipeRepository = static::getContainer()->get(RecipeRepositoryInterface::class);
 
-        $this->assertSame($recipe, $recipeRepository->find($recipe->getId()));
+        $this->assertSame($recipe, $recipeRepository->get($recipe->getId()));
 
         $oldFoodstuffWeights = new ArrayCollection();
         foreach ($recipe->getFoodstuffWeights() as $weight) {
@@ -39,6 +39,10 @@ class RecipeRepositoryTest extends KernelTestCase
         $this->assertSame($recipe, $recipeRepository->findBySortAndFilter(1)->getResults()[0]);
         $this->assertSame($recipe, $recipeRepository->getRecipesFromUser($userId, 1)->getResults()[0]);
         $this->assertSame([$recipePending], $recipeRepository->findAllPending());
+        $recipeRepository->addUser($recipe, $recipe->getUser());
+        $this->assertSame($recipe->getUser(), $recipe->getUsers()->first());
+        $recipeRepository->removeUser($recipe, $recipe->getUser());
+        $this->assertSame(0, $recipe->getUsers()->count());
 
         $id = $recipe->getId();
         $recipeRepository->delete($recipe);

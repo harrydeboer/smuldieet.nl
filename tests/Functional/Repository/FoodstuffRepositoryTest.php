@@ -28,6 +28,8 @@ class FoodstuffRepositoryTest extends KernelTestCase
         $foodstuffRepository->update($foodstuff, $isLiquid);
         $userId = $foodstuff->getUser()->getId();
 
+        $this->assertSame([$foodstuff], $foodstuffRepository->search($foodstuff->getName(), $user->getId()));
+        $this->assertSame($foodstuff, $foodstuffRepository->getFromUser($foodstuff->getId(), $user->getId()));
         $this->assertSame($updatedName, $foodstuffRepository->getByName($updatedName)->getName());
         $this->assertSame([$foodstuff], $foodstuffRepository->findAllStartingWith('T', $userId));
         $this->assertSame([$foodstuff], $foodstuffRepository->findAllFromUser($userId));

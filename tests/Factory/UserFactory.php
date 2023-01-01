@@ -19,7 +19,7 @@ class UserFactory extends AbstractFactory
     {
         $user = new User();
         $user->setUsername(uniqid('username'));
-        $user->setEmail(uniqid('email'));
+        $user->setEmail(uniqid('email') . '@gmail.com');
         $user->setBirthdate($this->randomDate());
         $user->setGender(User::GENDER[array_rand(User::GENDER)]);
         $user->setWeight(rand(1,100));
