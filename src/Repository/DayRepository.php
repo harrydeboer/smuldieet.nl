@@ -23,6 +23,8 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
 {
     public function __construct(
         private readonly EntityManagerInterface $em,
+        private readonly FoodstuffWeightRepositoryInterface $foodstuffWeightRepository,
+        private readonly RecipeWeightRepositoryInterface $recipeWeightRepository,
         ManagerRegistry $registry,
     ) {
         parent::__construct($registry, Day::class);
@@ -64,6 +66,12 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
 
     public function delete(Day $day): void
     {
+        foreach ($day->getFoodstuffWeights() as $foodstuffWeight) {
+            $this->foodstuffWeightRepository->delete($foodstuffWeight);
+        }
+        foreach ($day->getRecipeWeights() as $recipeWeight) {
+            $this->recipeWeightRepository->delete($recipeWeight);
+        }
         $this->em->remove($day);
         $this->em->flush();
     }

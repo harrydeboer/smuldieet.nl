@@ -21,6 +21,7 @@ class CookbookRepository extends ServiceEntityRepository implements CookbookRepo
 {
     public function __construct(
         private readonly EntityManagerInterface $em,
+        private readonly RecipeWeightRepositoryInterface $recipeWeightRepository,
         ManagerRegistry $registry,
     ) {
         parent::__construct($registry, Cookbook::class);
@@ -65,6 +66,9 @@ class CookbookRepository extends ServiceEntityRepository implements CookbookRepo
      */
     public function delete(Cookbook $cookbook): void
     {
+        foreach ($cookbook->getRecipeWeights() as $recipeWeight) {
+            $this->recipeWeightRepository->delete($recipeWeight);
+        }
         $this->em->remove($cookbook);
         $this->em->flush();
     }

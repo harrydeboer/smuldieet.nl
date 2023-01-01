@@ -20,6 +20,7 @@ class PageRepository extends ServiceEntityRepository implements PageRepositoryIn
 {
     public function __construct(
         private readonly EntityManagerInterface $em,
+        private readonly CommentRepositoryInterface $commentRepository,
         ManagerRegistry $registry,
     ) {
         parent::__construct($registry, Page::class);
@@ -73,6 +74,9 @@ class PageRepository extends ServiceEntityRepository implements PageRepositoryIn
 
     public function delete(Page $page): void
     {
+        foreach ($page->getComments() as $comment) {
+            $this->commentRepository->delete($comment);
+        }
         $this->em->remove($page);
         $this->em->flush();
     }
