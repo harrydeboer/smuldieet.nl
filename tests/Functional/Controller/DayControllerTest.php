@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller;
 
 use App\Repository\DayRepositoryInterface;
+use App\Tests\Factory\FoodstuffFactory;
 use App\Tests\Factory\PageFactory;
+use App\Tests\Factory\RecipeFactory;
 use App\Tests\Functional\AuthVerifiedWebTestCase;
 use DateTime;
 
@@ -14,6 +16,8 @@ class DayControllerTest extends AuthVerifiedWebTestCase
     public function testCreateUpdateDelete(): void
     {
         static::getContainer()->get(PageFactory::class)->create(['title' => 'Dagboek']);
+        $foodstuff = static::getContainer()->get(FoodstuffFactory::class)->create();
+        $recipe = static::getContainer()->get(RecipeFactory::class)->create(['isPending' => false]);
         $this->client->request('GET', '/dagboek');
 
         $this->assertResponseIsSuccessful();
@@ -24,11 +28,16 @@ class DayControllerTest extends AuthVerifiedWebTestCase
 
         $form = $buttonCrawlerNode->form();
 
+        $values = $form->getPhpValues();
         $date = new DateTime();
         $date->setTimestamp(strtotime(date('Y') . '-01-01'));
-        $form['day[date]'] = date('Y') . '-01-01';
-
-        $this->client->submit($form);
+        $values['day']['date'] = date('Y') . '-01-01';
+        $values['day']['foodstuff_weights'][0]['foodstuff_id'] = $foodstuff->getId();
+        $values['day']['foodstuff_weights'][0]['value'] = 10;
+        $values['day']['foodstuff_weights'][0]['unit'] = 'g';
+        $values['day']['recipe_weights'][0]['recipe_id'] = $recipe->getId();
+        $values['day']['recipe_weights'][0]['value'] = 2;
+        $this->client->request($form->getMethod(), $form->getUri(), $values, $form->getPhpFiles());
 
         $this->assertResponseRedirects('/dagboek');
 
@@ -38,7 +47,13 @@ class DayControllerTest extends AuthVerifiedWebTestCase
 
         $form = $buttonCrawlerNode->form();
 
-        $this->client->submit($form);
+        $values = $form->getPhpValues();
+        $values['standard_day']['foodstuff_weights'][0]['foodstuff_id'] = $foodstuff->getId();
+        $values['standard_day']['foodstuff_weights'][0]['value'] = 12;
+        $values['standard_day']['foodstuff_weights'][0]['unit'] = 'kg';
+        $values['standard_day']['recipe_weights'][0]['recipe_id'] = $recipe->getId();
+        $values['standard_day']['recipe_weights'][0]['value'] = 3;
+        $this->client->request($form->getMethod(), $form->getUri(), $values, $form->getPhpFiles());
 
         $this->assertResponseRedirects('/dagboek');
 

@@ -40,7 +40,8 @@ class RatingRepositoryTest extends KernelTestCase
             $ratingRepository->findReviewsFromUser($reviewNotPending->getUser()->getId()));
         $this->assertSame($reviewNotPending, $ratingRepository->findReviewsFromRecipe(
             $reviewNotPending->getRecipe()->getId(), 1)->getResults()[0]);
-        $this->assertSame([$reviewNotPending], $ratingRepository->findAllFromUser($reviewNotPending->getUser()->getId()));
+        $this->assertSame([$reviewNotPending], $ratingRepository
+            ->findAllFromUser($reviewNotPending->getUser()->getId()));
 
         $id = $rating->getId();
         $ratingRepository->delete($rating);

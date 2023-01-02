@@ -100,6 +100,16 @@ class RecipeControllerTest extends AuthVerifiedWebTestCase
         $this->assertEquals($ratingUpdate - $rating + $recipeRating, $recipeUpdate->getRating());
         $this->assertEquals($votesOld + 1, $recipe->getVotes());
 
+        $this->client->request('GET', '/recept/enkel/' . $recipe->getId());
+
+        $buttonCrawlerNode = $crawler->selectButton('Verwijder waardering');
+
+        $form = $buttonCrawlerNode->form();
+
+        $this->client->submit($form);
+
+        $this->assertResponseRedirects('/recept/enkel/' . $recipe->getId());
+
         $buttonCrawlerNode = $crawler->selectButton('Plaatsen');
 
         $form = $buttonCrawlerNode->form();
