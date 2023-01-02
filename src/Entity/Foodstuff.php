@@ -1212,7 +1212,7 @@ class Foodstuff
         return $nutrients;
     }
 
-    public function getUnits(): array
+    public function getUnitChoices(): array
     {
         $units = array_merge(self::$foodstuffUnits, self::$foodstuffUnitsLiquid);
         if (!is_null($this->pieceName)) {

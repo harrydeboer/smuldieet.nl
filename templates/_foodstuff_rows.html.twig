@@ -16,7 +16,7 @@
             {% set classes = classes~' not-piece' %}
         {% endif %}
         <td>{{ form_widget(weight.unit, {
-                'choices': foodstuff_weights[id].foodstuff.units(),
+                'choices': foodstuff_weights[id].foodstuff.unitChoices(),
                 'attr': {
                     'class': classes,
                     'data-piece-name':foodstuff_weights[id].foodstuff.pieceName,
