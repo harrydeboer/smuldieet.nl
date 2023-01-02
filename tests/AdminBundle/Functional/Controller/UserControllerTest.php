@@ -6,6 +6,7 @@ namespace App\Tests\AdminBundle\Functional\Controller;
 
 use App\Repository\UserRepositoryInterface;
 use App\Tests\AdminBundle\Functional\AuthAdminWebTestCase;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserControllerTest extends AuthAdminWebTestCase
 {
@@ -74,6 +75,8 @@ class UserControllerTest extends AuthAdminWebTestCase
 
         $userRepository = $this->getContainer()->get(UserRepositoryInterface::class);
 
-        $this->assertNull($userRepository->find($id));
+        $this->expectException(NotFoundHttpException::class);
+
+        $userRepository->get($id);
     }
 }

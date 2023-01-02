@@ -9,6 +9,7 @@ use App\Repository\CommentRepositoryInterface;
 use App\Tests\Factory\PageFactory;
 use App\Tests\Factory\RecipeFactory;
 use App\Tests\Functional\KernelTestCase;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CommentRepositoryTest extends KernelTestCase
 {
@@ -27,7 +28,7 @@ class CommentRepositoryTest extends KernelTestCase
 
         $commentRepository = static::getContainer()->get(CommentRepositoryInterface::class);
 
-        $this->assertSame($commentRecipe, $commentRepository->find($commentRecipe->getId()));
+        $this->assertSame($commentRecipe, $commentRepository->get($commentRecipe->getId()));
 
         $updatedContent = 'test';
         $commentRecipe->setContent($updatedContent);
@@ -47,6 +48,8 @@ class CommentRepositoryTest extends KernelTestCase
         $id = $commentRecipe->getId();
         $commentRepository->delete($commentRecipe);
 
-        $this->assertNull($commentRepository->find($id));
+        $this->expectException(NotFoundHttpException::class);
+
+        $commentRepository->get($id);
     }
 }

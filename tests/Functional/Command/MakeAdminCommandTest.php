@@ -27,7 +27,7 @@ class MakeAdminCommandTest extends AuthUserWebTestCase
         $this->assertStringContainsString('Added ROLE_ADMIN to user number ' . $id . '.', $output);
 
         $userRepository = static::getContainer()->get(UserRepositoryInterface::class);
-        $userNumberOne = $userRepository->find(1);
+        $userNumberOne = $userRepository->get(1);
 
         $this->assertEquals('ROLE_ADMIN', $userNumberOne->getRoles()[0]);
     }

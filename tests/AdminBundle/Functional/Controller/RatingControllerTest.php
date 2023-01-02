@@ -7,6 +7,7 @@ namespace App\Tests\AdminBundle\Functional\Controller;
 use App\Repository\RatingRepositoryInterface;
 use App\Tests\AdminBundle\Functional\AuthAdminWebTestCase;
 use App\Tests\Factory\RatingFactory;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class RatingControllerTest extends AuthAdminWebTestCase
 {
@@ -50,6 +51,8 @@ class RatingControllerTest extends AuthAdminWebTestCase
 
         $ratingRepository = $this->getContainer()->get(RatingRepositoryInterface::class);
 
-        $this->assertNull($ratingRepository->find($id));
+        $this->expectException(NotFoundHttpException::class);
+
+        $ratingRepository->get($id);
     }
 }

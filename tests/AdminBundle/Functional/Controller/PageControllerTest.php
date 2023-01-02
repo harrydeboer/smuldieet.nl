@@ -6,6 +6,7 @@ namespace App\Tests\AdminBundle\Functional\Controller;
 
 use App\Repository\PageRepositoryInterface;
 use App\Tests\AdminBundle\Functional\AuthAdminWebTestCase;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class PageControllerTest extends AuthAdminWebTestCase
 {
@@ -64,6 +65,8 @@ class PageControllerTest extends AuthAdminWebTestCase
 
         $pageRepository = $this->getContainer()->get(PageRepositoryInterface::class);
 
-        $this->assertNull($pageRepository->find($id));
+        $this->expectException(NotFoundHttpException::class);
+
+        $pageRepository->get($id);
     }
 }

@@ -9,6 +9,7 @@ use App\Tests\Factory\FoodstuffFactory;
 use App\Tests\Factory\RecipeFactory;
 use App\Tests\Functional\AuthVerifiedWebTestCase;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class RecipeControllerTest extends AuthVerifiedWebTestCase
 {
@@ -100,6 +101,8 @@ class RecipeControllerTest extends AuthVerifiedWebTestCase
 
         $recipeRepository = $this->getContainer()->get(RecipeRepositoryInterface::class);
 
-        $this->assertNull($recipeRepository->find($id));
+        $this->expectException(NotFoundHttpException::class);
+
+        $recipeRepository->get($id);
     }
 }

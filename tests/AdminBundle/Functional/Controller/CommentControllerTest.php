@@ -7,6 +7,7 @@ namespace App\Tests\AdminBundle\Functional\Controller;
 use App\Repository\CommentRepositoryInterface;
 use App\Tests\AdminBundle\Functional\AuthAdminWebTestCase;
 use App\Tests\Factory\CommentFactory;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CommentControllerTest extends AuthAdminWebTestCase
 {
@@ -50,6 +51,8 @@ class CommentControllerTest extends AuthAdminWebTestCase
 
         $commentRepository = $this->getContainer()->get(CommentRepositoryInterface::class);
 
-        $this->assertNull($commentRepository->find($id));
+        $this->expectException(NotFoundHttpException::class);
+
+        $commentRepository->get($id);
     }
 }

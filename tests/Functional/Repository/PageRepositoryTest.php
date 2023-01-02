@@ -7,6 +7,7 @@ namespace App\Tests\Functional\Repository;
 use App\Tests\Factory\PageFactory;
 use App\Repository\PageRepositoryInterface;
 use App\Tests\Functional\KernelTestCase;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class PageRepositoryTest extends KernelTestCase
 {
@@ -31,6 +32,8 @@ class PageRepositoryTest extends KernelTestCase
         $id = $page->getId();
         $pageRepository->delete($page);
 
-        $this->assertNull($pageRepository->find($id));
+        $this->expectException(NotFoundHttpException::class);
+
+        $pageRepository->get($id);
     }
 }

@@ -7,6 +7,7 @@ namespace App\Tests\UserBundle\Functional\Controller;
 use App\Repository\RatingRepositoryInterface;
 use App\Tests\Factory\RecipeFactory;
 use App\Tests\Functional\AuthVerifiedWebTestCase;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class RatingControllerTest extends AuthVerifiedWebTestCase
 {
@@ -69,6 +70,8 @@ class RatingControllerTest extends AuthVerifiedWebTestCase
 
         $ratingRepository = $this->getContainer()->get(RatingRepositoryInterface::class);
 
-        $this->assertNull($ratingRepository->find($id));
+        $this->expectException(NotFoundHttpException::class);
+
+        $ratingRepository->get($id);
     }
 }

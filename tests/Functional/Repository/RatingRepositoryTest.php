@@ -7,6 +7,7 @@ namespace App\Tests\Functional\Repository;
 use App\Tests\Factory\RatingFactory;
 use App\Repository\RatingRepositoryInterface;
 use App\Tests\Functional\KernelTestCase;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class RatingRepositoryTest extends KernelTestCase
 {
@@ -46,6 +47,8 @@ class RatingRepositoryTest extends KernelTestCase
         $id = $rating->getId();
         $ratingRepository->delete($rating);
 
-        $this->assertNull($ratingRepository->find($id));
+        $this->expectException(NotFoundHttpException::class);
+
+        $ratingRepository->get($id);
     }
 }

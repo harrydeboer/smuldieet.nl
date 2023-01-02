@@ -7,6 +7,7 @@ namespace App\Tests\AdminBundle\Functional\Controller;
 use App\Repository\FoodstuffRepositoryInterface;
 use App\Tests\AdminBundle\Functional\AuthAdminWebTestCase;
 use App\Tests\Factory\FoodstuffFactory;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class FoodstuffControllerTest extends AuthAdminWebTestCase
 {
@@ -51,6 +52,8 @@ class FoodstuffControllerTest extends AuthAdminWebTestCase
 
         $foodstuffRepository = $this->getContainer()->get(FoodstuffRepositoryInterface::class);
 
-        $this->assertNull($foodstuffRepository->find($id));
+        $this->expectException(NotFoundHttpException::class);
+
+        $foodstuffRepository->get($id);
     }
 }

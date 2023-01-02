@@ -7,6 +7,7 @@ namespace App\Tests\Functional\Repository;
 use App\Tests\Factory\ProfanityFactory;
 use App\Repository\ProfanityRepositoryInterface;
 use App\Tests\Functional\KernelTestCase;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ProfanityRepositoryTest extends KernelTestCase
 {
@@ -18,7 +19,7 @@ class ProfanityRepositoryTest extends KernelTestCase
 
         $updatedName = 'tag2';
 
-        $this->assertSame($profanity, $profanityRepository->find($profanity->getId()));
+        $this->assertSame($profanity, $profanityRepository->get($profanity->getId()));
 
         $profanity->setName($updatedName);
         $profanityRepository->update();
@@ -28,6 +29,8 @@ class ProfanityRepositoryTest extends KernelTestCase
         $id = $profanity->getId();
         $profanityRepository->delete($profanity);
 
-        $this->assertNull($profanityRepository->find($id));
+        $this->expectException(NotFoundHttpException::class);
+
+        $profanityRepository->get($id);
     }
 }

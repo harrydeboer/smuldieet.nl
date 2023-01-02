@@ -6,6 +6,7 @@ namespace App\Tests\AdminBundle\Functional\Controller;
 
 use App\Repository\ProfanityRepositoryInterface;
 use App\Tests\AdminBundle\Functional\AuthAdminWebTestCase;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ProfanityControllerTest extends AuthAdminWebTestCase
 {
@@ -61,6 +62,8 @@ class ProfanityControllerTest extends AuthAdminWebTestCase
 
         $profanityRepository = $this->getContainer()->get(ProfanityRepositoryInterface::class);
 
-        $this->assertNull($profanityRepository->find($id));
+        $this->expectException(NotFoundHttpException::class);
+
+        $profanityRepository->get($id);
     }
 }
