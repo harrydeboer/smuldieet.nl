@@ -34,7 +34,7 @@ class RecipeRepositoryTest extends KernelTestCase
 
         $this->assertSame($updatedTitle, $recipeRepository->findOneBy(['title' => $updatedTitle])->getTitle());
         $this->assertSame($recipe, $recipeRepository->getFromUser($recipe->getId(), $userId));
-        $this->assertSame([$recipe], $recipeRepository->search($recipe->getTitle()));
+        $this->assertSame([$recipe], $recipeRepository->search($recipe->getTitle(), $recipe->getUser()->getId()));
         $this->assertSame($recipe, $recipeRepository->findRecent(1)->getResults()[0]);
         $this->assertSame($recipe, $recipeRepository->findBySortAndFilter(1)->getResults()[0]);
         $this->assertSame($recipe, $recipeRepository->getRecipesFromUser($userId, 1)->getResults()[0]);

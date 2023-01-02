@@ -61,7 +61,7 @@ class CookbookController extends AuthController
         $formUpdate->handleRequest($request);
 
         if ($formUpdate->isSubmitted()
-            && $this->addRecipesService->add($cookbook)
+            && $this->addRecipesService->add($cookbook, $this->getUser()->getId())
             && $formUpdate->isValid()) {
             $this->cookbookRepository->update($cookbook, $oldRecipeWeights);
 
@@ -84,7 +84,7 @@ class CookbookController extends AuthController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()
-            && $this->addRecipesService->add($cookbook)
+            && $this->addRecipesService->add($cookbook, $this->getUser()->getId())
             && $form->isValid()) {
             $cookbook->setTimestamp(time());
 

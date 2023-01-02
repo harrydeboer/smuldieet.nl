@@ -13,7 +13,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class AddRecipesServiceTest extends KernelTestCase
 {
-    public function testCheck(): void
+    public function testAdd(): void
     {
         $recipe = static::getContainer()->get(RecipeFactory::class)->create(['isPending' => false]);
         $day = new Day();
@@ -28,7 +28,7 @@ class AddRecipesServiceTest extends KernelTestCase
 
         $addRecipesService = static::getContainer()->get(AddRecipesService::class);
 
-        $addRecipesService->add($day);
+        $addRecipesService->add($day, $recipe->getUser()->getId());
 
         $this->assertEquals($day->getRecipeWeights()[0]->getRecipe(), $recipe);
     }

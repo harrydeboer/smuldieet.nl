@@ -13,7 +13,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class AddFoodstuffsServiceTest extends KernelTestCase
 {
-    public function testCheck(): void
+    public function testAdd(): void
     {
         $foodstuff = static::getContainer()->get(FoodstuffFactory::class)->create();
         $day = new Day();

@@ -144,7 +144,8 @@ class RecipeController extends Controller
         if (strlen($title) > 255) {
             $recipes = [];
         } else {
-            $recipes = $this->recipeRepository->search($this->transformDiacriticChars($title));
+            $recipes = $this->recipeRepository
+                ->search($this->transformDiacriticChars($title), $this->getUser()->getId());
         }
 
         return $this->render('recipe/search.html.twig', [

@@ -20,7 +20,7 @@ class FoodstuffRepositoryTest extends KernelTestCase
 
         $foodstuffRepository = static::getContainer()->get(FoodstuffRepositoryInterface::class);
 
-        $this->assertSame($foodstuff, $foodstuffRepository->get($foodstuff->getId(), $user->getId()));
+        $this->assertSame($foodstuff, $foodstuffRepository->get($foodstuff->getId()));
 
         $updatedName = 'Test2';
         $foodstuff->setName($updatedName);
@@ -39,6 +39,6 @@ class FoodstuffRepositoryTest extends KernelTestCase
 
         $this->expectException(NotFoundHttpException::class);
 
-        $foodstuffRepository->get($id, $user->getId());
+        $foodstuffRepository->get($id);
     }
 }

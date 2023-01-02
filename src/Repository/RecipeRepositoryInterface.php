@@ -15,11 +15,13 @@ interface RecipeRepositoryInterface extends ServiceEntityRepositoryInterface
 {
     public function getFromUser(int $id, int $userId): Recipe;
 
-    public function search(string $title): array;
+    public function search(string $title, int $userId): array;
 
     public function findAllPending(): array;
 
     public function get(int $id): Recipe;
+
+    public function getNotPendingOrFromUser(int $id, int $userId): Recipe;
 
     /**
      * @throws Exception

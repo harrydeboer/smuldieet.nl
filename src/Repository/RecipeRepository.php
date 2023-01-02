@@ -48,12 +48,13 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
         return $recipe;
     }
 
-    public function search(string $title): array
+    public function search(string $title, int $userId): array
     {
         $qb = $this->createQueryBuilder('r');
         $qb->where('r.title like :title')
             ->setParameter('title', '%' . $title . '%')
-            ->andWhere('r.isPending = 0')
+            ->andWhere('r.isPending = 0 or r.isPending = 1 and r.user = :userId')
+            ->setParameter('userId', $userId)
             ->setMaxResults(20)
             ->addSelect("(CASE WHEN r.title like '" . $title . " %' THEN 0 WHEN r.title like '" . $title . "%' " .
                 "THEN 1 WHEN r.title like '%" . $title . "%' THEN 2 ELSE 3 END) AS HIDDEN ORD ")
@@ -83,6 +84,18 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
         }
 
         return $recipe;
+    }
+
+    public function getNotPendingOrFromUser(int $id, int $userId): Recipe
+    {
+        $qb = $this->createQueryBuilder('r');
+        $qb->where('r.id = ' . $id)
+            ->andWhere('r.isPending = 0 or r.isPending = 1 and r.user = :userId')
+            ->setParameter('userId', $userId);
+
+        $query = $qb->getQuery();
+
+        return $query->execute()[0];
     }
 
     /**

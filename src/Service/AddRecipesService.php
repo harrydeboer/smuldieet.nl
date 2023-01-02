@@ -15,10 +15,11 @@ readonly class AddRecipesService
     ) {
     }
 
-    public function add(RecipeWeightsInterface $entity): bool
+    public function add(RecipeWeightsInterface $entity, $userId): bool
     {
         foreach ($entity->getRecipeWeights() as $weight) {
-            $recipe = $this->recipeRepository->get($weight->getRecipeId());
+            $recipe = $this->recipeRepository
+                ->getNotPendingOrFromUser($weight->getRecipeId(), $userId);
             $weight->setRecipe($recipe);
             if (!is_numeric($weight->getValue())) {
                 throw new BadRequestException('Weight must be a number.');
