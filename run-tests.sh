@@ -5,6 +5,7 @@ if [[ ${NUMBER_OF_CPUS} -lt 4 ]]; then
 else
   PROCESSES=4
 fi
+php bin/console cache:clear --env=test
 if [[ ${OSTYPE} == 'msys' ]]; then
   php ./vendor/bin/paratest -p$PROCESSES --configuration phpunit.xml
 else
