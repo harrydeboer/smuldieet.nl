@@ -97,6 +97,9 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
         foreach ($user->getFoodstuffs() as $foodstuff) {
             $this->foodstuffRepository->delete($foodstuff);
         }
+        foreach ($user->getSavedRecipes() as $savedRecipe) {
+            $user->removeSavedRecipe($savedRecipe);
+        }
 
         $this->em->remove($user);
         $this->em->flush();

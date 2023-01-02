@@ -128,6 +128,12 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
         foreach ($recipe->getComments() as $comment) {
             $this->commentRepository->delete($comment);
         }
+        foreach ($recipe->getUsers() as $user) {
+            $recipe->removeUser($user);
+        }
+        foreach ($recipe->getTags() as $tag) {
+            $recipe->removeTag($tag);
+        }
         $this->em->remove($recipe);
         $this->em->flush();
     }

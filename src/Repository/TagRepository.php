@@ -39,6 +39,9 @@ class TagRepository extends ServiceEntityRepository implements TagRepositoryInte
 
     public function delete(Tag $tag): void
     {
+        foreach ($tag->getRecipes() as $recipe) {
+            $tag->removeRecipe($recipe);
+        }
         $this->em->remove($tag);
         $this->em->flush();
     }
