@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use InvalidArgumentException;
 use Exception;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @method Comment|null find($id, $lockMode = null, $lockVersion = null)
@@ -27,6 +28,17 @@ class CommentRepository extends ServiceEntityRepository implements CommentReposi
         ManagerRegistry $registry,
     ) {
         parent::__construct($registry, Comment::class);
+    }
+
+    public function get(int $id): Comment
+    {
+        $comment = $this->find($id);
+
+        if (is_null($comment)) {
+            throw new NotFoundHttpException('Dit commentaar bestaat niet.');
+        }
+
+        return $comment;
     }
 
     public function findAllPendingComments(): array

@@ -36,7 +36,8 @@ readonly class CombineFoodstuffsService
 
         $properties = array_keys(Foodstuff::getNutrients());
         foreach ($formData['foodstuff_weights'] as $weight) {
-            $foodstuffForm = $this->foodstuffRepository->get($weight->getFoodstuffId(), $user->getId());
+            $foodstuffForm = $this->foodstuffRepository
+                ->getDefaultAndFromUser($weight->getFoodstuffId(), $user->getId());
             foreach ($properties as $property) {
                 if (is_null($foodstuffForm->{'get' . ucfirst($property)}())) {
                     continue;

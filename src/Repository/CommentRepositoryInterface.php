@@ -10,6 +10,8 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface;
 
 interface CommentRepositoryInterface extends ServiceEntityRepositoryInterface
 {
+    public function get(int $id): Comment;
+
     public function findAllPendingComments(): array;
 
     public function findCommentsFromRecipe(int $recipeId, int $page): Paginator|array;

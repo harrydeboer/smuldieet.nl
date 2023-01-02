@@ -77,7 +77,18 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
         return $query->execute();
     }
 
-    public function get(int $id, ?int $userId): Foodstuff
+    public function get(int $id): Foodstuff
+    {
+        $foodstuff = $this->find($id);
+
+        if (is_null($foodstuff)) {
+            throw new NotFoundHttpException('Dit voedingsmiddel bestaat niet.');
+        }
+
+        return $foodstuff;
+    }
+
+    public function getDefaultAndFromUser(int $id, ?int $userId): Foodstuff
     {
         $qb = $this->createQueryBuilder('f');
         $qb->where('f.id = ' . $id);

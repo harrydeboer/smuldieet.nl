@@ -35,8 +35,10 @@ class PageController extends AuthController
     }
 
     #[Route('/pagina/wijzig/{id}', name: 'admin_page_edit')]
-    public function edit(Request $request, Page $page): Response
+    public function edit(Request $request, int $id): Response
     {
+        $page = $this->pageRepository->get($id);
+
         $formUpdate = $this->createForm(PageType::class, $page, [
             'method' => 'POST',
         ]);
@@ -81,8 +83,10 @@ class PageController extends AuthController
     }
 
     #[Route('/pagina/verwijder/{id}', name: 'admin_page_delete')]
-    public function delete(Request $request, Page $page): RedirectResponse
+    public function delete(Request $request, int $id): RedirectResponse
     {
+        $page = $this->pageRepository->get($id);
+
         $form = $this->createForm(DeleteType::class);
         $form->handleRequest($request);
 

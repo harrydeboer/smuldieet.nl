@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\UserBundle\Controller;
 
 use App\Controller\AuthController;
-use App\Entity\User;
 use App\Repository\UserRepositoryInterface;
 use App\Service\UploadedImageService;
 use App\UserBundle\Form\UserType;
@@ -37,8 +36,10 @@ class HomepageController extends AuthController
     }
 
     #[Route('/wijzig/{id}', name: 'user_edit')]
-    public function edit(Request $request, User $user): Response
+    public function edit(Request $request, int $id): Response
     {
+        $user = $this->userRepository->get($id);
+
         $oldExtension = $this->getUser()->getImageExtension();
 
         $formUpdate = $this->createForm(UserType::class, $user, [

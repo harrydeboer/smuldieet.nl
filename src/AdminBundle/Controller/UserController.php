@@ -40,8 +40,10 @@ class UserController extends AuthController
     }
 
     #[Route('/gebruiker/wijzig/{id}', name: 'admin_user_edit')]
-    public function edit(Request $request, User $user): Response
+    public function edit(Request $request, int $id): Response
     {
+        $user = $this->userRepository->get($id);
+
         $oldExtension = $user->getImageExtension();
 
         $formUpdate = $this->createForm(UpdateUserType::class, $user, [
@@ -104,8 +106,10 @@ class UserController extends AuthController
     }
 
     #[Route('/gebruiker/verwijder/{id}', name: 'admin_user_delete')]
-    public function delete(Request $request, User $user): RedirectResponse
+    public function delete(Request $request, int $id): RedirectResponse
     {
+        $user = $this->userRepository->get($id);
+
         $form = $this->createForm(DeleteType::class);
         $form->handleRequest($request);
 

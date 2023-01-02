@@ -127,7 +127,7 @@ class FoodstuffController extends Controller
     #[Route('/voedingsmiddel/enkel/{id}', name: 'foodstuff_single')]
     public function single(int $id): Response
     {
-        $foodstuff = $this->foodstuffRepository->get($id, $this->getUser()?->getId());
+        $foodstuff = $this->foodstuffRepository->getDefaultAndFromUser($id, $this->getUser()?->getId());
         if (is_null($foodstuff->getUser()) || $foodstuff->getUser()->getId() === $this->getUser()?->getId()) {
             return $this->render('foodstuff/single.html.twig', [
                 'foodstuff' => $foodstuff,

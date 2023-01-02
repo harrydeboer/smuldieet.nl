@@ -7,7 +7,6 @@ namespace App\AdminBundle\Controller;
 use App\Form\DeleteType;
 use App\AdminBundle\Form\RecipeType;
 use App\Controller\AuthController;
-use App\Entity\Recipe;
 use App\Repository\RecipeRepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\FormError;
@@ -38,8 +37,10 @@ class RecipeController extends AuthController
     }
 
     #[Route('/recept/wijzig/{id}', name: 'admin_recipe_edit')]
-    public function edit(Request $request, Recipe $recipe): Response
+    public function edit(Request $request, int $id): Response
     {
+        $recipe = $this->recipeRepository->get($id);
+
         $formUpdate = $this->createForm(RecipeType::class, $recipe, [
             'method' => 'POST',
         ]);
@@ -74,8 +75,10 @@ class RecipeController extends AuthController
     }
 
     #[Route('/recept/verwijder/{id}', name: 'admin_recipe_delete')]
-    public function delete(Request $request, Recipe $recipe): RedirectResponse
+    public function delete(Request $request, int $id): RedirectResponse
     {
+        $recipe = $this->recipeRepository->get($id);
+
         $form = $this->createForm(DeleteType::class);
         $form->handleRequest($request);
 

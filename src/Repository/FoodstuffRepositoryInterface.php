@@ -16,7 +16,9 @@ interface FoodstuffRepositoryInterface extends ServiceEntityRepositoryInterface
 
     public function search(string $name, int $userId): array;
 
-    public function get(int $id, ?int $userId): Foodstuff;
+    public function get(int $id): Foodstuff;
+
+    public function getDefaultAndFromUser(int $id, ?int $userId): Foodstuff;
 
     public function getFromUser(int $id, int $userId): Foodstuff;
 

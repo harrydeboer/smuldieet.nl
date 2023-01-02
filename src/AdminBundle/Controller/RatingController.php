@@ -7,7 +7,6 @@ namespace App\AdminBundle\Controller;
 use App\Form\DeleteType;
 use App\AdminBundle\Form\ReviewType;
 use App\Controller\AuthController;
-use App\Entity\Rating;
 use App\Repository\RatingRepositoryInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -37,8 +36,10 @@ class RatingController extends AuthController
     }
 
     #[Route('/waardering/wijzig/{id}', name: 'admin_rating_edit')]
-    public function edit(Request $request, Rating $rating): Response
+    public function edit(Request $request, int $id): Response
     {
+        $rating = $this->ratingRepository->get($id);
+
         $formUpdate = $this->createForm(ReviewType::class, $rating, [
             'method' => 'POST',
         ]);
@@ -69,8 +70,10 @@ class RatingController extends AuthController
     }
 
     #[Route('/waardering/verwijder/{id}', name: 'admin_rating_delete')]
-    public function delete(Request $request, Rating $rating): RedirectResponse
+    public function delete(Request $request, int $id): RedirectResponse
     {
+        $rating = $this->ratingRepository->get($id);
+
         $form = $this->createForm(DeleteType::class);
         $form->handleRequest($request);
 

@@ -28,10 +28,10 @@ class PageRepository extends ServiceEntityRepository implements PageRepositoryIn
 
     public function get(int $id): Page
     {
-        $page = $this->findOneBy(['id' => $id]);
+        $page = $this->find($id);
 
         if (is_null($page)) {
-            throw new NotFoundHttpException('Deze pagina bestaat niet of hoort niet bij jou.');
+            throw new NotFoundHttpException('Deze pagina bestaat niet.');
         }
 
         return $page;

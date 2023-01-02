@@ -20,7 +20,7 @@ readonly class AddFoodstuffsService
     {
         foreach ($entity->getFoodstuffWeights() as $weight) {
             $unit = $weight->getUnit();
-            $foodstuff = $this->foodstuffRepository->get($weight->getFoodstuffId(), $userId);
+            $foodstuff = $this->foodstuffRepository->getDefaultAndFromUser($weight->getFoodstuffId(), $userId);
             $weight->setFoodstuff($foodstuff);
             if (!$foodstuff->getIsLiquid() && in_array($unit, Foodstuff::$foodstuffUnitsLiquid)) {
                 throw new BadRequestException('Solid foodstuffs cannot have a liquid unit.');

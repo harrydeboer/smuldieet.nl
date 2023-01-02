@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\AdminBundle\Controller;
 
-use App\Entity\Comment;
 use App\AdminBundle\Form\CommentType;
 use App\Form\DeleteType;
 use App\Controller\AuthController;
@@ -37,8 +36,10 @@ class CommentController extends AuthController
     }
 
     #[Route('/commentaar/wijzig/{id}', name: 'admin_comment_edit')]
-    public function edit(Request $request, Comment $comment): Response
+    public function edit(Request $request, int $id): Response
     {
+        $comment = $this->commentRepository->get($id);
+
         $formUpdate = $this->createForm(CommentType::class, $comment, [
             'method' => 'POST',
         ]);
@@ -68,8 +69,10 @@ class CommentController extends AuthController
     }
 
     #[Route('/commentaar/verwijder/{id}', name: 'admin_comment_delete')]
-    public function delete(Request $request, Comment $comment): RedirectResponse
+    public function delete(Request $request, int $id): RedirectResponse
     {
+        $comment = $this->commentRepository->get($id);
+
         $form = $this->createForm(DeleteType::class);
         $form->handleRequest($request);
 

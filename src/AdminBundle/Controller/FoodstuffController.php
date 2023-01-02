@@ -7,7 +7,6 @@ namespace App\AdminBundle\Controller;
 use App\Form\DeleteType;
 use App\AdminBundle\Form\FoodstuffType;
 use App\Controller\AuthController;
-use App\Entity\Foodstuff;
 use App\Repository\FoodstuffRepositoryInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -38,8 +37,10 @@ class FoodstuffController extends AuthController
     }
 
     #[Route('/voedingsmiddel/wijzig/{id}', name: 'admin_foodstuff_edit')]
-    public function edit(Request $request, Foodstuff $foodstuff): Response
+    public function edit(Request $request, int $id): Response
     {
+        $foodstuff = $this->foodstuffRepository->get($id);
+
         $isLiquidOld = $foodstuff->getIsLiquid();
 
         $formUpdate = $this->createForm(FoodstuffType::class, $foodstuff, [
@@ -91,8 +92,10 @@ class FoodstuffController extends AuthController
     }
 
     #[Route('/voedingsmiddel/verwijder/{id}', name: 'admin_foodstuff_delete')]
-    public function delete(Request $request, Foodstuff $foodstuff): RedirectResponse
+    public function delete(Request $request, int $id): RedirectResponse
     {
+        $foodstuff = $this->foodstuffRepository->get($id);
+
         $form = $this->createForm(DeleteType::class);
         $form->handleRequest($request);
 

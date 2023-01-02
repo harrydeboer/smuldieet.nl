@@ -68,7 +68,7 @@ class RatingRepository extends ServiceEntityRepository implements RatingReposito
 
     public function get(int $id): Rating
     {
-        $rating = $this->findOneBy(['id' => $id]);
+        $rating = $this->find($id);
 
         if (is_null($rating)) {
             throw new NotFoundHttpException('Deze waardering bestaat niet.');

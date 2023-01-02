@@ -9,6 +9,8 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface;
 
 interface ProfanityRepositoryInterface extends ServiceEntityRepositoryInterface
 {
+    public function get(int $id): Profanity;
+
     public function create(Profanity $profanity): Profanity;
 
     public function update(): void;

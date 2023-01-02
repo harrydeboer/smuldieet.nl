@@ -9,6 +9,7 @@ use App\Pagination\Paginator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -34,6 +35,17 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
         ManagerRegistry $registry,
     ) {
         parent::__construct($registry, User::class);
+    }
+
+    public function get(int $id): User
+    {
+        $user = $this->find($id);
+
+        if (is_null($user)) {
+            throw new NotFoundHttpException('De gebruiker bestaat niet.');
+        }
+
+        return $user;
     }
 
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newPassword): void

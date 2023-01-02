@@ -8,6 +8,7 @@ use App\Entity\Profanity;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @method Profanity|null find($id, $lockMode = null, $lockVersion = null)
@@ -24,6 +25,16 @@ class ProfanityRepository extends ServiceEntityRepository implements ProfanityRe
         parent::__construct($registry, Profanity::class);
     }
 
+    public function get(int $id): Profanity
+    {
+        $profanity = $this->find($id);
+
+        if (is_null($profanity)) {
+            throw new NotFoundHttpException('Dit scheldwoord bestaat niet.');
+        }
+
+        return $profanity;
+    }
 
     public function create(Profanity $profanity): Profanity
     {

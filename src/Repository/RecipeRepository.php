@@ -76,7 +76,7 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
 
     public function get(int $id): Recipe
     {
-        $recipe = $this->findOneBy(['id' => $id, 'isPending' => false]);
+        $recipe = $this->find($id);
 
         if (is_null($recipe)) {
             throw new NotFoundHttpException('Dit recept bestaat niet.');
