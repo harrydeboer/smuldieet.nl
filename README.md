@@ -7,6 +7,7 @@ The DB_HOST has to be host.docker.internal or localhost when not using docker.</
 <li>Copy docker/docker-compose.override_dev.yml to main folder and remove _dev from file name.</li>
 <li>Build the docker image and run the image when using docker.</li>
 <li>Create the database and the 4 test databases named ${DB_DATABASE}_test{1-4}.</li>
+<li>Chown the public/uploads folder to www-data.</li>
 <li>Run composer install.</li>
 <li>Run the migrations.</li>
 <li>Register the user in the route /registreren.</li>

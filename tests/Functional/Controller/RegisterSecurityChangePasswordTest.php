@@ -19,7 +19,7 @@ class RegisterSecurityChangePasswordTest extends WebTestCase
 
         $form = $buttonCrawlerNode->form();
 
-        $testImagePath = __DIR__ . '/test.jpg';
+        $testImagePath = dirname(__DIR__, 3) . '/public/uploads/test/test.jpg';
         $form['registration[image]'] = new File($testImagePath);
         $form['registration[username]'] = 'John';
         $form['registration[email]'] = 'john@secret.com';

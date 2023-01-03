@@ -28,7 +28,7 @@ class RecipeControllerTest extends AuthVerifiedWebTestCase
 
         $form = $buttonCrawlerNode->form();
 
-        $testImagePath = __DIR__ . '/test.jpg';
+        $testImagePath = dirname(__DIR__, 4) . '/public/uploads/test/test.jpg';
         $form['recipe[image]'] = new File($testImagePath);
         $form['recipe[title]'] = 'test title';
         $form['recipe[ingredients]'] = 'test ingredient';

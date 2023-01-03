@@ -5,9 +5,10 @@ if [[ ${NUMBER_OF_CPUS} -lt 4 ]]; then
 else
   PROCESSES=4
 fi
-php bin/console cache:clear --env=test
 if [[ ${OSTYPE} == 'msys' ]]; then
+  php bin/console cache:clear --env=test
   php ./vendor/bin/paratest -p$PROCESSES --configuration phpunit.xml
 else
+  docker exec -it --user=www-data smuldieet php bin/console cache:clear --env=test
   docker exec -it --user=www-data smuldieet php ./vendor/bin/paratest -p$PROCESSES --configuration phpunit.xml
 fi

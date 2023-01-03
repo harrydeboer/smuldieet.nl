@@ -17,10 +17,10 @@ class UploadedImageServiceTest extends KernelTestCase
         $uploadedImageService = static::getContainer()->get(UploadedImageService::class);
         $kernel = static::getContainer()->get(KernelInterface::class);
 
-        $testImagePath = __DIR__ . '/test.jpg';
+        $testImagePath = dirname(__DIR__, 3) . '/public/uploads/test/test.jpg';
         $image = new UploadedFile($testImagePath, 'test.jpg', 'image/jpeg', 0, true);
 
-        copy($testImagePath, __DIR__ . '/test_tmp.jpg');
+        copy($testImagePath, dirname(__DIR__, 3) . '/public/uploads/test/test_tmp.jpg');
 
         $recipe = new Recipe();
         $recipe->setId(1);
@@ -29,7 +29,8 @@ class UploadedImageServiceTest extends KernelTestCase
 
         $uploadedImageService->moveImage($recipe);
 
-        rename(__DIR__ . '/test_tmp.jpg', __DIR__ . '/test.jpg');
+        rename(dirname(__DIR__, 3) . '/public/uploads/test/test_tmp.jpg',
+            dirname(__DIR__, 3) . '/public/uploads/test/test.jpg');
 
         $this->assertTrue(file_exists($kernel->getProjectDir() . '/public/' .
             $recipe->getImageUrl(null, 'test/')));

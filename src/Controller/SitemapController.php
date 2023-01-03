@@ -25,6 +25,7 @@ class SitemapController extends Controller
     #[Route('/sitemap', name: 'sitemap')]
     public function view(): Response
     {
+        /** @noinspection HttpUrlsUsage */
         $sitemap = new SimpleXMLElement(
             '<?xml version="1.0" encoding="UTF-8"?>' .
             '<?xml-stylesheet type="text/xsl" href="/css/sitemap.xsl' . '"?>' .
