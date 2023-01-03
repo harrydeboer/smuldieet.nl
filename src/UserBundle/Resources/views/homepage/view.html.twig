@@ -3,7 +3,9 @@
 {% block title %}Home{% endblock %}
 
 {% block body %}
-    <img src="{{ asset(user.imageUrl) }}" id="user-panel-avatar" alt="Image">
+    {% if user.imageExtension is not null %}
+        <img src="{{ asset(user.imageUrl) }}" id="user-panel-avatar" alt="Image">
+    {% endif %}
     <h3>Welkom {{ user.username }}</h3>
     {% for message in app.flashes('user_form_exception') %}
         <div class="error-message">
