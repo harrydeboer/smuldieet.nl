@@ -9,7 +9,7 @@ use App\Entity\FoodstuffWeight;
 use App\Entity\User;
 use App\Entity\Nutrient;
 
-readonly class RDAService
+class RDAService
 {
     /**
      * @return Nutrient[]

@@ -34,11 +34,7 @@ class ProfanityController extends AuthController
     #[Route('/scheldwoord/wijzig/{id}', name: 'admin_profanity_edit')]
     public function edit(Request $request, int $id): Response
     {
-        $profanity = $this->profanityRepository->find($id);
-
-        if (is_null($profanity)) {
-            $this->createNotFoundException('The profanity does not exist.');
-        }
+        $profanity = $this->profanityRepository->get($id);
 
         $formUpdate = $this->createForm(ProfanityType::class, $profanity, [
             'method' => 'POST',
@@ -84,11 +80,7 @@ class ProfanityController extends AuthController
     #[Route('/scheldwoord/verwijder/{id}', name: 'admin_profanity_delete')]
     public function delete(Request $request, int $id): RedirectResponse
     {
-        $profanity = $this->profanityRepository->find($id);
-
-        if (is_null($profanity)) {
-            $this->createNotFoundException('The profanity does not exist.');
-        }
+        $profanity = $this->profanityRepository->get($id);
 
         $form = $this->createForm(DeleteType::class);
         $form->handleRequest($request);
