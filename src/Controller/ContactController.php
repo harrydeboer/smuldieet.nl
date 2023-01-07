@@ -41,8 +41,8 @@ class ContactController extends Controller
         $error = null;
         $success = null;
         if ($form->isSubmitted() && $form->isValid() && $this->kernel->getEnvironment() === 'prod') {
-            if (is_null($error = $this->validateReCaptcha($form->get('re_captcha_token')->getData()))) {
-
+            $token = $form->get('re_captcha_token')->getData();
+            if (!is_null($token) && is_null($error = $this->validateReCaptcha($token))) {
                 try {
                     $this->profanityCheckService->check($form->get('name')->getData());
                     $this->profanityCheckService->check($form->get('subject')->getData());
@@ -64,6 +64,8 @@ class ContactController extends Controller
                 } catch (TransportExceptionInterface) {
                     $error = 'Kon e-mail niet verzenden.';
                 }
+            } else {
+                $error = 'No bots allowed.';
             }
         } elseif ($form->isSubmitted() && $form->isValid() && $this->kernel->getEnvironment() !== 'prod' ) {
             $error = 'Could not send mail, because this is not the prod environment.';
