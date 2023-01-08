@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\File\File;
 
 class RegisterSecurityChangePasswordTest extends WebTestCase
 {
-    public function testRegisterLoginLogout(): void
+    public function testRegisterLoginChangePasswordLogout(): void
     {
         $crawler = $this->client->request('GET', '/registreren');
 
@@ -45,12 +45,12 @@ class RegisterSecurityChangePasswordTest extends WebTestCase
 
         $form = $buttonCrawlerNode->form();
 
-        $form['login[email]'] = 'john@secret.com';
-        $form['login[password]'] = 'secret';
+        $form['_username'] = 'john@secret.com';
+        $form['_password'] = 'secret';
 
         $this->client->submit($form);
 
-        $this->assertResponseRedirects('/');
+        $this->assertResponseRedirects();
 
         $crawler = $this->client->request('GET', '/verander-wachtwoord');
 
