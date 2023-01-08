@@ -35,12 +35,8 @@
                     <td colspan="2"><button type="submit" class="btn btn-success">Inloggen</button></td>
                 </tr>
             </table>
-            {% set token = csrf_token('authenticate')  %}
-            <input type="hidden" name="_csrf_token" value="{{ token }}"
-                   id="csrf-token" autocomplete="off">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
         </form>
         <span class="no-wrap">Niet geregistreerd? Ga naar <a href="{{ path('app_register') }}">deze</a> link.</span>
-        Nieuw: <span id="csrf-token-change"></span> <button id="change-csrf">verander</button>
-        Oud: {{ token }}
     {% endif %}
 {% endblock %}

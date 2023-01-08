@@ -42,7 +42,7 @@ class ContactController extends Controller
         $success = null;
         if ($form->isSubmitted() && $form->isValid() && $this->kernel->getEnvironment() === 'prod') {
             $token = $form->get('re_captcha_token')->getData();
-            if (!is_null($token) && is_null($error = $this->validateReCaptcha($token))) {
+            if (!is_null($token) && $this->validateReCaptcha($token)) {
                 try {
                     $this->profanityCheckService->check($form->get('name')->getData());
                     $this->profanityCheckService->check($form->get('subject')->getData());
@@ -80,7 +80,7 @@ class ContactController extends Controller
         ]);
     }
 
-    private function validateReCaptcha(string $token): ?string
+    private function validateReCaptcha(string $token): bool
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -92,12 +92,13 @@ class ContactController extends Controller
         $response = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $result = json_decode($response);
-        if ($httpCode !== 200 || $result->success === false) {
-            return 'No bot requests allowed.';
-        }
 
         curl_close($ch);
 
-        return null;
+        if ($httpCode !== 200 || $result->success === false) {
+            return false;
+        }
+
+        return true;
     }
 }
