@@ -3,6 +3,10 @@ $(function() {
         $('.delete-modal').modal('show');
     });
 
+    $('#change-csrf').on('click', function () {
+        $('#csrf-token-change').text($('#csrf-token').val());
+    });
+
     $('#rate_modal_button').on('click', function () {
         $('#rate_modal').modal('show');
     });
