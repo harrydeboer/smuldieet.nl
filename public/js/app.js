@@ -3,6 +3,12 @@ $(function() {
         $('.delete-modal').modal('show');
     });
 
+    $('#login-form').on('submit', function () {
+        let button = $('#login-submit-button');
+        button.prop('disabled', true);
+        button.text('Even geduld...');
+    });
+
     $('#rate_modal_button').on('click', function () {
         $('#rate_modal').modal('show');
     });
