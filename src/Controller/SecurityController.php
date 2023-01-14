@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Repository\PageRepositoryInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use LogicException;
 
@@ -41,13 +39,5 @@ class SecurityController extends Controller
     {
         throw new LogicException('This method can be blank - ' .
             'it will be intercepted by the logout key on your firewall.');
-    }
-
-    /**
-     * @return ?User
-     */
-    protected function getUser(): ?UserInterface
-    {
-        return parent::getUser();
     }
 }

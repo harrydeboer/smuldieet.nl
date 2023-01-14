@@ -31,24 +31,24 @@ class DayFactory extends AbstractFactory
         $this->dayRepository->create($day);
 
         if (isset($params['foodstuffWeights'])) {
-            $foodstuffWeights = $params['foodstuffWeights'];
+            foreach ($params['foodstuffWeights'] as $weight) {
+                $day->removeFoodstuffWeight($weight);
+                $day->addFoodstuffWeight($weight);
+            }
         } else {
-            $arrayCollection = new ArrayCollection();
-            $weight = $this->foodstuffWeightFactory->create(['day' => $day]);
-            $arrayCollection->add($weight);
-            $foodstuffWeights = $arrayCollection;
-        }
-        if (isset($params['recipeWeights'])) {
-            $recipeWeights = $params['recipeWeights'];
-        } else {
-            $arrayCollection = new ArrayCollection();
-            $weight = $this->recipeWeightFactory->create(['day' => $day]);
-            $arrayCollection->add($weight);
-            $recipeWeights = $arrayCollection;
+            $weight = $this->foodstuffWeightFactory->create();
+            $day->addFoodstuffWeight($weight);
         }
 
-        $day->setFoodstuffWeights($foodstuffWeights);
-        $day->setRecipeWeights($recipeWeights);
+        if (isset($params['recipeWeights'])) {
+            foreach ($params['recipeWeights'] as $weight) {
+                $day->removeRecipeWeight($weight);
+                $day->addRecipeWeight($weight);
+            }
+        } else {
+            $weight = $this->recipeWeightFactory->create();
+            $day->addRecipeWeight($weight);
+        }
 
         $this->dayRepository->update($day, new ArrayCollection(), new ArrayCollection());
 

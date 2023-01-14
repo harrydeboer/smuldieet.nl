@@ -31,15 +31,15 @@ class CookbookFactory extends AbstractFactory
         $this->cookbookRepository->create($cookbook);
 
         if (isset($params['recipeWeights'])) {
-            $recipeWeights = $params['recipeWeights'];
+            foreach ($params['recipeWeights'] as $weight) {
+                $cookbook->removeRecipeWeight($weight);
+                $cookbook->addRecipeWeight($weight);
+            }
         } else {
-            $arrayCollection = new ArrayCollection();
-            $weight = $this->recipeWeightFactory->create(['cookbook' => $cookbook]);
-            $arrayCollection->add($weight);
-            $recipeWeights = $arrayCollection;
+            $weight = $this->recipeWeightFactory->create();
+            $cookbook->addRecipeWeight($weight);
         }
 
-        $cookbook->setRecipeWeights($recipeWeights);
         $this->cookbookRepository->update($cookbook, new ArrayCollection());
 
         return $cookbook;

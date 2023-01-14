@@ -22,7 +22,6 @@ use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\Security\Core\User\UserInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
@@ -73,14 +72,6 @@ class RegistrationController extends Controller
             'form' => $form->createView(),
             'page' => $this->pageRepository->findOneBy(['title' => 'Registreren']),
         ]);
-    }
-
-    /**
-     * @return ?User
-     */
-    protected function getUser(): ?UserInterface
-    {
-        return parent::getUser();
     }
 
     #[Route('/verifieer', name: 'registration_confirmation_route')]

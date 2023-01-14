@@ -16,7 +16,7 @@
     </php>
 
     <testsuites>
-        <testsuite name="Functional">
+        <testsuite name="Full">
             <directory>tests/Unit</directory>
             <directory>tests/Functional</directory>
             <directory>tests/AdminBundle</directory>

@@ -62,14 +62,14 @@ class RecipeFactory extends AbstractFactory
         $this->recipeRepository->create($recipe);
 
         if (isset($params['foodstuffWeights'])) {
-            $foodstuffWeights = $params['foodstuffWeights'];
+            foreach ($params['foodstuffWeights'] as $weight) {
+                $recipe->removeFoodstuffWeight($weight);
+                $recipe->addFoodstuffWeight($weight);
+            }
         } else {
-            $arrayCollection = new ArrayCollection();
-            $weight = $this->foodstuffWeightFactory->create(['recipe' => $recipe]);
-            $arrayCollection->add($weight);
-            $foodstuffWeights = $arrayCollection;
+            $weight = $this->foodstuffWeightFactory->create();
+            $recipe->addFoodstuffWeight($weight);
         }
-        $recipe->setFoodstuffWeights($foodstuffWeights);
 
         $this->recipeRepository->update($recipe, new ArrayCollection());
 
