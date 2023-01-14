@@ -45,12 +45,4 @@ class ErrorController extends Controller
 
         return $this->render('error/500.html.twig', ['message' => 'Er ging iets fout.'], new Response('', 500));
     }
-
-    /**
-     * @return ?User
-     */
-    protected function getUser(): ?UserInterface
-    {
-        return parent::getUser();
-    }
 }
