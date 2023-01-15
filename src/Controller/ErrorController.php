@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\User;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Twig\Environment;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
