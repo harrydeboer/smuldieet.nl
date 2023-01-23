@@ -10,7 +10,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Form\ChoiceList\View\ChoiceView;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\FoodstuffRepository;
 
@@ -1210,20 +1209,5 @@ class Foodstuff
         }
 
         return $nutrients;
-    }
-
-    public function getUnitChoices(): array
-    {
-        $units = array_merge(self::$foodstuffUnits, self::$foodstuffUnitsLiquid);
-        if (!is_null($this->pieceName)) {
-            $units['stuks'] = $this->pieceName;
-        }
-
-        $objects = [];
-        foreach ($units as $value => $label) {
-            $objects[] = new ChoiceView([], $value, $label);
-        }
-
-        return $objects;
     }
 }
