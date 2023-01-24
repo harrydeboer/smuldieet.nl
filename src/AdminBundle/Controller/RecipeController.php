@@ -50,6 +50,7 @@ class RecipeController extends AuthController
             'method' => 'POST',
         ]);
 
+        $oldTags = $recipe->getTags();
         $oldFoodstuffWeights = new ArrayCollection();
         foreach ($recipe->getFoodstuffWeights() as $weight) {
             $oldFoodstuffWeights->add($weight);
@@ -59,7 +60,7 @@ class RecipeController extends AuthController
 
         if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
             try {
-                $this->recipeRepository->update($recipe, $oldFoodstuffWeights);
+                $this->recipeRepository->update($recipe, $oldFoodstuffWeights, $oldTags);
 
                 return $this->redirectToRoute('admin_recipe');
             } catch (Exception $exception) {

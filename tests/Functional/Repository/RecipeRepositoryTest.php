@@ -16,6 +16,7 @@ class RecipeRepositoryTest extends KernelTestCase
     {
         $recipe = static::getContainer()->get(RecipeFactory::class)->create(['isPending' => false]);
         $recipePending = static::getContainer()->get(RecipeFactory::class)->create(['isPending' => true]);
+        $oldTags = $recipe->getTags();
 
         $recipeRepository = static::getContainer()->get(RecipeRepositoryInterface::class);
 
@@ -29,7 +30,7 @@ class RecipeRepositoryTest extends KernelTestCase
         $updatedTitle = 'test';
         $recipe->setTitle($updatedTitle);
 
-        $recipeRepository->update($recipe, $oldFoodstuffWeights);
+        $recipeRepository->update($recipe, $oldFoodstuffWeights, $oldTags);
         $userId = $recipe->getUser()->getId();
 
         $this->assertSame($updatedTitle, $recipeRepository->findOneBy(['title' => $updatedTitle])->getTitle());

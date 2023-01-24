@@ -49,6 +49,7 @@ class RecipeController extends Controller
     {
         $recipe = $this->getRecipe($id);
         $oldExtension = $recipe->getImageExtension();
+        $oldTags = $recipe->getTags();
 
         $formUpdate = $this->createForm(RecipeType::class, $recipe, [
             'method' => 'POST',
@@ -73,7 +74,7 @@ class RecipeController extends Controller
                 if (count($recipe->getFoodstuffWeights()) === 0) {
                     throw new Exception('De voedingsmiddelen van het gerecht mogen niet leeg zijn.');
                 }
-                $this->recipeRepository->update($recipe, $oldFoodstuffWeights);
+                $this->recipeRepository->update($recipe, $oldFoodstuffWeights, $oldTags);
 
                 $this->uploadedImageService->moveImage(
                     $recipe,

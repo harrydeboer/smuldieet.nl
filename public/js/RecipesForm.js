@@ -3,7 +3,7 @@ class RecipesForm {
     constructor(form) {
         this.formName = form.attr('name');
         this.errors = $('#form_errors_client');
-        this.weightsNumber = $('.recipe-weight').length - 1.
+        this.weightsNumber = $('.recipe-weight').length - 1;
 
         $('#add_recipe').on('click', this.addRecipe.bind(this));
         form.on('input', ".recipe-title", this.recipeTitleInput.bind(this));

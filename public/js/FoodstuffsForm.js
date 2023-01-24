@@ -3,7 +3,7 @@ class FoodstuffsForm {
     constructor(form) {
         this.formName = form.attr('name');
         this.errors = $('#form_errors_client');
-        this.weightsNumber = $('.foodstuff-weight').length - 1.
+        this.weightsNumber = $('.foodstuff-weight').length - 1;
 
         $('#add_foodstuff').on('click', this.addFoodstuff.bind(this));
         form.on('input', ".foodstuff-name", this.foodstuffNameInput.bind(this));

@@ -31,7 +31,7 @@ interface RecipeRepositoryInterface extends ServiceEntityRepositoryInterface
     /**
      * @throws Exception
      */
-    public function update(Recipe $recipe, Collection $oldFoodstuffWeights): void;
+    public function update(Recipe $recipe, Collection $oldFoodstuffWeights, Collection $oldTags): void;
 
     public function delete(Recipe $recipe): void;
 

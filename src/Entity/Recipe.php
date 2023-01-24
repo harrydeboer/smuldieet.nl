@@ -291,8 +291,6 @@ class Recipe implements FoodstuffWeightsInterface, UploadImageInterface
 
     private ?UploadedFile $image = null;
 
-    private array $tagsArray = [];
-
     public function __construct()
     {
         $this->foodstuffWeights = new ArrayCollection();
@@ -651,24 +649,9 @@ class Recipe implements FoodstuffWeightsInterface, UploadImageInterface
         return $this->tags;
     }
 
-    public function getTagsArray(): array
-    {
-        $tagsArray = $this->tagsArray;
-        foreach ($this->tags as $tag) {
-            $tagsArray[] = $tag->getName();
-        }
-
-        return $tagsArray;
-    }
-
     public function setTags(Collection $tags): void
     {
         $this->tags = $tags;
-    }
-
-    public function setTagsArray(array $tagsArray): void
-    {
-        $this->tagsArray = $tagsArray;
     }
 
     public function addTag(Tag $tag): void

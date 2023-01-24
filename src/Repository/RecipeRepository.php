@@ -115,11 +115,16 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
     /**
      * @throws Exception
      */
-    public function update(Recipe $recipe, Collection $oldFoodstuffWeights): void
+    public function update(Recipe $recipe, Collection $oldFoodstuffWeights, Collection $oldTags): void
     {
         foreach ($oldFoodstuffWeights as $weight) {
             if (!$recipe->getFoodstuffWeights()->contains($weight)) {
                 $this->em->remove($weight);
+            }
+        }
+        foreach ($oldTags as $tag) {
+            if (!$recipe->getTags()->contains($tag)) {
+                $this->em->remove($tag);
             }
         }
         $this->checkProfanitiesRecipe($recipe);
@@ -228,16 +233,13 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
 
     private function addTags(Recipe $recipe): void
     {
-        $tags = $recipe->getTagsArray();
-        foreach ($recipe->getTags() as $tag) {
-            $recipe->removeTag($tag);
-        }
+        $tags = $recipe->getTags();
 
-        foreach ($tags as $tagName) {
-            $tag = $this->tagRepository->findOneBy(['name' => $tagName]);
+        foreach ($tags as $tag) {
+            $tag = $this->tagRepository->findOneBy(['name' => $tag->getName()]);
             if (is_null($tag)) {
                 $tag = new Tag();
-                $tag->setName(strtolower($tagName));
+                $tag->setName(strtolower($tag->getName()));
                 $this->tagRepository->create($tag);
             }
             $recipe->addTag($tag);

@@ -104,12 +104,12 @@ $(function() {
     }
 
     $('#add_tag').on('click', function (event) {
-        let html = '<tr><td>' + $('#recipe_tags_array').data('prototype') +
+        let tagNumber = $('.tag').length;
+        let html = '<tr><td>' + $('#recipe_tags').data('prototype') +
             '</td><td><i class="remove-tag-row fa fa-minus"></i></td></tr>';
-        html = html.replaceAll(/<label[\s\S]+?<\/label>/g, '');
+        html = html.replaceAll('__name__', tagNumber);
         $('#add_tag_button_row').before(html);
-        let prototype = $('#recipe_tags_array___name__');
-        prototype.attr('name', 'recipe[tags_array][]')
+        let prototype = $('#recipe_tags__name__');
         prototype.removeAttr('id');
         event.preventDefault();
     });

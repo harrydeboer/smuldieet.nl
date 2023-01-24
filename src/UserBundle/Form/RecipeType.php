@@ -64,14 +64,12 @@ class RecipeType extends AbstractType
                 'required' => false,
                 'attr' => ['class' => 'form-control d-none'],
             ])
-            ->add('tags_array', CollectionType::class, [
-                'entry_type' => TextType::class,
+            ->add('tags', CollectionType::class, [
+                'entry_type' => TagType::class,
+                'entry_options' => ['label' => false],
                 'allow_add' => true,
-                'entry_options' => [
-                    'attr' => [
-                        'class' => 'form-control recipe-tag',
-                    ],
-                ],
+                'label' => false,
+                'by_reference' => false,
                 'allow_delete' => true,
                 'delete_empty' => true,
             ])
