@@ -1,0 +1,35 @@
+<div id="form_errors_client"></div>
+<div id="form_errors_server">
+    {{ form_errors(form) }}
+    {{ form_errors(form.name) }}
+    {{ form_errors(form.name_nl) }}
+    {{ form_errors(form.min_rda) }}
+    {{ form_errors(form.max_rda) }}
+    {{ form_errors(form.unit) }}
+    {{ form_errors(form.decimal_places) }}
+</div>
+{{ form_start(form) }}
+<table class="table table-small">
+    <tr>
+        <td>Naam</td><td>{{ form_widget(form.name) }}</td>
+    </tr>
+    <tr>
+        <td>Nederlandse naam</td><td>{{ form_widget(form.name_nl) }}</td>
+    </tr>
+    <tr>
+        <td>Minimum ADH</td><td>{{ form_widget(form.min_rda) }}</td>
+    </tr>
+    <tr>
+        <td>Maximum ADH</td><td>{{ form_widget(form.max_rda) }}</td>
+    </tr>
+    <tr>
+        <td>Unit</td><td>{{ form_widget(form.unit) }}</td>
+    </tr>
+    <tr>
+        <td>Aantal decimalen</td><td>{{ form_widget(form.decimal_places) }}</td>
+    </tr>
+    <tr>
+        <td colspan="2">{{ form_widget(form.submit, { 'label': submit_label }) }}</td>
+    </tr>
+</table>
+{{ form_end(form) }}

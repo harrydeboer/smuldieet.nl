@@ -9,6 +9,7 @@ use App\Form\FoodstuffFromFoodstuffsType;
 use App\Form\FoodstuffType;
 use App\Form\DeleteType;
 use App\Repository\FoodstuffRepositoryInterface;
+use App\Repository\NutrientRepositoryInterface;
 use App\Repository\PageRepositoryInterface;
 use App\Service\CombineFoodstuffsService;
 use Symfony\Component\Form\FormError;
@@ -22,6 +23,7 @@ class FoodstuffController extends Controller
 {
     public function __construct(
         private readonly FoodstuffRepositoryInterface $foodstuffRepository,
+        private readonly NutrientRepositoryInterface $nutrientRepository,
         private readonly PageRepositoryInterface $pageRepository,
         private readonly CombineFoodstuffsService $combineFoodstuffsService,
     ) {
@@ -71,6 +73,7 @@ class FoodstuffController extends Controller
         }
 
         return $this->render('foodstuff/edit.html.twig', [
+            'nutrients' => $this->nutrientRepository->findAll(),
             'foodstuff' => $foodstuff,
             'formUpdate' => $formUpdate->createView(),
             'formDelete' => $formDelete->createView(),
@@ -131,6 +134,7 @@ class FoodstuffController extends Controller
         if (is_null($foodstuff->getUser()) || $foodstuff->getUser()->getId() === $this->getUser()?->getId()) {
             return $this->render('foodstuff/single.html.twig', [
                 'foodstuff' => $foodstuff,
+                'nutrients' => $this->nutrientRepository->findAll(),
                 'isLoggedIn' => !is_null($this->getUser()),
             ]);
         }

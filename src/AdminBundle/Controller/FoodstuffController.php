@@ -8,6 +8,7 @@ use App\Form\DeleteType;
 use App\AdminBundle\Form\FoodstuffType;
 use App\Controller\AuthController;
 use App\Repository\FoodstuffRepositoryInterface;
+use App\Repository\NutrientRepositoryInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,6 +20,7 @@ class FoodstuffController extends AuthController
 {
     public function __construct(
         private readonly FoodstuffRepositoryInterface $foodstuffRepository,
+        private readonly NutrientRepositoryInterface $nutrientRepository,
     ) {
     }
 
@@ -85,6 +87,7 @@ class FoodstuffController extends AuthController
         }
 
         return $this->render('@AdminBundle/foodstuff/edit.html.twig', [
+            'nutrients' => $this->nutrientRepository->findAll(),
             'foodstuff' => $foodstuff,
             'formUpdate' => $formUpdate->createView(),
             'formDelete' => $formDelete->createView(),

@@ -6,11 +6,14 @@ namespace App\Tests\Factory;
 
 use App\Entity\Foodstuff;
 use App\Repository\FoodstuffRepositoryInterface;
+use App\Repository\NutrientRepositoryInterface;
 
 class FoodstuffFactory extends AbstractFactory
 {
     public function __construct(
         private readonly FoodstuffRepositoryInterface $foodstuffRepository,
+        private readonly NutrientRepositoryInterface $nutrientRepository,
+        private readonly NutrientFactory $nutrientFactory,
     ) {
     }
 
@@ -21,11 +24,25 @@ class FoodstuffFactory extends AbstractFactory
      */
     public function create(array $params = []): Foodstuff
     {
+        $nutrients = $this->nutrientRepository->findAll();
+        if (count($nutrients) === 0) {
+            $this->nutrientFactory->create(['name' => 'water', 'unit' => 'ml']);
+            $this->nutrientFactory->create(['name' => 'energyKcal', 'unit' => 'kcal']);
+            $this->nutrientFactory->create(['name' => 'protein', 'unit' => 'g']);
+            $this->nutrientFactory->create(['name' => 'carbohydrates', 'unit' => 'g']);
+            $this->nutrientFactory->create(['name' => 'sucre', 'unit' => 'g']);
+            $this->nutrientFactory->create(['name' => 'fat', 'unit' => 'g']);
+            $this->nutrientFactory->create(['name' => 'alcohol', 'unit' => 'g']);
+            $this->nutrientFactory->create(['name' => 'dietaryFiber', 'unit' => 'g']);
+            $this->nutrientFactory->create(['name' => 'salt', 'unit' => 'g']);
+        }
+
         $foodstuff = new Foodstuff();
         $foodstuff->setName(uniqid('foodstuff'));
-        foreach (Foodstuff::getNutrients() as $key => $property) {
-            $foodstuff->{'set' . ucfirst($key)}($this->randomNutritionalValue());
+        foreach ($this->nutrientRepository->findAll() as $nutrient) {
+            $foodstuff->{'set' . ucfirst($nutrient->getName())}($this->randomNutritionalValue());
         }
+
         $foodstuff->setSucre($foodstuff->getCarbohydrates());
         $energy = $foodstuff->getCarbohydrates() * 4
             + $foodstuff->getProtein() * 4

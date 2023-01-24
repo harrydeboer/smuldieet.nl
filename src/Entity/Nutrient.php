@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use App\Repository\NutrientRepository;
 use Doctrine\ORM\Mapping as ORM;
+use InvalidArgumentException;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -19,6 +20,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 ]
 class Nutrient
 {
+    public const VITAMIN_MINERAL_UNITS = [
+        'mg' => 'mg',
+        'μg' => 'μg',
+        'kcal' => 'kcal',
+    ];
+
     #[
         ORM\Id,
         ORM\Column(type: "integer"),
@@ -124,6 +131,13 @@ class Nutrient
 
     public function setUnit(string $unit): void
     {
+        if (!in_array($unit, array_merge(
+            FoodstuffWeight::UNITS,
+            self::VITAMIN_MINERAL_UNITS,
+            FoodstuffWeight::LIQUID_UNITS,
+        ))) {
+            throw new InvalidArgumentException("Invalid unit.");
+        }
         $this->unit = $unit;
     }
 
@@ -145,5 +159,10 @@ class Nutrient
     public function setRealised(float $realised): void
     {
         $this->realised = $realised;
+    }
+
+    public function getNameSnake(): string
+    {
+        return strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $this->name));
     }
 }

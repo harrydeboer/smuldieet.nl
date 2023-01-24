@@ -8,6 +8,7 @@ use App\Entity\Nutrient;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @method Nutrient|null find($id, $lockMode = null, $lockVersion = null)
@@ -22,6 +23,17 @@ class NutrientRepository extends ServiceEntityRepository implements NutrientRepo
         ManagerRegistry $registry,
     ) {
         parent::__construct($registry, Nutrient::class);
+    }
+
+    public function get(int $id): Nutrient
+    {
+        $nutrient = $this->find($id);
+
+        if (is_null($nutrient)) {
+            throw new NotFoundHttpException('Deze voedingsstof bestaat niet.');
+        }
+
+        return $nutrient;
     }
 
     public function create(Nutrient $nutrient): Nutrient

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Form;
+namespace App\tests\Functional\Form;
 
 use App\Entity\Foodstuff;
 use App\Form\FoodstuffType;
-use Symfony\Component\Form\Test\TypeTestCase;
+use App\Tests\Functional\WebTestCase;
 
-class FoodstuffTypeTest extends TypeTestCase
+class FoodstuffTypeTest extends WebTestCase
 {
     public function testSubmitModel(): void
     {
@@ -20,7 +20,7 @@ class FoodstuffTypeTest extends TypeTestCase
 
         $foodstuff = new Foodstuff();
 
-        $form = $this->factory->create(FoodstuffType::class, $foodstuff);
+        $form = $this->getContainer()->get('form.factory')->create(FoodstuffType::class, $foodstuff);
 
         $expected = new Foodstuff();
         $expected->setName($name);

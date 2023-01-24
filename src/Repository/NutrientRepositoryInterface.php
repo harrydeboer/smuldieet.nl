@@ -9,6 +9,8 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface;
 
 interface NutrientRepositoryInterface extends ServiceEntityRepositoryInterface
 {
+    public function get(int $id): Nutrient;
+
     public function create(Nutrient $nutrient): Nutrient;
 
     public function update(): void;

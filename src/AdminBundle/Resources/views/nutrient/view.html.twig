@@ -1,0 +1,15 @@
+{% extends '@AdminBundle/base.html.twig' %}
+
+{% block title %}Voedingsstoffen{% endblock %}
+
+{% block body %}
+    <a href="{{ path('admin_nutrient_create') }}">Maak een voedingsstof</a>
+    <table class="table table-striped">
+        {% for nutrient in nutrients %}
+            <tr>
+                <td>{{ nutrient.nameNL }}</td>
+                <td><a href="{{ path('admin_nutrient_edit', {'id': nutrient.id}) }}">wijzig</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

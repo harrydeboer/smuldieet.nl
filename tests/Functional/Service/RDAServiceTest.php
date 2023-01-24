@@ -40,12 +40,16 @@ class RDAServiceTest extends KernelTestCase
         ]);
         $rdaService = static::getContainer()->get(RDAService::class);
         $nutrients = $rdaService->daysStats([$day1, $day2], $user);
-        $foodstuffsTotal = ($foodstuff1->getCalcium() + $foodstuff2->getCalcium()) / 2;
+        $foodstuffsTotal = ($foodstuff1->getProtein() + $foodstuff2->getProtein()) / 2;
         $recipesTotal = 0;
         $recipesTotal += $this->recipesTotal($day1);
         $recipesTotal += $this->recipesTotal($day2);
 
-        $this->assertEquals($foodstuffsTotal + $recipesTotal, $nutrients['calcium']->getRealised());
+        foreach ($nutrients as $nutrient) {
+            if ($nutrient->getName() === 'protein') {
+                $this->assertEquals($foodstuffsTotal + $recipesTotal, $nutrient->getRealised());
+            }
+        }
     }
 
     private function recipesTotal(Day $day): float
@@ -66,7 +70,7 @@ class RDAServiceTest extends KernelTestCase
                         $factor = 1000;
                         break;
                 }
-                $total += $foodstuffWeight->getFoodstuff()->getCalcium()
+                $total += $foodstuffWeight->getFoodstuff()->getProtein()
                     / 2
                     * $foodstuffWeight->getValue()
                     * $recipeWeight->getValue()

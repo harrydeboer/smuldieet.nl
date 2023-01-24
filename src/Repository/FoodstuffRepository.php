@@ -23,6 +23,7 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
     public function __construct(
         private readonly EntityManagerInterface $em,
         private readonly FoodstuffWeightRepositoryInterface $foodstuffWeightRepository,
+        private readonly NutrientRepositoryInterface $nutrientRepository,
         ManagerRegistry $registry,
     ) {
         parent::__construct($registry, Foodstuff::class);
@@ -175,7 +176,8 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
     private function checkWeightsAndEnergy(Foodstuff $foodstuff): void
     {
         $sum = 0;
-        foreach (Foodstuff::getNutrients() as $key => $nutrient) {
+        foreach ($this->nutrientRepository->findAll() as $nutrient) {
+            $key = $nutrient->getName();
             if ($key === 'energyKcal' || $key === 'saturatedFat' || $key === 'monounsaturatedFat'
                 || $key === 'polyunsaturatedFat'|| $key === 'sucre') {
                 continue;
@@ -190,8 +192,7 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
         }
 
         if ($sum < 85 || $sum > 115) {
-            throw new Exception('De gewichten van het voedingsmiddel moeten samen gelijk ' .
-                'aan 100g zijn.');
+            throw new Exception('De gewichten van het voedingsmiddel moeten samen gelijk aan 100g zijn.');
         }
 
         if ($foodstuff->getSucre() > $foodstuff->getCarbohydrates()) {

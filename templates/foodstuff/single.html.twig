@@ -21,13 +21,13 @@
                     <td>{{ foodstuff.pieceName }}</td>
                 </tr>
             {% endif %}
-            {% for key,nutrient in foodstuff.nutrients() %}
+            {% for nutrient in nutrients %}
                 <tr>
                     <td>{{ nutrient.nameNL }} {{ nutrient.unit }}</td>
-                    {% if attribute(foodstuff, key) is null %}
+                    {% if attribute(foodstuff, nutrient.name) is null %}
                         <td>N/B</td>
                     {% else %}
-                        <td>{{ attribute(foodstuff, key)|number_format(nutrient.decimalPlaces) }}</td>
+                        <td>{{ attribute(foodstuff, nutrient.name)|number_format(nutrient.decimalPlaces) }}</td>
                     {% endif %}
                 </tr>
             {% endfor %}

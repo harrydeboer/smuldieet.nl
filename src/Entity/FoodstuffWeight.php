@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use App\Repository\FoodstuffWeightRepository;
 use Doctrine\ORM\Mapping as ORM;
+use InvalidArgumentException;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[
@@ -14,6 +15,21 @@ use Symfony\Component\Validator\Constraints as Assert;
 ]
 class FoodstuffWeight
 {
+    public const UNITS = [
+        'g' => 'g',
+        'kg' => 'kg',
+        'stuks' => 'stuks',
+        'el' => 'el',
+        'tl' => 'tl',
+    ];
+
+    public const LIQUID_UNITS = [
+        'ml' => 'ml',
+        'cl' => 'cl',
+        'dl' => 'dl',
+        'l' => 'l',
+    ];
+
     #[
         ORM\Id,
         ORM\Column(type: "bigint"),
@@ -79,6 +95,9 @@ class FoodstuffWeight
 
     public function setUnit(string $unit): void
     {
+        if (!in_array($unit, array_merge(self::UNITS, self::LIQUID_UNITS))) {
+            throw new InvalidArgumentException("Invalid unit.");
+        }
         $this->unit = $unit;
     }
 
