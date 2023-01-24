@@ -23,12 +23,12 @@
         <form action="{{ path('app_login') }}" id="login-form" method="post">
             <table class="table table-small">
                 <tr>
-                    <td>E-mail</td>
+                    <td><label for="username">E-mail</label></td>
                     <td><input type="email" id="username" class="form-control"
                                name="_username" value="{{ last_username }}"></td>
                 </tr>
                 <tr>
-                    <td>Wachtwoord</td>
+                    <td><label for="password">Wachtwoord</label></td>
                     <td><input type="password" id="password" class="form-control" name="_password"></td>
                 </tr>
                 <tr>
