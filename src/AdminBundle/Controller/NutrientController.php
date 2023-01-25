@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace App\AdminBundle\Controller;
 
 use App\AdminBundle\Form\NutrientType;
-use App\Entity\Foodstuff;
 use App\Entity\FoodstuffWeight;
 use App\Entity\Nutrient;
 use App\Controller\AuthController;
 use App\Repository\NutrientRepositoryInterface;
-use ErrorException;
+use Exception;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -51,7 +50,7 @@ class NutrientController extends AuthController
                 $this->nutrientRepository->update();
 
                 return $this->redirectToRoute('admin_nutrient');
-            } catch (ErrorException $exception) {
+            } catch (Exception $exception) {
                 $formUpdate->addError(new FormError($exception->getMessage()));
             }
         }
@@ -63,33 +62,29 @@ class NutrientController extends AuthController
     }
 
     /**
-     * @throws ErrorException
+     * @throws Exception
      */
     private function validateNutrient(Nutrient $nutrient): void
     {
-        $testFoodstuff = new Foodstuff();
-
-        $property = $testFoodstuff->{'get' . ucfirst($nutrient->getName())}();
-
-        if (is_null($property) && $nutrient->getUnit() === 'stuks') {
-            throw new ErrorException('Voedingsstof mag niet eenheid stuks hebben.');
+        if ($nutrient->getUnit() === 'stuks') {
+            throw new Exception('Voedingsstof mag niet eenheid stuks hebben.');
         }
 
-        if (is_null($property) && $nutrient->getName() === 'energyKcal' && $nutrient->getUnit() !== 'kcal') {
-            throw new ErrorException('Energie moet in kcal.');
-        } elseif (is_null($property) && $nutrient->getName() !== 'energyKcal' && $nutrient->getUnit() === 'kcal') {
-            throw new ErrorException('Alleen energie mag in kcal.');
+        if ($nutrient->getName() === 'energyKcal' && $nutrient->getUnit() !== 'kcal') {
+            throw new Exception('Energie moet in kcal.');
+        } elseif ($nutrient->getName() !== 'energyKcal' && $nutrient->getUnit() === 'kcal') {
+            throw new Exception('Alleen energie mag in kcal.');
         }
 
-        if (is_null($property) && $nutrient->getName() !== 'water'
+        if ($nutrient->getName() !== 'water'
             && $nutrient->getName() !== 'alcohol' && in_array($nutrient->getUnit(), FoodstuffWeight::LIQUID_UNITS)) {
-            throw new ErrorException('Alleen water en alcohol kunnen vloeibare eenheden hebben.');
+            throw new Exception('Alleen water en alcohol kunnen vloeibare eenheden hebben.');
         }
 
         if (!is_null($nutrient->getMinRDA())
             && !is_null($nutrient->getMaxRDA())
             && $nutrient->getMinRDA() > $nutrient->getMaxRDA()) {
-            throw new ErrorException('Minimum ADH kan niet groter zijn dan maximum ADH.');
+            throw new Exception('Minimum ADH kan niet groter zijn dan maximum ADH.');
         }
     }
 }
