@@ -3,7 +3,7 @@ class RecipesForm {
     constructor(form) {
         this.formName = form.attr('name');
         this.errors = $('#form_errors_client');
-        this.weightsNumber = $('.recipe-weight').length - 1;
+        this.weightsNumber = $('.recipe-weight').length;
 
         $('#add_recipe').on('click', this.addRecipe.bind(this));
         form.on('input', ".recipe-title", this.recipeTitleInput.bind(this));
@@ -13,7 +13,6 @@ class RecipesForm {
     }
 
     addRecipe(event) {
-        this.weightsNumber = this.weightsNumber + 1;
         let selector = '#' + this.formName + '_recipe_weights__name__';
         let html = '<tr><td><div class="dropdown">' +
             $(selector + '_title').data('prototype') +
@@ -30,6 +29,7 @@ class RecipesForm {
             value.val(1);
             value.addClass('hidden-input');
         }
+        this.weightsNumber = this.weightsNumber + 1;
         event.preventDefault();
     }
 

@@ -3,7 +3,7 @@ class FoodstuffsForm {
     constructor(form) {
         this.formName = form.attr('name');
         this.errors = $('#form_errors_client');
-        this.weightsNumber = $('.foodstuff-weight').length - 1;
+        this.weightsNumber = $('.foodstuff-weight').length;
 
         $('#add_foodstuff').on('click', this.addFoodstuff.bind(this));
         form.on('input', ".foodstuff-name", this.foodstuffNameInput.bind(this));
@@ -19,7 +19,6 @@ class FoodstuffsForm {
      * The id is removed from the new weight.
      */
     addFoodstuff(event) {
-        this.weightsNumber = this.weightsNumber + 1;
         let selector = '#' + this.formName + '_foodstuff_weights__name__';
         let html = '<tr><td><div class="dropdown">' +
             $(selector + '_name').data('prototype') +
@@ -35,6 +34,7 @@ class FoodstuffsForm {
         html += '<td><i class="remove-row fa fa-minus"></i></td></tr>';
         html = html.replaceAll('__name__', this.weightsNumber);
         $('#add_foodstuff_recipe_button_row').before(html);
+        this.weightsNumber = this.weightsNumber + 1;
         event.preventDefault();
     }
 
