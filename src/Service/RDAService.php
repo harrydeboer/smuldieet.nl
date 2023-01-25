@@ -116,7 +116,7 @@ readonly class RDAService
     {
         $unit = $foodstuffWeight->getUnit();
         $foodstuff = $foodstuffWeight->getFoodstuff();
-        if ($unit === 'stuks' && is_null($foodstuff->getPieceWeight())) {
+        if ($unit === 'stuks' && is_null($foodstuff->getPieceWeight()) && !is_null($foodstuff->getPieceName())) {
             $unit = $foodstuff->getPieceName();
         }
         $density = $foodstuff->getDensity() ?? 1;

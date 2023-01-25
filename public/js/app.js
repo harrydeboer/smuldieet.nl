@@ -103,14 +103,14 @@ $(function() {
         new RecipesForm(recipesForm);
     }
 
+    let tagNumber = $('.tag').length;
+
     $('#add_tag').on('click', function (event) {
-        let tagNumber = $('.tag').length;
         let html = '<tr><td>' + $('#recipe_tags').data('prototype') +
             '</td><td><i class="remove-tag-row fa fa-minus"></i></td></tr>';
         html = html.replaceAll('__name__', tagNumber);
         $('#add_tag_button_row').before(html);
-        let prototype = $('#recipe_tags__name__');
-        prototype.removeAttr('id');
+        tagNumber = tagNumber + 1;
         event.preventDefault();
     });
 

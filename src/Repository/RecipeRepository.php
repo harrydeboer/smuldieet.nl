@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Recipe;
-use App\Entity\Tag;
 use App\Entity\User;
 use App\Pagination\Paginator;
 use App\Service\ProfanityCheckService;
@@ -236,13 +235,11 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
         $tags = $recipe->getTags();
 
         foreach ($tags as $tag) {
-            $tag = $this->tagRepository->findOneBy(['name' => $tag->getName()]);
-            if (is_null($tag)) {
-                $tag = new Tag();
-                $tag->setName(strtolower($tag->getName()));
-                $this->tagRepository->create($tag);
+            $tagDb = $this->tagRepository->findOneBy(['name' => $tag->getName()]);
+            if (is_null($tagDb)) {
+                $this->_em->persist($tag);
+                $recipe->addTag($tag);
             }
-            $recipe->addTag($tag);
         }
     }
 

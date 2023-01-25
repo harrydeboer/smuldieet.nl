@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\AdminBundle\Functional\Form;
+namespace App\Tests\AdminBundle\Unit\Form;
 
 use App\AdminBundle\Form\CommentType;
-use App\Tests\Functional\AuthUserWebTestCase;
+use Symfony\Component\Form\Test\TypeTestCase;
 
-class CommentTypeTest extends AuthUserWebTestCase
+class CommentTypeTest extends TypeTestCase
 {
     public function testSubmitModel(): void
     {
         $formData = ['is_pending' => false];
 
-        $form = $this->getContainer()->get('form.factory')->create(CommentType::class);
+        $form = $this->factory->create(CommentType::class);
 
         $form->submit($formData);
 

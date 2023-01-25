@@ -6,9 +6,9 @@ namespace App\tests\Functional\Form;
 
 use App\Entity\Foodstuff;
 use App\Form\FoodstuffType;
-use App\Tests\Functional\WebTestCase;
+use App\Tests\Functional\AuthVerifiedWebTestCase;
 
-class FoodstuffTypeTest extends WebTestCase
+class FoodstuffTypeTest extends AuthVerifiedWebTestCase
 {
     public function testSubmitModel(): void
     {

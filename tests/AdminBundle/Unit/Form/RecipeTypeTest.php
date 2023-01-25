@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\AdminBundle\Functional\Form;
+namespace App\Tests\AdminBundle\Unit\Form;
 
 use App\AdminBundle\Form\RecipeType;
-use App\Tests\Functional\AuthUserWebTestCase;
+use Symfony\Component\Form\Test\TypeTestCase;
 
-class RecipeTypeTest extends AuthUserWebTestCase
+class RecipeTypeTest extends TypeTestCase
 {
     public function testSubmitModel(): void
     {
         $formData = ['is_pending' => false];
 
-        $form = $this->getContainer()->get('form.factory')->create(RecipeType::class);
+        $form = $this->factory->create(RecipeType::class);
 
         $form->submit($formData);
 
