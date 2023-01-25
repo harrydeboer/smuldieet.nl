@@ -39,13 +39,12 @@ readonly class CombineFoodstuffsService
         foreach ($formData['foodstuff_weights'] as $weight) {
             $foodstuffForm = $this->foodstuffRepository
                 ->getDefaultAndFromUser($weight->getFoodstuffId(), $user->getId());
-            foreach ($this->nutrientRepository->findAll() as $nutrient) {
-                $property = $nutrient->getName();
-                if (is_null($foodstuffForm->{'get' . ucfirst($property)}())) {
+            foreach ($foodstuff->getNutrientNames() as $name) {
+                if (is_null($foodstuffForm->{'get' . ucfirst($name)}())) {
                     continue;
                 } else {
-                    $foodstuff->{'set' . ucfirst($property)}($foodstuff->{'get' . ucfirst($property)}() +
-                        $foodstuffForm->{'get' . ucfirst($property)}()
+                    $foodstuff->{'set' . ucfirst($name)}($foodstuff->{'get' . ucfirst($name)}() +
+                        $foodstuffForm->{'get' . ucfirst($name)}()
                         * $weight->getValue() / $totalWeight);
                 }
             }
