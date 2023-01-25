@@ -22,7 +22,7 @@ class RecipesForm {
         html += '<td colspan="2">' + $(selector + '_value').data('prototype')
             + '</td>';
         html += '<td><i class="remove-row fa fa-minus"></i></td></tr>';
-        html = html.replaceAll('__name__', this.weightsNumber);
+        html = html.replaceAll('__name__', this.weightsNumber.toString());
         $('#add_foodstuff_recipe_button_row').before(html);
         if (this.formName === 'cookbook') {
             let value = $('[name="' + this.formName + '[recipe_weights][' + this.weightsNumber + '][value]' + '"]');

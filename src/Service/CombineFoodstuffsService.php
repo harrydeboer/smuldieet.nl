@@ -6,7 +6,6 @@ namespace App\Service;
 
 use App\Entity\Foodstuff;
 use App\Repository\FoodstuffRepositoryInterface;
-use App\Repository\NutrientRepositoryInterface;
 use InvalidArgumentException;
 use App\Entity\User;
 
@@ -17,7 +16,6 @@ readonly class CombineFoodstuffsService
 {
     public function __construct(
         private FoodstuffRepositoryInterface $foodstuffRepository,
-        private NutrientRepositoryInterface $nutrientRepository,
     ) {
     }
 

@@ -123,7 +123,7 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
         }
         foreach ($oldTags as $tag) {
             if (!$recipe->getTags()->contains($tag)) {
-                $this->em->remove($tag);
+                $recipe->removeTag($tag);
             }
         }
         $this->checkProfanitiesRecipe($recipe);

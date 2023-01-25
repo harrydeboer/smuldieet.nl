@@ -8,6 +8,7 @@ use App\Form\OverviewType;
 use App\Repository\DayRepositoryInterface;
 use App\Repository\PageRepositoryInterface;
 use App\Service\RDAService;
+use Exception;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,6 +24,9 @@ class OverviewController extends AuthController
     ) {
     }
 
+    /**
+     * @throws Exception
+     */
     #[
         Route('/overzicht', name: 'overview'),
     ]

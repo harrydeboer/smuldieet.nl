@@ -122,5 +122,11 @@ class NutrientController extends AuthController
             && $nutrient->getName() !== 'alcohol' && in_array($nutrient->getUnit(), FoodstuffWeight::LIQUID_UNITS)) {
             throw new ErrorException('Alleen water en alcohol kunnen vloeibare eenheden hebben.');
         }
+
+        if (!is_null($nutrient->getMinRDA())
+            && !is_null($nutrient->getMaxRDA())
+            && $nutrient->getMinRDA() > $nutrient->getMaxRDA()) {
+            throw new ErrorException('Minimum ADH kan niet groter zijn dan maximum ADH.');
+        }
     }
 }

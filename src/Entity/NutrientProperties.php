@@ -233,7 +233,7 @@ class NutrientProperties
 
     #[
         ORM\Column(type: "float", nullable: true),
-        Assert\GreaterThanOrEqual(0, message: 'Caffeïne moet groter of gelijk aan 0 zijn.'),
+        Assert\GreaterThanOrEqual(0, message: 'Cafeïne moet groter of gelijk aan 0 zijn.'),
     ]
     protected ?float $caffeine = null;
     

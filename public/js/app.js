@@ -41,6 +41,7 @@ $(function() {
             grecaptcha.ready(function () {
                 // noinspection JSUnresolvedVariable,JSUnresolvedFunction
                 grecaptcha.execute($('#re_captcha_key').data('key'), {action: 'contact'}).then(function (token) {
+                    // noinspection JSCheckFunctionSignatures
                     $('#contact_re_captcha_token').val(token);
                     $('[name="contact"]').trigger('submit');
                 });
