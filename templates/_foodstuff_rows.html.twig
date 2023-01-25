@@ -19,7 +19,6 @@
             <select id="{{ weight.unit.vars.id }}"
                     name="{{ weight.unit.vars.full_name }}"
                     class="{{ classes }}"
-                    data-piece-name="{{ foodstuff_weights[id].foodstuff.pieceName }}"
                     {{ weight.unit.vars.required == 1 ? 'required="required"': '' }}>
                 <option value="">{{ weight.unit.vars.placeholder }}</option>
                 {% for choice in weight.unit.vars.choices %}
