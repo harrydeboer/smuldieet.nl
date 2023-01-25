@@ -18,10 +18,13 @@ class NutrientType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $choices = array_merge(
+            FoodstuffWeight::UNITS,
+            Nutrient::VITAMIN_MINERAL_UNITS,
+            FoodstuffWeight::LIQUID_UNITS,
+        );
+        unset($choices['stuks']);
         $builder
-            ->add('name', TextType::class, [
-                'attr' => ['class' => 'form-control'],
-            ])
             ->add('name_nl', TextType::class, [
                 'attr' => ['class' => 'form-control'],
             ])
@@ -34,11 +37,7 @@ class NutrientType extends AbstractType
                 'required' => false,
             ])
             ->add('unit', ChoiceType::class, [
-                'choices' => array_merge(
-                    FoodstuffWeight::UNITS,
-                    Nutrient::VITAMIN_MINERAL_UNITS,
-                    FoodstuffWeight::LIQUID_UNITS,
-                ),
+                'choices' => $choices,
                 'placeholder' => 'selecteer eenheid',
                 'attr' => ['class' => 'form-control'],
             ])

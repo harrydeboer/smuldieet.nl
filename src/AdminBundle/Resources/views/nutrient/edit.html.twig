@@ -4,9 +4,4 @@
 
 {% block body %}
     {{ include('@AdminBundle/nutrient/_form.html.twig', {form: formUpdate, submit_label: 'Wijzig'}) }}
-    <br>
-    {{ include('_delete_confirmation.html.twig', {
-        entityName: 'voedingsstof',
-        warning: 'Weet je zeker dat je deze voedingsstof wilt verwijderen?'
-    }) }}
 {% endblock %}

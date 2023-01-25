@@ -27,4 +27,5 @@ do
   echo "Try again"
   sleep 1
 done
+$PREFIX php bin/console sync:nutrients
 docker system prune -f

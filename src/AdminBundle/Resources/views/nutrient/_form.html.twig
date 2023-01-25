@@ -1,7 +1,6 @@
 <div id="form_errors_client"></div>
 <div id="form_errors_server">
     {{ form_errors(form) }}
-    {{ form_errors(form.name) }}
     {{ form_errors(form.name_nl) }}
     {{ form_errors(form.min_rda) }}
     {{ form_errors(form.max_rda) }}
@@ -9,9 +8,14 @@
     {{ form_errors(form.decimal_places) }}
 </div>
 {{ form_start(form) }}
+ {% for message in app.flashes('error') %}
+     <div class="flash-notice-error">
+         {{ message }}
+     </div>
+ {% endfor %}
 <table class="table table-small">
     <tr>
-        <td>Naam</td><td>{{ form_widget(form.name) }}</td>
+        <td>Naam</td><td>{{ nutrient.name }}</td>
     </tr>
     <tr>
         <td>Nederlandse naam</td><td>{{ form_widget(form.name_nl) }}</td>
