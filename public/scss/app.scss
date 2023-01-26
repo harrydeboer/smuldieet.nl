@@ -81,6 +81,22 @@ body {
   width: 30px;
 }
 
+.not-energy .energy-option {
+  display: none;
+}
+
+.not-solid .solid-option {
+  display: none;
+}
+
+.not-liquid .liquid-option {
+  display: none;
+}
+
+.not-vitamin-mineral .vitamin-mineral-option {
+  display: none;
+}
+
 @media (min-width: 768px) {
   .table-small {
     width: 768px;

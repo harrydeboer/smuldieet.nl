@@ -23,6 +23,19 @@ class NutrientType extends AbstractType
             Nutrient::LIQUID_UNITS,
             Nutrient::VITAMIN_MINERAL_UNITS,
         ));
+        $choiceAttr = [];
+        foreach (array_keys(Nutrient::ENERGY_UNITS) as $unit) {
+            $choiceAttr[$unit] = ['class' => 'energy-option'];
+        }
+        foreach (array_keys(Nutrient::SOLID_UNITS) as $unit) {
+            $choiceAttr[$unit] = ['class' => 'solid-option'];
+        }
+        foreach (array_keys(Nutrient::LIQUID_UNITS) as $unit) {
+            $choiceAttr[$unit] = ['class' => 'liquid-option'];
+        }
+        foreach (array_keys(Nutrient::VITAMIN_MINERAL_UNITS) as $unit) {
+            $choiceAttr[$unit] = ['class' => 'vitamin-mineral-option'];
+        }
         unset($choices['stuks']);
         $builder
             ->add('display_name', TextType::class, [
@@ -38,6 +51,7 @@ class NutrientType extends AbstractType
             ])
             ->add('unit', ChoiceType::class, [
                 'choices' => array_combine($choices, $choices),
+                'choice_attr' => $choiceAttr,
                 'placeholder' => 'selecteer eenheid',
                 'attr' => ['class' => 'form-control'],
             ])

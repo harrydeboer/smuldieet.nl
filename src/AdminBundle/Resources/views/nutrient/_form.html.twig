@@ -13,6 +13,15 @@
          {{ message }}
      </div>
  {% endfor %}
+{% set classes = form.unit.vars.attr.class %}
+{% if nutrient.name != 'energy' %}
+    {% set classes = classes~' not-energy' %}
+{% else %}
+    {% set classes = classes~' not-solid not-vitamin-mineral' %}
+{% endif %}
+{% if nutrient.name != 'water' %}
+    {% set classes = classes~' not-liquid' %}
+{% endif %}
 <table class="table table-small">
     <tr>
         <td>Naam</td><td>{{ nutrient.name }}</td>
@@ -27,7 +36,7 @@
         <td>Maximum ADH</td><td>{{ form_widget(form.max_rda) }}</td>
     </tr>
     <tr>
-        <td>Unit</td><td>{{ form_widget(form.unit) }}</td>
+        <td>Unit</td><td>{{ form_widget(form.unit, {'attr':{'class':classes}}) }}</td>
     </tr>
     <tr>
         <td>Aantal decimalen</td><td>{{ form_widget(form.decimal_places) }}</td>
