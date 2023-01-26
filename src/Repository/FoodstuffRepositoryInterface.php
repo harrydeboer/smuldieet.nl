@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Foodstuff;
+use App\Entity\Nutrient;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface;
 use Exception;
 
@@ -35,4 +36,6 @@ interface FoodstuffRepositoryInterface extends ServiceEntityRepositoryInterface
     public function update(Foodstuff $foodstuff, bool $isLiquidOld): void;
 
     public function delete(Foodstuff $foodstuff): void;
+
+    public function transformUnit(string $oldUnit, Nutrient $nutrient, array $factors): void;
 }

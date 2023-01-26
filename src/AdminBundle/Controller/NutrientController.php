@@ -7,6 +7,7 @@ namespace App\AdminBundle\Controller;
 use App\AdminBundle\Form\NutrientType;
 use App\Entity\Nutrient;
 use App\Controller\AuthController;
+use App\Repository\FoodstuffRepositoryInterface;
 use App\Repository\NutrientRepositoryInterface;
 use Exception;
 use Symfony\Component\Form\FormError;
@@ -18,6 +19,7 @@ class NutrientController extends AuthController
 {
     public function __construct(
         private readonly NutrientRepositoryInterface $nutrientRepository,
+        private readonly FoodstuffRepositoryInterface $foodstuffRepository,
     ) {
     }
 
@@ -47,7 +49,18 @@ class NutrientController extends AuthController
             try {
                 $this->validateNutrient($nutrient);
 
-                $this->nutrientRepository->update($oldUnit);
+                $this->nutrientRepository->update();
+
+                $factors = array_merge(
+                    Nutrient::ENERGY_UNITS,
+                    Nutrient::SOLID_UNITS,
+                    Nutrient::LIQUID_UNITS,
+                    Nutrient::VITAMIN_MINERAL_UNITS,
+                );
+
+                if ($oldUnit !== $nutrient->getUnit()) {
+                    $this->foodstuffRepository->transformUnit($oldUnit, $nutrient, $factors);
+                }
 
                 return $this->redirectToRoute('admin_nutrient');
             } catch (Exception $exception) {

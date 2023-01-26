@@ -151,4 +151,15 @@ class DietProperties
             return $arrayCamel;
         }
     }
+
+    protected function getNames(): array
+    {
+        $vars =  get_object_vars($this);
+        $names = [];
+        foreach ($vars as $name => $var) {
+            $names[] = $name;
+        }
+
+        return $names;
+    }
 }

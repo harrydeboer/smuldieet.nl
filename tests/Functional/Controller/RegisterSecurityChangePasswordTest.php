@@ -35,9 +35,9 @@ class RegisterSecurityChangePasswordTest extends WebTestCase
 
         $this->assertResponseRedirects('/');
 
-        $this->client->request('GET', '/uitloggen');
+        $this->assertResponseRedirects('/');
 
-        $this->assertResponseRedirects();
+        $this->client->request('GET', '/uitloggen');
 
         $crawler = $this->client->request('GET', '/inloggen');
 
@@ -66,6 +66,19 @@ class RegisterSecurityChangePasswordTest extends WebTestCase
         $this->assertResponseRedirects('/');
 
         $this->client->request('GET', '/uitloggen');
+
+        $this->assertResponseRedirects();
+
+        $crawler = $this->client->request('GET', '/inloggen');
+
+        $buttonCrawlerNode = $crawler->selectButton('Inloggen');
+
+        $form = $buttonCrawlerNode->form();
+
+        $form['_username'] = 'john@secret.com';
+        $form['_password'] = 'newNew';
+
+        $this->client->submit($form);
 
         $this->assertResponseRedirects();
 

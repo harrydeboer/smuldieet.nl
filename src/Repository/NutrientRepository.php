@@ -76,7 +76,7 @@ class NutrientRepository extends ServiceEntityRepository implements NutrientRepo
         return $nutrient;
     }
 
-    public function update(string $oldUnit): void
+    public function update(): void
     {
         $this->em->flush();
     }

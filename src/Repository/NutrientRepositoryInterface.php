@@ -15,7 +15,7 @@ interface NutrientRepositoryInterface extends ServiceEntityRepositoryInterface
 
     public function create(Nutrient $nutrient): Nutrient;
 
-    public function update(string $oldUnit): void;
+    public function update(): void;
 
     public function delete(Nutrient $nutrient): void;
 }

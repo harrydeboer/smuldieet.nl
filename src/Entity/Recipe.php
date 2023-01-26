@@ -630,4 +630,11 @@ class Recipe extends DietProperties implements FoodstuffWeightsInterface, Upload
     {
         return 'uploads/recipe/images/' . $extraPath . $this->getId() . '_' . $width . '.' . $this->getImageExtension();
     }
+
+    public function getDietNames(): array
+    {
+        $nutrientProperties = new DietProperties();
+
+        return $nutrientProperties->getNames();
+    }
 }

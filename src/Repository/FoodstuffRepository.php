@@ -171,6 +171,18 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
         $this->em->flush();
     }
 
+    public function transformUnit(string $oldUnit, Nutrient $nutrient, array $factors): void
+    {
+        foreach ($this->findAll() as $foodstuff) {
+            $value = $foodstuff->{'get' . ucfirst($nutrient->getName())}();
+            $foodstuff->{'set' . ucfirst($nutrient->getName())}(
+                $value / $factors[$oldUnit] * $factors[$nutrient->getUnit()]
+            );
+        }
+
+        $this->em->flush();
+    }
+
     /**
      * @throws Exception
      */
