@@ -36,7 +36,7 @@ class Page
     #[
         ORM\Column(type: "bigint", nullable: true),
     ]
-    private ?int $updatedAt;
+    private ?int $updatedAt = null;
 
     #[
         ORM\Column(type: "string"),

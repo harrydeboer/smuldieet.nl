@@ -46,15 +46,24 @@ class NutrientRepository extends ServiceEntityRepository implements NutrientRepo
         $foodstuff = new Foodstuff();
         $nutrientProperties = $foodstuff->getNutrientNames();
 
-        $nutrientNames = [];
-        $nutrients = [];
+        $nutrientNamesDb = [];
+        $nutrientsDb = [];
         foreach ($this->findAll() as $nutrient) {
-            $nutrientNames[] = $nutrient->getName();
-            $nutrients[$nutrient->getName()] = $nutrient;
+            $nutrientNamesDb[] = $nutrient->getName();
+            $nutrientsDb[$nutrient->getName()] = $nutrient;
         }
 
-        if ($nutrientNames === $nutrientProperties) {
+        if ($nutrientNamesDb === $nutrientProperties) {
             return true;
+        }
+
+        $nutrientsOld = [];
+        foreach ($nutrientProperties as $key => $name) {
+            if (in_array($name, array_diff($nutrientProperties, $nutrientNamesDb))) {
+                $nutrientsOld[$name] = null;
+            } else {
+                $nutrientsOld[$name] = $nutrientsDb[$name];
+            }
         }
 
         $connection = $this->em->getConnection();
@@ -64,12 +73,12 @@ class NutrientRepository extends ServiceEntityRepository implements NutrientRepo
         foreach ($nutrientProperties as $property) {
             $nutrient = new Nutrient();
             $nutrient->setName($property);
-            if (in_array($property, $nutrientNames)) {
-                $nutrient->setDisplayName($nutrients[$property]->getDisplayName());
-                $nutrient->setMinRDA($nutrients[$property]->getMinRDA());
-                $nutrient->setMaxRDA($nutrients[$property]->getMaxRDA());
-                $nutrient->setUnit($nutrients[$property]->getUnit());
-                $nutrient->setDecimalPlaces($nutrients[$property]->getDecimalPlaces());
+            if (!is_null($nutrientsOld[$property])) {
+                $nutrient->setDisplayName($nutrientsOld[$property]->getDisplayName());
+                $nutrient->setMinRDA($nutrientsOld[$property]->getMinRDA());
+                $nutrient->setMaxRDA($nutrientsOld[$property]->getMaxRDA());
+                $nutrient->setUnit($nutrientsOld[$property]->getUnit());
+                $nutrient->setDecimalPlaces($nutrientsOld[$property]->getDecimalPlaces());
 
                 $this->create($nutrient);
             } else {

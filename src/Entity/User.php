@@ -43,7 +43,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, UploadI
     #[
         ORM\Column(type: "bigint", nullable: true),
     ]
-    private ?int $updatedAt;
+    private ?int $updatedAt = null;
 
     #[
         ORM\Column(type: "string", length: 180, nullable: true),

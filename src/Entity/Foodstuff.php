@@ -34,7 +34,7 @@ class Foodstuff extends NutrientProperties
     #[
         ORM\Column(type: "bigint", nullable: true),
     ]
-    private ?int $updatedAt;
+    private ?int $updatedAt = null;
 
     #[
         ORM\ManyToOne(targetEntity: "App\Entity\User", inversedBy: "foodstuffs"),
