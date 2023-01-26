@@ -1,7 +1,7 @@
 <div id="form_errors_client"></div>
 <div id="form_errors_server">
     {{ form_errors(form) }}
-    {{ form_errors(form.name_nl) }}
+    {{ form_errors(form.display_name) }}
     {{ form_errors(form.min_rda) }}
     {{ form_errors(form.max_rda) }}
     {{ form_errors(form.unit) }}
@@ -18,7 +18,7 @@
         <td>Naam</td><td>{{ nutrient.name }}</td>
     </tr>
     <tr>
-        <td>Nederlandse naam</td><td>{{ form_widget(form.name_nl) }}</td>
+        <td>Weergave naam</td><td>{{ form_widget(form.display_name) }}</td>
     </tr>
     <tr>
         <td>Minimum ADH</td><td>{{ form_widget(form.min_rda) }}</td>

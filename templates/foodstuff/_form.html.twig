@@ -50,7 +50,7 @@
     </tr>
     {% for nutrient in nutrients %}
         <tr>
-            <td>{{ nutrient.nameNL }} {{ nutrient.unit }}</td>
+            <td>{{ nutrient.displayName }} {{ nutrient.unit }}</td>
             <td>{{ form_widget(attribute(form, nutrient.nameSnake)) }}</td>
         </tr>
     {% endfor %}

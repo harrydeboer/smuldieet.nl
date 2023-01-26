@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional;
 
+use App\Repository\NutrientRepositoryInterface;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\EntityManager;
 
@@ -20,6 +21,9 @@ trait MigrationsTrait
         $schemaTool = new SchemaTool($this->entityManager);
         $metaData = $this->entityManager->getMetadataFactory()->getAllMetadata();
         $schemaTool->updateSchema($metaData);
+
+        $nutrientRepository = $this->getContainer()->get(NutrientRepositoryInterface::class);
+        $nutrientRepository->sync();
     }
 
     protected function dropAndCreateDb(): void

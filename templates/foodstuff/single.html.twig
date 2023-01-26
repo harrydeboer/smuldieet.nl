@@ -11,7 +11,7 @@
         {% if isLoggedIn %}
             {% if foodstuff.pieceWeight is not null %}
                 <tr>
-                    <td>Gewicht per stuk</td>
+                    <td>Gewicht per stuk (g)</td>
                     <td>{{ foodstuff.pieceWeight }}</td>
                 </tr>
             {% endif %}
@@ -23,7 +23,7 @@
             {% endif %}
             {% for nutrient in nutrients %}
                 <tr>
-                    <td>{{ nutrient.nameNL }} {{ nutrient.unit }}</td>
+                    <td>{{ nutrient.displayName }} {{ nutrient.unit }}</td>
                     {% if attribute(foodstuff, nutrient.name) is null %}
                         <td>N/B</td>
                     {% else %}

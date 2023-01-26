@@ -14,16 +14,34 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Entity(repositoryClass: NutrientRepository::class),
     ORM\Table(name: "nutrient"),
     ORM\UniqueConstraint(fields: ["name"]),
-    ORM\UniqueConstraint(fields: ["nameNL"]),
+    ORM\UniqueConstraint(fields: ["displayName"]),
     UniqueEntity(fields: ["name"], message: "Deze naam bestaat al."),
-    UniqueEntity(fields: ["nameNL"], message: "Deze nederlandse naam bestaat al."),
+    UniqueEntity(fields: ["displayName"], message: "Deze weergave naam bestaat al."),
 ]
 class Nutrient
 {
+    public const ENERGY_UNITS = [
+        'kcal' => 4.184,
+        'kJ' => 1,
+    ];
+
+    public const SOLID_UNITS = [
+        'g' => 1,
+        'kg' => 1000,
+        'el' => 10,
+        'tl' => 2,
+    ];
+
+    public const LIQUID_UNITS = [
+        'ml' => 1,
+        'cl' => 10,
+        'dl' => 100,
+        'l' => 1000,
+    ];
+
     public const VITAMIN_MINERAL_UNITS = [
-        'mg' => 'mg',
-        'μg' => 'μg',
-        'kcal' => 'kcal',
+        'mg' => 0.001,
+        'μg' => 0.000001,
     ];
 
     #[
@@ -42,10 +60,10 @@ class Nutrient
 
     #[
         ORM\Column(type: "string"),
-        Assert\NotBlank(message: 'De nederlandse naam mag niet leeg zijn.'),
-        Assert\Length(max: 255, maxMessage: 'De nederlandse naam mag niet meer dan 255 tekens hebben.'),
+        Assert\NotBlank(message: 'De weergave naam mag niet leeg zijn.'),
+        Assert\Length(max: 255, maxMessage: 'De weergave naam mag niet meer dan 255 tekens hebben.'),
     ]
-    private string $nameNL;
+    private string $displayName;
 
     #[
         ORM\Column(type: "float", nullable: true),
@@ -94,14 +112,14 @@ class Nutrient
         $this->name = $name;
     }
 
-    public function getNameNL(): string
+    public function getDisplayName(): string
     {
-        return $this->nameNL;
+        return $this->displayName;
     }
 
-    public function setNameNL(string $nameNL): void
+    public function setDisplayName(string $displayName): void
     {
-        $this->nameNL = $nameNL;
+        $this->displayName = $displayName;
     }
 
     public function getMinRDA(): ?float
@@ -131,11 +149,12 @@ class Nutrient
 
     public function setUnit(string $unit): void
     {
-        if (!in_array($unit, array_merge(
-            FoodstuffWeight::UNITS,
+        if (!in_array($unit, array_keys(array_merge(
+            self::ENERGY_UNITS,
+            self::SOLID_UNITS,
+            self::LIQUID_UNITS,
             self::VITAMIN_MINERAL_UNITS,
-            FoodstuffWeight::LIQUID_UNITS,
-        ))) {
+        )))) {
             throw new InvalidArgumentException("Invalid unit.");
         }
         $this->unit = $unit;

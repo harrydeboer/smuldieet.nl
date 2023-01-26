@@ -17,7 +17,7 @@ class SyncNutrientsWithFoodstuffCommand extends Command
     }
 
     public function __construct(
-        private readonly NutrientRepositoryInterface $userRepository,
+        private readonly NutrientRepositoryInterface $nutrientRepository,
         string $name = null,
     )
     {
@@ -26,7 +26,7 @@ class SyncNutrientsWithFoodstuffCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (1) {
+        if ($this->nutrientRepository->sync()) {
             $output->writeln('<fg=black;bg=green>Nutrients were already in sync with foodstuff.</>');
         } else {
             $output->writeln('<fg=black;bg=yellow>Synced nutrients.</>');

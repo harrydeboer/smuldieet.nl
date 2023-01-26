@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Foodstuff;
+use App\Entity\Nutrient;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -176,21 +177,35 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
     private function checkWeightsAndEnergy(Foodstuff $foodstuff): void
     {
         $sum = 0;
+        $energy = 0;
         foreach ($this->nutrientRepository->findAll() as $nutrient) {
             $key = $nutrient->getName();
-            if ($key === 'energyKcal' || $key === 'saturatedFat' || $key === 'monounsaturatedFat'
+            if ($key === 'energy' || $key === 'saturatedFat' || $key === 'monounsaturatedFat'
                 || $key === 'polyunsaturatedFat'|| $key === 'sucre') {
                 continue;
             }
-            $factor = 1;
-            if ($nutrient->getUnit() === 'mg') {
-                $factor = 0.001;
-            } elseif ($nutrient->getUnit() === 'μg') {
-                $factor = 0.000001;
-            }
-            $sum = $sum + $foodstuff->{'get' . ucfirst($key)}() * $factor;
-        }
+            $units = array_merge(Nutrient::SOLID_UNITS, Nutrient::LIQUID_UNITS, Nutrient::VITAMIN_MINERAL_UNITS);
 
+            $sum += $foodstuff->{'get' . ucfirst($key)}() * $units[$nutrient->getUnit()];
+
+            switch ($key) {
+                case 'carbohydrates':
+                    $energy += $foodstuff->getCarbohydrates() * $units[$nutrient->getUnit()] * 4;
+                    break;
+                case 'protein':
+                    $energy += $foodstuff->getProtein() * $units[$nutrient->getUnit()] * 4;
+                    break;
+                case 'fat':
+                    $energy += $foodstuff->getFat() * $units[$nutrient->getUnit()] * 9;
+                    break;
+                case 'alcohol':
+                    $energy += $foodstuff->getAlcohol() * $units[$nutrient->getUnit()] * 7;
+                    break;
+                case 'dietaryFiber':
+                    $energy += $foodstuff->getDietaryFiber() * $units[$nutrient->getUnit()] * 2;
+                    break;
+            }
+        }
         if ($sum < 85 || $sum > 115) {
             throw new Exception('De gewichten van het voedingsmiddel moeten samen gelijk aan 100g zijn.');
         }
@@ -199,10 +214,8 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
             throw new Exception('Suiker mag niet zwaarder zijn dan koolhydraten.');
         }
 
-        $energy = $foodstuff->getCarbohydrates() * 4 + $foodstuff->getProtein() * 4 +
-            $foodstuff->getFat() * 9 + $foodstuff->getAlcohol() * 7 + $foodstuff->getDietaryFiber() * 2;
         $allowed = $energy * 0.12;
-        if (abs($foodstuff->getEnergyKcal() - $energy) > $allowed) {
+        if (abs($foodstuff->getEnergy() - $energy) > $allowed) {
             throw new Exception('De totale energy klopt niet met de energieën uit ' .
                 ' koolhydraten, eiwit, vet, alcohol  en vezels.');
         }

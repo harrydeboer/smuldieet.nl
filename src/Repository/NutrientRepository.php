@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\Foodstuff;
 use App\Entity\Nutrient;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -36,6 +37,37 @@ class NutrientRepository extends ServiceEntityRepository implements NutrientRepo
         return $nutrient;
     }
 
+    public function sync(): bool
+    {
+        $foodstuff = new Foodstuff();
+        $nutrientProperties = $foodstuff->getNutrientNames();
+
+        $nutrientNames = [];
+        foreach ($this->findAll() as $nutrient) {
+            $nutrientNames[] = $nutrient->getName();
+        }
+
+        if ($nutrientNames === $nutrientProperties) {
+            return true;
+        }
+
+        foreach ($nutrientProperties as $property) {
+            $nutrient = new Nutrient();
+            $nutrient->setName($property);
+            $nutrient->setDisplayName($property);
+            $nutrient->setUnit('g');
+            $nutrient->setDecimalPlaces(0);
+
+            if ($nutrient->getName() === 'energy') {
+                $nutrient->setUnit('kcal');
+            }
+
+            $this->create($nutrient);
+        }
+
+        return false;
+    }
+
     public function create(Nutrient $nutrient): Nutrient
     {
         $this->em->persist($nutrient);
@@ -44,7 +76,7 @@ class NutrientRepository extends ServiceEntityRepository implements NutrientRepo
         return $nutrient;
     }
 
-    public function update(): void
+    public function update(string $oldUnit): void
     {
         $this->em->flush();
     }

@@ -11,9 +11,9 @@ class NutrientProperties
 {
     #[
         ORM\Column(type: "float", nullable: true),
-        Assert\GreaterThanOrEqual(0, message: 'Energie kcal moet groter of gelijk aan 0 zijn.'),
+        Assert\GreaterThanOrEqual(0, message: 'Energie moet groter of gelijk aan 0 zijn.'),
     ]
-    protected ?float $energyKcal = null;
+    protected ?float $energy = null;
 
     #[
         ORM\Column(type: "float", nullable: true),
@@ -237,14 +237,14 @@ class NutrientProperties
     ]
     protected ?float $caffeine = null;
     
-    public function getEnergyKcal(): ?float
+    public function getEnergy(): ?float
     {
-        return $this->energyKcal;
+        return $this->energy;
     }
 
-    public function setEnergyKcal(?float $energyKcal): void
+    public function setEnergy(?float $energy): void
     {
-        $this->energyKcal = $energyKcal;
+        $this->energy = $energy;
     }
 
     public function getWater(): ?float
@@ -615,15 +615,6 @@ class NutrientProperties
     public function setCaffeine(?float $caffeine): void
     {
         $this->caffeine = $caffeine;
-    }
-
-    public function getEnergyKJ(): ?float
-    {
-        if (is_null($this->energyKcal)) {
-            return null;
-        }
-
-        return $this->energyKcal * 4.184;
     }
 
     public function getSodium(): ?float

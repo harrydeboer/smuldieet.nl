@@ -12,6 +12,7 @@ The DB_HOST has to be host.docker.internal or localhost when not using docker.</
 <li>Run the migrations.</li>
 <li>Register the user in the route /registreren.</li>
 <li>Run `php bin/console make:admin 1` to make the first user admin.</li>
+<li>Run `php bin/console sync:nutrients` to sync nutrients with the foodstuff.</li>
 <li>In the user table the field is_verified must be set to 1 
 since mailing is disabled in development.</li>
 <li>Run npm install (with a global node and npm). When you are using PhpStorm 

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\AdminBundle\Controller;
 
 use App\AdminBundle\Form\NutrientType;
-use App\Entity\FoodstuffWeight;
 use App\Entity\Nutrient;
 use App\Controller\AuthController;
 use App\Repository\NutrientRepositoryInterface;
@@ -36,6 +35,7 @@ class NutrientController extends AuthController
     public function edit(Request $request, int $id): Response
     {
         $nutrient = $this->nutrientRepository->get($id);
+        $oldUnit = $nutrient->getUnit();
 
         $formUpdate = $this->createForm(NutrientType::class, $nutrient, [
             'method' => 'POST',
@@ -47,7 +47,7 @@ class NutrientController extends AuthController
             try {
                 $this->validateNutrient($nutrient);
 
-                $this->nutrientRepository->update();
+                $this->nutrientRepository->update($oldUnit);
 
                 return $this->redirectToRoute('admin_nutrient');
             } catch (Exception $exception) {
@@ -66,19 +66,15 @@ class NutrientController extends AuthController
      */
     private function validateNutrient(Nutrient $nutrient): void
     {
-        if ($nutrient->getUnit() === 'stuks') {
-            throw new Exception('Voedingsstof mag niet eenheid stuks hebben.');
-        }
-
-        if ($nutrient->getName() === 'energyKcal' && $nutrient->getUnit() !== 'kcal') {
-            throw new Exception('Energie moet in kcal.');
-        } elseif ($nutrient->getName() !== 'energyKcal' && $nutrient->getUnit() === 'kcal') {
-            throw new Exception('Alleen energie mag in kcal.');
+        if ($nutrient->getName() === 'energy' && !in_array($nutrient->getUnit(), Nutrient::ENERGY_UNITS)) {
+            throw new Exception('Energy has no correct unit.');
+        } elseif ($nutrient->getName() !== 'energy' && in_array($nutrient->getUnit(), Nutrient::ENERGY_UNITS)) {
+            throw new Exception('Only energy can have this unit.');
         }
 
         if ($nutrient->getName() !== 'water'
-            && $nutrient->getName() !== 'alcohol' && in_array($nutrient->getUnit(), FoodstuffWeight::LIQUID_UNITS)) {
-            throw new Exception('Alleen water en alcohol kunnen vloeibare eenheden hebben.');
+            && $nutrient->getName() !== 'alcohol' && in_array($nutrient->getUnit(), Nutrient::LIQUID_UNITS)) {
+            throw new Exception('Only water and alcohol can have liquid units.');
         }
 
         if (!is_null($nutrient->getMinRDA())

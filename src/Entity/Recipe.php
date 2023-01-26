@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Entity(repositoryClass: RecipeRepository::class),
     ORM\Table(name: "recipe"),
 ]
-class Recipe implements FoodstuffWeightsInterface, UploadImageInterface
+class Recipe extends DietProperties implements FoodstuffWeightsInterface, UploadImageInterface
 {
     public const COOKING_TIMES = ['0-10 min.', '10-20 min.', '20-30 min.', '30-60 min.', '> 1 uur', '> 2 uur'];
 
@@ -232,33 +232,6 @@ class Recipe implements FoodstuffWeightsInterface, UploadImageInterface
     #[ORM\Column(type: "string", nullable: true)]
     private ?string $source = null;
 
-    #[ORM\Column(type: "boolean")]
-    private bool $isVegetarian = false;
-
-    #[ORM\Column(type: "boolean")]
-    private bool $isVegan = false;
-
-    #[ORM\Column(type: "boolean")]
-    private bool $isHistamineFree = false;
-
-    #[ORM\Column(type: "boolean")]
-    private bool $isCowMilkFree = false;
-
-    #[ORM\Column(type: "boolean")]
-    private bool $isSoyFree = false;
-
-    #[ORM\Column(type: "boolean")]
-    private bool $isGlutenFree = false;
-
-    #[ORM\Column(type: "boolean")]
-    private bool $isChickenEggProteinFree = false;
-
-    #[ORM\Column(type: "boolean")]
-    private bool $isNutFree = false;
-
-    #[ORM\Column(type: "boolean")]
-    private bool $isWithoutPackagesAndBags = false;
-
     #[
         ORM\ManyToOne(targetEntity: "App\Entity\User", inversedBy: "recipes"),
         ORM\JoinColumn(name: "user_id", referencedColumnName: "id", nullable: false),
@@ -299,33 +272,6 @@ class Recipe implements FoodstuffWeightsInterface, UploadImageInterface
         $this->comments = new ArrayCollection();
         $this->tags = new ArrayCollection();
         $this->users = new ArrayCollection();
-    }
-
-    public static function getDietChoices(string $camelOrSnake = 'camel'): array
-    {
-        $arrayCamel = [
-            'isVegetarian' => 'Vegetarisch',
-            'isVegan' => 'Veganistisch',
-            'isHistamineFree' => 'Histamine vrij',
-            'isCowMilkFree' => 'Koemelk vrij',
-            'isSoyFree' => 'Soja vrij',
-            'isGlutenFree' => 'Gluten vrij',
-            'isChickenEggProteinFree' => 'Kippenei eiwitvrij',
-            'isNutFree' => 'Noten vrij',
-            'isWithoutPackagesAndBags' => 'Zonder pakjes en zakjes',
-        ];
-
-        if ($camelOrSnake === 'snake') {
-            $arraySnake = [];
-            foreach ($arrayCamel as $key => $item) {
-                $arraySnake[strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $key))] = $item;
-            }
-
-            return $arraySnake;
-        } else {
-
-            return $arrayCamel;
-        }
     }
 
     public function getId(): int
@@ -488,96 +434,6 @@ class Recipe implements FoodstuffWeightsInterface, UploadImageInterface
     public function setUser(User $user): void
     {
         $this->user = $user;
-    }
-
-    public function getIsVegetarian(): bool
-    {
-        return $this->isVegetarian;
-    }
-
-    public function setIsVegetarian(bool $isVegetarian): void
-    {
-        $this->isVegetarian = $isVegetarian;
-    }
-
-    public function getIsVegan(): bool
-    {
-        return $this->isVegan;
-    }
-
-    public function setIsVegan(bool $isVegan): void
-    {
-        $this->isVegan = $isVegan;
-    }
-
-    public function getIsHistamineFree(): bool
-    {
-        return $this->isHistamineFree;
-    }
-
-    public function setIsHistamineFree(bool $isHistamineFree): void
-    {
-        $this->isHistamineFree = $isHistamineFree;
-    }
-
-    public function getIsCowMilkFree(): bool
-    {
-        return $this->isCowMilkFree;
-    }
-
-    public function setIsCowMilkFree(bool $isCowMilkFree): void
-    {
-        $this->isCowMilkFree = $isCowMilkFree;
-    }
-
-    public function getIsSoyFree(): bool
-    {
-        return $this->isSoyFree;
-    }
-
-    public function setIsSoyFree(bool $isSoyFree): void
-    {
-        $this->isSoyFree = $isSoyFree;
-    }
-
-    public function getIsGlutenFree(): bool
-    {
-        return $this->isGlutenFree;
-    }
-
-    public function setIsGlutenFree(bool $isGlutenFree): void
-    {
-        $this->isGlutenFree = $isGlutenFree;
-    }
-
-    public function getIsChickenEggProteinFree(): bool
-    {
-        return $this->isChickenEggProteinFree;
-    }
-
-    public function setIsChickenEggProteinFree(bool $isChickenEggProteinFree): void
-    {
-        $this->isChickenEggProteinFree = $isChickenEggProteinFree;
-    }
-
-    public function getIsNutFree(): bool
-    {
-        return $this->isNutFree;
-    }
-
-    public function setIsNutFree(bool $isNutFree): void
-    {
-        $this->isNutFree = $isNutFree;
-    }
-
-    public function getIsWithoutPackagesAndBags(): bool
-    {
-        return $this->isWithoutPackagesAndBags;
-    }
-
-    public function setIsWithoutPackagesAndBags(bool $isWithoutPackagesAndBags): void
-    {
-        $this->isWithoutPackagesAndBags = $isWithoutPackagesAndBags;
     }
 
     public function getRatings(): Collection

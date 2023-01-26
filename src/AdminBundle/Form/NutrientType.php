@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\AdminBundle\Form;
 
-use App\Entity\FoodstuffWeight;
 use App\Entity\Nutrient;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -18,14 +17,15 @@ class NutrientType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $choices = array_merge(
-            FoodstuffWeight::UNITS,
+        $choices = array_keys(array_merge(
+            Nutrient::ENERGY_UNITS,
+            Nutrient::SOLID_UNITS,
+            Nutrient::LIQUID_UNITS,
             Nutrient::VITAMIN_MINERAL_UNITS,
-            FoodstuffWeight::LIQUID_UNITS,
-        );
+        ));
         unset($choices['stuks']);
         $builder
-            ->add('name_nl', TextType::class, [
+            ->add('display_name', TextType::class, [
                 'attr' => ['class' => 'form-control'],
             ])
             ->add('min_rda', NumberType::class, [
@@ -37,7 +37,7 @@ class NutrientType extends AbstractType
                 'required' => false,
             ])
             ->add('unit', ChoiceType::class, [
-                'choices' => $choices,
+                'choices' => array_combine($choices, $choices),
                 'placeholder' => 'selecteer eenheid',
                 'attr' => ['class' => 'form-control'],
             ])

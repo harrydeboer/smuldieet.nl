@@ -46,7 +46,7 @@ readonly class RDAService
         foreach ($days as $day) {
             foreach ($nutrients as $key => $nutrient) {
                 switch ($nutrient->getName()) {
-                    case 'energyKcal':
+                    case 'energy':
                     case 'carbohydrates':
                     case 'sucre':
                     case 'fat':
@@ -116,31 +116,18 @@ readonly class RDAService
     {
         $unit = $foodstuffWeight->getUnit();
         $foodstuff = $foodstuffWeight->getFoodstuff();
-        if ($unit === 'stuks' && is_null($foodstuff->getPieceWeight()) && !is_null($foodstuff->getPieceName())) {
+        if ($unit === 'stuks' && is_null($foodstuff->getPieceWeight())) {
             $unit = $foodstuff->getPieceName();
         }
-        $density = $foodstuff->getDensity() ?? 1;
+        $density = $foodstuff->getIsLiquid() ? $foodstuff->getDensity() : 1;
 
-        $units = [
-            'g' => 1,
-            'kg' => 1000,
-            'stuks' => $foodstuff->getPieceWeight(),
-            'el' => 10,
-            'tl' => 2,
-            'ml' => $density,
-            'cl' => 10 * $density,
-            'dl' => 100 * $density,
-            'l' => 1000 * $density,
-        ];
-
-        if (array_keys(array_merge(FoodstuffWeight::UNITS, FoodstuffWeight::LIQUID_UNITS)) !== array_keys($units)) {
-            throw new Exception('Foodstuff weight units are not synced with units handled.');
-        }
+        $units = array_merge(Nutrient::SOLID_UNITS, ['stuks' => $foodstuff->getPieceWeight()], Nutrient::LIQUID_UNITS);
 
         $realised = $foodstuff->{'get' . ucfirst($nutrient->getName())}()
             / $numberOfDays
             * $foodstuffWeight->getValue()
             * $recipeWeight
+            * $density
             * $units[$unit]
             / 100;
 

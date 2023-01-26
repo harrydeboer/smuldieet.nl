@@ -12,13 +12,13 @@ class NutrientTypeTest extends TypeTestCase
 {
     public function testSubmitModel(): void
     {
-        $nameNL =  'testNL';
+        $displayName =  'test NL';
         $minRDA =  8.0;
         $maxRDA =  9.0;
         $unit =  'g';
         $decimalPlaces = 2;
         $formData = [
-            'name_nl' => $nameNL,
+            'display_name' => $displayName,
             'min_rda' => $minRDA,
             'max_rda' => $maxRDA,
             'unit' => $unit,
@@ -30,7 +30,7 @@ class NutrientTypeTest extends TypeTestCase
         $form = $this->factory->create(NutrientType::class, $comment);
 
         $expected = new Nutrient();
-        $expected->setNameNL($nameNL);
+        $expected->setDisplayName($displayName);
         $expected->setMinRDA($minRDA);
         $expected->setMaxRDA($maxRDA);
         $expected->setUnit($unit);

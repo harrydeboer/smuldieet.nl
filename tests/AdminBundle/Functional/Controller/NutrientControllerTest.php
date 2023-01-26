@@ -6,15 +6,11 @@ namespace App\Tests\AdminBundle\Functional\Controller;
 
 use App\Repository\NutrientRepositoryInterface;
 use App\Tests\AdminBundle\Functional\AuthAdminWebTestCase;
-use App\Tests\Factory\NutrientFactory;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class NutrientControllerTest extends AuthAdminWebTestCase
 {
     public function testCreateUpdateDelete(): void
     {
-        $this->getContainer()->get(NutrientFactory::class)->create(['name' => 'protein']);
-
         $this->client->request('GET', '/admin/voedingsstoffen');
 
         $this->assertResponseIsSuccessful();
@@ -30,15 +26,15 @@ class NutrientControllerTest extends AuthAdminWebTestCase
 
         $form = $buttonCrawlerNode->form();
 
-        $updatedName = 'testNameNL2';
-        $form['nutrient[name_nl]'] = $updatedName;
+        $updatedDisplayName = 'testDisplay';
+        $form['nutrient[display_name]'] = $updatedDisplayName;
 
         $this->client->submit($form);
 
         $this->assertResponseRedirects('/admin/voedingsstoffen');
 
-        $nutrient = $nutrientRepository->findOneBy(['nameNL' => 'testNameNL2']);
+        $nutrient = $nutrientRepository->findOneBy(['displayName' => $updatedDisplayName]);
 
-        $this->assertEquals($updatedName, $nutrient->getNameNL());
+        $this->assertEquals($updatedDisplayName, $nutrient->getDisplayName());
     }
 }

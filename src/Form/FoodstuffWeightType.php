@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Form;
 
 use App\Entity\FoodstuffWeight;
+use App\Entity\Nutrient;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -17,9 +18,10 @@ class FoodstuffWeightType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $choiceAttr = ['stuks' => ['class' => 'piece-option']];
-        foreach (FoodstuffWeight::LIQUID_UNITS as $unit) {
+        foreach (array_keys(Nutrient::LIQUID_UNITS) as $unit) {
             $choiceAttr[$unit] = ['class' => 'liquid-option'];
         }
+        $choices = array_keys(array_merge(Nutrient::SOLID_UNITS, ['stuks' => 'stuks'], Nutrient::LIQUID_UNITS));
         $builder->add('foodstuff_id', NumberType::class, [
             'attr' => ['class' => 'form-control foodstuff-id hidden-input'],
         ])->add('name', TextType::class, [
@@ -34,7 +36,7 @@ class FoodstuffWeightType extends AbstractType
         ])->add('value', NumberType::class, [
             'attr' => ['class' => 'form-control foodstuff-weight'],
         ])->add('unit', ChoiceType::class, [
-            'choices' => array_merge(FoodstuffWeight::UNITS, FoodstuffWeight::LIQUID_UNITS),
+            'choices' => array_combine($choices, $choices),
             'attr' => [
                 'class' => 'form-control foodstuff-unit form-select',
             ],
