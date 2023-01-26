@@ -39,6 +39,9 @@ class NutrientRepository extends ServiceEntityRepository implements NutrientRepo
     }
 
     /**
+     * This method syncs the nutrients with the foodstuff class.
+     * When there are no changes it returns true.
+     * Syncs and returns false otherwise.
      * @throws Exception
      */
     public function sync(): bool
