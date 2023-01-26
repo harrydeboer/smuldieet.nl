@@ -32,6 +32,11 @@ class Cookbook implements RecipeWeightsInterface
     private int $createdAt;
 
     #[
+        ORM\Column(type: "bigint", nullable: true),
+    ]
+    private ?int $updatedAt;
+
+    #[
         ORM\Column(type: "string"),
         Assert\NotBlank(message: 'De titel mag niet leeg zijn.'),
         Assert\Length(max: 255, maxMessage: 'De titel mag niet meer dan 255 tekens hebben.'),
@@ -72,6 +77,16 @@ class Cookbook implements RecipeWeightsInterface
     public function setCreatedAt(int $createdAt): void
     {
         $this->createdAt = $createdAt;
+    }
+
+    public function getUpdatedAt(): ?int
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?int $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
     }
 
     public function getTitle(): string

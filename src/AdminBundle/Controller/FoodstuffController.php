@@ -78,6 +78,7 @@ class FoodstuffController extends AuthController
                 if (!is_null($foodstuffSameName) && $foodstuff->getId() !== $foodstuffSameName->getId()) {
                     throw new Exception('Er is al een voedingsmiddel met deze naam.');
                 }
+                $foodstuff->setUpdatedAt(time());
                 $this->foodstuffRepository->update($foodstuff, $isLiquidOld);
 
                 return $this->redirectToRoute('admin_foodstuff');

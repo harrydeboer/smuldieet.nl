@@ -53,6 +53,7 @@ class CommentController extends AuthController
 
         if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
             try {
+                $comment->setUpdatedAt(time());
                 $this->commentRepository->update($comment);
 
                 return $this->redirectToRoute('admin_comments');

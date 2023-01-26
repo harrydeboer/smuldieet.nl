@@ -60,6 +60,7 @@ class RecipeController extends AuthController
 
         if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
             try {
+                $recipe->setUpdatedAt(time());
                 $this->recipeRepository->update($recipe, $oldFoodstuffWeights, $oldTags);
 
                 return $this->redirectToRoute('admin_recipe');

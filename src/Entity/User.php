@@ -35,8 +35,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, UploadI
     ]
     protected int $id;
 
-    #[ORM\Column(type: "bigint")]
+    #[
+        ORM\Column(type: "bigint"),
+    ]
     private int $createdAt;
+
+    #[
+        ORM\Column(type: "bigint", nullable: true),
+    ]
+    private ?int $updatedAt;
 
     #[
         ORM\Column(type: "string", length: 180, nullable: true),
@@ -161,6 +168,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, UploadI
     public function setCreatedAt(int $createdAt): void
     {
         $this->createdAt = $createdAt;
+    }
+
+    public function getUpdatedAt(): ?int
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?int $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
     }
 
     public function getFirstName(): ?string

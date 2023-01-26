@@ -63,6 +63,7 @@ class CookbookController extends AuthController
         if ($formUpdate->isSubmitted()
             && $this->addRecipesService->add($cookbook, $this->getUser()->getId())
             && $formUpdate->isValid()) {
+            $cookbook->setUpdatedAt(time());
             $this->cookbookRepository->update($cookbook, $oldRecipeWeights);
 
             return $this->redirectToRoute('user_cookbooks');

@@ -70,6 +70,7 @@ class RatingController extends Controller
 
             /** Updating a rating without content cannot throw an exception. */
             try {
+                $rating->setUpdatedAt(time());
                 $this->ratingRepository->update($oldRating, $rating);
             } catch (Exception) {
             }

@@ -60,6 +60,7 @@ class UserController extends AuthController
         if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
             try {
                 if (is_null($formUpdate->get('plain_password')->getData())) {
+                    $user->setUpdatedAt(time());
                     $this->userRepository->update();
                 } else {
                     $this->userRepository->upgradePassword($user, $formUpdate->get('plain_password')->getData());

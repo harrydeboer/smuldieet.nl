@@ -28,6 +28,11 @@ class Comment
     private int $createdAt;
 
     #[
+        ORM\Column(type: "bigint", nullable: true),
+    ]
+    private ?int $updatedAt;
+
+    #[
         ORM\Column(type: "text"),
         Assert\NotBlank(message: 'De content mag niet leeg zijn.'),
         Assert\Length(max: 65535, maxMessage: 'Het commentaar mag niet meer dan 65535 tekens hebben.'),
@@ -73,6 +78,16 @@ class Comment
     public function setCreatedAt(int $createdAt): void
     {
         $this->createdAt = $createdAt;
+    }
+
+    public function getUpdatedAt(): ?int
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?int $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
     }
 
     public function getDate(): DateTime

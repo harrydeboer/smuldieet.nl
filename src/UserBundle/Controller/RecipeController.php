@@ -74,6 +74,7 @@ class RecipeController extends Controller
                 if (count($recipe->getFoodstuffWeights()) === 0) {
                     throw new Exception('De voedingsmiddelen van het gerecht mogen niet leeg zijn.');
                 }
+                $recipe->setUpdatedAt(time());
                 $this->recipeRepository->update($recipe, $oldFoodstuffWeights, $oldTags);
 
                 $this->uploadedImageService->moveImage(

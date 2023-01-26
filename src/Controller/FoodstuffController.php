@@ -64,6 +64,7 @@ class FoodstuffController extends Controller
 
         if ($formUpdate->isSubmitted() && $formUpdate->isValid() && $this->checkCanEdit($foodstuff)) {
             try {
+                $foodstuff->setUpdatedAt(time());
                 $this->foodstuffRepository->update($foodstuff, $isLiquidOld);
 
                 return $this->redirectToRoute('foodstuff');

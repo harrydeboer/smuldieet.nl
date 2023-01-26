@@ -101,6 +101,7 @@ class RatingController extends AuthController
 
                     $this->addFlash('review_pending', 'Je recensie wacht op goedkeuring');
                 }
+                $rating->setUpdatedAt(time());
                 $this->ratingRepository->update($oldRating, $rating);
 
                 return $this->redirectToRoute('user_ratings');

@@ -51,6 +51,7 @@ class PageController extends AuthController
         $formUpdate->handleRequest($request);
 
         if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
+            $page->setUpdatedAt(time());
             $this->pageRepository->update();
 
             return $this->redirectToRoute('admin_page');

@@ -135,8 +135,15 @@ class Recipe extends DietProperties implements FoodstuffWeightsInterface, Upload
     ]
     protected int $id;
 
-    #[ORM\Column(type: "bigint")]
+    #[
+        ORM\Column(type: "bigint"),
+    ]
     private int $createdAt;
+
+    #[
+        ORM\Column(type: "bigint", nullable: true),
+    ]
+    private ?int $updatedAt;
 
     #[
         ORM\Column(type: "string"),
@@ -292,6 +299,16 @@ class Recipe extends DietProperties implements FoodstuffWeightsInterface, Upload
     public function setCreatedAt(int $createdAt): void
     {
         $this->createdAt = $createdAt;
+    }
+
+    public function getUpdatedAt(): ?int
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?int $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
     }
 
     public function getTitle(): string
