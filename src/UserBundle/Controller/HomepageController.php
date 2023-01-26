@@ -50,6 +50,7 @@ class HomepageController extends AuthController
 
         if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
             try {
+                $user->setUpdatedAt(time());
                 $this->userRepository->update();
 
                 $this->uploadedImageService->moveImage(

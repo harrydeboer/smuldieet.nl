@@ -19,6 +19,10 @@
 {% else %}
     {% set classes = classes~' not-solid not-vitamin-mineral' %}
 {% endif %}
+{% set extraLabel = '' %}
+{% if nutrient.name == 'protein' or nutrient.name == 'water' %}
+    {% set extraLabel = 'per kg lichaamsgewicht' %}
+{% endif %}
 {% if nutrient.name != 'water' %}
     {% set classes = classes~' not-liquid' %}
 {% endif %}
@@ -30,10 +34,10 @@
         <td>Weergave naam</td><td>{{ form_widget(form.display_name) }}</td>
     </tr>
     <tr>
-        <td>Minimum ADH</td><td>{{ form_widget(form.min_rda) }}</td>
+        <td>Minimum ADH {{ extraLabel }}</td><td>{{ form_widget(form.min_rda) }}</td>
     </tr>
     <tr>
-        <td>Maximum ADH</td><td>{{ form_widget(form.max_rda) }}</td>
+        <td>Maximum ADH {{ extraLabel }}</td><td>{{ form_widget(form.max_rda) }}</td>
     </tr>
     <tr>
         <td>Unit</td><td>{{ form_widget(form.unit, {'attr':{'class':classes}}) }}</td>
