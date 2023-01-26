@@ -136,7 +136,7 @@ class Recipe extends DietProperties implements FoodstuffWeightsInterface, Upload
     protected int $id;
 
     #[ORM\Column(type: "bigint")]
-    private int $timestamp;
+    private int $createdAt;
 
     #[
         ORM\Column(type: "string"),
@@ -284,14 +284,14 @@ class Recipe extends DietProperties implements FoodstuffWeightsInterface, Upload
         $this->id = $id;
     }
 
-    public function getTimestamp(): int
+    public function getCreatedAt(): int
     {
-        return $this->timestamp;
+        return $this->createdAt;
     }
 
-    public function setTimestamp(int $timestamp): void
+    public function setCreatedAt(int $createdAt): void
     {
-        $this->timestamp = $timestamp;
+        $this->createdAt = $createdAt;
     }
 
     public function getTitle(): string

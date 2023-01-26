@@ -26,6 +26,9 @@ class Tag
     ]
     private int $id;
 
+    #[ORM\Column(type: "bigint")]
+    private int $createdAt;
+
     #[
         ORM\Column(type: "string"),
         Assert\NotBlank(message: 'De naam mag niet leeg zijn.'),
@@ -51,6 +54,16 @@ class Tag
     public function setId(int $id): void
     {
         $this->id = $id;
+    }
+
+    public function getCreatedAt(): int
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(int $createdAt): void
+    {
+        $this->createdAt = $createdAt;
     }
 
     public function getName(): string

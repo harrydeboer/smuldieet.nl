@@ -71,7 +71,7 @@ class PageController extends AuthController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $page->setUser($this->getUser());
-            $page->setTimestamp(time());
+            $page->setCreatedAt(time());
             $this->pageRepository->create($page);
 
             return $this->redirectToRoute('admin_page');

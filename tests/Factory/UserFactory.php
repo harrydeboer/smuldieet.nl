@@ -18,6 +18,7 @@ class UserFactory extends AbstractFactory
     public function create(array $params = []): User
     {
         $user = new User();
+        $user->setCreatedAt(time());
         $user->setUsername(uniqid('username'));
         $user->setEmail(uniqid('email') . '@gmail.com');
         $user->setBirthdate($this->randomDate());

@@ -86,7 +86,7 @@ class CookbookController extends AuthController
         if ($form->isSubmitted()
             && $this->addRecipesService->add($cookbook, $this->getUser()->getId())
             && $form->isValid()) {
-            $cookbook->setTimestamp(time());
+            $cookbook->setCreatedAt(time());
 
             $this->cookbookRepository->create($cookbook);
 

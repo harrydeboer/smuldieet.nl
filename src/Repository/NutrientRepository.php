@@ -7,6 +7,7 @@ namespace App\Repository;
 use App\Entity\Foodstuff;
 use App\Entity\Nutrient;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -37,31 +38,49 @@ class NutrientRepository extends ServiceEntityRepository implements NutrientRepo
         return $nutrient;
     }
 
+    /**
+     * @throws Exception
+     */
     public function sync(): bool
     {
         $foodstuff = new Foodstuff();
         $nutrientProperties = $foodstuff->getNutrientNames();
 
         $nutrientNames = [];
+        $nutrients = [];
         foreach ($this->findAll() as $nutrient) {
             $nutrientNames[] = $nutrient->getName();
+            $nutrients[$nutrient->getName()] = $nutrient;
         }
 
         if ($nutrientNames === $nutrientProperties) {
             return true;
         }
 
+        $connection = $this->em->getConnection();
+
+        $connection->executeQuery('TRUNCATE table nutrient');
+
         foreach ($nutrientProperties as $property) {
             $nutrient = new Nutrient();
             $nutrient->setName($property);
-            $nutrient->setDisplayName($property);
-            $nutrient->setUnit('g');
-            $nutrient->setDecimalPlaces(0);
+            if (in_array($property, $nutrientNames)) {
+                $nutrient->setDisplayName($nutrients[$property]->getDisplayName());
+                $nutrient->setMinRDA($nutrients[$property]->getMinRDA());
+                $nutrient->setMaxRDA($nutrients[$property]->getMaxRDA());
+                $nutrient->setUnit($nutrients[$property]->getUnit());
+                $nutrient->setDecimalPlaces($nutrients[$property]->getDecimalPlaces());
 
-            if ($nutrient->getName() === 'energy') {
-                $nutrient->setUnit('kcal');
+                $this->create($nutrient);
+            } else {
+                $nutrient->setDisplayName($property);
+                $nutrient->setUnit('g');
+                $nutrient->setDecimalPlaces(0);
+
+                if ($nutrient->getName() === 'energy') {
+                    $nutrient->setUnit('kcal');
+                }
             }
-
             $this->create($nutrient);
         }
 

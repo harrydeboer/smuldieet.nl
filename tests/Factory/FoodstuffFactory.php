@@ -24,6 +24,7 @@ class FoodstuffFactory extends AbstractFactory
     public function create(array $params = []): Foodstuff
     {
         $foodstuff = new Foodstuff();
+        $foodstuff->setCreatedAt(time());
         $foodstuff->setName(uniqid('foodstuff'));
         foreach ($this->nutrientRepository->findAll() as $nutrient) {
             $foodstuff->{'set' . ucfirst($nutrient->getName())}($this->randomNutritionalValue() / 1000);

@@ -25,7 +25,7 @@ class Comment
     #[
         ORM\Column(type: "bigint"),
     ]
-    private int $timestamp;
+    private int $createdAt;
 
     #[
         ORM\Column(type: "text"),
@@ -65,20 +65,20 @@ class Comment
         $this->id = $id;
     }
 
-    public function getTimestamp(): int
+    public function getCreatedAt(): int
     {
-        return $this->timestamp;
+        return $this->createdAt;
     }
 
-    public function setTimestamp(int $timestamp): void
+    public function setCreatedAt(int $createdAt): void
     {
-        $this->timestamp = $timestamp;
+        $this->createdAt = $createdAt;
     }
 
     public function getDate(): DateTime
     {
         $date = new DateTime();
-        $date->setTimestamp($this->timestamp);
+        $date->setTimestamp($this->createdAt);
         return $date;
     }
 

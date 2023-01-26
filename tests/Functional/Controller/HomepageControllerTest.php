@@ -21,7 +21,7 @@ class HomepageControllerTest extends WebTestCase
 
         $form = $buttonCrawlerNode->form();
 
-        $form['sort'] = 'timestamp_DESC';
+        $form['sort'] = 'createdAt_DESC';
 
         $this->client->submit($form);
 

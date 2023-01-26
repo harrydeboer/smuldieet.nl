@@ -41,7 +41,7 @@ class RatingController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $rating->setUser($this->getUser());
-            $rating->setTimestamp(time());
+            $rating->setCreatedAt(time());
             $rating->setIsPending(false);
 
             /** Creating a rating without content cannot throw an exception. */

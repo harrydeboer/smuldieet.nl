@@ -26,7 +26,7 @@ class CommentFactory extends AbstractFactory
         $comment = new Comment();
         $comment->setUser($user);
         $comment->setContent(uniqid('content'));
-        $comment->setTimestamp(time());
+        $comment->setCreatedAt(time());
         $isOnPage = rand(0,1);
         if (isset($params['page'])) {
             $comment->setPage($page);

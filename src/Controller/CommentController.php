@@ -41,7 +41,7 @@ class CommentController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $comment->setUser($this->getUser());
-            $comment->setTimestamp(time());
+            $comment->setCreatedAt(time());
             $comment->setIsPending(true);
 
             try {
@@ -67,7 +67,7 @@ class CommentController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $comment->setUser($this->getUser());
-            $comment->setTimestamp(time());
+            $comment->setCreatedAt(time());
 
             try {
                 $this->commentRepository->create($comment);

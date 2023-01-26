@@ -86,6 +86,7 @@ class UserController extends AuthController
     public function new(Request $request): Response
     {
         $user = new User();
+        $user->setCreatedAt(time());
         $form = $this->createForm(CreateUserType::class, $user);
         $form->handleRequest($request);
 

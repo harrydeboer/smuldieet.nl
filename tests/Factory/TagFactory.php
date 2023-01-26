@@ -18,6 +18,7 @@ class TagFactory extends AbstractFactory
     {
         $tag = new Tag();
         $tag->setName(uniqid('name'));
+        $tag->setCreatedAt(time());
 
         $this->setParams($params, $tag);
 

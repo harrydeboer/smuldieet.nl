@@ -28,6 +28,9 @@ class Page
     ]
     private int $id;
 
+    #[ORM\Column(type: "bigint")]
+    private int $createdAt;
+
     #[
         ORM\Column(type: "string"),
         Assert\NotBlank(message: 'De titel mag niet leeg zijn.'),
@@ -47,11 +50,6 @@ class Page
         Assert\Length(max: 255, maxMessage: 'De samenvatting mag niet langer zijn dan 255 tekens.'),
     ]
     private ?string $summary = null;
-
-    #[
-        ORM\Column(type: "bigint"),
-    ]
-    private int $timestamp;
 
     #[
         ORM\Column(type: "text"),
@@ -84,9 +82,14 @@ class Page
         $this->id = $id;
     }
 
-    public function getTimestamp(): int
+    public function getCreatedAt(): int
     {
-        return $this->timestamp;
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(int $createdAt): void
+    {
+        $this->createdAt = $createdAt;
     }
 
     public function getTitle(): string
@@ -117,11 +120,6 @@ class Page
     public function setSummary(?string $summary): void
     {
         $this->summary = $summary;
-    }
-
-    public function setTimestamp(int $timestamp): void
-    {
-        $this->timestamp = $timestamp;
     }
 
     public function getContent(): string

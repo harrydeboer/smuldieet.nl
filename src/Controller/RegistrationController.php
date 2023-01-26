@@ -45,6 +45,7 @@ class RegistrationController extends Controller
     public function register(Request $request): Response
     {
         $user = new User();
+        $user->setCreatedAt(time());
         $form = $this->createForm(RegistrationType::class, $user);
         $form->handleRequest($request);
 

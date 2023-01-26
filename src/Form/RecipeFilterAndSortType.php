@@ -71,8 +71,8 @@ class RecipeFilterAndSortType extends AbstractType
         }
         $builder->add('sort', ChoiceType::class, [
             'choices' => [
-                'nieuwste' => 'timestamp_DESC',
-                'oudste' => 'timestamp_ASC' ,
+                'nieuwste' => 'createdAt_DESC',
+                'oudste' => 'createdAt_ASC' ,
                 'waardering aflopend' => 'rating_DESC',
                 'waardering oplopend' => 'rating_ASC' ,
             ],

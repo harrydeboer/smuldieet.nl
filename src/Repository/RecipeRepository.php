@@ -104,7 +104,7 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
     {
         $this->checkProfanitiesRecipe($recipe);
         $this->addTags($recipe);
-        $recipe->setTimestamp(time());
+        $recipe->setCreatedAt(time());
         $this->em->persist($recipe);
         $this->em->flush();
 
@@ -174,7 +174,7 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
         $qb = $this->createQueryBuilder('r')
             ->where('r.user = :userId')
             ->setParameter('userId', $userId)
-            ->orderBy('r.timestamp', 'DESC');
+            ->orderBy('r.createdAt', 'DESC');
 
         return (new Paginator($qb))->paginate($page);
     }
@@ -184,7 +184,7 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
         $qb = $this->createQueryBuilder('r')
             ->where('r.isPending = 0')
             ->setMaxResults($limit)
-            ->orderBy('r.timestamp', 'DESC');
+            ->orderBy('r.createdAt', 'DESC');
 
         return (new Paginator($qb, $limit))->paginate();
     }
@@ -192,7 +192,7 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
     public function findBySortAndFilter(int $page, array $formData = null): Paginator|array
     {
         $qb = $this->createQueryBuilder('r');
-        $qb->orderBy('r.timestamp', 'DESC');
+        $qb->orderBy('r.createdAt', 'DESC');
         $qb->where('r.isPending = 0');
 
         if (!is_null($formData)) {

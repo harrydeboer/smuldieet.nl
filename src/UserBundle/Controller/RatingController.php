@@ -56,7 +56,7 @@ class RatingController extends AuthController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $rating->setUser($this->getUser());
-            $rating->setTimestamp(time());
+            $rating->setCreatedAt(time());
             $rating->setIsPending(true);
 
             try {

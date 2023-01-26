@@ -23,7 +23,7 @@ class CookbookFactory extends AbstractFactory
 
         $cookbook = new Cookbook();
         $cookbook->setTitle(uniqid('cookbook'));
-        $cookbook->setTimestamp(time());
+        $cookbook->setCreatedAt(time());
         $cookbook->setUser($user);
 
         $this->setParams($params, $cookbook);

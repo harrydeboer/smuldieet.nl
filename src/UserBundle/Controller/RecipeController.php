@@ -101,6 +101,7 @@ class RecipeController extends Controller
         $recipe = new Recipe();
         $form = $this->createForm(RecipeType::class, $recipe);
         $recipe->setUser($this->getUser());
+        $recipe->setCreatedAt(time());
         $form->handleRequest($request);
 
         if ($form->isSubmitted()

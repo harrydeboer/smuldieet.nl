@@ -35,6 +35,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, UploadI
     ]
     protected int $id;
 
+    #[ORM\Column(type: "bigint")]
+    private int $createdAt;
+
     #[
         ORM\Column(type: "string", length: 180, nullable: true),
         Assert\Length(max: 180, maxMessage: 'De voornaam mag niet meer dan 180 tekens hebben.'),
@@ -80,10 +83,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, UploadI
     ]
     private float $weight;
 
-    #[
-        ORM\Column(type: "bigint"),
-    ]
-    private int $timestamp;
+    #[ORM\Column(type: "bigint")]
+    private int $birthTime;
 
     #[ORM\Column(type: "json")]
     private array $roles = [];
@@ -152,6 +153,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, UploadI
         $this->id = $id;
     }
 
+    public function getCreatedAt(): int
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(int $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
     public function getFirstName(): ?string
     {
         return $this->firstName;
@@ -213,28 +224,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, UploadI
         $this->gender = $gender;
     }
 
-    public function getTimestamp(): int
-    {
-        return $this->timestamp;
-    }
-
-    public function setTimestamp(int $timestamp): void
-    {
-        $this->timestamp = $timestamp;
-    }
-
-    public function getBirthdate(): DateTime
-    {
-        $date = new DateTime();
-        $date->setTimestamp($this->timestamp);
-        return $date;
-    }
-
-    public function setBirthdate(DateTime $date): void
-    {
-        $this->timestamp = $date->getTimestamp();
-    }
-
     public function getWeight(): float
     {
         return $this->weight;
@@ -245,6 +234,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, UploadI
         $this->weight = $weight;
     }
 
+    public function getBirthdate(): DateTime
+    {
+        $date = new DateTime();
+        $date->setTimestamp($this->birthTime);
+        return $date;
+    }
+
+    public function setBirthdate(DateTime $date): void
+    {
+        $this->birthTime = $date->getTimestamp();
+    }
 
     public function getUserIdentifier(): string
     {

@@ -14,14 +14,13 @@ class NutrientRepositoryTest extends KernelTestCase
     {
         $nutrientRepository = static::getContainer()->get(NutrientRepositoryInterface::class);
         $nutrient = $nutrientRepository->findOneBy(['name' => 'protein']);
-        $oldUnit = $nutrient->getUnit();
 
         $updatedNameNL = 'nutrient';
 
         $this->assertSame($nutrient, $nutrientRepository->get($nutrient->getId()));
 
         $nutrient->setName($updatedNameNL);
-        $nutrientRepository->update($oldUnit);
+        $nutrientRepository->update();
 
         $id = $nutrient->getId();
         $this->assertSame($updatedNameNL, $nutrientRepository->findOneBy(['name' => $updatedNameNL])->getName());

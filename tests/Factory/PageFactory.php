@@ -24,7 +24,7 @@ class PageFactory extends AbstractFactory
         $page->setUser($user);
         $page->setTitle(uniqid('title'));
         $page->setSlug(uniqid('slug'));
-        $page->setTimestamp(time());
+        $page->setCreatedAt(time());
         $page->setContent(uniqid('content'));
 
         if (isset($params['comments'])) {

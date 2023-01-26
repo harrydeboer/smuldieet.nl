@@ -26,6 +26,9 @@ class Foodstuff extends NutrientProperties
     ]
     private int $id;
 
+    #[ORM\Column(type: "bigint")]
+    private int $createdAt;
+
     #[
         ORM\ManyToOne(targetEntity: "App\Entity\User", inversedBy: "foodstuffs"),
         ORM\JoinColumn(name: "user_id", referencedColumnName: "id", nullable: true),
@@ -88,6 +91,16 @@ class Foodstuff extends NutrientProperties
     public function setId(int $id): void
     {
         $this->id = $id;
+    }
+
+    public function getCreatedAt(): int
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(int $createdAt): void
+    {
+        $this->createdAt = $createdAt;
     }
 
     public function getName(): string

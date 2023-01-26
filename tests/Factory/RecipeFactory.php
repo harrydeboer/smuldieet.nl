@@ -26,7 +26,7 @@ class RecipeFactory extends AbstractFactory
         $recipe->setTitle(uniqid('recipe'));
         $recipe->setIngredients(uniqid('ingredients'));
         $recipe->setUser($user);
-        $recipe->setTimestamp(time());
+        $recipe->setCreatedAt(time());
         $recipe->setPreparationMethod('test');
         $recipe->setNumberOfPersons(rand(1,100));
         $recipe->setRating(null);

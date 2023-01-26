@@ -11,7 +11,7 @@ class RecipeFilterAndSortTypeTest extends TypeTestCase
 {
     public function testSubmitModel(): void
     {
-        $sort = 'timestamp_DESC';
+        $sort = 'createdAt_DESC';
         $formData = [
             'sort' => $sort,
         ];

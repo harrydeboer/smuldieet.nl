@@ -27,6 +27,11 @@ class Cookbook implements RecipeWeightsInterface
     private int $id;
 
     #[
+        ORM\Column(type: "bigint"),
+    ]
+    private int $createdAt;
+
+    #[
         ORM\Column(type: "string"),
         Assert\NotBlank(message: 'De titel mag niet leeg zijn.'),
         Assert\Length(max: 255, maxMessage: 'De titel mag niet meer dan 255 tekens hebben.'),
@@ -34,11 +39,6 @@ class Cookbook implements RecipeWeightsInterface
             message: "Toegestane tekens zijn letters, cijfers, spaties en _-,.%&/()+<>'\"."),
     ]
     private string $title;
-
-    #[
-        ORM\Column(type: "bigint"),
-    ]
-    private int $timestamp;
 
     #[
         ORM\ManyToOne(targetEntity: "App\Entity\User", inversedBy: "cookbooks"),
@@ -64,6 +64,16 @@ class Cookbook implements RecipeWeightsInterface
         $this->id = $id;
     }
 
+    public function getCreatedAt(): int
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(int $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
     public function getTitle(): string
     {
         return $this->title;
@@ -72,16 +82,6 @@ class Cookbook implements RecipeWeightsInterface
     public function setTitle(string $title): void
     {
         $this->title = strip_tags($title);
-    }
-
-    public function getTimestamp(): int
-    {
-        return $this->timestamp;
-    }
-
-    public function setTimestamp(int $timestamp): void
-    {
-        $this->timestamp = $timestamp;
     }
 
     public function getUser(): User

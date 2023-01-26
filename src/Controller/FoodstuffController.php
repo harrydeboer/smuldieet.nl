@@ -97,6 +97,7 @@ class FoodstuffController extends Controller
                 if (!is_null($foodstuffSameName)) {
                     throw new Exception('Er is al een voedingsmiddel met deze naam.');
                 }
+                $foodstuff->setCreatedAt(time());
                 $this->foodstuffRepository->create($foodstuff);
 
                 return $this->redirectToRoute('foodstuff_edit', ['id' => $foodstuff->getId()]);
