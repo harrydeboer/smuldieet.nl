@@ -58,7 +58,7 @@ class NutrientRepository extends ServiceEntityRepository implements NutrientRepo
         }
 
         $nutrientsOld = [];
-        foreach ($nutrientProperties as $key => $name) {
+        foreach ($nutrientProperties as $name) {
             if (in_array($name, array_diff($nutrientProperties, $nutrientNamesDb))) {
                 $nutrientsOld[$name] = null;
             } else {
