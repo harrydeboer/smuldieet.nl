@@ -20,16 +20,17 @@ readonly class AddFoodstuffsService
     {
         foreach ($entity->getFoodstuffWeights() as $weight) {
             $unit = $weight->getUnit();
+            $units = array_merge(Nutrient::SOLID_UNITS, ['stuks' => 1], Nutrient::LIQUID_UNITS);
             $foodstuff = $this->foodstuffRepository->getDefaultAndFromUser($weight->getFoodstuffId(), $userId);
             $weight->setFoodstuff($foodstuff);
+            if (!isset($units[$unit])) {
+                throw new BadRequestException('Unit must be valid.');
+            }
             if (!$foodstuff->getIsLiquid() && in_array($unit, array_keys(Nutrient::LIQUID_UNITS))) {
                 throw new BadRequestException('Solid foodstuffs cannot have a liquid unit.');
             }
-            if ($unit === 'stuks'
-                && is_null($foodstuff->getPieceWeight())
-                && !in_array($foodstuff->getPieceName(), array_keys(Nutrient::SOLID_UNITS))
-                && !in_array($foodstuff->getPieceName(), array_keys(Nutrient::LIQUID_UNITS))) {
-                throw new BadRequestException('Unit stuks allowed only when piece weight is not null.');
+            if ($unit === 'stuks' && is_null($foodstuff->getPieceWeight())) {
+                throw new BadRequestException('Unit stuks not allowed.');
             }
             if (!is_numeric($weight->getValue())) {
                 throw new BadRequestException('Weight must be a number.');

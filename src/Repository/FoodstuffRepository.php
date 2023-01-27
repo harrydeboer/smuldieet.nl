@@ -252,12 +252,11 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
             throw new Exception('Stuks naam moet zowel in enkelvoud als meervoud.');
         } elseif (is_null($foodstuff->getPieceName()) && !is_null($foodstuff->getPiecesName())) {
             throw new Exception('Stuks naam moet zowel in enkelvoud als meervoud.');
-        } elseif (
-            !is_null($foodstuff->getPieceName())
-            && !is_null($foodstuff->getPiecesName())
-            && is_null($foodstuff->getPieceWeight())
-        ) {
-            throw new Exception('Stuks naam mag alleen met stuks gewicht.');
+        } elseif (is_null($foodstuff->getPieceWeight())
+            && !is_null($foodstuff->getPieceName())
+            && !in_array($foodstuff->getPieceName(), array_keys(Nutrient::SOLID_UNITS))
+            && !in_array($foodstuff->getPieceName(), array_keys(Nutrient::LIQUID_UNITS))) {
+            throw new Exception('Stuks naam moet een geldige eenheid zijn als stuks gewicht ontbreekt.');
         }
     }
 
