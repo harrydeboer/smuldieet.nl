@@ -267,21 +267,14 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
         }
 
         foreach ($weights as $weight) {
-            $unit = $weight->getUnit();
-            if ($unit === 'l') {
+            foreach (Nutrient::LIQUID_UNITS as $unit => $factor) {
+                if ($unit === $weight->getUnit()) {
+                    $weight->setValue($density * $factor);
+                    $weight->setUnit('g');
+                }
+            }
+            if ($weight->getUnit() === 'l') {
                 $weight->setUnit('kg');
-                $weight->setValue($density * $weight->getValue());
-            }
-            if ($unit === 'dl') {
-                $weight->setUnit('g');
-                $weight->setValue($density * $weight->getValue() * 100);
-            }
-            if ($unit === 'cl') {
-                $weight->setUnit('g');
-                $weight->setValue($density * $weight->getValue() * 10);
-            }
-            if ($unit === 'ml') {
-                $weight->setUnit('g');
                 $weight->setValue($density * $weight->getValue());
             }
         }
