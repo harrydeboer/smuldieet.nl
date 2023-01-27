@@ -6,6 +6,7 @@ namespace App\Tests\Functional\Service;
 
 use App\Entity\Day;
 use App\Entity\FoodstuffWeight;
+use App\Entity\Nutrient;
 use App\Tests\Factory\DayFactory;
 use App\Tests\Factory\FoodstuffFactory;
 use App\Tests\Factory\UserFactory;
@@ -58,23 +59,21 @@ class RDAServiceTest extends KernelTestCase
         foreach ($day->getRecipeWeights() as $recipeWeight) {
             $recipe = $recipeWeight->getRecipe();
             foreach ($recipe->getFoodstuffWeights() as $foodstuffWeight) {
-                $factor = 1;
-                switch ($foodstuffWeight->getUnit()) {
-                    case 'el':
-                        $factor = 10;
-                        break;
-                    case 'tl':
-                        $factor = 2;
-                        break;
-                    case 'kg':
-                        $factor = 1000;
-                        break;
+                $foodstuff = $foodstuffWeight->getFoodstuff();
+                $units = array_merge(
+                    Nutrient::SOLID_UNITS,
+                    ['stuks' => $foodstuff->getPieceWeight()],
+                    Nutrient::LIQUID_UNITS,
+                );
+                $unit = $foodstuffWeight->getUnit();
+                if ($unit === 'stuks' && is_null($foodstuff->getPieceWeight())) {
+                    $unit = $foodstuff->getPieceName();
                 }
                 $total += $foodstuffWeight->getFoodstuff()->getProtein()
                     / 2
                     * $foodstuffWeight->getValue()
                     * $recipeWeight->getValue()
-                    * $factor
+                    * $units[$unit]
                     / 100;
             }
         }

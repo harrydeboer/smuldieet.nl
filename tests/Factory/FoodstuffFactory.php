@@ -60,7 +60,7 @@ class FoodstuffFactory extends AbstractFactory
     private function randomNutritionalValue(): ?float
     {
         if (rand(0, 1) === 1) {
-            return rand(1,10);
+            return rand(1, 10);
         } else {
             return null;
         }
