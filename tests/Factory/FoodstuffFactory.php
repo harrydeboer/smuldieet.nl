@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Factory;
 
 use App\Entity\Foodstuff;
+use App\Entity\Nutrient;
 use App\Repository\FoodstuffRepositoryInterface;
 use App\Repository\NutrientRepositoryInterface;
 
@@ -51,6 +52,22 @@ class FoodstuffFactory extends AbstractFactory
             + $foodstuff->getSalt();
 
         $foodstuff->setWater(100 - $weight);
+
+        $foodstuff->setPieceWeight($this->randomNutritionalValue());
+        $foodstuff->setIsLiquid(rand(0, 1) === 1);
+
+        if (is_null($foodstuff->getPieceWeight()) && rand(0, 1) === 1) {
+            if ($foodstuff->getIsLiquid()) {
+                $unit = array_rand(array_merge(Nutrient::SOLID_UNITS, Nutrient::LIQUID_UNITS));
+            } else {
+                $unit = array_rand(Nutrient::SOLID_UNITS);
+            }
+            $foodstuff->setPieceName($unit);
+            $foodstuff->setPiecesName($unit);
+        } elseif (!is_null($foodstuff->getPieceWeight()) && rand(0, 1) === 1) {
+            $foodstuff->setPieceName(uniqid('test'));
+            $foodstuff->setPiecesName(uniqid('tests'));
+        }
 
         $this->setParams($params, $foodstuff);
 

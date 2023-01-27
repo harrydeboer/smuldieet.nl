@@ -63,6 +63,22 @@ class NutrientRepository extends ServiceEntityRepository implements NutrientRepo
         $nutrientsOld = [];
         $diff = array_diff($nutrientProperties, $nutrientNamesDb);
         $diffReversed = array_diff($nutrientNamesDb, $nutrientProperties);
+        foreach ($diffReversed as $key => $name) {
+            $offset = 0;
+            foreach ($diff as $keyDiff => $nameDiff) {
+                if ($keyDiff < $key + $offset && !isset($diffReversed[$keyDiff - $offset])) {
+                    $offset++;
+                }
+            }
+            foreach ($diffReversed as $keyDiffReversed => $nameDiffReversed) {
+                if ($keyDiffReversed < $key && !isset($diff[$keyDiffReversed + $offset])) {
+                    $offset--;
+                }
+            }
+            if (!isset($diff[$key + $offset])) {
+                array_splice($nutrientProperties, $key + $offset, 0, $name);
+            }
+        }
         $offset = 0;
         foreach ($nutrientProperties as $key => $name) {
             if (in_array($name, $diff)) {
@@ -72,6 +88,8 @@ class NutrientRepository extends ServiceEntityRepository implements NutrientRepo
                     $nutrientsOld[$name] = null;
                     $offset++;
                 }
+            } elseif (in_array($name, $diffReversed)) {
+                continue;
             } else {
                 $nutrientsOld[$name] = $nutrientsDb[$name];
             }

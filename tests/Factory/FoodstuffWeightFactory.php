@@ -19,8 +19,12 @@ class FoodstuffWeightFactory extends AbstractFactory
     public function create(array $params = []): FoodstuffWeight
     {
         $foodstuff = $params['foodstuff'] ?? $this->foodstuffFactory->create();
-        $units = array_merge(Nutrient::SOLID_UNITS, Nutrient::LIQUID_UNITS);
-        if (!is_null($foodstuff->getPieceWeight()) || !is_null($foodstuff->getPieceName())) {
+        if ($foodstuff->getIsLiquid()) {
+            $units = array_merge(Nutrient::SOLID_UNITS, Nutrient::LIQUID_UNITS);
+        } else {
+            $units = array_merge(Nutrient::SOLID_UNITS);
+        }
+        if (!is_null($foodstuff->getPieceWeight())) {
             $units['stuks'] = 1;
         }
 
