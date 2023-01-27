@@ -11,7 +11,7 @@ interface NutrientRepositoryInterface extends ServiceEntityRepositoryInterface
 {
     public function get(int $id): Nutrient;
 
-    public function sync(): bool;
+    public function sync(): ?bool;
 
     public function create(Nutrient $nutrient): Nutrient;
 

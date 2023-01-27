@@ -40,11 +40,11 @@ class NutrientRepository extends ServiceEntityRepository implements NutrientRepo
 
     /**
      * This method syncs the nutrients with the foodstuff class.
-     * When there are no changes it returns true.
-     * Syncs and returns false otherwise.
+     * When there are no changes it returns null.
+     * If it syncs it returns true.
      * @throws Exception
      */
-    public function sync(): bool
+    public function sync(): ?bool
     {
         $foodstuff = new Foodstuff();
         $nutrientProperties = $foodstuff->getNutrientNames();
@@ -57,13 +57,21 @@ class NutrientRepository extends ServiceEntityRepository implements NutrientRepo
         }
 
         if ($nutrientNamesDb === $nutrientProperties) {
-            return true;
+            return null;
         }
 
         $nutrientsOld = [];
-        foreach ($nutrientProperties as $name) {
-            if (in_array($name, array_diff($nutrientProperties, $nutrientNamesDb))) {
-                $nutrientsOld[$name] = null;
+        $diff = array_diff($nutrientProperties, $nutrientNamesDb);
+        $diffReversed = array_diff($nutrientNamesDb, $nutrientProperties);
+        $offset = 0;
+        foreach ($nutrientProperties as $key => $name) {
+            if (in_array($name, $diff)) {
+                if (isset($diffReversed[$key - $offset])) {
+                    $nutrientsOld[$name] = $nutrientsDb[$diffReversed[$key - $offset]];
+                } else {
+                    $nutrientsOld[$name] = null;
+                    $offset++;
+                }
             } else {
                 $nutrientsOld[$name] = $nutrientsDb[$name];
             }
@@ -96,7 +104,7 @@ class NutrientRepository extends ServiceEntityRepository implements NutrientRepo
             $this->create($nutrient);
         }
 
-        return false;
+        return true;
     }
 
     public function create(Nutrient $nutrient): Nutrient

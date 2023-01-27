@@ -24,21 +24,14 @@ class SyncNutrientsWithFoodstuffCommand extends Command
         parent::__construct($name);
     }
 
-    /**
-     * When the nutrients did not need to be synced the exit code is 0.
-     * When the nutrients did sync there is not a failure at itself but the exit code is 1 to be able to
-     * warn for changes in the nutrient table.
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if ($this->nutrientRepository->sync()) {
+        if (is_null($this->nutrientRepository->sync())) {
             $output->writeln('<fg=black;bg=green>Nutrients were already in sync with foodstuff.</>');
-
-            return Command::SUCCESS;
         } else {
-            $output->writeln('<fg=black;bg=red>Synced nutrients. Go to the admin panel to update the nutrients.</>');
-
-            return Command::FAILURE;
+            $output->writeln('<fg=black;bg=yellow>Synced nutrients. Go to the admin panel to update the nutrients.</>');
         }
+
+        return Command::SUCCESS;
     }
 }
