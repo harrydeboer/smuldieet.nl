@@ -98,7 +98,9 @@ class FoodstuffsForm {
         } else {
             row.getUnit().removeClass('not-piece');
         }
-        if (pieceName !== '') {
+        if (pieceName !== '' && pieceWeight === '') {
+            row.getUnit().val(pieceName);
+        } else if (pieceName !== '' && pieceWeight !== '') {
             row.getUnitPiece().text(pieceName);
             row.getUnit().val('stuks');
         } else if (pieceWeight !== '') {

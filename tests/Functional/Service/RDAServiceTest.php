@@ -65,15 +65,11 @@ class RDAServiceTest extends KernelTestCase
                     ['stuks' => $foodstuff->getPieceWeight()],
                     Nutrient::LIQUID_UNITS,
                 );
-                $unit = $foodstuffWeight->getUnit();
-                if ($unit === 'stuks' && is_null($foodstuff->getPieceWeight())) {
-                    $unit = $foodstuff->getPieceName();
-                }
                 $total += $foodstuffWeight->getFoodstuff()->getProtein()
                     / 2
                     * $foodstuffWeight->getValue()
                     * $recipeWeight->getValue()
-                    * $units[$unit]
+                    * $units[$foodstuffWeight->getUnit()]
                     / 100;
             }
         }

@@ -114,11 +114,7 @@ readonly class RDAService
         float $recipeWeight = 1
     ): Nutrient
     {
-        $unit = $foodstuffWeight->getUnit();
         $foodstuff = $foodstuffWeight->getFoodstuff();
-        if ($unit === 'stuks' && is_null($foodstuff->getPieceWeight())) {
-            $unit = $foodstuff->getPieceName();
-        }
         $density = $foodstuff->getIsLiquid() ? $foodstuff->getDensity() : 1;
 
         $units = array_merge(Nutrient::SOLID_UNITS, ['stuks' => $foodstuff->getPieceWeight()], Nutrient::LIQUID_UNITS);
@@ -128,7 +124,7 @@ readonly class RDAService
             * $foodstuffWeight->getValue()
             * $recipeWeight
             * $density
-            * $units[$unit]
+            * $units[$foodstuffWeight->getUnit()]
             / 100;
 
         $nutrient->setRealised($nutrient->getRealised() + $realised);
