@@ -89,13 +89,12 @@ class NutrientRepository extends ServiceEntityRepository implements NutrientRepo
                         continue;
                     }
                     if ($keyDiffDb <= $key - count($news) + count($deletes)
-                        && $keyDiffDb <= $keyDiffProperties - count($news) + count($deletes)
-                        && !isset($diffProperties[$keyDiffDb + count($news) - count($deletes)])) {
-                        $deletes[$keyDiffDb] = $nameDiffDb;
-                    } elseif ($keyDiffDb <= $key - count($news) + count($deletes)
-                        && $keyDiffDb <= $keyDiffProperties - count($news) + count($deletes)
-                        && isset($diffProperties[$keyDiffDb - count($deletes) + count($news)])) {
-                        $updates[$keyDiffDb] = $nameDiffDb;
+                        && $keyDiffDb <= $keyDiffProperties - count($news) + count($deletes)) {
+                        if (isset($diffProperties[$keyDiffDb + count($news) - count($deletes)])) {
+                            $updates[$keyDiffDb] = $nameDiffDb;
+                        } else {
+                            $deletes[$keyDiffDb] = $nameDiffDb;
+                        }
                     }
                 }
                 if ($keyDiffProperties <= $key
@@ -118,7 +117,11 @@ class NutrientRepository extends ServiceEntityRepository implements NutrientRepo
                     $nutrient->setUnit('kcal');
                 }
             } else {
-                $oldNutrient = $nutrientsDb[$nutrientNamesDb[$key - count($news) + count($deletes)]];
+                if (isset($diffDb[$key - count($news) + count($deletes)])) {
+                    $oldNutrient = $nutrientsDb[$nutrientNamesDb[$key - count($news) + count($deletes)]];
+                } else {
+                    $oldNutrient = $nutrientsDb[$name];
+                }
                 $nutrient->setDisplayName($oldNutrient->getDisplayName());
                 $nutrient->setMinRDA($oldNutrient->getMinRDA());
                 $nutrient->setMaxRDA($oldNutrient->getMaxRDA());
