@@ -40,7 +40,7 @@
             <tbody>
             {% for nutrient in nutrients %}
                 <tr>
-                    <td>{{ nutrient.nameNL }} {{ nutrient.unit }}</td>
+                    <td>{{ nutrient.displayName }} {{ nutrient.unit }}</td>
                     <td>{{ nutrient.minRDA }}</td>
                     {% if nutrient.maxRDA is null %}
                         <td>N/B</td>

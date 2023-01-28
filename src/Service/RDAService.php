@@ -8,7 +8,6 @@ use App\Entity\FoodstuffWeight;
 use App\Entity\User;
 use App\Entity\Nutrient;
 use App\Repository\NutrientRepositoryInterface;
-use Exception;
 
 readonly class RDAService
 {
@@ -18,7 +17,6 @@ readonly class RDAService
     }
 
     /**
-     * @throws Exception
      * @return Nutrient[]
      */
     public function daysStats(array $days, User $user): array
@@ -104,9 +102,6 @@ readonly class RDAService
         return $nutrients;
     }
 
-    /**
-     * @throws Exception
-     */
     private function setNutrientRealised(
         FoodstuffWeight $foodstuffWeight,
         Nutrient $nutrient,
@@ -115,7 +110,7 @@ readonly class RDAService
     ): Nutrient
     {
         $foodstuff = $foodstuffWeight->getFoodstuff();
-        $density = $foodstuff->getIsLiquid() ? $foodstuff->getDensity() : 1;
+        $density = $foodstuff->getIsLiquid() && !is_null($foodstuff->getDensity()) ? $foodstuff->getDensity() : 1;
 
         $units = array_merge(Nutrient::SOLID_UNITS, ['stuks' => $foodstuff->getPieceWeight()], Nutrient::LIQUID_UNITS);
 
