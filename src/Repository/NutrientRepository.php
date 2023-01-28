@@ -67,6 +67,7 @@ class NutrientRepository extends ServiceEntityRepository implements NutrientRepo
         $diffProperties = array_diff($nutrientProperties, $nutrientNamesDb);
         $diffDb = array_diff($nutrientNamesDb, $nutrientProperties);
         $offsetMinus = [];
+        $updates = [];
         foreach ($nutrientProperties as $key => $name) {
             $nutrient = new Nutrient();
             $nutrient->setName($name);
@@ -80,13 +81,17 @@ class NutrientRepository extends ServiceEntityRepository implements NutrientRepo
              */
             foreach ($diffProperties as $keyDiffProperties => $nameDiffProperties) {
                 foreach ($diffDb as $keyDiffDb => $nameDiffDb) {
-                    if (in_array($nameDiffDb, $offsetMinus)) {
+                    if (in_array($nameDiffDb, $offsetMinus) || in_array($nameDiffDb, $updates)) {
                         continue;
                     }
                     if ($keyDiffDb < $key - $offsetPlus + count($offsetMinus)
                         && $keyDiffDb < $keyDiffProperties - $offsetPlus + count($offsetMinus)
                         && !isset($diffProperties[$keyDiffDb - count($offsetMinus) + $offsetPlus])) {
                         $offsetMinus[$keyDiffDb] = $nameDiffDb;
+                    } elseif ($keyDiffDb < $key - $offsetPlus + count($offsetMinus)
+                        && $keyDiffDb < $keyDiffProperties - $offsetPlus + count($offsetMinus)
+                        && isset($diffProperties[$keyDiffDb - count($offsetMinus) + $offsetPlus])) {
+                        $updates[$keyDiffDb] = $nameDiffDb;
                     }
                 }
                 if ($keyDiffProperties < $key
