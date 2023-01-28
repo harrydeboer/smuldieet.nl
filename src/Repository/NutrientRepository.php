@@ -49,76 +49,73 @@ class NutrientRepository extends ServiceEntityRepository implements NutrientRepo
         $foodstuff = new Foodstuff();
         $nutrientProperties = $foodstuff->getNutrientNames();
 
-        $nutrientNamesDb = [];
         $nutrientsDb = [];
+        $nutrientNamesDb = [];
+        $nutrientDisplayNamesDb = [];
         foreach ($this->findAll() as $nutrient) {
-            $nutrientNamesDb[] = $nutrient->getName();
             $nutrientsDb[$nutrient->getName()] = $nutrient;
+            $nutrientNamesDb[] = $nutrient->getName();
+            $nutrientDisplayNamesDb[] = $nutrient->getDisplayName();
         }
 
         if ($nutrientNamesDb === $nutrientProperties) {
             return null;
         }
 
-        $nutrientsOld = [];
-        $diff = array_diff($nutrientProperties, $nutrientNamesDb);
-        $diffReversed = array_diff($nutrientNamesDb, $nutrientProperties);
-        foreach ($diffReversed as $key => $name) {
+        $this->em->getConnection()->executeQuery('TRUNCATE table nutrient');
+
+        $diffProperties = array_diff($nutrientProperties, $nutrientNamesDb);
+        $diffDb = array_diff($nutrientNamesDb, $nutrientProperties);
+        foreach ($nutrientProperties as $key => $name) {
+            $nutrient = new Nutrient();
+            $nutrient->setName($name);
             $offset = 0;
-            foreach ($diff as $keyDiff => $nameDiff) {
-                if ($keyDiff < $key + $offset && !isset($diffReversed[$keyDiff - $offset])) {
+
+            /**
+             * The updated and new nutrients are to be seperated. The diff of properties has to be compared with
+             * the diff of the nutrients in the database with the right offset. When a name is in the properties
+             * but not in the database the offset is increased. When a name is in the database but not in the
+             * properties the offset is lowered.
+             */
+            foreach ($diffProperties as $keyDiffProperties => $nameDiffProperties) {
+                if ($keyDiffProperties < $key && !isset($diffDb[$keyDiffProperties - $offset])) {
                     $offset++;
                 }
             }
-            foreach ($diffReversed as $keyDiffReversed => $nameDiffReversed) {
-                if ($keyDiffReversed < $key && !isset($diff[$keyDiffReversed + $offset])) {
+            foreach ($diffDb as $keyDiffDb => $nameDiffDb) {
+                if ($keyDiffDb < $key - $offset && !isset($diffProperties[$keyDiffDb + $offset])) {
                     $offset--;
                 }
             }
-            if (!isset($diff[$key + $offset])) {
-                array_splice($nutrientProperties, $key + $offset, 0, $name);
-            }
-        }
-        $offset = 0;
-        foreach ($nutrientProperties as $key => $name) {
-            if (in_array($name, $diff)) {
-                if (isset($diffReversed[$key - $offset])) {
-                    $nutrientsOld[$name] = $nutrientsDb[$diffReversed[$key - $offset]];
-                } else {
-                    $nutrientsOld[$name] = null;
-                    $offset++;
-                }
-            } elseif (in_array($name, $diffReversed)) {
-                continue;
-            } else {
-                $nutrientsOld[$name] = $nutrientsDb[$name];
-            }
-        }
 
-        $connection = $this->em->getConnection();
-
-        $connection->executeQuery('TRUNCATE table nutrient');
-
-        foreach ($nutrientProperties as $property) {
-            $nutrient = new Nutrient();
-            $nutrient->setName($property);
-            if (!is_null($nutrientsOld[$property])) {
-                $nutrient->setDisplayName($nutrientsOld[$property]->getDisplayName());
-                $nutrient->setMinRDA($nutrientsOld[$property]->getMinRDA());
-                $nutrient->setMaxRDA($nutrientsOld[$property]->getMaxRDA());
-                $nutrient->setUnit($nutrientsOld[$property]->getUnit());
-                $nutrient->setDecimalPlaces($nutrientsOld[$property]->getDecimalPlaces());
-
-                $this->create($nutrient);
-            } else {
-                $nutrient->setDisplayName($property);
+            /**
+             * If the name is in the properties diff but not set in the database diff
+             * the nutrient is created with default values.
+             * If the name is in the properties diff and in the database diff the nutrient is updated.
+             * If the name is not in the properties diff the nutrient has not changed and is matched with the database.
+             */
+            if (in_array($name, $diffProperties) && !isset($diffDb[$key - $offset])) {
+                $nutrient->setDisplayName($this->generateUniqueName($nutrientDisplayNamesDb, $name));
                 $nutrient->setUnit('g');
                 $nutrient->setDecimalPlaces(0);
 
                 if ($nutrient->getName() === 'energy') {
                     $nutrient->setUnit('kcal');
                 }
+            } elseif (in_array($name, $diffProperties) && isset($diffDb[$key - $offset])) {
+                $nutrient->setDisplayName($nutrientsDb[$diffDb[$key - $offset]]->getDisplayName());
+                $nutrient->setMinRDA($nutrientsDb[$diffDb[$key - $offset]]->getMinRDA());
+                $nutrient->setMaxRDA($nutrientsDb[$diffDb[$key - $offset]]->getMaxRDA());
+                $nutrient->setUnit($nutrientsDb[$diffDb[$key - $offset]]->getUnit());
+                $nutrient->setDecimalPlaces($nutrientsDb[$diffDb[$key - $offset]]->getDecimalPlaces());
+            } else {
+                $nutrient->setDisplayName($nutrientsDb[$name]->getDisplayName());
+                $nutrient->setMinRDA($nutrientsDb[$name]->getMinRDA());
+                $nutrient->setMaxRDA($nutrientsDb[$name]->getMaxRDA());
+                $nutrient->setUnit($nutrientsDb[$name]->getUnit());
+                $nutrient->setDecimalPlaces($nutrientsDb[$name]->getDecimalPlaces());
             }
+
             $this->create($nutrient);
         }
 
@@ -142,5 +139,14 @@ class NutrientRepository extends ServiceEntityRepository implements NutrientRepo
     {
         $this->em->remove($nutrient);
         $this->em->flush();
+    }
+
+    private function generateUniqueName(array $displayNames, string $name): string
+    {
+        if (in_array($name, $displayNames)) {
+            return $this->generateUniqueName($displayNames, uniqid($name));
+        }
+
+        return $name;
     }
 }
