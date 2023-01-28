@@ -66,48 +66,50 @@ class NutrientRepository extends ServiceEntityRepository implements NutrientRepo
 
         $diffProperties = array_diff($nutrientProperties, $nutrientNamesDb);
         $diffDb = array_diff($nutrientNamesDb, $nutrientProperties);
-        $offsetMinus = [];
+        $deletes = [];
         $updates = [];
+        $news = [];
         foreach ($nutrientProperties as $key => $name) {
             $nutrient = new Nutrient();
             $nutrient->setName($name);
-            $offsetPlus = 0;
 
             /**
              * The updated and new nutrients are to be seperated. The diff of properties has to be compared with
              * the diff of the nutrients in the database with the right offset. When a name is in the properties
              * but not in the database the offset is increased. When a name is in the database but not in the
-             * properties the offset is lowered.
+             * properties the offset is lowered. The deletes are also kept as to be able to link the new nutrient to
+             * the nutrient from the database.
              */
             foreach ($diffProperties as $keyDiffProperties => $nameDiffProperties) {
+                if (in_array($nameDiffProperties, $news)) {
+                    continue;
+                }
                 foreach ($diffDb as $keyDiffDb => $nameDiffDb) {
-                    if (in_array($nameDiffDb, $offsetMinus) || in_array($nameDiffDb, $updates)) {
+                    if (in_array($nameDiffDb, $deletes) || in_array($nameDiffDb, $updates)) {
                         continue;
                     }
-                    if ($keyDiffDb < $key - $offsetPlus + count($offsetMinus)
-                        && $keyDiffDb < $keyDiffProperties - $offsetPlus + count($offsetMinus)
-                        && !isset($diffProperties[$keyDiffDb - count($offsetMinus) + $offsetPlus])) {
-                        $offsetMinus[$keyDiffDb] = $nameDiffDb;
-                    } elseif ($keyDiffDb < $key - $offsetPlus + count($offsetMinus)
-                        && $keyDiffDb < $keyDiffProperties - $offsetPlus + count($offsetMinus)
-                        && isset($diffProperties[$keyDiffDb - count($offsetMinus) + $offsetPlus])) {
+                    if ($keyDiffDb <= $key - count($news) + count($deletes)
+                        && $keyDiffDb <= $keyDiffProperties - count($news) + count($deletes)
+                        && !isset($diffProperties[$keyDiffDb + count($news) - count($deletes)])) {
+                        $deletes[$keyDiffDb] = $nameDiffDb;
+                    } elseif ($keyDiffDb <= $key - count($news) + count($deletes)
+                        && $keyDiffDb <= $keyDiffProperties - count($news) + count($deletes)
+                        && isset($diffProperties[$keyDiffDb - count($deletes) + count($news)])) {
                         $updates[$keyDiffDb] = $nameDiffDb;
                     }
                 }
-                if ($keyDiffProperties < $key
-                    && !isset($diffDb[$keyDiffProperties - $offsetPlus + count($offsetMinus)])) {
-                    $offsetPlus++;
+                if ($keyDiffProperties <= $key
+                    && !isset($diffDb[$keyDiffProperties - count($news) + count($deletes)])) {
+                    $news[$keyDiffProperties] = $nameDiffProperties;
                 }
             }
-            $offset = $offsetPlus - count($offsetMinus);
 
             /**
-             * If the name is in the properties diff but not set in the database diff
-             * the nutrient is created with default values.
-             * If the name is in the properties diff and in the database diff the nutrient is updated.
-             * If the name is not in the properties diff the nutrient has not changed and is matched with the database.
+             * If the name is in the news array the nutrient is created with default values.
+             * In the other case the nutrient properties are taken from the right nutrient from the database.
+             * After that the nutrient is created.
              */
-            if (in_array($name, $diffProperties) && !isset($diffDb[$key - $offset])) {
+            if (in_array($name, $news)) {
                 $nutrient->setDisplayName($this->generateUniqueName($nutrientDisplayNamesDb, $name));
                 $nutrient->setUnit('g');
                 $nutrient->setDecimalPlaces(0);
@@ -115,18 +117,13 @@ class NutrientRepository extends ServiceEntityRepository implements NutrientRepo
                 if ($nutrient->getName() === 'energy') {
                     $nutrient->setUnit('kcal');
                 }
-            } elseif (in_array($name, $diffProperties) && isset($diffDb[$key - $offset])) {
-                $nutrient->setDisplayName($nutrientsDb[$diffDb[$key - $offset]]->getDisplayName());
-                $nutrient->setMinRDA($nutrientsDb[$diffDb[$key - $offset]]->getMinRDA());
-                $nutrient->setMaxRDA($nutrientsDb[$diffDb[$key - $offset]]->getMaxRDA());
-                $nutrient->setUnit($nutrientsDb[$diffDb[$key - $offset]]->getUnit());
-                $nutrient->setDecimalPlaces($nutrientsDb[$diffDb[$key - $offset]]->getDecimalPlaces());
             } else {
-                $nutrient->setDisplayName($nutrientsDb[$name]->getDisplayName());
-                $nutrient->setMinRDA($nutrientsDb[$name]->getMinRDA());
-                $nutrient->setMaxRDA($nutrientsDb[$name]->getMaxRDA());
-                $nutrient->setUnit($nutrientsDb[$name]->getUnit());
-                $nutrient->setDecimalPlaces($nutrientsDb[$name]->getDecimalPlaces());
+                $oldNutrient = $nutrientsDb[$nutrientNamesDb[$key - count($news) + count($deletes)]];
+                $nutrient->setDisplayName($oldNutrient->getDisplayName());
+                $nutrient->setMinRDA($oldNutrient->getMinRDA());
+                $nutrient->setMaxRDA($oldNutrient->getMaxRDA());
+                $nutrient->setUnit($oldNutrient->getUnit());
+                $nutrient->setDecimalPlaces($oldNutrient->getDecimalPlaces());
             }
 
             $this->create($nutrient);
