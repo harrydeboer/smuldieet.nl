@@ -6,7 +6,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-class DietProperties
+class DietProperties extends AbstractProperties
 {
     #[ORM\Column(type: "boolean")]
     protected bool $isVegetarian = false;
@@ -150,16 +150,5 @@ class DietProperties
 
             return $arrayCamel;
         }
-    }
-
-    protected function getNames(): array
-    {
-        $vars =  get_object_vars($this);
-        $names = [];
-        foreach ($vars as $name => $var) {
-            $names[] = $name;
-        }
-
-        return $names;
     }
 }

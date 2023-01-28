@@ -7,7 +7,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class NutrientProperties
+class NutrientProperties extends AbstractProperties
 {
     #[
         ORM\Column(type: "float", nullable: true),
@@ -624,16 +624,5 @@ class NutrientProperties
         }
 
         return $this->salt * 400;
-    }
-
-    protected function getNames(): array
-    {
-        $vars =  get_object_vars($this);
-        $names = [];
-        foreach ($vars as $name => $var) {
-            $names[] = $name;
-        }
-
-        return $names;
     }
 }
