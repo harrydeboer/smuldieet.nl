@@ -66,6 +66,7 @@ class NutrientRepository extends ServiceEntityRepository implements NutrientRepo
 
         $diffProperties = array_diff($nutrientProperties, $nutrientNamesDb);
         $diffDb = array_diff($nutrientNamesDb, $nutrientProperties);
+        $offsetMinus = [];
         foreach ($nutrientProperties as $key => $name) {
             $nutrient = new Nutrient();
             $nutrient->setName($name);
@@ -77,22 +78,23 @@ class NutrientRepository extends ServiceEntityRepository implements NutrientRepo
              * but not in the database the offset is increased. When a name is in the database but not in the
              * properties the offset is lowered.
              */
-            $lastOffsetMinus = 0;
             foreach ($diffProperties as $keyDiffProperties => $nameDiffProperties) {
-                $offsetMinus = 0;
                 foreach ($diffDb as $keyDiffDb => $nameDiffDb) {
-                    if ($keyDiffDb < $key - $offsetPlus - $offsetMinus
-                        && $keyDiffDb < $keyDiffProperties - $offsetPlus - $offsetMinus
-                        && !isset($diffProperties[$keyDiffDb + $offsetMinus + $offsetPlus])) {
-                        $offsetMinus--;
-                        $lastOffsetMinus = $offsetMinus;
+                    if (in_array($nameDiffDb, $offsetMinus)) {
+                        continue;
+                    }
+                    if ($keyDiffDb < $key - $offsetPlus + count($offsetMinus)
+                        && $keyDiffDb < $keyDiffProperties - $offsetPlus + count($offsetMinus)
+                        && !isset($diffProperties[$keyDiffDb - count($offsetMinus) + $offsetPlus])) {
+                        $offsetMinus[$keyDiffDb] = $nameDiffDb;
                     }
                 }
-                if ($keyDiffProperties < $key && !isset($diffDb[$keyDiffProperties - $offsetPlus - $offsetMinus])) {
+                if ($keyDiffProperties < $key
+                    && !isset($diffDb[$keyDiffProperties - $offsetPlus + count($offsetMinus)])) {
                     $offsetPlus++;
                 }
             }
-            $offset = $lastOffsetMinus + $offsetPlus;
+            $offset = $offsetPlus - count($offsetMinus);
 
             /**
              * If the name is in the properties diff but not set in the database diff
