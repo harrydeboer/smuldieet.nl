@@ -69,7 +69,7 @@ class NutrientRepository extends ServiceEntityRepository implements NutrientRepo
         foreach ($nutrientProperties as $key => $name) {
             $nutrient = new Nutrient();
             $nutrient->setName($name);
-            $offset = 0;
+            $offsetPlus = 0;
 
             /**
              * The updated and new nutrients are to be seperated. The diff of properties has to be compared with
@@ -77,16 +77,22 @@ class NutrientRepository extends ServiceEntityRepository implements NutrientRepo
              * but not in the database the offset is increased. When a name is in the database but not in the
              * properties the offset is lowered.
              */
+            $lastOffsetMinus = 0;
             foreach ($diffProperties as $keyDiffProperties => $nameDiffProperties) {
-                if ($keyDiffProperties < $key && !isset($diffDb[$keyDiffProperties - $offset])) {
-                    $offset++;
+                $offsetMinus = 0;
+                foreach ($diffDb as $keyDiffDb => $nameDiffDb) {
+                    if ($keyDiffDb < $key - $offsetPlus - $offsetMinus
+                        && $keyDiffDb < $keyDiffProperties - $offsetPlus - $offsetMinus
+                        && !isset($diffProperties[$keyDiffDb + $offsetMinus + $offsetPlus])) {
+                        $offsetMinus--;
+                        $lastOffsetMinus = $offsetMinus;
+                    }
+                }
+                if ($keyDiffProperties < $key && !isset($diffDb[$keyDiffProperties - $offsetPlus - $offsetMinus])) {
+                    $offsetPlus++;
                 }
             }
-            foreach ($diffDb as $keyDiffDb => $nameDiffDb) {
-                if ($keyDiffDb < $key - $offset && !isset($diffProperties[$keyDiffDb + $offset])) {
-                    $offset--;
-                }
-            }
+            $offset = $lastOffsetMinus + $offsetPlus;
 
             /**
              * If the name is in the properties diff but not set in the database diff
