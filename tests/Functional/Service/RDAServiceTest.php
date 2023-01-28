@@ -19,8 +19,8 @@ class RDAServiceTest extends KernelTestCase
     public function testDaysStats(): void
     {
         $user = static::getContainer()->get(UserFactory::class)->create();
-        $foodstuff1 = static::getContainer()->get(FoodstuffFactory::class)->create();
-        $foodstuff2 = static::getContainer()->get(FoodstuffFactory::class)->create();
+        $foodstuff1 = static::getContainer()->get(FoodstuffFactory::class)->create(['density' => null]);
+        $foodstuff2 = static::getContainer()->get(FoodstuffFactory::class)->create(['density' => null]);
         $weightCollection1 = new ArrayCollection();
         $weight1 = new FoodstuffWeight();
         $weight1->setValue(100);
@@ -65,9 +65,17 @@ class RDAServiceTest extends KernelTestCase
                     ['stuks' => $foodstuff->getPieceWeight()],
                     Nutrient::LIQUID_UNITS,
                 );
+                if ($foodstuff->getIsLiquid()
+                    && !is_null($foodstuff->getDensity())
+                    && in_array($foodstuffWeight->getUnit(), Nutrient::LIQUID_UNITS)) {
+                    $densityFactor = $foodstuff->getDensity();
+                } else {
+                    $densityFactor = 1;
+                }
                 $total += $foodstuffWeight->getFoodstuff()->getProtein()
                     / 2
                     * $foodstuffWeight->getValue()
+                    * $densityFactor
                     * $recipeWeight->getValue()
                     * $units[$foodstuffWeight->getUnit()]
                     / 100;

@@ -110,7 +110,13 @@ readonly class RDAService
     ): Nutrient
     {
         $foodstuff = $foodstuffWeight->getFoodstuff();
-        $density = $foodstuff->getIsLiquid() && !is_null($foodstuff->getDensity()) ? $foodstuff->getDensity() : 1;
+        if ($foodstuff->getIsLiquid()
+            && !is_null($foodstuff->getDensity())
+            && in_array($foodstuffWeight->getUnit(), Nutrient::LIQUID_UNITS)) {
+            $densityFactor = $foodstuff->getDensity();
+        } else {
+            $densityFactor = 1;
+        }
 
         $units = array_merge(Nutrient::SOLID_UNITS, ['stuks' => $foodstuff->getPieceWeight()], Nutrient::LIQUID_UNITS);
 
@@ -118,7 +124,7 @@ readonly class RDAService
             / $numberOfDays
             * $foodstuffWeight->getValue()
             * $recipeWeight
-            * $density
+            * $densityFactor
             * $units[$foodstuffWeight->getUnit()]
             / 100;
 

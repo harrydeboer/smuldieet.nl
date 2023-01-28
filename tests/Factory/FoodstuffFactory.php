@@ -68,6 +68,9 @@ class FoodstuffFactory extends AbstractFactory
             $foodstuff->setPieceName(uniqid('test'));
             $foodstuff->setPiecesName(uniqid('tests'));
         }
+        if (is_null($foodstuff->getIsLiquid()) && rand(0, 1) === 1) {
+            $foodstuff->setDensity(rand(1, 200) / 100);
+        }
 
         $this->setParams($params, $foodstuff);
 
