@@ -46,6 +46,10 @@ class RecipeWeight
     ]
     private Recipe $recipe;
 
+    #[
+        Assert\NotBlank(message: 'Het recept id mag niet leeg zijn.'),
+        Assert\GreaterThanOrEqual(0, message: 'Het recept id moet groter of gelijk aan 0 zijn.'),
+    ]
     private int $recipeId;
 
     public function getId(): int

@@ -49,14 +49,16 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
 
     public function search(string $title, int $userId): array
     {
+        $titleOrderBy = str_replace("'", "''", $title);
         $qb = $this->createQueryBuilder('r');
         $qb->where('r.title like :title')
-            ->setParameter('title', '%' . $title . '%')
+            ->setParameter('title', '%' . addslashes($title) . '%')
             ->andWhere('r.isPending = 0 or r.isPending = 1 and r.user = :userId')
             ->setParameter('userId', $userId)
             ->setMaxResults(20)
-            ->addSelect("(CASE WHEN r.title like '" . $title . " %' THEN 0 WHEN r.title like '" . $title . "%' " .
-                "THEN 1 WHEN r.title like '%" . $title . "%' THEN 2 ELSE 3 END) AS HIDDEN ORD ")
+            ->addSelect("(CASE WHEN r.title like '" . $titleOrderBy . " %' THEN 0 WHEN r.title like '" .
+                $titleOrderBy . "%' THEN 1 WHEN r.title like '%" . $titleOrderBy . "%' THEN 2 ELSE 3 END)" .
+                " AS HIDDEN ORD ")
             ->orderBy('ORD', 'ASC');
 
         $query = $qb->getQuery();

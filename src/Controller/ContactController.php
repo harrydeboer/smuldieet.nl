@@ -10,7 +10,6 @@ use App\Service\ProfanityCheckService;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
@@ -22,7 +21,6 @@ class ContactController extends Controller
 {
     public function __construct(
         private readonly MailerInterface $mailer,
-        private readonly KernelInterface $kernel,
         private readonly PageRepositoryInterface $pageRepository,
         private readonly ProfanityCheckService $profanityCheckService,
     ) {
@@ -40,34 +38,32 @@ class ContactController extends Controller
          */
         $error = null;
         $success = null;
-        if ($form->isSubmitted() && $form->isValid() && $this->kernel->getEnvironment() === 'prod') {
-            $token = $form->get('re_captcha_token')->getData();
-            if (!is_null($token) && $this->validateReCaptcha($token)) {
-                try {
-                    $this->profanityCheckService->check($form->get('name')->getData());
-                    $this->profanityCheckService->check($form->get('subject')->getData());
-                    $this->profanityCheckService->check($form->get('message')->getData());
-                } catch (Exception $exception) {
-                    $form->addError(new FormError($exception->getMessage()));
-                }
-
-                $email = (new Email())
-                    ->from(new Address('postmaster@smuldieet.nl', strip_tags($form->get('name')->getData())))
-                    ->replyTo($form->get('email')->getData())
-                    ->to('info@smuldieet.nl')
-                    ->subject(strip_tags($form->get('subject')->getData()))
-                    ->html($form->get('message')->getData());
-
-                try {
-                    $this->mailer->send($email);
-                    $success = 'Bericht verzonden.';
-                } catch (TransportExceptionInterface) {
-                    $error = 'Kon e-mail niet verzenden.';
-                }
-            } else {
-                $error = 'No bots allowed.';
+        if ($form->isSubmitted()
+            && $this->validate($form->getData())
+            && $form->isValid()
+            && $this->getParameter('kernel.environment') === 'prod') {
+            try {
+                $this->profanityCheckService->check($form->get('name')->getData());
+                $this->profanityCheckService->check($form->get('subject')->getData());
+                $this->profanityCheckService->check($form->get('message')->getData());
+            } catch (Exception $exception) {
+                $form->addError(new FormError($exception->getMessage()));
             }
-        } elseif ($form->isSubmitted() && $form->isValid() && $this->kernel->getEnvironment() !== 'prod' ) {
+
+            $email = (new Email())
+                ->from(new Address('postmaster@smuldieet.nl', strip_tags($form->get('name')->getData())))
+                ->replyTo($form->get('email')->getData())
+                ->to('info@smuldieet.nl')
+                ->subject(strip_tags($form->get('subject')->getData()))
+                ->html($form->get('message')->getData());
+
+            try {
+                $this->mailer->send($email);
+                $success = 'Bericht verzonden.';
+            } catch (TransportExceptionInterface) {
+                $error = 'Kon e-mail niet verzenden.';
+            }
+        } else {
             $error = 'Could not send mail, because this is not the prod environment.';
         }
 
@@ -80,13 +76,17 @@ class ContactController extends Controller
         ]);
     }
 
-    private function validateReCaptcha(string $token): bool
+    private function validate(array $formData): bool
     {
+        if (!$this->isNotBlank($formData['re_captcha_token'])) {
+            return false;
+        }
+
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify");
         curl_setopt($ch, CURLOPT_POSTFIELDS, "secret=" . $this->getParameter('re_captcha_secret') .
-            '&response=' . $token);
+            '&response=' . $formData['re_captcha_token']);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         $response = curl_exec($ch);
@@ -96,6 +96,17 @@ class ContactController extends Controller
         curl_close($ch);
 
         if ($httpCode !== 200 || $result->success === false) {
+            return false;
+        }
+
+        if (!$this->isNotBlank($formData['name'])
+            || !$this->isNotBlank($formData['subject'])
+            || !$this->isNotBlank($formData['message'])) {
+            return false;
+        }
+
+        if (!$this->isNotBlank($formData['email'])
+            || filter_var($formData['email'], FILTER_VALIDATE_EMAIL) === false) {
             return false;
         }
 

@@ -11,7 +11,6 @@ use App\Form\DeleteType;
 use App\Repository\FoodstuffRepositoryInterface;
 use App\Repository\NutrientRepositoryInterface;
 use App\Repository\PageRepositoryInterface;
-use App\Service\AddFoodstuffsService;
 use App\Service\CombineFoodstuffsService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\FormError;
@@ -28,7 +27,6 @@ class FoodstuffController extends Controller
         private readonly NutrientRepositoryInterface $nutrientRepository,
         private readonly PageRepositoryInterface $pageRepository,
         private readonly CombineFoodstuffsService $combineFoodstuffsService,
-        private readonly AddFoodstuffsService $addFoodstuffsService,
     ) {
     }
 
@@ -93,7 +91,8 @@ class FoodstuffController extends Controller
         $foodstuffWeights = new ArrayCollection();
 
         if ($form->isSubmitted()) {
-            if ($form->isValid()) {
+            if ($this->isNotBlank($form->get('name')->getData()) && $form->isValid()) {
+
                 $foodstuff = $this->combineFoodstuffsService->combine($this->getUser(), $form->getData());
                 $foodstuffSameName = $this->foodstuffRepository->findOneBy([
                     'user' => $foodstuff->getUser()->getId(),
@@ -111,8 +110,8 @@ class FoodstuffController extends Controller
                     $form->addError(new FormError($exception->getMessage()));
                 }
             } else {
-                $weights = new ArrayCollection($form->get('foodstuff_weights')->getData());
-                $foodstuffWeights = $this->addFoodstuffsService->add($weights, $this->getUser()->getId());
+                $form = $this->createForm(FoodstuffFromFoodstuffsType::class);
+                $form->addError(new FormError('The form was invalid'));
             }
         }
 

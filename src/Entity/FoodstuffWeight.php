@@ -53,6 +53,10 @@ class FoodstuffWeight
     ]
     private Foodstuff $foodstuff;
 
+    #[
+        Assert\NotBlank(message: 'Het voedingsmiddel id mag niet leeg zijn.'),
+        Assert\GreaterThanOrEqual(0, message: 'Het voedingsmiddel id moet groter of gelijk aan 0 zijn.'),
+    ]
     private int $foodstuffId;
 
     public function getId(): int

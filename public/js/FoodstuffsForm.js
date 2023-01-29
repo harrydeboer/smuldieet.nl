@@ -35,6 +35,9 @@ class FoodstuffsForm {
         html += '<td><i class="remove-row fa fa-minus"></i></td></tr>';
         html = html.replaceAll('__name__', this.weightsNumber.toString());
         $('#add_foodstuff_recipe_button_row').before(html);
+        if (this.formName === 'foodstuff_from_foodstuffs') {
+            $('#' + this.formName + '_foodstuff_weights_' + this.weightsNumber + '_unit').val('g');
+        }
         this.weightsNumber = this.weightsNumber + 1;
         event.preventDefault();
     }
@@ -89,7 +92,6 @@ class FoodstuffsForm {
         row.getFoodstuffId().val(id)
         let pieceName = element.data('piece-name');
         let pieceWeight = element.data('piece-weight');
-        row.getUnit().val('g');
         if (element.data('is-liquid') === 0) {
             row.getUnit().addClass('not-liquid')
         } else {
