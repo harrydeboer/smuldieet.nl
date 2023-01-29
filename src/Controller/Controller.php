@@ -18,9 +18,9 @@ class Controller extends AbstractController
         return parent::getUser();
     }
 
-    protected function isNotBlank(null|string|bool|array $string): bool
+    protected function isNotBlank(null|string|bool|array $data): bool
     {
-        if (is_null($string) || $string === '' || $string === false || $string === []) {
+        if (is_null($data) || $data === '' || $data === false || $data === []) {
             return false;
         }
 
