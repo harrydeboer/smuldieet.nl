@@ -2,7 +2,7 @@ class FoodstuffsForm {
 
     constructor(form) {
         this.formName = form.attr('name');
-        this.errors = $('#form_errors_client');
+        this.errors = $('#foodstuff_weights_error');
         this.weightsNumber = $('.foodstuff-weight').length;
 
         $('#add_foodstuff').on('click', this.addFoodstuff.bind(this));
@@ -47,6 +47,7 @@ class FoodstuffsForm {
     foodstuffNameInput(event) {
         let thisElement = $(event.target);
         let row = new this.FoodstuffRow(event.target);
+        row.getFoodstuffId().val('');
         let valueInput = encodeURI(thisElement.val().toLowerCase().normalize("NFD")
             .replace(/[\u0300-\u036f]/g, ""));
         let searchResults = row.getSearchResults();
@@ -140,6 +141,17 @@ class FoodstuffsForm {
                 event.preventDefault();
             }
             foodstuffNames.push($(element).val());
+        });
+
+        $('.foodstuff-id').each((index, element) => {
+            let row = new this.FoodstuffRow(element);
+            if ($(element).val() === '') {
+                text = text + 'Ongeldige voedingsmiddelen naam: ' + row.getName().val() + '.<br>';
+                $('html, body').animate({
+                    scrollTop: this.errors.offset().top
+                }, 1000);
+                event.preventDefault();
+            }
         });
 
         if (this.formName === "foodstuff_from_foodstuffs") {

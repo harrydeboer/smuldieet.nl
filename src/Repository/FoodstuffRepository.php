@@ -64,6 +64,7 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
 
     public function search(string $name, int $userId): array
     {
+        $name = addslashes($name);
         $qb = $this->createQueryBuilder('f');
         $qb->where('f.name like :name')
             ->setParameter('name', '%' . $name . '%')

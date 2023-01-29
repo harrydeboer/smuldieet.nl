@@ -2,7 +2,7 @@ class RecipesForm {
 
     constructor(form) {
         this.formName = form.attr('name');
-        this.errors = $('#form_errors_client');
+        this.errors = $('#recipe_weights_error');
         this.weightsNumber = $('.recipe-weight').length;
 
         $('#add_recipe').on('click', this.addRecipe.bind(this));
@@ -41,6 +41,7 @@ class RecipesForm {
     recipeTitleInput(event) {
         let thisElement = $(event.target);
         let row = new this.RecipeRow(event.target);
+        row.getRecipeId().val('');
         let valueInput = encodeURI(thisElement.val().toLowerCase().normalize("NFD")
             .replace(/[\u0300-\u036f]/g, ""));
         let searchResults = row.getSearchResults();
@@ -106,6 +107,17 @@ class RecipesForm {
                 event.preventDefault();
             }
             recipeTitles.push($(element).val());
+        });
+
+        $('.recipe-id').each((index, element) => {
+            let row = new this.RecipeRow(element);
+            if ($(element).val() === '') {
+                text = text + 'Ongeldige recepten naam: ' + row.getTitle().val() + '.<br>';
+                $('html, body').animate({
+                    scrollTop: this.errors.offset().top
+                }, 1000);
+                event.preventDefault();
+            }
         });
 
         this.errors.html(text);

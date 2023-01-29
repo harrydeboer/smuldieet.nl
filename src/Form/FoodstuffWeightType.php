@@ -24,6 +24,7 @@ class FoodstuffWeightType extends AbstractType
         $choices = array_keys(array_merge(Nutrient::SOLID_UNITS, ['stuks' => 'stuks'], Nutrient::LIQUID_UNITS));
         $builder->add('foodstuff_id', NumberType::class, [
             'attr' => ['class' => 'form-control foodstuff-id hidden-input'],
+            'required' => false,
         ])->add('name', TextType::class, [
             'attr' => [
                 'class' => 'foodstuff-name form-control dropdown-toggle',
