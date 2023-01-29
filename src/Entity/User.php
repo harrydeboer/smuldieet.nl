@@ -79,18 +79,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, UploadI
 
     #[
         ORM\Column(type: "string"),
+        Assert\NotBlank(message: 'Het geslacht mag niet leeg zijn.'),
         Assert\Choice([], self::GENDER, message: 'Het geslacht is niet een geldige optie.'),
     ]
     private string $gender;
 
     #[
         ORM\Column(type: "float"),
+        Assert\NotBlank(message: 'Het gewicht mag niet leeg zijn.'),
         Assert\GreaterThan(0, message: 'Het gewicht moet groter zijn dan 0 kg.'),
         Assert\LessThan(1000, message: 'Het gewicht moet kleiner zijn dan 1000 kg.'),
     ]
     private float $weight;
 
-    #[ORM\Column(type: "bigint")]
+    #[
+        ORM\Column(type: "bigint"),
+        Assert\NotBlank(message: 'De geboortetijd mag niet leeg zijn.'),
+        Assert\GreaterThanOrEqual(0, message: 'De geboortetijd moet groter zijn dan 0.'),
+    ]
     private int $birthTime;
 
     #[ORM\Column(type: "json")]

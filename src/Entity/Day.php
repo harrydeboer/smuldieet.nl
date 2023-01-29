@@ -17,7 +17,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
     ORM\UniqueConstraint(name: "timestamp_unique", columns: ["user_id", "timestamp"]),
     UniqueEntity(fields: ["user", "timestamp"], message: "Er is al een dag met deze datum."),
 ]
-class Day implements FoodstuffWeightsInterface, RecipeWeightsInterface
+class Day
 {
     #[
         ORM\Id,

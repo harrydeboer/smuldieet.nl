@@ -27,7 +27,8 @@ class FoodstuffsForm {
             '</td>';
         html += '<td>' + $(selector + '_value').data('prototype') + '</td>';
         if (this.formName === 'foodstuff_from_foodstuffs') {
-            html += '<td>%</td>';
+            html += '<td>%<span id="percentage-unit">' +
+                $(selector + '_unit').data('prototype') + '</span></td>';
         } else {
             html += '<td>' + $(selector + '_unit').data('prototype') + '</td>';
         }

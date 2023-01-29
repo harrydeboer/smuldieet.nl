@@ -86,7 +86,8 @@ class Nutrient
 
     #[
         ORM\Column(type: "integer"),
-        Assert\GreaterThanOrEqual(0, message: 'Decimalen moet groter of gelijk aan 0 zijn.'),
+        Assert\NotBlank(message: 'Het aantal decimalen mag niet leeg zijn.'),
+        Assert\GreaterThanOrEqual(0, message: 'Het aantal decimalen moet groter of gelijk aan 0 zijn.'),
     ]
     private int $decimalPlaces;
 

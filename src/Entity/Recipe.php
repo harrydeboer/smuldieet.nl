@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Entity(repositoryClass: RecipeRepository::class),
     ORM\Table(name: "recipe"),
 ]
-class Recipe extends DietProperties implements FoodstuffWeightsInterface, UploadImageInterface
+class Recipe extends DietProperties implements UploadImageInterface
 {
     public const COOKING_TIMES = ['0-10 min.', '10-20 min.', '20-30 min.', '30-60 min.', '> 1 uur', '> 2 uur'];
 
@@ -161,6 +161,7 @@ class Recipe extends DietProperties implements FoodstuffWeightsInterface, Upload
 
     #[
         ORM\Column(type: "text"),
+        Assert\NotBlank(message: 'De ingrediënten mogen niet leeg zijn.'),
         Assert\Length(max: 65535, maxMessage: 'De ingrediënten mogen niet meer dan 65535 tekens hebben.'),
     ]
     private string $ingredients;
@@ -174,6 +175,7 @@ class Recipe extends DietProperties implements FoodstuffWeightsInterface, Upload
 
     #[
         ORM\Column(type: "integer"),
+        Assert\NotBlank(message: 'Het aantal personen mag niet leeg zijn.'),
         Assert\GreaterThanOrEqual(1, message: 'Het aantal personen moet groter of gelijk zijn aan 1.'),
         Assert\LessThanOrEqual(2147483647, message: 'Het aantal personen moet kleiner of gelijk zijn aan 2147483647.'),
     ]
@@ -211,12 +213,14 @@ class Recipe extends DietProperties implements FoodstuffWeightsInterface, Upload
 
     #[
         ORM\Column(type: "string"),
+        Assert\NotBlank(message: 'De bereidingstijd mag niet leeg zijn.'),
         Assert\Choice([], self::COOKING_TIMES, message: 'De bereidingstijd is niet een geldige optie.'),
     ]
     private string $cookingTime;
 
     #[
         ORM\Column(type: "string"),
+        Assert\NotBlank(message: 'De keuken mag niet leeg zijn.'),
         Assert\Choice([], self::KITCHEN, message: 'De keuken is niet een geldige optie.'),
     ]
     private string $kitchen;
@@ -229,12 +233,15 @@ class Recipe extends DietProperties implements FoodstuffWeightsInterface, Upload
 
     #[
         ORM\Column(type: "string"),
+        Assert\NotBlank(message: 'Het type gerecht mag niet leeg zijn.'),
         Assert\Choice([], self::TYPE_OF_DISH, message: 'Het type gerecht is niet een geldige optie.'),
     ]
     private string $typeOfDish;
 
-    #[ORM\Column(type: "boolean")]
-    private bool $isSelfInvented;
+    #[
+        ORM\Column(type: "boolean"),
+    ]
+    private bool $isSelfInvented = false;
 
     #[ORM\Column(type: "string", nullable: true)]
     private ?string $source = null;

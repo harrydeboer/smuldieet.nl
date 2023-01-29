@@ -40,8 +40,9 @@ class Rating
 
     #[
         ORM\Column(type: "integer"),
-        Assert\GreaterThanOrEqual(10, message: 'De rating moet groter of gelijk zijn aan 1.'),
-        Assert\LessThanOrEqual(100, message: 'De rating moet kleiner of gelijk zijn aan 10.'),
+        Assert\NotBlank(message: 'De waardering mag niet leeg zijn.'),
+        Assert\GreaterThanOrEqual(10, message: 'De waardering moet groter of gelijk zijn aan 1.'),
+        Assert\LessThanOrEqual(100, message: 'De waardering moet kleiner of gelijk zijn aan 10.'),
     ]
     private int $rating;
 

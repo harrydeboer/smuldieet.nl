@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Entity\FoodstuffWeightsInterface;
 use App\Entity\Nutrient;
 use App\Repository\FoodstuffRepositoryInterface;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 readonly class AddFoodstuffsService
@@ -16,9 +16,9 @@ readonly class AddFoodstuffsService
     ) {
     }
 
-    public function add(FoodstuffWeightsInterface $entity, $userId): bool
+    public function add(Collection $weights, $userId): Collection
     {
-        foreach ($entity->getFoodstuffWeights() as $weight) {
+        foreach ($weights as $weight) {
             $unit = $weight->getUnit();
             $units = array_merge(Nutrient::SOLID_UNITS, ['stuks' => 1], Nutrient::LIQUID_UNITS);
             $foodstuff = $this->foodstuffRepository->getDefaultAndFromUser($weight->getFoodstuffId(), $userId);
@@ -37,6 +37,6 @@ readonly class AddFoodstuffsService
             }
         }
 
-        return true;
+        return $weights;
     }
 }

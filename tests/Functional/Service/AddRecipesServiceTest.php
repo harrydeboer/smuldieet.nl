@@ -28,7 +28,7 @@ class AddRecipesServiceTest extends KernelTestCase
 
         $addRecipesService = static::getContainer()->get(AddRecipesService::class);
 
-        $addRecipesService->add($day, $recipe->getUser()->getId());
+        $addRecipesService->add($day->getRecipeWeights(), $recipe->getUser()->getId());
 
         $this->assertEquals($day->getRecipeWeights()[0]->getRecipe(), $recipe);
     }

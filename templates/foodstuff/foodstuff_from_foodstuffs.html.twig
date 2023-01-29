@@ -17,6 +17,7 @@
         </tr>
         {{ include('_foodstuff_rows.html.twig', {
             'form_name': 'foodstuff_from_foodstuffs',
+            'foodstuff_weights': foodstuffWeights,
             'weights': form.foodstuff_weights
         }) }}
         <tr id="add_foodstuff_recipe_button_row">

@@ -23,7 +23,8 @@ class RecipeWeight
 
     #[
         ORM\Column(type: "float"),
-        Assert\GreaterThanOrEqual(0, message: 'Waarde moet groter of gelijk aan 0 zijn.'),
+        Assert\NotBlank(message: 'De waarde mag niet leeg zijn.'),
+        Assert\GreaterThanOrEqual(0, message: 'De waarde moet groter of gelijk aan 0 zijn.'),
     ]
     private float $value;
 

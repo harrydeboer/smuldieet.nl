@@ -85,8 +85,8 @@ class DayController extends AuthController
         $formUpdate->handleRequest($request);
 
         if ($formUpdate->isSubmitted()
-            && $this->addFoodstuffsService->add($day, $this->getUser()->getId())
-            && $this->addRecipesService->add($day, $this->getUser()->getId())
+            && $this->addFoodstuffsService->add($day->getFoodstuffWeights(), $this->getUser()->getId())
+            && $this->addRecipesService->add($day->getRecipeWeights(), $this->getUser()->getId())
             && $formUpdate->isValid()) {
             if ($dayStandard?->getId() !== $day->getId() && is_null($day->getTimestamp())) {
                 throw new BadRequestException('The day cannot become the standard day.');
@@ -113,8 +113,8 @@ class DayController extends AuthController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()
-            && $this->addFoodstuffsService->add($day, $this->getUser()->getId())
-            && $this->addRecipesService->add($day, $this->getUser()->getId())
+            && $this->addFoodstuffsService->add($day->getFoodstuffWeights(), $this->getUser()->getId())
+            && $this->addRecipesService->add($day->getRecipeWeights(), $this->getUser()->getId())
             && $form->isValid()) {
             if (is_null($day->getTimestamp())) {
                 throw new BadRequestException('The day must have a date.');
@@ -140,8 +140,8 @@ class DayController extends AuthController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()
-            && $this->addFoodstuffsService->add($day, $this->getUser()->getId())
-            && $this->addRecipesService->add($day, $this->getUser()->getId())
+            && $this->addFoodstuffsService->add($day->getFoodstuffWeights(), $this->getUser()->getId())
+            && $this->addRecipesService->add($day->getRecipeWeights(), $this->getUser()->getId())
             && $form->isValid()) {
             $dayStandard = $this->dayRepository->findOneBy([
                 'user' => $this->getUser()->getId(),

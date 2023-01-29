@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Entity\RecipeWeightsInterface;
 use App\Repository\RecipeRepositoryInterface;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 readonly class AddRecipesService
@@ -15,9 +15,9 @@ readonly class AddRecipesService
     ) {
     }
 
-    public function add(RecipeWeightsInterface $entity, $userId): bool
+    public function add(Collection $weights, $userId): Collection
     {
-        foreach ($entity->getRecipeWeights() as $weight) {
+        foreach ($weights as $weight) {
             $recipe = $this->recipeRepository
                 ->getNotPendingOrFromUser($weight->getRecipeId(), $userId);
             $weight->setRecipe($recipe);
@@ -26,6 +26,6 @@ readonly class AddRecipesService
             }
         }
 
-        return true;
+        return $weights;
     }
 }

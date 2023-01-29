@@ -11,6 +11,14 @@
   cursor: pointer;
 }
 
+#percentage-unit select {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  float: left;
+  padding: 0;
+}
+
 .hidden-input {
   opacity: 0;
   width: 0;

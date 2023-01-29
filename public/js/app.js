@@ -9,6 +9,10 @@ $(function() {
         button.text('Even geduld...');
     });
 
+    $('#percentage-unit select').on('click', function (event) {
+        event.preventDefault();
+    });
+
     $('#rate_modal_button').on('click', function () {
         $('#rate_modal').modal('show');
     });

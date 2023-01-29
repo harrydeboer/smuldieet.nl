@@ -35,6 +35,7 @@ class FoodstuffControllerTest extends AuthVerifiedWebTestCase
         $values = $form->getPhpValues();
         $values['foodstuff_from_foodstuffs']['foodstuff_weights'][0]['foodstuff_id'] = $foodstuff->getId();
         $values['foodstuff_from_foodstuffs']['foodstuff_weights'][0]['value'] = 100;
+        $values['foodstuff_from_foodstuffs']['foodstuff_weights'][0]['unit'] = 'g';
         $this->client->request($form->getMethod(), $form->getUri(), $values, $form->getPhpFiles());
 
         $foodstuffRepository = $this->getContainer()->get(FoodstuffRepositoryInterface::class);

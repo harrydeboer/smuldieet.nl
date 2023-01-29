@@ -29,7 +29,7 @@ class AddFoodstuffsServiceTest extends KernelTestCase
 
         $addFoodstuffService = static::getContainer()->get(AddFoodstuffsService::class);
 
-        $addFoodstuffService->add($day, 1);
+        $addFoodstuffService->add($day->getFoodstuffWeights(), 1);
 
         $this->assertEquals($day->getFoodstuffWeights()[0]->getFoodstuff(), $foodstuff);
     }
