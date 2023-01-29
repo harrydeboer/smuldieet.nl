@@ -177,7 +177,7 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
         foreach ($this->findAll() as $foodstuff) {
             $value = $foodstuff->{'get' . ucfirst($nutrient->getName())}();
             $foodstuff->{'set' . ucfirst($nutrient->getName())}(
-                $value / $factors[$oldUnit] * $factors[$nutrient->getUnit()]
+                $value * $factors[$oldUnit] / $factors[$nutrient->getUnit()]
             );
         }
 
