@@ -8,7 +8,7 @@ use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class Controller extends AbstractController
+abstract class Controller extends AbstractController
 {
     /**
      * @return ?User

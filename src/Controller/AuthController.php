@@ -7,7 +7,7 @@ namespace App\Controller;
 use App\Entity\User;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class AuthController extends Controller
+abstract class AuthController extends Controller
 {
     /**
      * @return User
