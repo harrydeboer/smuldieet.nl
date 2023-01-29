@@ -79,14 +79,17 @@ class NutrientController extends AuthController
      */
     private function validateNutrient(Nutrient $nutrient): void
     {
-        if ($nutrient->getName() === 'energy' && !in_array($nutrient->getUnit(), Nutrient::ENERGY_UNITS)) {
+        if ($nutrient->getName() === 'energy'
+            && !in_array($nutrient->getUnit(), array_keys(Nutrient::ENERGY_UNITS))) {
             throw new Exception('Energy has no correct unit.');
-        } elseif ($nutrient->getName() !== 'energy' && in_array($nutrient->getUnit(), Nutrient::ENERGY_UNITS)) {
+        } elseif ($nutrient->getName() !== 'energy'
+            && in_array($nutrient->getUnit(), array_keys(Nutrient::ENERGY_UNITS))) {
             throw new Exception('Only energy can have this unit.');
         }
 
         if ($nutrient->getName() !== 'water'
-            && $nutrient->getName() !== 'alcohol' && in_array($nutrient->getUnit(), Nutrient::LIQUID_UNITS)) {
+            && $nutrient->getName() !== 'alcohol'
+            && in_array($nutrient->getUnit(), array_keys(Nutrient::LIQUID_UNITS))) {
             throw new Exception('Only water and alcohol can have liquid units.');
         }
 
