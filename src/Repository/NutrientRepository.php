@@ -68,47 +68,39 @@ class NutrientRepository extends ServiceEntityRepository implements NutrientRepo
         $diffDb = array_diff($nutrientNamesDb, $nutrientProperties);
         $deletes = [];
         $updates = [];
-        $news = [];
+        $creates = [];
         foreach ($nutrientProperties as $key => $name) {
             $nutrient = new Nutrient();
             $nutrient->setName($name);
 
             /**
-             * The updated and new nutrients are to be seperated. The diff of properties has to be compared with
-             * the diff of the nutrients in the database with the right offset. When a name is in the properties
-             * but not in the database the offset is increased. When a name is in the database but not in the
-             * properties the offset is lowered. The deletes are also kept as to be able to link the new nutrient to
-             * the nutrient from the database.
+             * Each time a new name is looped there is a loop over the database difference array up till the
+             * name of the current loop. When this difference exists in the properties difference array it is
+             * an update. When there is no match it is a deletion.
+             * After this loop it is checked if the current name is a created name by checking if it exists in
+             * the database difference array.
              */
-            foreach ($diffProperties as $keyDiffProperties => $nameDiffProperties) {
-                if (in_array($nameDiffProperties, $news)) {
+            foreach ($diffDb as $keyDiffDb => $nameDiffDb) {
+                if (in_array($nameDiffDb, $deletes) || in_array($nameDiffDb, $updates)) {
                     continue;
                 }
-                foreach ($diffDb as $keyDiffDb => $nameDiffDb) {
-                    if (in_array($nameDiffDb, $deletes) || in_array($nameDiffDb, $updates)) {
-                        continue;
-                    }
-                    if ($keyDiffDb <= $key - count($news) + count($deletes)
-                        && $keyDiffDb <= $keyDiffProperties - count($news) + count($deletes)) {
-                        if (isset($diffProperties[$keyDiffDb + count($news) - count($deletes)])) {
-                            $updates[$keyDiffDb] = $nameDiffDb;
-                        } else {
-                            $deletes[$keyDiffDb] = $nameDiffDb;
-                        }
-                    }
+                $keyOffset = $keyDiffDb + count($creates) - count($deletes);
+                if ($keyOffset <= $key && isset($diffProperties[$keyOffset])) {
+                    $updates[$keyDiffDb] = $nameDiffDb;
+                } elseif ($keyOffset <= $key) {
+                    $deletes[$keyDiffDb] = $nameDiffDb;
                 }
-                if ($keyDiffProperties <= $key
-                    && !isset($diffDb[$keyDiffProperties - count($news) + count($deletes)])) {
-                    $news[$keyDiffProperties] = $nameDiffProperties;
-                }
+            }
+            if (in_array($name, $diffProperties) && !isset($diffDb[$key - count($creates) + count($deletes)])) {
+                $creates[$key] = $name;
             }
 
             /**
-             * If the name is in the news array the nutrient is created with default values.
+             * If the name is in the creates array the nutrient is created with default values.
              * In the other case the nutrient properties are taken from the right nutrient from the database.
              * After that the nutrient is created.
              */
-            if (in_array($name, $news)) {
+            if (in_array($name, $creates)) {
                 $nutrient->setDisplayName($this->generateUniqueName($nutrientDisplayNamesDb, $name));
                 $nutrient->setUnit('g');
                 $nutrient->setDecimalPlaces(0);
@@ -117,11 +109,7 @@ class NutrientRepository extends ServiceEntityRepository implements NutrientRepo
                     $nutrient->setUnit('kcal');
                 }
             } else {
-                if (isset($diffDb[$key - count($news) + count($deletes)])) {
-                    $oldNutrient = $nutrientsDb[$nutrientNamesDb[$key - count($news) + count($deletes)]];
-                } else {
-                    $oldNutrient = $nutrientsDb[$name];
-                }
+                $oldNutrient = $nutrientsDb[$nutrientNamesDb[$key - count($creates) + count($deletes)]];
                 $nutrient->setDisplayName($oldNutrient->getDisplayName());
                 $nutrient->setMinRDA($oldNutrient->getMinRDA());
                 $nutrient->setMaxRDA($oldNutrient->getMaxRDA());
