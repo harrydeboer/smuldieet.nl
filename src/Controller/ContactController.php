@@ -63,7 +63,7 @@ class ContactController extends Controller
             } catch (TransportExceptionInterface) {
                 $error = 'Kon e-mail niet verzenden.';
             }
-        } else {
+        } elseif ($form->isSubmitted()) {
             $error = 'Could not send mail, because this is not the prod environment.';
         }
 
