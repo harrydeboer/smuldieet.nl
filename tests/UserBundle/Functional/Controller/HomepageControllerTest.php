@@ -11,10 +11,12 @@ class HomepageControllerTest extends AuthVerifiedWebTestCase
 {
     public function testHomepage(): void
     {
-        $crawler = $this->client->request('GET', '/user/');
+        $this->client->request('GET', '/user/');
 
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('nav', 'Kookboeken');
+
+        $crawler = $this->client->request('GET', '/user/wijzig/' . $this->user->getId());
 
         $buttonCrawlerNode = $crawler->selectButton('Wijzig');
 

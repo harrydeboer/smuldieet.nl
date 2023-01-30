@@ -32,9 +32,9 @@ class ChangePasswordType extends AbstractType
                 'constraints' => [
                     new Length([
                         'min' => 6,
-                        'minMessage' => 'Je wachtwoord moet ten minste 6 tekens bevatten.',
+                        'minMessage' => 'Je wachtwoord moet ten minste {{ limit }} tekens bevatten.',
                         'max' => 255,
-                        'maxMessage' => 'Je wachtwoord mag maximaal 255 tekens bevatten.',
+                        'maxMessage' => 'Je wachtwoord mag maximaal {{ limit }} tekens bevatten.',
                     ]),
                 ],
             ])

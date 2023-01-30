@@ -26,15 +26,15 @@ class RecipeType extends AbstractType
             ->add('image', FileType::class, [
                 'attr' => [
                     'accept' => 'image/png, image/jpg, image/jpeg, image/gif, image/bmp, image/webp',
-                    'class' => 'form-control btn-primary d-none'
+                    'class' => 'form-control btn-primary d-none',
                 ],
                 'constraints' => [
                     new File([
-                        'maxSize' => '4096k',
+                        'maxSize' => '4M',
                         'mimeTypes' => [
                             'image/*',
                         ],
-                        'maxSizeMessage' => 'De Afbeelding mag maximaal 4Mb zijn.',
+                        'maxSizeMessage' => 'De Afbeelding mag maximaal {{ limit }}Mb zijn.',
                         'mimeTypesMessage' => 'Geef alsjeblieft een geldig plaatje (png, jp(eg), ' .
                             'j(f)if, gif, bmp of webp).',
                     ])

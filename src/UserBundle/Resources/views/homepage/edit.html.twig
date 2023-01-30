@@ -1,0 +1,7 @@
+{% extends '@UserBundle/base.html.twig' %}
+
+{% block title %}Wijzig{% endblock %}
+
+{% block body %}
+    {{ include('@UserBundle/homepage/_form.html.twig', {form: formUpdate, submit_label: 'Wijzig gebruiker'}) }}
+{% endblock %}

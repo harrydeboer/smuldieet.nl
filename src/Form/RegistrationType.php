@@ -74,9 +74,9 @@ class RegistrationType extends AbstractType
                 'constraints' => [
                     new Length([
                         'min' => 6,
-                        'minMessage' => 'Je wachtwoord moet ten minste 6 tekens hebben.',
+                        'minMessage' => 'Je wachtwoord moet ten minste {{ limit }} tekens hebben.',
                         'max' => 4096,
-                        'maxMessage' => 'Je wachtwoord mag maximaal 4096 tekens hebben.',
+                        'maxMessage' => 'Je wachtwoord mag maximaal {{ limit }} tekens hebben.',
                     ]),
                 ],
             ])

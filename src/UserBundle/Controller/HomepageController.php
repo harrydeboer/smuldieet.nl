@@ -9,6 +9,7 @@ use App\Repository\UserRepositoryInterface;
 use App\Service\UploadedImageService;
 use App\UserBundle\Form\UserType;
 use Exception;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,13 +25,7 @@ class HomepageController extends AuthController
     #[Route('/', name: 'user_homepage')]
     public function view(): Response
     {
-        $form = $this->createForm(UserType::class, $this->getUser(), [
-            'action' => $this->generateUrl('user_edit', ['id' => $this->getUser()->getId()]),
-            'method' => 'POST',
-        ]);
-
         return $this->render('@UserBundle/homepage/view.html.twig', [
-            'form' => $form->createView(),
             'user' => $this->getUser(),
         ]);
     }
@@ -58,11 +53,16 @@ class HomepageController extends AuthController
                     $oldExtension,
                 );
 
+                return $this->redirectToRoute('user_homepage');
             } catch (Exception $exception) {
-                $this->addFlash('user_form_exception', $exception->getMessage());
+                $formUpdate->addError(new FormError($exception->getMessage()));
             }
         }
+        $user->setImage(null);
 
-        return $this->redirectToRoute('user_homepage');
+        return $this->render('@UserBundle/homepage/edit.html.twig', [
+            'user' => $this->getUser(),
+            'formUpdate' => $formUpdate->createView(),
+        ]);
     }
 }

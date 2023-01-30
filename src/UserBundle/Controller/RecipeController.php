@@ -87,6 +87,7 @@ class RecipeController extends Controller
                 $formUpdate->addError(new FormError($exception->getMessage()));
             }
         }
+        $recipe->setImage(null);
 
         return $this->render('@UserBundle/recipe/edit.html.twig', [
             'recipe' => $recipe,
@@ -120,6 +121,7 @@ class RecipeController extends Controller
                 $form->addError(new FormError($exception->getMessage()));
             }
         }
+        $recipe->setImage(null);
 
         return $this->render('@UserBundle/recipe/new.html.twig', [
             'recipe' => $recipe,
