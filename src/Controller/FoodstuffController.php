@@ -105,6 +105,9 @@ class FoodstuffController extends Controller
                     $foodstuff->setCreatedAt(time());
                     $this->foodstuffRepository->create($foodstuff);
 
+                    $this->addFlash('fromFoodstuffs', 'Nu het voedingsmiddel gemaakt is uit andere 
+                    voedingsmiddelen kun je nog de voedingswaarden op het etiket invullen voor jouw voedingsmiddel.');
+
                     return $this->redirectToRoute('foodstuff_edit', ['id' => $foodstuff->getId()]);
                 } catch (Exception $exception) {
                     $form->addError(new FormError($exception->getMessage()));

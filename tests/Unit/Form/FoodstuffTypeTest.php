@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\tests\Functional\Form;
+namespace App\Tests\Unit\Form;
 
 use App\Entity\Foodstuff;
 use App\Form\FoodstuffType;
-use App\Tests\Functional\AuthVerifiedWebTestCase;
+use Symfony\Component\Form\Test\TypeTestCase;
 
-class FoodstuffTypeTest extends AuthVerifiedWebTestCase
+class FoodstuffTypeTest extends TypeTestCase
 {
     public function testSubmitModel(): void
     {
@@ -20,7 +20,7 @@ class FoodstuffTypeTest extends AuthVerifiedWebTestCase
 
         $foodstuff = new Foodstuff();
 
-        $form = $this->getContainer()->get('form.factory')->create(FoodstuffType::class, $foodstuff);
+        $form = $this->factory->create(FoodstuffType::class, $foodstuff);
 
         $expected = new Foodstuff();
         $expected->setName($name);

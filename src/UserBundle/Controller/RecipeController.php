@@ -68,7 +68,7 @@ class RecipeController extends Controller
         $formUpdate->handleRequest($request);
 
         if ($formUpdate->isSubmitted()
-            && $this->addFoodstuffsService->add($recipe->getFoodstuffWeights(), $this->getUser()->getId())
+            && $this->addFoodstuffsService->add($recipe->getFoodstuffWeights(), $this->getUser()->getId(), $formUpdate)
             && $formUpdate->isValid()) {
             try {
                 if (count($recipe->getFoodstuffWeights()) === 0) {
@@ -106,7 +106,7 @@ class RecipeController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted()
-            && $this->addFoodstuffsService->add($recipe->getFoodstuffWeights(), $this->getUser()->getId())
+            && $this->addFoodstuffsService->add($recipe->getFoodstuffWeights(), $this->getUser()->getId(), $form)
             && $form->isValid()) {
             try {
                 if (count($recipe->getFoodstuffWeights()) === 0) {

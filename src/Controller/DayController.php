@@ -85,7 +85,7 @@ class DayController extends AuthController
         $formUpdate->handleRequest($request);
 
         if ($formUpdate->isSubmitted()
-            && $this->addFoodstuffsService->add($day->getFoodstuffWeights(), $this->getUser()->getId())
+            && $this->addFoodstuffsService->add($day->getFoodstuffWeights(), $this->getUser()->getId(), $formUpdate)
             && $this->addRecipesService->add($day->getRecipeWeights(), $this->getUser()->getId())
             && $formUpdate->isValid()) {
             if ($dayStandard?->getId() !== $day->getId() && is_null($day->getTimestamp())) {
@@ -113,7 +113,7 @@ class DayController extends AuthController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()
-            && $this->addFoodstuffsService->add($day->getFoodstuffWeights(), $this->getUser()->getId())
+            && $this->addFoodstuffsService->add($day->getFoodstuffWeights(), $this->getUser()->getId(), $form)
             && $this->addRecipesService->add($day->getRecipeWeights(), $this->getUser()->getId())
             && $form->isValid()) {
 
@@ -151,7 +151,7 @@ class DayController extends AuthController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()
-            && $this->addFoodstuffsService->add($day->getFoodstuffWeights(), $this->getUser()->getId())
+            && $this->addFoodstuffsService->add($day->getFoodstuffWeights(), $this->getUser()->getId(), $form)
             && $this->addRecipesService->add($day->getRecipeWeights(), $this->getUser()->getId())
             && $form->isValid()
         ) {

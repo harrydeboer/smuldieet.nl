@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Form;
 
-use App\Repository\NutrientRepositoryInterface;
+use App\Entity\Foodstuff;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -14,13 +14,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class FoodstuffType extends AbstractType
 {
-    public function __construct(
-        private readonly NutrientRepositoryInterface $nutrientRepository,
-    ){
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $foodstuff = new Foodstuff();
         $builder
             ->add('name', TextType::class, [
                 'attr' => ['class' => 'form-control'],
@@ -46,8 +42,9 @@ class FoodstuffType extends AbstractType
                 'required' => false,
                 'attr' => ['class' => 'form-control'],
             ]);
-        foreach ($this->nutrientRepository->findAll() as $nutrient) {
-            $builder->add($nutrient->getNameSnake(), NumberType::class, [
+        foreach ($foodstuff->getNutrientNames() as $name) {
+            $name = strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $name));
+            $builder->add($name, NumberType::class, [
                 'required' => false,
                 'attr' => ['class' => 'form-control'],
             ]);

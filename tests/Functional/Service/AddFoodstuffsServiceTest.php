@@ -6,6 +6,7 @@ namespace App\Tests\Functional\Service;
 
 use App\Entity\Day;
 use App\Entity\FoodstuffWeight;
+use App\Form\DayType;
 use App\Service\AddFoodstuffsService;
 use App\Tests\Factory\FoodstuffFactory;
 use App\Tests\Functional\KernelTestCase;
@@ -28,8 +29,9 @@ class AddFoodstuffsServiceTest extends KernelTestCase
         $day->setFoodstuffWeights($weights);
 
         $addFoodstuffService = static::getContainer()->get(AddFoodstuffsService::class);
+        $form = $this->getContainer()->get('form.factory')->create(DayType::class);
 
-        $addFoodstuffService->add($day->getFoodstuffWeights(), 1);
+        $addFoodstuffService->add($day->getFoodstuffWeights(), 1, $form);
 
         $this->assertEquals($day->getFoodstuffWeights()[0]->getFoodstuff(), $foodstuff);
     }
