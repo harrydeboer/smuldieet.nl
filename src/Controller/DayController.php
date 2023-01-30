@@ -114,8 +114,11 @@ class DayController extends AuthController
     #[Route('/dag/toevoegen', name: 'day_create')]
     public function new(Request $request): Response
     {
-        $day = new Day();
-        $form = $this->createForm(DayType::class, $day);
+        $day = $this->dayRepository->findOneBy([
+            'user' => $this->getUser()->getId(),
+            'timestamp' => null,
+        ]);
+        $form = $this->createForm(DayType::class, $day ?? new Day());
         $day->setUser($this->getUser());
         $form->handleRequest($request);
 
