@@ -10,9 +10,11 @@ $(function() {
     });
 
     $('.file-upload').on('change', function () {
+        let errors = $('#form_errors_server');
+        errors.text('');
         if(this.files[0].size > 4194304){
             this.value = "";
-            $('#form_errors_server').text('Bestand mag maximaal 4Mb zijn.');
+            errors.text('Bestand mag maximaal 4Mb zijn.');
         }
     });
 
