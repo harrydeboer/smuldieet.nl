@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\Foodstuff;
-use App\Repository\FoodstuffRepositoryInterface;
 use InvalidArgumentException;
 use App\Entity\User;
 
@@ -14,11 +13,6 @@ use App\Entity\User;
  */
 readonly class CombineFoodstuffsService
 {
-    public function __construct(
-        private FoodstuffRepositoryInterface $foodstuffRepository,
-    ) {
-    }
-
     public function combine(User $user, array $formData): Foodstuff
     {
         $foodstuff = new Foodstuff();
@@ -35,14 +29,13 @@ readonly class CombineFoodstuffsService
         }
 
         foreach ($formData['foodstuff_weights'] as $weight) {
-            $foodstuffForm = $this->foodstuffRepository
-                ->getDefaultAndFromUser($weight->getFoodstuffId(), $user->getId());
+            $foodstuffWeight = $weight->getFoodstuff();
             foreach ($foodstuff->getNutrientNames() as $name) {
-                if (is_null($foodstuffForm->{'get' . ucfirst($name)}())) {
+                if (is_null($foodstuffWeight->{'get' . ucfirst($name)}())) {
                     continue;
                 } else {
                     $foodstuff->{'set' . ucfirst($name)}($foodstuff->{'get' . ucfirst($name)}() +
-                        $foodstuffForm->{'get' . ucfirst($name)}()
+                        $foodstuffWeight->{'get' . ucfirst($name)}()
                         * $weight->getValue() / $totalWeight);
                 }
             }

@@ -20,14 +20,17 @@ class CombineFoodstuffsServiceTest extends AuthUserWebTestCase
         $weight1->setFoodstuffId($foodstuff1->getId());
         $weight1->setValue(30);
         $weight1->setUnit('g');
+        $weight1->setFoodstuff($foodstuff1);
         $weight2 = new FoodstuffWeight();
         $weight2->setFoodstuffId($foodstuff2->getId());
         $weight2->setValue(30);
         $weight2->setUnit('g');
+        $weight2->setFoodstuff($foodstuff2);
         $weight3 = new FoodstuffWeight();
         $weight3->setFoodstuffId($foodstuff3->getId());
         $weight3->setValue(40);
         $weight3->setUnit('g');
+        $weight3->setFoodstuff($foodstuff3);
 
         $formData = [
             'name' => 'newFoodstuff',
@@ -35,13 +38,13 @@ class CombineFoodstuffsServiceTest extends AuthUserWebTestCase
                 0 => $weight1,
                 1 => $weight2,
                 2 => $weight3,
-                ],
+            ],
         ];
         $combineFoodstuffsService = static::getContainer()->get(CombineFoodstuffsService::class);
         $foodstuff = $combineFoodstuffsService->combine($this->user, $formData);
 
         $this->assertEquals($formData['name'], $foodstuff->getName());
         $this->assertSame(round(1000 * $foodstuff->getPotassium()), round(1000 * ($foodstuff1->getPotassium() * 0.3 +
-            $foodstuff2->getPotassium() * 0.3 + $foodstuff3->getPotassium() * 0.4)));
+                $foodstuff2->getPotassium() * 0.3 + $foodstuff3->getPotassium() * 0.4)));
     }
 }
