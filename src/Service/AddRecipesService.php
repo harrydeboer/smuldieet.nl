@@ -14,7 +14,7 @@ readonly class AddRecipesService
     ) {
     }
 
-    public function add(Collection $weights, $userId): Collection
+    public function add(Collection $weights, $userId): bool
     {
         foreach ($weights as $weight) {
             $recipe = $this->recipeRepository
@@ -22,6 +22,6 @@ readonly class AddRecipesService
             $weight->setRecipe($recipe);
         }
 
-        return $weights;
+        return true;
     }
 }

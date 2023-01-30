@@ -13,7 +13,6 @@ use App\Repository\PageRepositoryInterface;
 use App\Service\AddFoodstuffsService;
 use App\Service\AddRecipesService;
 use Doctrine\Common\Collections\ArrayCollection;
-use Exception;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -86,23 +85,17 @@ class DayController extends AuthController
         $formUpdate->handleRequest($request);
 
         if ($formUpdate->isSubmitted()
-            && $formUpdate->isValid()
-            && $this->addRecipesService->add($day->getRecipeWeights(), $this->getUser()->getId())) {
-            try {
-                $this->addFoodstuffsService->add($day->getFoodstuffWeights(), $this->getUser()->getId());
-
-                if ($dayStandard?->getId() !== $day->getId() && is_null($day->getTimestamp())) {
-                    throw new Exception('The day cannot become the standard day.');
-                }
-
+            && $this->addFoodstuffsService->add($day->getFoodstuffWeights(), $this->getUser()->getId())
+            && $this->addRecipesService->add($day->getRecipeWeights(), $this->getUser()->getId())
+            && $formUpdate->isValid()) {
+            if ($dayStandard?->getId() !== $day->getId() && is_null($day->getTimestamp())) {
+                $formUpdate->addError(new FormError('The day cannot become the standard day.'));
+            } else {
                 $this->dayRepository->update($day, $oldFoodstuffWeights, $oldRecipeWeights);
 
                 return $this->redirectToRoute('diary');
-            } catch (Exception $exception) {
-                $formUpdate->addError(new FormError($exception->getMessage()));
             }
         }
-
 
         return $this->render('day/edit.html.twig', [
             'day' => $day,
@@ -120,27 +113,26 @@ class DayController extends AuthController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()
+            && $this->addFoodstuffsService->add($day->getFoodstuffWeights(), $this->getUser()->getId())
             && $this->addRecipesService->add($day->getRecipeWeights(), $this->getUser()->getId())
             && $form->isValid()) {
 
-            try {
-                $this->addFoodstuffsService->add($day->getFoodstuffWeights(), $this->getUser()->getId());
-
-                if (is_null($day->getTimestamp())) {
-                    throw new Exception('The day must have a date.');
-                }
-
+            if (is_null($day->getTimestamp())) {
+                $form->addError(new FormError('The day must have a date.'));
+            } else {
                 $this->dayRepository->create($day);
 
                 return $this->redirectToRoute('diary');
-            } catch (Exception $exception) {
-                $form->addError(new FormError($exception->getMessage()));
             }
+
         } elseif (!$form->isSubmitted()) {
             $day = $this->dayRepository->findOneBy([
                 'user' => $this->getUser()->getId(),
                 'timestamp' => null,
             ]);
+            if (is_null($day)) {
+                $day = new Day();
+            }
             $form = $this->createForm(DayType::class, $day);
         }
 
@@ -159,27 +151,21 @@ class DayController extends AuthController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()
-            && $form->isValid()
+            && $this->addFoodstuffsService->add($day->getFoodstuffWeights(), $this->getUser()->getId())
             && $this->addRecipesService->add($day->getRecipeWeights(), $this->getUser()->getId())
-            ) {
+            && $form->isValid()
+        ) {
+            $dayStandard = $this->dayRepository->findOneBy([
+                'user' => $this->getUser()->getId(),
+                'timestamp' => null,
+            ]);
 
-            try {
-                $this->addFoodstuffsService->add($day->getFoodstuffWeights(), $this->getUser()->getId());
-
-                $dayStandard = $this->dayRepository->findOneBy([
-                    'user' => $this->getUser()->getId(),
-                    'timestamp' => null,
-                ]);
-
-                if (!is_null($dayStandard)) {
-                    throw new Exception('There can only be one standard day.');
-                }
-
+            if (!is_null($dayStandard)) {
+                $form->addError(new FormError('There can only be one standard day.'));
+            } else {
                 $this->dayRepository->create($day);
 
                 return $this->redirectToRoute('diary');
-            } catch (Exception $exception) {
-                $form->addError(new FormError($exception->getMessage()));
             }
         }
 

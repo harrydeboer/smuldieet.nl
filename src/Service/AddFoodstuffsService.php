@@ -7,7 +7,6 @@ namespace App\Service;
 use App\Entity\Nutrient;
 use App\Repository\FoodstuffRepositoryInterface;
 use Doctrine\Common\Collections\Collection;
-use Exception;
 
 readonly class AddFoodstuffsService
 {
@@ -16,10 +15,7 @@ readonly class AddFoodstuffsService
     ) {
     }
 
-    /**
-     * @throws Exception
-     */
-    public function add(Collection $weights, $userId): Collection
+    public function add(Collection $weights, $userId): bool
     {
         foreach ($weights as $weight) {
             $unit = $weight->getUnit();
@@ -27,16 +23,16 @@ readonly class AddFoodstuffsService
             $foodstuff = $this->foodstuffRepository->getDefaultAndFromUser($weight->getFoodstuffId(), $userId);
             $weight->setFoodstuff($foodstuff);
             if (!isset($units[$unit])) {
-                throw new Exception('Unit must be valid.');
+                return false;
             }
             if (!$foodstuff->getIsLiquid() && in_array($unit, array_keys(Nutrient::LIQUID_UNITS))) {
-                throw new Exception('Solid foodstuffs cannot have a liquid unit.');
+                return false;
             }
             if ($unit === 'stuks' && is_null($foodstuff->getPieceWeight())) {
-                throw new Exception('Unit stuks not allowed.');
+                return false;
             }
         }
 
-        return $weights;
+        return true;
     }
 }
