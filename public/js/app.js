@@ -12,9 +12,10 @@ $(function() {
     $('.file-upload').on('change', function () {
         let errors = $('#form_errors_server');
         errors.text('');
-        if(this.files[0].size > 4194304){
-            this.value = "";
-            errors.text('Bestand mag maximaal 4Mb zijn.');
+        let maxSize = parseInt($(this).data('max-size'));
+        if($(this).prop('files')[0].size > maxSize){
+            $(this).val('');
+            errors.text('Bestand mag maximaal ' + Math.round(maxSize / 1048576).toString() + 'Mb zijn.');
         }
     });
 

@@ -15,19 +15,22 @@ class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $maxFileSize = 4194304;
+        $maxFileSizeMb = round($maxFileSize / 1048576);
         $builder
             ->add('image', FileType::class, [
                 'attr' => [
                     'accept' => 'image/png, image/jpg, image/jpeg, image/gif, image/bmp, image/webp',
                     'class' => 'form-control btn-primary d-none file-upload',
+                    'data-max-size' => $maxFileSize,
                 ],
                 'constraints' => [
                     new File([
-                        'maxSize' => '4194304',
+                        'maxSize' => $maxFileSize,
                         'mimeTypes' => [
                             'image/*',
                         ],
-                        'maxSizeMessage' => 'De Afbeelding mag maximaal {{ limit }} bytes zijn.',
+                        'maxSizeMessage' => 'De Afbeelding mag maximaal ' . $maxFileSizeMb . 'Mb zijn.',
                         'mimeTypesMessage' => 'Geef alsjeblieft een geldig plaatje (png, jp(eg), ' .
                             'j(f)if, gif, bmp of webp).',
                     ])
