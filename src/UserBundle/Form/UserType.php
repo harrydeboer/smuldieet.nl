@@ -19,7 +19,7 @@ class UserType extends AbstractType
             ->add('image', FileType::class, [
                 'attr' => [
                     'accept' => 'image/png, image/jpg, image/jpeg, image/gif, image/bmp, image/webp',
-                    'class' => 'form-control btn-primary d-none',
+                    'class' => 'form-control btn-primary d-none file-upload',
                 ],
                 'constraints' => [
                     new File([

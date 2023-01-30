@@ -95,7 +95,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, UploadI
     #[
         ORM\Column(type: "bigint"),
         Assert\NotBlank(message: 'De geboortetijd mag niet leeg zijn.'),
-        Assert\GreaterThanOrEqual(0, message: 'De geboortetijd moet groter zijn dan 0.'),
     ]
     private int $birthTime;
 

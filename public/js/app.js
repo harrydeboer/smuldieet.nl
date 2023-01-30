@@ -9,6 +9,13 @@ $(function() {
         button.text('Even geduld...');
     });
 
+    $('.file-upload').on('change', function () {
+        if(this.files[0].size > 4194304){
+            this.value = "";
+            $('#form_errors_server').text('Bestand mag maximaal 4Mb zijn.');
+        }
+    });
+
     $('#percentage-unit select').on('click', function (event) {
         event.preventDefault();
     });
