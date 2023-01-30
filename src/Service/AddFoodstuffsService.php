@@ -18,10 +18,14 @@ readonly class AddFoodstuffsService
     public function add(Collection $weights, $userId): bool
     {
         foreach ($weights as $weight) {
-            $unit = $weight->getUnit();
-            $units = array_merge(Nutrient::SOLID_UNITS, ['stuks' => 1], Nutrient::LIQUID_UNITS);
             $foodstuff = $this->foodstuffRepository->getDefaultAndFromUser($weight->getFoodstuffId(), $userId);
             $weight->setFoodstuff($foodstuff);
+        }
+
+        $units = array_merge(Nutrient::SOLID_UNITS, ['stuks' => 1], Nutrient::LIQUID_UNITS);
+        foreach ($weights as $weight) {
+            $unit = $weight->getUnit();
+            $foodstuff = $weight->getFoodstuff();
             if (!isset($units[$unit])) {
                 return false;
             }
