@@ -136,7 +136,7 @@ class DayController extends AuthController
             } catch (Exception $exception) {
                 $form->addError(new FormError($exception->getMessage()));
             }
-        } else {
+        } elseif (!$form->isSubmitted()) {
             $day = $this->dayRepository->findOneBy([
                 'user' => $this->getUser()->getId(),
                 'timestamp' => null,
