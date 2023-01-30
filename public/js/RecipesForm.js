@@ -14,10 +14,9 @@ class RecipesForm {
 
     addRecipe(event) {
         let selector = '#' + this.formName + '_recipe_weights__name__';
-        let html = '<tr><td><div class="dropdown">' +
+        let html = '<tr><td>' + $(selector + '_recipe_id').data('prototype') + '<div class="dropdown">' +
             $(selector + '_title').data('prototype') +
             '<div class="dropdown-menu dropdown-menu-recipe"></div></div>' +
-            $(selector + '_recipe_id').data('prototype') +
             '</td>';
         html += '<td colspan="2">' + $(selector + '_value').data('prototype')
             + '</td>';

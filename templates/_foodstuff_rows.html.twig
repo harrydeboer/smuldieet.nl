@@ -1,15 +1,15 @@
 <tr><td colspan="3" id="foodstuff_weights_error"></td></tr>
 {% for id, weight in weights %}
     <tr>
-        <td>
+        <td>{{ form_widget(weight.foodstuff_id,
+                {'value': foodstuff_weights[id].foodstuff.id}) }}
             <div class="dropdown">{{ form_widget(weight.name, {'value': foodstuff_weights[id].foodstuff.name}) }}
                 <div class="dropdown-menu dropdown-menu-foodstuff">
                 </div>
             </div>
         </td>
         {% set classes = weight.unit.vars.attr.class %}
-        <td>{{ form_widget(weight.value) }}{{ form_widget(weight.foodstuff_id,
-                {'value': foodstuff_weights[id].foodstuff.id}) }}</td>
+        <td>{{ form_widget(weight.value) }}</td>
         {% if not foodstuff_weights[id].foodstuff.isLiquid %}
             {% set classes = classes~' not-liquid' %}
         {% endif %}

@@ -11,6 +11,7 @@ use App\Form\DeleteType;
 use App\Repository\FoodstuffRepositoryInterface;
 use App\Repository\NutrientRepositoryInterface;
 use App\Repository\PageRepositoryInterface;
+use App\Service\AddFoodstuffsService;
 use App\Service\CombineFoodstuffsService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\FormError;
@@ -27,6 +28,7 @@ class FoodstuffController extends Controller
         private readonly NutrientRepositoryInterface $nutrientRepository,
         private readonly PageRepositoryInterface $pageRepository,
         private readonly CombineFoodstuffsService $combineFoodstuffsService,
+        private readonly AddFoodstuffsService $addFoodstuffsService,
     ) {
     }
 
@@ -88,35 +90,40 @@ class FoodstuffController extends Controller
         $foodstuff = new Foodstuff();
         $form = $this->createForm(FoodstuffFromFoodstuffsType::class);
         $form->handleRequest($request);
-        $foodstuffWeights = new ArrayCollection();
 
         if ($form->isSubmitted()) {
-            if ($form->isValid()) {
+            $foodstuffWeights = new ArrayCollection($form->get('foodstuff_weights')->getData());
+        } else {
+            $foodstuffWeights = new ArrayCollection();
+        }
 
-                $foodstuff = $this->combineFoodstuffsService->combine($this->getUser(), $form->getData());
-                $foodstuffSameName = $this->foodstuffRepository->findOneBy([
-                    'user' => $foodstuff->getUser()->getId(),
-                    'name' => $foodstuff->getName(),
-                ]);
-                try {
-                    if (!is_null($foodstuffSameName)) {
-                        throw new Exception('Er is al een voedingsmiddel met deze naam.');
-                    }
-                    $foodstuff->setCreatedAt(time());
-                    $this->foodstuffRepository->create($foodstuff);
+        if ($form->isSubmitted()
+            && $this->addFoodstuffsService->add($foodstuffWeights, $this->getUser()->getId(), $form)
+            && $form->isValid()) {
 
-                    $this->addFlash('fromFoodstuffs', 'Nu het voedingsmiddel gemaakt is uit andere 
+            $foodstuff = $this->combineFoodstuffsService->combine($this->getUser(), $form->getData());
+            $foodstuffSameName = $this->foodstuffRepository->findOneBy([
+                'user' => $foodstuff->getUser()->getId(),
+                'name' => $foodstuff->getName(),
+            ]);
+
+            try {
+                if (!is_null($foodstuffSameName)) {
+                    throw new Exception('Er is al een voedingsmiddel met deze naam.');
+                }
+                $foodstuff->setCreatedAt(time());
+
+                $this->foodstuffRepository->create($foodstuff);
+
+                $this->addFlash('fromFoodstuffs', 'Nu het voedingsmiddel gemaakt is uit andere 
                     voedingsmiddelen kun je nog de voedingswaarden op het etiket invullen voor jouw voedingsmiddel.');
 
-                    return $this->redirectToRoute('foodstuff_edit', ['id' => $foodstuff->getId()]);
-                } catch (Exception $exception) {
-                    $form->addError(new FormError($exception->getMessage()));
-                }
-            } else {
-                $form = $this->createForm(FoodstuffFromFoodstuffsType::class);
-                $form->addError(new FormError('The form was invalid'));
+                return $this->redirectToRoute('foodstuff_edit', ['id' => $foodstuff->getId()]);
+            } catch (Exception $exception) {
+                $form->addError(new FormError($exception->getMessage()));
             }
         }
+
 
         return $this->render('foodstuff/foodstuff_from_foodstuffs.html.twig', [
             'foodstuffWeights' => $foodstuffWeights,

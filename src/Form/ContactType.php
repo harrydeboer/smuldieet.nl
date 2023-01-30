@@ -23,22 +23,22 @@ class ContactType extends AbstractType
             ->add('name', TextType::class, [
                 'attr' => ['class' => 'form-control'],
                 'constraints' => [
-                    new NotBlank(),
-                    new Length(['max' => 255]),
+                    new NotBlank(null, 'De naam mag niet leeg zijn.'),
+                    new Length(['max' => 255, 'maxMessage' => 'De naam mag niet meer dan 255 tekens bevatten.']),
                 ],
             ])
             ->add('subject', TextType::class, [
                 'attr' => ['class' => 'form-control'],
                 'constraints' => [
-                    new NotBlank(),
-                    new Length(['max' => 255]),
+                    new NotBlank(null, 'Het onderwerp mag niet leeg zijn.'),
+                    new Length(['max' => 255, 'maxMessage' => 'Het onderwerp mag niet meer dan 255 tekens bevatten.']),
                 ],
             ])
             ->add('email', EmailType::class, [
                     'attr' => ['class' => 'form-control'],
                     'constraints' => [
-                        new NotBlank(),
-                        new Email(),
+                        new NotBlank(null, 'De email mag niet leeg zijn.'),
+                        new Email(null, 'Geen geldig e-mail adres.'),
                     ],
                 ]
             )
@@ -48,13 +48,13 @@ class ContactType extends AbstractType
                     'rows' => 10,
                 ],
                 'constraints' => [
-                    new NotBlank(),
-                    new Length(['max' => 65535]),
+                    new NotBlank(null, 'Het bericht mag niet leeg zijn.'),
+                    new Length(['max' => 65535, 'maxMessage' => 'Het bericht mag niet meer dan 255 tekens bevatten.']),
                 ],
             ])
             ->add('re_captcha_token', HiddenType::class, [
                 'constraints' => [
-                    new NotBlank(),
+                    new NotBlank(null, 'De reCaptcha token mag niet leeg zijn.'),
                 ]
             ])
             ->add('send', SubmitType::class, [

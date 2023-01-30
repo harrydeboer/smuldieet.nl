@@ -30,7 +30,7 @@ class FoodstuffFromFoodstuffsType extends AbstractType
                     'class' => 'form-control',
                     'maxlength' => 255,
                 ],
-                'constraints' => [new NotBlank()],
+                'constraints' => [new NotBlank(null, 'De naam mag niet leeg zijn.')],
             ])
             ->add('submit', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-success'],
