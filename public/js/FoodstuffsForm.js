@@ -54,7 +54,9 @@ class FoodstuffsForm {
         let thisElement = $(event.target);
         let row = new this.FoodstuffRow(event.target);
         row.getFoodstuffId().val('');
-        row.getUnit().val('');
+        if (this.formName !== 'foodstuff_from_foodstuffs') {
+            row.getUnit().val('');
+        }
         row.getUnit().removeClass('not-piece').removeClass('not-liquid')
         row.getUnit().addClass('not-piece not-liquid');
         let valueInput = encodeURI(thisElement.val().toLowerCase().normalize("NFD")
