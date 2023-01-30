@@ -23,11 +23,11 @@ class UserType extends AbstractType
                 ],
                 'constraints' => [
                     new File([
-                        'maxSize' => '4M',
+                        'maxSize' => '4194304',
                         'mimeTypes' => [
                             'image/*',
                         ],
-                        'maxSizeMessage' => 'De Afbeelding mag maximaal {{ limit }}Mb zijn.',
+                        'maxSizeMessage' => 'De Afbeelding mag maximaal {{ limit }} bytes zijn.',
                         'mimeTypesMessage' => 'Geef alsjeblieft een geldig plaatje (png, jp(eg), ' .
                             'j(f)if, gif, bmp of webp).',
                     ])
