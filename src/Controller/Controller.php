@@ -18,15 +18,6 @@ abstract class Controller extends AbstractController
         return parent::getUser();
     }
 
-    protected function isNotBlank(null|string|bool|array $data): bool
-    {
-        if (is_null($data) || $data === '' || $data === false || $data === []) {
-            return false;
-        }
-
-        return true;
-    }
-
     protected function transformDiacriticChars(string $string): string
     {
         $unwantedArray = ['Ğ'=>'G', 'İ'=>'I', 'Ş'=>'S', 'ğ'=>'g', 'ı'=>'i', 'ş'=>'s', 'ü'=>'u', 'Š'=>'S', 'š'=>'s',

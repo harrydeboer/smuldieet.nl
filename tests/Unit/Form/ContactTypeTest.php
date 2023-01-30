@@ -15,13 +15,15 @@ class ContactTypeTest extends TypeTestCase
     {
         $name = 'Test';
         $email = 'test@test.com';
-        $subject = 'Test';
-        $message = 'Test';
+        $subject = 'Test subject';
+        $message = 'Test message';
+        $token = 'Test token';
         $formData = [
             'name' => $name,
             'email' => $email,
             'subject' => $subject,
             'message' => $message,
+            're_captcha_token' => $token,
         ];
 
         $form = $this->factory->create(ContactType::class);
@@ -34,6 +36,7 @@ class ContactTypeTest extends TypeTestCase
         $this->assertEquals($email, $form->get('email')->getData());
         $this->assertEquals($subject, $form->get('subject')->getData());
         $this->assertEquals($message, $form->get('message')->getData());
+        $this->assertEquals($token, $form->get('re_captcha_token')->getData());
     }
 
     protected function getExtensions(): array

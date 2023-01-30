@@ -11,7 +11,9 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ContactType extends AbstractType
 {
@@ -20,21 +22,41 @@ class ContactType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'attr' => ['class' => 'form-control'],
-                'constraints' => [new Length(['max' => 255])],
+                'constraints' => [
+                    new NotBlank(),
+                    new Length(['max' => 255]),
+                ],
             ])
             ->add('subject', TextType::class, [
                 'attr' => ['class' => 'form-control'],
-                'constraints' => [new Length(['max' => 255])],
+                'constraints' => [
+                    new NotBlank(),
+                    new Length(['max' => 255]),
+                ],
             ])
-            ->add('email', EmailType::class, ['attr' => ['class' => 'form-control']])
+            ->add('email', EmailType::class, [
+                    'attr' => ['class' => 'form-control'],
+                    'constraints' => [
+                        new NotBlank(),
+                        new Email(),
+                    ],
+                ]
+            )
             ->add('message', TextareaType::class, [
                 'attr' => [
                     'class' => 'form-control',
                     'rows' => 10,
                 ],
-                'constraints' => [new Length(['max' => 65535])],
+                'constraints' => [
+                    new NotBlank(),
+                    new Length(['max' => 65535]),
+                ],
             ])
-            ->add('re_captcha_token', HiddenType::class)
+            ->add('re_captcha_token', HiddenType::class, [
+                'constraints' => [
+                    new NotBlank(),
+                ]
+            ])
             ->add('send', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-success'],
             ]);

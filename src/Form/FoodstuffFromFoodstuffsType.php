@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class FoodstuffFromFoodstuffsType extends AbstractType
 {
@@ -29,6 +30,7 @@ class FoodstuffFromFoodstuffsType extends AbstractType
                     'class' => 'form-control',
                     'maxlength' => 255,
                 ],
+                'constraints' => [new NotBlank()],
             ])
             ->add('submit', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-success'],

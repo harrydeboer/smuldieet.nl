@@ -7,7 +7,9 @@ namespace App\Tests\Unit\Form;
 use App\Entity\Foodstuff;
 use App\Entity\FoodstuffWeight;
 use App\Form\FoodstuffFromFoodstuffsType;
+use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\Test\TypeTestCase;
+use Symfony\Component\Validator\Validation;
 
 class FoodstuffFromFoodstuffsTypeTest extends TypeTestCase
 {
@@ -33,5 +35,14 @@ class FoodstuffFromFoodstuffsTypeTest extends TypeTestCase
 
         $this->assertEquals($name, $form->get('name')->getData());
         $this->assertEquals([0 => $weight], $form->get('foodstuff_weights')->getData());
+    }
+
+    protected function getExtensions(): array
+    {
+        $validator = Validation::createValidator();
+
+        return [
+            new ValidatorExtension($validator),
+        ];
     }
 }

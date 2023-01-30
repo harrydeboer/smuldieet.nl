@@ -6,7 +6,6 @@ namespace App\Service;
 
 use App\Repository\RecipeRepositoryInterface;
 use Doctrine\Common\Collections\Collection;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 readonly class AddRecipesService
 {
@@ -21,9 +20,6 @@ readonly class AddRecipesService
             $recipe = $this->recipeRepository
                 ->getNotPendingOrFromUser($weight->getRecipeId(), $userId);
             $weight->setRecipe($recipe);
-            if (!is_numeric($weight->getValue())) {
-                throw new BadRequestException('Weight must be a number.');
-            }
         }
 
         return $weights;

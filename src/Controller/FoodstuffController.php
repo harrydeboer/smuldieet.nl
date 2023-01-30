@@ -91,7 +91,7 @@ class FoodstuffController extends Controller
         $foodstuffWeights = new ArrayCollection();
 
         if ($form->isSubmitted()) {
-            if ($this->isNotBlank($form->get('name')->getData()) && $form->isValid()) {
+            if ($form->isValid()) {
 
                 $foodstuff = $this->combineFoodstuffsService->combine($this->getUser(), $form->getData());
                 $foodstuffSameName = $this->foodstuffRepository->findOneBy([

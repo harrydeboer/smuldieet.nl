@@ -20,6 +20,7 @@ class ContactControllerTest extends WebTestCase
         $form['contact[subject]'] = 'Test';
         $form['contact[email]'] = 'test@test.com';
         $form['contact[message]'] = 'test message';
+        $form['contact[re_captcha_token]'] = 'test token';
 
         $this->client->submit($form);
 
