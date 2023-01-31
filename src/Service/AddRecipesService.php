@@ -28,6 +28,11 @@ readonly class AddRecipesService
             }
             try {
                 $weight->getValue();
+
+                if ($weight->getValue() < 0) {
+                    $form->addError(new FormError('De gewicht waarde moet groter dan 0 zijn.'));
+                    return false;
+                }
             } catch (Error) {
                 $form->addError(new FormError('De gewicht waarde is niet gegeven.'));
                 return false;
