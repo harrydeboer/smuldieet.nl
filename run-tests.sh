@@ -6,9 +6,7 @@ else
   PROCESSES=4
 fi
 if [[ ${OSTYPE} == 'msys' ]]; then
-  php bin/console cache:clear --env=test
   php ./vendor/bin/paratest -p$PROCESSES --configuration phpunit.xml
 else
-  docker exec -it --user=www-data smuldieet php bin/console cache:clear --env=test
   docker exec -it --user=www-data smuldieet php ./vendor/bin/paratest -p$PROCESSES --configuration phpunit.xml
 fi
