@@ -6,6 +6,7 @@ namespace App\Form;
 
 use App\Entity\RecipeWeight;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -15,8 +16,8 @@ class RecipeWeightType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('recipe_id', NumberType::class, [
-            'attr' => ['class' => 'form-control recipe-id hidden-input'],
+        $builder->add('recipe_id', HiddenType::class, [
+            'attr' => ['class' => 'form-control recipe-id'],
             'required' => false,
         ])->add('title', TextType::class, [
             'attr' => [

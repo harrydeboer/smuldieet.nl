@@ -8,6 +8,7 @@ use App\Entity\FoodstuffWeight;
 use App\Entity\Nutrient;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -22,8 +23,8 @@ class FoodstuffWeightType extends AbstractType
             $choiceAttr[$unit] = ['class' => 'liquid-option'];
         }
         $choices = array_keys(array_merge(Nutrient::SOLID_UNITS, ['stuks' => 'stuks'], Nutrient::LIQUID_UNITS));
-        $builder->add('foodstuff_id', NumberType::class, [
-            'attr' => ['class' => 'form-control foodstuff-id hidden-input'],
+        $builder->add('foodstuff_id', HiddenType::class, [
+            'attr' => ['class' => 'form-control foodstuff-id'],
             'required' => false,
         ])->add('name', TextType::class, [
             'attr' => [

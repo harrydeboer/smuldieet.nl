@@ -36,6 +36,7 @@ class FoodstuffsForm {
         $('#add_foodstuff_recipe_button_row').before(html);
         let unit = $('#' + this.formName + '_foodstuff_weights_' + this.weightsNumber + '_unit');
         if (this.formName === 'foodstuff_from_foodstuffs') {
+            unit.attr('tabindex', -1);
             unit.val('g');
         } else {
             unit.attr('class', unit.attr('class') + ' not-piece not-liquid')
