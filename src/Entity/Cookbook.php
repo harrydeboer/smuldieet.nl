@@ -51,7 +51,10 @@ class Cookbook
     ]
     private User $user;
 
-    #[ORM\OneToMany(mappedBy: "cookbook", targetEntity: "RecipeWeight", cascade: ["persist", "remove"])]
+    #[
+        ORM\OneToMany(mappedBy: "cookbook", targetEntity: "RecipeWeight", cascade: ["persist", "remove"]),
+        Assert\Valid,
+    ]
     private Collection $recipeWeights;
 
     public function __construct()

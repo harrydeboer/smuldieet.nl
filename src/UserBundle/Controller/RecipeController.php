@@ -7,7 +7,6 @@ namespace App\UserBundle\Controller;
 use App\Controller\Controller;
 use App\Entity\Recipe;
 use App\Form\DeleteType;
-use App\Service\AddFoodstuffsService;
 use App\UserBundle\Form\RecipeType;
 use App\Repository\PageRepositoryInterface;
 use App\Repository\RecipeRepositoryInterface;
@@ -26,7 +25,6 @@ class RecipeController extends Controller
         private readonly RecipeRepositoryInterface $recipeRepository,
         private readonly PageRepositoryInterface   $pageRepository,
         private readonly UploadedImageService      $uploadedImageService,
-        private readonly AddFoodstuffsService $addFoodstuffsService,
     ) {
     }
 
@@ -67,9 +65,7 @@ class RecipeController extends Controller
 
         $formUpdate->handleRequest($request);
 
-        if ($formUpdate->isSubmitted()
-            && $this->addFoodstuffsService->add($recipe->getFoodstuffWeights(), $this->getUser()->getId(), $formUpdate)
-            && $formUpdate->isValid()) {
+        if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
             try {
                 if (count($recipe->getFoodstuffWeights()) === 0) {
                     throw new Exception('De voedingsmiddelen van het gerecht mogen niet leeg zijn.');
@@ -106,9 +102,7 @@ class RecipeController extends Controller
         $recipe->setCreatedAt(time());
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()
-            && $this->addFoodstuffsService->add($recipe->getFoodstuffWeights(), $this->getUser()->getId(), $form)
-            && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             try {
                 if (count($recipe->getFoodstuffWeights()) === 0) {
                     throw new Exception('De voedingsmiddelen van het gerecht mogen niet leeg zijn.');

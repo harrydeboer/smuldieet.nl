@@ -10,8 +10,6 @@ use App\Form\DeleteType;
 use App\Form\StandardDayType;
 use App\Repository\DayRepositoryInterface;
 use App\Repository\PageRepositoryInterface;
-use App\Service\AddFoodstuffsService;
-use App\Service\AddRecipesService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -24,8 +22,6 @@ class DayController extends AuthController
     public function __construct(
         private readonly DayRepositoryInterface $dayRepository,
         private readonly PageRepositoryInterface $pageRepository,
-        private readonly AddFoodstuffsService $addFoodstuffsService,
-        private readonly AddRecipesService $addRecipesService,
     ) {
     }
 
@@ -84,10 +80,7 @@ class DayController extends AuthController
 
         $formUpdate->handleRequest($request);
 
-        if ($formUpdate->isSubmitted()
-            && $this->addFoodstuffsService->add($day->getFoodstuffWeights(), $this->getUser()->getId(), $formUpdate)
-            && $this->addRecipesService->add($day->getRecipeWeights(), $this->getUser()->getId(), $formUpdate)
-            && $formUpdate->isValid()) {
+        if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
             if ($dayStandard?->getId() !== $day->getId() && is_null($day->getTimestamp())) {
                 $formUpdate->addError(new FormError('The day cannot become the standard day.'));
             } else {
@@ -112,10 +105,7 @@ class DayController extends AuthController
         $day->setUser($this->getUser());
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()
-            && $this->addFoodstuffsService->add($day->getFoodstuffWeights(), $this->getUser()->getId(), $form)
-            && $this->addRecipesService->add($day->getRecipeWeights(), $this->getUser()->getId(), $form)
-            && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
             if (is_null($day->getTimestamp())) {
                 $form->addError(new FormError('The day must have a date.'));
@@ -150,10 +140,7 @@ class DayController extends AuthController
         $day->setUser($this->getUser());
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()
-            && $this->addFoodstuffsService->add($day->getFoodstuffWeights(), $this->getUser()->getId(), $form)
-            && $this->addRecipesService->add($day->getRecipeWeights(), $this->getUser()->getId(), $form)
-            && $form->isValid()
+        if ($form->isSubmitted() && $form->isValid()
         ) {
             $dayStandard = $this->dayRepository->findOneBy([
                 'user' => $this->getUser()->getId(),

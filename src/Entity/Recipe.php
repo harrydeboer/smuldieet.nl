@@ -252,7 +252,10 @@ class Recipe extends DietProperties implements UploadImageInterface
     ]
     private User $user;
 
-    #[ORM\OneToMany(mappedBy: "recipe", targetEntity: "App\Entity\FoodstuffWeight", cascade: ["persist", "remove"])]
+    #[
+        ORM\OneToMany(mappedBy: "recipe", targetEntity: "App\Entity\FoodstuffWeight", cascade: ["persist", "remove"]),
+        Assert\Valid,
+    ]
     private Collection $foodstuffWeights;
 
     #[ORM\OneToMany(mappedBy: "recipe", targetEntity: "App\Entity\RecipeWeight", cascade: ["persist", "remove"])]

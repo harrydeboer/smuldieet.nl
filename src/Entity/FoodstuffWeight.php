@@ -8,10 +8,12 @@ use App\Repository\FoodstuffWeightRepository;
 use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator\FoodstuffWeightConstraint;
 
 #[
     ORM\Entity(repositoryClass: FoodstuffWeightRepository::class),
     ORM\Table(name: "foodstuff_weight"),
+    FoodstuffWeightConstraint,
 ]
 class FoodstuffWeight
 {

@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\DayRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[
     ORM\Entity(repositoryClass: DayRepository::class),
@@ -37,10 +38,16 @@ class Day
     ]
     private User $user;
 
-    #[ORM\OneToMany(mappedBy: "day", targetEntity: "App\Entity\FoodstuffWeight", cascade: ["persist", "remove"])]
+    #[
+        ORM\OneToMany(mappedBy: "day", targetEntity: "App\Entity\FoodstuffWeight", cascade: ["persist", "remove"]),
+        Assert\Valid
+    ]
     private Collection $foodstuffWeights;
 
-    #[ORM\OneToMany(mappedBy: "day", targetEntity: "RecipeWeight", cascade: ["persist", "remove"])]
+    #[
+        ORM\OneToMany(mappedBy: "day", targetEntity: "RecipeWeight", cascade: ["persist", "remove"]),
+        Assert\Valid,
+    ]
     private Collection $recipeWeights;
 
     public function __construct()

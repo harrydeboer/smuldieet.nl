@@ -11,7 +11,6 @@ use App\Form\DeleteType;
 use App\Repository\FoodstuffRepositoryInterface;
 use App\Repository\NutrientRepositoryInterface;
 use App\Repository\PageRepositoryInterface;
-use App\Service\AddFoodstuffsService;
 use App\Service\CombineFoodstuffsService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\FormError;
@@ -28,7 +27,6 @@ class FoodstuffController extends Controller
         private readonly NutrientRepositoryInterface $nutrientRepository,
         private readonly PageRepositoryInterface $pageRepository,
         private readonly CombineFoodstuffsService $combineFoodstuffsService,
-        private readonly AddFoodstuffsService $addFoodstuffsService,
     ) {
     }
 
@@ -97,9 +95,7 @@ class FoodstuffController extends Controller
             $foodstuffWeights = new ArrayCollection();
         }
 
-        if ($form->isSubmitted()
-            && $this->addFoodstuffsService->add($foodstuffWeights, $this->getUser()->getId(), $form)
-            && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $foodstuff = $this->combineFoodstuffsService->combine($this->getUser(), $form->getData());
             $foodstuffSameName = $this->foodstuffRepository->findOneBy([

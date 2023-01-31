@@ -6,7 +6,6 @@ namespace App\UserBundle\Controller;
 
 use App\Controller\AuthController;
 use App\Entity\Cookbook;
-use App\Service\AddRecipesService;
 use App\UserBundle\Form\CookbookType;
 use App\Form\DeleteType;
 use App\Repository\CookbookRepositoryInterface;
@@ -22,7 +21,6 @@ class CookbookController extends AuthController
     public function __construct(
         private readonly CookbookRepositoryInterface $cookbookRepository,
         private readonly PageRepositoryInterface $pageRepository,
-        private readonly AddRecipesService $addRecipesService,
     ) {
     }
 
@@ -60,9 +58,7 @@ class CookbookController extends AuthController
 
         $formUpdate->handleRequest($request);
 
-        if ($formUpdate->isSubmitted()
-            && $this->addRecipesService->add($cookbook->getRecipeWeights(), $this->getUser()->getId(), $formUpdate)
-            && $formUpdate->isValid()) {
+        if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
             $cookbook->setUpdatedAt(time());
             $this->cookbookRepository->update($cookbook, $oldRecipeWeights);
 
@@ -84,9 +80,7 @@ class CookbookController extends AuthController
         $cookbook->setUser($this->getUser());
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()
-            && $this->addRecipesService->add($cookbook->getRecipeWeights(), $this->getUser()->getId(), $form)
-            && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $cookbook->setCreatedAt(time());
 
             $this->cookbookRepository->create($cookbook);
