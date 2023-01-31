@@ -3,8 +3,9 @@
 {% block title %}{{ page is not null ? page.title : '' }}{% endblock %}
 
 {% block body %}
-    {{ page is not null ? page.content|raw : '' }}
+    <h1>Voedingsmiddelen</h1>
     {% if currentUser is not null %}
+        {{ page is not null ? page.content|raw : '' }}
         <a href="{{ path('foodstuff_from_foodstuffs_create') }}">Maak een voedingsmiddel van voedingsmiddelen</a><br>
     {% endif %}
     <br>
