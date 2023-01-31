@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\Nutrient;
+use Error;
 use App\Repository\FoodstuffRepositoryInterface;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 readonly class AddFoodstuffsService
 {
@@ -20,6 +22,23 @@ readonly class AddFoodstuffsService
     public function add(Collection $weights, $userId, FormInterface $form): bool
     {
         foreach ($weights as $weight) {
+            try {
+                $weight->getFoodstuffId();
+            } catch (Error) {
+                throw new NotFoundHttpException('Het voedingsmiddel is niet opgegeven.');
+            }
+            try {
+                $weight->getValue();
+            } catch (Error) {
+                $form->addError(new FormError('De gewicht waarde is niet gegeven.'));
+                return false;
+            }
+            try {
+                $weight->getFoodstuffId();
+            } catch (Error) {
+                throw new NotFoundHttpException('Het voedingsmiddel is niet gegeven.');
+            }
+
             $foodstuff = $this->foodstuffRepository->getDefaultAndFromUser($weight->getFoodstuffId(), $userId);
             $weight->setFoodstuff($foodstuff);
         }

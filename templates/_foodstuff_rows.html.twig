@@ -17,9 +17,12 @@
             {% set classes = classes~' not-piece' %}
         {% endif %}
         <td>
-            <select id="{{ weight.unit.vars.id }}"
-                    name="{{ weight.unit.vars.full_name }}"
-                    class="{{ classes }}"
+            {% if form_name == 'foodstuff_from_foodstuffs' %}
+            <span id="percentage-unit">%
+                {% endif %}
+                <select id="{{ weight.unit.vars.id }}"
+                        name="{{ weight.unit.vars.full_name }}"
+                        class="{{ classes }}"
                     {{ weight.unit.vars.required == 1 ? 'required="required"': '' }}>
                 <option value="">{{ weight.unit.vars.placeholder }}</option>
                 {% for choice in weight.unit.vars.choices %}
@@ -41,6 +44,9 @@
                     <option value="{{ choice.value }}" class="{{ class }}" {{ selected }}>{{ label }}</option>
                 {% endfor %}
             </select>
+            {% if form_name == 'foodstuff_from_foodstuffs' %}
+            </span>
+            {% endif %}
             {% do weight.unit.setRendered %}
         </td>
         <td><i class="remove-row fa fa-minus"></i></td>

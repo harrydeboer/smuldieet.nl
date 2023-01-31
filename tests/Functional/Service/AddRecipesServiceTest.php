@@ -6,6 +6,7 @@ namespace App\Tests\Functional\Service;
 
 use App\Entity\Day;
 use App\Entity\RecipeWeight;
+use App\Form\DayType;
 use App\Service\AddRecipesService;
 use App\Tests\Factory\RecipeFactory;
 use App\Tests\Functional\KernelTestCase;
@@ -27,8 +28,9 @@ class AddRecipesServiceTest extends KernelTestCase
         $day->setRecipeWeights($weights);
 
         $addRecipesService = static::getContainer()->get(AddRecipesService::class);
+        $form = $this->getContainer()->get('form.factory')->create(DayType::class);
 
-        $addRecipesService->add($day->getRecipeWeights(), $recipe->getUser()->getId());
+        $addRecipesService->add($day->getRecipeWeights(), $recipe->getUser()->getId(), $form);
 
         $this->assertEquals($day->getRecipeWeights()[0]->getRecipe(), $recipe);
     }
