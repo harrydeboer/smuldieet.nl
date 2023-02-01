@@ -5,9 +5,11 @@
     {{ include('_head.html.twig') }}
 </head>
 <body>
-<div id="smuldieet_header">
-    <img alt="Logo" id="smuldieet_logo" src="{{ asset('/img/Logo_100.jpg') }}">
-    <h1 id="smuldieet_title">Smuldieet</h1>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-auto"><img alt="Logo" src="{{ asset('/img/Logo_100.jpg') }}"></div>
+        <div class="col"><h1 id="smuldieet_title">Smuldieet</h1></div>
+    </div>
 </div>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">

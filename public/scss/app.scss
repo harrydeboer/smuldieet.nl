@@ -27,7 +27,7 @@ body {
 }
 
 #smuldieet_title {
-  display: inline;
+  margin-top: 40px;
 }
 
 .btn-primary, .btn-danger {
@@ -78,10 +78,6 @@ body {
   width: 100px;
 }
 
-.table-small {
-  width: 100%;
-}
-
 .food-table td:nth-child(2) {
   width: 100px;
 }
@@ -108,12 +104,6 @@ body {
 
 .not-vitamin-mineral .vitamin-mineral-option {
   display: none;
-}
-
-@media (min-width: 768px) {
-  .table-small {
-    width: 768px;
-  }
 }
 
 @media (min-width: 1200px) {

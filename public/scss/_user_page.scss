@@ -6,11 +6,11 @@
   white-space: nowrap;
 }
 
-#user-panel-avatar {
+#user_panel_avatar {
   width: 300px;
 }
 
-@media (min-width: 550px) {
+@media (min-width: 768px) {
   .date-field {
     display: inline;
     width: 32%;

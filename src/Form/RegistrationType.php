@@ -48,26 +48,31 @@ class RegistrationType extends AbstractType
             ])
             ->add('username', TextType::class, [
                 'attr' => ['class' => 'form-control'],
+                'label' => 'Gebruikersnaam',
             ])
             ->add('email', EmailType::class, [
                 'attr' => ['class' => 'form-control'],
+                'label' => 'E-mail',
             ])
             ->add('birthdate', DateType::class, [
                 'years' => $years,
+                'label' => 'Geboortedatum',
                 'placeholder' => ['day' => 'dag', 'month' => 'maand', 'year' => 'jaar'],
             ])
             ->add('gender', ChoiceType::class, [
                 'choices' => array_combine(User::GENDER, User::GENDER),
                 'expanded' => true,
+                'label' => 'Geslacht',
                 'attr' => ['class' => 'form-control gender-field']
             ])
             ->add('weight', NumberType::class, [
                 'attr' => ['class' => 'form-control'],
+                'label' => 'Gewicht',
             ])
             ->add('plain_password', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'first_options' => ['label' => 'Password', 'attr' => ['class' => 'form-control']],
-                'second_options' => ['label' => 'Repeat Password', 'attr' => ['class' => 'form-control']],
+                'first_options' => ['label' => 'Wachtwoord', 'attr' => ['class' => 'form-control']],
+                'second_options' => ['label' => 'Herhaal wachtwoord', 'attr' => ['class' => 'form-control']],
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
                 'invalid_message' => 'De wachtwoorden moeten gelijk zijn aan elkaar.',
