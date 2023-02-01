@@ -30,7 +30,7 @@ class SecurityController extends Controller
             'username' => $this->getUser()?->getUsername(),
             'roles' => $this->getUser()?->getRoles(),
             'error' => $error,
-            'page' => $this->pageRepository->findOneBy(['title' => 'Inloggen']),
+            'page' => $this->pageRepository->findOneBy(['slug' => 'inloggen']),
             ]);
     }
 

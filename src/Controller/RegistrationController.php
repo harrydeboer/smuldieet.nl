@@ -71,7 +71,7 @@ class RegistrationController extends Controller
 
         return $this->render('registration/register.html.twig', [
             'form' => $form->createView(),
-            'page' => $this->pageRepository->findOneBy(['title' => 'Registreren']),
+            'page' => $this->pageRepository->findOneBy(['slug' => 'registreren']),
         ]);
     }
 

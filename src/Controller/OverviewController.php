@@ -47,7 +47,7 @@ class OverviewController extends AuthController
             'nutrients' => $this->RDAService->daysStats($days, $this->getUser()),
             'form' => $form->createView(),
             'isSubmitted' => $isSubmitted,
-            'page' => $this->pageRepository->findOneBy(['title' => 'Overzicht']),
+            'page' => $this->pageRepository->findOneBy(['slug' => 'overzicht']),
         ]);
     }
 }

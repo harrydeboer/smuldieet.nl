@@ -72,7 +72,7 @@ class ContactController extends Controller
             'reCaptchaKey' => $this->getParameter('re_captcha_key'),
             'success' => $success,
             'error' => $error,
-            'page' => $this->pageRepository->findOneBy(['title' => 'Contact']),
+            'page' => $this->pageRepository->findOneBy(['slug' => 'contact']),
         ]);
     }
 

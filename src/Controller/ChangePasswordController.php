@@ -34,7 +34,7 @@ class ChangePasswordController extends AuthController
 
         return $this->render('/security/change_password.html.twig', [
             'form' => $form->createView(),
-            'page' => $this->pageRepository->findOneBy(['title' => 'Verander wachtwoord']),
+            'page' => $this->pageRepository->findOneBy(['slug' => 'verander-wachtwoord']),
         ]);
     }
 }

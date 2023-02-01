@@ -42,7 +42,7 @@ class FoodstuffController extends Controller
             'charSelected' => $char,
             'foodstuffs' => $foodstuffs,
             'currentUser' => $this->getUser(),
-            'page' => $this->pageRepository->findOneBy(['title' => 'Voedingsmiddelen']),
+            'page' => $this->pageRepository->findOneBy(['slug' => 'voedingsmiddelen']),
         ]);
     }
 

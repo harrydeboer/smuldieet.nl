@@ -44,7 +44,7 @@ class HomepageController extends Controller
         }
 
         return $this->render('homepage/view.html.twig', [
-            'page' => $this->pageRepository->findOneBy(['title' => 'Home']),
+            'page' => $this->pageRepository->findOneBy(['slug' => 'home']),
             'isFiltered' => $isFiltered,
             'paginator' => $recipes,
             'dietChoices' => Recipe::getDietChoices('snake'),

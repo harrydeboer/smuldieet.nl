@@ -40,7 +40,7 @@ class DayController extends AuthController
         return $this->render('day/view.html.twig', [
             'paginator' => $days,
             'standardDay' => $dayStandard,
-            'page' => $this->pageRepository->findOneBy(['title' => 'Dagboek']),
+            'page' => $this->pageRepository->findOneBy(['slug' => 'dagboek']),
         ]);
     }
 
