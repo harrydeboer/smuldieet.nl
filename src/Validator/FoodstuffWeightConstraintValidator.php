@@ -62,16 +62,19 @@ class FoodstuffWeightConstraintValidator extends ConstraintValidator
         if (!isset($units[$unit])) {
             $this->context
                 ->buildViolation('Eenheid moet geldig zijn.')
+                ->atPath('unit')
                 ->addViolation();
         }
         if (!$foodstuff->getIsLiquid() && in_array($unit, array_keys(Nutrient::LIQUID_UNITS))) {
             $this->context
                 ->buildViolation('Vaste voedingsmiddelen kunnen geen vloeibare eenheid hebben.')
+                ->atPath('unit')
                 ->addViolation();
         }
         if ($unit === 'stuks' && is_null($foodstuff->getPieceWeight())) {
             $this->context
                 ->buildViolation('Eenheid stuks is niet toegestaan bij ' . $foodstuff->getName() . '.')
+                ->atPath('unit')
                 ->addViolation();
         }
     }

@@ -21,6 +21,11 @@ body {
   margin-right: 10px;
 }
 
+.form-error ul li {
+  list-style-type: none;
+  color: red;
+}
+
 #smuldieet_title {
   display: inline;
 }
