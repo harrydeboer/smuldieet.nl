@@ -5,7 +5,7 @@
     {{ include('_head.html.twig') }}
 </head>
 <body>
-<div class="container-fluid">
+<div class="container">
     <div class="row">
         <div class="col-auto"><img alt="Logo" src="{{ asset('/img/Logo_100.jpg') }}"></div>
         <div class="col"><h1 id="smuldieet_title">Smuldieet</h1></div>
@@ -34,8 +34,10 @@
         </div>
     </div>
 </nav>
-{% block body %}
-{% endblock %}
+<div class="container">
+    {% block body %}
+    {% endblock %}
+</div>
 {% if reCaptchaKey is defined %}
     <script src="https://www.google.com/recaptcha/api.js?render={{ reCaptchaKey }}"></script>
     <div id="re_captcha_key" data-key="{{ reCaptchaKey }}"></div>

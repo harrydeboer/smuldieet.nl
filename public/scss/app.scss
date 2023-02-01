@@ -3,7 +3,7 @@
 @use 'homepage';
 @use 'recipe_page';
 @use 'rating_form';
-@use 'user_page';
+@use 'register_page';
 
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 
@@ -104,6 +104,10 @@ body {
 
 .not-vitamin-mineral .vitamin-mineral-option {
   display: none;
+}
+
+.width-max-md {
+  max-width: 768px;
 }
 
 @media (min-width: 1200px) {
