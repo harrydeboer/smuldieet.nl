@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Foodstuff;
-use App\Form\FoodstuffFromFoodstuffsType;
+use App\Form\CombineFoodstuffsType;
 use App\Form\FoodstuffType;
 use App\Form\DeleteType;
 use App\Repository\FoodstuffRepositoryInterface;
 use App\Repository\NutrientRepositoryInterface;
 use App\Repository\PageRepositoryInterface;
-use App\Service\CombineFoodstuffsService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -26,7 +25,6 @@ class FoodstuffController extends Controller
         private readonly FoodstuffRepositoryInterface $foodstuffRepository,
         private readonly NutrientRepositoryInterface $nutrientRepository,
         private readonly PageRepositoryInterface $pageRepository,
-        private readonly CombineFoodstuffsService $combineFoodstuffsService,
     ) {
     }
 
@@ -82,11 +80,11 @@ class FoodstuffController extends Controller
         ]);
     }
 
-    #[Route('/voedingsmiddel/van-voedingsmiddelen', name: 'foodstuff_from_foodstuffs_create')]
-    public function newFromFoodstuffs(Request $request): Response
+    #[Route('/voedingsmiddel/combineer-voedingsmiddelen', name: 'combine_foodstuffs')]
+    public function combineFoodstuffs(Request $request): Response
     {
         $foodstuff = new Foodstuff();
-        $form = $this->createForm(FoodstuffFromFoodstuffsType::class);
+        $form = $this->createForm(CombineFoodstuffsType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
@@ -97,13 +95,38 @@ class FoodstuffController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $foodstuff = $this->combineFoodstuffsService->combine($this->getUser(), $form->getData());
+            $foodstuff = new Foodstuff();
+            $foodstuff->setName($form->get('name')->getData());
+            $foodstuff->setUser($this->getUser());
+
             $foodstuffSameName = $this->foodstuffRepository->findOneBy([
                 'user' => $foodstuff->getUser()->getId(),
                 'name' => $foodstuff->getName(),
             ]);
 
+            $totalWeight = 0;
+            foreach ($foodstuffWeights as $weight) {
+                $totalWeight += $weight->getValue();
+            }
+
+            foreach ($foodstuffWeights as $weight) {
+                $foodstuffWeight = $weight->getFoodstuff();
+                foreach ($foodstuff->getNutrientNames() as $name) {
+                    if (is_null($foodstuffWeight->{'get' . ucfirst($name)}())) {
+                        continue;
+                    } else {
+                        $foodstuff->{'set' . ucfirst($name)}($foodstuff->{'get' . ucfirst($name)}() +
+                            $foodstuffWeight->{'get' . ucfirst($name)}()
+                            * $weight->getValue() / $totalWeight);
+                    }
+                }
+            }
+
             try {
+                if ((int)round(($totalWeight * 100)) !== 10000) {
+                    throw new Exception('Gewichten moeten samen 100 procent zijn.');
+                }
+
                 if (!is_null($foodstuffSameName)) {
                     throw new Exception('Er is al een voedingsmiddel met deze naam.');
                 }
@@ -120,8 +143,7 @@ class FoodstuffController extends Controller
             }
         }
 
-
-        return $this->render('foodstuff/foodstuff_from_foodstuffs.html.twig', [
+        return $this->render('foodstuff/combine_foodstuffs.html.twig', [
             'foodstuffWeights' => $foodstuffWeights,
             'foodstuff' => $foodstuff,
             'form' => $form->createView(),

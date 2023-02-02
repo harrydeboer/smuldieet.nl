@@ -6,7 +6,7 @@
     <h1>Voedingsmiddelen</h1>
     {% if currentUser is not null %}
         {{ page is not null ? page.content|raw : '' }}
-        <a href="{{ path('foodstuff_from_foodstuffs_create') }}">Maak een voedingsmiddel van voedingsmiddelen</a><br>
+        <a href="{{ path('combine_foodstuffs') }}">Maak een voedingsmiddel van voedingsmiddelen</a><br>
     {% endif %}
     <br>
     <select id="abc_select">

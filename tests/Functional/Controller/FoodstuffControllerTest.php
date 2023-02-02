@@ -24,18 +24,18 @@ class FoodstuffControllerTest extends AuthVerifiedWebTestCase
 
         $this->assertResponseIsSuccessful();
 
-        $crawler = $this->client->request('GET', '/voedingsmiddel/van-voedingsmiddelen');
+        $crawler = $this->client->request('GET', '/voedingsmiddel/combineer-voedingsmiddelen');
 
         $buttonCrawlerNode = $crawler->selectButton('Voedingsmiddel opslaan');
 
         $form = $buttonCrawlerNode->form();
 
-        $form['foodstuff_from_foodstuffs[name]'] = 'test2';
+        $form['combine_foodstuffs[name]'] = 'test2';
 
         $values = $form->getPhpValues();
-        $values['foodstuff_from_foodstuffs']['foodstuff_weights'][0]['foodstuff_id'] = $foodstuff->getId();
-        $values['foodstuff_from_foodstuffs']['foodstuff_weights'][0]['value'] = 100;
-        $values['foodstuff_from_foodstuffs']['foodstuff_weights'][0]['unit'] = 'g';
+        $values['combine_foodstuffs']['foodstuff_weights'][0]['foodstuff_id'] = $foodstuff->getId();
+        $values['combine_foodstuffs']['foodstuff_weights'][0]['value'] = 100;
+        $values['combine_foodstuffs']['foodstuff_weights'][0]['unit'] = 'g';
         $this->client->request($form->getMethod(), $form->getUri(), $values, $form->getPhpFiles());
 
         $foodstuffRepository = $this->getContainer()->get(FoodstuffRepositoryInterface::class);

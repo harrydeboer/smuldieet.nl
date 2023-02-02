@@ -6,12 +6,12 @@ namespace App\Tests\Unit\Form;
 
 use App\Entity\Foodstuff;
 use App\Entity\FoodstuffWeight;
-use App\Form\FoodstuffFromFoodstuffsType;
+use App\Form\CombineFoodstuffsType;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\Test\TypeTestCase;
 use Symfony\Component\Validator\Validation;
 
-class FoodstuffFromFoodstuffsTypeTest extends TypeTestCase
+class CombineFoodstuffsTypeTest extends TypeTestCase
 {
     public function testSubmitModel(): void
     {
@@ -23,7 +23,7 @@ class FoodstuffFromFoodstuffsTypeTest extends TypeTestCase
             'foodstuff_weights' => [0 => ['foodstuff_id' => $foodstuff->getId(), 'value' => 100, 'unit' => 'g']],
         ];
 
-        $form = $this->factory->create(FoodstuffFromFoodstuffsType::class);
+        $form = $this->factory->create(CombineFoodstuffsType::class);
 
         $form->submit($formData);
         $weight = new FoodstuffWeight();

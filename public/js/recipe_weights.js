@@ -65,7 +65,8 @@ class Recipe_weights {
                         let id = $(element).attr('id').replace('recipe_result_', '');
                         let title = $(element).text().toLowerCase().normalize("NFD")
                             .replace(/[\u0300-\u036f]/g, "");
-                        if (valueInput === title) {
+                        if (thisElement.val().toLowerCase().normalize("NFD")
+                            .replace(/[\u0300-\u036f]/g, "") === title) {
                             row.getRecipeId().val(id);
                         }
                     });

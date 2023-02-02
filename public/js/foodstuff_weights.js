@@ -25,7 +25,7 @@ class FoodstuffWeights {
             '<div class="dropdown-menu dropdown-menu-foodstuff"></div></div>' +
             '</td>';
         html += '<td>' + $(selector + '_value').data('prototype') + '</td>';
-        if (this.formName === 'foodstuff_from_foodstuffs') {
+        if (this.formName === 'combine_foodstuffs') {
             html += '<td>%<span id="percentage-unit">' +
                 $(selector + '_unit').data('prototype') + '</span></td>';
         } else {
@@ -35,7 +35,7 @@ class FoodstuffWeights {
         html = html.replaceAll('__name__', this.weightsNumber.toString());
         $('#add_foodstuff_recipe_button_row').before(html);
         let unit = $('#' + this.formName + '_foodstuff_weights_' + this.weightsNumber + '_unit');
-        if (this.formName === 'foodstuff_from_foodstuffs') {
+        if (this.formName === 'combine_foodstuffs') {
             unit.attr('tabindex', -1);
             unit.val('g');
         } else {
@@ -54,7 +54,7 @@ class FoodstuffWeights {
         let thisElement = $(event.target);
         let row = new this.FoodstuffRow(event.target);
         row.getFoodstuffId().val('');
-        if (this.formName !== 'foodstuff_from_foodstuffs') {
+        if (this.formName !== 'combine_foodstuffs') {
             row.getUnit().val('');
         }
         row.getUnit().removeClass('not-piece').removeClass('not-liquid')
@@ -84,7 +84,8 @@ class FoodstuffWeights {
                         let id = $(element).attr('id').replace('foodstuff_result_', '');
                         let name = $(element).text().toLowerCase().normalize("NFD")
                             .replace(/[\u0300-\u036f]/g, "");
-                        if (valueInput === name) {
+                        if (thisElement.val().toLowerCase().normalize("NFD")
+                            .replace(/[\u0300-\u036f]/g, "") === name) {
                             this.setIdAndUnit(row, id, $(element))
                         }
                     });
@@ -139,7 +140,7 @@ class FoodstuffWeights {
 
     /**
      * When the form submits it is checked that foodstuffs appear only once in the form.
-     * When the form is foodstuff_from_foodstuffs it is checked that the percentages add up to 100.
+     * When the form is combine_foodstuffs it is checked that the percentages add up to 100.
      */
     submit(event) {
         let text = '';
@@ -164,7 +165,7 @@ class FoodstuffWeights {
             }
         });
 
-        if (this.formName === "foodstuff_from_foodstuffs") {
+        if (this.formName === "combine_foodstuffs") {
             let sum = 0;
             $('.foodstuff-weight').each((index, element) => {
                 sum = sum + parseFloat($(element).val().replace(',', '.'));
