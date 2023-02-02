@@ -83,10 +83,9 @@ $(function() {
     /**
      * After a recipe search has been performed on the homepage the browser animates to the search results.
      */
-    let recipesHomepage = $("#recipes_homepage");
-    if (recipesHomepage.length > 0 && !($('#recent_recipes_heading').length > 0)) {
+    if (($('#recipes_search').length > 0)) {
         $('html, body').animate({
-            scrollTop: recipesHomepage.offset().top
+            scrollTop: $("#recipes_search").offset().top
         }, 1000);
     }
 

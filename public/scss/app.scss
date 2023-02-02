@@ -30,6 +30,11 @@ body {
   margin-top: 40px;
 }
 
+.div-striped>div.row:nth-of-type(odd)>* {
+  background: rgba(0, 0, 0, 0.05);
+  color: #212529;
+}
+
 .btn-primary, .btn-danger {
   width: 200px;
 }

@@ -54,22 +54,24 @@
     {{ form_end(form) }}
     <br>
     {% if not isFiltered %}
-        <h2 id="recent_recipes_heading">Recente recepten</h2>
+        <h2 id="recipes_heading">Recente recepten</h2>
+    {% else %}
+        <h2 id="recipes_search">Zoekresultaten</h2>
     {% endif %}
-    <table class="table table-striped" id="recipes_homepage">
+    <div class="div-striped">
         {% for recipe in paginator.results %}
-            <tr>
-                <td>
+            <div class="row">
+                <div class="col">
                     {% if recipe.imageExtension is not null %}
                         <img src="{{ asset(recipe.getImageUrl(100)) }}"
                              alt="label" class="img-fluid recipe-image">
                     {% endif %}
-                </td>
-                <td><a href="{{ path('recipe_single', {'id': recipe.id}) }}">{{ recipe.title }}</a></td>
+                </div>
+                <div class="col"><a href="{{ path('recipe_single', {'id': recipe.id}) }}">{{ recipe.title }}</a></div>
                 {% if recipe.rating is null %}
-                    <td></td>
+                    <div class="col"></div>
                 {% else %}
-                    <td>
+                    <div class="col">
                         <span class="nowrap">
                             {% if recipe.rating >= 9.95 %}
                                 {{ recipe.rating|number_format(0) }} &nbsp;<i class="fas fa-star fa-star-gold"></i>
@@ -77,11 +79,11 @@
                                 {{ recipe.rating|number_format(1) }} <i class="fas fa-star fa-star-gold"></i>
                             {% endif %}
                         </span>
-                    </td>
+                    </div>
                 {% endif %}
-            </tr>
+            </div>
         {% endfor %}
-    </table>
+    </div>
     {% if isFiltered %}
         {{ include('pagination/view.html.twig', {route: 'homepage_index_paginated'}) }}
     {% endif %}
