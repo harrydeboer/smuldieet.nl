@@ -3,7 +3,7 @@
 {% block title %}Wijzig{% endblock %}
 
 {% block body %}
-    {{ include('@AdminBundle/profanity/_form.html.twig', {form: formUpdate, submit_label: 'Wijzig'}) }}
+    {{ include('@AdminBundle/profanity/_form.html.twig', {submit_label: 'Wijzig'}) }}
     <br>
     {{ include('_delete_confirmation.html.twig', {
         entityName: 'scheldwoord',

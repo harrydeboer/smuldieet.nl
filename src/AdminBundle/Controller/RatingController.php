@@ -40,7 +40,7 @@ class RatingController extends AuthController
     {
         $rating = $this->ratingRepository->get($id);
 
-        $formUpdate = $this->createForm(ReviewType::class, $rating, [
+        $form = $this->createForm(ReviewType::class, $rating, [
             'method' => 'POST',
         ]);
         $ratingOldRating = $rating->getRating();
@@ -50,22 +50,22 @@ class RatingController extends AuthController
             'method' => 'POST',
         ]);
 
-        $formUpdate->handleRequest($request);
+        $form->handleRequest($request);
 
-        if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $rating->setUpdatedAt(time());
                 $this->ratingRepository->update($ratingOldRating, $rating);
 
                 return $this->redirectToRoute('admin_rating');
             } catch (Exception $exception) {
-                $formUpdate->addError(new FormError($exception->getMessage()));
+                $form->addError(new FormError($exception->getMessage()));
             }
         }
 
         return $this->render('@AdminBundle/rating/edit.html.twig', [
             'rating' => $rating,
-            'formUpdate' => $formUpdate->createView(),
+            'form' => $form->createView(),
             'formDelete' => $formDelete->createView(),
         ]);
     }

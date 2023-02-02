@@ -5,3 +5,7 @@
 {% block body %}
     {{ include('@UserBundle/recipe/_form.html.twig', {submit_label: 'Recept opslaan'}) }}
 {% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('/js/foodstuff_weights.min.js') }}"></script>
+{% endblock %}

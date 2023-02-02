@@ -60,13 +60,13 @@ class RatingController extends Controller
         $rating = $this->getRating($id);
         $oldRating = $rating->getRating();
 
-        $formUpdate = $this->createForm(RatingType::class, $rating, [
+        $form = $this->createForm(RatingType::class, $rating, [
             'method' => 'POST',
         ]);
 
-        $formUpdate->handleRequest($request);
+        $form->handleRequest($request);
 
-        if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
             /** Updating a rating without content cannot throw an exception. */
             try {

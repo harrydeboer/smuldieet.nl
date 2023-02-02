@@ -46,7 +46,7 @@ class UserController extends AuthController
 
         $oldExtension = $user->getImageExtension();
 
-        $formUpdate = $this->createForm(UpdateUserType::class, $user, [
+        $form = $this->createForm(UpdateUserType::class, $user, [
             'method' => 'POST',
         ]);
 
@@ -55,15 +55,15 @@ class UserController extends AuthController
             'method' => 'POST',
         ]);
 
-        $formUpdate->handleRequest($request);
+        $form->handleRequest($request);
 
-        if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             try {
-                if (is_null($formUpdate->get('plain_password')->getData())) {
+                if (is_null($form->get('plain_password')->getData())) {
                     $user->setUpdatedAt(time());
                     $this->userRepository->update();
                 } else {
-                    $this->userRepository->upgradePassword($user, $formUpdate->get('plain_password')->getData());
+                    $this->userRepository->upgradePassword($user, $form->get('plain_password')->getData());
                 }
 
                 $this->uploadedImageService->moveImage(
@@ -73,12 +73,12 @@ class UserController extends AuthController
 
                 return $this->redirectToRoute('admin_user');
             } catch (Exception $exception) {
-                $formUpdate->addError(new FormError($exception->getMessage()));
+                $form->addError(new FormError($exception->getMessage()));
             }
         }
 
         return $this->render('@AdminBundle/user/edit.html.twig', [
-            'formUpdate' => $formUpdate->createView(),
+            'form' => $form->createView(),
             'formDelete' => $formDelete->createView(),
         ]);
     }

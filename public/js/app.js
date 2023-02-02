@@ -108,15 +108,7 @@ $(function() {
         }
     });
 
-    let foodstuffsForm = $('.foodstuffs-form');
-    if (foodstuffsForm.length > 0) {
-        new FoodstuffsForm(foodstuffsForm);
-    }
-
-    let recipesForm = $('.recipes-form');
-    if (recipesForm.length > 0) {
-        new RecipesForm(recipesForm);
-    }
+    let tagsForm = $('.tags-form');
 
     let tagNumber = $('.tag').length;
 
@@ -129,7 +121,7 @@ $(function() {
         event.preventDefault();
     });
 
-    foodstuffsForm.on('click', '.remove-tag-row', function (event) {
+    tagsForm.on('click', '.remove-tag-row', function (event) {
         let row = $(event.target).closest('tr');
         row.remove();
     });

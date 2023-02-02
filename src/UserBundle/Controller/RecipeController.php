@@ -49,7 +49,7 @@ class RecipeController extends Controller
         $oldExtension = $recipe->getImageExtension();
         $oldTags = $recipe->getTags();
 
-        $formUpdate = $this->createForm(RecipeType::class, $recipe, [
+        $form = $this->createForm(RecipeType::class, $recipe, [
             'method' => 'POST',
         ]);
 
@@ -63,9 +63,9 @@ class RecipeController extends Controller
             $oldFoodstuffWeights->add($weight);
         }
 
-        $formUpdate->handleRequest($request);
+        $form->handleRequest($request);
 
-        if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             try {
                 if (count($recipe->getFoodstuffWeights()) === 0) {
                     throw new Exception('De voedingsmiddelen van het gerecht mogen niet leeg zijn.');
@@ -80,14 +80,14 @@ class RecipeController extends Controller
 
                 return $this->redirectToRoute('user_recipes');
             } catch (Exception $exception) {
-                $formUpdate->addError(new FormError($exception->getMessage()));
+                $form->addError(new FormError($exception->getMessage()));
             }
         }
         $recipe->setImage(null);
 
         return $this->render('@UserBundle/recipe/edit.html.twig', [
             'recipe' => $recipe,
-            'formUpdate' => $formUpdate->createView(),
+            'form' => $form->createView(),
             'formDelete' => $formDelete->createView(),
             'page' => $this->pageRepository->findOneBy(['title' => 'Recept formulier']),
         ]);

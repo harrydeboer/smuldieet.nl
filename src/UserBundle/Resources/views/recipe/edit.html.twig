@@ -3,10 +3,14 @@
 {% block title %}Wijzig{% endblock %}
 
 {% block body %}
-    {{ include('@UserBundle/recipe/_form.html.twig', {form: formUpdate, submit_label: 'Wijzig recept'}) }}
+    {{ include('@UserBundle/recipe/_form.html.twig', {submit_label: 'Wijzig recept'}) }}
     <br>
     {{ include('_delete_confirmation.html.twig', {
         entityName: 'recept',
         warning: 'Weet je zeker dat je dit recept wilt verwijderen?'
     }) }}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('/js/foodstuff_weights.min.js') }}"></script>
 {% endblock %}

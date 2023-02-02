@@ -9,13 +9,13 @@
         {{ form_errors(form.name) }}
         {{ form_errors(form.foodstuff_weights) }}
     </div>
-    {{ form_start(form, { 'attr' : { 'class': 'foodstuffs-form' }}) }}
+    {{ form_start(form, { 'attr' : { 'class': 'foodstuff-weights-form' }}) }}
     <table class="food-table table table-small">
         <tr>
             <td>Naam</td>
             <td colspan="3">{{ form_widget(form.name) }}</td>
         </tr>
-        {{ include('_foodstuff_rows.html.twig', {
+        {{ include('_foodstuff_weights.html.twig', {
             'form_name': 'foodstuff_from_foodstuffs',
             'foodstuff_weights': foodstuffWeights,
             'weights': form.foodstuff_weights
@@ -28,4 +28,8 @@
         </tr>
     </table>
     {{ form_end(form) }}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('/js/foodstuff_weights.min.js') }}"></script>
 {% endblock %}

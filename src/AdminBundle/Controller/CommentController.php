@@ -40,7 +40,7 @@ class CommentController extends AuthController
     {
         $comment = $this->commentRepository->get($id);
 
-        $formUpdate = $this->createForm(CommentType::class, $comment, [
+        $form = $this->createForm(CommentType::class, $comment, [
             'method' => 'POST',
         ]);
 
@@ -49,22 +49,22 @@ class CommentController extends AuthController
             'method' => 'POST',
         ]);
 
-        $formUpdate->handleRequest($request);
+        $form->handleRequest($request);
 
-        if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $comment->setUpdatedAt(time());
                 $this->commentRepository->update($comment);
 
                 return $this->redirectToRoute('admin_comments');
             } catch (Exception $exception) {
-                $formUpdate->addError(new FormError($exception->getMessage()));
+                $form->addError(new FormError($exception->getMessage()));
             }
         }
 
         return $this->render('@AdminBundle/comment/edit.html.twig', [
             'comment' => $comment,
-            'formUpdate' => $formUpdate->createView(),
+            'form' => $form->createView(),
             'formDelete' => $formDelete->createView(),
         ]);
     }

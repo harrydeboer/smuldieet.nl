@@ -64,11 +64,11 @@ class DayController extends AuthController
         }
 
         if (is_null($day->getTimestamp())) {
-            $formUpdate = $this->createForm(StandardDayType::class, $day, [
+            $form = $this->createForm(StandardDayType::class, $day, [
                 'method' => 'POST',
             ]);
         } else {
-            $formUpdate = $this->createForm(DayType::class, $day, [
+            $form = $this->createForm(DayType::class, $day, [
                 'method' => 'POST',
             ]);
         }
@@ -78,11 +78,11 @@ class DayController extends AuthController
             'method' => 'POST',
         ]);
 
-        $formUpdate->handleRequest($request);
+        $form->handleRequest($request);
 
-        if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             if ($dayStandard?->getId() !== $day->getId() && is_null($day->getTimestamp())) {
-                $formUpdate->addError(new FormError('The day cannot become the standard day.'));
+                $form->addError(new FormError('The day cannot become the standard day.'));
             } else {
                 $this->dayRepository->update($day, $oldFoodstuffWeights, $oldRecipeWeights);
 
@@ -92,7 +92,7 @@ class DayController extends AuthController
 
         return $this->render('day/edit.html.twig', [
             'day' => $day,
-            'formUpdate' => $formUpdate->createView(),
+            'form' => $form->createView(),
             'formDelete' => $formDelete->createView(),
         ]);
     }

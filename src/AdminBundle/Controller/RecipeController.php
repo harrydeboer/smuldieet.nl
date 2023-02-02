@@ -41,7 +41,7 @@ class RecipeController extends AuthController
     {
         $recipe = $this->recipeRepository->get($id);
 
-        $formUpdate = $this->createForm(RecipeType::class, $recipe, [
+        $form = $this->createForm(RecipeType::class, $recipe, [
             'method' => 'POST',
         ]);
 
@@ -56,22 +56,22 @@ class RecipeController extends AuthController
             $oldFoodstuffWeights->add($weight);
         }
 
-        $formUpdate->handleRequest($request);
+        $form->handleRequest($request);
 
-        if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $recipe->setUpdatedAt(time());
                 $this->recipeRepository->update($recipe, $oldFoodstuffWeights, $oldTags);
 
                 return $this->redirectToRoute('admin_recipe');
             } catch (Exception $exception) {
-                $formUpdate->addError(new FormError($exception->getMessage()));
+                $form->addError(new FormError($exception->getMessage()));
             }
         }
 
         return $this->render('@AdminBundle/recipe/edit.html.twig', [
             'recipe' => $recipe,
-            'formUpdate' => $formUpdate->createView(),
+            'form' => $form->createView(),
             'formDelete' => $formDelete->createView(),
         ]);
     }

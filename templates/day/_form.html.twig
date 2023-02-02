@@ -7,7 +7,7 @@
     {{ form_errors(form.foodstuff_weights) }}
     {{ form_errors(form.recipe_weights) }}
 </div>
-{{ form_start(form, { 'attr' : { 'class': 'foodstuffs-form recipes-form' }}) }}
+{{ form_start(form, { 'attr' : { 'class': 'foodstuff-weights-form recipe-weights-form' }}) }}
 <table class="food-table table table-small">
     {% if form.date is defined %}
         <tr>
@@ -18,12 +18,12 @@
     {% else %}
         {% set formName = 'standard_day' %}
     {% endif %}
-    {{ include('_foodstuff_rows.html.twig', {
+    {{ include('_foodstuff_weights.html.twig', {
         'form_name': formName,
         'foodstuff_weights': day.foodstuffWeights,
         'weights': form.foodstuff_weights
     }) }}
-    {{ include('_recipe_rows.html.twig', {
+    {{ include('_recipe_weights.html.twig', {
         'form_name': formName,
         'recipe_weights': day.recipeWeights,
         'weights': form.recipe_weights

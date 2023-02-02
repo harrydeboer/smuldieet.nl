@@ -3,10 +3,15 @@
 {% block title %}Wijzig{% endblock %}
 
 {% block body %}
-    {{ include('day/_form.html.twig', {form: formUpdate, submit_label: 'Wijzig dag'}) }}
+    {{ include('day/_form.html.twig', {submit_label: 'Wijzig dag'}) }}
     <br>
     {{ include('_delete_confirmation.html.twig', {
         entityName: 'dag',
         warning: 'Weet je zeker dat je deze dag wilt verwijderen?'
     }) }}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('/js/foodstuff_weights.min.js') }}"></script>
+    <script src="{{ asset('/js/recipe_weights.min.js') }}"></script>
 {% endblock %}

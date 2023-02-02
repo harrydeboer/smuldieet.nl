@@ -52,7 +52,7 @@ class FoodstuffController extends Controller
         $foodstuff = $this->getFoodstuff($id);
         $isLiquidOld = $foodstuff->getIsLiquid();
 
-        $formUpdate = $this->createForm(FoodstuffType::class, $foodstuff, [
+        $form = $this->createForm(FoodstuffType::class, $foodstuff, [
             'method' => 'POST',
         ]);
 
@@ -61,23 +61,23 @@ class FoodstuffController extends Controller
             'method' => 'POST',
         ]);
 
-        $formUpdate->handleRequest($request);
+        $form->handleRequest($request);
 
-        if ($formUpdate->isSubmitted() && $formUpdate->isValid() && $this->checkCanEdit($foodstuff)) {
+        if ($form->isSubmitted() && $form->isValid() && $this->checkCanEdit($foodstuff)) {
             try {
                 $foodstuff->setUpdatedAt(time());
                 $this->foodstuffRepository->update($foodstuff, $isLiquidOld);
 
                 return $this->redirectToRoute('foodstuff');
             } catch (Exception $exception) {
-                $formUpdate->addError(new FormError($exception->getMessage()));
+                $form->addError(new FormError($exception->getMessage()));
             }
         }
 
         return $this->render('foodstuff/edit.html.twig', [
             'nutrients' => $this->nutrientRepository->findAll(),
             'foodstuff' => $foodstuff,
-            'formUpdate' => $formUpdate->createView(),
+            'form' => $form->createView(),
             'formDelete' => $formDelete->createView(),
         ]);
     }

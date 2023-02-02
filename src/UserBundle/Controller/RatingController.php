@@ -83,7 +83,7 @@ class RatingController extends AuthController
         $oldRating = $rating->getRating();
         $oldContent = $rating->getContent();
 
-        $formUpdate = $this->createForm(ReviewType::class, $rating, [
+        $form = $this->createForm(ReviewType::class, $rating, [
             'method' => 'POST',
         ]);
 
@@ -92,9 +92,9 @@ class RatingController extends AuthController
             'method' => 'POST',
         ]);
 
-        $formUpdate->handleRequest($request);
+        $form->handleRequest($request);
 
-        if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             try {
                 if ($rating->getContent() !== $oldContent) {
                     $rating->setIsPending(true);
@@ -106,13 +106,13 @@ class RatingController extends AuthController
 
                 return $this->redirectToRoute('user_ratings');
             } catch (Exception $exception) {
-                $formUpdate->addError(new FormError($exception->getMessage()));
+                $form->addError(new FormError($exception->getMessage()));
             }
         }
 
         return $this->render('@UserBundle/rating/edit.html.twig', [
             'rating' => $rating,
-            'formUpdate' => $formUpdate->createView(),
+            'form' => $form->createView(),
             'formDelete' => $formDelete->createView(),
         ]);
     }

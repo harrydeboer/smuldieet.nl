@@ -37,13 +37,13 @@ class HomepageController extends AuthController
 
         $oldExtension = $this->getUser()->getImageExtension();
 
-        $formUpdate = $this->createForm(UserType::class, $user, [
+        $form = $this->createForm(UserType::class, $user, [
             'method' => 'POST',
         ]);
 
-        $formUpdate->handleRequest($request);
+        $form->handleRequest($request);
 
-        if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $user->setUpdatedAt(time());
                 $this->userRepository->update();
@@ -55,14 +55,14 @@ class HomepageController extends AuthController
 
                 return $this->redirectToRoute('user_homepage');
             } catch (Exception $exception) {
-                $formUpdate->addError(new FormError($exception->getMessage()));
+                $form->addError(new FormError($exception->getMessage()));
             }
         }
         $user->setImage(null);
 
         return $this->render('@UserBundle/homepage/edit.html.twig', [
             'user' => $this->getUser(),
-            'formUpdate' => $formUpdate->createView(),
+            'form' => $form->createView(),
         ]);
     }
 }

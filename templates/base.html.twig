@@ -3,6 +3,8 @@
 <head>
     <title>{% block title %}{% endblock %}</title>
     {{ include('_head.html.twig') }}
+    {% block stylesheets %}
+    {% endblock %}
 </head>
 <body>
 <div class="container">
@@ -11,29 +13,31 @@
         <div class="col"><h1 id="smuldieet_title">Smuldieet</h1></div>
     </div>
 </div>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <button class="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbar_supported_content"
-                aria-controls="navbar_supported_content"
-                aria-expanded="false"
-                aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbar_supported_content">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li><a href="{{ path('homepage') }}">Home</a></li>
-                <li><a href="{{ path('app_login') }}"><i class="fas fa-user"></i></a></li>
-                <li><a href="{{ path('contact') }}">Contact</a></li>
-                <li><a href="{{ path('foodstuff') }}">Voedingsmiddelen</a></li>
-                <li><a href="{{ path('diary') }}">Dagboek</a></li>
-                <li><a href="{{ path('overview') }}">Overzicht</a></li>
-            </ul>
+{% block nav %}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <button class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbar_supported_content"
+                    aria-controls="navbar_supported_content"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbar_supported_content">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li><a href="{{ path('homepage') }}">Home</a></li>
+                    <li><a href="{{ path('app_login') }}"><i class="fas fa-user"></i></a></li>
+                    <li><a href="{{ path('contact') }}">Contact</a></li>
+                    <li><a href="{{ path('foodstuff') }}">Voedingsmiddelen</a></li>
+                    <li><a href="{{ path('diary') }}">Dagboek</a></li>
+                    <li><a href="{{ path('overview') }}">Overzicht</a></li>
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
+{% endblock %}
 <div class="container">
     {% block body %}
     {% endblock %}
@@ -44,8 +48,6 @@
 {% endif %}
 <script src="{{ asset('js/jquery.min.js') }}"></script>
 <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ asset('/js/FoodstuffsForm.min.js') }}"></script>
-<script src="{{ asset('/js/RecipesForm.min.js') }}"></script>
 <script src="{{ asset('/js/app.min.js') }}"></script>
 {% block javascripts %}
 {% endblock %}

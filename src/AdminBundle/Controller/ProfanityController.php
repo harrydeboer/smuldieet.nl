@@ -36,7 +36,7 @@ class ProfanityController extends AuthController
     {
         $profanity = $this->profanityRepository->get($id);
 
-        $formUpdate = $this->createForm(ProfanityType::class, $profanity, [
+        $form = $this->createForm(ProfanityType::class, $profanity, [
             'method' => 'POST',
         ]);
 
@@ -45,16 +45,16 @@ class ProfanityController extends AuthController
             'method' => 'POST',
         ]);
 
-        $formUpdate->handleRequest($request);
+        $form->handleRequest($request);
 
-        if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->profanityRepository->update();
 
             return $this->redirectToRoute('admin_profanity');
         }
 
         return $this->render('@AdminBundle/profanity/edit.html.twig', [
-            'formUpdate' => $formUpdate->createView(),
+            'form' => $form->createView(),
             'formDelete' => $formDelete->createView(),
         ]);
     }

@@ -42,7 +42,7 @@ class CookbookController extends AuthController
     {
         $cookbook = $this->getCookbook($id);
 
-        $formUpdate = $this->createForm(CookbookType::class, $cookbook, [
+        $form = $this->createForm(CookbookType::class, $cookbook, [
             'method' => 'POST',
         ]);
 
@@ -56,9 +56,9 @@ class CookbookController extends AuthController
             $oldRecipeWeights->add($weight);
         }
 
-        $formUpdate->handleRequest($request);
+        $form->handleRequest($request);
 
-        if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $cookbook->setUpdatedAt(time());
             $this->cookbookRepository->update($cookbook, $oldRecipeWeights);
 
@@ -67,7 +67,7 @@ class CookbookController extends AuthController
 
         return $this->render('@UserBundle/cookbook/edit.html.twig', [
             'cookbook' => $cookbook,
-            'formUpdate' => $formUpdate->createView(),
+            'form' => $form->createView(),
             'formDelete' => $formDelete->createView(),
         ]);
     }

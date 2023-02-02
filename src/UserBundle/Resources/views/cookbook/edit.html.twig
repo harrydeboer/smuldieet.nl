@@ -3,10 +3,14 @@
 {% block title %}Wijzig{% endblock %}
 
 {% block body %}
-    {{ include('@UserBundle/cookbook/_form.html.twig', {form: formUpdate, submit_label: 'Wijzig kookboek'}) }}
+    {{ include('@UserBundle/cookbook/_form.html.twig', {submit_label: 'Wijzig kookboek'}) }}
     <br>
     {{ include('_delete_confirmation.html.twig', {
         entityName: 'kookboek',
         warning: 'Weet je zeker dat je dit kookboek wilt verwijderen?'
     }) }}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('/js/recipe_weights.min.js') }}"></script>
 {% endblock %}

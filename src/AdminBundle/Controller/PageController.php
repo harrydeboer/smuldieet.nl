@@ -39,7 +39,7 @@ class PageController extends AuthController
     {
         $page = $this->pageRepository->get($id);
 
-        $formUpdate = $this->createForm(PageType::class, $page, [
+        $form = $this->createForm(PageType::class, $page, [
             'method' => 'POST',
         ]);
 
@@ -48,9 +48,9 @@ class PageController extends AuthController
             'method' => 'POST',
         ]);
 
-        $formUpdate->handleRequest($request);
+        $form->handleRequest($request);
 
-        if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $page->setUpdatedAt(time());
             $this->pageRepository->update();
 
@@ -58,7 +58,7 @@ class PageController extends AuthController
         }
 
         return $this->render('@AdminBundle/page/edit.html.twig', [
-            'formUpdate' => $formUpdate->createView(),
+            'form' => $form->createView(),
             'formDelete' => $formDelete->createView(),
         ]);
     }

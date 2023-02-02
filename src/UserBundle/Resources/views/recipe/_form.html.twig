@@ -19,7 +19,7 @@
         {{ form_errors(attribute(form, choice)) }}
     {% endfor %}
 </div>
-{{ form_start(form, { 'attr' : { 'class': 'foodstuffs-form' }}) }}
+{{ form_start(form, { 'attr' : { 'class': 'foodstuff-weights-form tags-form' }}) }}
 {{ page is not null ? page.content|raw : '' }}
 <div id="upload_file_button" class="btn btn-primary">Upload afbeelding</div>
 {{ form_widget(form.image) }}
@@ -31,7 +31,7 @@
 {{ form_widget(form.ingredients) }}
 <h4 class="no-wrap">Voedingsmiddelen gerecht</h4>
 <table class="table">
-    {{ include('_foodstuff_rows.html.twig', {
+    {{ include('_foodstuff_weights.html.twig', {
         'form_name': 'recipe',
         'foodstuff_weights': recipe.foodstuffWeights,
         'weights': form.foodstuff_weights

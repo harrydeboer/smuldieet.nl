@@ -39,13 +39,13 @@ class NutrientController extends AuthController
         $nutrient = $this->nutrientRepository->get($id);
         $oldUnit = $nutrient->getUnit();
 
-        $formUpdate = $this->createForm(NutrientType::class, $nutrient, [
+        $form = $this->createForm(NutrientType::class, $nutrient, [
             'method' => 'POST',
         ]);
 
-        $formUpdate->handleRequest($request);
+        $form->handleRequest($request);
 
-        if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $this->validateNutrient($nutrient);
 
@@ -64,13 +64,13 @@ class NutrientController extends AuthController
 
                 return $this->redirectToRoute('admin_nutrient');
             } catch (Exception $exception) {
-                $formUpdate->addError(new FormError($exception->getMessage()));
+                $form->addError(new FormError($exception->getMessage()));
             }
         }
 
         return $this->render('@AdminBundle/nutrient/edit.html.twig', [
             'nutrient' => $nutrient,
-            'formUpdate' => $formUpdate->createView(),
+            'form' => $form->createView(),
         ]);
     }
 

@@ -1,4 +1,4 @@
-class FoodstuffsForm {
+class FoodstuffWeights {
 
     constructor(form) {
         this.formName = form.attr('name');
@@ -214,3 +214,5 @@ class FoodstuffsForm {
         }
     }
 }
+
+new FoodstuffWeights($('.foodstuff-weights-form'));

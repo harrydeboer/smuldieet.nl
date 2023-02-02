@@ -5,3 +5,8 @@
 {% block body %}
     {{ include('day/_form.html.twig', {submit_label: 'Dag opslaan'}) }}
 {% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('/js/foodstuff_weights.min.js') }}"></script>
+    <script src="{{ asset('/js/recipe_weights.min.js') }}"></script>
+{% endblock %}

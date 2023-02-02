@@ -4,13 +4,13 @@
     {{ form_errors(form.title) }}
     {{ form_errors(form.recipe_weights) }}
 </div>
-{{ form_start(form, { 'attr' : { 'class': 'recipes-form' }}) }}
+{{ form_start(form, { 'attr' : { 'class': 'recipe-weights-form' }}) }}
 <table class="food-table table table-small">
     <tr>
         <td>Titel</td>
         <td colspan="3">{{ form_widget(form.title) }}</td>
     </tr>
-    {{ include('_recipe_rows.html.twig', {
+    {{ include('_recipe_weights.html.twig', {
         'form_name': 'cookbook',
         'recipe_weights': cookbook.recipeWeights,
         'weights': form.recipe_weights

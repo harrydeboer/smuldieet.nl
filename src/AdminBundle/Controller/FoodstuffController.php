@@ -45,7 +45,7 @@ class FoodstuffController extends AuthController
 
         $isLiquidOld = $foodstuff->getIsLiquid();
 
-        $formUpdate = $this->createForm(FoodstuffType::class, $foodstuff, [
+        $form = $this->createForm(FoodstuffType::class, $foodstuff, [
             'method' => 'POST',
         ]);
 
@@ -54,9 +54,9 @@ class FoodstuffController extends AuthController
             'method' => 'POST',
         ]);
 
-        $formUpdate->handleRequest($request);
+        $form->handleRequest($request);
 
-        if ($formUpdate->isSubmitted() && $formUpdate->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
             /**
              * Check if a foodstuff of a user with the same name already exists.
@@ -83,14 +83,14 @@ class FoodstuffController extends AuthController
 
                 return $this->redirectToRoute('admin_foodstuff');
             } catch (Exception $exception) {
-                $formUpdate->addError(new FormError($exception->getMessage()));
+                $form->addError(new FormError($exception->getMessage()));
             }
         }
 
         return $this->render('@AdminBundle/foodstuff/edit.html.twig', [
             'nutrients' => $this->nutrientRepository->findAll(),
             'foodstuff' => $foodstuff,
-            'formUpdate' => $formUpdate->createView(),
+            'form' => $form->createView(),
             'formDelete' => $formDelete->createView(),
         ]);
     }
