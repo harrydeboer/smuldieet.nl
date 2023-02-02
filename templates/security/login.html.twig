@@ -21,24 +21,20 @@
             <div>{{ error.messageKey|trans(error.messageData, 'security', 'nl') }}</div>
         {% endif %}
         <form action="{{ path('app_login') }}" id="login-form" method="post">
-            <div class="row width-max-md">
-                <div class="col"><label for="username">E-mail</label></div>
-                <div class="col">
-                    <input type="email" id="username" class="form-control"
-                           name="_username" value="{{ last_username }}">
-                </div>
-                <div class="w-100"></div>
-                <div class="col"><label for="password">Wachtwoord</label></div>
-                <div class="col">
-                    <input type="password" id="password" class="form-control" name="_password">
-                </div>
-                <div class="w-100"></div>
+            <div class="row">
+                <div class="col"><label for="username" class="col-form-label">E-mail</label></div>
+                <div class="col"><input type="email" id="username" class="form-control"
+                                        name="_username" value="{{ last_username }}"></div>
+            </div>
+            <div class="row">
+                <div class="col"><label for="password" class="col-form-label">Wachtwoord</label></div>
+                <div class="col"><input type="password" id="password" class="form-control" name="_password"></div>
+            </div>
+            <div class="row">
                 <div class="col">
                     <button type="submit" id="login-submit-button" class="btn btn-success">Inloggen</button>
                 </div>
-                <div class="col">
-                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                </div>
+                <div class="col"><input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"></div>
             </div>
         </form>
         <div class="no-wrap">Niet geregistreerd? Ga naar <a href="{{ path('app_register') }}">deze</a> link.</div>

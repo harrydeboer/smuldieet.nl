@@ -10,22 +10,19 @@
         {{ form_errors(form.start) }}
         {{ form_errors(form.end) }}
     </div>
-    {{ form_start(form) }}
-    <table class="table table-small">
-        <thead>
-        <tr>
-            <th scope="col">Begin datum</th>
-            <th scope="col">Eind datum</th>
-        </tr>
-        </thead>
-        <tr>
-            <td>{{ form_widget(form.start) }}</td>
-            <td>{{ form_widget(form.end) }}</td>
-        </tr>
-        <tr>
-            <td colspan="2">{{ form_widget(form.submit, { 'label': 'Bekijk' }) }}</td>
-        </tr>
-    </table>
+    {{ form_start(form, {'attr':{'class':'form-inline'}}) }}
+    <div class="row">
+        <div class="col">{{ form_label(form.start) }}</div>
+        <div class="col">{{ form_label(form.end) }}</div>
+    </div>
+    <div class="row">
+        <div class="col">{{ form_widget(form.start) }}</div>
+        <div class="col">{{ form_widget(form.end) }}</div>
+    </div>
+    <div class="row">
+        <div class="col">{{ form_widget(form.submit, { 'label': 'Bekijk' }) }}</div>
+        <div class="col"></div>
+    </div>
     {{ form_end(form) }}
     {% if nutrients is not empty %}
         <table class="table">

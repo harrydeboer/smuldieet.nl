@@ -49,30 +49,43 @@ class RegistrationType extends AbstractType
             ->add('username', TextType::class, [
                 'attr' => ['class' => 'form-control'],
                 'label' => 'Gebruikersnaam',
+                'label_attr' => ['class' => 'col-form-label'],
             ])
             ->add('email', EmailType::class, [
                 'attr' => ['class' => 'form-control'],
                 'label' => 'E-mail',
+                'label_attr' => ['class' => 'col-form-label'],
             ])
             ->add('birthdate', DateType::class, [
                 'years' => $years,
                 'label' => 'Geboortedatum',
+                'label_attr' => ['class' => 'col-form-label'],
                 'placeholder' => ['day' => 'dag', 'month' => 'maand', 'year' => 'jaar'],
             ])
             ->add('gender', ChoiceType::class, [
                 'choices' => array_combine(User::GENDER, User::GENDER),
                 'expanded' => true,
                 'label' => 'Geslacht',
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr' => ['class' => 'form-control gender-field']
             ])
             ->add('weight', NumberType::class, [
                 'attr' => ['class' => 'form-control'],
                 'label' => 'Gewicht',
+                'label_attr' => ['class' => 'col-form-label'],
             ])
             ->add('plain_password', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'first_options' => ['label' => 'Wachtwoord', 'attr' => ['class' => 'form-control']],
-                'second_options' => ['label' => 'Herhaal wachtwoord', 'attr' => ['class' => 'form-control']],
+                'first_options' => [
+                    'label' => 'Wachtwoord',
+                    'label_attr' => ['class'=> 'col-form-label'],
+                    'attr' => ['class' => 'form-control'],
+                    ],
+                'second_options' => [
+                    'label' => 'Herhaal wachtwoord',
+                    'attr' => ['class' => 'form-control'],
+                    'label_attr' => ['class'=> 'col-form-label'],
+                    ],
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
                 'invalid_message' => 'De wachtwoorden moeten gelijk zijn aan elkaar.',

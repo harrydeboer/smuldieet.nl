@@ -19,11 +19,15 @@ class OverviewType extends AbstractType
             ->add('start', DateType::class, [
                 'widget' => 'single_text',
                 'years' => $years,
+                'label' => 'Begin datum',
+                'label_attr' => ['class' => 'form-label'],
                 'attr' => ['class' => 'form-control'],
             ])
             ->add('end', DateType::class, [
                 'widget' => 'single_text',
                 'years' => $years,
+                'label' => 'Eind datum',
+                'label_attr' => ['class' => 'form-label'],
                 'attr' => ['class' => 'form-control'],
             ])
             ->add('submit', SubmitType::class, [
