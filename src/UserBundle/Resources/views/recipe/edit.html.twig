@@ -2,7 +2,7 @@
 
 {% block title %}Wijzig{% endblock %}
 
-{% block body %}
+{% block content %}
     {{ include('@UserBundle/recipe/_form.html.twig', {submit_label: 'Wijzig recept'}) }}
     <br>
     {{ include('_delete_confirmation.html.twig', {

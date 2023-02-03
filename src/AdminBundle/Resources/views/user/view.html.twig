@@ -2,7 +2,7 @@
 
 {% block title %}Gebruiker{% endblock %}
 
-{% block body %}
+{% block content %}
     <a href="{{ path('admin_user_create') }}">Maak een gebruiker</a>
     <table class="table table-striped">
         {% for user in paginator.results %}

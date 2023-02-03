@@ -2,7 +2,7 @@
 
 {% block title %}{{ page.title }}{% endblock %}
 
-{% block body %}
+{% block content %}
     {{ page.content|raw }}
     {% if isLoggedIn %}
         <div id="form_errors_client"></div>

@@ -2,7 +2,7 @@
 
 {% block title %}{{ page is not null ? page.title : '' }}{% endblock %}
 
-{% block body %}
+{% block content %}
     {{ page is not null ? page.content|raw : '' }}
     {% for message in app.flashes('verify_email_error') %}
         <div class="flash-notice">

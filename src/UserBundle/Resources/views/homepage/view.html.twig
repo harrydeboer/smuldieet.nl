@@ -2,7 +2,7 @@
 
 {% block title %}Home{% endblock %}
 
-{% block body %}
+{% block content %}
     {% if user.imageExtension is not null %}
         <img src="{{ asset(user.imageUrl) }}" id="user_panel_avatar" alt="Image">
     {% endif %}

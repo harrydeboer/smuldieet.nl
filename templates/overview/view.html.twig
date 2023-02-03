@@ -2,7 +2,7 @@
 
 {% block title %}{{ page is not null ? page.title : '' }}{% endblock %}
 
-{% block body %}
+{% block content %}
     {{ page is not null ? page.content|raw : '' }}
     <div id="form_errors_client"></div>
     <div id="form_errors_server">

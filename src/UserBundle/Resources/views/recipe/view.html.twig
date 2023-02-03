@@ -2,7 +2,7 @@
 
 {% block title %}{{ page is not null ? page.title : '' }}{% endblock %}
 
-{% block body %}
+{% block content %}
     {{ page is not null ? page.content|raw : '' }}
     <a href="{{ path('user_recipe_create') }}">Maak een recept</a>
     {% if paginator.results is empty %}

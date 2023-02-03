@@ -2,7 +2,7 @@
 
 {% block title %}{{ page is not null ? page.title : '' }}{% endblock %}
 
-{% block body %}
+{% block content %}
     {% for message in app.flashes('success') %}
         <div class="flash-notice-success">
             {{ message }}
