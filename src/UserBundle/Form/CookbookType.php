@@ -16,7 +16,11 @@ class CookbookType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title', TextType::class, ['attr' => ['class' => 'form-control']])
+            ->add('title', TextType::class, [
+                'attr' => ['class' => 'form-control'],
+                'label' => 'Titel',
+                'label_attr' => ['class' => 'col-form-label'],
+            ])
             ->add('recipe_weights', CollectionType::class, [
                 'entry_type' => RecipeWeightType::class,
                 'entry_options' => ['label' => false],

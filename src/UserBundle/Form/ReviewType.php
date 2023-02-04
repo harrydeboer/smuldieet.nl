@@ -19,6 +19,7 @@ class ReviewType extends AbstractType
                 'attr' => [
                     'class' => 'form-control',
                 ],
+                'label' => 'Waardering',
             ])
             ->add('content', TextareaType::class, [
                 'attr' => [
@@ -26,6 +27,7 @@ class ReviewType extends AbstractType
                     'rows' => 10,
                 ],
                 'required' => false,
+                'label' => 'Recensie',
             ])
             ->add('submit', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-success'],

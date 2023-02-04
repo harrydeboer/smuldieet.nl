@@ -46,26 +46,40 @@ class RecipeType extends AbstractType
             ])
             ->add('title', TextType::class, [
                 'attr' => ['class' => 'form-control'],
+                'label' => 'Titel',
+                'label_attr' => ['class' => 'col-form-label'],
             ])
             ->add('url', TextType::class, [
                 'required' => false,
                 'attr' => ['class' => 'form-control'],
+                'label' => 'Url video',
+                'label_attr' => ['class' => 'col-form-label'],
             ])
             ->add('ingredients', TextareaType::class, [
                 'attr' => [
                     'class' => 'form-control',
                     'rows' => 10,
-                ]])
+                ],
+                'label' => 'Ingrediënten',
+                'label_attr' => ['class' => 'col-form-label'],
+            ])
             ->add('preparation_method', TextareaType::class, ['attr' => [
                 'class' => 'form-control',
                 'rows' => 10,
-            ]])
+            ],
+                'label' => 'Bereidingswijze',
+                'label_attr' => ['class' => 'col-form-label'],
+            ])
             ->add('number_of_persons', IntegerType::class, [
                 'attr' => ['class' => 'form-control'],
+                'label' => 'Aantal personen',
+                'label_attr' => ['class' => 'col-form-label'],
             ])
             ->add('source', TextType::class, [
                 'required' => false,
                 'attr' => ['class' => 'form-control d-none'],
+                'label' => 'Bron',
+                'label_attr' => ['class' => 'col-form-label'],
             ])
             ->add('tags', CollectionType::class, [
                 'entry_type' => TagType::class,
@@ -79,26 +93,36 @@ class RecipeType extends AbstractType
             ->add('is_self_invented', ChoiceType::class, [
                 'choices' => ['ja' => true, 'nee' => false],
                 'expanded' => true,
+                'label' => 'Zelf bedacht',
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr' => ['class' => 'form-control'],
             ])
             ->add('cooking_time', ChoiceType::class, [
                 'placeholder' => 'selecteer bereidingstijd',
                 'attr' => ['class' => 'form-control form-select'],
+                'label' => 'Bereidingstijd',
+                'label_attr' => ['class' => 'col-form-label'],
                 'choices' => array_combine(Recipe::COOKING_TIMES,Recipe::COOKING_TIMES),
             ])
             ->add('kitchen', ChoiceType::class, [
                 'placeholder' => 'selecteer keuken',
                 'attr' => ['class' => 'form-control form-select'],
+                'label' => 'Keuken',
+                'label_attr' => ['class' => 'col-form-label'],
                 'choices' => array_combine(Recipe::KITCHEN,Recipe::KITCHEN),
             ])
             ->add('type_of_dish', ChoiceType::class, [
                 'placeholder' => 'selecteer gerecht',
                 'attr' => ['class' => 'form-control form-select'],
+                'label' => 'Type gerecht',
+                'label_attr' => ['class' => 'col-form-label'],
                 'choices' => array_combine(Recipe::TYPE_OF_DISH,Recipe::TYPE_OF_DISH),
             ])
             ->add('occasion', ChoiceType::class, [
                 'placeholder' => 'selecteer gelegenheid',
                 'attr' => ['class' => 'form-control form-select'],
+                'label' => 'Gelegenheid',
+                'label_attr' => ['class' => 'col-form-label'],
                 'choices' => array_combine(Recipe::OCCASION,Recipe::OCCASION),
                 'required' => false,
             ])->add('foodstuff_weights', CollectionType::class, [
@@ -119,7 +143,7 @@ class RecipeType extends AbstractType
             );
         }
         $builder->add('submit', SubmitType::class, [
-                'attr' => ['class' => 'btn btn-success'],
-            ]);
+            'attr' => ['class' => 'btn btn-success'],
+        ]);
     }
 }

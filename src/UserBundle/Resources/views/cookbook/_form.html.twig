@@ -6,7 +6,7 @@
 </div>
 {{ form_start(form, { 'attr' : { 'class': 'recipe-weights-form' }}) }}
 <div class="row">
-    <div class="col">Titel</div>
+    <div class="col">{{ form_label(form.title) }}</div>
     <div class="col">{{ form_widget(form.title) }}</div>
 </div>
 {{ include('_recipe_weights.html.twig', {
