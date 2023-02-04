@@ -48,15 +48,13 @@
     {% endif %}
     <br>
     <br>
-    <table>
-        <thead>
-        <tr>
-            <th scope="col">Smuldieet waardering</th>
-            <th scope="col">&nbsp;&nbsp;Jouw waardering</th>
-        </tr>
-        </thead>
-        <tr>
-            <td>
+    <div class="div-striped">
+        <div class="row">
+            <div class="col">Smuldieet waardering</div>
+            <div class="col">&nbsp;&nbsp;Jouw waardering</div>
+        </div>
+        <div class="row">
+            <div class="col">
                 <div>
                     {% if recipe.rating is null %}
                         N/B
@@ -72,8 +70,8 @@
                         {% endif %}
                     {% endif %}
                 </div>
-            </td>
-            <td>
+            </div>
+            <div class="col">
                 {% if isLoggedIn %}
                     <div id="rate_modal_button" class="fw-bold">&nbsp;&nbsp;
                         {% if rating is null %}
@@ -92,9 +90,9 @@
                     <br>
                     <br>
                 {% endif %}
-            </td>
-        </tr>
-    </table>
+            </div>
+        </div>
+    </div>
     <br>
     <br>
     <div id="single_recipe">
@@ -107,25 +105,23 @@
         <br>
         <br>
         <div class="fw-bold">Voedingsmiddelen gerecht</div>
-        <table class="table">
-            {% for id, weight in recipe.foodstuffWeights %}
-                <tr>
-                    <td>{{ weight.foodstuff.name }}</td>
-                    <td>{{ weight.value|number_format }}
-                        {% if weight.foodstuff.pieceName is not null
-                            and weight.value >= 2
-                            and weight.unit == 'stuks' %}
-                            {{ weight.foodstuff.piecesName }}
-                        {% elseif weight.foodstuff.pieceName is not null
-                            and weight.value < 2
-                            and weight.unit == 'stuks' %}
-                            {{ weight.foodstuff.pieceName }}
-                        {% else %}
-                            {{ weight.unit }}
-                        {% endif %}</td>
-                </tr>
-            {% endfor %}
-        </table>
+        {% for id, weight in recipe.foodstuffWeights %}
+            <div class="row">
+                <div class="col">{{ weight.foodstuff.name }}</div>
+                <div class="col">{{ weight.value|number_format }}
+                    {% if weight.foodstuff.pieceName is not null
+                        and weight.value >= 2
+                        and weight.unit == 'stuks' %}
+                        {{ weight.foodstuff.piecesName }}
+                    {% elseif weight.foodstuff.pieceName is not null
+                        and weight.value < 2
+                        and weight.unit == 'stuks' %}
+                        {{ weight.foodstuff.pieceName }}
+                    {% else %}
+                        {{ weight.unit }}
+                    {% endif %}</div>
+            </div>
+        {% endfor %}
         <div class="fw-bold">Bereidingswijze</div>
         {{ recipe.preparationMethod|nl2br }}
         {% if recipe.source is not null %}
@@ -156,15 +152,21 @@
                 <a href="{{ path('user_review_edit', {'id': rating.id}) }}">schrijf een recensie</a>.
             {% endif %}
         {% endif %}
-        <table class="table table-striped">
+        <div class="div-striped">
             {% for review in paginatorReviews.results %}
-                <tr>
-                    <td>{{ review.rating }} <i class="fas fa-star fa-star-gold"></i></td>
-                    <td>{{ review.content|length > 10 ? review.content|slice(0, 10) ~ '...' : review.content }}</td>
-                    <td><a href="{{ path('review_single', {'id': review.id}) }}">toon volledige recensie</a></td>.
-                </tr>
+                <div class="row">
+                    <div class="col">
+                        {{ review.rating }} <i class="fas fa-star fa-star-gold"></i>
+                    </div>
+                    <div class="col">
+                        {{ review.content|length > 10 ? review.content|slice(0, 10) ~ '...' : review.content }}
+                    </div>
+                    <div class="col">
+                        <a href="{{ path('review_single', {'id': review.id}) }}">toon volledige recensie</a>
+                    </div>.
+                </div>
             {% endfor %}
-        </table>
+        </div>
         {{ include('pagination/view.html.twig',
             {paginator: paginatorReviews, route: 'recipe_review_index_paginated'}) }}
         <br>

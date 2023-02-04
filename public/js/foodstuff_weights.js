@@ -20,18 +20,18 @@ class FoodstuffWeights {
      */
     addFoodstuff(event) {
         let selector = '#' + this.formName + '_foodstuff_weights__name__';
-        let html = '<tr><td>' +  $(selector + '_foodstuff_id').data('prototype') + '<div class="dropdown">' +
-            $(selector + '_name').data('prototype') +
+        let html = '<div class="row"><div class="col">' +  $(selector + '_foodstuff_id').data('prototype') +
+            '<div class="dropdown">' + $(selector + '_name').data('prototype') +
             '<div class="dropdown-menu dropdown-menu-foodstuff"></div></div>' +
-            '</td>';
-        html += '<td>' + $(selector + '_value').data('prototype') + '</td>';
+            '</div>';
+        html += '<div class="col">' + $(selector + '_value').data('prototype') + '</div>';
         if (this.formName === 'combine_foodstuffs') {
-            html += '<td>%<span id="percentage-unit">' +
-                $(selector + '_unit').data('prototype') + '</span></td>';
+            html += '<div class="col">%<span id="percentage-unit">' +
+                $(selector + '_unit').data('prototype') + '</span></div>';
         } else {
-            html += '<td>' + $(selector + '_unit').data('prototype') + '</td>';
+            html += '<div class="col">' + $(selector + '_unit').data('prototype') + '</div>';
         }
-        html += '<td><i class="remove-row fa fa-minus"></i></td></tr>';
+        html += '<div class="col"><i class="remove-row fa fa-minus"></i></div></div>';
         html = html.replaceAll('__name__', this.weightsNumber.toString());
         $('#add_foodstuff_recipe_button_row').before(html);
         let unit = $('#' + this.formName + '_foodstuff_weights_' + this.weightsNumber + '_unit');
@@ -186,7 +186,7 @@ class FoodstuffWeights {
      */
     FoodstuffRow = class {
         constructor(thisElement) {
-            this.row = $(thisElement).closest('tr');
+            this.row = $(thisElement).closest('.row');
         }
 
         getFoodstuffId() {

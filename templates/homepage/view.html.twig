@@ -40,14 +40,14 @@
         <div class="dropdown" id="diet">
             <div class="form-control form-select" id="diet_filter" role="button"
                  data-bs-toggle="dropdown" aria-expanded="false">Dieet</div>
-            <table class="dropdown-menu dropdown-diet" aria-labelledby="diet_filter">
+            <div class="dropdown-menu dropdown-diet" aria-labelledby="diet_filter">
                 {% for choice,label in dietChoices %}
-                    <tr>
-                        <td>{{ form_label(attribute(form, choice)) }}</td>
-                        <td>{{ form_widget(attribute(form, choice)) }}</td>
-                    </tr>
+                    <div class="row">
+                        <div class="col-9">{{ form_label(attribute(form, choice)) }}</div>
+                        <div class="col">{{ form_widget(attribute(form, choice)) }}</div>
+                    </div>
                 {% endfor %}
-            </table>
+            </div>
         </div>
         {{ form_widget(form.sort) }}
     </div>

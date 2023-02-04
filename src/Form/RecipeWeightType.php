@@ -26,10 +26,13 @@ class RecipeWeightType extends AbstractType
                 'maxlength' => 255,
                 'role' => 'searchbox',
                 'data-bs-toggle' => 'dropdown',
-                ],
+            ],
             'mapped' => false,
         ])->add('value', NumberType::class, [
-            'attr' => ['class' => 'form-control recipe-weight'],
+            'attr' => [
+                'class' => 'form-control recipe-weight',
+                'placeholder' => 'aantal keer',
+            ],
         ]);
     }
 

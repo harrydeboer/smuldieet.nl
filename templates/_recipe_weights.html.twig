@@ -1,32 +1,32 @@
-<tr><td colspan="3" id="recipe_weights_error"></td></tr>
+<div id="recipe_weights_error"></div>
 {% for id, weight in weights %}
     {% set weight_value_classes = weight.value.vars.attr.class %}
     {% if form_name == 'cookbook' %}
         {% set weight_value_classes = weight_value_classes~' hidden-input' %}
     {% endif %}
-    <tr>
-        <td>
+    <div class="row">
+        <div class="col">
             {{ form_widget(weight.recipe_id, {'value': recipe_weights[id].recipe.id}) }}
             <div class="dropdown">{{ form_widget(weight.title, {'value': recipe_weights[id].recipe.title}) }}
                 <div class="dropdown-menu dropdown-menu-recipe">
                 </div>
             </div>
-        </td>
-        <td colspan="2">{{ form_widget(weight.value, {'attr': {'class': weight_value_classes}}) }}
-            </td>
-        <td><i class="remove-row fa fa-minus"></i></td>
-    </tr>
+        </div>
+        <div class="col">{{ form_widget(weight.value, {'attr': {'class': weight_value_classes}}) }}</div>
+        <div class="col"></div>
+        <div class="col"><i class="remove-row fa fa-minus"></i></div>
+    </div>
 {% endfor %}
-<tr class="d-none">
-    <td colspan="3">
+<div class="row d-none">
+    <div class="col">
         <div id="{{ form_name }}_recipe_weights__name___recipe_id"
              data-prototype="{{ form_widget(weights.vars.prototype.recipe_id)|e('html') }}"></div>
         <div id="{{ form_name }}_recipe_weights__name___title"
              data-prototype="{{ form_widget(weights.vars.prototype.title)|e('html') }}"></div>
         <div id="{{ form_name }}_recipe_weights__name___value"
              data-prototype="{{ form_widget(weights.vars.prototype.value)|e('html') }}"></div>
-    </td>
-    <td>
+    </div>
+    <div class="col">
         <div id="recipe_search" data-search="{{ path('recipe_search', {'title': '__title__'}) }}"></div>
-    </td>
-</tr>
+    </div>
+</div>

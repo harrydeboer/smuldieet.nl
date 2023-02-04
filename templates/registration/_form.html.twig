@@ -25,33 +25,32 @@
 </div>
 {{ form_start(form) }}
 <div class="row">
-    <div class="col">
+    <div class="col-9">
         <button id="upload_file_button" class="btn btn-primary">Upload foto</button>{{ form_widget(form.image) }}
     </div>
-    <div class="col"></div>
 </div>
 <div class="row">
-    <div class="col">{{ form_label(form.username) }}</div>
+    <div class="col-6">{{ form_label(form.username) }}</div>
     <div class="col">{{ form_widget(form.username) }}</div>
 </div>
 {% if form.first_name is defined %}
     <div class="row">
-        <div class="col">{{ form_label(form.first_name) }}</div>
+        <div class="col-6">{{ form_label(form.first_name) }}</div>
         <div class="col">{{ form_widget(form.first_name) }}</div>
     </div>
 {% endif %}
     {% if form.last_name is defined %}
         <div class="row">
-            <div class="col">{{ form_label(form.last_name) }}</div>
+            <div class="col-6">{{ form_label(form.last_name) }}</div>
             <div class="col">{{ form_widget(form.last_name) }}</div>
         </div>
     {% endif %}
 <div class="row">
-    <div class="col">{{ form_label(form.email) }}</div>
+    <div class="col-6">{{ form_label(form.email) }}</div>
     <div class="col">{{ form_widget(form.email) }}</div>
 </div>
 <div class="row">
-    <div class="col">{{ form_label(form.birthdate) }}</div>
+    <div class="col-6">{{ form_label(form.birthdate) }}</div>
     <div class="col">
         {{ form_widget(form.birthdate.day, {'attr': {'class': 'date-field form-control form-select'}}) }}
         {{ form_widget(form.birthdate.month, {'attr': {'class': 'date-field form-control form-select'}}) }}
@@ -59,35 +58,34 @@
     </div>
 </div>
 <div class="row">
-    <div class="col">{{ form_label(form.gender) }}</div>
+    <div class="col-6">{{ form_label(form.gender) }}</div>
     <div class="col">{{ form_widget(form.gender) }}</div>
 </div>
 <div class="row">
-    <div class="col">{{ form_label(form.weight) }}</div>
+    <div class="col-6">{{ form_label(form.weight) }}</div>
     <div class="col">{{ form_widget(form.weight) }}</div>
 </div>
 {% if form.roles is defined %}
     <div class="row">
-        <div class="col">{{ form_label(form.roles) }}</div>
+        <div class="col-6">{{ form_label(form.roles) }}</div>
         <div class="col">{{ form_widget(form.roles) }}</div>
     </div>
 {% endif %}
     {% if form.is_verified is defined %}
         <div class="row">
-            <div class="col">{{ form_label(form.is_verified) }}</div>
+            <div class="col-6">{{ form_label(form.is_verified) }}</div>
             <div class="col">{{ form_widget(form.is_verified) }}</div>
         </div>
     {% endif %}
 <div class="row">
-    <div class="col">{{ form_label(form.plain_password.children.first) }}</div>
+    <div class="col-6">{{ form_label(form.plain_password.children.first) }}</div>
     <div class="col">{{ form_widget(form.plain_password.children.first) }}</div>
 </div>
 <div class="row">
-    <div class="col">{{ form_label(form.plain_password.children.second) }}</div>
+    <div class="col-6">{{ form_label(form.plain_password.children.second) }}</div>
     <div class="col">{{ form_widget(form.plain_password.children.second) }}</div>
 </div>
 <div class="row">
-    <div class="col">{{ form_widget(form.register, { 'label': submit_label }) }}</div>
-    <div class="col"></div>
+    <div class="col-6">{{ form_widget(form.register, { 'label': submit_label }) }}</div>
 </div>
 {{ form_end(form) }}

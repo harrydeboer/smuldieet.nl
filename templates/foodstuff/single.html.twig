@@ -3,45 +3,45 @@
 {% block title %}Voedingsmiddel{% endblock %}
 
 {% block content %}
-    <table class="table table-small">
-        <tr>
-            <td>Naam</td>
-            <td>{{ foodstuff.name }}</td>
-        </tr>
+        <div class="row">
+            <div class="col">Naam</div>
+            <div class="col">{{ foodstuff.name }}</div>
+        </div>
         {% if isLoggedIn %}
             {% if foodstuff.pieceWeight is not null %}
-                <tr>
-                    <td>Gewicht per stuk (g)</td>
-                    <td>{{ foodstuff.pieceWeight }}</td>
-                </tr>
+                <div class="row">
+                    <div class="col">Gewicht per stuk (g)</div>
+                    <div class="col">{{ foodstuff.pieceWeight }}</div>
+                </div>
             {% endif %}
             {% if foodstuff.pieceName is not null %}
-                <tr>
-                    <td>Naam per stuk</td>
-                    <td>{{ foodstuff.pieceName }}</td>
-                </tr>
+                <div class="row">
+                    <div class="col">Naam per stuk</div>
+                    <div class="col">{{ foodstuff.pieceName }}</div>
+                </div>
             {% endif %}
             {% for nutrient in nutrients %}
-                <tr>
-                    <td>{{ nutrient.displayName }} {{ nutrient.unit }}</td>
+                <div class="row">
+                    <div class="col">{{ nutrient.displayName }} {{ nutrient.unit }}</div>
                     {% if attribute(foodstuff, nutrient.name) is null %}
-                        <td>N/B</td>
+                        <div class="col">N/B</div>
                     {% else %}
-                        <td>{{ attribute(foodstuff, nutrient.name)|number_format(nutrient.decimalPlaces) }}</td>
+                        <div class="col">
+                            {{ attribute(foodstuff, nutrient.name)|number_format(nutrient.decimalPlaces) }}
+                        </div>
                     {% endif %}
-                </tr>
+                </div>
             {% endfor %}
         {% else %}
-            <tr>
-                <td colspan="2"><a href="{{ path('app_login') }}">Log in om alle waarden te zien.</a></td>
-            </tr>
+            <div class="row">
+                <div class="col"><a href="{{ path('app_login') }}">Log in om alle waarden te zien.</a></div>
+            </div>
         {% endif %}
-        <tr>
-            <td colspan="2">
+        <div class="row">
+            <div class="col">
                 {% if foodstuff.user is not null %}
                     <a href="{{ path('foodstuff_edit', {'id': foodstuff.id}) }}">wijzig</a>
                 {% endif %}
-            </td>
-        </tr>
-    </table>
+            </div>
+        </div>
 {% endblock %}

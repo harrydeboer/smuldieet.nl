@@ -33,10 +33,13 @@ class FoodstuffWeightType extends AbstractType
                 'maxlength' => 255,
                 'role' => 'searchbox',
                 'data-bs-toggle' => 'dropdown',
-                ],
+            ],
             'mapped' => false,
         ])->add('value', NumberType::class, [
-            'attr' => ['class' => 'form-control foodstuff-weight'],
+            'attr' => [
+                'class' => 'form-control foodstuff-weight',
+                'placeholder' => 'gewicht',
+            ],
         ])->add('unit', ChoiceType::class, [
             'choices' => array_combine($choices, $choices),
             'attr' => [

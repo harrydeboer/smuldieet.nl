@@ -18,20 +18,22 @@
     {% if paginator.results is empty %}
         <br><p>Er zijn nog geen dagen toegevoegd aan je dagboek.</p>
     {% else %}
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th scope="col">Datum</th>
-                <th scope="col">Wijzig</th>
-            </tr>
-            </thead>
+        <div class="div-striped">
+            <div class="row">
+                <div class="col">Datum</div>
+                <div class="col">Wijzig</div>
+            </div>
             {% for day in paginator.results %}
-                <tr>
-                    <td><a href="{{ path('day_single', {'id': day.id}) }}">{{ day.date|date('d-M-Y') }}</a></td>
-                    <td><a href="{{ path('day_edit', {'id': day.id }) }}">wijzig</a></td>
-                </tr>
+                <div class="row">
+                    <div class="col">
+                        <a href="{{ path('day_single', {'id': day.id}) }}">{{ day.date|date('d-M-Y') }}</a>
+                    </div>
+                    <div class="col">
+                        <a href="{{ path('day_edit', {'id': day.id }) }}">wijzig</a>
+                    </div>
+                </div>
             {% endfor %}
-        </table>
+        </div>
         {{ include('pagination/view.html.twig', {route: 'diary_index_paginated'}) }}
     {% endif %}
 {% endblock %}

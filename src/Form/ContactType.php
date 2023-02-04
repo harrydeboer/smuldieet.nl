@@ -22,6 +22,8 @@ class ContactType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'attr' => ['class' => 'form-control'],
+                'label' => 'Naam',
+                'label_attr' => ['class' => 'col-form-label'],
                 'constraints' => [
                     new NotBlank(null, 'De naam mag niet leeg zijn.'),
                     new Length([
@@ -32,6 +34,8 @@ class ContactType extends AbstractType
             ])
             ->add('subject', TextType::class, [
                 'attr' => ['class' => 'form-control'],
+                'label' => 'Onderwerp',
+                'label_attr' => ['class' => 'col-form-label'],
                 'constraints' => [
                     new NotBlank(null, 'Het onderwerp mag niet leeg zijn.'),
                     new Length([
@@ -42,6 +46,8 @@ class ContactType extends AbstractType
             ])
             ->add('email', EmailType::class, [
                     'attr' => ['class' => 'form-control'],
+                    'label' => 'E-mail',
+                    'label_attr' => ['class' => 'col-form-label'],
                     'constraints' => [
                         new NotBlank(null, 'De email mag niet leeg zijn.'),
                         new Email(null, 'Geen geldig e-mail adres.'),
@@ -53,6 +59,8 @@ class ContactType extends AbstractType
                     'class' => 'form-control',
                     'rows' => 10,
                 ],
+                'label' => 'Bericht',
+                'label_attr' => ['class' => 'col-form-label'],
                 'constraints' => [
                     new NotBlank(null, 'Het bericht mag niet leeg zijn.'),
                     new Length([

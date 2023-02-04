@@ -14,13 +14,13 @@ class Recipe_weights {
 
     addRecipe(event) {
         let selector = '#' + this.formName + '_recipe_weights__name__';
-        let html = '<tr><td>' + $(selector + '_recipe_id').data('prototype') + '<div class="dropdown">' +
-            $(selector + '_title').data('prototype') +
+        let html = '<div class="row"><div class="col">' + $(selector + '_recipe_id').data('prototype') +
+            '<div class="dropdown">' + $(selector + '_title').data('prototype') +
             '<div class="dropdown-menu dropdown-menu-recipe"></div></div>' +
-            '</td>';
-        html += '<td colspan="2">' + $(selector + '_value').data('prototype')
-            + '</td>';
-        html += '<td><i class="remove-row fa fa-minus"></i></td></tr>';
+            '</div>';
+        html += '<div class="col">' + $(selector + '_value').data('prototype')
+            + '</div>';
+        html += '<div class="col"></div><div class="col"><i class="remove-row fa fa-minus"></i></div></div>';
         html = html.replaceAll('__name__', this.weightsNumber.toString());
         $('#add_foodstuff_recipe_button_row').before(html);
         if (this.formName === 'cookbook') {
@@ -130,7 +130,7 @@ class Recipe_weights {
      */
     RecipeRow = class {
         constructor(thisElement) {
-            this.row = $(thisElement).closest('tr');
+            this.row = $(thisElement).closest('.row');
         }
 
         getRecipeId() {

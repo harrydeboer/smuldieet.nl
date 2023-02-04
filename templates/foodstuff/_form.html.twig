@@ -18,47 +18,45 @@
     <p>{{ message }}</p>
 {% endfor %}
 {{ form_start(form) }}
-<table class="foodstuff-recipe-table table table-small">
     {% if form.user is defined %}
-        <tr>
-            <td>Gebruiker</td>
-            <td>{{ form_widget(form.user) }}</td>
-        </tr>
+        <div class="row">
+            <div class="col">Gebruiker</div>
+            <div class="col">{{ form_widget(form.user) }}</div>
+        </div>
     {% endif %}
-    <tr>
-        <td>Naam</td>
-        <td>{{ form_widget(form.name) }}</td>
-    </tr>
-    <tr>
-        <td>Gewicht per stuk</td>
-        <td>{{ form_widget(form.piece_weight) }}</td>
-    </tr>
-    <tr>
-        <td>Naam per stuk enkelvoud</td>
-        <td>{{ form_widget(form.piece_name) }}</td>
-    </tr>
-    <tr>
-        <td>Naam per stuk meervoud</td>
-        <td>{{ form_widget(form.pieces_name) }}</td>
-    </tr>
-    <tr>
-        <td>Vloeibaar</td>
-        <td>{{ form_widget(form.is_liquid) }}</td>
-    </tr>
-    <tr>
-        <td>Dichtheid kg/l</td>
-        <td>{{ form_widget(form.density) }}</td>
-    </tr>
-    {% for nutrient in nutrients %}
-        <tr>
-            <td>{{ nutrient.displayName }} {{ nutrient.unit }}</td>
-            <td>{{ form_widget(attribute(form, nutrient.nameSnake)) }}</td>
-        </tr>
-    {% endfor %}
-    <tr>
-        <td colspan="2">{{ form_widget(form.submit, { 'label': submit_label }) }}</td>
-    </tr>
-</table>
+<div class="row">
+    <div class="col">Naam</div>
+    <div class="col">{{ form_widget(form.name) }}</div>
+</div>
+<div class="row">
+    <div class="col">Gewicht per stuk</div>
+    <div class="col">{{ form_widget(form.piece_weight) }}</div>
+</div>
+<div class="row">
+    <div class="col">Naam per stuk enkelvoud</div>
+    <div class="col">{{ form_widget(form.piece_name) }}</div>
+</div>
+<div class="row">
+    <div class="col">Naam per stuk meervoud</div>
+    <div class="col">{{ form_widget(form.pieces_name) }}</div>
+</div>
+<div class="row">
+    <div class="col">Vloeibaar</div>
+    <div class="col">{{ form_widget(form.is_liquid) }}</div>
+</div>
+<div class="row">
+    <div class="col">Dichtheid kg/l</div>
+    <div class="col">{{ form_widget(form.density) }}</div>
+</div>
+{% for nutrient in nutrients %}
+    <div class="row">
+        <div class="col">{{ nutrient.displayName }} {{ nutrient.unit }}</div>
+        <div class="col">{{ form_widget(attribute(form, nutrient.nameSnake)) }}</div>
+    </div>
+{% endfor %}
+<div class="row">
+    <div class="col">{{ form_widget(form.submit, { 'label': submit_label }) }}</div>
+</div>
 {{ form_end(form) }}
 
 {% block javascripts %}

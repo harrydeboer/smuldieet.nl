@@ -24,16 +24,20 @@
             <a href="{{ path('foodstuff_char', {'char': char}) }}">{{ char }}</a>
         {% endfor %}
     </div>
-    <table class="table table-striped">
+    <div class="div-striped">
         {% for foodstuff in foodstuffs %}
-            <tr>
-                <td><a href="{{ path('foodstuff_single', {'id': foodstuff.id}) }}">{{ foodstuff.name }}</a></td>
+            <div class="row">
+                <div class="col">
+                    <a href="{{ path('foodstuff_single', {'id': foodstuff.id}) }}">{{ foodstuff.name }}</a>
+                </div>
                 {% if currentUser is not null and foodstuff.user == currentUser %}
-                    <td><a href="{{ path('foodstuff_edit', {'id': foodstuff.id }) }}">wijzig</a></td>
+                    <div class="col">
+                        <a href="{{ path('foodstuff_edit', {'id': foodstuff.id }) }}">wijzig</a>
+                    </div>
                 {% else %}
-                    <td></td>
+                    <div class="col"></div>
                 {% endif %}
-            </tr>
+            </div>
         {% endfor %}
-    </table>
+    </div>
 {% endblock %}

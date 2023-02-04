@@ -1,15 +1,15 @@
 <div id="foodstuff_weights_error"></div>
 {% for id, weight in weights %}
-    <tr>
-        <td>{{ form_widget(weight.foodstuff_id,
+    <div class="row">
+        <div class="col">{{ form_widget(weight.foodstuff_id,
                 {'value': foodstuff_weights[id].foodstuff.id}) }}
             <div class="dropdown">{{ form_widget(weight.name, {'value': foodstuff_weights[id].foodstuff.name}) }}
                 <div class="dropdown-menu dropdown-menu-foodstuff">
                 </div>
             </div>
-        </td>
-        <td>{{ form_widget(weight.value) }}</td>
-        <td>
+        </div>
+        <div class="col">{{ form_widget(weight.value) }}</div>
+        <div class="col">
             {#
             The unit select is custom rendered.
             The select is hidden when the foodstuffs are combined, because the unit displayes percentage then.
@@ -58,12 +58,12 @@
             <span class="form-error">
                  {{ form_errors(weight.unit) }}
             </span>
-        </td>
-        <td><i class="remove-row fa fa-minus"></i></td>
-    </tr>
+        </div>
+        <div class="col"><i class="remove-row fa fa-minus"></i></div>
+    </div>
 {% endfor %}
-<tr class="d-none">
-    <td colspan="3">
+<div class="row d-none">
+    <div class="col">
         <div id="{{ form_name }}_foodstuff_weights__name___foodstuff_id"
              data-prototype="{{ form_widget(weights.vars.prototype.foodstuff_id)|e('html') }}"></div>
         <div id="{{ form_name }}_foodstuff_weights__name___name"
@@ -72,8 +72,8 @@
              data-prototype="{{ form_widget(weights.vars.prototype.value)|e('html') }}"></div>
         <div id="{{ form_name }}_foodstuff_weights__name___unit"
              data-prototype="{{ form_widget(weights.vars.prototype.unit)|e('html') }}"></div>
-    </td>
-    <td>
+    </div>
+    <div class="col">
         <div id="foodstuff_search" data-search="{{ path('foodstuff_search', {'name': '__name__'}) }}"></div>
-    </td>
-</tr>
+    </div>
+</div>

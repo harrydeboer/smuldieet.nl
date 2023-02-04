@@ -19,26 +19,25 @@
         <div class="error-message">{{ error }}</div>
     {% endif %}
     {{ form_start(form) }}
-    <table class="table table-small">
-        <tr>
-            <td>Naam</td>
-            <td>{{ form_widget(form.name) }}</td>
-        </tr>
-        <tr>
-            <td>Onderwerp</td>
-            <td>{{ form_widget(form.subject) }}</td>
-        </tr>
-        <tr>
-            <td>E-mail</td>
-            <td>{{ form_widget(form.email) }}</td>
-        </tr>
-        <tr>
-            <td>Bericht</td>
-            <td>{{ form_widget(form.message) }}</td></tr>
-        <tr>
-            <td colspan="2">{{ form_widget(form.send, { 'label': 'Verzenden' }) }}</td>
-        </tr>
-    </table>
+    <div class="row">
+        <div class="col">{{ form_label(form.name) }}</div>
+        <div class="col">{{ form_widget(form.name) }}</div>
+    </div>
+    <div class="row">
+        <div class="col">{{ form_label(form.subject) }}</div>
+        <div class="col">{{ form_widget(form.subject) }}</div>
+    </div>
+    <div class="row">
+        <div class="col">{{ form_label(form.email) }}</div>
+        <div class="col">{{ form_widget(form.email) }}</div>
+    </div>
+    <div class="row">
+        <div class="col">{{ form_label(form.message) }}</div>
+        <div class="col">{{ form_widget(form.message) }}</div>
+    </div>
+    <div class="row">
+        <div class="col">{{ form_widget(form.send, { 'label': 'Verzenden' }) }}</div>
+    </div>
     {{ form_widget(form.re_captcha_token) }}
     {{ form_end(form) }}
 {% endblock %}
