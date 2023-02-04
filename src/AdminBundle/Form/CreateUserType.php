@@ -16,12 +16,12 @@ class CreateUserType extends RegistrationType
     {
         $builder
             ->add('first_name', TextType::class, [
-                'required' => false,
                 'attr' => ['class' => 'form-control'],
+                'required' => false,
             ])
             ->add('last_name', TextType::class, [
-                'required' => false,
                 'attr' => ['class' => 'form-control'],
+                'required' => false,
             ])
             ->add('roles', ChoiceType::class, [
                 'placeholder' => 'selecteer rol',
@@ -30,7 +30,7 @@ class CreateUserType extends RegistrationType
                 'choices' => [
                     'ROLE_ADMIN' => 'ROLE_ADMIN',
                 ],
-                'attr' => ['class' => ''],
+                'attr' => ['class' => 'form-control'],
             ])->add('is_verified', CheckboxType::class, [
                 'attr' => ['class' => 'form-check-input'],
                 'required' => false,

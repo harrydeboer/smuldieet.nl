@@ -16,6 +16,8 @@ class ProfanityType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'attr' => ['class' => 'form-control'],
+                'label' => 'Naam',
+                'label_attr' => ['class' => 'col-form-label'],
             ])
             ->add('submit', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-success'],

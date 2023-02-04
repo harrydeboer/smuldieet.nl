@@ -5,7 +5,8 @@
 </div>
 {{ form_start(form) }}
 <div class="row">
-    <div class="col">Naam</div><div class="col">{{ form_widget(form.name) }}</div>
+    <div class="col">{{ form_label(form.name) }}</div>
+    <div class="col">{{ form_widget(form.name) }}</div>
 </div>
 <div class="row">
     <div class="col">{{ form_widget(form.submit, { 'label': submit_label }) }}</div>

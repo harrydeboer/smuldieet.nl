@@ -8,7 +8,7 @@
 {{ recipe.ingredients|nl2br }}
 <div class="fw-bold">Bereidingswijze</div>
 {{ recipe.preparationMethod|nl2br }}
-<div class="fw-bold">Wacht op goedkeuring</div>
+<div class="fw-bold">{{ form_label(form.is_pending) }}</div>
 {{ form_widget(form.is_pending) }}
 <div>{{ form_widget(form.submit, { 'label': submit_label }) }}</div>
 {{ form_end(form) }}

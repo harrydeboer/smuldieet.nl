@@ -14,8 +14,11 @@ class CommentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('is_pending', CheckboxType::class, ['required' => false,
-                'attr' => ['class' => 'form-check-input']])
+            ->add('is_pending', CheckboxType::class, [
+                'required' => false,
+                'attr' => ['class' => 'form-check-input'],
+                'label' => 'Wacht op goedkeuring',
+            ])
             ->add('submit', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-success'],
             ]);
