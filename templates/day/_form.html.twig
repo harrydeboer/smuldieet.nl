@@ -10,7 +10,7 @@
 {{ form_start(form, {'attr':{'class':'foodstuff-weights-form recipe-weights-form'}}) }}
     {% if form.date is defined %}
         <div class="row">
-            <div class="col">Datum</div>
+            <div class="col">{{ form_label(form.date) }}</div>
             <div class="col">{{ form_widget(form.date) }}</div>
         </div>
         {% set formName = 'day' %}

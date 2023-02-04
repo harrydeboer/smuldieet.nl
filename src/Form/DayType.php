@@ -17,6 +17,8 @@ class DayType extends StandardDayType
             ->add('date', DateType::class, [
                 'widget' => 'single_text',
                 'years' => $years,
+                'label' => 'Datum',
+                'label_attr' => ['class' => 'col-form-label'],
                 'attr' => ['class' => 'form-control'],
             ]);
         parent::buildForm($builder, $options);

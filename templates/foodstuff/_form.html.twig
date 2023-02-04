@@ -20,32 +20,32 @@
 {{ form_start(form) }}
     {% if form.user is defined %}
         <div class="row">
-            <div class="col">Gebruiker</div>
+            <div class="col">{{ form_label(form.user) }}</div>
             <div class="col">{{ form_widget(form.user) }}</div>
         </div>
     {% endif %}
 <div class="row">
-    <div class="col">Naam</div>
+    <div class="col">{{ form_label(form.name) }}</div>
     <div class="col">{{ form_widget(form.name) }}</div>
 </div>
 <div class="row">
-    <div class="col">Gewicht per stuk</div>
+    <div class="col">{{ form_label(form.piece_weight) }}</div>
     <div class="col">{{ form_widget(form.piece_weight) }}</div>
 </div>
 <div class="row">
-    <div class="col">Naam per stuk enkelvoud</div>
+    <div class="col">{{ form_label(form.piece_name) }}</div>
     <div class="col">{{ form_widget(form.piece_name) }}</div>
 </div>
 <div class="row">
-    <div class="col">Naam per stuk meervoud</div>
+    <div class="col">{{ form_label(form.pieces_name) }}</div>
     <div class="col">{{ form_widget(form.pieces_name) }}</div>
 </div>
 <div class="row">
-    <div class="col">Vloeibaar</div>
+    <div class="col">{{ form_label(form.is_liquid)}}</div>
     <div class="col">{{ form_widget(form.is_liquid) }}</div>
 </div>
 <div class="row">
-    <div class="col">Dichtheid kg/l</div>
+    <div class="col">{{ form_label(form.density)}}</div>
     <div class="col">{{ form_widget(form.density) }}</div>
 </div>
 {% for nutrient in nutrients %}

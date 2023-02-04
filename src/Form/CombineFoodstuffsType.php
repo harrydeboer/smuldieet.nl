@@ -30,6 +30,8 @@ class CombineFoodstuffsType extends AbstractType
                     'class' => 'form-control',
                     'maxlength' => 255,
                 ],
+                'label' => 'Naam',
+                'label_attr' => ['class' => 'col-form-label'],
                 'constraints' => [new NotBlank(null, 'De naam mag niet leeg zijn.')],
             ])
             ->add('submit', SubmitType::class, [

@@ -19,11 +19,11 @@ class ChangePasswordType extends AbstractType
             ->add('plain_password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'first_options' => [
-                    'label' => 'Password',
+                    'label' => 'Wachtwoord',
                     'attr' => ['class' => 'form-control'],
                 ],
                 'second_options' => [
-                    'label' => 'Repeat Password',
+                    'label' => 'Herhaal wachtwoord',
                     'attr' => ['class' => 'form-control'],
                 ],
                 'mapped' => false,
