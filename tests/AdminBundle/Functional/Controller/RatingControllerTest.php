@@ -25,11 +25,9 @@ class RatingControllerTest extends AuthAdminWebTestCase
 
         $crawler = $this->client->request('GET', '/admin/waardering/wijzig/' . $id);
 
-        $buttonCrawlerNode = $crawler->selectButton('Wijzig');
+        $buttonCrawlerNode = $crawler->selectButton('Goedkeuren');
 
         $form = $buttonCrawlerNode->form();
-
-        $form['review[is_pending]'] = false;
 
         $this->client->submit($form);
 

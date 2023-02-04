@@ -25,11 +25,9 @@ class CommentControllerTest extends AuthAdminWebTestCase
 
         $crawler = $this->client->request('GET', '/admin/commentaar/wijzig/' . $id);
 
-        $buttonCrawlerNode = $crawler->selectButton('Wijzig');
+        $buttonCrawlerNode = $crawler->selectButton('Goedkeuren');
 
         $form = $buttonCrawlerNode->form();
-
-        $form['comment[is_pending]'] = false;
 
         $this->client->submit($form);
 

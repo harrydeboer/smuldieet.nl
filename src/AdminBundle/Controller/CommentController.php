@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\AdminBundle\Controller;
 
-use App\AdminBundle\Form\CommentType;
+use App\AdminBundle\Form\ApproveType;
 use App\Form\DeleteType;
 use App\Controller\AuthController;
 use App\Repository\CommentRepositoryInterface;
@@ -40,11 +40,11 @@ class CommentController extends AuthController
     {
         $comment = $this->commentRepository->get($id);
 
-        $form = $this->createForm(CommentType::class, $comment, [
+        $form = $this->createForm(ApproveType::class, null, [
             'method' => 'POST',
         ]);
 
-        $formDelete = $this->createForm(DeleteType::class, $comment, [
+        $formDelete = $this->createForm(DeleteType::class, null, [
             'action' => $this->generateUrl('admin_comment_delete', ['id' => $comment->getId()]),
             'method' => 'POST',
         ]);
@@ -54,6 +54,7 @@ class CommentController extends AuthController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $comment->setUpdatedAt(time());
+                $comment->setIsPending(false);
                 $this->commentRepository->update($comment);
 
                 return $this->redirectToRoute('admin_comments');

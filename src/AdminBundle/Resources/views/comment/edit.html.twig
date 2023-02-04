@@ -3,7 +3,7 @@
 {% block title %}Wijzig{% endblock %}
 
 {% block content %}
-    {{ include('@AdminBundle/comment/_form.html.twig', {submit_label: 'Wijzig'}) }}
+    {{ include('@AdminBundle/comment/_form.html.twig') }}
     <br>
     {{ include('_delete_confirmation.html.twig', {
         entityName: 'commentaar',

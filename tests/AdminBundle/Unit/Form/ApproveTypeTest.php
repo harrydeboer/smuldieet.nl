@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace App\Tests\AdminBundle\Unit\Form;
 
-use App\AdminBundle\Form\RecipeType;
+use App\AdminBundle\Form\ApproveType;
 use Symfony\Component\Form\Test\TypeTestCase;
 
-class RecipeTypeTest extends TypeTestCase
+class ApproveTypeTest extends TypeTestCase
 {
-    public function testSubmitModel(): void
+    public function testApprove(): void
     {
-        $formData = ['is_pending' => false];
+        $formData = [
+        ];
 
-        $form = $this->factory->create(RecipeType::class);
+        $form = $this->factory->create(ApproveType::class);
 
         $form->submit($formData);
 

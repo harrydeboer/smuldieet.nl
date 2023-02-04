@@ -25,11 +25,9 @@ class RecipeControllerTest extends AuthAdminWebTestCase
 
         $crawler = $this->client->request('GET', '/admin/recept/wijzig/' . $id);
 
-        $buttonCrawlerNode = $crawler->selectButton('Wijzig');
+        $buttonCrawlerNode = $crawler->selectButton('Goedkeuren');
 
         $form = $buttonCrawlerNode->form();
-
-        $form['recipe[is_pending]'] = false;
 
         $this->client->submit($form);
 

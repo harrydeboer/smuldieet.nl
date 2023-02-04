@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\AdminBundle\Controller;
 
+use App\AdminBundle\Form\ApproveType;
 use App\Form\DeleteType;
-use App\AdminBundle\Form\ReviewType;
 use App\Controller\AuthController;
 use App\Repository\RatingRepositoryInterface;
 use Symfony\Component\Form\FormError;
@@ -40,7 +40,7 @@ class RatingController extends AuthController
     {
         $rating = $this->ratingRepository->get($id);
 
-        $form = $this->createForm(ReviewType::class, $rating, [
+        $form = $this->createForm(ApproveType::class, $rating, [
             'method' => 'POST',
         ]);
         $ratingOldRating = $rating->getRating();
@@ -55,6 +55,7 @@ class RatingController extends AuthController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $rating->setUpdatedAt(time());
+                $rating->setIsPending(false);
                 $this->ratingRepository->update($ratingOldRating, $rating);
 
                 return $this->redirectToRoute('admin_rating');

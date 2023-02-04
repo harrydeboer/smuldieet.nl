@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\AdminBundle\Controller;
 
+use App\AdminBundle\Form\ApproveType;
 use App\Form\DeleteType;
-use App\AdminBundle\Form\RecipeType;
 use App\Controller\AuthController;
 use App\Repository\RecipeRepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -41,7 +41,7 @@ class RecipeController extends AuthController
     {
         $recipe = $this->recipeRepository->get($id);
 
-        $form = $this->createForm(RecipeType::class, $recipe, [
+        $form = $this->createForm(ApproveType::class, $recipe, [
             'method' => 'POST',
         ]);
 
@@ -61,6 +61,7 @@ class RecipeController extends AuthController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $recipe->setUpdatedAt(time());
+                $recipe->setIsPending(false);
                 $this->recipeRepository->update($recipe, $oldFoodstuffWeights, $oldTags);
 
                 return $this->redirectToRoute('admin_recipe');
