@@ -11,6 +11,19 @@
   cursor: pointer;
 }
 
+#add_foodstuff {
+  width: 150px;
+}
+
+#add_recipe {
+  width: 150px;
+}
+
+.row-weight>* {
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
 .hidden-input, #percentage-unit {
   opacity: 0;
   width: 0;

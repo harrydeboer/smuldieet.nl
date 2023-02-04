@@ -1,15 +1,15 @@
 <div id="foodstuff_weights_error"></div>
 {% for id, weight in weights %}
-    <div class="row">
-        <div class="col">{{ form_widget(weight.foodstuff_id,
+    <div class="row row-weight">
+        <div class="col-4">{{ form_widget(weight.foodstuff_id,
                 {'value': foodstuff_weights[id].foodstuff.id}) }}
             <div class="dropdown">{{ form_widget(weight.name, {'value': foodstuff_weights[id].foodstuff.name}) }}
                 <div class="dropdown-menu dropdown-menu-foodstuff">
                 </div>
             </div>
         </div>
-        <div class="col">{{ form_widget(weight.value) }}</div>
-        <div class="col">
+        <div class="col-3">{{ form_widget(weight.value) }}</div>
+        <div class="col-4">
             {#
             The unit select is custom rendered.
             The select is hidden when the foodstuffs are combined, because the unit displayes percentage then.
@@ -59,7 +59,7 @@
                  {{ form_errors(weight.unit) }}
             </span>
         </div>
-        <div class="col"><i class="remove-row fa fa-minus"></i></div>
+        <div class="col-1"><i class="remove-row fa fa-minus"></i></div>
     </div>
 {% endfor %}
 <div class="row d-none">

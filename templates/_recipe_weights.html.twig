@@ -4,17 +4,16 @@
     {% if form_name == 'cookbook' %}
         {% set weight_value_classes = weight_value_classes~' hidden-input' %}
     {% endif %}
-    <div class="row">
-        <div class="col">
+    <div class="row row-weight">
+        <div class="col-7">
             {{ form_widget(weight.recipe_id, {'value': recipe_weights[id].recipe.id}) }}
             <div class="dropdown">{{ form_widget(weight.title, {'value': recipe_weights[id].recipe.title}) }}
                 <div class="dropdown-menu dropdown-menu-recipe">
                 </div>
             </div>
         </div>
-        <div class="col">{{ form_widget(weight.value, {'attr': {'class': weight_value_classes}}) }}</div>
-        <div class="col"></div>
-        <div class="col"><i class="remove-row fa fa-minus"></i></div>
+        <div class="col-4">{{ form_widget(weight.value, {'attr': {'class': weight_value_classes}}) }}</div>
+        <div class="col-1"><i class="remove-row fa fa-minus"></i></div>
     </div>
 {% endfor %}
 <div class="row d-none">
