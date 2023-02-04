@@ -18,12 +18,14 @@
             <a href="{{ path('admin_foodstuff_char', {'char': char}) }}">{{ char }}</a>
         {% endfor %}
     </div>
-    <table class="table table-striped">
+    <div class="div-striped">
         {% for foodstuff in foodstuffs %}
-            <tr>
-                <td>{{ foodstuff.name }}</td>
-                <td><a href="{{ path('admin_foodstuff_edit', {'id': foodstuff.id}) }}">wijzig</a></td>
-            </tr>
+            <div class="row">
+                <div class="col">{{ foodstuff.name }}</div>
+                <div class="col">
+                    <a href="{{ path('admin_foodstuff_edit', {'id': foodstuff.id}) }}">wijzig</a>
+                </div>
+            </div>
         {% endfor %}
-    </table>
+    </div>
 {% endblock %}

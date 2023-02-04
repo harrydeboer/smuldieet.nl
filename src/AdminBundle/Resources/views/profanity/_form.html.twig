@@ -4,12 +4,10 @@
     {{ form_errors(form.name) }}
 </div>
 {{ form_start(form) }}
-<table class="table table-small">
-    <tr>
-        <td>Naam</td><td>{{ form_widget(form.name) }}</td>
-    </tr>
-    <tr>
-        <td colspan="2">{{ form_widget(form.submit, { 'label': submit_label }) }}</td>
-    </tr>
-</table>
+<div class="row">
+    <div class="col">Naam</div><div class="col">{{ form_widget(form.name) }}</div>
+</div>
+<div class="row">
+    <div class="col">{{ form_widget(form.submit, { 'label': submit_label }) }}</div>
+</div>
 {{ form_end(form) }}

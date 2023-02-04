@@ -3,12 +3,14 @@
 {% block title %}Voedingsstoffen{% endblock %}
 
 {% block content %}
-    <table class="table table-striped">
+    <div class="div-striped">
         {% for nutrient in nutrients %}
-            <tr>
-                <td>{{ nutrient.displayName }}</td>
-                <td><a href="{{ path('admin_nutrient_edit', {'id': nutrient.id}) }}">wijzig</a></td>
-            </tr>
+            <div class="row">
+                <div class="col">{{ nutrient.displayName }}</div>
+                <div class="col">
+                    <a href="{{ path('admin_nutrient_edit', {'id': nutrient.id}) }}">wijzig</a>
+                </div>
+            </div>
         {% endfor %}
-    </table>
+    </div>
 {% endblock %}

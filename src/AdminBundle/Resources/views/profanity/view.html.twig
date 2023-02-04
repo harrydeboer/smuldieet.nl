@@ -4,12 +4,14 @@
 
 {% block content %}
     <a href="{{ path('admin_profanity_create') }}">Maak een scheldwoord</a>
-    <table class="table table-striped">
+    <div class="div-striped">
         {% for profanity in profanities %}
-            <tr>
-                <td>{{ profanity.name }}</td>
-                <td><a href="{{ path('admin_profanity_edit', {'id': profanity.id}) }}">wijzig</a></td>
-            </tr>
+            <div class="row">
+                <div class="col">{{ profanity.name }}</div>
+                <div class="col">
+                    <a href="{{ path('admin_profanity_edit', {'id': profanity.id}) }}">wijzig</a>
+                </div>
+            </div>
         {% endfor %}
-    </table>
+    </div>
 {% endblock %}

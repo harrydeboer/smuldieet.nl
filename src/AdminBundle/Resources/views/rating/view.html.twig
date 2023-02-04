@@ -3,12 +3,14 @@
 {% block title %}Waardering{% endblock %}
 
 {% block content %}
-    <table class="table table-striped">
+    <div class="div-striped">
         {% for review in reviews %}
-            <tr>
-                <td>{{ review.content }}</td>
-                <td><a href="{{ path('admin_rating_edit', {'id': review.id}) }}">wijzig</a></td>
-            </tr>
+            <div class="row">
+                <div class="col">{{ review.content }}</div>
+                <div class="col">
+                    <a href="{{ path('admin_rating_edit', {'id': review.id}) }}">wijzig</a>
+                </div>
+            </div>
         {% endfor %}
-    </table>
+    </div>
 {% endblock %}

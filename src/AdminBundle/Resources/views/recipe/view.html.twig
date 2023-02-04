@@ -3,12 +3,12 @@
 {% block title %}Recept{% endblock %}
 
 {% block content %}
-    <table class="table table-striped">
+    <div class="div-striped">
         {% for recipe in recipes %}
-            <tr>
-                <td>{{ recipe.title }}</td>
-                <td><a href="{{ path('admin_recipe_edit', {'id': recipe.id}) }}">wijzig</a></td>
-            </tr>
+            <div class="row">
+                <div class="col">{{ recipe.title }}</div>
+                <div class="col"><a href="{{ path('admin_recipe_edit', {'id': recipe.id}) }}">wijzig</a></div>
+            </div>
         {% endfor %}
-    </table>
+    </div>
 {% endblock %}

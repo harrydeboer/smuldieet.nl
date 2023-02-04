@@ -3,12 +3,12 @@
 {% block title %}Commentaar{% endblock %}
 
 {% block content %}
-    <table class="table table-striped">
+    <div class="div-striped">
         {% for comment in comments %}
-            <tr>
-                <td>{{ comment.content }}</td>
-                <td><a href="{{ path('admin_comment_edit', {'id': comment.id}) }}">wijzig</a></td>
-            </tr>
+            <div class="row">
+                <div class="col">{{ comment.content }}</div>
+                <div class="col"><a href="{{ path('admin_comment_edit', {'id': comment.id}) }}">wijzig</a></div>
+            </div>
         {% endfor %}
-    </table>
+    </div>
 {% endblock %}
