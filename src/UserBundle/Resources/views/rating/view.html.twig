@@ -4,29 +4,27 @@
 
 {% block content %}
     <h1>Waarderingen</h1>
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th scope="col">Waardering</th>
-            <th scope="col">Wijzig</th>
-        </tr>
-        </thead>
+    <div class="div-striped">
+        <div class="row">
+            <div class="col">Waardering</div>
+            <div class="col">Wijzig</div>
+        </div>
         {% for message in app.flashes('review_pending') %}
             <div class="success-message">
                 {{ message }}
             </div>
         {% endfor %}
         {% for rating in ratings %}
-            <tr>
-                <td>
+            <div class="row">
+                <div class="col">
                     {% if rating.content is null %}
                         <a href="{{ path('recipe_single', {'id': rating.recipe.id}) }}">{{ rating.recipe.title }}</a>
                     {% else %}
                         <a href="{{ path('user_review_single', {'id': rating.id}) }}">{{ rating.recipe.title }}</a>
                     {% endif %}
-                    {{ rating.rating }} <i class="fas fa-star fa-star-gold"></i></td>
-                <td><a href="{{ path('user_review_edit', {'id': rating.id }) }}">wijzig</a></td>
-            </tr>
+                    {{ rating.rating }} <i class="fas fa-star fa-star-gold"></i></div>
+                <div class="col"><a href="{{ path('user_review_edit', {'id': rating.id }) }}">wijzig</a></div>
+            </div>
         {% endfor %}
-    </table>
+    </div>
 {% endblock %}

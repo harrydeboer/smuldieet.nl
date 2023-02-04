@@ -5,21 +5,19 @@
     {{ form_errors(form.recipe_weights) }}
 </div>
 {{ form_start(form, { 'attr' : { 'class': 'recipe-weights-form' }}) }}
-<table class="food-table table table-small">
-    <tr>
-        <td>Titel</td>
-        <td colspan="3">{{ form_widget(form.title) }}</td>
-    </tr>
-    {{ include('_recipe_weights.html.twig', {
-        'form_name': 'cookbook',
-        'recipe_weights': cookbook.recipeWeights,
-        'weights': form.recipe_weights
-    }) }}
-    <tr id="add_foodstuff_recipe_button_row">
-        <td colspan="4"><div class="btn btn-primary" id="add_recipe">Recept toevoegen</div></td>
-    </tr>
-    <tr>
-        <td colspan="3">{{ form_widget(form.submit, { 'label': submit_label }) }}</td>
-    </tr>
-</table>
+<div class="row">
+    <div class="col">Titel</div>
+    <div class="col">{{ form_widget(form.title) }}</div>
+</div>
+{{ include('_recipe_weights.html.twig', {
+    'form_name': 'cookbook',
+    'recipe_weights': cookbook.recipeWeights,
+    'weights': form.recipe_weights
+}) }}
+<div class="row" id="add_foodstuff_recipe_button_row">
+    <div class="col"><div class="btn btn-primary" id="add_recipe">Recept toevoegen</div></div>
+</div>
+<div class="row">
+    <div class="col">{{ form_widget(form.submit, { 'label': submit_label }) }}</div>
+</div>
 {{ form_end(form) }}

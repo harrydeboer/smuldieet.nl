@@ -3,20 +3,18 @@
 {% block title %}Kookboek{% endblock %}
 
 {% block content %}
-    <table class="table table-small">
-        <tr>
-            <td>Titel</td>
-            <td>{{ cookbook.title }}</td>
-        </tr>
+        <div class="row">
+            <div class="col">Titel</div>
+            <div class="col">{{ cookbook.title }}</div>
+        </div>
         {% for weight in cookbook.recipeWeights %}
-            <tr>
-                <td colspan="2">{{ weight.recipe.title }}</td>
-            </tr>
+            <div class="row">
+                <div class="col">{{ weight.recipe.title }}</div>
+            </div>
         {% endfor %}
-        <tr>
-            <td colspan="2">
+        <div class="row">
+            <div class="col">
                 <a href="{{ path('user_cookbook_edit', {'id': cookbook.id}) }}">wijzig</a>
-            </td>
-        </tr>
-    </table>
+            </div>
+        </div>
 {% endblock %}

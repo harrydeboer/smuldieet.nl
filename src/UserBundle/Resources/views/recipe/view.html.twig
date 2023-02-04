@@ -8,27 +8,27 @@
     {% if paginator.results is empty %}
         <p>Je hebt nog geen recepten gemaakt.</p>
     {% else %}
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th scope="col"></th>
-                <th scope="col">Titel</th>
-                <th scope="col">Wijzig</th>
-            </tr>
-            </thead>
+        <div class="div-striped">
+            <div class="row">
+                <div class="col"></div>
+                <div class="col">Titel</div>
+                <div class="col">Wijzig</div>
+            </div>
             {% for recipe in paginator.results %}
-                <tr>
-                    <td>
+                <div class="row">
+                    <div class="col">
                         {% if recipe.imageExtension is not null %}
                             <img src="{{ asset(recipe.getImageUrl(100)) }}"
                                  alt="label" class="img-fluid recipe-image">
                         {% endif %}
-                    </td>
-                    <td><a href="{{ path('recipe_single', {'id': recipe.id}) }}">{{ recipe.title }}</a></td>
-                    <td><a href="{{ path('user_recipe_edit', {'id': recipe.id }) }}">wijzig</a></td>
-                </tr>
+                    </div>
+                    <div class="col">
+                        <a href="{{ path('recipe_single', {'id': recipe.id}) }}">{{ recipe.title }}</a>
+                    </div>
+                    <div class="col"><a href="{{ path('user_recipe_edit', {'id': recipe.id }) }}">wijzig</a></div>
+                </div>
             {% endfor %}
-        </table>
+        </div>
         {{ include('pagination/view.html.twig', {route: 'user_recipe_index_paginated'}) }}
     {% endif %}
 {% endblock %}

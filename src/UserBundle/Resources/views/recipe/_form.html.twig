@@ -30,16 +30,14 @@
 <div class="fw-bold">Ingrediënten *</div>
 {{ form_widget(form.ingredients) }}
 <h4 class="no-wrap">Voedingsmiddelen gerecht</h4>
-<table class="table">
-    {{ include('_foodstuff_weights.html.twig', {
-        'form_name': 'recipe',
-        'foodstuff_weights': recipe.foodstuffWeights,
-        'weights': form.foodstuff_weights
-    }) }}
-    <tr id="add_foodstuff_recipe_button_row">
-        <td colspan="4"><div class="btn btn-primary" id="add_foodstuff">Voedingsmiddel toevoegen</div></td>
-    </tr>
-</table>
+{{ include('_foodstuff_weights.html.twig', {
+    'form_name': 'recipe',
+    'foodstuff_weights': recipe.foodstuffWeights,
+    'weights': form.foodstuff_weights
+}) }}
+<div class="row" id="add_foodstuff_recipe_button_row">
+    <div class="col"><div class="btn btn-primary" id="add_foodstuff">Voedingsmiddel toevoegen</div></div>
+</div>
 <div class="fw-bold">Bereidingswijze *</div>
 {{ form_widget(form.preparation_method) }}
 <div class="fw-bold">Aantal personen *</div>
@@ -54,12 +52,15 @@
     {{ form_widget(form.source, {'attr': {'class': 'd-none form-control'}}) }}
 {% endif %}
 <div class="fw-bold">Tags</div>
-<table>
-    {% for id, tag in form.tags %}
-        <tr><td>{{ form_widget(tag) }}</td><td><i class="remove-tag-row fa fa-minus"></i></td></tr>
-    {% endfor %}
-    <tr id="add_tag_button_row"><td colspan="2"><div class="btn btn-primary" id="add_tag">Tag toevoegen</div></td></tr>
-</table>
+{% for id, tag in form.tags %}
+    <div class="row">
+        <div class="col">{{ form_widget(tag) }}</div>
+        <div class="col"><i class="remove-tag-row fa fa-minus"></i></div>
+    </div>
+{% endfor %}
+<div class="row" id="add_tag_button_row">
+    <div class="col"><div class="btn btn-primary" id="add_tag">Tag toevoegen</div></div>
+</div>
 <div id="recipe_tags"
      data-prototype="{{ form_widget(form.tags.vars.prototype)|e('html') }}"></div>
 <div class="fw-bold">Bereidingstijd *</div>
@@ -74,14 +75,14 @@
 <div class="dropdown">
     <div class="form-control form-select" role="button"
          data-bs-toggle="dropdown" aria-expanded="false">Dieet</div>
-    <table class="dropdown-menu dropdown-diet" aria-labelledby="diet-filter">
+    <div class="dropdown-menu dropdown-diet" aria-labelledby="diet-filter">
         {% for choice,label in recipe.dietChoices('snake') %}
-            <tr>
-                <td>{{ form_label(attribute(form, choice)) }}</td>
-                <td>{{ form_widget(attribute(form, choice)) }}</td>
-            </tr>
+            <div class="row">
+                <div class="col-9">{{ form_label(attribute(form, choice)) }}</div>
+                <div class="col">{{ form_widget(attribute(form, choice)) }}</div>
+            </div>
         {% endfor %}
-    </table>
+    </div>
 </div>
 <br>
 <span class="fw-bold">*</span> Verplicht
