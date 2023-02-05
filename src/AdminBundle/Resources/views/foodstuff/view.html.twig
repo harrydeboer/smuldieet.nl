@@ -12,10 +12,10 @@
             {% endif %}
         {% endfor %}
     </select>
-    <div id="abc_route" data-route="{{ path('admin_foodstuff_char') }}"></div>
+    <div id="abc_route" data-route="{{ path('admin_foodstuffs_char') }}"></div>
     <div id="abc_chars">
         {% for char in 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z'|split(',') %}
-            <a href="{{ path('admin_foodstuff_char', {'char': char}) }}">{{ char }}</a>
+            <a href="{{ path('admin_foodstuffs_char', {'char': char}) }}">{{ char }}</a>
         {% endfor %}
     </div>
     <div class="div-striped">

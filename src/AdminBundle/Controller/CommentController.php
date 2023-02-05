@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Exception;
 
 /**
- * Reviews their pending status is changed.
+ * The pending status of comments is removed or comments are deleted.
  */
 class CommentController extends AuthController
 {

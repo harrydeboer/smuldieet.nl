@@ -25,8 +25,8 @@ class FoodstuffController extends AuthController
     }
 
     #[
-        Route('/voedingsmiddelen', name: 'admin_foodstuff', defaults: ['char' => 'A']),
-        Route('/voedingsmiddelen/letter/{char}', name: 'admin_foodstuff_char'),
+        Route('/voedingsmiddelen', name: 'admin_foodstuffs', defaults: ['char' => 'A']),
+        Route('/voedingsmiddelen/letter/{char}', name: 'admin_foodstuffs_char'),
     ]
     public function view($char = 'A'): Response
     {
@@ -81,7 +81,7 @@ class FoodstuffController extends AuthController
                 $foodstuff->setUpdatedAt(time());
                 $this->foodstuffRepository->update($foodstuff, $isLiquidOld);
 
-                return $this->redirectToRoute('admin_foodstuff');
+                return $this->redirectToRoute('admin_foodstuffs');
             } catch (Exception $exception) {
                 $form->addError(new FormError($exception->getMessage()));
             }
@@ -107,6 +107,6 @@ class FoodstuffController extends AuthController
             $this->foodstuffRepository->delete($foodstuff);
         }
 
-        return $this->redirectToRoute('admin_foodstuff');
+        return $this->redirectToRoute('admin_foodstuffs');
     }
 }

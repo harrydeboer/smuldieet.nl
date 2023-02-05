@@ -13,7 +13,7 @@ class RatingControllerTest extends AuthAdminWebTestCase
 {
     public function testUpdateDelete(): void
     {
-        $this->client->request('GET', '/admin/waarderingen');
+        $this->client->request('GET', '/admin/recensies');
 
         $this->assertResponseIsSuccessful();
 
@@ -23,7 +23,7 @@ class RatingControllerTest extends AuthAdminWebTestCase
 
         $id = $rating->getId();
 
-        $crawler = $this->client->request('GET', '/admin/waardering/wijzig/' . $id);
+        $crawler = $this->client->request('GET', '/admin/recensie/wijzig/' . $id);
 
         $buttonCrawlerNode = $crawler->selectButton('Goedkeuren');
 
@@ -31,13 +31,13 @@ class RatingControllerTest extends AuthAdminWebTestCase
 
         $this->client->submit($form);
 
-        $this->assertResponseRedirects('/admin/waarderingen');
+        $this->assertResponseRedirects('/admin/recensies');
 
         $rating = $ratingRepository->findOneBy(['isPending' => false]);
 
         $this->assertEquals(false, $rating->getIsPending());
 
-        $crawler = $this->client->request('GET', '/admin/waardering/wijzig/' . $id);
+        $crawler = $this->client->request('GET', '/admin/recensie/wijzig/' . $id);
 
         $buttonCrawlerNode = $crawler->selectButton('Verwijder');
 
@@ -45,7 +45,7 @@ class RatingControllerTest extends AuthAdminWebTestCase
 
         $this->client->submit($form);
 
-        $this->assertResponseRedirects('/admin/waarderingen');
+        $this->assertResponseRedirects('/admin/recensies');
 
         $ratingRepository = $this->getContainer()->get(RatingRepositoryInterface::class);
 

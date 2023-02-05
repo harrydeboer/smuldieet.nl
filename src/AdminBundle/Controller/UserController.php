@@ -27,8 +27,8 @@ class UserController extends AuthController
     }
 
     #[
-        Route('/gebruikers', name: 'admin_user', defaults: ['page' => '1']),
-        Route('/gebruikers/pagina/{page<[1-9]\d*>}', name: 'admin_user_index_paginated'),
+        Route('/gebruikers', name: 'admin_users', defaults: ['page' => '1']),
+        Route('/gebruikers/pagina/{page<[1-9]\d*>}', name: 'admin_users_index_paginated'),
     ]
     public function view(int $page): Response
     {
@@ -71,7 +71,7 @@ class UserController extends AuthController
                     $oldExtension,
                 );
 
-                return $this->redirectToRoute('admin_user');
+                return $this->redirectToRoute('admin_users');
             } catch (Exception $exception) {
                 $form->addError(new FormError($exception->getMessage()));
             }
@@ -96,7 +96,7 @@ class UserController extends AuthController
                 $this->userRepository->create($user, $form->get('plain_password')->getData());
                 $this->uploadedImageService->moveImage($user);
 
-                return $this->redirectToRoute('admin_user');
+                return $this->redirectToRoute('admin_users');
             } catch (Exception $exception) {
                 $form->addError(new FormError($exception->getMessage()));
             }
@@ -120,6 +120,6 @@ class UserController extends AuthController
             $this->userRepository->delete($user);
         }
 
-        return $this->redirectToRoute('admin_user');
+        return $this->redirectToRoute('admin_users');
     }
 }

@@ -12,7 +12,7 @@ class PageControllerTest extends AuthAdminWebTestCase
 {
     public function testCreateUpdateDelete(): void
     {
-        $this->client->request('GET', '/admin/pagina');
+        $this->client->request('GET', '/admin/paginas');
 
         $this->assertResponseIsSuccessful();
 
@@ -29,7 +29,7 @@ class PageControllerTest extends AuthAdminWebTestCase
 
         $this->client->submit($form);
 
-        $this->assertResponseRedirects('/admin/pagina');
+        $this->assertResponseRedirects('/admin/paginas');
 
         $pageRepository = $this->getContainer()->get(PageRepositoryInterface::class);
 
@@ -47,7 +47,7 @@ class PageControllerTest extends AuthAdminWebTestCase
 
         $this->client->submit($form);
 
-        $this->assertResponseRedirects('/admin/pagina');
+        $this->assertResponseRedirects('/admin/paginas');
 
         $page = $pageRepository->findOneBy(['slug' => 'testSlug']);
 
@@ -61,7 +61,7 @@ class PageControllerTest extends AuthAdminWebTestCase
 
         $this->client->submit($form);
 
-        $this->assertResponseRedirects('/admin/pagina');
+        $this->assertResponseRedirects('/admin/paginas');
 
         $pageRepository = $this->getContainer()->get(PageRepositoryInterface::class);
 

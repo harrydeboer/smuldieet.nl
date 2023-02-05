@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Exception;
 
 /**
- * Recipes their pending status is changed.
+ * The pending status of recipes is removed or recipes are deleted.
  */
 class RecipeController extends AuthController
 {
@@ -26,7 +26,7 @@ class RecipeController extends AuthController
     ) {
     }
 
-    #[Route('/recepten', name: 'admin_recipe')]
+    #[Route('/recepten', name: 'admin_recipes')]
     public function view(): Response
     {
         $recipes = $this->recipeRepository->findAllPending();
@@ -64,7 +64,7 @@ class RecipeController extends AuthController
                 $recipe->setIsPending(false);
                 $this->recipeRepository->update($recipe, $oldFoodstuffWeights, $oldTags);
 
-                return $this->redirectToRoute('admin_recipe');
+                return $this->redirectToRoute('admin_recipes');
             } catch (Exception $exception) {
                 $form->addError(new FormError($exception->getMessage()));
             }
@@ -89,6 +89,6 @@ class RecipeController extends AuthController
             $this->recipeRepository->delete($recipe);
         }
 
-        return $this->redirectToRoute('admin_recipe');
+        return $this->redirectToRoute('admin_recipes');
     }
 }

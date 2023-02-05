@@ -17,6 +17,11 @@ class NutrientType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        /**
+         * The unit select has choices from the Nutrient entity.
+         * The unit select options have a class to separate energy, solid, liquid, vitamin and mineral options.
+         * In the template only the right options are shown.
+         */
         $choices = array_keys(array_merge(
             Nutrient::ENERGY_UNITS,
             Nutrient::SOLID_UNITS,

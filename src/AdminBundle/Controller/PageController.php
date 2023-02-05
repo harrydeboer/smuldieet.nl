@@ -24,7 +24,7 @@ class PageController extends AuthController
     /**
      * The route has pagina as url and not pagina's because quotes are not to be used in urls.
      */
-    #[Route('/pagina', name: 'admin_page')]
+    #[Route('/paginas', name: 'admin_pages')]
     public function view(): Response
     {
         $pages = $this->pageRepository->findAll();
@@ -54,7 +54,7 @@ class PageController extends AuthController
             $page->setUpdatedAt(time());
             $this->pageRepository->update();
 
-            return $this->redirectToRoute('admin_page');
+            return $this->redirectToRoute('admin_pages');
         }
 
         return $this->render('@AdminBundle/page/edit.html.twig', [
@@ -75,7 +75,7 @@ class PageController extends AuthController
             $page->setCreatedAt(time());
             $this->pageRepository->create($page);
 
-            return $this->redirectToRoute('admin_page');
+            return $this->redirectToRoute('admin_pages');
         }
 
         return $this->render('@AdminBundle/page/new.html.twig', [
@@ -95,6 +95,6 @@ class PageController extends AuthController
             $this->pageRepository->delete($page);
         }
 
-        return $this->redirectToRoute('admin_page');
+        return $this->redirectToRoute('admin_pages');
     }
 }

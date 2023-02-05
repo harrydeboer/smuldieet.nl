@@ -21,7 +21,7 @@ class ProfanityController extends AuthController
     ) {
     }
 
-    #[Route('/scheldwoorden', name: 'admin_profanity')]
+    #[Route('/scheldwoorden', name: 'admin_profanities')]
     public function view(): Response
     {
         $profanities = $this->profanityRepository->findAll();
@@ -50,7 +50,7 @@ class ProfanityController extends AuthController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->profanityRepository->update();
 
-            return $this->redirectToRoute('admin_profanity');
+            return $this->redirectToRoute('admin_profanities');
         }
 
         return $this->render('@AdminBundle/profanity/edit.html.twig', [
@@ -69,7 +69,7 @@ class ProfanityController extends AuthController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->profanityRepository->create($profanity);
 
-            return $this->redirectToRoute('admin_profanity');
+            return $this->redirectToRoute('admin_profanities');
         }
 
         return $this->render('@AdminBundle/profanity/new.html.twig', [
@@ -89,6 +89,6 @@ class ProfanityController extends AuthController
             $this->profanityRepository->delete($profanity);
         }
 
-        return $this->redirectToRoute('admin_profanity');
+        return $this->redirectToRoute('admin_profanities');
     }
 }

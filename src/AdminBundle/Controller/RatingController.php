@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Exception;
 
 /**
- * Reviews their pending status is changed.
+ * The pending status of reviews is removed or reviews are deleted.
  */
 class RatingController extends AuthController
 {
@@ -25,17 +25,17 @@ class RatingController extends AuthController
     ) {
     }
 
-    #[Route('/waarderingen', name: 'admin_rating')]
+    #[Route('/recensies', name: 'admin_reviews')]
     public function view(): Response
     {
         $reviews = $this->ratingRepository->findAllPendingReviews();
 
-        return $this->render('@AdminBundle/rating/view.html.twig', [
+        return $this->render('@AdminBundle/review/view.html.twig', [
             'reviews' => $reviews,
         ]);
     }
 
-    #[Route('/waardering/wijzig/{id}', name: 'admin_rating_edit')]
+    #[Route('/recensie/wijzig/{id}', name: 'admin_review_edit')]
     public function edit(Request $request, int $id): Response
     {
         $rating = $this->ratingRepository->get($id);
@@ -46,7 +46,7 @@ class RatingController extends AuthController
         $ratingOldRating = $rating->getRating();
 
         $formDelete = $this->createForm(DeleteType::class, $rating, [
-            'action' => $this->generateUrl('admin_rating_delete', ['id' => $rating->getId()]),
+            'action' => $this->generateUrl('admin_review_delete', ['id' => $rating->getId()]),
             'method' => 'POST',
         ]);
 
@@ -58,20 +58,20 @@ class RatingController extends AuthController
                 $rating->setIsPending(false);
                 $this->ratingRepository->update($ratingOldRating, $rating);
 
-                return $this->redirectToRoute('admin_rating');
+                return $this->redirectToRoute('admin_reviews');
             } catch (Exception $exception) {
                 $form->addError(new FormError($exception->getMessage()));
             }
         }
 
-        return $this->render('@AdminBundle/rating/edit.html.twig', [
+        return $this->render('@AdminBundle/review/edit.html.twig', [
             'rating' => $rating,
             'form' => $form->createView(),
             'formDelete' => $formDelete->createView(),
         ]);
     }
 
-    #[Route('/waardering/verwijder/{id}', name: 'admin_rating_delete')]
+    #[Route('/recensie/verwijder/{id}', name: 'admin_review_delete')]
     public function delete(Request $request, int $id): RedirectResponse
     {
         $rating = $this->ratingRepository->get($id);
@@ -83,6 +83,6 @@ class RatingController extends AuthController
             $this->ratingRepository->delete($rating);
         }
 
-        return $this->redirectToRoute('admin_rating');
+        return $this->redirectToRoute('admin_reviews');
     }
 }

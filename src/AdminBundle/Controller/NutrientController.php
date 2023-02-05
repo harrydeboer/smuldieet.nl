@@ -23,7 +23,7 @@ class NutrientController extends AuthController
     ) {
     }
 
-    #[Route('/voedingsstoffen', name: 'admin_nutrient')]
+    #[Route('/voedingsstoffen', name: 'admin_nutrients')]
     public function view(): Response
     {
         $nutrients = $this->nutrientRepository->findAll();
@@ -51,18 +51,20 @@ class NutrientController extends AuthController
 
                 $this->nutrientRepository->update();
 
+                /**
+                 * When the nutrient unit changes the foodstuffs are refactored.
+                 */
                 $factors = array_merge(
                     Nutrient::ENERGY_UNITS,
                     Nutrient::SOLID_UNITS,
                     Nutrient::LIQUID_UNITS,
                     Nutrient::VITAMIN_MINERAL_UNITS,
                 );
-
                 if ($oldUnit !== $nutrient->getUnit()) {
                     $this->foodstuffRepository->transformUnit($oldUnit, $nutrient, $factors);
                 }
 
-                return $this->redirectToRoute('admin_nutrient');
+                return $this->redirectToRoute('admin_nutrients');
             } catch (Exception $exception) {
                 $form->addError(new FormError($exception->getMessage()));
             }
