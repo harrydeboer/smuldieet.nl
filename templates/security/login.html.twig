@@ -17,8 +17,8 @@
         {% endif %}
     {% else %}
         {{ page is not null ? page.content|raw : '' }}
-        {% if error %}
-            <div>{{ error.messageKey|trans(error.messageData, 'security', 'nl') }}</div>
+        {% if error and error.messageKey == 'Invalid credentials.' %}
+            <div>Ongeldige inloggegevens.</div>
         {% endif %}
         <form action="{{ path('app_login') }}" id="login-form" method="post">
             <div class="row">
