@@ -60,6 +60,7 @@ class RecipeController extends Controller
     /**
      * The single recipe page is visible if the recipe is not pending except when the current user owns it.
      * It contains a rating form. It also contains a deletion form when the user already rated this recipe.
+     * It also contains a content form and a save or lose recipe form.
      */
     #[
         Route('/recept/enkel/{id}', name: 'recipe_single', defaults: ['pageReview' => '1', 'pageComment' => 1]),

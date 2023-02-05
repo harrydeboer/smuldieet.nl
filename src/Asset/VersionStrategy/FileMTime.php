@@ -8,6 +8,9 @@ use Symfony\Component\Asset\VersionStrategy\VersionStrategyInterface;
 use Exception;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
+/**
+ * The class adds a modification time to the assets. This way the cache is busted when the asset changes.
+ */
 readonly class FileMTime implements VersionStrategyInterface
 {
     public function __construct(

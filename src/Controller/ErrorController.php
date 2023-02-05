@@ -25,7 +25,7 @@ class ErrorController extends Controller
 
             /**
              * When the exception is because of no verification then send
-             * the user to the sendVerificationEmailAgain route.
+             * the user to the send_verification_email_again route.
              */
             if ($statusCodeString === '403' && !$this->getUser()->isVerified()) {
                 return $this->redirectToRoute('send_verification_email_again');

@@ -6,6 +6,10 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * The class stores the diet properties of the recipe.
+ * This way the diet properties can be synchronized with the array from the getDietChoices method.
+ */
 class DietProperties extends AbstractProperties
 {
     #[ORM\Column(type: "boolean")]

@@ -7,6 +7,9 @@ namespace App\Service;
 use App\Repository\ProfanityRepositoryInterface;
 use Exception;
 
+/**
+ * This service checks if a string contains profanities.
+ */
 readonly class ProfanityCheckService
 {
     public function __construct(

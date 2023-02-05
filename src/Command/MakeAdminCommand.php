@@ -10,6 +10,9 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * A user can be made admin by executing this command with the id of the user.
+ */
 class MakeAdminCommand extends Command
 {
     public static function getDefaultName(): ?string

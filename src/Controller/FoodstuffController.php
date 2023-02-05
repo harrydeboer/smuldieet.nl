@@ -48,6 +48,11 @@ class FoodstuffController extends Controller
     public function edit(Request $request, int $id): Response
     {
         $foodstuff = $this->getFoodstuff($id);
+
+        /**
+         * When the foodstuff updates it is checked if the foodstuff is set to solid.
+         * The units of the foodstuff weights are then set to solid units.
+         */
         $isLiquidOld = $foodstuff->getIsLiquid();
 
         $form = $this->createForm(FoodstuffType::class, $foodstuff, [
@@ -109,6 +114,9 @@ class FoodstuffController extends Controller
                 $totalWeight += $weight->getValue();
             }
 
+            /**
+             * The foodstuff gets the weighed values from the foodstuffs of the form.
+             */
             foreach ($foodstuffWeights as $weight) {
                 $foodstuffWeight = $weight->getFoodstuff();
                 foreach ($foodstuff->getNutrientNames() as $name) {
@@ -134,7 +142,7 @@ class FoodstuffController extends Controller
 
                 $this->foodstuffRepository->create($foodstuff);
 
-                $this->addFlash('fromFoodstuffs', 'Nu het voedingsmiddel gemaakt is uit andere 
+                $this->addFlash('combineFoodstuffs', 'Nu het voedingsmiddel gemaakt is uit andere 
                     voedingsmiddelen kun je nog de voedingswaarden op het etiket invullen voor jouw voedingsmiddel.');
 
                 return $this->redirectToRoute('foodstuff_edit', ['id' => $foodstuff->getId()]);

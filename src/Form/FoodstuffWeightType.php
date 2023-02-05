@@ -18,11 +18,15 @@ class FoodstuffWeightType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        /**
+         * The FoodstuffWeight unit select has choices that are set in the Nutrient entity.
+         * The select options can have a class to be able to display the right options in the template.
+         */
+        $choices = array_keys(array_merge(Nutrient::SOLID_UNITS, ['stuks' => 'stuks'], Nutrient::LIQUID_UNITS));
         $choiceAttr = ['stuks' => ['class' => 'piece-option']];
         foreach (array_keys(Nutrient::LIQUID_UNITS) as $unit) {
             $choiceAttr[$unit] = ['class' => 'liquid-option'];
         }
-        $choices = array_keys(array_merge(Nutrient::SOLID_UNITS, ['stuks' => 'stuks'], Nutrient::LIQUID_UNITS));
         $builder->add('foodstuff_id', HiddenType::class, [
             'attr' => ['class' => 'form-control foodstuff-id'],
             'required' => false,

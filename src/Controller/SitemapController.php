@@ -37,14 +37,14 @@ class SitemapController extends Controller
             'staging' => "https://staging.smuldieet.nl",
         };
 
-        $update = '2022-08-09';
+        $update = '2023-02-02';
 
         $pageSlugs = ['/'];
 
         foreach ($this->pageRepository->findAll() as $page) {
             if (
                 $page->getSlug() === 'home'
-                || $page->getSlug() === 'dagen'
+                || $page->getSlug() === 'dagboek'
                 || $page->getSlug() === 'kookboeken'
                 || $page->getSlug() === 'overzicht'
                 || $page->getSlug() === 'recepten'

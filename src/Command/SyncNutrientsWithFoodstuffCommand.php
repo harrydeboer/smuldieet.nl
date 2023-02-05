@@ -9,6 +9,9 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * This command synchronizes the nutrients in the database with the nutrient properties of the Foodstuff entity.
+ */
 class SyncNutrientsWithFoodstuffCommand extends Command
 {
     public static function getDefaultName(): ?string

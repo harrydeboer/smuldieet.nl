@@ -84,6 +84,7 @@ class DayController extends AuthController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             if ($dayStandard?->getId() !== $day->getId() && is_null($day->getTimestamp())) {
                 $form->addError(new FormError('The day cannot become the standard day.'));
             } else {
@@ -143,8 +144,8 @@ class DayController extends AuthController
         $day->setUser($this->getUser());
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()
-        ) {
+        if ($form->isSubmitted() && $form->isValid()) {
+
             $dayStandard = $this->dayRepository->findOneBy([
                 'user' => $this->getUser()->getId(),
                 'timestamp' => null,

@@ -39,7 +39,7 @@ class NutrientRepository extends ServiceEntityRepository implements NutrientRepo
     }
 
     /**
-     * This method syncs the nutrients with the foodstuff class.
+     * This method syncs the nutrients with the foodstuff entity properties.
      * When there are no changes it returns null.
      * If it syncs it returns true.
      * @throws Exception
@@ -77,7 +77,7 @@ class NutrientRepository extends ServiceEntityRepository implements NutrientRepo
              * Each time a new name is looped there is a loop over the database difference array up till the
              * name of the current loop. When this difference exists in the properties difference array it is
              * an update. When there is no match it is a deletion.
-             * After this loop it is checked if the current name is a created name by checking if it exists in
+             * After this loop it is checked if the current name is a creation by checking if it exists in
              * the database difference array.
              */
             foreach ($diffDb as $keyDiffDb => $nameDiffDb) {

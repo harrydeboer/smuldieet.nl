@@ -14,7 +14,7 @@
         {{ form_errors(attribute(form, nutrient.nameSnake)) }}
     {% endfor %}
 </div>
-{% for message in app.flashes('fromFoodstuffs') %}
+{% for message in app.flashes('combineFoodstuffs') %}
     <p>{{ message }}</p>
 {% endfor %}
 {{ form_start(form) }}

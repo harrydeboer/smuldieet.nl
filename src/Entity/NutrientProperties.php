@@ -7,6 +7,10 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * The class stores the nutrient properties of the foodstuff.
+ * This way the nutrients of the database can be synchronized with the foodstuff.
+ */
 class NutrientProperties extends AbstractProperties
 {
     #[
@@ -236,7 +240,7 @@ class NutrientProperties extends AbstractProperties
         Assert\GreaterThanOrEqual(0, message: 'Cafeïne moet groter of gelijk aan 0 zijn.'),
     ]
     protected ?float $caffeine = null;
-    
+
     public function getEnergy(): ?float
     {
         return $this->energy;

@@ -18,6 +18,9 @@ abstract class Controller extends AbstractController
         return parent::getUser();
     }
 
+    /**
+     * The diacritics of a string are removed.
+     */
     protected function transformDiacriticChars(string $string): string
     {
         $unwantedArray = ['Ğ'=>'G', 'İ'=>'I', 'Ş'=>'S', 'ğ'=>'g', 'ı'=>'i', 'ş'=>'s', 'ü'=>'u', 'Š'=>'S', 'š'=>'s',

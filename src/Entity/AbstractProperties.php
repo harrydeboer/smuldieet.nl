@@ -7,6 +7,11 @@ namespace App\Entity;
 use ReflectionException;
 use ReflectionProperty;
 
+/**
+ * The recipe and foodstuff have properties that are grouped in DietProperties and NutrientProperties.
+ * They both extend this class to be able to retrieve all properties that are not static.
+ * This way the database properties can be retrieved and synchronized with other data.
+ */
 abstract class AbstractProperties
 {
     protected function getNames(): array

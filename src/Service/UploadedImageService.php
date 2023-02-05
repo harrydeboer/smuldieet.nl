@@ -32,7 +32,7 @@ readonly class UploadedImageService
     }
 
     /**
-     * Move the image and create resized images for IMAGE_WIDTHS property values.
+     * Move the image and create resized images for the getImageWidths entity method values.
      * @throws Exception
      */
     public function moveImage(
