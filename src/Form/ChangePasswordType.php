@@ -20,10 +20,12 @@ class ChangePasswordType extends AbstractType
                 'type' => PasswordType::class,
                 'first_options' => [
                     'label' => 'Wachtwoord',
+                    'label_attr' => ['class'=> 'col-form-label'],
                     'attr' => ['class' => 'form-control'],
                 ],
                 'second_options' => [
                     'label' => 'Herhaal wachtwoord',
+                    'label_attr' => ['class'=> 'col-form-label'],
                     'attr' => ['class' => 'form-control'],
                 ],
                 'mapped' => false,
