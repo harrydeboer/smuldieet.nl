@@ -51,6 +51,10 @@ class CookbookController extends AuthController
             'method' => 'POST',
         ]);
 
+        /**
+         * When updating the cookbook the old weights must be compared to the current weights
+         * in order to be able to delete the right weights.
+         */
         $oldRecipeWeights = new ArrayCollection();
         foreach ($cookbook->getRecipeWeights() as $weight) {
             $oldRecipeWeights->add($weight);

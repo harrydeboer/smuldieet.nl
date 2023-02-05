@@ -30,7 +30,7 @@ class RecipeController extends Controller
 
     #[
         Route('/recepten', name: 'user_recipes', defaults: ['page' => '1']),
-        Route('/recepten/pagina/{page<[1-9]\d*>}', name: 'user_recipe_index_paginated'),
+        Route('/recepten/pagina/{page<[1-9]\d*>}', name: 'user_recipes_index_paginated'),
     ]
     public function view(int $page): Response
     {
@@ -58,6 +58,10 @@ class RecipeController extends Controller
             'method' => 'POST',
         ]);
 
+        /**
+         * When updating the recipe the old weights must be compared to the current weights
+         * in order to be able to delete the right weights.
+         */
         $oldFoodstuffWeights = new ArrayCollection();
         foreach ($recipe->getFoodstuffWeights() as $weight) {
             $oldFoodstuffWeights->add($weight);

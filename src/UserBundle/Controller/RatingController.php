@@ -99,7 +99,7 @@ class RatingController extends AuthController
                 if ($rating->getContent() !== $oldContent) {
                     $rating->setIsPending(true);
 
-                    $this->addFlash('review_pending', 'Je recensie wacht op goedkeuring');
+                    $this->addFlash('review_pending', 'Je recensie wacht op goedkeuring.');
                 }
                 $rating->setUpdatedAt(time());
                 $this->ratingRepository->update($oldRating, $rating);

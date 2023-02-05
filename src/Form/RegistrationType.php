@@ -26,20 +26,27 @@ class RegistrationType extends AbstractType
     {
         $years = range(1900, date('Y'));
         rsort($years);
+
+        /**
+         * The max file size when uploading an image is set to 4194304 bytes which is 4Mb.
+         */
+        $maxFileSize = 4194304;
+        $maxFileSizeMb = round($maxFileSize / 1048576);
         $builder
             ->add('image', FileType::class, [
                 'attr' => [
                     'accept' => 'image/png, image/jpg, image/jpeg, image/gif, image/bmp, image/webp',
-                    'class' => 'btn-primary form-control d-none'
+                    'class' => 'btn-primary form-control d-none file-upload',
+                    'data-max-size' => $maxFileSize,
                 ],
                 'constraints' => [
                     new File([
-                        'maxSize' => '4096k',
+                        'maxSize' => $maxFileSize,
                         'mimeTypes' => [
                             'image/*',
 
                         ],
-                        'maxSizeMessage' => 'De foto mag maximaal 4Mb zijn.',
+                        'maxSizeMessage' => 'De foto mag maximaal ' . $maxFileSizeMb . 'Mb zijn.',
                         'mimeTypesMessage' => 'Geef alsjeblieft een geldig plaatje (png, jp(eg), ' .
                             'j(f)if, gif, bmp of webp).',
                     ])

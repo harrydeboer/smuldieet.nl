@@ -15,6 +15,9 @@ class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        /**
+         * The max file size when uploading an image is set to 4194304 bytes which is 4Mb.
+         */
         $maxFileSize = 4194304;
         $maxFileSizeMb = round($maxFileSize / 1048576);
         $builder

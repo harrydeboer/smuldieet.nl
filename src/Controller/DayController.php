@@ -53,11 +53,14 @@ class DayController extends AuthController
             'timestamp' => null,
         ]);
 
+        /**
+         * When updating the day the old weights must be compared to the current weights
+         * in order to be able to delete the right weights.
+         */
         $oldFoodstuffWeights = new ArrayCollection();
         foreach ($day->getFoodstuffWeights() as $weight) {
             $oldFoodstuffWeights->add($weight);
         }
-
         $oldRecipeWeights = new ArrayCollection();
         foreach ($day->getRecipeWeights() as $weight) {
             $oldRecipeWeights->add($weight);
