@@ -14,5 +14,4 @@ return [
     SymfonyCasts\Bundle\VerifyEmail\SymfonyCastsVerifyEmailBundle::class => ['all' => true],
     App\AdminBundle\AdminBundle::class => ['all' => true],
     App\UserBundle\UserBundle::class => ['all' => true],
-    FOS\ElasticaBundle\FOSElasticaBundle::class => ['all' => true],
 ];

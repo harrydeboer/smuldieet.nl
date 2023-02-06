@@ -25,30 +25,9 @@ services:
       - mysqldata:/var/lib/mysql
     networks:
       smuldieet:
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.6.1
-    container_name: smuldieet-elasticsearch
-    environment:
-      - node.name=smuldieet-elasticsearch
-      - cluster.name=es-docker-cluster
-      - discovery.type=single-node
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    volumes:
-      - esdata:/usr/share/elasticsearch/data
-    ports:
-      - 9200:9200
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    networks:
-      smuldieet:
 
 volumes:
   mysqldata:
-    driver: local
-  esdata:
     driver: local
 
 networks:
