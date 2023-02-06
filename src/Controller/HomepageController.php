@@ -6,8 +6,8 @@ namespace App\Controller;
 
 use App\Entity\Recipe;
 use App\Form\RecipeFilterAndSortType;
-use App\Repository\PageRepositoryInterface;
 use App\Repository\RecipeRepositoryInterface;
+use FOS\ElasticaBundle\Finder\FinderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,7 +18,7 @@ class HomepageController extends Controller
     public function __construct(
         private readonly RecipeRepositoryInterface $recipeRepository,
         private readonly FormFactoryInterface $formFactory,
-        private readonly PageRepositoryInterface $pageRepository,
+        private readonly FinderInterface $pageFinder,
     ) {
     }
 
@@ -44,7 +44,7 @@ class HomepageController extends Controller
         }
 
         return $this->render('homepage/view.html.twig', [
-            'page' => $this->pageRepository->findOneBy(['slug' => 'home']),
+            'page' => $this->pageFinder->find('home')[0],
             'isFiltered' => $isFiltered,
             'paginator' => $recipes,
             'dietChoices' => Recipe::getDietChoices('snake'),
