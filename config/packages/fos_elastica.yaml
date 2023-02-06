@@ -4,7 +4,7 @@ fos_elastica:
         default:
             url: '%env(ELASTICSEARCH_URL)%'
             username: '%env(ELASTICSEARCH_USERNAME)%'
-            password: '%env(ELASTICSEARCH_PASSWORD)%'
+            password: '%env(ELASTIC_PASSWORD)%'
     indexes:
         page:
             persistence:

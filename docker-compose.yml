@@ -28,6 +28,7 @@ services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.6.1
     container_name: smuldieet-elasticsearch
+    env_file: .env.local
     environment:
       - node.name=smuldieet-elasticsearch
       - cluster.name=es-docker-cluster
