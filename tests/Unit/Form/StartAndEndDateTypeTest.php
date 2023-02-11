@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Form;
 
-use App\Form\OverviewType;
+use App\Form\StartAndEndDateType;
 use DateTime;
 use Symfony\Component\Form\Test\TypeTestCase;
 
-class OverviewTypeTest extends TypeTestCase
+class StartAndEndDateTypeTest extends TypeTestCase
 {
     public function testSubmitModel(): void
     {
@@ -19,7 +19,7 @@ class OverviewTypeTest extends TypeTestCase
             'end' => $endDateString,
         ];
 
-        $form = $this->factory->create(OverviewType::class);
+        $form = $this->factory->create(StartAndEndDateType::class);
 
         $form->submit($formData);
 

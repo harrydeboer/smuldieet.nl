@@ -8,7 +8,7 @@ use App\Tests\Factory\DayFactory;
 use App\Tests\Functional\AuthUserWebTestCase;
 use DateTime;
 
-class OverviewControllerTest extends AuthUserWebTestCase
+class StatisticsControllerTest extends AuthUserWebTestCase
 {
     public function testOverview(): void
     {
@@ -16,7 +16,7 @@ class OverviewControllerTest extends AuthUserWebTestCase
         $date->setDate((int) date('Y'), (int) date('m'), 10);
         static::getContainer()->get(DayFactory::class)->create(['user' => $this->user,'date' => $date]);
 
-        $crawler = $this->client->request('GET', '/overzicht');
+        $crawler = $this->client->request('GET', '/statistieken');
 
         $this->assertResponseIsSuccessful();
 

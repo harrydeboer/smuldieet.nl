@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Form\OverviewType;
+use App\Form\StartAndEndDateType;
 use App\Repository\DayRepositoryInterface;
 use App\Repository\PageRepositoryInterface;
 use App\Service\RDAService;
@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class OverviewController extends AuthController
+class StatisticsController extends AuthController
 {
     public function __construct(
         private readonly DayRepositoryInterface  $dayRepository,
@@ -24,11 +24,11 @@ class OverviewController extends AuthController
     }
 
     #[
-        Route('/overzicht', name: 'overview'),
+        Route('/statistieken', name: 'statistics'),
     ]
     public function view(Request $request): Response
     {
-        $form = $this->formFactory->createNamed('', OverviewType::class, null, [
+        $form = $this->formFactory->createNamed('', StartAndEndDateType::class, null, [
             'method' => 'GET',
             'csrf_protection' => false,
         ]);
@@ -47,7 +47,7 @@ class OverviewController extends AuthController
             'nutrients' => $this->RDAService->daysStats($days, $this->getUser()),
             'form' => $form->createView(),
             'isSubmitted' => $isSubmitted,
-            'page' => $this->pageRepository->findOneBy(['slug' => 'overzicht']),
+            'page' => $this->pageRepository->findOneBy(['slug' => 'statistieken']),
         ]);
     }
 }

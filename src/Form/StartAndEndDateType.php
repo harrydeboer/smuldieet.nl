@@ -9,7 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class OverviewType extends AbstractType
+class StartAndEndDateType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
