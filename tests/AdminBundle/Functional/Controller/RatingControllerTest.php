@@ -17,7 +17,7 @@ class RatingControllerTest extends AuthAdminWebTestCase
 
         $this->assertResponseIsSuccessful();
 
-        $rating = static::getContainer()->get(RatingFactory::class)->create(['isPending' => true]);
+        $rating = static::getContainer()->get(RatingFactory::class)->create(['pending' => true]);
 
         $ratingRepository = $this->getContainer()->get(RatingRepositoryInterface::class);
 
@@ -33,9 +33,9 @@ class RatingControllerTest extends AuthAdminWebTestCase
 
         $this->assertResponseRedirects('/admin/recensies');
 
-        $rating = $ratingRepository->findOneBy(['isPending' => false]);
+        $rating = $ratingRepository->findOneBy(['pending' => false]);
 
-        $this->assertEquals(false, $rating->getIsPending());
+        $this->assertEquals(false, $rating->isPending());
 
         $crawler = $this->client->request('GET', '/admin/recensie/wijzig/' . $id);
 

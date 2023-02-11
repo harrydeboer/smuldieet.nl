@@ -20,7 +20,7 @@ class FoodstuffRepositoryTest extends KernelTestCase
     {
         $user = static::getContainer()->get(UserFactory::class)->create();
         $foodstuff = static::getContainer()->get(FoodstuffFactory::class)->create(['user' => $user]);
-        $isLiquid = $foodstuff->getIsLiquid();
+        $isLiquid = $foodstuff->isLiquid();
 
         $foodstuffRepository = static::getContainer()->get(FoodstuffRepositoryInterface::class);
 
@@ -59,13 +59,13 @@ class FoodstuffRepositoryTest extends KernelTestCase
         $foodstuffWeight = static::getContainer()->get(FoodstuffWeightFactory::class)->create(['unit' => 'l']);
         $foodstuffWeights->add($foodstuffWeight);
         $foodstuff = static::getContainer()->get(FoodstuffFactory::class)
-            ->create(['isLiquid' => true, 'foodstuff_weights' => $foodstuffWeight]);
+            ->create(['liquid' => true, 'foodstuff_weights' => $foodstuffWeight]);
 
         $foodstuffRepository = static::getContainer()->get(FoodstuffRepositoryInterface::class);
 
         $foodstuff = $foodstuffRepository->get($foodstuff->getId());
 
-        $foodstuff->setIsLiquid(false);
+        $foodstuff->setLiquid(false);
         $foodstuffRepository->update($foodstuff, false);
 
         $foodstuffUpdated = $foodstuffRepository->get($foodstuff->getId());

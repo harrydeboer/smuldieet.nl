@@ -17,14 +17,14 @@ class CommentRepositoryTest extends KernelTestCase
     {
         $recipe = static::getContainer()->get(RecipeFactory::class)->create();
         $commentRecipe = static::getContainer()->get(CommentFactory::class)
-            ->create(['isPending' => true, 'recipe' => $recipe]);
+            ->create(['pending' => true, 'recipe' => $recipe]);
         $commentRecipeNotPending = static::getContainer()->get(CommentFactory::class)
-            ->create(['isPending' => false, 'recipe' => $recipe]);
+            ->create(['pending' => false, 'recipe' => $recipe]);
         $page = static::getContainer()->get(PageFactory::class)->create();
         $commentPage = static::getContainer()->get(CommentFactory::class)
-            ->create(['isPending' => true, 'page' => $page]);
+            ->create(['pending' => true, 'page' => $page]);
         $commentPageNotPending = static::getContainer()->get(CommentFactory::class)
-            ->create(['isPending' => false, 'page' => $page]);
+            ->create(['pending' => false, 'page' => $page]);
 
         $commentRepository = static::getContainer()->get(CommentRepositoryInterface::class);
 

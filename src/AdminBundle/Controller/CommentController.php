@@ -54,7 +54,7 @@ class CommentController extends AuthController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $comment->setUpdatedAt(time());
-                $comment->setIsPending(false);
+                $comment->setPending(false);
                 $this->commentRepository->update($comment);
 
                 return $this->redirectToRoute('admin_comments');

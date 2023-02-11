@@ -16,7 +16,7 @@ class RecipeTypeTest extends TypeTestCase
     {
         $title = 'test';
         $preparationMethod = 'test';
-        $isSelfInvented = 0;
+        $selfInvented = 0;
         $numberOfPersons = 1;
         $cookingTime = '0-10 min.';
         $kitchen = 'Afrikaans';
@@ -24,7 +24,7 @@ class RecipeTypeTest extends TypeTestCase
         $formData = [
             'title' => $title,
             'preparation_method' => $preparationMethod,
-            'is_self_invented' => $isSelfInvented,
+            'is_self_invented' => $selfInvented,
             'number_of_persons' => $numberOfPersons,
             'cooking_time' => $cookingTime,
             'kitchen' => $kitchen,
@@ -38,7 +38,7 @@ class RecipeTypeTest extends TypeTestCase
         $expected = new Recipe();
         $expected->setTitle($title);
         $expected->setPreparationMethod($preparationMethod);
-        $expected->setIsSelfInvented((bool) $isSelfInvented);
+        $expected->setSelfInvented((bool) $selfInvented);
         $expected->setNumberOfPersons($numberOfPersons);
         $expected->setCookingTime($cookingTime);
         $expected->setKitchen($kitchen);

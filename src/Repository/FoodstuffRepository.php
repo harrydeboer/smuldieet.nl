@@ -154,7 +154,7 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
         $this->checkFirstChar($foodstuff->getName());
         $this->checkWeightsAndEnergy($foodstuff);
         $this->checkPieceAndPiecesName($foodstuff);
-        if ($isLiquidOld && !$foodstuff->getIsLiquid()) {
+        if ($isLiquidOld && !$foodstuff->isLiquid()) {
             $this->transformLiquidUnitsToSolid($foodstuff->getFoodstuffWeights(), $foodstuff->getDensity());
         }
         $this->em->flush();

@@ -53,7 +53,7 @@ class FoodstuffController extends Controller
          * When the foodstuff updates it is checked if the foodstuff is set to solid.
          * The units of the foodstuff weights are then set to solid units.
          */
-        $isLiquidOld = $foodstuff->getIsLiquid();
+        $isLiquidOld = $foodstuff->isLiquid();
 
         $form = $this->createForm(FoodstuffType::class, $foodstuff, [
             'method' => 'POST',

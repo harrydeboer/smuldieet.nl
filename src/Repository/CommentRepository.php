@@ -44,7 +44,7 @@ class CommentRepository extends ServiceEntityRepository implements CommentReposi
     public function findAllPendingComments(): array
     {
         $qb = $this->createQueryBuilder('c');
-        $qb->andWhere('c.isPending = 1');
+        $qb->andWhere('c.pending = 1');
 
         $query = $qb->getQuery();
 
@@ -55,7 +55,7 @@ class CommentRepository extends ServiceEntityRepository implements CommentReposi
     {
         $qb = $this->createQueryBuilder('c');
         $qb->andWhere('c.recipe = ' . $recipeId);
-        $qb->andWhere('c.isPending = 0');
+        $qb->andWhere('c.pending = 0');
 
         return (new Paginator($qb, 5))->paginate($page);
     }
@@ -64,7 +64,7 @@ class CommentRepository extends ServiceEntityRepository implements CommentReposi
     {
         $qb = $this->createQueryBuilder('c');
         $qb->andWhere('c.page = ' . $pageId);
-        $qb->andWhere('c.isPending = 0');
+        $qb->andWhere('c.pending = 0');
 
         return (new Paginator($qb, 5))->paginate($page);
     }

@@ -14,8 +14,8 @@ class RecipeRepositoryTest extends KernelTestCase
 {
     public function testCreateUpdateDelete(): void
     {
-        $recipe = static::getContainer()->get(RecipeFactory::class)->create(['isPending' => false]);
-        $recipePending = static::getContainer()->get(RecipeFactory::class)->create(['isPending' => true]);
+        $recipe = static::getContainer()->get(RecipeFactory::class)->create(['pending' => false]);
+        $recipePending = static::getContainer()->get(RecipeFactory::class)->create(['pending' => true]);
         $oldTags = $recipe->getTags();
 
         $recipeRepository = static::getContainer()->get(RecipeRepositoryInterface::class);

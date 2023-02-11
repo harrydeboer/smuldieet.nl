@@ -70,7 +70,7 @@ class RecipeController extends Controller
     public function single(int $id, int $pageReview, int $pageComment): Response
     {
         $recipe = $this->recipeRepository->get($id);
-        if ($recipe->getIsPending() && $recipe->getUser()->getId() !== $this->getUser()?->getId()) {
+        if ($recipe->isPending() && $recipe->getUser()->getId() !== $this->getUser()?->getId()) {
             throw $this->createNotFoundException('Dit recept can niet worden getoond.');
         }
 
@@ -116,7 +116,7 @@ class RecipeController extends Controller
         $hasDiet = false;
         $diet = [];
         foreach ($recipe::getDietChoices() as $choice => $label) {
-            if ($recipe->{'get' . ucwords($choice)}() === true) {
+            if ($recipe->{'is' . ucfirst($choice)}() === true) {
                 $hasDiet = true;
                 $diet[] = $label;
             }

@@ -33,20 +33,14 @@ class RecipeFactory extends AbstractFactory
         $recipe->setVotes(0);
         $recipe->setTimesSaved(0);
         $recipe->setTimesReacted(0);
-        $recipe->setIsSelfInvented(rand(0, 1) === 1);
-        $recipe->setIsPending(rand(0, 1) === 1);
+        $recipe->setSelfInvented(rand(0, 1) === 1);
+        $recipe->setPending(rand(0, 1) === 1);
         $recipe->setCookingTime(Recipe::COOKING_TIMES[array_rand(Recipe::COOKING_TIMES)]);
         $recipe->setKitchen(Recipe::KITCHEN[array_rand(Recipe::KITCHEN)]);
         $recipe->setTypeOfDish(Recipe::TYPE_OF_DISH[array_rand(Recipe::TYPE_OF_DISH)]);
-        $recipe->setIsVegetarian(rand(0, 1) === 1);
-        $recipe->setIsVegan(rand(0, 1) === 1);
-        $recipe->setIsHistamineFree(rand(0, 1) === 1);
-        $recipe->setIsCowMilkFree(rand(0, 1) === 1);
-        $recipe->setIsSoyFree(rand(0, 1) === 1);
-        $recipe->setIsGlutenFree(rand(0, 1) === 1);
-        $recipe->setIsChickenEggProteinFree(rand(0, 1) === 1);
-        $recipe->setIsNutFree(rand(0, 1) === 1);
-        $recipe->setIsWithoutPackagesAndBags(rand(0, 1) === 1);
+        foreach ($recipe->getDietNames() as $name) {
+            $recipe->{'set' . ucfirst($name)}(rand(0, 1) === 1);
+        }
 
         if (isset($params['ratings'])) {
             throw new InvalidArgumentException('Cannot add ratings to recipe. ' .

@@ -15,7 +15,7 @@ class RecipeControllerTest extends AuthVerifiedWebTestCase
 {
     public function testCreateUpdateDelete(): void
     {
-        $recipeNotPending = static::getContainer()->get(RecipeFactory::class)->create(['isPending' => false]);
+        $recipeNotPending = static::getContainer()->get(RecipeFactory::class)->create(['pending' => false]);
         $foodstuff = static::getContainer()->get(FoodstuffFactory::class)->create();
 
         $this->client->request('GET', '/user/recepten');

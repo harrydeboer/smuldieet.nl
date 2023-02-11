@@ -13,7 +13,7 @@ class RatingControllerTest extends AuthVerifiedWebTestCase
 {
     public function testCreateUpdateDelete(): void
     {
-        $recipe = static::getContainer()->get(RecipeFactory::class)->create(['isPending' => false]);
+        $recipe = static::getContainer()->get(RecipeFactory::class)->create(['pending' => false]);
 
         $this->client->request('GET', '/user/waarderingen');
 

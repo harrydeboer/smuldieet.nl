@@ -34,7 +34,7 @@ class CommentController extends Controller
         /**
          * When creating a comment it is checked that the recipe is not pending except when the current user owns it.
          */
-        if ($recipe->getIsPending() && $recipe->getUser()->getId() !== $this->getUser()->getId()) {
+        if ($recipe->isPending() && $recipe->getUser()->getId() !== $this->getUser()->getId()) {
             throw $this->createNotFoundException('Dit recept can niet worden getoond.');
         }
 
@@ -42,7 +42,7 @@ class CommentController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $comment->setUser($this->getUser());
             $comment->setCreatedAt(time());
-            $comment->setIsPending(true);
+            $comment->setPending(true);
 
             try {
                 $this->commentRepository->create($comment);

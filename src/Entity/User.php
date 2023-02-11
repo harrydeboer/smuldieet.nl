@@ -33,7 +33,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, UploadI
         ORM\Column(type: "integer"),
         ORM\GeneratedValue(strategy: "IDENTITY"),
     ]
-    protected int $id;
+    private int $id;
 
     #[
         ORM\Column(type: "bigint"),
@@ -107,7 +107,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, UploadI
     private string $password;
 
     #[ORM\Column(type: "boolean")]
-    private bool $isVerified = false;
+    private bool $verified = false;
 
     #[ORM\OneToMany(mappedBy: "user", targetEntity: "App\Entity\Day", cascade: ["remove"])]
     private Collection $days;
@@ -291,12 +291,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, UploadI
 
     public function isVerified(): bool
     {
-        return $this->isVerified;
+        return $this->verified;
     }
 
-    public function setIsVerified(bool $isVerified): void
+    public function setIsVerified(bool $verified): void
     {
-        $this->isVerified = $isVerified;
+        $this->verified = $verified;
     }
 
     public function getPassword(): string

@@ -34,7 +34,7 @@ class RatingController extends Controller
         /**
          * When creating a rating it is checked that the recipe is not pending except when the current user owns it.
          */
-        if ($recipe->getIsPending() && $recipe->getUser()->getId() !== $this->getUser()->getId()) {
+        if ($recipe->isPending() && $recipe->getUser()->getId() !== $this->getUser()->getId()) {
             throw $this->createNotFoundException('Dit recept can niet worden getoond.');
         }
 
@@ -42,7 +42,7 @@ class RatingController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $rating->setUser($this->getUser());
             $rating->setCreatedAt(time());
-            $rating->setIsPending(false);
+            $rating->setPending(false);
 
             /** Creating a rating without content cannot throw an exception. */
             try {

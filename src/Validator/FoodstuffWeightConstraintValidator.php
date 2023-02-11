@@ -70,7 +70,7 @@ class FoodstuffWeightConstraintValidator extends ConstraintValidator
                 ->atPath('unit')
                 ->addViolation();
         }
-        if (!$foodstuff->getIsLiquid() && in_array($unit, array_keys(Nutrient::LIQUID_UNITS))) {
+        if (!$foodstuff->isLiquid() && in_array($unit, array_keys(Nutrient::LIQUID_UNITS))) {
             $this->context
                 ->buildViolation('Vaste voedingsmiddelen kunnen geen vloeibare eenheid hebben.')
                 ->atPath('unit')

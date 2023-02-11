@@ -110,7 +110,7 @@ readonly class RDAService
     ): Nutrient
     {
         $foodstuff = $foodstuffWeight->getFoodstuff();
-        if ($foodstuff->getIsLiquid()
+        if ($foodstuff->isLiquid()
             && !is_null($foodstuff->getDensity())
             && in_array($foodstuffWeight->getUnit(), Nutrient::LIQUID_UNITS)) {
             $densityFactor = $foodstuff->getDensity();

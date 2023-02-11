@@ -13,134 +13,134 @@ use Doctrine\ORM\Mapping as ORM;
 class DietProperties extends AbstractProperties
 {
     #[ORM\Column(type: "boolean")]
-    protected bool $isVegetarian = false;
+    protected bool $vegetarian = false;
 
     #[ORM\Column(type: "boolean")]
-    protected bool $isVegan = false;
+    protected bool $vegan = false;
 
     #[ORM\Column(type: "boolean")]
-    protected bool $isHistamineFree = false;
+    protected bool $histamineFree = false;
 
     #[ORM\Column(type: "boolean")]
-    protected bool $isCowMilkFree = false;
+    protected bool $cowMilkFree = false;
 
     #[ORM\Column(type: "boolean")]
-    protected bool $isSoyFree = false;
+    protected bool $soyFree = false;
 
     #[ORM\Column(type: "boolean")]
-    protected bool $isGlutenFree = false;
+    protected bool $glutenFree = false;
 
     #[ORM\Column(type: "boolean")]
-    protected bool $isChickenEggProteinFree = false;
+    protected bool $chickenEggProteinFree = false;
 
     #[ORM\Column(type: "boolean")]
-    protected bool $isNutFree = false;
+    protected bool $nutFree = false;
 
     #[ORM\Column(type: "boolean")]
-    protected bool $isWithoutPackagesAndBags = false;
+    protected bool $withoutPackagesAndBags = false;
 
-    public function getIsVegetarian(): bool
+    public function isVegetarian(): bool
     {
-        return $this->isVegetarian;
+        return $this->vegetarian;
     }
 
-    public function setIsVegetarian(bool $isVegetarian): void
+    public function setVegetarian(bool $vegetarian): void
     {
-        $this->isVegetarian = $isVegetarian;
+        $this->vegetarian = $vegetarian;
     }
 
-    public function getIsVegan(): bool
+    public function isVegan(): bool
     {
-        return $this->isVegan;
+        return $this->vegan;
     }
 
-    public function setIsVegan(bool $isVegan): void
+    public function setVegan(bool $vegan): void
     {
-        $this->isVegan = $isVegan;
+        $this->vegan = $vegan;
     }
 
-    public function getIsHistamineFree(): bool
+    public function isHistamineFree(): bool
     {
-        return $this->isHistamineFree;
+        return $this->histamineFree;
     }
 
-    public function setIsHistamineFree(bool $isHistamineFree): void
+    public function setHistamineFree(bool $histamineFree): void
     {
-        $this->isHistamineFree = $isHistamineFree;
+        $this->histamineFree = $histamineFree;
     }
 
-    public function getIsCowMilkFree(): bool
+    public function isCowMilkFree(): bool
     {
-        return $this->isCowMilkFree;
+        return $this->cowMilkFree;
     }
 
-    public function setIsCowMilkFree(bool $isCowMilkFree): void
+    public function setCowMilkFree(bool $cowMilkFree): void
     {
-        $this->isCowMilkFree = $isCowMilkFree;
+        $this->cowMilkFree = $cowMilkFree;
     }
 
-    public function getIsSoyFree(): bool
+    public function isSoyFree(): bool
     {
-        return $this->isSoyFree;
+        return $this->soyFree;
     }
 
-    public function setIsSoyFree(bool $isSoyFree): void
+    public function setSoyFree(bool $soyFree): void
     {
-        $this->isSoyFree = $isSoyFree;
+        $this->soyFree = $soyFree;
     }
 
-    public function getIsGlutenFree(): bool
+    public function isGlutenFree(): bool
     {
-        return $this->isGlutenFree;
+        return $this->glutenFree;
     }
 
-    public function setIsGlutenFree(bool $isGlutenFree): void
+    public function setGlutenFree(bool $glutenFree): void
     {
-        $this->isGlutenFree = $isGlutenFree;
+        $this->glutenFree = $glutenFree;
     }
 
-    public function getIsChickenEggProteinFree(): bool
+    public function isChickenEggProteinFree(): bool
     {
-        return $this->isChickenEggProteinFree;
+        return $this->chickenEggProteinFree;
     }
 
-    public function setIsChickenEggProteinFree(bool $isChickenEggProteinFree): void
+    public function setChickenEggProteinFree(bool $chickenEggProteinFree): void
     {
-        $this->isChickenEggProteinFree = $isChickenEggProteinFree;
+        $this->chickenEggProteinFree = $chickenEggProteinFree;
     }
 
-    public function getIsNutFree(): bool
+    public function isNutFree(): bool
     {
-        return $this->isNutFree;
+        return $this->nutFree;
     }
 
-    public function setIsNutFree(bool $isNutFree): void
+    public function setNutFree(bool $nutFree): void
     {
-        $this->isNutFree = $isNutFree;
+        $this->nutFree = $nutFree;
     }
 
-    public function getIsWithoutPackagesAndBags(): bool
+    public function isWithoutPackagesAndBags(): bool
     {
-        return $this->isWithoutPackagesAndBags;
+        return $this->withoutPackagesAndBags;
     }
 
-    public function setIsWithoutPackagesAndBags(bool $isWithoutPackagesAndBags): void
+    public function setWithoutPackagesAndBags(bool $withoutPackagesAndBags): void
     {
-        $this->isWithoutPackagesAndBags = $isWithoutPackagesAndBags;
+        $this->withoutPackagesAndBags = $withoutPackagesAndBags;
     }
 
     public static function getDietChoices(string $camelOrSnake = 'camel'): array
     {
         $arrayCamel = [
-            'isVegetarian' => 'Vegetarisch',
-            'isVegan' => 'Veganistisch',
-            'isHistamineFree' => 'Histamine vrij',
-            'isCowMilkFree' => 'Koemelk vrij',
-            'isSoyFree' => 'Soja vrij',
-            'isGlutenFree' => 'Gluten vrij',
-            'isChickenEggProteinFree' => 'Kippenei eiwitvrij',
-            'isNutFree' => 'Noten vrij',
-            'isWithoutPackagesAndBags' => 'Zonder pakjes en zakjes',
+            'vegetarian' => 'Vegetarisch',
+            'vegan' => 'Veganistisch',
+            'histamineFree' => 'Histamine vrij',
+            'cowMilkFree' => 'Koemelk vrij',
+            'soyFree' => 'Soja vrij',
+            'glutenFree' => 'Gluten vrij',
+            'chickenEggProteinFree' => 'Kippenei eiwitvrij',
+            'nutFree' => 'Noten vrij',
+            'withoutPackagesAndBags' => 'Zonder pakjes en zakjes',
         ];
 
         if ($camelOrSnake === 'snake') {

@@ -74,7 +74,7 @@ class Foodstuff extends NutrientProperties
     private ?float $pieceWeight = null;
 
     #[ORM\Column(type: "boolean")]
-    private bool $isLiquid = false;
+    private bool $liquid = false;
 
     #[
         ORM\Column(type: "float", nullable: true),
@@ -170,14 +170,14 @@ class Foodstuff extends NutrientProperties
         $this->user = $user;
     }
 
-    public function getIsLiquid(): bool
+    public function isLiquid(): bool
     {
-        return $this->isLiquid;
+        return $this->liquid;
     }
 
-    public function setIsLiquid(bool $isLiquid): void
+    public function setLiquid(bool $liquid): void
     {
-        $this->isLiquid = $isLiquid;
+        $this->liquid = $liquid;
     }
 
     public function getDensity(): ?float
