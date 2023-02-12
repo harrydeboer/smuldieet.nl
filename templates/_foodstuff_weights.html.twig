@@ -27,7 +27,35 @@
             {% if foodstuff_weights[id].foodstuff.pieceWeight is null %}
                 {% set classes = classes~' not-piece' %}
             {% endif %}
-            {{ form_widget(weight.unit, {'attr':{'class':classes}}) }}
+            <select id="{{ weight.unit.vars.id }}"
+                    name="{{ weight.unit.vars.full_name }}"
+                    class="{{ classes }}"
+                    {{ weight.unit.vars.required == 1 ? 'required="required"': '' }}>
+                <option value="">{{ weight.unit.vars.placeholder }}</option>
+                {% for choice in weight.unit.vars.choices %}
+                    {#
+                    When the choice is the form element value it is selected.
+                    The label of the stuks option is set to the foodstuff its piece name when present.
+                    #}
+                    {% if choice.value == weight.unit.vars.value %}
+                        {% set selected = 'selected' %}
+                    {% else %}
+                        {% set selected = '' %}
+                    {% endif %}
+                    {% if choice.value == 'stuks' and foodstuff_weights[id].foodstuff.pieceName is not null %}
+                        {% set label = foodstuff_weights[id].foodstuff.pieceName %}
+                    {% else %}
+                        {% set label = choice.label %}
+                    {% endif %}
+                    {% if choice.attr['class'] is defined %}
+                        {% set class = choice.attr['class'] %}
+                    {% else %}
+                        {% set class = '' %}
+                    {% endif %}
+                    <option value="{{ choice.value }}" class="{{ class }}" {{ selected }}>{{ label }}</option>
+                {% endfor %}
+            </select>
+            {% do weight.unit.setRendered %}
             <span class="form-error">
                  {{ form_errors(weight.unit) }}
             </span>

@@ -32,15 +32,19 @@ class FoodstuffWeightType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function ($event) {
-            $this->buildUnit($event);
-        });
-
         $builder->addEventListener(FormEvents::SUBMIT, function ($event) {
             $this->addFoodstuff($event);
-            $this->buildUnit($event);
         });
 
+        /**
+         * The FoodstuffWeight unit select has choices that are set in the Nutrient entity.
+         * The select options can have a class to be able to display the right options in the template.
+         */
+        $choicesKeys = array_keys(array_merge(Nutrient::SOLID_UNITS, ['stuks' => 'stuks'], Nutrient::LIQUID_UNITS));
+        $choiceAttr = ['stuks' => ['class' => 'piece-option']];
+        foreach (array_keys(Nutrient::LIQUID_UNITS) as $unit) {
+            $choiceAttr[$unit] = ['class' => 'liquid-option'];
+        }
         $builder->add('foodstuff_id', HiddenType::class, [
             'attr' => ['class' => 'form-control foodstuff-id'],
             'required' => false,
@@ -58,56 +62,14 @@ class FoodstuffWeightType extends AbstractType
                 'class' => 'form-control foodstuff-weight',
                 'placeholder' => 'gewicht',
             ],
-        ]);
-    }
-
-    private function buildUnit(FormEvent $event): void
-    {
-        $builder = $event->getForm();
-        $foodstuffWeight = $event->getData();
-
-        /**
-         * The FoodstuffWeight unit select has choices that are set in the Nutrient entity.
-         * The select options can have a class to be able to display the right options in the template.
-         */
-        $choices = array_combine(array_keys(Nutrient::SOLID_UNITS), array_keys(Nutrient::SOLID_UNITS));
-        if (!is_null($foodstuffWeight)) {
-            try {
-                $foodstuff = $foodstuffWeight->getFoodstuff();
-                if (is_null($foodstuff->getPieceName())
-                    || is_null($foodstuff->getPieceWeight())) {
-                    $choices['stuks'] = 'stuks';
-                } else {
-                    $choices[$foodstuff->getPieceName()] = 'stuks';
-                }
-            } catch (Error) {
-                $choices['stuks'] = 'stuks';
-            }
-        }
-
-        $liquidChoices = array_combine(array_keys(Nutrient::LIQUID_UNITS), array_keys(Nutrient::LIQUID_UNITS));
-        $choices = array_merge($choices, $liquidChoices);
-        $choiceAttr = ['stuks' => ['class' => 'piece-option']];
-        foreach (array_keys(Nutrient::LIQUID_UNITS) as $unit) {
-            $choiceAttr[$unit] = ['class' => 'liquid-option'];
-        }
-
-        $builder->add('unit', ChoiceType::class, [
-            'choices' => $choices,
+        ])->add('unit', ChoiceType::class, [
+            'choices' => array_combine($choicesKeys, $choicesKeys),
             'attr' => [
                 'class' => 'form-control foodstuff-unit form-select',
             ],
             'choice_attr' => $choiceAttr,
             'placeholder' => 'selecteer eenheid',
         ]);
-
-        if (!is_null($foodstuffWeight)) {
-            try {
-                $unit = $foodstuffWeight->getUnit();
-                $builder->get('unit')->setData($unit);
-            } catch (Error) {
-            }
-        }
     }
 
     private function addFoodstuff(FormEvent $event): void
