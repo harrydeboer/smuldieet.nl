@@ -71,12 +71,20 @@ class FoodstuffWeightType extends AbstractType
          * The select options can have a class to be able to display the right options in the template.
          */
         $choices = array_combine(array_keys(Nutrient::SOLID_UNITS), array_keys(Nutrient::SOLID_UNITS));
-        if (is_null($foodstuffWeight?->getFoodstuff()->getPieceName())
-            || is_null($foodstuffWeight?->getFoodstuff()->getPieceWeight())) {
-            $choices['stuks'] = 'stuks';
-        } else {
-            $choices[$foodstuffWeight->getFoodstuff()->getPieceName()] = 'stuks';
+        if (!is_null($foodstuffWeight)) {
+            try {
+                $foodstuff = $foodstuffWeight->getFoodstuff();
+                if (is_null($foodstuff->getPieceName())
+                    || is_null($foodstuff->getPieceWeight())) {
+                    $choices['stuks'] = 'stuks';
+                } else {
+                    $choices[$foodstuff->getPieceName()] = 'stuks';
+                }
+            } catch (Error) {
+                $choices['stuks'] = 'stuks';
+            }
         }
+
         $liquidChoices = array_combine(array_keys(Nutrient::LIQUID_UNITS), array_keys(Nutrient::LIQUID_UNITS));
         $choices = array_merge($choices, $liquidChoices);
         $choiceAttr = ['stuks' => ['class' => 'piece-option']];
@@ -95,7 +103,7 @@ class FoodstuffWeightType extends AbstractType
 
         if (!is_null($foodstuffWeight)) {
             try {
-                $unit = $foodstuffWeight?->getUnit();
+                $unit = $foodstuffWeight->getUnit();
                 $builder->get('unit')->setData($unit);
             } catch (Error) {
             }

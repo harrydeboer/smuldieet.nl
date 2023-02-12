@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Form;
 
+use App\Entity\Foodstuff;
 use App\Entity\FoodstuffWeight;
 use App\Form\FoodstuffWeightType;
 use App\Tests\Factory\FoodstuffFactory;
@@ -24,7 +25,6 @@ class FoodstuffWeightTypeTest extends AuthVerifiedWebTestCase
         ];
 
         $foodstuffWeight = new FoodstuffWeight();
-        $foodstuffWeight->setFoodstuff($foodstuff);
 
         $form = $this->getContainer()->get('form.factory')->create(FoodstuffWeightType::class, $foodstuffWeight);
 

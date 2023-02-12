@@ -12,7 +12,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-4">{{ form_widget(weight.value, {'attr': {'class': weight_value_classes}}) }}</div>
+        <div class="col-4">{{ form_widget(weight.value, {'attr': {'class': weight_value_classes}}) }}
+            <span class="form-error">{{ form_errors(weight.value) }}</span></div>
         <div class="col-1"><i class="remove-row fa fa-minus"></i></div>
     </div>
 {% endfor %}

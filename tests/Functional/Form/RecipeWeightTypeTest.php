@@ -21,7 +21,6 @@ class RecipeWeightTypeTest extends AuthVerifiedWebTestCase
         ];
 
         $recipeWeight = new RecipeWeight();
-        $recipeWeight->setRecipe($recipe);
 
         $form = $this->getContainer()->get('form.factory')->create(RecipeWeightType::class, $recipeWeight);
 
