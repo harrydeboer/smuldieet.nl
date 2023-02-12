@@ -46,7 +46,6 @@ class Day
 
     #[
         ORM\OneToMany(mappedBy: "day", targetEntity: "RecipeWeight", cascade: ["persist", "remove"]),
-        Assert\Valid,
     ]
     private Collection $recipeWeights;
 

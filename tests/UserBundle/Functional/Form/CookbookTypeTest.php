@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\UserBundle\Unit\Form;
+namespace App\tests\UserBundle\Functional\Form;
 
 use App\Entity\Cookbook;
+use App\Tests\Functional\AuthVerifiedWebTestCase;
 use App\UserBundle\Form\CookbookType;
-use Symfony\Component\Form\Test\TypeTestCase;
 
-class CookbookTypeTest extends TypeTestCase
+class CookbookTypeTest extends AuthVerifiedWebTestCase
 {
     public function testSubmitModel(): void
     {
@@ -17,7 +17,7 @@ class CookbookTypeTest extends TypeTestCase
 
         $cookbook = new Cookbook();
 
-        $form = $this->factory->create(CookbookType::class, $cookbook);
+        $form = $this->getContainer()->get('form.factory')->create(CookbookType::class, $cookbook);
 
         $expected = new Cookbook();
         $expected->setTitle($title);

@@ -53,7 +53,6 @@ class Cookbook
 
     #[
         ORM\OneToMany(mappedBy: "cookbook", targetEntity: "RecipeWeight", cascade: ["persist", "remove"]),
-        Assert\Valid,
     ]
     private Collection $recipeWeights;
 

@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\UserBundle\Unit\Form;
+namespace App\tests\UserBundle\Functional\Form;
 
 use App\Entity\Recipe;
+use App\Tests\Functional\AuthVerifiedWebTestCase;
 use App\UserBundle\Form\RecipeType;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
-use Symfony\Component\Form\Test\TypeTestCase;
 use Symfony\Component\Validator\Validation;
 
-class RecipeTypeTest extends TypeTestCase
+class RecipeTypeTest extends AuthVerifiedWebTestCase
 {
     public function testSubmitModel(): void
     {
@@ -33,7 +33,7 @@ class RecipeTypeTest extends TypeTestCase
 
         $recipe = new Recipe();
 
-        $form = $this->factory->create(RecipeType::class, $recipe);
+        $form = $this->getContainer()->get('form.factory')->create(RecipeType::class, $recipe);
 
         $expected = new Recipe();
         $expected->setTitle($title);

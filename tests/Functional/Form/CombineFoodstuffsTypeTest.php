@@ -2,32 +2,32 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Form;
+namespace App\Tests\Functional\Form;
 
-use App\Entity\Foodstuff;
 use App\Entity\FoodstuffWeight;
 use App\Form\CombineFoodstuffsType;
+use App\Tests\Factory\FoodstuffFactory;
+use App\Tests\Functional\AuthVerifiedWebTestCase;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
-use Symfony\Component\Form\Test\TypeTestCase;
 use Symfony\Component\Validator\Validation;
 
-class CombineFoodstuffsTypeTest extends TypeTestCase
+class CombineFoodstuffsTypeTest extends AuthVerifiedWebTestCase
 {
     public function testSubmitModel(): void
     {
-        $foodstuff = new Foodstuff();
-        $foodstuff->setId(1);
+        $foodstuff = static::getContainer()->get(FoodstuffFactory::class)->create();
         $name = 'test';
         $formData = [
             'name' => $name,
             'foodstuff_weights' => [0 => ['foodstuff_id' => $foodstuff->getId(), 'value' => 100, 'unit' => 'g']],
         ];
 
-        $form = $this->factory->create(CombineFoodstuffsType::class);
+        $form = $this->getContainer()->get('form.factory')->create(CombineFoodstuffsType::class);
 
         $form->submit($formData);
         $weight = new FoodstuffWeight();
         $weight->setFoodstuffId($foodstuff->getId());
+        $weight->setFoodstuff($foodstuff);
         $weight->setUnit('g');
         $weight->setValue(100);
 

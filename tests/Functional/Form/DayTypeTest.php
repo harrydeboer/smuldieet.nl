@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Form;
+namespace App\Tests\Functional\Form;
 
 use App\Entity\Day;
 use App\Form\DayType;
+use App\Tests\Functional\AuthVerifiedWebTestCase;
 use DateTime;
-use Symfony\Component\Form\Test\TypeTestCase;
 
-class DayTypeTest extends TypeTestCase
+class DayTypeTest extends AuthVerifiedWebTestCase
 {
     public function testSubmitModel(): void
     {
@@ -21,7 +21,7 @@ class DayTypeTest extends TypeTestCase
 
         $day = new Day();
 
-        $form = $this->factory->create(DayType::class, $day);
+        $form = $this->getContainer()->get('form.factory')->create(DayType::class, $day);
 
         $expected = new Day();
         $expected->setDate($date);
