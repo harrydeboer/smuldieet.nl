@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Form;
 
-use App\Entity\Foodstuff;
 use App\Entity\FoodstuffWeight;
 use App\Form\FoodstuffWeightType;
 use App\Tests\Factory\FoodstuffFactory;
