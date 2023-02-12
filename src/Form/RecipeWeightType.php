@@ -63,12 +63,7 @@ class RecipeWeightType extends AbstractType
                 $recipe = $this->recipeRepository->getNotPendingOrFromUser($id, $this->getUser()->getId());
                 $recipeWeight->setRecipe($recipe);
             } catch (Error) {
-                try {
-                    $id = $recipeWeight->getRecipe()->getId();
-                    $recipeWeight->setRecipeId($id);
-                } catch (Error) {
-                    throw new NotFoundHttpException('Het recept is niet opgegeven.');
-                }
+                throw new NotFoundHttpException('Het recept is niet opgegeven.');
             }
         }
     }

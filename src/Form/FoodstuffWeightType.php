@@ -111,12 +111,7 @@ class FoodstuffWeightType extends AbstractType
                 $foodstuff = $this->foodstuffRepository->getDefaultAndFromUser($id, $this->getUser()->getId());
                 $foodstuffWeight->setFoodstuff($foodstuff);
             } catch (Error) {
-                try {
-                    $id = $foodstuffWeight->getFoodstuff()->getId();
-                    $foodstuffWeight->setFoodstuffId($id);
-                } catch (Error) {
-                    throw new NotFoundHttpException('Het voedingsmiddel is niet opgegeven.');
-                }
+                throw new NotFoundHttpException('Het voedingsmiddel is niet opgegeven.');
             }
             $foodstuff = $this->foodstuffRepository->getDefaultAndFromUser(
                 $foodstuffWeight->getFoodstuffId(), $this->getUser()->getId());
