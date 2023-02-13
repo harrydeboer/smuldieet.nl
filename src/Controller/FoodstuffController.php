@@ -195,9 +195,7 @@ class FoodstuffController extends Controller
         if (strlen($name) > 255) {
             $foodstuffs = [];
         } else {
-            $foodstuffs = $this->foodstuffRepository->search(
-                $this->transformDiacriticChars($name),
-                $this->getUser()->getId(),
+            $foodstuffs = $this->foodstuffRepository->search($name, $this->getUser()->getId(),
             );
         }
 
