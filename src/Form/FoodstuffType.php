@@ -45,7 +45,7 @@ class FoodstuffType extends AbstractType
                 'label' => 'Naam per stuk meervoud',
                 'label_attr' => ['class' => 'col-form-label'],
             ])
-            ->add('is_liquid', ChoiceType::class, [
+            ->add('liquid', ChoiceType::class, [
                 'choices' => ['ja' => true, 'nee' => false],
                 'expanded' => true,
                 'attr' => ['class' => 'form-control'],

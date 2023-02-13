@@ -93,7 +93,7 @@ class RecipeType extends AbstractType
                 'allow_delete' => true,
                 'delete_empty' => true,
             ])
-            ->add('is_self_invented', ChoiceType::class, [
+            ->add('self_invented', ChoiceType::class, [
                 'choices' => ['ja' => true, 'nee' => false],
                 'expanded' => true,
                 'label' => 'Zelf bedacht',

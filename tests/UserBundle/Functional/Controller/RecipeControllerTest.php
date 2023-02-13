@@ -33,7 +33,7 @@ class RecipeControllerTest extends AuthVerifiedWebTestCase
         $form['recipe[title]'] = 'test title';
         $form['recipe[ingredients]'] = 'test ingredient';
         $form['recipe[preparation_method]'] = 'test preparation';
-        $form['recipe[is_self_invented]'] = 0;
+        $form['recipe[self_invented]'] = 0;
         $form['recipe[number_of_persons]'] = 1;
         $form['recipe[cooking_time]'] = '0-10 min.';
         $form['recipe[kitchen]'] = 'Afrikaans';

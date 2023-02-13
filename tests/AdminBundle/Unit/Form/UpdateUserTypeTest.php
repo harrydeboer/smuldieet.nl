@@ -24,7 +24,7 @@ class UpdateUserTypeTest extends TypeTestCase
         $formData = [
             'username' => $name,
             'email' => $email,
-            'is_verified' => true,
+            'verified' => true,
             'gender' => $gender,
             'birthdate' => ['day' => 1, 'month' => 1, 'year' => 2000],
             'weight' => $weight,
@@ -38,7 +38,7 @@ class UpdateUserTypeTest extends TypeTestCase
         $expected = new User();
         $expected->setUsername($name);
         $expected->setEmail($email);
-        $expected->setIsVerified(true);
+        $expected->setVerified(true);
         $expected->setWeight($weight);
         $expected->setGender($gender);
         $expected->setBirthdate($birthdate);

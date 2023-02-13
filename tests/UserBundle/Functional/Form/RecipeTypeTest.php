@@ -24,7 +24,7 @@ class RecipeTypeTest extends AuthVerifiedWebTestCase
         $formData = [
             'title' => $title,
             'preparation_method' => $preparationMethod,
-            'is_self_invented' => $selfInvented,
+            'self_invented' => $selfInvented,
             'number_of_persons' => $numberOfPersons,
             'cooking_time' => $cookingTime,
             'kitchen' => $kitchen,

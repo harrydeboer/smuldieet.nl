@@ -31,7 +31,7 @@ class CreateUserType extends RegistrationType
                     'ROLE_ADMIN' => 'ROLE_ADMIN',
                 ],
                 'attr' => ['class' => 'form-control'],
-            ])->add('is_verified', CheckboxType::class, [
+            ])->add('verified', CheckboxType::class, [
                 'attr' => ['class' => 'form-check-input'],
                 'required' => false,
             ]);

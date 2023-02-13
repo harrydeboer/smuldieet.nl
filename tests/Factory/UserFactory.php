@@ -24,7 +24,7 @@ class UserFactory extends AbstractFactory
         $user->setBirthdate($this->randomDate());
         $user->setGender(User::GENDER[array_rand(User::GENDER)]);
         $user->setWeight(rand(1,100));
-        $user->setIsVerified(true);
+        $user->setVerified(true);
 
         if (isset($params['days'])) {
             throw new InvalidArgumentException('Cannot add days to user. ' .

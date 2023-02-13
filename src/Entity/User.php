@@ -294,7 +294,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, UploadI
         return $this->verified;
     }
 
-    public function setIsVerified(bool $verified): void
+    public function setVerified(bool $verified): void
     {
         $this->verified = $verified;
     }
