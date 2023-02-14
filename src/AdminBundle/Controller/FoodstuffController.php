@@ -43,7 +43,7 @@ class FoodstuffController extends AuthController
     {
         $foodstuff = $this->foodstuffRepository->get($id);
 
-        $isLiquidOld = $foodstuff->getIsLiquid();
+        $isLiquidOld = $foodstuff->isLiquid();
 
         $form = $this->createForm(FoodstuffType::class, $foodstuff, [
             'method' => 'POST',

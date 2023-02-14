@@ -8,7 +8,7 @@
     {{ form_errors(form.piece_name) }}
     {{ form_errors(form.pieces_name) }}
     {{ form_errors(form.piece_weight) }}
-    {{ form_errors(form.is_liquid) }}
+    {{ form_errors(form.liquid) }}
     {{ form_errors(form.density) }}
     {% for nutrient in nutrients %}
         {{ form_errors(attribute(form, nutrient.nameSnake)) }}
@@ -41,8 +41,8 @@
     <div class="col">{{ form_widget(form.pieces_name) }}</div>
 </div>
 <div class="row">
-    <div class="col">{{ form_label(form.is_liquid)}}</div>
-    <div class="col">{{ form_widget(form.is_liquid) }}</div>
+    <div class="col">{{ form_label(form.liquid)}}</div>
+    <div class="col">{{ form_widget(form.liquid) }}</div>
 </div>
 <div class="row">
     <div class="col">{{ form_label(form.density)}}</div>

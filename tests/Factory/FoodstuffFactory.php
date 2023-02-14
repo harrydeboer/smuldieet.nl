@@ -54,10 +54,10 @@ class FoodstuffFactory extends AbstractFactory
         $foodstuff->setWater(100 - $weight);
 
         $foodstuff->setPieceWeight($this->randomNutritionalValue());
-        $foodstuff->setIsLiquid(rand(0, 1) === 1);
+        $foodstuff->setLiquid(rand(0, 1) === 1);
 
         if (is_null($foodstuff->getPieceWeight()) && rand(0, 1) === 1) {
-            if ($foodstuff->getIsLiquid()) {
+            if ($foodstuff->isLiquid()) {
                 $unit = array_rand(array_merge(Nutrient::SOLID_UNITS, Nutrient::LIQUID_UNITS));
             } else {
                 $unit = array_rand(Nutrient::SOLID_UNITS);
@@ -68,7 +68,7 @@ class FoodstuffFactory extends AbstractFactory
             $foodstuff->setPieceName(uniqid('test'));
             $foodstuff->setPiecesName(uniqid('tests'));
         }
-        if (is_null($foodstuff->getIsLiquid()) && rand(0, 1) === 1) {
+        if ($foodstuff->isLiquid() && rand(0, 1) === 1) {
             $foodstuff->setDensity(rand(1, 200) / 100);
         }
 

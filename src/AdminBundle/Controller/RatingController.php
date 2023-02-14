@@ -55,7 +55,7 @@ class RatingController extends AuthController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $rating->setUpdatedAt(time());
-                $rating->setIsPending(false);
+                $rating->setPending(false);
                 $this->ratingRepository->update($ratingOldRating, $rating);
 
                 return $this->redirectToRoute('admin_reviews');

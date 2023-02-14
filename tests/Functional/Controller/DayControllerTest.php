@@ -17,7 +17,7 @@ class DayControllerTest extends AuthVerifiedWebTestCase
     {
         static::getContainer()->get(PageFactory::class)->create(['title' => 'Dagboek']);
         $foodstuff = static::getContainer()->get(FoodstuffFactory::class)->create();
-        $recipe = static::getContainer()->get(RecipeFactory::class)->create(['isPending' => false]);
+        $recipe = static::getContainer()->get(RecipeFactory::class)->create(['pending' => false]);
         $this->client->request('GET', '/dagboek');
 
         $this->assertResponseIsSuccessful();

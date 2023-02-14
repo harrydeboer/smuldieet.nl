@@ -16,8 +16,8 @@
     {% if form.roles is defined %}
         {{ form_errors(form.roles) }}
     {% endif %}
-    {% if form.is_verified is defined %}
-        {{ form_errors(form.is_verified) }}
+    {% if form.verified is defined %}
+        {{ form_errors(form.verified) }}
     {% endif %}
     {{ form_errors(form.plain_password) }}
     {{ form_errors(form.plain_password.children.first) }}
@@ -71,10 +71,10 @@
         <div class="col">{{ form_widget(form.roles) }}</div>
     </div>
 {% endif %}
-    {% if form.is_verified is defined %}
+    {% if form.verified is defined %}
         <div class="row">
-            <div class="col-6">{{ form_label(form.is_verified) }}</div>
-            <div class="col">{{ form_widget(form.is_verified) }}</div>
+            <div class="col-6">{{ form_label(form.verified) }}</div>
+            <div class="col">{{ form_widget(form.verified) }}</div>
         </div>
     {% endif %}
 <div class="row">

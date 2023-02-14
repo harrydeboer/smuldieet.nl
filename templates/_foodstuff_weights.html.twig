@@ -8,10 +8,11 @@
                 </div>
             </div>
         </div>
-        <div class="col-3">{{ form_widget(weight.value) }}</div>
+        <div class="col-3">
+            {{ form_widget(weight.value) }}<span class="form-error">{{ form_errors(weight.value) }}</span>
+        </div>
         <div class="col-4">
             {#
-            The unit select is custom rendered.
             The select is hidden when the foodstuffs are combined, because the unit displayes percentage then.
             The liquid options are hidden when the foodstuff is not liquid.
             The piece option is hidden when the foodstuff has no piece weight.

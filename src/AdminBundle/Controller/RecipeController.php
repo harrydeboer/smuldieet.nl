@@ -41,11 +41,9 @@ class RecipeController extends AuthController
     {
         $recipe = $this->recipeRepository->get($id);
 
-        $form = $this->createForm(ApproveType::class, $recipe, [
-            'method' => 'POST',
-        ]);
+        $form = $this->createForm(ApproveType::class);
 
-        $formDelete = $this->createForm(DeleteType::class, $recipe, [
+        $formDelete = $this->createForm(DeleteType::class, null, [
             'action' => $this->generateUrl('admin_recipe_delete', ['id' => $recipe->getId()]),
             'method' => 'POST',
         ]);
@@ -61,7 +59,7 @@ class RecipeController extends AuthController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $recipe->setUpdatedAt(time());
-                $recipe->setIsPending(false);
+                $recipe->setPending(false);
                 $this->recipeRepository->update($recipe, $oldFoodstuffWeights, $oldTags);
 
                 return $this->redirectToRoute('admin_recipes');

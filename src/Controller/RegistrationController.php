@@ -94,7 +94,7 @@ class RegistrationController extends Controller
 
         $this->addFlash('success', 'Je e-mail adres is geverifieerd.');
 
-        $this->getUser()->setIsVerified(true);
+        $this->getUser()->setVerified(true);
         $this->userRepository->update();
 
         $token = new UsernamePasswordToken($user, $user->getPassword(), $user->getRoles());

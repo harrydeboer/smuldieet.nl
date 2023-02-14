@@ -7,7 +7,7 @@
     {{ form_errors(form.ingredients) }}
     {{ form_errors(form.preparation_method) }}
     {{ form_errors(form.number_of_persons) }}
-    {{ form_errors(form.is_self_invented) }}
+    {{ form_errors(form.self_invented) }}
     {{ form_errors(form.source) }}
     {{ form_errors(form.cooking_time) }}
     {{ form_errors(form.kitchen) }}
@@ -42,9 +42,9 @@
 {{ form_widget(form.preparation_method) }}
 <div class="fw-bold">{{ form_label(form.number_of_persons) }} *</div>
 {{ form_widget(form.number_of_persons) }}
-<div class="fw-bold">{{ form_label(form.is_self_invented)}} *</div>
-{{ form_widget(form.is_self_invented) }}
-{% if form.is_self_invented.vars.value == 0 %}
+<div class="fw-bold">{{ form_label(form.self_invented)}} *</div>
+{{ form_widget(form.self_invented) }}
+{% if form.self_invented.vars.value == 0 %}
     <div class="fw-bold" id="recipe_source_title">{{ form_label(form.source) }}</div>
     {{ form_widget(form.source) }}
 {% else %}

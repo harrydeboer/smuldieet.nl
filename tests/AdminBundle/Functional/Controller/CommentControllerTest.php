@@ -17,7 +17,7 @@ class CommentControllerTest extends AuthAdminWebTestCase
 
         $this->assertResponseIsSuccessful();
 
-        $comment = static::getContainer()->get(CommentFactory::class)->create(['isPending' => true]);
+        $comment = static::getContainer()->get(CommentFactory::class)->create(['pending' => true]);
 
         $commentRepository = $this->getContainer()->get(CommentRepositoryInterface::class);
 
@@ -33,9 +33,9 @@ class CommentControllerTest extends AuthAdminWebTestCase
 
         $this->assertResponseRedirects('/admin/commentaar');
 
-        $comment = $commentRepository->findOneBy(['isPending' => false]);
+        $comment = $commentRepository->findOneBy(['pending' => false]);
 
-        $this->assertEquals(false, $comment->getIsPending());
+        $this->assertEquals(false, $comment->isPending());
 
         $crawler = $this->client->request('GET', '/admin/commentaar/wijzig/' . $id);
 

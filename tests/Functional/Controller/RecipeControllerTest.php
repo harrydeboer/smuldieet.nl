@@ -13,8 +13,8 @@ class RecipeControllerTest extends AuthVerifiedWebTestCase
 {
     public function testCreateUpdateDelete(): void
     {
-        $recipePending = static::getContainer()->get(RecipeFactory::class)->create(['isPending' => true]);
-        $recipeNotPending = static::getContainer()->get(RecipeFactory::class)->create(['isPending' => false]);
+        $recipePending = static::getContainer()->get(RecipeFactory::class)->create(['pending' => true]);
+        $recipeNotPending = static::getContainer()->get(RecipeFactory::class)->create(['pending' => false]);
 
         $this->client->xmlHttpRequest('GET', '/recept/zoeken/' . $recipeNotPending->getTitle());
 
@@ -123,7 +123,7 @@ class RecipeControllerTest extends AuthVerifiedWebTestCase
 
         $commentRepository = $this->getContainer()->get(CommentRepositoryInterface::class);
 
-        $comment = $commentRepository->findOneBy(['content' => $content, 'isPending' => true]);
+        $comment = $commentRepository->findOneBy(['content' => $content, 'pending' => true]);
 
         $this->assertEquals($content, $comment->getContent());
     }

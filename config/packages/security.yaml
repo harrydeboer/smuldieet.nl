@@ -40,7 +40,7 @@ security:
         - { path: ^/user, roles: ROLE_VERIFIED }
         - { path: ^/dag, roles: ROLE_VERIFIED }
         - { path: ^/kookboek, roles: ROLE_VERIFIED }
-        - { path: ^/overzicht, roles: ROLE_VERIFIED }
+        - { path: ^/statistieken, roles: ROLE_VERIFIED }
         - { path: ^/recepten, roles: ROLE_VERIFIED }
         - { path: ^/recept/toevoegen, roles: ROLE_VERIFIED }
         - { path: ^/recept/verwijder, roles: ROLE_VERIFIED }

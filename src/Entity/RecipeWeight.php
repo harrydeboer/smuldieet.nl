@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\RecipeWeightRepository;
-use App\Validator\RecipeWeightConstraint;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[
     ORM\Entity(repositoryClass: RecipeWeightRepository::class),
     ORM\Table(name: "recipe_weight"),
-    RecipeWeightConstraint,
 ]
 class RecipeWeight
 {

@@ -65,7 +65,7 @@ class RDAServiceTest extends KernelTestCase
                     ['stuks' => $foodstuff->getPieceWeight()],
                     Nutrient::LIQUID_UNITS,
                 );
-                if ($foodstuff->getIsLiquid()
+                if ($foodstuff->isLiquid()
                     && !is_null($foodstuff->getDensity())
                     && in_array($foodstuffWeight->getUnit(), Nutrient::LIQUID_UNITS)) {
                     $densityFactor = $foodstuff->getDensity();

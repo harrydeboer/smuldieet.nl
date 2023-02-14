@@ -17,13 +17,6 @@ services:
     networks:
       smuldieet:
         ipv4_address: 172.20.0.7
-  elasticsearch:
-    ports:
-      - 127.0.0.1:9200:9200
-    restart: always
-    networks:
-      smuldieet:
-        ipv4_address: 172.20.0.8
 
 volumes:
   uploadsPublic:

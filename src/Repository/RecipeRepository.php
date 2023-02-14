@@ -53,7 +53,7 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
         $qb = $this->createQueryBuilder('r');
         $qb->where('r.title like :title')
             ->setParameter('title', '%' . addslashes($title) . '%')
-            ->andWhere('r.isPending = 0 or r.isPending = 1 and r.user = :userId')
+            ->andWhere('r.pending = 0 or r.pending = 1 and r.user = :userId')
             ->setParameter('userId', $userId)
             ->setMaxResults(20)
             ->addSelect("(CASE WHEN r.title like '" . $titleOrderBy . " %' THEN 0 WHEN r.title like '" .
@@ -69,7 +69,7 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
     public function findAllPending(): array
     {
         $qb = $this->createQueryBuilder('r');
-        $qb->where('r.isPending = 1');
+        $qb->where('r.pending = 1');
 
         $query = $qb->getQuery();
 
@@ -91,7 +91,7 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
     {
         $qb = $this->createQueryBuilder('r');
         $qb->where('r.id = ' . $id)
-            ->andWhere('r.isPending = 0 or r.isPending = 1 and r.user = :userId')
+            ->andWhere('r.pending = 0 or r.pending = 1 and r.user = :userId')
             ->setParameter('userId', $userId);
 
         $query = $qb->getQuery();
@@ -184,7 +184,7 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
     public function findRecent(int $limit): Paginator|array
     {
         $qb = $this->createQueryBuilder('r')
-            ->where('r.isPending = 0')
+            ->where('r.pending = 0')
             ->setMaxResults($limit)
             ->orderBy('r.createdAt', 'DESC');
 
@@ -195,7 +195,7 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
     {
         $qb = $this->createQueryBuilder('r');
         $qb->orderBy('r.createdAt', 'DESC');
-        $qb->where('r.isPending = 0');
+        $qb->where('r.pending = 0');
 
         if (!is_null($formData)) {
             if (!is_null($formData['title'])) {

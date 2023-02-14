@@ -12,8 +12,8 @@ class CookbookControllerTest extends AuthVerifiedWebTestCase
 {
     public function testCreateUpdateDelete(): void
     {
-        $recipe1 = static::getContainer()->get(RecipeFactory::class)->create(['isPending' => false]);
-        $recipe2 = static::getContainer()->get(RecipeFactory::class)->create(['isPending' => false]);
+        $recipe1 = static::getContainer()->get(RecipeFactory::class)->create(['pending' => false]);
+        $recipe2 = static::getContainer()->get(RecipeFactory::class)->create(['pending' => false]);
 
         $this->client->request('GET', '/user/kookboeken');
 

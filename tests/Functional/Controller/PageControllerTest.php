@@ -35,7 +35,7 @@ class PageControllerTest extends AuthUserWebTestCase
 
         $commentRepository = $this->getContainer()->get(CommentRepositoryInterface::class);
 
-        $comment = $commentRepository->findOneBy(['content' => $content, 'isPending' => true]);
+        $comment = $commentRepository->findOneBy(['content' => $content, 'pending' => true]);
 
         $this->assertEquals($content, $comment->getContent());
     }

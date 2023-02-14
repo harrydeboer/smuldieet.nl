@@ -33,7 +33,7 @@ class RatingRepository extends ServiceEntityRepository implements RatingReposito
     {
         $qb = $this->createQueryBuilder('r');
         $qb->where('r.content IS NOT NULL');
-        $qb->andWhere('r.isPending = 1');
+        $qb->andWhere('r.pending = 1');
 
         $query = $qb->getQuery();
 
@@ -45,7 +45,7 @@ class RatingRepository extends ServiceEntityRepository implements RatingReposito
         $qb = $this->createQueryBuilder('r');
         $qb->where('r.content IS NOT NULL');
         $qb->andWhere('r.recipe = ' . $recipeId);
-        $qb->andWhere('r.isPending = 0');
+        $qb->andWhere('r.pending = 0');
 
         return (new Paginator($qb, 3))->paginate($page);
     }
@@ -93,7 +93,7 @@ class RatingRepository extends ServiceEntityRepository implements RatingReposito
         $qb = $this->createQueryBuilder('r');
         $qb->where('r.content IS NOT NULL');
         $qb->andWhere('r.id = ' . $id);
-        $qb->andWhere('r.isPending = 0');
+        $qb->andWhere('r.pending = 0');
 
         $query = $qb->getQuery();
 

@@ -133,7 +133,7 @@ class Recipe extends DietProperties implements UploadImageInterface
         ORM\Column(type: "integer"),
         ORM\GeneratedValue(strategy: "IDENTITY"),
     ]
-    protected int $id;
+    private int $id;
 
     #[
         ORM\Column(type: "bigint"),
@@ -241,7 +241,7 @@ class Recipe extends DietProperties implements UploadImageInterface
     #[
         ORM\Column(type: "boolean"),
     ]
-    private bool $isSelfInvented = false;
+    private bool $selfInvented = false;
 
     #[ORM\Column(type: "string", nullable: true)]
     private ?string $source = null;
@@ -274,7 +274,7 @@ class Recipe extends DietProperties implements UploadImageInterface
     private Collection $users;
 
     #[ORM\Column(type: "boolean")]
-    private bool $isPending = true;
+    private bool $pending = true;
 
     #[ORM\Column(type: "string", nullable: true)]
     private ?string $imageExtension = null;
@@ -483,24 +483,24 @@ class Recipe extends DietProperties implements UploadImageInterface
         $this->comments = $comments;
     }
 
-    public function getIsPending(): bool
+    public function isPending(): bool
     {
-        return $this->isPending;
+        return $this->pending;
     }
 
-    public function setIsPending(bool $isPending): void
+    public function setPending(bool $pending): void
     {
-        $this->isPending = $isPending;
+        $this->pending = $pending;
     }
 
-    public function getIsSelfInvented(): bool
+    public function isSelfInvented(): bool
     {
-        return $this->isSelfInvented;
+        return $this->selfInvented;
     }
 
-    public function setIsSelfInvented(bool $isSelfInvented): void
+    public function setSelfInvented(bool $selfInvented): void
     {
-        $this->isSelfInvented = $isSelfInvented;
+        $this->selfInvented = $selfInvented;
     }
 
     public function getUrl(): ?string

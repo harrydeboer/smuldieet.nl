@@ -49,8 +49,6 @@ services:
 volumes:
   mysqldata:
     driver: local
-  esdata:
-    driver: local
 
 networks:
   smuldieet:

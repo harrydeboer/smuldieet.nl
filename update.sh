@@ -28,5 +28,4 @@ do
   sleep 1
 done
 $PREFIX php bin/console sync:nutrients
-$PREFIX php bin/console fos:elastica:populate
 docker system prune -f

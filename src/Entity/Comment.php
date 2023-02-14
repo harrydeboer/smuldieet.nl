@@ -40,7 +40,7 @@ class Comment
     private string $content;
 
     #[ORM\Column(type: "boolean")]
-    private bool $isPending = true;
+    private bool $pending = true;
 
     #[
         ORM\ManyToOne(targetEntity: "App\Entity\User", inversedBy: "comments"),
@@ -107,14 +107,14 @@ class Comment
         $this->content = strip_tags($content);
     }
 
-    public function getIsPending(): bool
+    public function isPending(): bool
     {
-        return $this->isPending;
+        return $this->pending;
     }
 
-    public function setIsPending(bool $isPending): void
+    public function setPending(bool $pending): void
     {
-        $this->isPending = $isPending;
+        $this->pending = $pending;
     }
 
     public function getUser(): User
