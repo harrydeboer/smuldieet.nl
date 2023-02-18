@@ -10,8 +10,6 @@ use Attribute;
 #[Attribute]
 class FoodstuffWeightConstraint extends Constraint
 {
-    public string $userDoesNotMatchMessage = '';
-
     public function getTargets(): string
     {
         return self::CLASS_CONSTRAINT;

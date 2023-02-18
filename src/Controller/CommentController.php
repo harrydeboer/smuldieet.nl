@@ -23,7 +23,7 @@ class CommentController extends Controller
     ) {
     }
 
-    #[Route('/commentaar/recipe/{recipeId}', name: 'recipe_comment_create')]
+    #[Route('/commentaar/recept/{recipeId}', name: 'recipe_comment_create')]
     public function newRecipeComment(Request $request, int $recipeId): RedirectResponse
     {
         $comment = new Comment();
@@ -56,7 +56,7 @@ class CommentController extends Controller
         return $this->redirectToRoute('recipe_single', ['_fragment' => 'comments', 'id' => $recipe->getId()]);
     }
 
-    #[Route('/commentaar/page/{pageId}', name: 'page_comment_create')]
+    #[Route('/commentaar/pagina/{pageId}', name: 'page_comment_create')]
     public function newPageComment(Request $request, int $pageId): RedirectResponse
     {
         $comment = new Comment();

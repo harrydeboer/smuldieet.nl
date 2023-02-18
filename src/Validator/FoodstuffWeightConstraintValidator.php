@@ -12,9 +12,7 @@ use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
 /**
- * The validate method is triggered when the form handles the request. It is necessary that the foodstuff is added to
- * the weight even when the form is invalid. That way the form errors can be displayed properly in the template.
- * This class sets the foodstuff from the foodstuffId or throws a 404 and validates the foodstuff weight.
+ * The validate method is triggered when the form handles the request.
  */
 class FoodstuffWeightConstraintValidator extends ConstraintValidator
 {
