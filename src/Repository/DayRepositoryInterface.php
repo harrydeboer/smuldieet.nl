@@ -20,7 +20,10 @@ interface DayRepositoryInterface extends ServiceEntityRepositoryInterface
 
     public function delete(Day $day): void;
 
-    public function findBetween(DateTime $start, DateTime $end, int $userId): Collection|array;
+    /**
+     * @return Day[]
+     */
+    public function findBetween(DateTime $start, DateTime $end, int $userId): array;
 
-    public function findFromUserSorted(int $userId, int $page): Paginator|array;
+    public function findFromUserSorted(int $userId, int $page): Paginator;
 }

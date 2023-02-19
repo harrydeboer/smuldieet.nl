@@ -12,11 +12,14 @@ interface CommentRepositoryInterface extends ServiceEntityRepositoryInterface
 {
     public function get(int $id): Comment;
 
+    /**
+     * @return Comment[]
+     */
     public function findAllPendingComments(): array;
 
-    public function findCommentsFromRecipe(int $recipeId, int $page): Paginator|array;
+    public function findCommentsFromRecipe(int $recipeId, int $page): Paginator;
 
-    public function findCommentsFromPage(int $pageId, int $page): Paginator|array;
+    public function findCommentsFromPage(int $pageId, int $page): Paginator;
 
     public function create(Comment $comment): Comment;
 

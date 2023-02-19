@@ -15,8 +15,14 @@ interface RecipeRepositoryInterface extends ServiceEntityRepositoryInterface
 {
     public function getFromUser(int $id, int $userId): Recipe;
 
+    /**
+     * @return Recipe[]
+     */
     public function search(string $title, int $userId): array;
 
+    /**
+     * @return Recipe[]
+     */
     public function findAllPending(): array;
 
     public function get(int $id): Recipe;
@@ -39,9 +45,9 @@ interface RecipeRepositoryInterface extends ServiceEntityRepositoryInterface
 
     public function removeUser(Recipe $recipe, User $user): void;
 
-    public function getRecipesFromUser(int $userId, int $page): Paginator|array;
+    public function getRecipesFromUser(int $userId, int $page): Paginator;
 
-    public function findRecent(int $limit): Paginator|array;
+    public function findRecent(int $limit): Paginator;
 
-    public function findBySortAndFilter(int $page, array $formData = null): Paginator|array;
+    public function findBySortAndFilter(int $page, array $formData = null): Paginator;
 }

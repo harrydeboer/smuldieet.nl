@@ -11,12 +11,21 @@ use Exception;
 
 interface RatingRepositoryInterface extends ServiceEntityRepositoryInterface
 {
+    /**
+     * @return Rating[]
+     */
     public function findAllPendingReviews(): array;
 
-    public function findReviewsFromRecipe(int $recipeId, int $page): Paginator|array;
+    public function findReviewsFromRecipe(int $recipeId, int $page): Paginator;
 
+    /**
+     * @return Rating[]
+     */
     public function findReviewsFromUser(int $userId): array;
 
+    /**
+     * @return Rating[]
+     */
     public function findAllFromUser(int $userId): array;
 
     public function get(int $id): Rating;

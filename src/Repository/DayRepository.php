@@ -76,7 +76,10 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
         $this->em->flush();
     }
 
-    public function findBetween(DateTime $start, DateTime $end, int $userId): Collection|array
+    /**
+     * @return Day[]
+     */
+    public function findBetween(DateTime $start, DateTime $end, int $userId): array
     {
         $qb = $this->createQueryBuilder('d');
         $qb->where('d.timestamp >= :timestampStart')
@@ -89,7 +92,7 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
         return $qb->getQuery()->execute();
     }
 
-    public function findFromUserSorted(int $userId, int $page): Paginator|array
+    public function findFromUserSorted(int $userId, int $page): Paginator
     {
         $qb = $this->createQueryBuilder('d');
         $qb->where('d.user = :userId')

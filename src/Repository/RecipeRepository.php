@@ -47,6 +47,9 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
         return $recipe;
     }
 
+    /**
+     * @return Recipe[]
+     */
     public function search(string $title, int $userId): array
     {
         $titleOrderBy = str_replace("'", "''", $title);
@@ -66,6 +69,9 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
         return $query->execute();
     }
 
+    /**
+     * @return Recipe[]
+     */
     public function findAllPending(): array
     {
         $qb = $this->createQueryBuilder('r');
@@ -171,7 +177,7 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
         $this->em->flush();
     }
 
-    public function getRecipesFromUser(int $userId, int $page): Paginator|array
+    public function getRecipesFromUser(int $userId, int $page): Paginator
     {
         $qb = $this->createQueryBuilder('r')
             ->where('r.user = :userId')
@@ -181,7 +187,7 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
         return (new Paginator($qb))->paginate($page);
     }
 
-    public function findRecent(int $limit): Paginator|array
+    public function findRecent(int $limit): Paginator
     {
         $qb = $this->createQueryBuilder('r')
             ->where('r.pending = 0')
@@ -191,7 +197,7 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
         return (new Paginator($qb, $limit))->paginate();
     }
 
-    public function findBySortAndFilter(int $page, array $formData = null): Paginator|array
+    public function findBySortAndFilter(int $page, array $formData = null): Paginator
     {
         $qb = $this->createQueryBuilder('r');
         $qb->orderBy('r.createdAt', 'DESC');

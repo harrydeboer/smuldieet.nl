@@ -30,6 +30,9 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
         parent::__construct($registry, Foodstuff::class);
     }
 
+    /**
+     * @return Foodstuff[]
+     */
     public function findAllStartingWith(string $char, ?int $userId): array
     {
         $qb = $this->createQueryBuilder('f')
@@ -46,6 +49,9 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
         return $query->execute();
     }
 
+    /**
+     * @return Foodstuff[]
+     */
     public function findAllFromUser(?int $userId): array
     {
         $qb = $this->createQueryBuilder('f');
@@ -62,6 +68,9 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
         return $query->execute();
     }
 
+    /**
+     * @return Foodstuff[]
+     */
     public function search(string $name, int $userId): array
     {
         $nameOrderBy = str_replace("'", "''", $name);
@@ -261,7 +270,7 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
         }
     }
 
-    private function transformLiquidUnitsToSolid(Collection $weights, ?float $density)
+    private function transformLiquidUnitsToSolid(Collection $weights, ?float $density): void
     {
         if (is_null($density)) {
             $density = 1;

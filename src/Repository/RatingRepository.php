@@ -29,6 +29,9 @@ class RatingRepository extends ServiceEntityRepository implements RatingReposito
         parent::__construct($registry, Rating::class);
     }
 
+    /**
+     * @return Rating[]
+     */
     public function findAllPendingReviews(): array
     {
         $qb = $this->createQueryBuilder('r');
@@ -40,7 +43,7 @@ class RatingRepository extends ServiceEntityRepository implements RatingReposito
         return $query->execute();
     }
 
-    public function findReviewsFromRecipe(int $recipeId, int $page): Paginator|array
+    public function findReviewsFromRecipe(int $recipeId, int $page): Paginator
     {
         $qb = $this->createQueryBuilder('r');
         $qb->where('r.content IS NOT NULL');
