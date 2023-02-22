@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
     ORM\Entity(repositoryClass: CookbookRecipeWeightRepository::class),
     ORM\Table(name: "cookbook_recipe_weight"),
 ]
-class CookbookRecipeWeight extends AbstractRecipeWeight
+class CookbookRecipeWeight extends RecipeWeight
 {
     #[
         ORM\ManyToOne(targetEntity: "App\Entity\Cookbook", inversedBy: "recipeWeights"),

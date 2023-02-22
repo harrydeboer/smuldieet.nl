@@ -7,7 +7,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-abstract class AbstractRecipeWeight
+class RecipeWeight
 {
     #[
         ORM\Id,
@@ -22,6 +22,8 @@ abstract class AbstractRecipeWeight
         Assert\GreaterThanOrEqual(0, message: 'De waarde moet groter of gelijk aan 0 zijn.'),
     ]
     protected float $value;
+
+    protected Recipe $recipe;
 
     #[
         Assert\NotBlank(message: 'Het recept id mag niet leeg zijn.'),
@@ -49,9 +51,15 @@ abstract class AbstractRecipeWeight
         $this->value = $value;
     }
 
-    abstract public function getRecipe(): Recipe;
+    public function getRecipe(): Recipe
+    {
+        return $this->recipe;
+    }
 
-    abstract public function setRecipe(Recipe $recipe): void;
+    public function setRecipe(Recipe $recipe): void
+    {
+        $this->recipe = $recipe;
+    }
 
     public function getRecipeId(): int
     {

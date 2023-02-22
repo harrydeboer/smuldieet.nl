@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Entity\AbstractFoodstuffWeight;
+use App\Entity\FoodstuffWeight;
 use App\Entity\User;
 use App\Entity\Nutrient;
 use App\Repository\NutrientRepositoryInterface;
@@ -103,7 +103,7 @@ readonly class RDAService
     }
 
     private function setNutrientRealised(
-        AbstractFoodstuffWeight $foodstuffWeight,
+        FoodstuffWeight $foodstuffWeight,
         Nutrient $nutrient,
         int $numberOfDays,
         float $recipeWeight = 1

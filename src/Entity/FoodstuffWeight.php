@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
 use Symfony\Component\Validator\Constraints as Assert;
 
-abstract class AbstractFoodstuffWeight
+class FoodstuffWeight
 {
     #[
         ORM\Id,
@@ -29,6 +29,8 @@ abstract class AbstractFoodstuffWeight
         Assert\NotBlank(message: 'De eenheid mag niet leeg zijn.'),
     ]
     protected string $unit;
+
+    protected Foodstuff $foodstuff;
 
     #[
         Assert\NotBlank(message: 'Het voedingsmiddel id mag niet leeg zijn.'),
@@ -69,6 +71,16 @@ abstract class AbstractFoodstuffWeight
         $this->unit = $unit;
     }
 
+    public function getFoodstuff(): Foodstuff
+    {
+        return $this->foodstuff;
+    }
+
+    public function setFoodstuff(Foodstuff $foodstuff): void
+    {
+        $this->foodstuff = $foodstuff;
+    }
+
     public function getFoodstuffId(): int
     {
         return $this->foodstuffId;
@@ -78,8 +90,4 @@ abstract class AbstractFoodstuffWeight
     {
         $this->foodstuffId = $foodstuffId;
     }
-
-    abstract public function getFoodstuff(): Foodstuff;
-
-    abstract public function setFoodstuff(Foodstuff $foodstuff): void;
 }

@@ -17,7 +17,7 @@ class CombineFoodstuffsType extends AbstractType
     {
         $builder
             ->add('foodstuff_weights', CollectionType::class, [
-                'entry_type' => DayFoodstuffWeightType::class,
+                'entry_type' => FoodstuffWeightType::class,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
                 'allow_delete' => true,

@@ -13,7 +13,7 @@ use App\Validator\FoodstuffWeightConstraint;
     ORM\Table(name: "day_foodstuff_weight"),
     FoodstuffWeightConstraint,
 ]
-class DayFoodstuffWeight extends AbstractFoodstuffWeight
+class DayFoodstuffWeight extends FoodstuffWeight
 {
     #[
         ORM\ManyToOne(targetEntity: "App\Entity\Day", inversedBy: "foodstuffWeights"),

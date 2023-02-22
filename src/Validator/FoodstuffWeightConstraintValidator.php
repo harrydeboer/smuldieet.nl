@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Validator;
 
-use App\Entity\AbstractFoodstuffWeight;
+use App\Entity\FoodstuffWeight;
 use App\Entity\Nutrient;
 use Error;
 use Symfony\Component\Validator\Constraint;
@@ -18,8 +18,8 @@ class FoodstuffWeightConstraintValidator extends ConstraintValidator
 {
     public function validate(mixed $value, Constraint $constraint): void
     {
-        if (!$value instanceof AbstractFoodstuffWeight) {
-            throw new UnexpectedValueException($value, AbstractFoodstuffWeight::class);
+        if (!$value instanceof FoodstuffWeight) {
+            throw new UnexpectedValueException($value, FoodstuffWeight::class);
         }
 
         if (!$constraint instanceof FoodstuffWeightConstraint) {

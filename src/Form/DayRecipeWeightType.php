@@ -7,7 +7,7 @@ namespace App\Form;
 use App\Entity\DayRecipeWeight;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class DayRecipeWeightType extends AbstractRecipeWeightType
+class DayRecipeWeightType extends RecipeWeightType
 {
     public function configureOptions(OptionsResolver $resolver): void
     {

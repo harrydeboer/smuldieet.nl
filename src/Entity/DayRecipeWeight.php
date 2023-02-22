@@ -11,19 +11,19 @@ use Doctrine\ORM\Mapping as ORM;
     ORM\Entity(repositoryClass: DayRecipeWeightRepository::class),
     ORM\Table(name: "day_recipe_weight"),
 ]
-class DayRecipeWeight extends AbstractRecipeWeight
+class DayRecipeWeight extends RecipeWeight
 {
     #[
         ORM\ManyToOne(targetEntity: "App\Entity\Day", inversedBy: "recipeWeights"),
         ORM\JoinColumn(name: "day_id", referencedColumnName: "id", nullable: false),
     ]
-    private Day $day;
+    protected Day $day;
 
     #[
         ORM\ManyToOne(targetEntity: "App\Entity\Recipe", inversedBy: "dayRecipeWeights"),
         ORM\JoinColumn(name: "recipe_id", referencedColumnName: "id", nullable: false),
     ]
-    private Recipe $recipe;
+    protected Recipe $recipe;
 
     public function getDay(): Day
     {

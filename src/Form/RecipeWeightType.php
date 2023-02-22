@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Form;
 
+use App\Entity\RecipeWeight;
 use App\Entity\User;
 use App\Repository\RecipeRepositoryInterface;
 use Error;
@@ -15,10 +16,11 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-abstract class AbstractRecipeWeightType extends AbstractType
+class RecipeWeightType extends AbstractType
 {
     public function __construct(
         private readonly RecipeRepositoryInterface $recipeRepository,
@@ -49,6 +51,13 @@ abstract class AbstractRecipeWeightType extends AbstractType
                 'class' => 'form-control recipe-weight',
                 'placeholder' => 'aantal keer',
             ],
+        ]);
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => RecipeWeight::class,
         ]);
     }
 
