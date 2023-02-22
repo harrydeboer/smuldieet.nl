@@ -66,12 +66,12 @@ class Page
     private string $content;
 
     #[
-        ORM\ManyToOne(targetEntity: "User", inversedBy: "pages"),
+        ORM\ManyToOne(targetEntity: "App\Entity\User", inversedBy: "pages"),
         ORM\JoinColumn(name: "user_id", referencedColumnName: "id", nullable: false),
     ]
     private User $user;
 
-    #[ORM\OneToMany(mappedBy: "page", targetEntity: "Comment", cascade: ["remove"])]
+    #[ORM\OneToMany(mappedBy: "page", targetEntity: "App\Entity\Comment", cascade: ["remove"])]
     private Collection $comments;
 
     public function __construct()

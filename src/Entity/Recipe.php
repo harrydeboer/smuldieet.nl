@@ -266,16 +266,16 @@ class Recipe extends DietProperties implements UploadImageInterface
     #[ORM\OneToMany(mappedBy: "recipe", targetEntity: "App\Entity\DayRecipeWeight", cascade: ["persist", "remove"])]
     private Collection $dayRecipeWeights;
 
-    #[ORM\OneToMany(mappedBy: "recipe", targetEntity: "Rating", cascade: ["remove"])]
+    #[ORM\OneToMany(mappedBy: "recipe", targetEntity: "App\Entity\Rating", cascade: ["remove"])]
     private Collection $ratings;
 
-    #[ORM\OneToMany(mappedBy: "recipe", targetEntity: "Comment", cascade: ["remove"])]
+    #[ORM\OneToMany(mappedBy: "recipe", targetEntity: "App\Entity\Comment", cascade: ["remove"])]
     private Collection $comments;
 
-    #[ORM\ManyToMany(targetEntity: "Tag", mappedBy: "recipes")]
+    #[ORM\ManyToMany(targetEntity: "App\Entity\Tag", mappedBy: "recipes")]
     private Collection $tags;
 
-    #[ORM\ManyToMany(targetEntity: "User", mappedBy: "savedRecipes")]
+    #[ORM\ManyToMany(targetEntity: "App\Entity\User", mappedBy: "savedRecipes")]
     private Collection $users;
 
     #[ORM\Column(type: "boolean")]

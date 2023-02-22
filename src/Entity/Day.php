@@ -45,7 +45,7 @@ class Day
     private Collection $foodstuffWeights;
 
     #[
-        ORM\OneToMany(mappedBy: "day", targetEntity: "DayRecipeWeight", cascade: ["persist", "remove"]),
+        ORM\OneToMany(mappedBy: "day", targetEntity: "App\Entity\DayRecipeWeight", cascade: ["persist", "remove"]),
     ]
     private Collection $recipeWeights;
 

@@ -52,7 +52,8 @@ class Cookbook
     private User $user;
 
     #[
-        ORM\OneToMany(mappedBy: "cookbook", targetEntity: "CookbookRecipeWeight", cascade: ["persist", "remove"]),
+        ORM\OneToMany(mappedBy: "cookbook", targetEntity: "App\Entity\CookbookRecipeWeight",
+            cascade: ["persist", "remove"]),
     ]
     private Collection $recipeWeights;
 
