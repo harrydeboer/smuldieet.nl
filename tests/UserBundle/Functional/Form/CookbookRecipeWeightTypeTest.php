@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Functional\Form;
+namespace App\tests\UserBundle\Functional\Form;
 
-use App\Entity\RecipeWeight;
-use App\Form\RecipeWeightType;
+use App\Entity\CookbookRecipeWeight;
+use App\UserBundle\Form\CookbookRecipeWeightType;
 use App\Tests\Factory\RecipeFactory;
 use App\Tests\Functional\AuthVerifiedWebTestCase;
 
-class RecipeWeightTypeTest extends AuthVerifiedWebTestCase
+class CookbookRecipeWeightTypeTest extends AuthVerifiedWebTestCase
 {
     public function testSubmitModel(): void
     {
@@ -20,11 +20,11 @@ class RecipeWeightTypeTest extends AuthVerifiedWebTestCase
             'value' => $value,
         ];
 
-        $recipeWeight = new RecipeWeight();
+        $recipeWeight = new CookbookRecipeWeight();
 
-        $form = $this->getContainer()->get('form.factory')->create(RecipeWeightType::class, $recipeWeight);
+        $form = $this->getContainer()->get('form.factory')->create(CookbookRecipeWeightType::class, $recipeWeight);
 
-        $expected = new RecipeWeight();
+        $expected = new CookbookRecipeWeight();
         $expected->setRecipe($recipe);
         $expected->setRecipeId($recipe->getId());
         $expected->setValue($value);

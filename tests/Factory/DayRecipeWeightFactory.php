@@ -4,27 +4,25 @@ declare(strict_types=1);
 
 namespace App\Tests\Factory;
 
-use App\Entity\RecipeWeight;
-use App\Repository\RecipeWeightRepositoryInterface;
+use App\Entity\DayRecipeWeight;
 
-class RecipeWeightFactory extends AbstractFactory
+class DayRecipeWeightFactory extends AbstractFactory
 {
     public function __construct(
-        private readonly RecipeWeightRepositoryInterface $recipeWeightRepository,
         private readonly RecipeFactory $recipeFactory,
     ) {
     }
 
-    public function create(array $params = []): RecipeWeight
+    public function create(array $params = []): DayRecipeWeight
     {
         $recipe = $params['recipe'] ?? $this->recipeFactory->create();
 
-        $recipeWeight = new RecipeWeight();
+        $recipeWeight = new DayRecipeWeight();
         $recipeWeight->setRecipe($recipe);
         $recipeWeight->setValue(rand(0, 1000));
 
         $this->setParams($params, $recipeWeight);
 
-        return $this->recipeWeightRepository->create($recipeWeight);
+        return $recipeWeight;
     }
 }

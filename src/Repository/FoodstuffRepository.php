@@ -23,7 +23,8 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
 {
     public function __construct(
         private readonly EntityManagerInterface $em,
-        private readonly FoodstuffWeightRepositoryInterface $foodstuffWeightRepository,
+        private readonly DayFoodstuffWeightRepositoryInterface $dayFoodstuffWeightRepository,
+        private readonly RecipeFoodstuffWeightRepositoryInterface $recipeFoodstuffWeightRepository,
         private readonly NutrientRepositoryInterface $nutrientRepository,
         ManagerRegistry $registry,
     ) {
@@ -164,7 +165,8 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
         $this->checkWeightsAndEnergy($foodstuff);
         $this->checkPieceAndPiecesName($foodstuff);
         if ($isLiquidOld && !$foodstuff->isLiquid()) {
-            $this->transformLiquidUnitsToSolid($foodstuff->getFoodstuffWeights(), $foodstuff->getDensity());
+            $this->transformLiquidUnitsToSolid($foodstuff->getDayFoodstuffWeights(), $foodstuff->getDensity());
+            $this->transformLiquidUnitsToSolid($foodstuff->getRecipeFoodstuffWeights(), $foodstuff->getDensity());
         }
         $this->em->flush();
     }
@@ -174,8 +176,11 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
      */
     public function delete(Foodstuff $foodstuff): void
     {
-        foreach ($foodstuff->getFoodstuffWeights() as $weight) {
-            $this->foodstuffWeightRepository->delete($weight);
+        foreach ($foodstuff->getDayFoodstuffWeights() as $weight) {
+            $this->dayFoodstuffWeightRepository->delete($weight);
+        }
+        foreach ($foodstuff->getRecipeFoodstuffWeights() as $weight) {
+            $this->recipeFoodstuffWeightRepository->delete($weight);
         }
         $this->em->remove($foodstuff);
         $this->em->flush();

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Form;
 
-use App\Entity\FoodstuffWeight;
+use App\Entity\DayFoodstuffWeight;
 use App\Form\CombineFoodstuffsType;
 use App\Tests\Factory\FoodstuffFactory;
 use App\Tests\Functional\AuthVerifiedWebTestCase;
@@ -25,7 +25,7 @@ class CombineFoodstuffsTypeTest extends AuthVerifiedWebTestCase
         $form = $this->getContainer()->get('form.factory')->create(CombineFoodstuffsType::class);
 
         $form->submit($formData);
-        $weight = new FoodstuffWeight();
+        $weight = new DayFoodstuffWeight();
         $weight->setFoodstuffId($foodstuff->getId());
         $weight->setFoodstuff($foodstuff);
         $weight->setUnit('g');

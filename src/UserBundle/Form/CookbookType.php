@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\UserBundle\Form;
 
-use App\Form\RecipeWeightType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -22,7 +21,7 @@ class CookbookType extends AbstractType
                 'label_attr' => ['class' => 'col-form-label'],
             ])
             ->add('recipe_weights', CollectionType::class, [
-                'entry_type' => RecipeWeightType::class,
+                'entry_type' => CookbookRecipeWeightType::class,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
                 'allow_delete' => true,

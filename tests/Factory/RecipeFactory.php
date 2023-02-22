@@ -14,7 +14,7 @@ class RecipeFactory extends AbstractFactory
     public function __construct(
         private readonly RecipeRepositoryInterface $recipeRepository,
         private readonly UserFactory $userFactory,
-        private readonly FoodstuffWeightFactory $foodstuffWeightFactory,
+        private readonly RecipeFoodstuffWeightFactory $foodstuffWeightFactory,
     ) {
     }
 

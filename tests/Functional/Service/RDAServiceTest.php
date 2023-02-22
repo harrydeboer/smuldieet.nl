@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Service;
 
 use App\Entity\Day;
-use App\Entity\FoodstuffWeight;
+use App\Entity\DayFoodstuffWeight;
 use App\Entity\Nutrient;
 use App\Tests\Factory\DayFactory;
 use App\Tests\Factory\FoodstuffFactory;
@@ -22,13 +22,13 @@ class RDAServiceTest extends KernelTestCase
         $foodstuff1 = static::getContainer()->get(FoodstuffFactory::class)->create(['density' => null]);
         $foodstuff2 = static::getContainer()->get(FoodstuffFactory::class)->create(['density' => null]);
         $weightCollection1 = new ArrayCollection();
-        $weight1 = new FoodstuffWeight();
+        $weight1 = new DayFoodstuffWeight();
         $weight1->setValue(100);
         $weight1->setUnit('g');
         $weight1->setFoodstuff($foodstuff1);
         $weightCollection1->add($weight1);
         $weightCollection2 = new ArrayCollection();
-        $weight2 = new FoodstuffWeight();
+        $weight2 = new DayFoodstuffWeight();
         $weight2->setValue(100);
         $weight2->setUnit('g');
         $weight2->setFoodstuff($foodstuff2);

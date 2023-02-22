@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Form;
 
-use App\Entity\FoodstuffWeight;
 use App\Entity\Nutrient;
 use App\Entity\User;
 use App\Repository\FoodstuffRepositoryInterface;
@@ -17,12 +16,11 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Form\FormEvent;
 
-class FoodstuffWeightType extends AbstractType
+abstract class AbstractFoodstuffWeightType extends AbstractType
 {
     public function __construct(
         private readonly FoodstuffRepositoryInterface $foodstuffRepository,
@@ -72,7 +70,7 @@ class FoodstuffWeightType extends AbstractType
         ]);
     }
 
-    private function addFoodstuff(FormEvent $event): void
+    protected function addFoodstuff(FormEvent $event): void
     {
         $foodstuffWeight = $event->getData();
         if (!is_null($foodstuffWeight)) {
@@ -95,12 +93,5 @@ class FoodstuffWeightType extends AbstractType
     protected function getUser(): ?UserInterface
     {
         return $this->token->getToken()->getUser();
-    }
-
-    public function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefaults([
-            'data_class' => FoodstuffWeight::class,
-        ]);
     }
 }

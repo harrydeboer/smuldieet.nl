@@ -13,8 +13,8 @@ class DayFactory extends AbstractFactory
     public function __construct(
         private readonly DayRepositoryInterface $dayRepository,
         private readonly UserFactory $userFactory,
-        private readonly RecipeWeightFactory $recipeWeightFactory,
-        private readonly FoodstuffWeightFactory $foodstuffWeightFactory,
+        private readonly DayRecipeWeightFactory $recipeWeightFactory,
+        private readonly DayFoodstuffWeightFactory $foodstuffWeightFactory,
     ) {
     }
 

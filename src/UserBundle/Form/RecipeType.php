@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\UserBundle\Form;
 
 use App\Entity\Recipe;
-use App\Form\FoodstuffWeightType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -129,7 +128,7 @@ class RecipeType extends AbstractType
                 'choices' => array_combine(Recipe::OCCASION,Recipe::OCCASION),
                 'required' => false,
             ])->add('foodstuff_weights', CollectionType::class, [
-                'entry_type' => FoodstuffWeightType::class,
+                'entry_type' => RecipeFoodstuffWeightType::class,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
                 'allow_delete' => true,

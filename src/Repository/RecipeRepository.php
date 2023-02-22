@@ -26,8 +26,9 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
     public function __construct(
         private readonly RatingRepositoryInterface $ratingRepository,
         private readonly CommentRepositoryInterface $commentRepository,
-        private readonly FoodstuffWeightRepositoryInterface $foodstuffWeightRepository,
-        private readonly RecipeWeightRepositoryInterface $recipeWeightRepository,
+        private readonly RecipeFoodstuffWeightRepositoryInterface $recipeFoodstuffWeightRepository,
+        private readonly CookbookRecipeWeightRepositoryInterface $cookbookRecipeWeightRepository,
+        private readonly DayRecipeWeightRepositoryInterface $dayRecipeWeightRepository,
         private readonly TagRepositoryInterface $tagRepository,
         private readonly ProfanityCheckService $profanityCheckService,
         private readonly EntityManagerInterface $em,
@@ -142,10 +143,13 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
     public function delete(Recipe $recipe): void
     {
         foreach ($recipe->getFoodstuffWeights() as $foodstuffWeight) {
-            $this->foodstuffWeightRepository->delete($foodstuffWeight);
+            $this->recipeFoodstuffWeightRepository->delete($foodstuffWeight);
         }
-        foreach ($recipe->getRecipeWeights() as $recipeWeight) {
-            $this->recipeWeightRepository->delete($recipeWeight);
+        foreach ($recipe->getCookbookRecipeWeights() as $recipeWeight) {
+            $this->cookbookRecipeWeightRepository->delete($recipeWeight);
+        }
+        foreach ($recipe->getDayRecipeWeights() as $recipeWeight) {
+            $this->dayRecipeWeightRepository->delete($recipeWeight);
         }
         foreach ($recipe->getRatings() as $rating) {
             $this->ratingRepository->delete($rating);

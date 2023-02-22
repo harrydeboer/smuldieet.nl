@@ -15,7 +15,7 @@ class StandardDayType extends AbstractType
     {
         $builder
             ->add('foodstuff_weights', CollectionType::class, [
-                'entry_type' => FoodstuffWeightType::class,
+                'entry_type' => DayFoodstuffWeightType::class,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
                 'allow_delete' => true,
@@ -23,7 +23,7 @@ class StandardDayType extends AbstractType
                 'label' => false,
                 'by_reference' => false,
             ])->add('recipe_weights', CollectionType::class, [
-                'entry_type' => RecipeWeightType::class,
+                'entry_type' => DayRecipeWeightType::class,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
                 'allow_delete' => true,

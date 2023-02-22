@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Repository;
 
-use App\Repository\FoodstuffWeightRepositoryInterface;
-use App\Tests\Factory\FoodstuffWeightFactory;
+use App\Repository\DayFoodstuffWeightRepositoryInterface;
+use App\Tests\Factory\DayFactory;
 use App\Tests\Functional\KernelTestCase;
 
-class FoodstuffWeightRepositoryTest extends KernelTestCase
+class DayFoodstuffWeightRepositoryTest extends KernelTestCase
 {
     public function testCreateUpdateDelete(): void
     {
-        $foodstuffWeight = static::getContainer()->get(FoodstuffWeightFactory::class)->create();
+        $foodstuffWeight = static::getContainer()->get(DayFactory::class)->create()->getFoodstuffWeights()[0];
 
-        $foodstuffWeightRepository = static::getContainer()->get(FoodstuffWeightRepositoryInterface::class);
+        $foodstuffWeightRepository = static::getContainer()->get(DayFoodstuffWeightRepositoryInterface::class);
 
         $this->assertSame($foodstuffWeight, $foodstuffWeightRepository->find($foodstuffWeight->getId()));
 
-        $updatedUnit = 'g';
+        $updatedUnit = 'kg';
         $foodstuffWeight->setUnit($updatedUnit);
 
         $foodstuffWeightRepository->update();
