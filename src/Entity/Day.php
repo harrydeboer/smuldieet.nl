@@ -39,13 +39,13 @@ class Day
     private User $user;
 
     #[
-        ORM\OneToMany(mappedBy: "day", targetEntity: "App\Entity\FoodstuffWeight", cascade: ["persist", "remove"]),
+        ORM\OneToMany(mappedBy: "day", targetEntity: "App\Entity\DayFoodstuffWeight", cascade: ["persist", "remove"]),
         Assert\Valid
     ]
     private Collection $foodstuffWeights;
 
     #[
-        ORM\OneToMany(mappedBy: "day", targetEntity: "RecipeWeight", cascade: ["persist", "remove"]),
+        ORM\OneToMany(mappedBy: "day", targetEntity: "App\Entity\DayRecipeWeight", cascade: ["persist", "remove"]),
     ]
     private Collection $recipeWeights;
 
@@ -113,16 +113,19 @@ class Day
 
     public function setFoodstuffWeights(Collection $foodstuffWeights): void
     {
+        foreach ($foodstuffWeights as $foodstuffWeight) {
+            $foodstuffWeight->setDay($this);
+        }
         $this->foodstuffWeights = $foodstuffWeights;
     }
 
-    public function addFoodstuffWeight(FoodstuffWeight $foodstuffWeight): void
+    public function addFoodstuffWeight(DayFoodstuffWeight $foodstuffWeight): void
     {
         $foodstuffWeight->setDay($this);
         $this->foodstuffWeights->add($foodstuffWeight);
     }
 
-    public function removeFoodstuffWeight(FoodstuffWeight $foodstuffWeight): void
+    public function removeFoodstuffWeight(DayFoodstuffWeight $foodstuffWeight): void
     {
         $this->foodstuffWeights->removeElement($foodstuffWeight);
     }
@@ -134,16 +137,19 @@ class Day
 
     public function setRecipeWeights(Collection $recipeWeights): void
     {
+        foreach ($recipeWeights as $recipeWeight) {
+            $recipeWeight->setDay($this);
+        }
         $this->recipeWeights = $recipeWeights;
     }
 
-    public function addRecipeWeight(RecipeWeight $recipeWeight): void
+    public function addRecipeWeight(DayRecipeWeight $recipeWeight): void
     {
         $recipeWeight->setDay($this);
         $this->recipeWeights->add($recipeWeight);
     }
 
-    public function removeRecipeWeight(RecipeWeight $recipeWeight): void
+    public function removeRecipeWeight(DayRecipeWeight $recipeWeight): void
     {
         $this->recipeWeights->removeElement($recipeWeight);
     }

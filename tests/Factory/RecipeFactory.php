@@ -6,7 +6,6 @@ namespace App\Tests\Factory;
 
 use App\Entity\Recipe;
 use App\Repository\RecipeRepositoryInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 use InvalidArgumentException;
 
 class RecipeFactory extends AbstractFactory
@@ -14,7 +13,7 @@ class RecipeFactory extends AbstractFactory
     public function __construct(
         private readonly RecipeRepositoryInterface $recipeRepository,
         private readonly UserFactory $userFactory,
-        private readonly FoodstuffWeightFactory $foodstuffWeightFactory,
+        private readonly RecipeFoodstuffWeightFactory $foodstuffWeightFactory,
     ) {
     }
 
@@ -51,22 +50,13 @@ class RecipeFactory extends AbstractFactory
                 'Assign recipe in comment creation.');
         }
 
-        $this->setParams($params, $recipe);
-
-        $this->recipeRepository->create($recipe);
-
-        if (isset($params['foodstuffWeights'])) {
-            foreach ($params['foodstuffWeights'] as $weight) {
-                $recipe->removeFoodstuffWeight($weight);
-                $recipe->addFoodstuffWeight($weight);
-            }
-        } else {
+        if (!isset($params['foodstuffWeights'])) {
             $weight = $this->foodstuffWeightFactory->create();
             $recipe->addFoodstuffWeight($weight);
         }
 
-        $this->recipeRepository->update($recipe, new ArrayCollection(), new ArrayCollection());
+        $this->setParams($params, $recipe);
 
-        return $recipe;
+        return $this->recipeRepository->create($recipe);
     }
 }

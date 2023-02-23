@@ -62,7 +62,7 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
         $this->em->flush();
     }
 
-    public function findAllPaginated(int $page): Paginator|array
+    public function findAllPaginated(int $page): Paginator
     {
         $qb = $this->createQueryBuilder('u');
 

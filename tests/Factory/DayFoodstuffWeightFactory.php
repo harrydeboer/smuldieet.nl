@@ -4,19 +4,17 @@ declare(strict_types=1);
 
 namespace App\Tests\Factory;
 
-use App\Entity\FoodstuffWeight;
+use App\Entity\DayFoodstuffWeight;
 use App\Entity\Nutrient;
-use App\Repository\FoodstuffWeightRepositoryInterface;
 
-class FoodstuffWeightFactory extends AbstractFactory
+class DayFoodstuffWeightFactory extends AbstractFactory
 {
     public function __construct(
-        private readonly FoodstuffWeightRepositoryInterface $foodstuffWeightRepository,
         private readonly FoodstuffFactory $foodstuffFactory,
     ) {
     }
 
-    public function create(array $params = []): FoodstuffWeight
+    public function create(array $params = []): DayFoodstuffWeight
     {
         $foodstuff = $params['foodstuff'] ?? $this->foodstuffFactory->create();
         if ($foodstuff->isLiquid()) {
@@ -28,13 +26,13 @@ class FoodstuffWeightFactory extends AbstractFactory
             $units['stuks'] = 1;
         }
 
-        $foodstuffWeight = new FoodstuffWeight();
+        $foodstuffWeight = new DayFoodstuffWeight();
         $foodstuffWeight->setFoodstuff($foodstuff);
         $foodstuffWeight->setValue(rand(0, 1000));
         $foodstuffWeight->setUnit(array_rand($units));
 
         $this->setParams($params, $foodstuffWeight);
 
-        return $this->foodstuffWeightRepository->create($foodstuffWeight);
+        return $foodstuffWeight;
     }
 }

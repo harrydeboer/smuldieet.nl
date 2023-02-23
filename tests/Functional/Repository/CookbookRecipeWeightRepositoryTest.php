@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Repository;
 
-use App\Repository\RecipeWeightRepositoryInterface;
-use App\Tests\Factory\RecipeWeightFactory;
+use App\Repository\CookbookRecipeWeightRepositoryInterface;
+use App\Tests\Factory\CookbookFactory;
 use App\Tests\Functional\KernelTestCase;
 
-class RecipeWeightRepositoryTest extends KernelTestCase
+class CookbookRecipeWeightRepositoryTest extends KernelTestCase
 {
     public function testCreateUpdateDelete(): void
     {
-        $recipeWeight = static::getContainer()->get(RecipeWeightFactory::class)->create();
+        $recipeWeight = static::getContainer()->get(CookbookFactory::class)->create()->getRecipeWeights()[0];
 
-        $recipeWeightRepository = static::getContainer()->get(RecipeWeightRepositoryInterface::class);
+        $recipeWeightRepository = static::getContainer()->get(CookbookRecipeWeightRepositoryInterface::class);
 
         $this->assertSame($recipeWeight, $recipeWeightRepository->find($recipeWeight->getId()));
 

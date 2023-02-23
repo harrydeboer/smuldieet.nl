@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Form;
 
 use App\Entity\Day;
-use App\Entity\FoodstuffWeight;
+use App\Entity\DayFoodstuffWeight;
 use App\Form\StandardDayType;
 use App\Tests\Factory\FoodstuffFactory;
 use App\Tests\Functional\AuthVerifiedWebTestCase;
@@ -26,7 +26,7 @@ class StandardDayTypeTest extends AuthVerifiedWebTestCase
 
         $expected = new Day();
         $collection = new ArrayCollection();
-        $weight = new FoodstuffWeight();
+        $weight = new DayFoodstuffWeight();
         $weight->setDay($expected);
         $weight->setFoodstuffId($foodstuff->getId());
         $weight->setUnit('g');

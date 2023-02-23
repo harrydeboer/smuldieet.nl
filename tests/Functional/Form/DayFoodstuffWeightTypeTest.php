@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Form;
 
-use App\Entity\FoodstuffWeight;
-use App\Form\FoodstuffWeightType;
+use App\Entity\DayFoodstuffWeight;
+use App\Form\DayFoodstuffWeightType;
 use App\Tests\Factory\FoodstuffFactory;
 use App\Tests\Functional\AuthVerifiedWebTestCase;
 
-class FoodstuffWeightTypeTest extends AuthVerifiedWebTestCase
+class DayFoodstuffWeightTypeTest extends AuthVerifiedWebTestCase
 {
     public function testSubmitModel(): void
     {
@@ -23,11 +23,11 @@ class FoodstuffWeightTypeTest extends AuthVerifiedWebTestCase
             'unit' => $unit,
         ];
 
-        $foodstuffWeight = new FoodstuffWeight();
+        $foodstuffWeight = new DayFoodstuffWeight();
 
-        $form = $this->getContainer()->get('form.factory')->create(FoodstuffWeightType::class, $foodstuffWeight);
+        $form = $this->getContainer()->get('form.factory')->create(DayFoodstuffWeightType::class, $foodstuffWeight);
 
-        $expected = new FoodstuffWeight();
+        $expected = new DayFoodstuffWeight();
         $expected->setFoodstuffId($foodstuffId);
         $expected->setFoodstuff($foodstuff);
         $expected->setValue($value);

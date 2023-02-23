@@ -11,10 +11,19 @@ use Exception;
 
 interface FoodstuffRepositoryInterface extends ServiceEntityRepositoryInterface
 {
+    /**
+     * @return Foodstuff[]
+     */
     public function findAllStartingWith(string $char, ?int $userId): array;
 
+    /**
+     * @return Foodstuff[]
+     */
     public function findAllFromUser(?int $userId): array;
 
+    /**
+     * @return Foodstuff[]
+     */
     public function search(string $name, int $userId): array;
 
     public function get(int $id): Foodstuff;

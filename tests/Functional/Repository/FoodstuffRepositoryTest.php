@@ -7,7 +7,7 @@ namespace App\Tests\Functional\Repository;
 use App\Entity\Nutrient;
 use App\Repository\NutrientRepositoryInterface;
 use App\Tests\Factory\FoodstuffFactory;
-use App\Tests\Factory\FoodstuffWeightFactory;
+use App\Tests\Factory\DayFoodstuffWeightFactory;
 use App\Tests\Factory\UserFactory;
 use App\Repository\FoodstuffRepositoryInterface;
 use App\Tests\Functional\KernelTestCase;
@@ -56,7 +56,7 @@ class FoodstuffRepositoryTest extends KernelTestCase
         $foodstuffRepository->get($id);
 
         $foodstuffWeights = new ArrayCollection();
-        $foodstuffWeight = static::getContainer()->get(FoodstuffWeightFactory::class)->create(['unit' => 'l']);
+        $foodstuffWeight = static::getContainer()->get(DayFoodstuffWeightFactory::class)->create(['unit' => 'l']);
         $foodstuffWeights->add($foodstuffWeight);
         $foodstuff = static::getContainer()->get(FoodstuffFactory::class)
             ->create(['liquid' => true, 'foodstuff_weights' => $foodstuffWeight]);
@@ -70,6 +70,6 @@ class FoodstuffRepositoryTest extends KernelTestCase
 
         $foodstuffUpdated = $foodstuffRepository->get($foodstuff->getId());
 
-        $this->assertEquals('kg', $foodstuffUpdated->getFoodstuffWeights()[0]->getUnit());
+        $this->assertEquals('kg', $foodstuffUpdated->getDayFoodstuffWeights()[0]->getUnit());
     }
 }

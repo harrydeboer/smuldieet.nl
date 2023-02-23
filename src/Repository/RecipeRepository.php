@@ -26,8 +26,9 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
     public function __construct(
         private readonly RatingRepositoryInterface $ratingRepository,
         private readonly CommentRepositoryInterface $commentRepository,
-        private readonly FoodstuffWeightRepositoryInterface $foodstuffWeightRepository,
-        private readonly RecipeWeightRepositoryInterface $recipeWeightRepository,
+        private readonly RecipeFoodstuffWeightRepositoryInterface $recipeFoodstuffWeightRepository,
+        private readonly CookbookRecipeWeightRepositoryInterface $cookbookRecipeWeightRepository,
+        private readonly DayRecipeWeightRepositoryInterface $dayRecipeWeightRepository,
         private readonly TagRepositoryInterface $tagRepository,
         private readonly ProfanityCheckService $profanityCheckService,
         private readonly EntityManagerInterface $em,
@@ -47,6 +48,9 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
         return $recipe;
     }
 
+    /**
+     * @return Recipe[]
+     */
     public function search(string $title, int $userId): array
     {
         $titleOrderBy = str_replace("'", "''", $title);
@@ -66,6 +70,9 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
         return $query->execute();
     }
 
+    /**
+     * @return Recipe[]
+     */
     public function findAllPending(): array
     {
         $qb = $this->createQueryBuilder('r');
@@ -136,10 +143,13 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
     public function delete(Recipe $recipe): void
     {
         foreach ($recipe->getFoodstuffWeights() as $foodstuffWeight) {
-            $this->foodstuffWeightRepository->delete($foodstuffWeight);
+            $this->recipeFoodstuffWeightRepository->delete($foodstuffWeight);
         }
-        foreach ($recipe->getRecipeWeights() as $recipeWeight) {
-            $this->recipeWeightRepository->delete($recipeWeight);
+        foreach ($recipe->getCookbookRecipeWeights() as $recipeWeight) {
+            $this->cookbookRecipeWeightRepository->delete($recipeWeight);
+        }
+        foreach ($recipe->getDayRecipeWeights() as $recipeWeight) {
+            $this->dayRecipeWeightRepository->delete($recipeWeight);
         }
         foreach ($recipe->getRatings() as $rating) {
             $this->ratingRepository->delete($rating);
@@ -171,7 +181,7 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
         $this->em->flush();
     }
 
-    public function getRecipesFromUser(int $userId, int $page): Paginator|array
+    public function getRecipesFromUser(int $userId, int $page): Paginator
     {
         $qb = $this->createQueryBuilder('r')
             ->where('r.user = :userId')
@@ -181,7 +191,7 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
         return (new Paginator($qb))->paginate($page);
     }
 
-    public function findRecent(int $limit): Paginator|array
+    public function findRecent(int $limit): Paginator
     {
         $qb = $this->createQueryBuilder('r')
             ->where('r.pending = 0')
@@ -191,7 +201,7 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
         return (new Paginator($qb, $limit))->paginate();
     }
 
-    public function findBySortAndFilter(int $page, array $formData = null): Paginator|array
+    public function findBySortAndFilter(int $page, array $formData = null): Paginator
     {
         $qb = $this->createQueryBuilder('r');
         $qb->orderBy('r.createdAt', 'DESC');

@@ -54,7 +54,14 @@ class RecipeWeightType extends AbstractType
         ]);
     }
 
-    private function addRecipe(FormEvent $event): void
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => RecipeWeight::class,
+        ]);
+    }
+
+    protected function addRecipe(FormEvent $event): void
     {
         $recipeWeight = $event->getData();
         if (!is_null($recipeWeight)) {
@@ -74,12 +81,5 @@ class RecipeWeightType extends AbstractType
     protected function getUser(): ?UserInterface
     {
         return $this->token->getToken()->getUser();
-    }
-
-    public function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefaults([
-            'data_class' => RecipeWeight::class,
-        ]);
     }
 }

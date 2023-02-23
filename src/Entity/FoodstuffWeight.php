@@ -4,17 +4,10 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Repository\FoodstuffWeightRepository;
 use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Validator\FoodstuffWeightConstraint;
 
-#[
-    ORM\Entity(repositoryClass: FoodstuffWeightRepository::class),
-    ORM\Table(name: "foodstuff_weight"),
-    FoodstuffWeightConstraint,
-]
 class FoodstuffWeight
 {
     #[
@@ -22,44 +15,28 @@ class FoodstuffWeight
         ORM\Column(type: "bigint"),
         ORM\GeneratedValue(strategy: "IDENTITY"),
     ]
-    private int $id;
+    protected int $id;
 
     #[
         ORM\Column(type: "float"),
         Assert\NotBlank(message: 'De waarde mag niet leeg zijn.'),
         Assert\GreaterThanOrEqual(0, message: 'Waarde moet groter of gelijk aan 0 zijn.'),
     ]
-    private float $value;
+    protected float $value;
 
     #[
         ORM\Column(type: "string"),
         Assert\NotBlank(message: 'De eenheid mag niet leeg zijn.'),
     ]
-    private string $unit;
+    protected string $unit;
 
-    #[
-        ORM\ManyToOne(targetEntity: "App\Entity\Day", inversedBy: "foodstuffWeights"),
-        ORM\JoinColumn(name: "day_id", referencedColumnName: "id", nullable: true),
-    ]
-    private ?Day $day = null;
-
-    #[
-        ORM\ManyToOne(targetEntity: "App\Entity\Recipe", inversedBy: "foodstuffWeights"),
-        ORM\JoinColumn(name: "recipe_id", referencedColumnName: "id", nullable: true),
-    ]
-    private ?Recipe $recipe = null;
-
-    #[
-        ORM\ManyToOne(targetEntity: "App\Entity\Foodstuff", inversedBy: "foodstuffWeights"),
-        ORM\JoinColumn(name: "foodstuff_id", referencedColumnName: "id", nullable: false),
-    ]
-    private Foodstuff $foodstuff;
+    protected Foodstuff $foodstuff;
 
     #[
         Assert\NotBlank(message: 'Het voedingsmiddel id mag niet leeg zijn.'),
         Assert\GreaterThanOrEqual(0, message: 'Het voedingsmiddel id moet groter of gelijk aan 0 zijn.'),
     ]
-    private int $foodstuffId;
+    protected int $foodstuffId;
 
     public function getId(): int
     {
@@ -92,26 +69,6 @@ class FoodstuffWeight
             throw new InvalidArgumentException("Invalid unit.");
         }
         $this->unit = $unit;
-    }
-
-    public function getDay(): ?Day
-    {
-        return $this->day;
-    }
-
-    public function setDay(?Day $day): void
-    {
-        $this->day = $day;
-    }
-
-    public function getRecipe(): ?Recipe
-    {
-        return $this->recipe;
-    }
-
-    public function setRecipe(?Recipe $recipe): void
-    {
-        $this->recipe = $recipe;
     }
 
     public function getFoodstuff(): Foodstuff

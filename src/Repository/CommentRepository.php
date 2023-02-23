@@ -41,6 +41,9 @@ class CommentRepository extends ServiceEntityRepository implements CommentReposi
         return $comment;
     }
 
+    /**
+     * @return Comment[]
+     */
     public function findAllPendingComments(): array
     {
         $qb = $this->createQueryBuilder('c');
@@ -51,7 +54,7 @@ class CommentRepository extends ServiceEntityRepository implements CommentReposi
         return $query->execute();
     }
 
-    public function findCommentsFromRecipe(int $recipeId, int $page): Paginator|array
+    public function findCommentsFromRecipe(int $recipeId, int $page): Paginator
     {
         $qb = $this->createQueryBuilder('c');
         $qb->andWhere('c.recipe = ' . $recipeId);
@@ -60,7 +63,7 @@ class CommentRepository extends ServiceEntityRepository implements CommentReposi
         return (new Paginator($qb, 5))->paginate($page);
     }
 
-    public function findCommentsFromPage(int $pageId, int $page): Paginator|array
+    public function findCommentsFromPage(int $pageId, int $page): Paginator
     {
         $qb = $this->createQueryBuilder('c');
         $qb->andWhere('c.page = ' . $pageId);

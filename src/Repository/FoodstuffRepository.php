@@ -23,13 +23,17 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
 {
     public function __construct(
         private readonly EntityManagerInterface $em,
-        private readonly FoodstuffWeightRepositoryInterface $foodstuffWeightRepository,
+        private readonly DayFoodstuffWeightRepositoryInterface $dayFoodstuffWeightRepository,
+        private readonly RecipeFoodstuffWeightRepositoryInterface $recipeFoodstuffWeightRepository,
         private readonly NutrientRepositoryInterface $nutrientRepository,
         ManagerRegistry $registry,
     ) {
         parent::__construct($registry, Foodstuff::class);
     }
 
+    /**
+     * @return Foodstuff[]
+     */
     public function findAllStartingWith(string $char, ?int $userId): array
     {
         $qb = $this->createQueryBuilder('f')
@@ -46,6 +50,9 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
         return $query->execute();
     }
 
+    /**
+     * @return Foodstuff[]
+     */
     public function findAllFromUser(?int $userId): array
     {
         $qb = $this->createQueryBuilder('f');
@@ -62,6 +69,9 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
         return $query->execute();
     }
 
+    /**
+     * @return Foodstuff[]
+     */
     public function search(string $name, int $userId): array
     {
         $nameOrderBy = str_replace("'", "''", $name);
@@ -155,7 +165,8 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
         $this->checkWeightsAndEnergy($foodstuff);
         $this->checkPieceAndPiecesName($foodstuff);
         if ($isLiquidOld && !$foodstuff->isLiquid()) {
-            $this->transformLiquidUnitsToSolid($foodstuff->getFoodstuffWeights(), $foodstuff->getDensity());
+            $this->transformLiquidUnitsToSolid($foodstuff->getDayFoodstuffWeights(), $foodstuff->getDensity());
+            $this->transformLiquidUnitsToSolid($foodstuff->getRecipeFoodstuffWeights(), $foodstuff->getDensity());
         }
         $this->em->flush();
     }
@@ -165,8 +176,11 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
      */
     public function delete(Foodstuff $foodstuff): void
     {
-        foreach ($foodstuff->getFoodstuffWeights() as $weight) {
-            $this->foodstuffWeightRepository->delete($weight);
+        foreach ($foodstuff->getDayFoodstuffWeights() as $weight) {
+            $this->dayFoodstuffWeightRepository->delete($weight);
+        }
+        foreach ($foodstuff->getRecipeFoodstuffWeights() as $weight) {
+            $this->recipeFoodstuffWeightRepository->delete($weight);
         }
         $this->em->remove($foodstuff);
         $this->em->flush();
@@ -261,7 +275,7 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
         }
     }
 
-    private function transformLiquidUnitsToSolid(Collection $weights, ?float $density)
+    private function transformLiquidUnitsToSolid(Collection $weights, ?float $density): void
     {
         if (is_null($density)) {
             $density = 1;

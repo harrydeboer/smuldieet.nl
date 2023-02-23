@@ -52,7 +52,8 @@ class Cookbook
     private User $user;
 
     #[
-        ORM\OneToMany(mappedBy: "cookbook", targetEntity: "RecipeWeight", cascade: ["persist", "remove"]),
+        ORM\OneToMany(mappedBy: "cookbook", targetEntity: "App\Entity\CookbookRecipeWeight",
+            cascade: ["persist", "remove"]),
     ]
     private Collection $recipeWeights;
 
@@ -118,16 +119,19 @@ class Cookbook
 
     public function setRecipeWeights(Collection $recipeWeights): void
     {
+        foreach ($recipeWeights as $recipeWeight) {
+            $recipeWeight->setCookbook($this);
+        }
         $this->recipeWeights = $recipeWeights;
     }
 
-    public function addRecipeWeight(RecipeWeight $recipeWeight): void
+    public function addRecipeWeight(CookbookRecipeWeight $recipeWeight): void
     {
         $recipeWeight->setCookbook($this);
         $this->recipeWeights->add($recipeWeight);
     }
 
-    public function removeRecipeWeight(RecipeWeight $recipeWeight): void
+    public function removeRecipeWeight(CookbookRecipeWeight $recipeWeight): void
     {
         $this->recipeWeights->removeElement($recipeWeight);
     }

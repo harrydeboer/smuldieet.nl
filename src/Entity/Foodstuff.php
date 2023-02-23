@@ -82,12 +82,16 @@ class Foodstuff extends NutrientProperties
     ]
     private ?float $density = null;
 
-    #[ORM\OneToMany(mappedBy: "foodstuff", targetEntity: "App\Entity\FoodstuffWeight", cascade: ["remove"])]
-    private Collection $foodstuffWeights;
+    #[ORM\OneToMany(mappedBy: "foodstuff", targetEntity: "App\Entity\DayFoodstuffWeight", cascade: ["remove"])]
+    private Collection $dayFoodstuffWeights;
+
+    #[ORM\OneToMany(mappedBy: "foodstuff", targetEntity: "App\Entity\RecipeFoodstuffWeight", cascade: ["remove"])]
+    private Collection $recipeFoodstuffWeights;
 
     public function __construct()
     {
-        $this->foodstuffWeights = new ArrayCollection();
+        $this->dayFoodstuffWeights = new ArrayCollection();
+        $this->recipeFoodstuffWeights = new ArrayCollection();
     }
 
     public function getId(): int
@@ -190,14 +194,30 @@ class Foodstuff extends NutrientProperties
         $this->density = $density;
     }
 
-    public function getFoodstuffWeights(): Collection
+    public function getDayFoodstuffWeights(): Collection
     {
-        return $this->foodstuffWeights;
+        return $this->dayFoodstuffWeights;
     }
 
-    public function setFoodstuffWeights(Collection $foodstuffWeights): void
+    public function setDayFoodstuffWeights(Collection $foodstuffWeights): void
     {
-        $this->foodstuffWeights = $foodstuffWeights;
+        foreach ($foodstuffWeights as $foodstuffWeight) {
+            $foodstuffWeight->setFoodstuff($this);
+        }
+        $this->dayFoodstuffWeights = $foodstuffWeights;
+    }
+
+    public function getRecipeFoodstuffWeights(): Collection
+    {
+        return $this->recipeFoodstuffWeights;
+    }
+
+    public function setRecipeFoodstuffWeights(Collection $foodstuffWeights): void
+    {
+        foreach ($foodstuffWeights as $foodstuffWeight) {
+            $foodstuffWeight->setFoodstuff($this);
+        }
+        $this->recipeFoodstuffWeights = $foodstuffWeights;
     }
 
     public function getNutrientNames(): array

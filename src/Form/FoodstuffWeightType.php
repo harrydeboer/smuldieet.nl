@@ -72,7 +72,14 @@ class FoodstuffWeightType extends AbstractType
         ]);
     }
 
-    private function addFoodstuff(FormEvent $event): void
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => FoodstuffWeight::class,
+        ]);
+    }
+
+    protected function addFoodstuff(FormEvent $event): void
     {
         $foodstuffWeight = $event->getData();
         if (!is_null($foodstuffWeight)) {
@@ -95,12 +102,5 @@ class FoodstuffWeightType extends AbstractType
     protected function getUser(): ?UserInterface
     {
         return $this->token->getToken()->getUser();
-    }
-
-    public function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefaults([
-            'data_class' => FoodstuffWeight::class,
-        ]);
     }
 }

@@ -15,7 +15,7 @@ interface UserRepositoryInterface extends ServiceEntityRepositoryInterface
 
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newPassword): void;
 
-    public function findAllPaginated(int $page): Paginator|array;
+    public function findAllPaginated(int $page): Paginator;
 
     public function create(User $user, string $plainPassword): User;
 

@@ -119,7 +119,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, UploadI
     private Collection $recipes;
 
     #[
-        ORM\ManyToMany(targetEntity: "Recipe", inversedBy: "users"),
+        ORM\ManyToMany(targetEntity: "App\Entity\Recipe", inversedBy: "users"),
         ORM\JoinTable(name: "user_saved_recipe"),
         ORM\JoinColumn(name: "user_id", referencedColumnName: "id", onDelete: "CASCADE"),
         ORM\InverseJoinColumn(name: "recipe_id", referencedColumnName: "id", onDelete: "CASCADE"),

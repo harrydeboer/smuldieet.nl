@@ -6,14 +6,13 @@ namespace App\Tests\Factory;
 
 use App\Entity\Cookbook;
 use App\Repository\CookbookRepositoryInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 
 class CookbookFactory extends AbstractFactory
 {
     public function __construct(
         private readonly CookbookRepositoryInterface $cookbookRepository,
         private readonly UserFactory $userFactory,
-        private readonly RecipeWeightFactory $recipeWeightFactory,
+        private readonly CookbookRecipeWeightFactory $recipeWeightFactory,
     ) {
     }
 
@@ -26,22 +25,13 @@ class CookbookFactory extends AbstractFactory
         $cookbook->setCreatedAt(time());
         $cookbook->setUser($user);
 
-        $this->setParams($params, $cookbook);
-
-        $this->cookbookRepository->create($cookbook);
-
-        if (isset($params['recipeWeights'])) {
-            foreach ($params['recipeWeights'] as $weight) {
-                $cookbook->removeRecipeWeight($weight);
-                $cookbook->addRecipeWeight($weight);
-            }
-        } else {
+        if (!isset($params['recipeWeights'])) {
             $weight = $this->recipeWeightFactory->create();
             $cookbook->addRecipeWeight($weight);
         }
 
-        $this->cookbookRepository->update($cookbook, new ArrayCollection());
+        $this->setParams($params, $cookbook);
 
-        return $cookbook;
+        return $this->cookbookRepository->create($cookbook);
     }
 }

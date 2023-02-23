@@ -253,24 +253,29 @@ class Recipe extends DietProperties implements UploadImageInterface
     private User $user;
 
     #[
-        ORM\OneToMany(mappedBy: "recipe", targetEntity: "App\Entity\FoodstuffWeight", cascade: ["persist", "remove"]),
+        ORM\OneToMany(mappedBy: "recipe", targetEntity: "App\Entity\RecipeFoodstuffWeight",
+            cascade: ["persist", "remove"]),
         Assert\Valid,
     ]
     private Collection $foodstuffWeights;
 
-    #[ORM\OneToMany(mappedBy: "recipe", targetEntity: "App\Entity\RecipeWeight", cascade: ["persist", "remove"])]
-    private Collection $recipeWeights;
+    #[ORM\OneToMany(mappedBy: "recipe", targetEntity: "App\Entity\CookbookRecipeWeight",
+        cascade: ["persist", "remove"])]
+    private Collection $cookbookRecipeWeights;
 
-    #[ORM\OneToMany(mappedBy: "recipe", targetEntity: "Rating", cascade: ["remove"])]
+    #[ORM\OneToMany(mappedBy: "recipe", targetEntity: "App\Entity\DayRecipeWeight", cascade: ["persist", "remove"])]
+    private Collection $dayRecipeWeights;
+
+    #[ORM\OneToMany(mappedBy: "recipe", targetEntity: "App\Entity\Rating", cascade: ["remove"])]
     private Collection $ratings;
 
-    #[ORM\OneToMany(mappedBy: "recipe", targetEntity: "Comment", cascade: ["remove"])]
+    #[ORM\OneToMany(mappedBy: "recipe", targetEntity: "App\Entity\Comment", cascade: ["remove"])]
     private Collection $comments;
 
-    #[ORM\ManyToMany(targetEntity: "Tag", mappedBy: "recipes")]
+    #[ORM\ManyToMany(targetEntity: "App\Entity\Tag", mappedBy: "recipes")]
     private Collection $tags;
 
-    #[ORM\ManyToMany(targetEntity: "User", mappedBy: "savedRecipes")]
+    #[ORM\ManyToMany(targetEntity: "App\Entity\User", mappedBy: "savedRecipes")]
     private Collection $users;
 
     #[ORM\Column(type: "boolean")]
@@ -284,7 +289,8 @@ class Recipe extends DietProperties implements UploadImageInterface
     public function __construct()
     {
         $this->foodstuffWeights = new ArrayCollection();
-        $this->recipeWeights = new ArrayCollection();
+        $this->cookbookRecipeWeights = new ArrayCollection();
+        $this->dayRecipeWeights = new ArrayCollection();
         $this->ratings = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->tags = new ArrayCollection();
@@ -594,28 +600,47 @@ class Recipe extends DietProperties implements UploadImageInterface
 
     public function setFoodstuffWeights(Collection $foodstuffWeights): void
     {
+        foreach ($foodstuffWeights as $foodstuffWeight) {
+            $foodstuffWeight->setRecipe($this);
+        }
         $this->foodstuffWeights = $foodstuffWeights;
     }
 
-    public function addFoodstuffWeight(FoodstuffWeight $foodstuffWeight): void
+    public function addFoodstuffWeight(RecipeFoodstuffWeight $foodstuffWeight): void
     {
         $foodstuffWeight->setRecipe($this);
         $this->foodstuffWeights->add($foodstuffWeight);
     }
 
-    public function removeFoodstuffWeight(FoodstuffWeight $foodstuffWeight): void
+    public function removeFoodstuffWeight(RecipeFoodstuffWeight $foodstuffWeight): void
     {
         $this->foodstuffWeights->removeElement($foodstuffWeight);
     }
 
-    public function getRecipeWeights(): Collection
+    public function getCookbookRecipeWeights(): Collection
     {
-        return $this->recipeWeights;
+        return $this->cookbookRecipeWeights;
     }
 
-    public function setRecipeWeights(Collection $recipeWeights): void
+    public function setCookbookRecipeWeights(Collection $recipeWeights): void
     {
-        $this->recipeWeights = $recipeWeights;
+        foreach ($recipeWeights as $recipeWeight) {
+            $recipeWeight->setRecipe($this);
+        }
+        $this->cookbookRecipeWeights = $recipeWeights;
+    }
+
+    public function getDayRecipeWeights(): Collection
+    {
+        return $this->dayRecipeWeights;
+    }
+
+    public function setDayRecipeWeights(Collection $recipeWeights): void
+    {
+        foreach ($recipeWeights as $recipeWeight) {
+            $recipeWeight->setRecipe($this);
+        }
+        $this->dayRecipeWeights = $recipeWeights;
     }
 
     public function getImageExtension(): ?string
