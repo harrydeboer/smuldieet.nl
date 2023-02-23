@@ -20,7 +20,8 @@ class FoodstuffWeights {
      */
     addFoodstuff(event) {
         let selector = '#' + this.formName + '_foodstuff_weights__name__';
-        let html = '<div class="row row-weight"><div class="col-4">' +  $(selector + '_foodstuff_id').data('prototype') +
+        let html = '<div class="row row-weight"><div class="col-4">' +
+            $(selector + '_foodstuff_id').data('prototype') +
             '<div class="dropdown">' + $(selector + '_name').data('prototype') +
             '<div class="dropdown-menu dropdown-menu-foodstuff"></div></div>' +
             '</div>';

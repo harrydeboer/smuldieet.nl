@@ -67,10 +67,10 @@ $(function() {
     /**
      * The is self invented radio button shows a source field when it is not self invented.
      */
-    if ($('input[name="recipe[is_self_invented]"]:checked').val() === '0') {
+    if ($('input[name="recipe[self_invented]"]:checked').val() === '0') {
         $('#recipe_source').removeClass('d-none');
     }
-    $('input[name="recipe[is_self_invented]"]').on('change', function () {
+    $('input[name="recipe[self_invented]"]').on('change', function () {
         if ($(this).val() === '1') {
             $('#recipe_source_title').addClass('d-none');
             $('#recipe_source').addClass('d-none');
