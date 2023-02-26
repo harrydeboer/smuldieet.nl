@@ -67,7 +67,10 @@ readonly class UploadedImageService
             } elseif ($extension === 'jpg' || $extension === 'jpeg' || $extension === 'jpe'
                 || $extension === 'jfif' || $extension === 'jif') {
                 $image = imagecreatefromjpeg($path);
-                $image = $this->correctImageOrientation(exif_read_data($filePath . '/' . $fileName), $image);
+                $exifData = exif_read_data($filePath . '/' . $fileName);
+                if ($exifData !== false) {
+                    $image = $this->correctImageOrientation($exifData, $image);
+                }
             } elseif ($extension === 'gif') {
                 $image = imagecreatefromgif($path);
             } elseif ($extension === 'bmp') {
@@ -109,10 +112,10 @@ readonly class UploadedImageService
         $entity->setImage(null);
     }
 
-    private function correctImageOrientation(array $exif, GdImage $image): GdImage
+    private function correctImageOrientation(array $exifData, GdImage $image): GdImage
     {
-        if($exif && isset($exif['Orientation'])) {
-            $orientation = $exif['Orientation'];
+        if(isset($exifData['Orientation'])) {
+            $orientation = $exifData['Orientation'];
             if($orientation != 1){
                 $deg = 0;
                 switch ($orientation) {
