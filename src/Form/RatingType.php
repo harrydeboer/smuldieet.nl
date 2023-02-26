@@ -17,7 +17,7 @@ class RatingType extends AbstractType
                 'choices' => [1,2,3,4,5,6,7,8,9,10],
                 'expanded' => true,
                 'choice_label' => function() {
-                return '<i class="far fa-star fa-star-form"> </i>';
+                return '<img src="/img/star.png?v=1" alt="star" class="star-form">';
                 },
                 'label_html' => true,
                 'choice_attr' => function() {

@@ -55,7 +55,7 @@
 {% for id, tag in form.tags %}
     <div class="row">
         <div class="col">{{ form_widget(tag) }}</div>
-        <div class="col"><i class="remove-tag-row fa fa-minus"></i></div>
+        <div class="col"><img src="{{ '/img/minus.png?v=1' }}" class="remove-tag-row" alt="minus" width="25"></div>
     </div>
 {% endfor %}
 <div class="row" id="add_tag_button_row">

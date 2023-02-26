@@ -16,7 +16,7 @@
         </div>
     {% endif %}
     <span class="no-wrap">
-        <i class="far fa-clock"></i>
+        <img src="{{ asset('img/clock.png') }}" alt="clock" width="28">
         {{ recipe.cookingTime }}
         <img src="{{ asset('/img/kitchen.png') }}" id="kitchen_icon" alt="kitchen" width="28">
         {{ recipe.kitchen }}
@@ -24,7 +24,7 @@
     <span class="no-wrap">
         <img src="{{ asset('/img/knife-fork.png') }}" id="knife_fork_icon" alt="knife-fork" width="25">
         {{ recipe.typeOfDish }}
-        <i class="far fa-user"></i>
+        <img src="{{ asset('/img/person.png') }}" alt="user" width="22">
         {{ recipe.numberOfPersons }}
     </span>
     {% for tag in recipe.tags %}
@@ -61,7 +61,9 @@
                         <br>
                         <br>
                     {% else %}
-                        {{ recipe.rating|number_format(1) }} <i class="fas fa-star fa-star-gold"></i><br>
+                        {{ recipe.rating|number_format(1) }} <img src="{{ asset('img/star-gold.png') }}"
+                                                                  alt="star"
+                                                                  width="22"><br>
                         {{ recipe.votes }}
                         {% if recipe.votes == 1 %}
                             stem
@@ -76,16 +78,24 @@
                     <div id="rate_modal_button" class="fw-bold">&nbsp;&nbsp;
                         {% if rating is null %}
 
-                            Waardeer <i class="far fa-star" id="rate_modal_button_star"></i>
+                            Waardeer <img src="{{ asset('img/star.png') }}"
+                                          alt="star"
+                                          id="rate_modal_button_star"
+                                          width="22">
                         {% else %}
-                            {{ rating.rating }} <i class="fas fa-star" id="rate_modal_button_star"></i>
+                            {{ rating.rating }} <img src="{{ asset('img/star-solid.png') }}"
+                                                     alt="star"
+                                                     id="rate_modal_button_star"
+                                                     width="22">
                         {% endif %}
                         <br>
                         <br>
                     </div>
                 {% else %}
                     &nbsp;&nbsp;<a href="{{ path('app_login') }}" id="rate_recipe_login">Waardeer
-                    <i class="far fa-star" id="rate_modal_button_star"></i>
+                    <img src="{{ asset('img/star.png') }}"
+                         alt="star"
+                         width="22">
                 </a>
                     <br>
                     <br>
@@ -156,7 +166,9 @@
             {% for review in paginatorReviews.results %}
                 <div class="row">
                     <div class="col">
-                        {{ review.rating }} <i class="fas fa-star fa-star-gold"></i>
+                        {{ review.rating }} <img src="{{ asset('img/star-gold.png') }}"
+                                                 alt="star"
+                                                 width="22">
                     </div>
                     <div class="col">
                         {{ review.content|length > 10 ? review.content|slice(0, 10) ~ '...' : review.content }}

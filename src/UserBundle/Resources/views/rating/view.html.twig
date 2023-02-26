@@ -22,7 +22,9 @@
                     {% else %}
                         <a href="{{ path('user_review_single', {'id': rating.id}) }}">{{ rating.recipe.title }}</a>
                     {% endif %}
-                    {{ rating.rating }} <i class="fas fa-star fa-star-gold"></i></div>
+                    {{ rating.rating }} <img src="{{ asset('img/star-gold.png') }}"
+                                             alt="star"
+                                             width="22"></div>
                 <div class="col"><a href="{{ path('user_review_edit', {'id': rating.id }) }}">wijzig</a></div>
             </div>
         {% endfor %}

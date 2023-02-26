@@ -454,6 +454,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, UploadI
      */
     public function getImageUrl(int $width = null, string $extraPath = ''): ?string
     {
-        return 'uploads/user/images/' . $extraPath . $this->getId() . '_' . $width . '.' . $this->getImageExtension();
+        if (is_null($width)) {
+            $hyphen = '';
+        } else {
+            $hyphen = '-';
+        }
+        return 'uploads/user/images/' . $extraPath . $this->getId() .
+            $hyphen . $width . '.' . $this->getImageExtension();
     }
 }

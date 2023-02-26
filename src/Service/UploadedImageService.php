@@ -54,7 +54,7 @@ readonly class UploadedImageService
                 $entity->setImageExtension($newExtension);
             }
             $image->move(dirname($this->parameterBag->get('kernel.project_dir') . '/public/' .
-                $entity->getImageUrl(null, $extraPath)),$id . '_.' . $image->getClientOriginalExtension());
+                $entity->getImageUrl(null, $extraPath)),$id . '.' . $image->getClientOriginalExtension());
 
             $extension = $image->getClientOriginalExtension();
             $path = $this->parameterBag->get('kernel.project_dir') . '/public/' .

@@ -680,7 +680,13 @@ class Recipe extends DietProperties implements UploadImageInterface
      */
     public function getImageUrl(int $width = null, string $extraPath = ''): ?string
     {
-        return 'uploads/recipe/images/' . $extraPath . $this->getId() . '_' . $width . '.' . $this->getImageExtension();
+        if (is_null($width)) {
+            $hyphen = '';
+        } else {
+            $hyphen = '-';
+        }
+        return 'uploads/recipe/images/' . $extraPath . $this->getId() .
+            $hyphen . $width . '.' . $this->getImageExtension();
     }
 
     public function getDietNames(): array
