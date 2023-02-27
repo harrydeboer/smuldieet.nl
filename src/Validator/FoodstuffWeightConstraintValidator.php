@@ -29,11 +29,6 @@ class FoodstuffWeightConstraintValidator extends ConstraintValidator
         try {
             $unit = $value->getUnit();
         } catch (Error) {
-            $this->context
-                ->buildViolation('Eenheid is niet opgegeven.')
-                ->atPath('unit')
-                ->addViolation();
-
             return;
         }
 
