@@ -18,7 +18,7 @@
                 <div class="row">
                     <div class="col">
                         {% if recipe.imageExtension is not null %}
-                            <img src="{{ asset(recipe.getImageUrl(100)) }}"
+                            <img src="{{ asset(recipe.imageUrl(100)) }}" width="100"
                                  alt="label" class="img-fluid recipe-image">
                         {% endif %}
                     </div>

@@ -6,6 +6,7 @@ namespace App\Service;
 
 use App\Entity\UploadImageInterface;
 use Exception;
+use GdImage;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 readonly class UploadedImageService
@@ -53,8 +54,10 @@ readonly class UploadedImageService
                 $this->unlinkImage($entity);
                 $entity->setImageExtension($newExtension);
             }
-            $image->move(dirname($this->parameterBag->get('kernel.project_dir') . '/public/' .
-                $entity->getImageUrl(null, $extraPath)),$id . '_.' . $image->getClientOriginalExtension());
+            $filePath = dirname($this->parameterBag->get('kernel.project_dir') . '/public/' .
+                $entity->getImageUrl(null, $extraPath));
+            $fileName = $id . '.' . $image->getClientOriginalExtension();
+            $image->move($filePath, $fileName);
 
             $extension = $image->getClientOriginalExtension();
             $path = $this->parameterBag->get('kernel.project_dir') . '/public/' .
@@ -64,6 +67,10 @@ readonly class UploadedImageService
             } elseif ($extension === 'jpg' || $extension === 'jpeg' || $extension === 'jpe'
                 || $extension === 'jfif' || $extension === 'jif') {
                 $image = imagecreatefromjpeg($path);
+                $exifData = exif_read_data($filePath . '/' . $fileName);
+                if ($exifData !== false) {
+                    $image = $this->correctImageOrientation($exifData, $image);
+                }
             } elseif ($extension === 'gif') {
                 $image = imagecreatefromgif($path);
             } elseif ($extension === 'bmp') {
@@ -103,5 +110,31 @@ readonly class UploadedImageService
         }
 
         $entity->setImage(null);
+    }
+
+    private function correctImageOrientation(array $exifData, GdImage $image): GdImage
+    {
+        if(isset($exifData['Orientation'])) {
+            $orientation = $exifData['Orientation'];
+            if($orientation != 1){
+                $deg = 0;
+                switch ($orientation) {
+                    case 3:
+                        $deg = 180;
+                        break;
+                    case 6:
+                        $deg = 270;
+                        break;
+                    case 8:
+                        $deg = 90;
+                        break;
+                }
+                if ($deg) {
+                    return imagerotate($image, $deg, 0);
+                }
+            }
+        }
+
+        return $image;
     }
 }

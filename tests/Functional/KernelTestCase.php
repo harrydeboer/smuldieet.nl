@@ -6,19 +6,17 @@ namespace App\Tests\Functional;
 
 class KernelTestCase extends \Symfony\Bundle\FrameworkBundle\Test\KernelTestCase
 {
-    use MigrationsTrait;
-
     protected function setUp(): void
     {
         static::bootKernel();
 
-        $this->migrateDb();
+        PrepareDatabase::migrateAndSyncDb($this->getContainer());
     }
 
     protected function tearDown(): void
     {
         parent::tearDown();
 
-        $this->dropAndCreateDb();
+        PrepareDatabase::dropAndCreateDb($this->getContainer());
     }
 }

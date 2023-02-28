@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Exception;
+use Symfony\Component\Validator\Exception\ConstraintDefinitionException;
 
 class FoodstuffController extends AuthController
 {
@@ -54,7 +55,13 @@ class FoodstuffController extends AuthController
             'method' => 'POST',
         ]);
 
-        $form->handleRequest($request);
+        /**
+         * UniqueEntity of User throws an exception if the User is a proxy. This exception is ignored.
+         */
+        try {
+            $form->handleRequest($request);
+        } catch (ConstraintDefinitionException) {
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
 

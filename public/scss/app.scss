@@ -17,6 +17,10 @@ body {
   padding-right: 10px;
 }
 
+.disabled {
+  cursor: not-allowed;
+}
+
 .navbar-nav li {
   margin-right: 10px;
 }
@@ -41,10 +45,6 @@ body {
 
 .no-wrap {
   white-space: nowrap;
-}
-
-.fa-star-gold {
-  color: gold;
 }
 
 #form_errors_client, #form_errors_server {

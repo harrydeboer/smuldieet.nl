@@ -28,7 +28,7 @@ RUN a2enmod headers rewrite ssl
 RUN docker-php-ext-configure gd --with-jpeg --with-webp
 RUN docker-php-ext-install -j$(nproc) gd
 
-RUN docker-php-ext-install bcmath curl mbstring xml intl zip pdo_mysql
+RUN docker-php-ext-install bcmath curl exif mbstring xml intl zip pdo_mysql
 
 RUN docker-php-ext-enable opcache
 

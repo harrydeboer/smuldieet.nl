@@ -113,7 +113,7 @@ $(function() {
 
     $('#add_tag').on('click', function (event) {
         let html = '<tr><td>' + $('#recipe_tags').data('prototype') +
-            '</td><td><i class="remove-tag-row fa fa-minus"></i></td></tr>';
+            '</td><td><img src="/img/minus.png?v=1" class="remove-tag-row" alt="minus" width="25"></td></tr>';
         html = html.replaceAll('__name__', tagNumber);
         $('#add_tag_button_row').before(html);
         tagNumber = tagNumber + 1;
