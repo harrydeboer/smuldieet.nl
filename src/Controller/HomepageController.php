@@ -47,7 +47,7 @@ class HomepageController extends Controller
             'page' => $this->pageRepository->findOneBy(['slug' => 'home']),
             'isFiltered' => $isFiltered,
             'paginator' => $recipes,
-            'dietChoices' => Recipe::getDietChoices('snake'),
+            'dietChoices' => Recipe::getDietChoices(true),
             'form' => $form->createView(),
         ]);
     }

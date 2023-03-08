@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Entity\Foodstuff;
 use App\Entity\Nutrient;
+use App\Entity\NutrientsInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
@@ -46,8 +46,7 @@ class NutrientRepository extends ServiceEntityRepository implements NutrientRepo
      */
     public function sync(): ?bool
     {
-        $foodstuff = new Foodstuff();
-        $nutrientProperties = $foodstuff->getNutrientNames();
+        $nutrientProperties = NutrientsInterface::NAMES;
 
         $nutrientsDb = [];
         $nutrientNamesDb = [];

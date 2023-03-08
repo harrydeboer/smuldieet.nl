@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Foodstuff;
+use App\Entity\NutrientsInterface;
 use App\Form\CombineFoodstuffsType;
 use App\Form\FoodstuffType;
 use App\Form\DeleteType;
@@ -119,7 +120,7 @@ class FoodstuffController extends Controller
              */
             foreach ($foodstuffWeights as $weight) {
                 $foodstuffWeight = $weight->getFoodstuff();
-                foreach ($foodstuff->getNutrientNames() as $name) {
+                foreach (NutrientsInterface::NAMES as $name) {
                     if (is_null($foodstuffWeight->{'get' . ucfirst($name)}())) {
                         continue;
                     } else {

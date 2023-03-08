@@ -37,8 +37,8 @@ class RecipeFactory extends AbstractFactory
         $recipe->setCookingTime(Recipe::COOKING_TIMES[array_rand(Recipe::COOKING_TIMES)]);
         $recipe->setKitchen(Recipe::KITCHEN[array_rand(Recipe::KITCHEN)]);
         $recipe->setTypeOfDish(Recipe::TYPE_OF_DISH[array_rand(Recipe::TYPE_OF_DISH)]);
-        foreach ($recipe->getDietNames() as $name) {
-            $recipe->{'set' . ucfirst($name)}(rand(0, 1) === 1);
+        foreach (Recipe::getDietChoices() as $choice => $displayName) {
+            $recipe->{'set' . ucfirst($choice)}(rand(0, 1) === 1);
         }
 
         if (isset($params['ratings'])) {

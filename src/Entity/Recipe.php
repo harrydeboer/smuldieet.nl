@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Entity(repositoryClass: RecipeRepository::class),
     ORM\Table(name: "recipe"),
 ]
-class Recipe extends DietProperties implements UploadImageInterface
+class Recipe implements DietInterface, UploadImageInterface
 {
     public const COOKING_TIMES = ['0-10 min.', '10-20 min.', '20-30 min.', '30-60 min.', '> 1 uur', '> 2 uur'];
 
@@ -285,6 +285,33 @@ class Recipe extends DietProperties implements UploadImageInterface
     private ?string $imageExtension = null;
 
     private ?UploadedFile $image = null;
+
+    #[ORM\Column(type: "boolean")]
+    protected bool $vegetarian = false;
+
+    #[ORM\Column(type: "boolean")]
+    protected bool $vegan = false;
+
+    #[ORM\Column(type: "boolean")]
+    protected bool $histamineFree = false;
+
+    #[ORM\Column(type: "boolean")]
+    protected bool $cowMilkFree = false;
+
+    #[ORM\Column(type: "boolean")]
+    protected bool $soyFree = false;
+
+    #[ORM\Column(type: "boolean")]
+    protected bool $glutenFree = false;
+
+    #[ORM\Column(type: "boolean")]
+    protected bool $chickenEggProteinFree = false;
+
+    #[ORM\Column(type: "boolean")]
+    protected bool $nutFree = false;
+
+    #[ORM\Column(type: "boolean")]
+    protected bool $withoutPackagesAndBags = false;
 
     public function __construct()
     {
@@ -689,10 +716,109 @@ class Recipe extends DietProperties implements UploadImageInterface
             $hyphen . $width . '.' . $this->getImageExtension();
     }
 
-    public function getDietNames(): array
+    public function isVegetarian(): bool
     {
-        $nutrientProperties = new DietProperties();
+        return $this->vegetarian;
+    }
 
-        return $nutrientProperties->getNames();
+    public function setVegetarian(bool $vegetarian): void
+    {
+        $this->vegetarian = $vegetarian;
+    }
+
+    public function isVegan(): bool
+    {
+        return $this->vegan;
+    }
+
+    public function setVegan(bool $vegan): void
+    {
+        $this->vegan = $vegan;
+    }
+
+    public function isHistamineFree(): bool
+    {
+        return $this->histamineFree;
+    }
+
+    public function setHistamineFree(bool $histamineFree): void
+    {
+        $this->histamineFree = $histamineFree;
+    }
+
+    public function isCowMilkFree(): bool
+    {
+        return $this->cowMilkFree;
+    }
+
+    public function setCowMilkFree(bool $cowMilkFree): void
+    {
+        $this->cowMilkFree = $cowMilkFree;
+    }
+
+    public function isSoyFree(): bool
+    {
+        return $this->soyFree;
+    }
+
+    public function setSoyFree(bool $soyFree): void
+    {
+        $this->soyFree = $soyFree;
+    }
+
+    public function isGlutenFree(): bool
+    {
+        return $this->glutenFree;
+    }
+
+    public function setGlutenFree(bool $glutenFree): void
+    {
+        $this->glutenFree = $glutenFree;
+    }
+
+    public function isChickenEggProteinFree(): bool
+    {
+        return $this->chickenEggProteinFree;
+    }
+
+    public function setChickenEggProteinFree(bool $chickenEggProteinFree): void
+    {
+        $this->chickenEggProteinFree = $chickenEggProteinFree;
+    }
+
+    public function isNutFree(): bool
+    {
+        return $this->nutFree;
+    }
+
+    public function setNutFree(bool $nutFree): void
+    {
+        $this->nutFree = $nutFree;
+    }
+
+    public function isWithoutPackagesAndBags(): bool
+    {
+        return $this->withoutPackagesAndBags;
+    }
+
+    public function setWithoutPackagesAndBags(bool $withoutPackagesAndBags): void
+    {
+        $this->withoutPackagesAndBags = $withoutPackagesAndBags;
+    }
+
+    public static function getDietChoices(bool $isSnake = false): array
+    {
+        $dietChoicesCamel = DietInterface::CHOICES;
+
+        if (!$isSnake) {
+            return $dietChoicesCamel;
+        }
+
+        $dietChoicesSnake = [];
+        foreach ($dietChoicesCamel as $key => $name) {
+            $dietChoicesSnake[strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $key))] = $name;
+        }
+
+        return $dietChoicesSnake;
     }
 }

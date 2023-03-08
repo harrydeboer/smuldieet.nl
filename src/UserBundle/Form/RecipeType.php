@@ -136,7 +136,7 @@ class RecipeType extends AbstractType
                 'label' => false,
                 'by_reference' => false,
             ]);
-        foreach (Recipe::getDietChoices('snake') as $choice => $label) {
+        foreach (Recipe::getDietChoices(true) as $choice => $label) {
             $builder->add($choice, CheckboxType::class, [
                 'required' => false,
                 'label' => $label,
