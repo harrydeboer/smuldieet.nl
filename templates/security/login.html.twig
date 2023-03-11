@@ -18,17 +18,19 @@
     {% else %}
         {{ page is not null ? page.content|raw : '' }}
         {% if error and error.messageKey == 'Invalid credentials.' %}
-            <div>Ongeldige inloggegevens.</div>
+            <div class="error-message">Ongeldige inloggegevens.</div>
         {% endif %}
         <form action="{{ path('app_login') }}" id="login-form" method="post">
             <div class="row">
                 <div class="col"><label for="username" class="col-form-label">E-mail</label></div>
                 <div class="col"><input type="email" id="username" class="form-control"
-                                        name="_username" value="{{ last_username }}"></div>
+                                        name="_username" value="{{ last_username }}" required></div>
             </div>
             <div class="row">
                 <div class="col"><label for="password" class="col-form-label">Wachtwoord</label></div>
-                <div class="col"><input type="password" id="password" class="form-control" name="_password"></div>
+                <div class="col">
+                    <input type="password" id="password" class="form-control" name="_password" required>
+                </div>
             </div>
             <div class="row">
                 <div class="col">
