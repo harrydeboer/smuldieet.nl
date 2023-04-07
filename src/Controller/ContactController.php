@@ -46,22 +46,22 @@ class ContactController extends Controller
                 $this->profanityCheckService->check($form->get('name')->getData());
                 $this->profanityCheckService->check($form->get('subject')->getData());
                 $this->profanityCheckService->check($form->get('message')->getData());
+
+                $email = (new Email())
+                    ->from(new Address('postmaster@smuldieet.nl', strip_tags($form->get('name')->getData())))
+                    ->replyTo($form->get('email')->getData())
+                    ->to('info@smuldieet.nl')
+                    ->subject(strip_tags($form->get('subject')->getData()))
+                    ->html($form->get('message')->getData());
+
+                try {
+                    $this->mailer->send($email);
+                    $success = 'Bericht verzonden.';
+                } catch (TransportExceptionInterface) {
+                    $error = 'Kon e-mail niet verzenden.';
+                }
             } catch (Exception $exception) {
                 $form->addError(new FormError($exception->getMessage()));
-            }
-
-            $email = (new Email())
-                ->from(new Address('postmaster@smuldieet.nl', strip_tags($form->get('name')->getData())))
-                ->replyTo($form->get('email')->getData())
-                ->to('info@smuldieet.nl')
-                ->subject(strip_tags($form->get('subject')->getData()))
-                ->html($form->get('message')->getData());
-
-            try {
-                $this->mailer->send($email);
-                $success = 'Bericht verzonden.';
-            } catch (TransportExceptionInterface) {
-                $error = 'Kon e-mail niet verzenden.';
             }
         } elseif ($form->isSubmitted()) {
             $error = 'Could not send mail, because this is not the prod environment.';
