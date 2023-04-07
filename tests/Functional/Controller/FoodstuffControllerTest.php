@@ -50,7 +50,7 @@ class FoodstuffControllerTest extends AuthVerifiedWebTestCase
 
         $this->assertResponseIsSuccessful();
 
-        $this->client->request('GET', '/voedingsmiddelen/letter/A');
+        $this->client->request('GET', '/voedingsmiddelen/letter/B');
 
         $this->assertResponseIsSuccessful();
 

@@ -33,8 +33,12 @@ class FoodstuffController extends Controller
         Route('/voedingsmiddelen', name: 'foodstuff', defaults: ['char' => 'A']),
         Route('/voedingsmiddelen/letter/{char}', name: 'foodstuff_char'),
     ]
-    public function view(string $char = 'A'): Response
+    public function view(Request $request, string $char = 'A'): Response
     {
+        if ($request->attributes->get('_route') === 'foodstuff_char' && $char === 'A') {
+            return $this->redirectToRoute('foodstuff');
+        }
+
         $foodstuffs = $this->foodstuffRepository->findAllStartingWith($char, $this->getUser()?->getId());
 
         return $this->render('foodstuff/view.html.twig', [
