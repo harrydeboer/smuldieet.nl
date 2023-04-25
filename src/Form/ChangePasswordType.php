@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints\Length;
 
 class ChangePasswordType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('plain_password', RepeatedType::class, [

@@ -118,6 +118,10 @@ readonly class RDAService
             $densityFactor = 1;
         }
 
+        if ($nutrient->getName() === 'water') {
+            $densityFactor = $densityFactor * (1- $foodstuff->getAlcohol() / 3.987);
+        }
+
         $units = array_merge(Nutrient::SOLID_UNITS, ['stuks' => $foodstuff->getPieceWeight()], Nutrient::LIQUID_UNITS);
 
         $realised = $foodstuff->{'get' . ucfirst($nutrient->getName())}()

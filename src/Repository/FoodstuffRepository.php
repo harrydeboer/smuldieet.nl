@@ -251,7 +251,7 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
     /**
      * @throws Exception
      */
-    private function checkFirstChar(string $name)
+    private function checkFirstChar(string $name): void
     {
         if (!preg_match('/[A-Za-zÀ-ÿ]/', substr($name, 0, 1))) {
             throw new Exception('De naam moet beginnen met een letter.');
@@ -261,7 +261,7 @@ class FoodstuffRepository extends ServiceEntityRepository implements FoodstuffRe
     /**
      * @throws Exception
      */
-    private function checkPieceAndPiecesName(Foodstuff $foodstuff)
+    private function checkPieceAndPiecesName(Foodstuff $foodstuff): void
     {
         if (!is_null($foodstuff->getPieceName()) && is_null($foodstuff->getPiecesName())) {
             throw new Exception('Stuks naam moet zowel in enkelvoud als meervoud.');

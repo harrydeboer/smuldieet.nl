@@ -10,7 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class VerifyType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('send_email_again', SubmitType::class, [
             'attr' => ['class' => 'btn btn-success'],

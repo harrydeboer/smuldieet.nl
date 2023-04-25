@@ -28,7 +28,7 @@ class RecipeWeightType extends AbstractType
     ) {
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addEventListener(FormEvents::SUBMIT, function ($event) {
             $this->addRecipe($event);

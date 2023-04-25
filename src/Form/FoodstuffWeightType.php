@@ -30,7 +30,7 @@ class FoodstuffWeightType extends AbstractType
     ) {
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addEventListener(FormEvents::SUBMIT, function ($event) {
             $this->addFoodstuff($event);
@@ -60,7 +60,7 @@ class FoodstuffWeightType extends AbstractType
         ])->add('value', NumberType::class, [
             'attr' => [
                 'class' => 'form-control foodstuff-weight',
-                'placeholder' => 'gewicht',
+                'placeholder' => 'weging',
             ],
         ])->add('unit', ChoiceType::class, [
             'choices' => array_combine($choicesKeys, $choicesKeys),
