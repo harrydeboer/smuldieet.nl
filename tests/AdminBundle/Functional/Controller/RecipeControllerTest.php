@@ -35,7 +35,7 @@ class RecipeControllerTest extends AuthAdminWebTestCase
 
         $recipe = $recipeRepository->findOneBy(['pending' => false]);
 
-        $this->assertEquals(false, $recipe->isPending());
+        $this->assertFalse($recipe->isPending());
 
         $crawler = $this->client->request('GET', '/admin/recept/wijzig/' . $id);
 

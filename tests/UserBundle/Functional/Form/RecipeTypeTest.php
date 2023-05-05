@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\tests\UserBundle\Functional\Form;
+namespace App\Tests\UserBundle\Functional\Form;
 
 use App\Entity\Recipe;
 use App\Tests\Functional\AuthVerifiedWebTestCase;

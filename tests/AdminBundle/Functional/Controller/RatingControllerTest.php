@@ -35,7 +35,7 @@ class RatingControllerTest extends AuthAdminWebTestCase
 
         $rating = $ratingRepository->findOneBy(['pending' => false]);
 
-        $this->assertEquals(false, $rating->isPending());
+        $this->assertFalse($rating->isPending());
 
         $crawler = $this->client->request('GET', '/admin/recensie/wijzig/' . $id);
 

@@ -35,7 +35,7 @@ class CommentControllerTest extends AuthAdminWebTestCase
 
         $comment = $commentRepository->findOneBy(['pending' => false]);
 
-        $this->assertEquals(false, $comment->isPending());
+        $this->assertFalse($comment->isPending());
 
         $crawler = $this->client->request('GET', '/admin/commentaar/wijzig/' . $id);
 
