@@ -20,26 +20,26 @@ use Symfony\Component\Validator\Constraints as Assert;
 ]
 class Nutrient
 {
-    public const ENERGY_UNITS = [
+    public const array ENERGY_UNITS = [
         'kcal' => 4.184,
         'kJ' => 1,
     ];
 
-    public const SOLID_UNITS = [
+    public const array SOLID_UNITS = [
         'g' => 1,
         'kg' => 1000,
         'el' => 10,
         'tl' => 2,
     ];
 
-    public const LIQUID_UNITS = [
+    public const array LIQUID_UNITS = [
         'ml' => 1,
         'cl' => 10,
         'dl' => 100,
         'l' => 1000,
     ];
 
-    public const VITAMIN_MINERAL_UNITS = [
+    public const array VITAMIN_MINERAL_UNITS = [
         'mg' => 0.001,
         'μg' => 0.000001,
     ];

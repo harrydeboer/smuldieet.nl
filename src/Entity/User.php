@@ -26,7 +26,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 ]
 class User implements UserInterface, PasswordAuthenticatedUserInterface, UploadImageInterface
 {
-    public const GENDER = ['man', 'vrouw'];
+    public const array GENDER = ['man', 'vrouw'];
 
     #[
         ORM\Id,

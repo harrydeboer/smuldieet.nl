@@ -6,7 +6,7 @@ namespace App\Entity;
 
 interface DietInterface
 {
-    public const CHOICES = [
+    public const array CHOICES = [
         'vegetarian' => 'Vegetarisch',
         'vegan' => 'Veganistisch',
         'histamineFree' => 'Histamine vrij',

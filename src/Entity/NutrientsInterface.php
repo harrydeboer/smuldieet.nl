@@ -6,7 +6,7 @@ namespace App\Entity;
 
 interface NutrientsInterface
 {
-    public const NAMES = [
+    public const array NAMES = [
         'energy',
         'water',
         'protein',

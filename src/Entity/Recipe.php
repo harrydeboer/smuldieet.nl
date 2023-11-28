@@ -18,9 +18,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 ]
 class Recipe implements DietInterface, UploadImageInterface
 {
-    public const COOKING_TIMES = ['0-10 min.', '10-20 min.', '20-30 min.', '30-60 min.', '> 1 uur', '> 2 uur'];
+    public const array COOKING_TIMES = ['0-10 min.', '10-20 min.', '20-30 min.', '30-60 min.', '> 1 uur', '> 2 uur'];
 
-    public const OCCASION = [
+    public const array OCCASION = [
         'Familiediner',
         'Halloween',
         'Kerstmis',
@@ -37,7 +37,7 @@ class Recipe implements DietInterface, UploadImageInterface
         'Verjaardag',
     ];
 
-    public const KITCHEN = [
+    public const array KITCHEN = [
         'Afrikaans',
         'Amerikaans',
         'Antilliaans',
@@ -103,7 +103,7 @@ class Recipe implements DietInterface, UploadImageInterface
         'Zwitsers',
     ];
 
-    public const TYPE_OF_DISH = [
+    public const array TYPE_OF_DISH = [
         'Alcoholische dranken',
         'Amuse',
         'Banket',

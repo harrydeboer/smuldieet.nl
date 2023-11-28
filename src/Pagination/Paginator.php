@@ -13,7 +13,7 @@ use function count;
 
 class Paginator
 {
-    public const PAGE_SIZE = 10;
+    public const int PAGE_SIZE = 10;
 
     private DoctrineQueryBuilder $queryBuilder;
     private int $currentPage;
