@@ -1,0 +1,22 @@
+<div id="form_errors_client"></div>
+<div id="form_errors_server">
+    {{ form_errors(form) }}
+    {{ form_errors(form.image) }}
+    {{ form_errors(form.first_name) }}
+    {{ form_errors(form.last_name) }}
+</div>
+{{ form_start(form) }}
+<div class="row">
+    <div class="col"><div id="upload_file_button" class="btn btn-primary">Upload foto</div>
+        {{ form_widget(form.image) }}</div>
+</div>
+<div class="row">
+    <div class="col">Voornaam</div><div class="col">{{ form_widget(form.first_name) }}</div>
+</div>
+<div class="row">
+    <div class="col">Achternaam</div><div class="col">{{ form_widget(form.last_name) }}</div>
+</div>
+<div class="row">
+    <div class="col">{{ form_widget(form.submit, { 'label': 'Wijzig' }) }}</div>
+</div>
+{{ form_end(form) }}

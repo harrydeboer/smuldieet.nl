@@ -1,0 +1,14 @@
+{% extends '@AdminBundle/base.html.twig' %}
+
+{% block title %}Recept{% endblock %}
+
+{% block content %}
+    <div class="div-striped">
+        {% for recipe in recipes %}
+            <div class="row">
+                <div class="col">{{ recipe.title }}</div>
+                <div class="col"><a href="{{ path('admin_recipe_edit', {'id': recipe.id}) }}">wijzig</a></div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,64 @@
+<div id="form_errors_client"></div>
+<div id="form_errors_server">
+    {{ form_errors(form) }}
+    {% if form.user is defined %}
+        {{ form_errors(form.user) }}
+    {% endif %}
+    {{ form_errors(form.name) }}
+    {{ form_errors(form.piece_name) }}
+    {{ form_errors(form.pieces_name) }}
+    {{ form_errors(form.piece_weight) }}
+    {{ form_errors(form.liquid) }}
+    {{ form_errors(form.density) }}
+    {% for nutrient in nutrients %}
+        {{ form_errors(attribute(form, nutrient.nameSnake)) }}
+    {% endfor %}
+</div>
+{% for message in app.flashes('combineFoodstuffs') %}
+    <p>{{ message }}</p>
+{% endfor %}
+{{ form_start(form) }}
+    {% if form.user is defined %}
+        <div class="row">
+            <div class="col">{{ form_label(form.user) }}</div>
+            <div class="col">{{ form_widget(form.user) }}</div>
+        </div>
+    {% endif %}
+<div class="row">
+    <div class="col">{{ form_label(form.name) }}</div>
+    <div class="col">{{ form_widget(form.name) }}</div>
+</div>
+<div class="row">
+    <div class="col">{{ form_label(form.piece_weight) }}</div>
+    <div class="col">{{ form_widget(form.piece_weight) }}</div>
+</div>
+<div class="row">
+    <div class="col">{{ form_label(form.piece_name) }}</div>
+    <div class="col">{{ form_widget(form.piece_name) }}</div>
+</div>
+<div class="row">
+    <div class="col">{{ form_label(form.pieces_name) }}</div>
+    <div class="col">{{ form_widget(form.pieces_name) }}</div>
+</div>
+<div class="row">
+    <div class="col">{{ form_label(form.liquid)}}</div>
+    <div class="col">{{ form_widget(form.liquid) }}</div>
+</div>
+<div class="row">
+    <div class="col">{{ form_label(form.density)}}</div>
+    <div class="col">{{ form_widget(form.density) }}</div>
+</div>
+{% for nutrient in nutrients %}
+    <div class="row">
+        <div class="col">{{ nutrient.displayName }} {{ nutrient.unit }}</div>
+        <div class="col">{{ form_widget(attribute(form, nutrient.nameSnake)) }}</div>
+    </div>
+{% endfor %}
+<div class="row">
+    <div class="col">{{ form_widget(form.submit, { 'label': submit_label }) }}</div>
+</div>
+{{ form_end(form) }}
+
+{% block javascripts %}
+    <script src="{{ asset('dist/foodstuff_weights.min.js') }}"></script>
+{% endblock %}

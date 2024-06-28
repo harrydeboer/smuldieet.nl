@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block nav %}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <button class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbar_supported_content"
+                    aria-controls="navbar_supported_content"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbar_supported_content">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li><a href="{{ path('admin_homepage') }}">Home</a></li>
+                    <li><a href="{{ path('admin_pages') }}">Pagina's</a></li>
+                    <li><a href="{{ path('admin_users') }}">Gebruikers</a></li>
+                    <li><a href="{{ path('admin_foodstuffs') }}">Voedingsmiddelen</a></li>
+                    <li><a href="{{ path('admin_recipes') }}">Recepten</a></li>
+                    <li><a href="{{ path('admin_reviews') }}">Recensies</a></li>
+                    <li><a href="{{ path('admin_profanities') }}">Scheldwoorden</a></li>
+                    <li><a href="{{ path('admin_nutrients') }}">Voedingsstoffen</a></li>
+                    <li><a href="{{ path('admin_comments') }}">Commentaar</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+{% endblock %}

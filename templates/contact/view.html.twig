@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ page is not null ? page.title : '' }}{% endblock %}
+
+{% block content %}
+    {{ page is not null ? page.content|raw : '' }}
+    <div id="form_errors_client"></div>
+    <div id="form_errors_server">
+        {{ form_errors(form) }}
+        {{ form_errors(form.name) }}
+        {{ form_errors(form.subject) }}
+        {{ form_errors(form.email) }}
+        {{ form_errors(form.message) }}
+    </div>
+    {% if success is null and error is null %}
+    {% elseif success %}
+        <div class="success-message">{{ success }}</div>
+    {% elseif error %}
+        <div class="error-message">{{ error }}</div>
+    {% endif %}
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col">{{ form_label(form.name) }}</div>
+        <div class="col">{{ form_widget(form.name) }}</div>
+    </div>
+    <div class="row">
+        <div class="col">{{ form_label(form.subject) }}</div>
+        <div class="col">{{ form_widget(form.subject) }}</div>
+    </div>
+    <div class="row">
+        <div class="col">{{ form_label(form.email) }}</div>
+        <div class="col">{{ form_widget(form.email) }}</div>
+    </div>
+    <div class="row">
+        <div class="col">{{ form_label(form.message) }}</div>
+        <div class="col">{{ form_widget(form.message) }}</div>
+    </div>
+    <div class="row">
+        <div class="col">{{ form_widget(form.send, { 'label': 'Verzenden' }) }}</div>
+    </div>
+    {{ form_widget(form.re_captcha_token) }}
+    {{ form_end(form) }}
+{% endblock %}

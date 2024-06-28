@@ -1,0 +1,11 @@
+{% extends '@UserBundle/base.html.twig' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    {% if user.imageExtension is not null %}
+        <img src="{{ asset(user.imageUrl(600)) }}" id="user_panel_avatar" alt="Image" width="600">
+    {% endif %}
+    <h3>Welkom {{ user.username }}</h3>
+    <a href="{{ path('user_edit', {'id':user.id}) }}">Wijzig je gegevens.</a>
+{% endblock %}

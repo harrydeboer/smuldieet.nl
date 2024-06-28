@@ -1,0 +1,31 @@
+{% extends '@AdminBundle/base.html.twig' %}
+
+{% block title %}Voedingsmiddel{% endblock %}
+
+{% block content %}
+    <select id="abc_select">
+        {% for char in 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z'|split(',') %}
+            {% if char == charSelected %}
+                <option value="{{ char }}" selected>{{ char }}</option>
+            {% else %}
+                <option value="{{ char }}">{{ char }}</option>
+            {% endif %}
+        {% endfor %}
+    </select>
+    <div id="abc_route" data-route="{{ path('admin_foodstuffs_char') }}"></div>
+    <div id="abc_chars">
+        {% for char in 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z'|split(',') %}
+            <a href="{{ path('admin_foodstuffs_char', {'char': char}) }}">{{ char }}</a>
+        {% endfor %}
+    </div>
+    <div class="div-striped">
+        {% for foodstuff in foodstuffs %}
+            <div class="row">
+                <div class="col">{{ foodstuff.name }}</div>
+                <div class="col">
+                    <a href="{{ path('admin_foodstuff_edit', {'id': foodstuff.id}) }}">wijzig</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

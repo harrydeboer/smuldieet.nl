@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ page is not null ? page.title : '' }}{% endblock %}
+
+{% block content %}
+    <h1>Voedingsmiddelen</h1>
+    {% if currentUser is not null %}
+        {{ page is not null ? page.content|raw : '' }}
+        <a href="{{ path('combine_foodstuffs') }}">Maak een voedingsmiddel van voedingsmiddelen</a><br>
+    {% endif %}
+    <br>
+    <select id="abc_select">
+        {% for char in 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z'|split(',') %}
+            {% if char == charSelected %}
+                <option value="{{ char }}" selected>{{ char }}</option>
+            {% else %}
+                <option value="{{ char }}">{{ char }}</option>
+            {% endif %}
+        {% endfor %}
+    </select>
+    <div id="abc_route" data-route="{{ path('foodstuff_char') }}"></div>
+    <div id="abc_chars">
+        {% for char in 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z'|split(',') %}
+            <a href="{{ path('foodstuff_char', {'char': char}) }}">{{ char }}</a>
+        {% endfor %}
+    </div>
+    <div class="div-striped">
+        {% for foodstuff in foodstuffs %}
+            <div class="row">
+                <div class="col">
+                    <a href="{{ path('foodstuff_single', {'id': foodstuff.id}) }}">{{ foodstuff.name }}</a>
+                </div>
+                {% if currentUser is not null and foodstuff.user == currentUser %}
+                    <div class="col">
+                        <a href="{{ path('foodstuff_edit', {'id': foodstuff.id }) }}">wijzig</a>
+                    </div>
+                {% else %}
+                    <div class="col"></div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

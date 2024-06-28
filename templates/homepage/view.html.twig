@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ page is not null ? page.title : '' }}{% endblock %}
+
+{% block content %}
+    {% for message in app.flashes('success') %}
+        <div class="flash-notice-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('mustVerify') %}
+        <div class="flash-notice-must-verify">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {{ page is not null ? page.content|raw : '' }}
+    <div id="form_errors_client"></div>
+    <div id="form_errors_server">
+        {{ form_errors(form) }}
+        {{ form_errors(form.title) }}
+        {{ form_errors(form.type_of_dish) }}
+        {{ form_errors(form.cooking_time) }}
+        {{ form_errors(form.kitchen) }}
+        {{ form_errors(form.occasion) }}
+        {% for choice,label in dietChoices %}
+            {{ form_errors(attribute(form, choice)) }}
+        {% endfor %}
+        {{ form_errors(form.sort) }}
+    </div>
+    <br>
+    {{ form_start(form) }}
+    {{ form_widget(form.title) }}<img src="{{ asset('img/sliders-filter.png') }}" alt="filter"
+        id="recipe_filter_icon" width="27">
+    <img src="{{ asset('img/search.png') }}" alt="search" id="recipe_search_icon" width="40">
+    {{ form_widget(form.show, {'attr': {'class': 'd-none'}}) }}
+    <div id="filter_sort_div" class="d-none">
+        {{ form_widget(form.type_of_dish) }}
+        {{ form_widget(form.cooking_time) }}
+        {{ form_widget(form.kitchen) }}
+        {{ form_widget(form.occasion) }}
+        <div class="dropdown" id="diet">
+            <div class="form-control form-select" id="diet_filter" role="button"
+                 data-bs-toggle="dropdown" aria-expanded="false">Dieet</div>
+            <div class="dropdown-menu dropdown-diet" aria-labelledby="diet_filter">
+                {% for choice,label in dietChoices %}
+                    <div class="row">
+                        <div class="col-9">{{ form_label(attribute(form, choice)) }}</div>
+                        <div class="col">{{ form_widget(attribute(form, choice)) }}</div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        {{ form_widget(form.sort) }}
+    </div>
+    {{ form_end(form) }}
+    <br>
+    {% if not isFiltered %}
+        <h2 id="recipes_heading">Recente recepten</h2>
+    {% else %}
+        <h2 id="recipes_search">Zoekresultaten</h2>
+    {% endif %}
+    <div class="div-striped">
+        {% for recipe in paginator.results %}
+            <div class="row">
+                <div class="col">
+                    {% if recipe.imageExtension is not null %}
+                        <img src="{{ asset(recipe.imageUrl(100)) }}" width="100"
+                             alt="label" class="img-fluid recipe-image">
+                    {% endif %}
+                </div>
+                <div class="col"><a href="{{ path('recipe_single', {'id': recipe.id}) }}">{{ recipe.title }}</a></div>
+                {% if recipe.rating is null %}
+                    <div class="col"></div>
+                {% else %}
+                    <div class="col">
+                        <span class="nowrap">
+                            {% if recipe.rating >= 9.95 %}
+                                {{ recipe.rating|number_format(0) }} &nbsp;<img alt="star"
+                                    src="{{ asset('img/star-gold.png') }}" width="22">
+                            {% else %}
+                                {{ recipe.rating|number_format(1) }} <img alt="star"
+                                        src="{{ asset('img/star-gold.png') }}" width="22">
+                            {% endif %}
+                        </span>
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+    {% if isFiltered %}
+        {{ include('pagination/view.html.twig', {route: 'homepage_index_paginated'}) }}
+    {% endif %}
+{% endblock %}

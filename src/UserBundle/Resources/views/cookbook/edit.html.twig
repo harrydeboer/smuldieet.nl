@@ -1,0 +1,16 @@
+{% extends '@UserBundle/base.html.twig' %}
+
+{% block title %}Wijzig{% endblock %}
+
+{% block content %}
+    {{ include('@UserBundle/cookbook/_form.html.twig', {submit_label: 'Wijzig kookboek'}) }}
+    <br>
+    {{ include('_delete_confirmation.html.twig', {
+        entityName: 'kookboek',
+        warning: 'Weet je zeker dat je dit kookboek wilt verwijderen?'
+    }) }}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('dist/recipe_weights.min.js') }}"></script>
+{% endblock %}

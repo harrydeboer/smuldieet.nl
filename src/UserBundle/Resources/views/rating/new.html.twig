@@ -1,0 +1,7 @@
+{% extends '@UserBundle/base.html.twig' %}
+
+{% block title %}Maak recensie{% endblock %}
+
+{% block content %}
+    {{ include('@UserBundle/rating/_form.html.twig', {submit_label: 'Recensie opslaan'}) }}
+{% endblock %}

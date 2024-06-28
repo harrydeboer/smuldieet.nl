@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ page is not null ? page.title : '' }}{% endblock %}
+
+{% block content %}
+    <h1>Dagen</h1>
+    <div><a href="{{ path('day_create') }}">Maak een dag</a></div>
+    {% if standardDay is null %}
+        {{ page is not null ? page.content|raw : '' }}
+    {% else %}
+        <br>
+    {% endif %}
+    {% if standardDay is not null %}
+        <div><a href="{{ path('day_edit', {'id': standardDay.id}) }}">Wijzig de standaard dag</a></div>
+    {% else %}
+        <div><a href="{{ path('day_create_standard') }}">Maak de standaard dag</a></div>
+    {% endif %}
+    {% if paginator.results is empty %}
+        <br><p>Er zijn nog geen dagen toegevoegd aan je dagboek.</p>
+    {% else %}
+        <div class="div-striped">
+            <div class="row">
+                <div class="col">Datum</div>
+                <div class="col">Wijzig</div>
+            </div>
+            {% for day in paginator.results %}
+                <div class="row">
+                    <div class="col">
+                        <a href="{{ path('day_single', {'id': day.id}) }}">{{ day.date|date('d-M-Y') }}</a>
+                    </div>
+                    <div class="col">
+                        <a href="{{ path('day_edit', {'id': day.id }) }}">wijzig</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {{ include('pagination/view.html.twig', {route: 'diary_index_paginated'}) }}
+    {% endif %}
+{% endblock %}

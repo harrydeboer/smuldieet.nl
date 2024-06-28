@@ -1,0 +1,218 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Recept{% endblock %}
+
+{% block content %}
+    {% if isLoggedIn %}
+        {{ include('rating/_rating_modal.html.twig') }}
+    {% endif %}
+    <h2>{{ recipe.title }}</h2>
+    {% if recipe.imageExtension is not null %}
+        <div>
+            <img src="{{  asset(recipe.imageUrl(600)) }}"
+                 id="recipe_image"
+                 class="img-fluid"
+                 width="600"
+                 alt="recipe">
+        </div>
+    {% endif %}
+    <span class="no-wrap">
+        <img src="{{ asset('img/clock.png') }}" alt="clock" width="28">
+        {{ recipe.cookingTime }}
+        <img src="{{ asset('/img/kitchen.png') }}" id="kitchen_icon" alt="kitchen" width="28">
+        {{ recipe.kitchen }}
+    </span>
+    <span class="no-wrap">
+        <img src="{{ asset('/img/knife-fork.png') }}" id="knife_fork_icon" alt="knife-fork" width="25">
+        {{ recipe.typeOfDish }}
+        <img src="{{ asset('/img/person.png') }}" alt="user" width="22">
+        {{ recipe.numberOfPersons }}
+    </span>
+    {% for tag in recipe.tags %}
+        {{ tag.name }}
+    {% endfor %}
+    <div id="form_errors_client"></div>
+    {% if formLoseRecipe is not null %}
+        <div id="form_errors_server">
+            {{ form_errors(formLoseRecipe) }}
+        </div>
+        {{ form_start(formLoseRecipe) }}
+        {{ form_widget(formLoseRecipe.submit, { 'label': 'Verwijder' }) }}
+        {{ form_end(formLoseRecipe) }}
+    {% elseif formSaveRecipe is not null %}
+        <div id="form_errors_server">
+            {{ form_errors(formSaveRecipe) }}
+        </div>
+        {{ form_start(formSaveRecipe) }}
+        {{ form_widget(formSaveRecipe.submit, { 'label': 'Bewaar' }) }}
+        {{ form_end(formSaveRecipe) }}
+    {% endif %}
+    <br>
+    <br>
+    <div class="div-striped">
+        <div class="row">
+            <div class="col">Smuldieet waardering</div>
+            <div class="col">&nbsp;&nbsp;Jouw waardering</div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div>
+                    {% if recipe.rating is null %}
+                        N/B
+                        <br>
+                        <br>
+                    {% else %}
+                        {{ recipe.rating|number_format(1) }} <img src="{{ asset('img/star-gold.png') }}"
+                                                                  alt="star"
+                                                                  width="22"><br>
+                        {{ recipe.votes }}
+                        {% if recipe.votes == 1 %}
+                            stem
+                        {% else %}
+                            stemmen
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col">
+                {% if isLoggedIn %}
+                    <div id="rate_modal_button" class="fw-bold">&nbsp;&nbsp;
+                        {% if rating is null %}
+
+                            Waardeer <img src="{{ asset('img/star.png') }}"
+                                          alt="star"
+                                          id="rate_modal_button_star"
+                                          width="22">
+                        {% else %}
+                            {{ rating.rating }} <img src="{{ asset('img/star-solid.png') }}"
+                                                     alt="star"
+                                                     id="rate_modal_button_star"
+                                                     width="22">
+                        {% endif %}
+                        <br>
+                        <br>
+                    </div>
+                {% else %}
+                    &nbsp;&nbsp;<a href="{{ path('app_login') }}" id="rate_recipe_login">Waardeer
+                    <img src="{{ asset('img/star.png') }}"
+                         alt="star"
+                         width="22">
+                </a>
+                    <br>
+                    <br>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div id="single_recipe">
+        {% if recipe.url is not null %}
+            <div class="fw-bold">Url</div>
+            {{ recipe.url }}
+        {% endif %}
+        <div class="fw-bold">Ingrediënten</div>
+        {{ recipe.ingredients|nl2br }}
+        <br>
+        <br>
+        <div class="fw-bold">Voedingsmiddelen gerecht</div>
+        {% for id, weight in recipe.foodstuffWeights %}
+            <div class="row">
+                <div class="col">{{ weight.foodstuff.name }}</div>
+                <div class="col">{{ weight.value|number_format }}
+                    {% if weight.foodstuff.pieceName is not null
+                        and weight.value >= 2
+                        and weight.unit == 'stuks' %}
+                        {{ weight.foodstuff.piecesName }}
+                    {% elseif weight.foodstuff.pieceName is not null
+                        and weight.value < 2
+                        and weight.unit == 'stuks' %}
+                        {{ weight.foodstuff.pieceName }}
+                    {% else %}
+                        {{ weight.unit }}
+                    {% endif %}</div>
+            </div>
+        {% endfor %}
+        <div class="fw-bold">Bereidingswijze</div>
+        {{ recipe.preparationMethod|nl2br }}
+        {% if recipe.source is not null %}
+            <br>
+            <br>
+            <div class="fw-bold">Bron</div>
+            {{ recipe.source }}
+        {% endif %}
+        {% if recipe.occasion is not null %}
+            <br>
+            <div class="fw-bold">Gelegenheid</div>
+            {{ recipe.occasion }}
+        {% endif %}
+        {% if hasDiet %}
+            <br>
+            <br>
+            <div class="fw-bold">Dieet</div>
+        {% endif %}
+        {% for choice in diet  %}
+            <div>{{ choice }}</div>
+        {% endfor %}
+        <br>
+        Reviews {{ paginatorReviews.results|length }}
+        {% if isLoggedIn %}
+            {% if rating is null %}
+                <a href="{{ path('user_review_create', {'recipeId': recipe.id}) }}">schrijf een recensie</a>.
+            {% else %}
+                <a href="{{ path('user_review_edit', {'id': rating.id}) }}">schrijf een recensie</a>.
+            {% endif %}
+        {% endif %}
+        <div class="div-striped">
+            {% for review in paginatorReviews.results %}
+                <div class="row">
+                    <div class="col">
+                        {{ review.rating }} <img src="{{ asset('img/star-gold.png') }}"
+                                                 alt="star"
+                                                 width="22">
+                    </div>
+                    <div class="col">
+                        {{ review.content|length > 10 ? review.content|slice(0, 10) ~ '...' : review.content }}
+                    </div>
+                    <div class="col">
+                        <a href="{{ path('review_single', {'id': review.id}) }}">toon volledige recensie</a>
+                    </div>.
+                </div>
+            {% endfor %}
+        </div>
+        {{ include('pagination/view.html.twig',
+            {paginator: paginatorReviews, route: 'recipe_review_index_paginated'}) }}
+        <br>
+        <div id="comments">Reacties {{ paginatorComments.results|length }}</div>
+        {% if isLoggedIn %}
+            <div id="form_errors_client"></div>
+            <div id="form_errors_server">
+                {{ form_errors(formComment) }}
+                {{ form_errors(formComment.content) }}
+            </div>
+            {% for message in app.flashes('comment_pending') %}
+                <div class="success-message">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            {% for message in app.flashes('comment_exception') %}
+                <div class="error-message">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            {{ form_start(formComment) }}
+            {{ form_widget(formComment.content) }}
+            {{ form_widget(formComment.place, { 'label': 'Plaatsen' }) }}
+            {{ form_end(formComment) }}
+        {% endif %}
+        {% for comment in paginatorComments.results %}
+            <img src="{{ asset(comment.user.imageUrl(100)) }}" class="comment-avatar" alt="Avatar" width="100">
+            {{ comment.user.username }} {{ comment.date|date('d-M-Y') }} {{ comment.content }}<br>
+        {% endfor %}
+        {{ include('pagination/view.html.twig',
+            {paginator: paginatorComments, route: 'recipe_comment_index_paginated'}) }}
+        {% if currentUserId == recipe.user.id %}
+            <div><a href="{{ path('user_recipe_edit', {'id': recipe.id}) }}">wijzig</a></div>
+        {% endif %}
+    </div>
+{% endblock %}

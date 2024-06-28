@@ -1,0 +1,14 @@
+<div id="form_errors_client"></div>
+<div id="form_errors_server">
+    {{ form_errors(form) }}
+    {{ form_errors(form.name) }}
+</div>
+{{ form_start(form) }}
+<div class="row">
+    <div class="col">{{ form_label(form.name) }}</div>
+    <div class="col">{{ form_widget(form.name) }}</div>
+</div>
+<div class="row">
+    <div class="col">{{ form_widget(form.submit, { 'label': submit_label }) }}</div>
+</div>
+{{ form_end(form) }}

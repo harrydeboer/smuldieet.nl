@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Waardering{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">Gebruikersnaam</div>
+        <div class="col">{{ rating.user.username }}</div>
+    </div>
+    <div class="row">
+        <div class="col">Datum</div>
+        <div class="col">{{ rating.date|date('d-M-Y') }}</div>
+    </div>
+    <div class="row">
+        <div class="col">Waardering</div>
+        <div class="col">{{ rating.rating }}</div>
+    </div>
+    <div class="row">
+        <div class="col">Recensie</div>
+        <div class="col">{{ rating.content }}</div>
+    </div>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends '@UserBundle/base.html.twig' %}
+
+{% block title %}Wijzig{% endblock %}
+
+{% block content %}
+    {{ include('@UserBundle/rating/_form.html.twig', {rating, submit_label: 'Wijzig recensie'}) }}
+    <br>
+    {{ include('_delete_confirmation.html.twig', {
+        entityName: 'recensie',
+        warning: 'Weet je zeker dat je deze recensie wilt verwijderen?'
+    }) }}
+{% endblock %}

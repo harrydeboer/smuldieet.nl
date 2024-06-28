@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block nav %}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <button class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbar_supported_content"
+                    aria-controls="navbar_supported_content"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbar_supported_content">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li><a href="{{ path('user_homepage') }}">Home</a></li>
+                    <li><a href="{{ path('user_recipes') }}">Recepten</a></li>
+                    <li><a href="{{ path('user_cookbooks') }}">Kookboeken</a></li>
+                    <li><a href="{{ path('user_saved_recipes') }}">Bewaarde Recepten</a></li>
+                    <li><a href="{{ path('user_ratings') }}">Waarderingen</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+{% endblock %}

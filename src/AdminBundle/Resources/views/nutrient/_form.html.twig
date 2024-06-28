@@ -1,0 +1,56 @@
+<div id="form_errors_client"></div>
+<div id="form_errors_server">
+    {{ form_errors(form) }}
+    {{ form_errors(form.display_name) }}
+    {{ form_errors(form.min_rda) }}
+    {{ form_errors(form.max_rda) }}
+    {{ form_errors(form.unit) }}
+    {{ form_errors(form.decimal_places) }}
+</div>
+{{ form_start(form) }}
+ {% for message in app.flashes('error') %}
+     <div class="flash-notice-error">
+         {{ message }}
+     </div>
+ {% endfor %}
+{% set classes = form.unit.vars.attr.class %}
+{% if nutrient.name != 'energy' %}
+    {% set classes = classes~' not-energy' %}
+{% else %}
+    {% set classes = classes~' not-solid not-vitamin-mineral' %}
+{% endif %}
+{% set extraLabel = '' %}
+{% if nutrient.name == 'protein' or nutrient.name == 'water' %}
+    {% set extraLabel = 'per kg lichaamsgewicht' %}
+{% endif %}
+{% if nutrient.name != 'water' %}
+    {% set classes = classes~' not-liquid' %}
+{% endif %}
+<div class="row">
+    <div class="col">Naam</div>
+    <div class="col">{{ nutrient.name }}</div>
+</div>
+<div class="row">
+    <div class="col">{{ form_label(form.display_name) }}</div>
+    <div class="col">{{ form_widget(form.display_name) }}</div>
+</div>
+<div class="row">
+    <div class="col">{{ form_label(form.min_rda) }} {{ extraLabel }}</div>
+    <div class="col">{{ form_widget(form.min_rda) }}</div>
+</div>
+<div class="row">
+    <div class="col">{{ form_label(form.max_rda)}} {{ extraLabel }}</div>
+    <div class="col">{{ form_widget(form.max_rda) }}</div>
+</div>
+<div class="row">
+    <div class="col">{{ form_label(form.unit) }}</div>
+    <div class="col">{{ form_widget(form.unit, {'attr':{'class':classes}}) }}</div>
+</div>
+<div class="row">
+    <div class="col">{{ form_label(form.decimal_places) }}</div>
+    <div class="col">{{ form_widget(form.decimal_places) }}</div>
+</div>
+<div class="row">
+    <div class="col">{{ form_widget(form.submit, { 'label': submit_label }) }}</div>
+</div>
+{{ form_end(form) }}

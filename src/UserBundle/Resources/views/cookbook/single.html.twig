@@ -1,0 +1,20 @@
+{% extends '@UserBundle/base.html.twig' %}
+
+{% block title %}Kookboek{% endblock %}
+
+{% block content %}
+        <div class="row">
+            <div class="col">Titel</div>
+            <div class="col">{{ cookbook.title }}</div>
+        </div>
+        {% for weight in cookbook.recipeWeights %}
+            <div class="row">
+                <div class="col">{{ weight.recipe.title }}</div>
+            </div>
+        {% endfor %}
+        <div class="row">
+            <div class="col">
+                <a href="{{ path('user_cookbook_edit', {'id': cookbook.id}) }}">wijzig</a>
+            </div>
+        </div>
+{% endblock %}

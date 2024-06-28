@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ page is not null ? page.title : '' }}{% endblock %}
+
+{% block content %}
+    {{ page is not null ? page.content|raw : '' }}
+    <div id="form_errors_client"></div>
+    <div id="form_errors_server">
+        {{ form_errors(form) }}
+        {{ form_errors(form.start) }}
+        {{ form_errors(form.end) }}
+    </div>
+    {{ form_start(form, {'attr':{'class':'form-inline'}}) }}
+    <div class="row">
+        <div class="col">{{ form_label(form.start) }}</div>
+        <div class="col">{{ form_label(form.end) }}</div>
+    </div>
+    <div class="row">
+        <div class="col">{{ form_widget(form.start) }}</div>
+        <div class="col">{{ form_widget(form.end) }}</div>
+    </div>
+    <div class="row">
+        <div class="col">{{ form_widget(form.submit, { 'label': 'Bekijk' }) }}</div>
+        <div class="col"></div>
+    </div>
+    {{ form_end(form) }}
+    {% if nutrients is not empty %}
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Voedingsstof en eenheid</th>
+                <th scope="col">Min ADH</th>
+                <th scope="col">Max ADH</th>
+                <th scope="col">Feitelijk</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for nutrient in nutrients %}
+                <tr>
+                    <td>{{ nutrient.displayName }} {{ nutrient.unit }}</td>
+                    <td>{{ nutrient.minRDA }}</td>
+                    {% if nutrient.maxRDA is null %}
+                        <td>N/B</td>
+                    {% else %}
+                        <td>{{ nutrient.maxRDA }}</td>
+                    {% endif %}
+                    <td>{{ nutrient.realised|number_format(nutrient.decimalPlaces) }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% elseif isSubmitted %}
+        <p>Geen dagen gevonden tussen deze twee datums.</p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends '@UserBundle/base.html.twig' %}
+
+{% block title %}{{ page is not null ? page.title : '' }}{% endblock %}
+
+{% block content %}
+    {{ page is not null ? page.content|raw : '' }}
+    <a href="{{ path('user_recipe_create') }}">Maak een recept</a>
+    {% if paginator.results is empty %}
+        <p>Je hebt nog geen recepten gemaakt.</p>
+    {% else %}
+        <div class="div-striped">
+            <div class="row">
+                <div class="col"></div>
+                <div class="col">Titel</div>
+                <div class="col">Wijzig</div>
+            </div>
+            {% for recipe in paginator.results %}
+                <div class="row">
+                    <div class="col">
+                        {% if recipe.imageExtension is not null %}
+                            <img src="{{ asset(recipe.imageUrl(100)) }}" width="100"
+                                 alt="label" class="img-fluid recipe-image">
+                        {% endif %}
+                    </div>
+                    <div class="col">
+                        <a href="{{ path('recipe_single', {'id': recipe.id}) }}">{{ recipe.title }}</a>
+                    </div>
+                    <div class="col"><a href="{{ path('user_recipe_edit', {'id': recipe.id }) }}">wijzig</a></div>
+                </div>
+            {% endfor %}
+        </div>
+        {{ include('pagination/view.html.twig', {route: 'user_recipes_index_paginated'}) }}
+    {% endif %}
+{% endblock %}

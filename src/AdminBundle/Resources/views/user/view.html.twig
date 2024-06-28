@@ -1,0 +1,16 @@
+{% extends '@AdminBundle/base.html.twig' %}
+
+{% block title %}Gebruiker{% endblock %}
+
+{% block content %}
+    <a href="{{ path('admin_user_create') }}">Maak een gebruiker</a>
+    <div class="div-striped">
+        {% for user in paginator.results %}
+            <div class="row">
+                <div class="col">{{ user.username }}</div>
+                <div class="col"><a href="{{ path('admin_user_edit', {'id': user.id}) }}">wijzig</a></div>
+            </div>
+        {% endfor %}
+    </div>
+    {{ include('pagination/view.html.twig', {route: 'admin_users_index_paginated'}) }}
+{% endblock %}

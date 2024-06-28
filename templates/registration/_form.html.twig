@@ -1,0 +1,89 @@
+<div id="form_errors_client"></div>
+<div id="form_errors_server">
+    {{ form_errors(form) }}
+    {{ form_errors(form.image) }}
+    {{ form_errors(form.username) }}
+    {% if form.first_name is defined %}
+        {{ form_errors(form.first_name) }}
+    {% endif %}
+    {% if form.last_name is defined %}
+        {{ form_errors(form.last_name) }}
+    {% endif %}
+    {{ form_errors(form.email) }}
+    {{ form_errors(form.birthdate) }}
+    {{ form_errors(form.gender) }}
+    {{ form_errors(form.weight) }}
+    {% if form.roles is defined %}
+        {{ form_errors(form.roles) }}
+    {% endif %}
+    {% if form.verified is defined %}
+        {{ form_errors(form.verified) }}
+    {% endif %}
+    {{ form_errors(form.plain_password) }}
+    {{ form_errors(form.plain_password.children.first) }}
+    {{ form_errors(form.plain_password.children.second) }}
+</div>
+{{ form_start(form) }}
+<div class="row">
+    <div class="col-9">
+        <button id="upload_file_button" class="btn btn-primary">Upload foto</button>{{ form_widget(form.image) }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-6">{{ form_label(form.username) }}</div>
+    <div class="col">{{ form_widget(form.username) }}</div>
+</div>
+{% if form.first_name is defined %}
+    <div class="row">
+        <div class="col-6">{{ form_label(form.first_name) }}</div>
+        <div class="col">{{ form_widget(form.first_name) }}</div>
+    </div>
+{% endif %}
+    {% if form.last_name is defined %}
+        <div class="row">
+            <div class="col-6">{{ form_label(form.last_name) }}</div>
+            <div class="col">{{ form_widget(form.last_name) }}</div>
+        </div>
+    {% endif %}
+<div class="row">
+    <div class="col-6">{{ form_label(form.email) }}</div>
+    <div class="col">{{ form_widget(form.email) }}</div>
+</div>
+<div class="row">
+    <div class="col-6">{{ form_label(form.birthdate) }}</div>
+    <div class="col">
+        {{ form_widget(form.birthdate, {'attr': {'class': 'date-field form-control'}}) }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-6">{{ form_label(form.gender) }}</div>
+    <div class="col">{{ form_widget(form.gender) }}</div>
+</div>
+<div class="row">
+    <div class="col-6">{{ form_label(form.weight) }}</div>
+    <div class="col">{{ form_widget(form.weight) }}</div>
+</div>
+{% if form.roles is defined %}
+    <div class="row">
+        <div class="col-6">{{ form_label(form.roles) }}</div>
+        <div class="col">{{ form_widget(form.roles) }}</div>
+    </div>
+{% endif %}
+    {% if form.verified is defined %}
+        <div class="row">
+            <div class="col-6">{{ form_label(form.verified) }}</div>
+            <div class="col">{{ form_widget(form.verified) }}</div>
+        </div>
+    {% endif %}
+<div class="row">
+    <div class="col-6">{{ form_label(form.plain_password.children.first) }}</div>
+    <div class="col">{{ form_widget(form.plain_password.children.first) }}</div>
+</div>
+<div class="row">
+    <div class="col-6">{{ form_label(form.plain_password.children.second) }}</div>
+    <div class="col">{{ form_widget(form.plain_password.children.second) }}</div>
+</div>
+<div class="row">
+    <div class="col-6">{{ form_widget(form.register, { 'label': submit_label }) }}</div>
+</div>
+{{ form_end(form) }}

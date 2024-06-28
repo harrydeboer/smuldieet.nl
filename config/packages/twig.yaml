@@ -1,0 +1,15 @@
+twig:
+    file_name_pattern: '*.twig'
+
+    paths:
+        'src/AdminBundle/Resources/views': 'AdminBundle'
+        'src/UserBundle/Resources/views': 'UserBundle'
+
+    number_format:
+        decimals: 0
+        decimal_point: ','
+        thousands_separator: ''
+
+when@test:
+    twig:
+        strict_variables: true

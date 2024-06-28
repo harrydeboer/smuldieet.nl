@@ -1,0 +1,15 @@
+<div id="form_errors_client"></div>
+<div id="form_errors_server">
+    {{ form_errors(form) }}
+    {{ form_errors(form.rating) }}
+    {{ form_errors(form.content) }}
+</div>
+{{ form_start(form) }}
+<div class="fw-bold">Recept</div>
+{{ rating.recipe.title }}
+<div class="fw-bold">{{ form_label(form.rating) }}</div>
+{{ form_widget(form.rating) }}
+<div class="fw-bold">{{ form_label(form.content) }}</div>
+{{ form_widget(form.content) }}
+<div>{{ form_widget(form.submit, { 'label': submit_label }) }}</div>
+{{ form_end(form) }}

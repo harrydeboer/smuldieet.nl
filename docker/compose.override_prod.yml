@@ -1,0 +1,30 @@
+services:
+  web:
+    build:
+      args:
+        APP_ENV: prod
+    volumes:
+      - uploadsPublic:/var/www/html/public/uploads
+      - ./public/.well-known/acme-challenge:/var/www/html/public/.well-known/acme-challenge
+    restart: always
+    networks:
+      smuldieet:
+        ipv4_address: 172.20.0.6
+  database:
+    ports:
+      - 127.0.0.1:${DB_PORT}:${DB_PORT}
+    restart: always
+    networks:
+      smuldieet:
+        ipv4_address: 172.20.0.7
+
+volumes:
+  uploadsPublic:
+    driver: local
+
+networks:
+  smuldieet:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.0.0/24

@@ -1,0 +1,16 @@
+{% extends '@AdminBundle/base.html.twig' %}
+
+{% block title %}Voedingsstoffen{% endblock %}
+
+{% block content %}
+    <div class="div-striped">
+        {% for nutrient in nutrients %}
+            <div class="row">
+                <div class="col">{{ nutrient.displayName }}</div>
+                <div class="col">
+                    <a href="{{ path('admin_nutrient_edit', {'id': nutrient.id}) }}">wijzig</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

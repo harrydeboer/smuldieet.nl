@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ page is not null ? page.title : '' }}{% endblock %}
+
+{% block content %}
+    {{ page is not null ? page.content|raw : '' }}
+    {% for message in app.flashes('verify_email_error') %}
+        <div class="flash-notice">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {{ include('registration/_form.html.twig', {submit_label: 'Registreren'}) }}
+{% endblock %}

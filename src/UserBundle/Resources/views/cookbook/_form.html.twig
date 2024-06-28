@@ -1,0 +1,23 @@
+<div id="form_errors_client"></div>
+<div id="form_errors_server">
+    {{ form_errors(form) }}
+    {{ form_errors(form.title) }}
+    {{ form_errors(form.recipe_weights) }}
+</div>
+{{ form_start(form, { 'attr' : { 'class': 'recipe-weights-form' }}) }}
+<div class="row">
+    <div class="col">{{ form_label(form.title) }}</div>
+    <div class="col">{{ form_widget(form.title) }}</div>
+</div>
+{{ include('_recipe_weights.html.twig', {
+    'form_name': 'cookbook',
+    'recipe_weights': cookbook.recipeWeights,
+    'weights': form.recipe_weights
+}) }}
+<div class="row" id="add_foodstuff_recipe_button_row">
+    <div class="col"><div class="btn btn-primary" id="add_recipe">Recept toevoegen</div></div>
+</div>
+<div class="row">
+    <div class="col">{{ form_widget(form.submit, { 'label': submit_label }) }}</div>
+</div>
+{{ form_end(form) }}

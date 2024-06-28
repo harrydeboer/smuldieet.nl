@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Voedingsmiddel{% endblock %}
+
+{% block content %}
+        <div class="row">
+            <div class="col">Naam</div>
+            <div class="col">{{ foodstuff.name }}</div>
+        </div>
+        {% if isLoggedIn %}
+            {% if foodstuff.pieceWeight is not null %}
+                <div class="row">
+                    <div class="col">Gewicht per stuk (g)</div>
+                    <div class="col">{{ foodstuff.pieceWeight }}</div>
+                </div>
+            {% endif %}
+            {% if foodstuff.pieceName is not null %}
+                <div class="row">
+                    <div class="col">Naam per stuk</div>
+                    <div class="col">{{ foodstuff.pieceName }}</div>
+                </div>
+            {% endif %}
+            {% for nutrient in nutrients %}
+                <div class="row">
+                    <div class="col">{{ nutrient.displayName }}</div>
+                    {% if attribute(foodstuff, nutrient.name) is null %}
+                        <div class="col">N/B</div>
+                    {% else %}
+                        <div class="col">
+                            {{ attribute(foodstuff, nutrient.name)|number_format(nutrient.decimalPlaces) }}
+                            {{ nutrient.unit }}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="row">
+                <div class="col"><a href="{{ path('app_login') }}">Log in om alle waarden te zien.</a></div>
+            </div>
+        {% endif %}
+        <div class="row">
+            <div class="col">
+                {% if foodstuff.user is not null %}
+                    <a href="{{ path('foodstuff_edit', {'id': foodstuff.id}) }}">wijzig</a>
+                {% endif %}
+            </div>
+        </div>
+{% endblock %}

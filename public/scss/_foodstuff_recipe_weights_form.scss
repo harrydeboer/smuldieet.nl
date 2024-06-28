@@ -1,0 +1,35 @@
+.foodstuff-result:hover, .recipe-result:hover {
+  background-color: lightgray;
+  cursor: pointer;
+}
+
+.remove-row, #foodstuff_weights_error, #recipe_weights_error {
+  color: red;
+}
+
+.remove-row:hover {
+  cursor: pointer;
+}
+
+#add_foodstuff {
+  width: 150px;
+}
+
+#add_recipe {
+  width: 150px;
+}
+
+.hidden-input, #percentage-unit {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  float: left;
+  padding: 0;
+}
+
+@media (max-width: 576px) {
+  .row-weight > * {
+    padding-right: 5px;
+    padding-left: 5px;
+  }
+}

@@ -1,0 +1,34 @@
+<div class="modal" id="rate_modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            </div>
+            <div class="modal-body">
+                <div id="form_errors_client"></div>
+                <div id="form_errors_server">
+                    {{ form_errors(form) }}
+                    {{ form_errors(form.rating) }}
+                </div>
+                {{ form_start(form) }}
+                <div id="rating_div">
+                    {% for index, choice in form.rating|reverse %}
+                        {{ form_widget(choice) }}
+                        {{ form_label(choice) }}
+                    {% endfor %}
+                </div>
+                <br>
+                <button class="d-none">Waardeer</button>
+                {{ form_end(form) }}
+                <br>
+                {% if formDelete is not null %}
+                    {{ form_start(formDelete) }}
+                    {{ form_widget(formDelete.delete, { 'label': 'Verwijder waardering' }) }}
+                    {{ form_end(formDelete) }}
+                {% endif %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Sluiten</button>
+            </div>
+        </div>
+    </div>
+</div>

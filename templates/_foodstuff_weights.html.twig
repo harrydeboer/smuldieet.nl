@@ -1,0 +1,80 @@
+<div id="foodstuff_weights_error"></div>
+{% for id, weight in weights %}
+    <div class="row row-weight">
+        <div class="col-4">{{ form_widget(weight.foodstuff_id,
+                {'value': foodstuff_weights[id].foodstuff.id}) }}
+            <div class="dropdown">{{ form_widget(weight.name, {'value': foodstuff_weights[id].foodstuff.name}) }}
+                <div class="dropdown-menu dropdown-menu-foodstuff">
+                </div>
+            </div>
+        </div>
+        <div class="col-3">
+            {{ form_widget(weight.value) }}<span class="form-error">{{ form_errors(weight.value) }}</span>
+        </div>
+        <div class="col-4">
+            {#
+            The select is hidden when the foodstuffs are combined, because the unit displayes percentage then.
+            The liquid options are hidden when the foodstuff is not liquid.
+            The piece option is hidden when the foodstuff has no piece weight.
+            #}
+            {% set classes = weight.unit.vars.attr.class %}
+            {% if form_name == 'combine_foodstuffs' %}
+                {% set classes = classes~' hidden-input' %}
+            {% endif %}
+            {% if not foodstuff_weights[id].foodstuff.isLiquid %}
+                {% set classes = classes~' not-liquid' %}
+            {% endif %}
+            {% if foodstuff_weights[id].foodstuff.pieceWeight is null %}
+                {% set classes = classes~' not-piece' %}
+            {% endif %}
+            <select id="{{ weight.unit.vars.id }}"
+                    name="{{ weight.unit.vars.full_name }}"
+                    class="{{ classes }}"
+                    {{ weight.unit.vars.required == 1 ? 'required="required"': '' }}>
+                <option value="">{{ weight.unit.vars.placeholder }}</option>
+                {% for choice in weight.unit.vars.choices %}
+                    {#
+                    When the choice is the form element value it is selected.
+                    The label of the stuks option is set to the foodstuff its piece name when present.
+                    #}
+                    {% if choice.value == weight.unit.vars.value %}
+                        {% set selected = 'selected' %}
+                    {% else %}
+                        {% set selected = '' %}
+                    {% endif %}
+                    {% if choice.value == 'stuks' and foodstuff_weights[id].foodstuff.pieceName is not null %}
+                        {% set label = foodstuff_weights[id].foodstuff.pieceName %}
+                    {% else %}
+                        {% set label = choice.label %}
+                    {% endif %}
+                    {% if choice.attr['class'] is defined %}
+                        {% set class = choice.attr['class'] %}
+                    {% else %}
+                        {% set class = '' %}
+                    {% endif %}
+                    <option value="{{ choice.value }}" class="{{ class }}" {{ selected }}>{{ label }}</option>
+                {% endfor %}
+            </select>
+            <span class="form-error">
+                 {{ form_errors(weight.unit) }}
+            </span>
+            {% do weight.unit.setRendered %}
+        </div>
+        <div class="col-1"><img src="{{ '/img/minus.png?v=1' }}" class="remove-row" alt="minus" width="25"></div>
+    </div>
+{% endfor %}
+<div class="row d-none">
+    <div class="col">
+        <div id="{{ form_name }}_foodstuff_weights__name___foodstuff_id"
+             data-prototype="{{ form_widget(weights.vars.prototype.foodstuff_id)|e('html') }}"></div>
+        <div id="{{ form_name }}_foodstuff_weights__name___name"
+             data-prototype="{{ form_widget(weights.vars.prototype.name)|e('html') }}"></div>
+        <div id="{{ form_name }}_foodstuff_weights__name___value"
+             data-prototype="{{ form_widget(weights.vars.prototype.value)|e('html') }}"></div>
+        <div id="{{ form_name }}_foodstuff_weights__name___unit"
+             data-prototype="{{ form_widget(weights.vars.prototype.unit)|e('html') }}"></div>
+    </div>
+    <div class="col">
+        <div id="foodstuff_search" data-search="{{ path('foodstuff_search', {'name': '__name__'}) }}"></div>
+    </div>
+</div>

@@ -1,0 +1,17 @@
+#abc_select {
+  display: block;
+}
+
+#abc_chars {
+  display: none;
+}
+
+@media (min-width: 576px) {
+  #abc_select {
+    display: none;
+  }
+
+  #abc_chars {
+    display: block;
+  }
+}

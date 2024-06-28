@@ -1,0 +1,7 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Maak voedingsmiddel{% endblock %}
+
+{% block content %}
+    {{ include('foodstuff/_form.html.twig', {submit_label: 'Voedingsmiddel opslaan'}) }}
+{% endblock %}

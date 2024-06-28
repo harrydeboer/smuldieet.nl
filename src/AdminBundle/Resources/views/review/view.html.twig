@@ -1,0 +1,16 @@
+{% extends '@AdminBundle/base.html.twig' %}
+
+{% block title %}Waardering{% endblock %}
+
+{% block content %}
+    <div class="div-striped">
+        {% for review in reviews %}
+            <div class="row">
+                <div class="col">{{ review.content }}</div>
+                <div class="col">
+                    <a href="{{ path('admin_review_edit', {'id': review.id}) }}">wijzig</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

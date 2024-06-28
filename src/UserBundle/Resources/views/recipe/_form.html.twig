@@ -1,0 +1,92 @@
+<div id="form_errors_client"></div>
+<div id="form_errors_server">
+    {{ form_errors(form) }}
+    {{ form_errors(form.image) }}
+    {{ form_errors(form.title) }}
+    {{ form_errors(form.url) }}
+    {{ form_errors(form.ingredients) }}
+    {{ form_errors(form.preparation_method) }}
+    {{ form_errors(form.number_of_persons) }}
+    {{ form_errors(form.self_invented) }}
+    {{ form_errors(form.source) }}
+    {{ form_errors(form.cooking_time) }}
+    {{ form_errors(form.kitchen) }}
+    {{ form_errors(form.type_of_dish) }}
+    {{ form_errors(form.occasion) }}
+    {{ form_errors(form.foodstuff_weights) }}
+    {{ form_errors(form.tags) }}
+    {% for choice,label in recipe.dietChoices('snake') %}
+        {{ form_errors(attribute(form, choice)) }}
+    {% endfor %}
+</div>
+{{ form_start(form, { 'attr' : { 'class': 'foodstuff-weights-form tags-form' }}) }}
+{{ page is not null ? page.content|raw : '' }}
+<div id="upload_file_button" class="btn btn-primary">Upload afbeelding</div>
+{{ form_widget(form.image) }}
+<div class="fw-bold">{{ form_label(form.title) }} *</div>
+{{ form_widget(form.title) }}
+<div class="fw-bold">{{ form_label(form.url) }}</div>
+{{ form_widget(form.url) }}
+<div class="fw-bold">{{ form_label(form.ingredients)}} *</div>
+{{ form_widget(form.ingredients) }}
+<h4 class="no-wrap">Voedingsmiddelen gerecht</h4>
+{{ include('_foodstuff_weights.html.twig', {
+    'form_name': 'recipe',
+    'foodstuff_weights': recipe.foodstuffWeights,
+    'weights': form.foodstuff_weights
+}) }}
+<div class="row" id="add_foodstuff_recipe_button_row">
+    <div class="col"><div class="btn btn-primary" id="add_foodstuff">Voedingsmiddel toevoegen</div></div>
+</div>
+<div class="fw-bold">{{ form_label(form.ingredients)}} *</div>
+{{ form_widget(form.preparation_method) }}
+<div class="fw-bold">{{ form_label(form.number_of_persons) }} *</div>
+{{ form_widget(form.number_of_persons) }}
+<div class="fw-bold">{{ form_label(form.self_invented)}} *</div>
+{{ form_widget(form.self_invented) }}
+{% if form.self_invented.vars.value == 0 %}
+    <div class="fw-bold" id="recipe_source_title">{{ form_label(form.source) }}</div>
+    {{ form_widget(form.source) }}
+{% else %}
+    <div class="fw-bold d-none" id="recipe_source_title">{{ form_label(form.source) }}</div>
+    {{ form_widget(form.source, {'attr': {'class': 'd-none form-control'}}) }}
+{% endif %}
+<div class="fw-bold">Tags</div>
+{% for id, tag in form.tags %}
+    <div class="row">
+        <div class="col">{{ form_widget(tag) }}</div>
+        <div class="col"><img src="{{ '/img/minus.png?v=1' }}" class="remove-tag-row" alt="minus" width="25"></div>
+    </div>
+{% endfor %}
+<div class="row" id="add_tag_button_row">
+    <div class="col"><div class="btn btn-primary" id="add_tag">Tag toevoegen</div></div>
+</div>
+<div id="recipe_tags"
+     data-prototype="{{ form_widget(form.tags.vars.prototype)|e('html') }}"></div>
+<div class="fw-bold">{{ form_label(form.cooking_time) }} *</div>
+{{ form_widget(form.cooking_time) }}
+<div class="fw-bold">{{ form_label(form.kitchen) }} *</div>
+{{ form_widget(form.kitchen) }}
+<div class="fw-bold">{{ form_label(form.type_of_dish) }} *</div>
+{{ form_widget(form.type_of_dish) }}
+<div class="fw-bold">{{ form_label(form.occasion) }}</div>
+{{ form_widget(form.occasion) }}
+<br>
+<div class="dropdown">
+    <div class="form-control form-select" role="button"
+         data-bs-toggle="dropdown" aria-expanded="false">Dieet</div>
+    <div class="dropdown-menu dropdown-diet" aria-labelledby="diet-filter">
+        {% for choice,label in recipe.dietChoices('snake') %}
+            <div class="row">
+                <div class="col-9">{{ form_label(attribute(form, choice)) }}</div>
+                <div class="col">{{ form_widget(attribute(form, choice)) }}</div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+<br>
+<span class="fw-bold">*</span> Verplicht
+<br>
+<br>
+{{ form_widget(form.submit, { 'label': submit_label }) }}
+{{ form_end(form) }}

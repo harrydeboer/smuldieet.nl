@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ page is not null ? page.title : '' }}{% endblock %}
+
+{% block content %}
+    {% if isLoggedIn %}
+        <div>Je bent ingelogd als {{ username }},
+            <a href="{{ path('app_logout') }}">klik hier</a> om uit te loggen.</div>
+        <div class="no-wrap">Verander <a href="{{ path('change_password') }}">hier</a> je wachtwoord.</div>
+
+        {% if 'ROLE_VERIFIED' in roles  %}
+            <div class="no-wrap">Ga naar het <a href="{{ path('user_homepage') }}">User Panel</a>.</div>
+        {% endif %}
+
+        {% if 'ROLE_ADMIN' in roles  %}
+            <div class="no-wrap">Ga naar het <a href="{{ path('admin_homepage') }}">Admin Panel</a>.</div>
+        {% endif %}
+    {% else %}
+        {{ page is not null ? page.content|raw : '' }}
+        {% if error and error.messageKey == 'Invalid credentials.' %}
+            <div class="error-message">Ongeldige inloggegevens.</div>
+        {% endif %}
+        <form action="{{ path('app_login') }}" id="login-form" method="post">
+            <div class="row">
+                <div class="col"><label for="username" class="col-form-label">E-mail</label></div>
+                <div class="col"><input type="email" id="username" class="form-control"
+                                        name="_username" value="{{ last_username }}" required></div>
+            </div>
+            <div class="row">
+                <div class="col"><label for="password" class="col-form-label">Wachtwoord</label></div>
+                <div class="col">
+                    <input type="password" id="password" class="form-control" name="_password" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button type="submit" id="login-submit-button" class="btn btn-success">Inloggen</button>
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                </div>
+            </div>
+        </form>
+        <div class="no-wrap">Niet geregistreerd? Ga naar <a href="{{ path('app_register') }}">deze</a> link.</div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends '@UserBundle/base.html.twig' %}
+
+{% block title %}Maak kookboek{% endblock %}
+
+{% block content %}
+    {{ include('@UserBundle/cookbook/_form.html.twig', {submit_label: 'Kookboek opslaan'}) }}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('dist/recipe_weights.min.js') }}"></script>
+{% endblock %}

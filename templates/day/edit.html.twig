@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Wijzig{% endblock %}
+
+{% block content %}
+    {{ include('day/_form.html.twig', {submit_label: 'Wijzig dag'}) }}
+    <br>
+    {{ include('_delete_confirmation.html.twig', {
+        entityName: 'dag',
+        warning: 'Weet je zeker dat je deze dag wilt verwijderen?'
+    }) }}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('dist/foodstuff_weights.min.js') }}"></script>
+    <script src="{{ asset('dist/recipe_weights.min.js') }}"></script>
+{% endblock %}

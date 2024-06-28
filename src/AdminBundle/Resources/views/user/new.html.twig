@@ -1,0 +1,7 @@
+{% extends '@AdminBundle/base.html.twig' %}
+
+{% block title %}Maak gebruiker{% endblock %}
+
+{% block content %}
+    {{ include('@AdminBundle/user/_form.html.twig', {submit_label: 'Gebruiker opslaan'}) }}
+{% endblock %}

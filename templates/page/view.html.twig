@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ page.title }}{% endblock %}
+
+{% block content %}
+    {{ page.content|raw }}
+    {% if isLoggedIn %}
+        <div id="form_errors_client"></div>
+        <div id="form_errors_server">
+            {{ form_errors(formComment) }}
+            {{ form_errors(formComment.content) }}
+        </div>
+        {% for message in app.flashes('comment_exception') %}
+            <div class="flash-notice">
+                {{ message }}
+            </div>
+        {% endfor %}
+        {{ form_start(formComment) }}
+        {{ form_widget(formComment.content) }}
+        {{ form_widget(formComment.place, { 'label': 'Plaatsen' }) }}
+        {{ form_end(formComment) }}
+    {% endif %}
+    {% for comment in paginatorComments.results %}
+        {{ comment.content }}<br>
+    {% endfor %}
+    {{ include('pagination/view.html.twig', {paginator: paginatorComments, route: 'page_comment_index_paginated'}) }}
+{% endblock %}

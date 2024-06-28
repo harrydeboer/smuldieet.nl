@@ -1,0 +1,32 @@
+{% extends '@UserBundle/base.html.twig' %}
+
+{% block title %}Waarderingen{% endblock %}
+
+{% block content %}
+    <h1>Waarderingen</h1>
+    <div class="div-striped">
+        <div class="row">
+            <div class="col">Waardering</div>
+            <div class="col">Wijzig</div>
+        </div>
+        {% for message in app.flashes('review_pending') %}
+            <div class="success-message">
+                {{ message }}
+            </div>
+        {% endfor %}
+        {% for rating in ratings %}
+            <div class="row">
+                <div class="col">
+                    {% if rating.content is null %}
+                        <a href="{{ path('recipe_single', {'id': rating.recipe.id}) }}">{{ rating.recipe.title }}</a>
+                    {% else %}
+                        <a href="{{ path('user_review_single', {'id': rating.id}) }}">{{ rating.recipe.title }}</a>
+                    {% endif %}
+                    {{ rating.rating }} <img src="{{ asset('img/star-gold.png') }}"
+                                             alt="star"
+                                             width="22"></div>
+                <div class="col"><a href="{{ path('user_review_edit', {'id': rating.id }) }}">wijzig</a></div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Verifieer{% endblock %}
+
+{% block content %}
+    {% if success is not null %}
+        <div class="success-message">{{ success }}</div>
+    {% endif %}
+    {% if error is not null %}
+        <div class="error-message">{{ error }}</div>
+    {% endif %}
+    {% if success is null %}
+        <div>
+            Je e-mail is niet geverifieerd. Check je inbox of
+            {{ form_start(form) }}
+            {{ form_widget(form.send_email_again, {'label': 'Verstuur opnieuw'}) }}
+            {{ form_end(form) }}
+        </div>
+    {% endif %}
+{% endblock %}

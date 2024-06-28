@@ -1,0 +1,8 @@
+controllers:
+  resource: ../../Controller/
+  prefix: /gebruiker
+  type: attribute
+
+kernel:
+  resource: ../../../Kernel.php
+  type: attribute

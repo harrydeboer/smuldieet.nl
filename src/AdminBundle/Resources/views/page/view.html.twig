@@ -1,0 +1,15 @@
+{% extends '@AdminBundle/base.html.twig' %}
+
+{% block title %}Pagina{% endblock %}
+
+{% block content %}
+    <a href="{{ path('admin_page_create') }}">Maak een pagina</a>
+    <div class="div-striped">
+        {% for page in pages %}
+            <div class="row">
+                <div class="col">{{ page.title }}</div>
+                <div class="col"><a href="{{ path('admin_page_edit', {'id': page.id}) }}">wijzig</a></div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

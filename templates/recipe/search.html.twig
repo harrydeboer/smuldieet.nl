@@ -1,0 +1,7 @@
+{% for recipe in recipes %}
+    <div class="no-wrap">{% if recipe.imageExtension is not null %}
+            <img src="{{ asset(recipe.imageUrl(100)) }}" width="50" alt="recipe-image">
+        {% endif %}
+        <span id="recipe_result_{{ recipe.id }}" class="recipe-result">{{ recipe.title }}</span>
+    </div>
+{% endfor %}

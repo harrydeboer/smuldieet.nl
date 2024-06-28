@@ -1,0 +1,25 @@
+{% extends '@UserBundle/base.html.twig' %}
+
+{% block title %}Recensie{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">Username</div>
+        <div class="col">{{ rating.user.username }}</div>
+    </div>
+    <div class="row">
+        <div class="col">Datum</div>
+        <div class="col">{{ rating.date|date('d-M-Y') }}</div>
+    </div>
+    <div class="row">
+        <div class="col">Waardering</div>
+        <div class="col">{{ rating.rating }}</div>
+    </div>
+    <div class="row">
+        <div class="col">Recensie</div>
+        <div class="col">{{ rating.content }}</div>
+    </div>
+    <div class="row">
+        <div class="col"><a href="{{ path('user_review_edit', {'id': rating.id}) }}">wijzig</a></div>
+    </div>
+{% endblock %}

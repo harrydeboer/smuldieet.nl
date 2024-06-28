@@ -1,0 +1,7 @@
+{% extends '@AdminBundle/base.html.twig' %}
+
+{% block title %}Maak pagina{% endblock %}
+
+{% block content %}
+    {{ include('@AdminBundle/page/_form.html.twig', {submit_label: 'Pagina opslaan'}) }}
+{% endblock %}

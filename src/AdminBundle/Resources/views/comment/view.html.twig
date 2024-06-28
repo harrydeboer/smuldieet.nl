@@ -1,0 +1,14 @@
+{% extends '@AdminBundle/base.html.twig' %}
+
+{% block title %}Commentaar{% endblock %}
+
+{% block content %}
+    <div class="div-striped">
+        {% for comment in comments %}
+            <div class="row">
+                <div class="col">{{ comment.content }}</div>
+                <div class="col"><a href="{{ path('admin_comment_edit', {'id': comment.id}) }}">wijzig</a></div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

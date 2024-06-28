@@ -1,0 +1,9 @@
+<div id="form_errors_client"></div>
+<div id="form_errors_server">
+    {{ form_errors(form) }}
+</div>
+{{ form_start(form) }}
+<div class="fw-bold">Content</div>
+{{ rating.content|nl2br }}
+<div>{{ form_widget(form.approve) }}</div>
+{{ form_end(form) }}

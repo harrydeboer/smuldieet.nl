@@ -1,0 +1,62 @@
+$search-color: #0d6efd;
+$sort-filter-selectors: '#type_of_dish, #cooking_time, #kitchen, #occasion, #diet, #diet_filter, #sort';
+
+#filter_sort_form #number_of_persons, #votes {
+  width: 200px;
+}
+
+#filter_sort_form #sort {
+  width: 300px;
+}
+
+form #title {
+  width: 100%;
+  display: inline;
+}
+
+#recipe_filter_icon {
+  color: $search-color;
+  margin-left: -72px;
+}
+
+#recipe_search_icon {
+  margin-left: 0;
+  color: white;
+  background-color: $search-color;
+  padding: 7px 9px 9px 9px;
+  cursor: pointer;
+  border-top-right-radius: .375rem;
+  border-bottom-right-radius: .375rem;
+}
+
+.recipe-image {
+  width: 70px;
+}
+
+#filter_sort_div #{$sort-filter-selectors} {
+  width: 100%;
+}
+
+@media (min-width: 375px) {
+  .recipe-image {
+    width: 100px;
+  }
+}
+
+@media (min-width: 360px) {
+  form #title {
+    width: 315px;
+  }
+}
+
+@media (min-width: 500px) {
+  #filter_sort_div #{$sort-filter-selectors} {
+    width: 145px;
+  }
+}
+
+@media (min-width: 870px) {
+  #filter_sort_div #{$sort-filter-selectors} {
+    display: inline;
+  }
+}

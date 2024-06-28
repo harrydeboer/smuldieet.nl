@@ -1,0 +1,7 @@
+{% extends '@AdminBundle/base.html.twig' %}
+
+{% block title %}Wijzig{% endblock %}
+
+{% block content %}
+    {{ include('@AdminBundle/nutrient/_form.html.twig', {submit_label: 'Wijzig'}) }}
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends '@UserBundle/base.html.twig' %}
+
+{% block title %}Wijzig{% endblock %}
+
+{% block content %}
+    {{ include('@UserBundle/recipe/_form.html.twig', {submit_label: 'Wijzig recept'}) }}
+    <br>
+    {{ include('_delete_confirmation.html.twig', {
+        entityName: 'recept',
+        warning: 'Weet je zeker dat je dit recept wilt verwijderen?'
+    }) }}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('dist/foodstuff_weights.min.js') }}"></script>
+{% endblock %}

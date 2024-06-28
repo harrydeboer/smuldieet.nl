@@ -1,0 +1,113 @@
+@use 'foodstuff_recipe_weights_form';
+@use 'foodstuff_page';
+@use 'homepage';
+@use 'recipe_page';
+@use 'rating_form';
+@use 'register_page';
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 20px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.disabled {
+  cursor: not-allowed;
+}
+
+.navbar-nav li {
+  margin-right: 10px;
+}
+
+.date-field select {
+
+}
+
+.form-error ul li {
+  list-style-type: none;
+  color: red;
+}
+
+#smuldieet_title {
+  margin-top: 40px;
+}
+
+.div-striped>div.row:nth-of-type(odd)>* {
+  background: rgba(0, 0, 0, 0.05);
+  color: #212529;
+}
+
+.btn-primary, .btn-danger {
+  width: 200px;
+}
+
+.no-wrap {
+  white-space: nowrap;
+}
+
+#form_errors_client, #form_errors_server {
+  color: red;
+}
+
+.success-message {
+  color: green;
+}
+
+.error-message {
+  color: red;
+}
+
+.flash-notice-success {
+  color: green;
+}
+
+.flash-notice-error {
+  color: red;
+}
+
+.flash-notice-must-verify {
+  color: red;
+}
+
+.delete-modal .btn-danger {
+  width: 100px;
+}
+
+.not-energy .energy-option {
+  display: none;
+}
+
+.not-solid .solid-option {
+  display: none;
+}
+
+.not-piece .piece-option {
+  display: none;
+}
+
+.not-liquid .liquid-option {
+  display: none;
+}
+
+.not-vitamin-mineral .vitamin-mineral-option {
+  display: none;
+}
+
+@media (min-width: 1200px) {
+  body {
+    width: 1200px;
+  }
+}
+
+/**
+ * User panel
+ */
+#user_panel_avatar {
+  width: 300px;
+}

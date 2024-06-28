@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dag{% endblock %}
+
+{% block content %}
+    {% if day.date is not null %}
+        <div class="row">
+            <div class="col">Datum</div>
+            <div class="col">{{ day.date|date('d-M-Y') }}</div>
+        </div>
+    {% endif %}
+    {% for id, weight in day.foodstuffWeights %}
+        <div class="row">
+            <div class="col">{{ weight.foodstuff.name }}</div>
+            <div class="col">{{ weight.value|number_format }}
+                {% if weight.foodstuff.pieceName is not null and weight.value >= 2 %}
+                    {{ weight.foodstuff.piecesName }}
+                {% elseif weight.foodstuff.pieceName is not null and weight.value < 2 %}
+                    {{ weight.foodstuff.pieceName }}
+                {% else %}
+                    {{ weight.unit }}
+                {% endif %}</div>
+        </div>
+    {% endfor %}
+    {% for id, weight in day.recipeWeights %}
+        <div class="row">
+            <div class="col">{{ weight.recipe.title }}</div>
+            <div class="col">{{ weight.value|number_format }}</div>
+        </div>
+    {% endfor %}
+    <div class="row">
+        <div class="col"><a href="{{ path('day_edit', {'id': day.id}) }}">wijzig</a></div>
+    </div>
+{% endblock %}

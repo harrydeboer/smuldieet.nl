@@ -1,0 +1,33 @@
+{% if paginator.hasToPaginate %}
+    <div class="navigation">
+        <ul class="pagination">
+            {% if paginator.hasPreviousPage %}
+                <li class="prev">
+                    <a href="{{ path(route, {page:paginator.previousPage}|merge(app.request.query.all)) }}"
+                       rel="previous"><img src="{{ asset('img/arrow-left.png') }}" alt="arrow-left" width="20"></a>
+                </li>
+            {% else %}
+                <li class="prev disabled"><span>
+                        <img src="{{ asset('img/arrow-left.png') }}" alt="arrow-left" width="20"></span></li>
+            {% endif %}
+            {% for i in 1..paginator.lastPage %}
+                {% if i == paginator.currentPage %}
+                    <li class="active">
+                        <span>{{ i }}</span>
+                    </li>
+                {% else %}
+                    <li><a href="{{ path(route, {page:i}|merge(app.request.query.all)) }}">{{ i }}</a></li>
+                {% endif %}
+            {% endfor %}
+            {% if paginator.hasNextPage %}
+                <li class="next">
+                    <a href="{{ path(route, {page: paginator.nextPage}|merge(app.request.query.all)) }}"
+                       rel="next"><img src="{{ asset('img/arrow-right.png') }}" alt="arrow-right" width="20"></a>
+                </li>
+            {% else %}
+                <li class="next disabled"><span>
+                        <img src="{{ asset('img/arrow-right.png') }}" alt="arrow-right" width="20"></span></li>
+            {% endif %}
+        </ul>
+    </div>
+{% endif %}
