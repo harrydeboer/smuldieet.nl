@@ -12,7 +12,7 @@
 ###< symfony/framework-bundle ###
 
 ###> phpunit/phpunit ###
-.phpunit.result.cache
+/.phpunit.result.cache
 ###< phpunit/phpunit ###
 
 ###> symfony/phpunit-bridge ###
