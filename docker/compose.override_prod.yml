@@ -5,6 +5,7 @@ services:
         APP_ENV: prod
     volumes:
       - uploadsPublic:/var/www/html/public/uploads
+      - /var/www/log/apache2:/var/log/apache2
       - ./public/.well-known/acme-challenge:/var/www/html/public/.well-known/acme-challenge
     restart: always
     networks:
