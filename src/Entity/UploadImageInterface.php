@@ -20,5 +20,5 @@ interface UploadImageInterface
 
     public function getImageWidths(): array;
 
-    public function getImageUrl(int $width = null, string $extraPath = ''): ?string;
+    public function getImageUrl(?int $width = null, string $extraPath = ''): ?string;
 }

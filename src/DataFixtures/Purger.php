@@ -5,25 +5,29 @@ declare(strict_types=1);
 namespace App\DataFixtures;
 
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\Common\DataFixtures\Purger\ORMPurgerInterface;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 
-class Purger extends ORMPurger
+class Purger implements ORMPurgerInterface
 {
-    /**
-     * {@inheritDoc}
-     */
+    public ORMPurger $oRMPurger;
+
     public function __construct(
         private readonly EntityManagerInterface $em,
-        array $excluded = [])
+        array $excluded,
+    ){
+        $this->oRMPurger = new ORMPurger($em, $excluded);
+    }
+
+    public function setEntityManager(EntityManagerInterface $em): void
     {
-        parent::__construct($this->em, $excluded);
+        $this->oRMPurger->setEntityManager($em);
     }
 
     /**
      * Purges the MySQL database with temporarily disabled foreign key checks.
      *
-     * {@inheritDoc}
      * @throws Exception
      */
     public function purge(): void
@@ -33,7 +37,7 @@ class Purger extends ORMPurger
         try {
             $connection->executeStatement('SET FOREIGN_KEY_CHECKS = 0');
 
-            parent::purge();
+            $this->oRMPurger->purge();
         } catch (Exception) {
         }
         $connection->executeStatement('SET FOREIGN_KEY_CHECKS = 1');

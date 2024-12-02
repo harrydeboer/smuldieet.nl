@@ -50,7 +50,7 @@ class RatingRepository extends ServiceEntityRepository implements RatingReposito
         $qb->andWhere('r.recipe = ' . $recipeId);
         $qb->andWhere('r.pending = 0');
 
-        return (new Paginator($qb, 3))->paginate($page);
+        return new Paginator($qb, 3)->paginate($page);
     }
 
     public function findReviewsFromUser(int $userId): array

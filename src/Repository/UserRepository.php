@@ -78,7 +78,7 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
     {
         $qb = $this->createQueryBuilder('u');
 
-        return (new Paginator($qb))->paginate($page);
+        return new Paginator($qb)->paginate($page);
     }
 
     /**

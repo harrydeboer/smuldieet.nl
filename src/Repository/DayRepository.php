@@ -100,6 +100,6 @@ class DayRepository extends ServiceEntityRepository implements DayRepositoryInte
             ->setParameter('userId', $userId)
             ->orderBy('d.timestamp', 'DESC');
 
-        return (new Paginator($qb))->paginate($page);
+        return new Paginator($qb)->paginate($page);
     }
 }

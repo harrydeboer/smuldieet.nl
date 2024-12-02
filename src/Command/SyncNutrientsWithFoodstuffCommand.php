@@ -21,7 +21,7 @@ class SyncNutrientsWithFoodstuffCommand extends Command
 
     public function __construct(
         private readonly NutrientRepositoryInterface $nutrientRepository,
-        string $name = null,
+        ?string $name = null,
     )
     {
         parent::__construct($name);

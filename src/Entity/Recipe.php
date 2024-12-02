@@ -705,7 +705,7 @@ class Recipe implements DietInterface, UploadImageInterface
     /**
      * Get the path of the image with respect to the public folder.
      */
-    public function getImageUrl(int $width = null, string $extraPath = ''): ?string
+    public function getImageUrl(?int $width = null, string $extraPath = ''): ?string
     {
         if (is_null($width)) {
             $hyphen = '';

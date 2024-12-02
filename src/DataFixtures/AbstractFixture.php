@@ -9,7 +9,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 
 abstract class AbstractFixture extends Fixture
 {
-    protected function randomDate(int $yearLimit = null): DateTime
+    protected function randomDate(?int $yearLimit = null): DateTime
     {
         $day = rand(1, 28);
         $month = rand(1, 12);

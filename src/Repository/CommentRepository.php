@@ -60,7 +60,7 @@ class CommentRepository extends ServiceEntityRepository implements CommentReposi
         $qb->andWhere('c.recipe = ' . $recipeId);
         $qb->andWhere('c.pending = 0');
 
-        return (new Paginator($qb, 5))->paginate($page);
+        return new Paginator($qb, 5)->paginate($page);
     }
 
     public function findCommentsFromPage(int $pageId, int $page): Paginator
@@ -69,7 +69,7 @@ class CommentRepository extends ServiceEntityRepository implements CommentReposi
         $qb->andWhere('c.page = ' . $pageId);
         $qb->andWhere('c.pending = 0');
 
-        return (new Paginator($qb, 5))->paginate($page);
+        return new Paginator($qb, 5)->paginate($page);
     }
 
     /**

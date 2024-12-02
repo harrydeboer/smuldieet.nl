@@ -38,7 +38,7 @@ readonly class UploadedImageService
      */
     public function moveImage(
         UploadImageInterface $entity,
-        string $oldExtension = null,
+        ?string $oldExtension = null,
     ): void
     {
         $image = $entity->getImage();

@@ -10,6 +10,7 @@ use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Exception;
 
 class ChangePasswordController extends AuthController
 {
@@ -27,7 +28,10 @@ class ChangePasswordController extends AuthController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $this->userRepository->upgradePassword($this->getUser(), $form->get('plain_password')->getData());
+            try {
+                $this->userRepository->upgradePassword($this->getUser(), $form->get('plain_password')->getData());
+            } catch (Exception) {
+            }
 
             return $this->redirectToRoute('homepage');
         }

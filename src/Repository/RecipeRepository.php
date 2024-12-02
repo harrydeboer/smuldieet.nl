@@ -201,7 +201,7 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
             ->setParameter('userId', $userId)
             ->orderBy('r.createdAt', 'DESC');
 
-        return (new Paginator($qb))->paginate($page);
+        return new Paginator($qb)->paginate($page);
     }
 
     public function findRecent(int $limit): Paginator
@@ -211,10 +211,10 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
             ->setMaxResults($limit)
             ->orderBy('r.createdAt', 'DESC');
 
-        return (new Paginator($qb, $limit))->paginate();
+        return new Paginator($qb, $limit)->paginate();
     }
 
-    public function findBySortAndFilter(int $page, array $formData = null): Paginator
+    public function findBySortAndFilter(int $page, ?array $formData = null): Paginator
     {
         $qb = $this->createQueryBuilder('r');
         $qb->orderBy('r.createdAt', 'DESC');
@@ -252,7 +252,7 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
             }
         }
 
-        return (new Paginator($qb))->paginate($page);
+        return new Paginator($qb)->paginate($page);
     }
 
     private function addTags(Recipe $recipe): void

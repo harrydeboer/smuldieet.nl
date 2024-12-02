@@ -24,7 +24,9 @@ class PurgerFactory implements BasePurgerFactory
         bool $purgeWithTruncate = false
     ): PurgerInterface {
         $purger = new Purger($em, $excluded);
-        $purger->setPurgeMode($purgeWithTruncate ? ORMPurger::PURGE_MODE_TRUNCATE : ORMPurger::PURGE_MODE_DELETE);
+        $purger->oRMPurger->setPurgeMode($purgeWithTruncate ?
+            ORMPurger::PURGE_MODE_TRUNCATE :
+            ORMPurger::PURGE_MODE_DELETE);
 
         return $purger;
     }

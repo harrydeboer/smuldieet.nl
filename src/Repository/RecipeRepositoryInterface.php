@@ -54,5 +54,5 @@ interface RecipeRepositoryInterface extends ServiceEntityRepositoryInterface
 
     public function findRecent(int $limit): Paginator;
 
-    public function findBySortAndFilter(int $page, array $formData = null): Paginator;
+    public function findBySortAndFilter(int $page, ?array $formData = null): Paginator;
 }
