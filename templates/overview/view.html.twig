@@ -38,11 +38,11 @@
             {% for nutrient in nutrients %}
                 <tr>
                     <td>{{ nutrient.displayName }} {{ nutrient.unit }}</td>
-                    <td>{{ nutrient.minRDA }}</td>
+                    <td>{{ nutrient.minRDA|number_format(nutrient.decimalPlaces) }}</td>
                     {% if nutrient.maxRDA is null %}
                         <td>N/B</td>
                     {% else %}
-                        <td>{{ nutrient.maxRDA }}</td>
+                        <td>{{ nutrient.maxRDA|number_format(nutrient.decimalPlaces) }}</td>
                     {% endif %}
                     <td>{{ nutrient.realised|number_format(nutrient.decimalPlaces) }}</td>
                 </tr>
