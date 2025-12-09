@@ -104,9 +104,7 @@ readonly class UploadedImageService
                     throw new Exception('Geef alsjeblieft een geldig plaatje ' .
                         '(png, jp(eg), j(f)if, gif, bmp of webp).');
                 }
-                imagedestroy($dst);
             }
-            imagedestroy($image);
         }
 
         $entity->setImage(null);

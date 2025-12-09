@@ -95,8 +95,6 @@ class ContactController extends Controller
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $result = json_decode($response);
 
-        curl_close($ch);
-
         if ($httpCode !== 200 || $result->success === false) {
             return false;
         }

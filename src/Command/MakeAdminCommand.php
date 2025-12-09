@@ -6,37 +6,25 @@ namespace App\Command;
 
 use App\Repository\UserRepositoryInterface;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Attribute\Argument;
 
 /**
  * A user can be made admin by executing this command with the id of the user.
  */
-class MakeAdminCommand extends Command
+#[AsCommand(name: 'make:admin')]
+readonly class MakeAdminCommand
 {
-    public static function getDefaultName(): ?string
-    {
-        return 'make:admin';
-    }
-
     public function __construct(
-        private readonly UserRepositoryInterface $userRepository,
-        ?string $name = null,
+        private UserRepositoryInterface $userRepository,
+        ?string                         $name = null,
     )
     {
-        parent::__construct($name);
     }
 
-    protected function configure(): void
+    public function __invoke(#[Argument] string $id, OutputInterface $output): int
     {
-        $this->addArgument('id', InputArgument::REQUIRED, 'Who do you want to make admin?');
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $id = $input->getArgument('id');
-
         $user = $this->userRepository->find((int) $id);
         if (is_null($user)) {
             $output->writeln('User does not exist.');

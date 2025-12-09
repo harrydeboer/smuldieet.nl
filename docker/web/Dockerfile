@@ -1,4 +1,4 @@
-FROM php:8.4-apache
+FROM php:8.5-apache
 
 ARG APP_ENV
 
@@ -34,7 +34,7 @@ RUN docker-php-ext-enable opcache
 
 RUN if [ "$APP_ENV" = "dev" ] ; then pecl install xdebug && docker-php-ext-enable xdebug; fi
 
-COPY --from=composer:2.8.3 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.9.2 /usr/bin/composer /usr/bin/composer
 
 COPY ./docker /var/www/html/docker
 COPY ./config/preload.php /var/www/html/config/preload.php

@@ -49,8 +49,6 @@ class RegisterSecurityChangePasswordTest extends WebTestCase
 
         $form = $buttonCrawlerNode->form();
 
-        $tmp = 'secret';
-
         $form['_username'] = 'john@secret.com';
         $form['_password'] = $tmp;
 

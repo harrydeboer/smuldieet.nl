@@ -26,10 +26,10 @@ class ContactType extends AbstractType
                 'label_attr' => ['class' => 'col-form-label'],
                 'constraints' => [
                     new NotBlank(null, 'De naam mag niet leeg zijn.'),
-                    new Length([
-                        'max' => 255,
-                        'maxMessage' => 'De naam mag niet meer dan {{ limit }} tekens bevatten.',
-                    ]),
+                    new Length(null, null,255, null, null,
+                        null,null,null,
+                        'De naam mag niet meer dan {{ limit }} tekens bevatten.',
+                    ),
                 ],
             ])
             ->add('subject', TextType::class, [
@@ -38,10 +38,10 @@ class ContactType extends AbstractType
                 'label_attr' => ['class' => 'col-form-label'],
                 'constraints' => [
                     new NotBlank(null, 'Het onderwerp mag niet leeg zijn.'),
-                    new Length([
-                        'max' => 255,
-                        'maxMessage' => 'Het onderwerp mag niet meer dan {{ limit }} tekens bevatten.',
-                    ]),
+                    new Length(null, null,255, null, null,
+                        null,null,null,
+                        'Het onderwerp mag niet meer dan {{ limit }} tekens bevatten.',
+                    ),
                 ],
             ])
             ->add('email', EmailType::class, [
@@ -63,10 +63,10 @@ class ContactType extends AbstractType
                 'label_attr' => ['class' => 'col-form-label'],
                 'constraints' => [
                     new NotBlank(null, 'Het bericht mag niet leeg zijn.'),
-                    new Length([
-                        'max' => 65535,
-                        'maxMessage' => 'Het bericht mag niet meer dan {{ limit }} tekens bevatten.',
-                    ]),
+                    new Length(null, null,65535, null, null,
+                        null,null,null,
+                        'Het bericht mag niet meer dan {{ limit }} tekens bevatten.',
+                    ),
                 ],
             ])
             ->add('re_captcha_token', HiddenType::class, [

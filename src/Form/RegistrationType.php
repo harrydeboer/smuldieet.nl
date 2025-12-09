@@ -98,12 +98,10 @@ class RegistrationType extends AbstractType
                 'attr' => ['autocomplete' => 'new-password'],
                 'invalid_message' => 'De wachtwoorden moeten gelijk zijn aan elkaar.',
                 'constraints' => [
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'Je wachtwoord moet ten minste {{ limit }} tekens hebben.',
-                        'max' => 4096,
-                        'maxMessage' => 'Je wachtwoord mag maximaal {{ limit }} tekens hebben.',
-                    ]),
+                    new Length(null, 6,4096, null, null,
+                        null,null,'Je wachtwoord moet ten minste {{ limit }} tekens hebben.',
+                        'Je wachtwoord mag maximaal {{ limit }} tekens hebben.',
+                    ),
                 ],
             ])
             ->add('register', SubmitType::class, [
