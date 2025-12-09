@@ -1,11 +1,11 @@
-admin_bundle:
-    resource: '@AdminBundle/Resources/config/routing.yaml'
-
-user_bundle:
-    resource: '@UserBundle/Resources/config/routing.yaml'
-
 controllers:
     resource: routing.controllers
+
+admin_bundle:
+    resource: '@AppAdminBundle/Resources/config/routing.yaml'
+
+user_bundle:
+    resource: '@AppUserBundle/Resources/config/routing.yaml'
 
 page:
     path: /{req}

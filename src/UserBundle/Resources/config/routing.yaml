@@ -1,6 +1,6 @@
 controllers:
   resource: ../../Controller/
-  prefix: /gebruiker
+  prefix: gebruiker
   type: attribute
 
 kernel:

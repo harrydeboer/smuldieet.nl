@@ -1,6 +1,6 @@
 controllers:
   resource: ../../Controller/
-  prefix: /admin
+  prefix: admin
   type: attribute
 
 kernel:
