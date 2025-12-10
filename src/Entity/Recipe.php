@@ -214,27 +214,27 @@ class Recipe implements DietInterface, UploadImageInterface
     #[
         ORM\Column(type: "string"),
         Assert\NotBlank(message: 'De bereidingstijd mag niet leeg zijn.'),
-        Assert\Choice([], self::COOKING_TIMES, message: 'De bereidingstijd is niet een geldige optie.'),
+        Assert\Choice(null, self::COOKING_TIMES, message: 'De bereidingstijd is niet een geldige optie.'),
     ]
     private string $cookingTime;
 
     #[
         ORM\Column(type: "string"),
         Assert\NotBlank(message: 'De keuken mag niet leeg zijn.'),
-        Assert\Choice([], self::KITCHEN, message: 'De keuken is niet een geldige optie.'),
+        Assert\Choice(null, self::KITCHEN, message: 'De keuken is niet een geldige optie.'),
     ]
     private string $kitchen;
 
     #[
         ORM\Column(type: "string", nullable: true),
-        Assert\Choice([], self::OCCASION, message: 'De gelegenheid is niet een geldige optie.'),
+        Assert\Choice(null, self::OCCASION, message: 'De gelegenheid is niet een geldige optie.'),
     ]
     private ?string $occasion = null;
 
     #[
         ORM\Column(type: "string"),
         Assert\NotBlank(message: 'Het type gerecht mag niet leeg zijn.'),
-        Assert\Choice([], self::TYPE_OF_DISH, message: 'Het type gerecht is niet een geldige optie.'),
+        Assert\Choice(null, self::TYPE_OF_DISH, message: 'Het type gerecht is niet een geldige optie.'),
     ]
     private string $typeOfDish;
 

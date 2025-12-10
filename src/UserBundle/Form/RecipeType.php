@@ -34,15 +34,17 @@ class RecipeType extends AbstractType
                     'data-max-size' => $maxFileSize,
                 ],
                 'constraints' => [
-                    new File([
-                        'maxSize' => $maxFileSize,
-                        'mimeTypes' => [
-                            'image/*',
-                        ],
-                        'maxSizeMessage' => 'De Afbeelding mag maximaal ' . $maxFileSizeMb . 'Mb zijn.',
-                        'mimeTypesMessage' => 'Geef alsjeblieft een geldig plaatje (png, jp(eg), ' .
-                            'j(f)if, gif, bmp of webp).',
-                    ])
+                    new File(
+                        null, $maxFileSize, null, [
+                        'image/*',
+                    ],
+                        null,
+                        null,
+                        null,
+                        'De Afbeelding mag maximaal ' . $maxFileSizeMb . 'Mb zijn.',
+                        'Geef alsjeblieft een geldig plaatje (png, jp(eg), ' .
+                        'j(f)if, gif, bmp of webp).',
+                    )
                 ],
                 'required' => false,
             ])

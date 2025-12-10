@@ -80,7 +80,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, UploadI
     #[
         ORM\Column(type: "string"),
         Assert\NotBlank(message: 'Het geslacht mag niet leeg zijn.'),
-        Assert\Choice([], self::GENDER, message: 'Het geslacht is niet een geldige optie.'),
+        Assert\Choice(null, self::GENDER, message: 'Het geslacht is niet een geldige optie.'),
     ]
     private string $gender;
 
