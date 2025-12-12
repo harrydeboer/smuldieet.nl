@@ -11,6 +11,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -y install \
     libcurl4-openssl-dev \
     libonig-dev \
     libpng-dev \
+    libicu-dev \
     libjpeg-dev \
     libwebp-dev \
     libzip-dev \
@@ -28,9 +29,7 @@ RUN a2enmod headers rewrite ssl expires
 RUN docker-php-ext-configure gd --with-jpeg --with-webp
 RUN docker-php-ext-install -j$(nproc) gd
 
-RUN docker-php-ext-install bcmath curl exif mbstring xml intl zip pdo_mysql
-
-RUN docker-php-ext-enable opcache
+RUN docker-php-ext-install bcmath curl exif mbstring xml zip pdo_mysql intl
 
 RUN if [ "$APP_ENV" = "dev" ] ; then pecl install xdebug && docker-php-ext-enable xdebug; fi
 
