@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Tests\Unit\Form;
 
 use App\Form\RecipeFilterAndSortType;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use Symfony\Component\Form\Test\TypeTestCase;
 
+#[AllowMockObjectsWithoutExpectations]
 class RecipeFilterAndSortTypeTest extends TypeTestCase
 {
     public function testSubmitModel(): void

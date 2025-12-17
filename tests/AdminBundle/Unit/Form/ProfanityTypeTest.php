@@ -6,8 +6,10 @@ namespace App\Tests\AdminBundle\Unit\Form;
 
 use App\AdminBundle\Form\ProfanityType;
 use App\Entity\Profanity;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use Symfony\Component\Form\Test\TypeTestCase;
 
+#[AllowMockObjectsWithoutExpectations]
 class ProfanityTypeTest extends TypeTestCase
 {
     public function testSubmitModel(): void

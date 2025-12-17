@@ -6,8 +6,10 @@ namespace App\Tests\Unit\Form;
 
 use App\Entity\Comment;
 use App\Form\CommentType;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use Symfony\Component\Form\Test\TypeTestCase;
 
+#[AllowMockObjectsWithoutExpectations]
 class CommentTypeTest extends TypeTestCase
 {
     public function testSubmitModel(): void

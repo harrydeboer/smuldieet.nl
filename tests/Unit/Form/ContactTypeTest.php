@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Tests\Unit\Form;
 
 use App\Form\ContactType;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\Test\TypeTestCase;
 use Symfony\Component\Validator\Validation;
 
+#[AllowMockObjectsWithoutExpectations]
 class ContactTypeTest extends TypeTestCase
 {
     public function testSubmitModel(): void

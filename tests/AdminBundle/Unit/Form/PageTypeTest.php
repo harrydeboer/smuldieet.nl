@@ -6,8 +6,10 @@ namespace App\Tests\AdminBundle\Unit\Form;
 
 use App\AdminBundle\Form\PageType;
 use App\Entity\Page;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use Symfony\Component\Form\Test\TypeTestCase;
 
+#[AllowMockObjectsWithoutExpectations]
 class PageTypeTest extends TypeTestCase
 {
     public function testSubmitModel(): void

@@ -6,8 +6,10 @@ namespace App\Tests\UserBundle\Unit\Form;
 
 use App\Entity\Rating;
 use App\UserBundle\Form\ReviewType;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use Symfony\Component\Form\Test\TypeTestCase;
 
+#[AllowMockObjectsWithoutExpectations]
 class ReviewTypeTest extends TypeTestCase
 {
     public function testSubmitModel(): void

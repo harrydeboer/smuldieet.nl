@@ -7,10 +7,12 @@ namespace App\Tests\AdminBundle\Unit\Form;
 use App\AdminBundle\Form\CreateUserType;
 use App\Entity\User;
 use DateTime;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\Test\TypeTestCase;
 use Symfony\Component\Validator\Validation;
 
+#[AllowMockObjectsWithoutExpectations]
 class CreateUserTypeTest extends TypeTestCase
 {
     public function testSubmitModel(): void

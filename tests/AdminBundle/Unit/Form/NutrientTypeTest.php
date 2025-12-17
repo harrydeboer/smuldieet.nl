@@ -6,8 +6,10 @@ namespace App\Tests\AdminBundle\Unit\Form;
 
 use App\AdminBundle\Form\NutrientType;
 use App\Entity\Nutrient;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use Symfony\Component\Form\Test\TypeTestCase;
 
+#[AllowMockObjectsWithoutExpectations]
 class NutrientTypeTest extends TypeTestCase
 {
     public function testSubmitModel(): void

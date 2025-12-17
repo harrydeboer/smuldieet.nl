@@ -7,10 +7,12 @@ namespace App\Tests\Unit\Form;
 use App\Entity\User;
 use App\Form\RegistrationType;
 use DateTime;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use Symfony\Component\Form\Test\TypeTestCase;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Validator\Validation;
 
+#[AllowMockObjectsWithoutExpectations]
 class RegistrationTypeTest extends TypeTestCase
 {
     public function testSubmitModel(): void

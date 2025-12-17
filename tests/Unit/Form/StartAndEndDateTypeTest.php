@@ -6,8 +6,10 @@ namespace App\Tests\Unit\Form;
 
 use App\Form\StartAndEndDateType;
 use DateTime;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use Symfony\Component\Form\Test\TypeTestCase;
 
+#[AllowMockObjectsWithoutExpectations]
 class StartAndEndDateTypeTest extends TypeTestCase
 {
     public function testSubmitModel(): void

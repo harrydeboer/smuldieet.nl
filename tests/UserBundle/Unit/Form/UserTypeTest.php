@@ -6,10 +6,12 @@ namespace App\Tests\UserBundle\Unit\Form;
 
 use App\Entity\User;
 use App\UserBundle\Form\UserType;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\Test\TypeTestCase;
 use Symfony\Component\Validator\Validation;
 
+#[AllowMockObjectsWithoutExpectations]
 class UserTypeTest extends TypeTestCase
 {
     public function testSubmitModel(): void

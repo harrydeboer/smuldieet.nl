@@ -6,8 +6,10 @@ namespace App\Tests\UserBundle\Unit\Form;
 
 use App\Entity\Tag;
 use App\UserBundle\Form\TagType;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use Symfony\Component\Form\Test\TypeTestCase;
 
+#[AllowMockObjectsWithoutExpectations]
 class TagTypeTest extends TypeTestCase
 {
     public function testSubmitModel(): void
