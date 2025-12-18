@@ -20,6 +20,8 @@ class Listener
             "https://fonts.googleapis.com/css2 " .
             "https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css " .
             "https://www.gstatic.com; " .
+            "connect-src 'self' https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css.map " .
+            "https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js.map;" .
             "font-src 'self' https://fonts.gstatic.com; " .
             "img-src 'self' data:; " .
             "script-src 'self' https://www.googletagmanager.com/gtag/js " .
