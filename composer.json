@@ -114,7 +114,6 @@
         "symfony/stopwatch": "8.0.*",
         "symfony/web-profiler-bundle": "8.0.*",
         "dama/doctrine-test-bundle": "^8.4",
-        "doctrine/doctrine-fixtures-bundle": "^4.3",
-        "symfony/phpunit-bridge": "^7.2"
+        "doctrine/doctrine-fixtures-bundle": "^4.3"
     }
 }
