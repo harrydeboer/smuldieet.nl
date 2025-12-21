@@ -3,6 +3,7 @@
 <h3>Install</h3>
 <ol>
 <li>Copy .env.local.example to .env.local and .env.test.local and fill in the fields.</li>
+<li>Copy .env.dev to .env.dev.local and fill in the fields.</li>
 <li>Copy docker/compose.override_$ENV.yml to the main folder and remove _$ENV from the file name.</li>
 <li>Build the docker image and run the image when using docker.</li>
 <li>Create the database and the test database with suffix _test.</li>
