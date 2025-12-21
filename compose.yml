@@ -14,7 +14,7 @@ services:
     depends_on:
       - database
   database:
-    image: mysql:8.0.37
+    image: mysql:8.0.44
     container_name: smuldieet-database
     env_file: .env.local
     volumes:
