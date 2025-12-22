@@ -13,7 +13,7 @@ framework:
     # Remove or comment this section to explicitly disable session support.
     session:
         handler_id: null
-        cookie_secure: true
+        cookie_secure: false
         cookie_samesite: lax
         storage_factory_id: session.storage.factory.native
 
@@ -33,8 +33,12 @@ when@test:
 
 when@prod:
     framework:
+        session:
+            cookie_secure: true
         error_controller: App\Controller\ErrorController::show
 
 when@staging:
     framework:
+        session:
+            cookie_secure: true
         error_controller: App\Controller\ErrorController::show
