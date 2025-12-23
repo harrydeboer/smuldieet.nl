@@ -38,7 +38,7 @@ class SitemapController extends Controller
             'staging' => "https://staging.smuldieet.nl",
         };
 
-        $update = '2023-02-02';
+        $update = '2025-12-12';
 
         $pageSlugs = ['/'];
 
