@@ -46,7 +46,7 @@ class Tag
     private string $name;
 
     #[
-        ORM\ManyToMany(targetEntity: "App\Entity\Recipe", inversedBy: "tags"),
+        ORM\ManyToMany(targetEntity: "App\Entity\Recipe", inversedBy: "tags", cascade: ['persist']),
         ORM\JoinTable(name: "tag_recipe"),
         ORM\JoinColumn(name: "tag_id", referencedColumnName: "id", onDelete: "CASCADE"),
         ORM\InverseJoinColumn(name: "recipe_id", referencedColumnName: "id", onDelete: "CASCADE"),

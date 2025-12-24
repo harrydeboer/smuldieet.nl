@@ -121,7 +121,7 @@ $(function() {
     });
 
     tagsForm.on('click', '.remove-tag-row', function (event) {
-        let row = $(event.target).closest('tr');
+        let row = $(event.target).closest('.tag-row');
         row.remove();
     });
 });

@@ -53,7 +53,7 @@
 {% endif %}
 <div class="fw-bold">Tags</div>
 {% for id, tag in form.tags %}
-    <div class="row">
+    <div class="row tag-row">
         <div class="col">{{ form_widget(tag) }}</div>
         <div class="col"><img src="{{ '/img/minus.png?v=1' }}" class="remove-tag-row" alt="minus" width="25"></div>
     </div>
