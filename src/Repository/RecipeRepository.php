@@ -146,6 +146,11 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
         }
         $this->checkProfanitiesRecipe($recipe);
         $this->addTags($recipe);
+        foreach ($oldTags as $tag) {
+            if ($tag->getRecipes()->isEmpty()) {
+                $this->tagRepository->delete($tag);
+            }
+        }
         $this->em->flush();
 
         $this->uploadedImageService->moveImage($recipe, $oldExtension);
@@ -173,6 +178,9 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
         }
         foreach ($recipe->getTags() as $tag) {
             $recipe->removeTag($tag);
+            if ($tag->getRecipes()->isEmpty()) {
+                $this->tagRepository->delete($tag);
+            }
         }
         $this->uploadedImageService->unlinkImage($recipe);
 

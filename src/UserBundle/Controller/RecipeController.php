@@ -45,7 +45,7 @@ class RecipeController extends Controller
     {
         $recipe = $this->getRecipe($id);
         $oldExtension = $recipe->getImageExtension();
-        $oldTags = $recipe->getTags();
+        $oldTags = clone $recipe->getTags();
 
         $form = $this->createForm(RecipeType::class, $recipe, [
             'method' => 'POST',
