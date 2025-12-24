@@ -260,11 +260,14 @@ class RecipeRepository extends ServiceEntityRepository implements RecipeReposito
         $tags = $recipe->getTags();
 
         foreach ($tags as $tag) {
+            $recipe->removeTag($tag);
             $tagDb = $this->tagRepository->findOneBy(['name' => $tag->getName()]);
             if (is_null($tagDb)) {
                 $tag->setCreatedAt(time());
                 $this->tagRepository->create($tag);
                 $recipe->addTag($tag);
+            } else {
+                $recipe->addTag($tagDb);
             }
         }
     }
