@@ -38,7 +38,7 @@ readonly class RDAService
         }
 
         /**
-         * The nutrient its realised value is set from the foodstuff weights of the days.
+         * The nutrient its realized value is set from the foodstuff weights of the days.
          * This is also done for the recipes of the days.
          */
         foreach ($days as $day) {
