@@ -151,7 +151,7 @@ class RegistrationController extends Controller
             );
 
             $email = new TemplatedEmail();
-            $email->from(new Address('noreply@mail.smuldieet.nl', 'Smuldieet'));
+            $email->from(new Address('noreply@mailing.smuldieet.nl', 'Smuldieet'));
             $email->to($user->getEmail());
             $email->subject('Verifieer je e-mail op smuldieet.nl');
             $email->htmlTemplate('registration/confirmation_email.html.twig');

@@ -48,7 +48,7 @@ class ContactController extends Controller
                 $this->profanityCheckService->check($form->get('message')->getData());
 
                 $email = new Email()
-                    ->from(new Address('noreply@mail.smuldieet.nl', strip_tags($form->get('name')->getData())))
+                    ->from(new Address('noreply@mailing.smuldieet.nl', strip_tags($form->get('name')->getData())))
                     ->replyTo($form->get('email')->getData())
                     ->to('info@smuldieet.nl')
                     ->subject(strip_tags($form->get('subject')->getData()))
