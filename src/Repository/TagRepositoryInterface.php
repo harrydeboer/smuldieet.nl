@@ -9,7 +9,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface;
 
 interface TagRepositoryInterface extends ServiceEntityRepositoryInterface
 {
-    public function create(Tag $tag): Tag;
+    public function create(Tag $tag, bool $isFlushed = true): Tag;
 
     public function update(): void;
 

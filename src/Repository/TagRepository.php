@@ -24,10 +24,12 @@ class TagRepository extends ServiceEntityRepository implements TagRepositoryInte
         parent::__construct($registry, Tag::class);
     }
 
-    public function create(Tag $tag): Tag
+    public function create(Tag $tag, bool $isFlushed = true): Tag
     {
         $this->em->persist($tag);
-        $this->em->flush();
+        if ($isFlushed) {
+            $this->em->flush();
+        }
 
         return $tag;
     }

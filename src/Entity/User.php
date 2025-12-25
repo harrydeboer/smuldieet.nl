@@ -99,12 +99,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, UploadI
     private int $birthTime;
 
     #[ORM\Column(type: "json")]
-    public array $roles = [];
+    private array $roles = [];
 
     #[
         ORM\Column(type: "string"),
     ]
-    public string $password;
+    private string $password;
 
     #[ORM\Column(type: "boolean")]
     private bool $verified = false;
