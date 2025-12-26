@@ -13,6 +13,8 @@ services:
       smuldieet:
     depends_on:
       - database
+    volumes:
+      - ./log/apache2:/var/log/apache2
   database:
     image: mysql:8.0.44
     container_name: smuldieet-database

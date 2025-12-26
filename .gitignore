@@ -8,6 +8,7 @@
 /public/bundles/
 /var/
 /vendor/
+/log/
 /node_modules/
 /compose.override.yml
 ###< symfony/framework-bundle ###
