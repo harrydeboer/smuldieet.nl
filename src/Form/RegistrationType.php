@@ -48,7 +48,7 @@ class RegistrationType extends AbstractType
                         null,
                         null,
                         null,
-                        'De foto mag maximaal ' . $maxFileSizeMb . 'Mb zijn.',
+                        'De foto mag maximaal ' . $maxFileSizeMb . 'MB zijn.',
                         'Geef alsjeblieft een geldig plaatje (png, jp(eg), ' .
                         'j(f)if, gif, bmp of webp).',
                     )

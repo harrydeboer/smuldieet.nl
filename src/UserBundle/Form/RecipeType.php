@@ -42,7 +42,7 @@ class RecipeType extends AbstractType
                         null,
                         null,
                         null,
-                        'De afbeelding mag maximaal ' . $maxFileSizeMb . 'Mb zijn.',
+                        'De afbeelding mag maximaal ' . $maxFileSizeMb . 'MB zijn.',
                         'Geef alsjeblieft een geldig plaatje (png, jp(eg), ' .
                         'j(f)if, gif, bmp of webp).',
                     )
