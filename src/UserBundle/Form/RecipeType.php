@@ -35,13 +35,14 @@ class RecipeType extends AbstractType
                 ],
                 'constraints' => [
                     new File(
-                        null, $maxFileSize, null, [
+                        null,
+                        4194304,
+                        null,
                         'image/*',
-                    ],
                         null,
                         null,
                         null,
-                        'De Afbeelding mag maximaal ' . $maxFileSizeMb . 'Mb zijn.',
+                        'De afbeelding mag maximaal ' . $maxFileSizeMb . 'Mb zijn.',
                         'Geef alsjeblieft een geldig plaatje (png, jp(eg), ' .
                         'j(f)if, gif, bmp of webp).',
                     )

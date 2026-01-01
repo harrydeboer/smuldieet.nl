@@ -41,9 +41,10 @@ class RegistrationType extends AbstractType
                 ],
                 'constraints' => [
                     new File(
-                        null, $maxFileSize, null, [
+                        null,
+                        4194304,
+                        null,
                         'image/*',
-                    ],
                         null,
                         null,
                         null,
