@@ -16,10 +16,8 @@
 <li>In the user table the field verified must be set to 1 
 since mailing is disabled in development.</li>
 <li>Run npm ci (with a global node and npm). When you are using PhpStorm 
-link the UglifyJS and SCSS File Watchers to the node_modules/.bin binaries. 
-The files in public/scss must compile to minimized files in public/css 
-and the scope of SCSS must be the scss folder. 
-The files in public/js must compile to minimized files in public/dist 
-and the scope of UglifyJS must be the js folder.</li>
+link the SCSS File Watcher to the node_modules/.bin binaries. 
+The files in assets/scss must compile to minimized files in assets/styles 
+and the scope of SCSS must be the scss folder.</li>
 <li>Run run-tests.sh to test.</li>
 </ol>

@@ -14,7 +14,6 @@
         "@hotwired/turbo": "8.0.4",
         "@symfony/stimulus-bridge": "3.2.2",
         "@symfony/ux-turbo": "file:vendor/symfony/ux-turbo/assets",
-        "sass": "1.43.4",
-        "uglify-js": "3.14.3"
+        "sass": "1.43.4"
     }
 }
