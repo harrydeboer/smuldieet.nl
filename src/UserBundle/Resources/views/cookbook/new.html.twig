@@ -5,7 +5,3 @@
 {% block content %}
     {{ include('@UserBundle/cookbook/_form.html.twig', {submit_label: 'Kookboek opslaan'}) }}
 {% endblock %}
-
-{% block javascripts %}
-    <script src="{{ asset('dist/recipe_weights.min.js') }}" defer></script>
-{% endblock %}
