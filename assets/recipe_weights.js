@@ -1,4 +1,6 @@
-class Recipe_weights {
+import $ from 'jquery';
+
+export class RecipeWeights {
 
     constructor(form) {
         this.formName = form.attr('name');
@@ -21,7 +23,8 @@ class Recipe_weights {
         html += '<div class="col-4">' + $(selector + '_value').data('prototype')
             + '</div>';
         html += '<div class="col-1">' +
-            '<img src="/img/minus.png?v=1" class="remove-row" alt="minus" width="25"></div></div>';
+            '<img src="'+ $('#recipe-weights-minus-img').attr('src') +
+            '" class="remove-row" alt="minus" width="25"></div></div>';
         html = html.replaceAll('__name__', this.weightsNumber.toString());
         $('#add_foodstuff_recipe_button_row').before(html);
         if (this.formName === 'cookbook') {
@@ -150,5 +153,3 @@ class Recipe_weights {
         }
     }
 }
-
-new Recipe_weights($('.recipe-weights-form'));

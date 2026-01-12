@@ -22,9 +22,6 @@ framework:
     php_errors:
         log: true
 
-    assets:
-        version_strategy: 'App\Asset\VersionStrategy\FileMTime'
-
 when@test:
     framework:
         test: true

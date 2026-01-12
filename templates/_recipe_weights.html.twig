@@ -14,10 +14,11 @@
         </div>
         <div class="col-4">{{ form_widget(weight.value, {'attr': {'class': weight_value_classes}}) }}
             <span class="form-error">{{ form_errors(weight.value) }}</span></div>
-        <div class="col-1"><img src="{{ '/img/minus.png?v=1' }}" class="remove-row" alt="minus" width="25"></div>
+        <div class="col-1"><img src="{{ asset('/img/minus.png') }}" class="remove-row" alt="minus" width="25"></div>
     </div>
 {% endfor %}
 <div class="row d-none">
+    <img src="{{ asset('/img/minus.png') }}" class="remove-row" alt="minus" width="25" id="recipe-weights-minus-img">
     <div class="col">
         <div id="{{ form_name }}_recipe_weights__name___recipe_id"
              data-prototype="{{ form_widget(weights.vars.prototype.recipe_id)|e('html') }}"></div>
