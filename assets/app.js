@@ -18,9 +18,6 @@ import {FoodstuffWeights} from "./foodstuff_weights.js";
 import {RecipeWeights} from "./recipe_weights.js";
 
 $(function() {
-    $('.delete-modal-button').on('click', function () {
-        $('.delete-modal').modal('show');
-    });
 
     $('#login-form').on('submit', function () {
         let button = $('#login-submit-button');
@@ -40,10 +37,6 @@ $(function() {
 
     $('#percentage-unit select').on('click', function (event) {
         event.preventDefault();
-    });
-
-    $('#rate_modal_button').on('click', function () {
-        $('#rate_modal').modal('show');
     });
 
     $('.radio-star').on('change', function () {
@@ -132,7 +125,8 @@ $(function() {
 
     $('#add_tag').on('click', function (event) {
         let html = '<tr><td>' + $('#recipe_tags').data('prototype') +
-            '</td><td><img src="/img/minus.png?v=1" class="remove-tag-row" alt="minus" width="25"></td></tr>';
+            '</td><td><img src="' + $('#tag-minus-img').attr('src') +
+            '" class="remove-tag-row" alt="minus" width="25"></td></tr>';
         html = html.replaceAll('__name__', tagNumber);
         $('#add_tag_button_row').before(html);
         tagNumber = tagNumber + 1;

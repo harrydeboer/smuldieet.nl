@@ -76,7 +76,7 @@
             </div>
             <div class="col">
                 {% if isLoggedIn %}
-                    <div id="rate_modal_button" class="fw-bold">&nbsp;&nbsp;
+                    <div data-bs-toggle="modal" data-bs-target="#rate_modal">
                         {% if rating is null %}
 
                             Waardeer <img src="{{ asset('img/star.png') }}"
